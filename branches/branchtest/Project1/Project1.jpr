@@ -126,11 +126,11 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Mysql-connector-java-3.1.14-bin.jar"/>
+            <value n="id" v="WebLogic 10.3 Remote-Client"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="WebLogic 10.3 Remote-Client"/>
+            <value n="id" v="Mysql-connector-java-3.1.14-bin.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
@@ -138,7 +138,7 @@
          <list n="libraryDefinitions">
             <hash>
                <list n="classPath">
-                  <url path="classes/META-INF/mysql-connector-java-3.1.14-bin.jar" jar-entry=""/>
+                  <url path="src/META-INF/mysql-connector-java-3.1.14-bin.jar" jar-entry=""/>
                </list>
                <value n="deployedByDefault" v="true"/>
                <value n="description" v="Mysql-connector-java-3.1.14-bin.jar"/>
@@ -165,11 +165,11 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Mysql-connector-java-3.1.14-bin.jar"/>
+            <value n="id" v="WebLogic 10.3 Remote-Client"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="WebLogic 10.3 Remote-Client"/>
+            <value n="id" v="Mysql-connector-java-3.1.14-bin.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
