@@ -1,0 +1,424 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<table xmlns="http://xmlns.oracle.com/jdeveloper/1112/offlinedb">
+  <ID class="oracle.javatools.db.IdentifierBasedID">
+    <identifier class="java.lang.String">f6d88b92-59d4-490a-92be-26816074530b</identifier>
+  </ID>
+  <name>evmeval</name>
+  <columns>
+    <column>
+      <ID class="oracle.javatools.db.IdentifierBasedID">
+        <identifier class="java.lang.String">8a023f64-c8ff-48bb-bdcd-a15113f8a90b</identifier>
+      </ID>
+      <name>nidEvaluacion</name>
+      <dataTypeUsage>
+        <ID class="oracle.javatools.db.IdentifierBasedID">
+          <identifier class="java.lang.String">af57b29f-6e8b-4e1f-b140-21e434637b1b</identifier>
+        </ID>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">11</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>INT</typeName>
+        </dataTypeID>
+        <properties>
+          <entry>
+            <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+            <value class="oracle.javatools.db.ReferenceID">
+              <parent class="oracle.javatools.db.ReferenceID">
+                <name>nidEvaluacion</name>
+                <parent class="oracle.javatools.db.ReferenceID">
+                  <name>evmeval</name>
+                  <schemaName>sped</schemaName>
+                  <type>TABLE</type>
+                </parent>
+                <type>COLUMN</type>
+              </parent>
+              <type>DataTypeUsage</type>
+            </value>
+          </entry>
+        </properties>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>nidEvaluacion</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>evmeval</name>
+              <schemaName>sped</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <ID class="oracle.javatools.db.IdentifierBasedID">
+        <identifier class="java.lang.String">9a2fcc06-7274-4a5b-baf0-36387efab3f9</identifier>
+      </ID>
+      <name>fecha_hora</name>
+      <dataTypeUsage>
+        <ID class="oracle.javatools.db.IdentifierBasedID">
+          <identifier class="java.lang.String">8310a1b6-d2e3-433e-b1c0-6ab02ab87e63</identifier>
+        </ID>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>DATETIME</typeName>
+        </dataTypeID>
+        <properties>
+          <entry>
+            <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+            <value class="oracle.javatools.db.ReferenceID">
+              <parent class="oracle.javatools.db.ReferenceID">
+                <name>fecha_hora</name>
+                <parent class="oracle.javatools.db.ReferenceID">
+                  <name>evmeval</name>
+                  <schemaName>sped</schemaName>
+                  <type>TABLE</type>
+                </parent>
+                <type>COLUMN</type>
+              </parent>
+              <type>DataTypeUsage</type>
+            </value>
+          </entry>
+        </properties>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>fecha_hora</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>evmeval</name>
+              <schemaName>sped</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <ID class="oracle.javatools.db.IdentifierBasedID">
+        <identifier class="java.lang.String">fd7cc65d-e4d7-46bd-a5be-b8cd7b469fe8</identifier>
+      </ID>
+      <name>estado_evaluacion</name>
+      <dataTypeUsage>
+        <ID class="oracle.javatools.db.IdentifierBasedID">
+          <identifier class="java.lang.String">17e88a17-f0b2-4701-a7d7-4baed7ba0c38</identifier>
+        </ID>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">1</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>VARCHAR</typeName>
+        </dataTypeID>
+        <properties>
+          <entry>
+            <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+            <value class="oracle.javatools.db.ReferenceID">
+              <parent class="oracle.javatools.db.ReferenceID">
+                <name>estado_evaluacion</name>
+                <parent class="oracle.javatools.db.ReferenceID">
+                  <name>evmeval</name>
+                  <schemaName>sped</schemaName>
+                  <type>TABLE</type>
+                </parent>
+                <type>COLUMN</type>
+              </parent>
+              <type>DataTypeUsage</type>
+            </value>
+          </entry>
+        </properties>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>estado_evaluacion</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>evmeval</name>
+              <schemaName>sped</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <ID class="oracle.javatools.db.IdentifierBasedID">
+        <identifier class="java.lang.String">774ad953-18db-4b3c-a0e0-f5119e8a5e5e</identifier>
+      </ID>
+      <name>nidMain</name>
+      <dataTypeUsage>
+        <ID class="oracle.javatools.db.IdentifierBasedID">
+          <identifier class="java.lang.String">833a92e7-4917-412b-a44e-71b6ffe704e2</identifier>
+        </ID>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">11</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>INT</typeName>
+        </dataTypeID>
+        <properties>
+          <entry>
+            <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+            <value class="oracle.javatools.db.ReferenceID">
+              <parent class="oracle.javatools.db.ReferenceID">
+                <name>nidMain</name>
+                <parent class="oracle.javatools.db.ReferenceID">
+                  <name>evmeval</name>
+                  <schemaName>sped</schemaName>
+                  <type>TABLE</type>
+                </parent>
+                <type>COLUMN</type>
+              </parent>
+              <type>DataTypeUsage</type>
+            </value>
+          </entry>
+        </properties>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>nidMain</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>evmeval</name>
+              <schemaName>sped</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+  </columns>
+  <constraints>
+    <constraint class="oracle.javatools.db.FKConstraint">
+      <ID class="oracle.javatools.db.IdentifierBasedID">
+        <identifier class="java.lang.String">f6e4fdcd-a47e-4d7c-b8c1-0031ffe28d37</identifier>
+      </ID>
+      <name>FK_ADDMAIN_EVMEVAL_01</name>
+      <columnIDs>
+        <columnID class="oracle.javatools.db.IdentifierBasedID">
+          <name>nidMain</name>
+          <identifier class="java.lang.String">774ad953-18db-4b3c-a0e0-f5119e8a5e5e</identifier>
+          <parent class="oracle.javatools.db.IdentifierBasedID">
+            <name>evmeval</name>
+            <identifier class="java.lang.String">f6d88b92-59d4-490a-92be-26816074530b</identifier>
+            <schemaName>sped</schemaName>
+            <type>TABLE</type>
+          </parent>
+          <schemaName>sped</schemaName>
+          <type>COLUMN</type>
+        </columnID>
+      </columnIDs>
+      <deleteMode>0</deleteMode>
+      <enabled>true</enabled>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>FK_ADDMAIN_EVMEVAL_01</name>
+            <childObjectNames>
+              <childObjectName>nidMain</childObjectName>
+            </childObjectNames>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>evmeval</name>
+              <schemaName>sped</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <subType>FKConstraint</subType>
+            <type>CONSTRAINT</type>
+          </value>
+        </entry>
+      </properties>
+      <referenceID class="oracle.javatools.db.ReferenceID">
+        <name>PRIMARY</name>
+        <childObjectNames>
+          <childObjectName>nidMain</childObjectName>
+        </childObjectNames>
+        <parent class="oracle.javatools.db.ReferenceID">
+          <name>addmain</name>
+          <schemaName>sped</schemaName>
+          <type>TABLE</type>
+        </parent>
+        <subType>PKConstraint</subType>
+        <type>CONSTRAINT</type>
+      </referenceID>
+    </constraint>
+    <constraint class="oracle.javatools.db.PKConstraint">
+      <ID class="oracle.javatools.db.IdentifierBasedID">
+        <identifier class="java.lang.String">63cdf33c-33e8-4d7c-9595-99810757fb83</identifier>
+      </ID>
+      <name>PRIMARY</name>
+      <columnIDs>
+        <columnID class="oracle.javatools.db.IdentifierBasedID">
+          <name>nidEvaluacion</name>
+          <identifier class="java.lang.String">8a023f64-c8ff-48bb-bdcd-a15113f8a90b</identifier>
+          <parent class="oracle.javatools.db.IdentifierBasedID">
+            <name>evmeval</name>
+            <identifier class="java.lang.String">f6d88b92-59d4-490a-92be-26816074530b</identifier>
+            <schemaName>sped</schemaName>
+            <type>TABLE</type>
+          </parent>
+          <schemaName>sped</schemaName>
+          <type>COLUMN</type>
+        </columnID>
+      </columnIDs>
+      <enabled>true</enabled>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>PRIMARY</name>
+            <childObjectNames>
+              <childObjectName>nidEvaluacion</childObjectName>
+            </childObjectNames>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>evmeval</name>
+              <schemaName>sped</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <subType>PKConstraint</subType>
+            <type>CONSTRAINT</type>
+          </value>
+        </entry>
+      </properties>
+    </constraint>
+  </constraints>
+  <indexes>
+    <indexe>
+      <ID class="oracle.javatools.db.IdentifierBasedID">
+        <identifier class="java.lang.String">9fbe92f6-217d-4dbb-bc18-c8c574eedd50</identifier>
+      </ID>
+      <name>idx_nidMain_evmeval_01</name>
+      <columnExpressions>
+        <columnExpression>
+          <ID class="oracle.javatools.db.IdentifierBasedID">
+            <identifier class="java.lang.String">51a309e0-1c17-44c2-83b6-65000a0d1701</identifier>
+          </ID>
+          <expression class="oracle.javatools.db.sql.ColumnUsage">
+            <ID class="oracle.javatools.db.IdentifierBasedID">
+              <identifier class="java.lang.String">9273802f-3a0c-47e3-b995-e76028b9206a</identifier>
+            </ID>
+            <objectID class="oracle.javatools.db.IdentifierBasedID">
+              <name>nidMain</name>
+              <identifier class="java.lang.String">774ad953-18db-4b3c-a0e0-f5119e8a5e5e</identifier>
+              <parent class="oracle.javatools.db.IdentifierBasedID">
+                <name>evmeval</name>
+                <identifier class="java.lang.String">f6d88b92-59d4-490a-92be-26816074530b</identifier>
+                <schemaName>sped</schemaName>
+                <type>TABLE</type>
+              </parent>
+              <schemaName>sped</schemaName>
+              <type>COLUMN</type>
+            </objectID>
+            <outerJoin>false</outerJoin>
+            <properties>
+              <entry>
+                <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+                <value class="oracle.javatools.db.ReferenceID">
+                  <parent class="oracle.javatools.db.ReferenceID">
+                    <parent class="oracle.javatools.db.ReferenceID">
+                      <name>idx_nidMain_evmeval_01</name>
+                      <parent class="oracle.javatools.db.ReferenceID">
+                        <name>evmeval</name>
+                        <schemaName>sped</schemaName>
+                        <type>TABLE</type>
+                      </parent>
+                      <schemaName>sped</schemaName>
+                      <type>INDEX</type>
+                    </parent>
+                    <type>IndexObject</type>
+                  </parent>
+                  <type>SQLFragment</type>
+                </value>
+              </entry>
+            </properties>
+            <qualified>true</qualified>
+          </expression>
+          <order>ASC</order>
+          <properties>
+            <entry>
+              <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+              <value class="oracle.javatools.db.ReferenceID">
+                <parent class="oracle.javatools.db.ReferenceID">
+                  <name>idx_nidMain_evmeval_01</name>
+                  <parent class="oracle.javatools.db.ReferenceID">
+                    <name>evmeval</name>
+                    <schemaName>sped</schemaName>
+                    <type>TABLE</type>
+                  </parent>
+                  <schemaName>sped</schemaName>
+                  <type>INDEX</type>
+                </parent>
+                <type>IndexObject</type>
+              </value>
+            </entry>
+          </properties>
+        </columnExpression>
+      </columnExpressions>
+      <indexType>NORMAL</indexType>
+      <parallelDegree>1</parallelDegree>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>idx_nidMain_evmeval_01</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>evmeval</name>
+              <schemaName>sped</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <schemaName>sped</schemaName>
+            <type>INDEX</type>
+          </value>
+        </entry>
+      </properties>
+      <schema>
+        <name>sped</name>
+      </schema>
+    </indexe>
+  </indexes>
+  <properties>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_CONNECTION</key>
+      <value class="java.lang.String">testsped</value>
+    </entry>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+      <value class="oracle.javatools.db.ReferenceID">
+        <name>evmeval</name>
+        <schemaName>sped</schemaName>
+        <type>TABLE</type>
+      </value>
+    </entry>
+    <entry>
+      <key>TableType</key>
+      <value class="oracle.javatools.db.Table$TableType">NORMAL</value>
+    </entry>
+  </properties>
+  <schema>
+    <name>sped</name>
+  </schema>
+</table>
