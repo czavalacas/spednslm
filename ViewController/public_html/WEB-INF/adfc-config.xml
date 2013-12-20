@@ -5,5 +5,15 @@
     <managed-bean-class>test.view.backing.Actores.Frm_Consultar_Actores</managed-bean-class>
     <managed-bean-scope>backingBean</managed-bean-scope>
     <!--oracle-jdev-comment:managed-bean-jsp-link:1Actores/Frm_Consultar_Actores.jsf-->
+    <managed-property id="__3">
+      <property-name>beanConsultarActores</property-name>
+      <property-class>test.view.backing.Actores.SessionScopedBeanConsultarActores</property-class>
+      <value>#{beanConsultarActores}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean id="__2">
+    <managed-bean-name>beanConsultarActores</managed-bean-name>
+    <managed-bean-class>test.view.backing.Actores.SessionScopedBeanConsultarActores</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
 </adfc-config>
