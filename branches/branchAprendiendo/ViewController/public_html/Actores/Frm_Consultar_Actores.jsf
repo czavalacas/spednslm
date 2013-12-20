@@ -5,12 +5,16 @@
                  binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.d1}">
         <af:messages binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.m1}" id="m1"/>
         <af:form id="f1" binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.f1}">
-            <af:panelGridLayout id="pgl1" binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.pgl1}">
-                <af:gridRow height="100%" id="gr1"
-                            binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.gr1}">
-                    <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc1"
-                                 binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.gc1}">
-                        <!-- Content -->
+                <af:panelGroupLayout>
+                <af:button text="Nuevo" id="b1"
+                           binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.b1}"
+                           actionListener="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.abrirPopNuevo}"/>
+                <af:button text="Editar" id="b2" disabled="true"
+                           binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.b2}"
+                           actionListener="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.editarActor}"/>
+                <af:button text="Borrar" id="b3" disabled="true" actionListener="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.borrarActor}"
+                           binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.b3}"/>
+            </af:panelGroupLayout>
                         <af:table value="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.lstActores}" var="row"
                                   rowBandingInterval="0" id="t1" rowSelection="single" 
                                   binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.t1}"
@@ -31,9 +35,7 @@
                                 </af:outputText>
                             </af:column>
                         </af:table>
-                    </af:gridCell>
-                </af:gridRow>
-            </af:panelGridLayout>
+                
             <af:table value="#{bindings.actorFindAll.collectionModel}" var="row"
                       rows="#{bindings.actorFindAll.rangeSize}"
                       emptyText="#{bindings.actorFindAll.viewable ? 'No data to display.' : 'Access Denied.'}"
@@ -89,6 +91,9 @@
                                       value="#{sessionScope.beanConsultarActores.last_update}">
                             <af:convertDateTime pattern="dd/MM/yyyy"/>
                         </af:inputDate>
+                        <af:button text="#{sessionScope.beanConsultarActores.nombreBoton}" id="b4"
+                                   binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.b4}"
+                                   actionListener="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.registrarActor}"/>
                     </af:panelFormLayout>
             </af:dialog>
         </af:popup>
