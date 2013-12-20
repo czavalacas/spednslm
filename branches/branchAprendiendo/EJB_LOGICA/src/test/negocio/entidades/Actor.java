@@ -25,7 +25,7 @@ public class Actor implements Serializable {
     private static final long serialVersionUID = -2781788655616950560L;
     @Id
     @Column(name = "actor_id", nullable = false)
-    @TableGenerator( name = "stmcodi", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evmeval.nidEvaluacion", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @TableGenerator( name = "stmcodi", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "actor.actor_id", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
     @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi" )
     private short actor_id;
     @Column(name = "first_name", nullable = false)

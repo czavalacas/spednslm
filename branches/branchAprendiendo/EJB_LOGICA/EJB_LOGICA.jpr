@@ -62,6 +62,7 @@
       <value n="ejbVersionMinor" v="0.1"/>
       <list n="toplinkJpaClientUrls">
          <url path="src/test/negocio/testing/BDL_C_SFActorRemoteClient.java"/>
+         <url path="../AppTest.jws"/>
       </list>
       <url n="weblogicEjbJarNodeURL" path="src/META-INF/weblogic-ejb-jar.xml"/>
    </hash>

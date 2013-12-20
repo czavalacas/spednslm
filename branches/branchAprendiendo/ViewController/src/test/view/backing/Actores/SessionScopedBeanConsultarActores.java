@@ -10,6 +10,24 @@ public class SessionScopedBeanConsultarActores {
     private String first_name;
     private String last_name;
     private Timestamp last_update;
+    private String nombreBoton;
+
+    public void setTipoEvento(int tipoEvento) {
+        this.tipoEvento = tipoEvento;
+    }
+
+    public int getTipoEvento() {
+        return tipoEvento;
+    }
+    private int tipoEvento;
+
+    public void setNombreBoton(String nombreBoton) {
+        this.nombreBoton = nombreBoton;
+    }
+
+    public String getNombreBoton() {
+        return nombreBoton;
+    }
 
     public void setActor(Actor actor) {
         this.actor = actor;

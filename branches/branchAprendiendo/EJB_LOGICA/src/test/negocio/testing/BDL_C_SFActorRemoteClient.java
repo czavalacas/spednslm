@@ -1,5 +1,6 @@
 package test.negocio.testing;
 
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -16,11 +17,12 @@ public class BDL_C_SFActorRemoteClient {
     public static void main(String[] args) {
         try {
             final Context context = getInitialContext();
-            BDL_C_SFActorRemote bDL_C_SFActorRemote =
-                (BDL_C_SFActorRemote) context.lookup("mapBDL_C_SFActor#test.negocio.BDL.IR.BDL_C_SFActorRemote");
-            for (Actor actor : (List<Actor>) bDL_C_SFActorRemote.getActoresByNombre("SA")) {
+            BDL_C_SFActorRemote bDL_C_SFActorRemote = (BDL_C_SFActorRemote) context.lookup("mapBDL_C_SFActor#test.negocio.BDL.IR.BDL_C_SFActorRemote");
+         /*   for (Actor actor : (List<Actor>) bDL_C_SFActorRemote.getActoresByNombre("SA")) {
                 printActor(actor);
-            }
+            }*/
+         short id = 203;
+         bDL_C_SFActorRemote.registrarActor(3,"JUAN LEONARDO","PEREZ QUISPE",new Date(),id);
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());
