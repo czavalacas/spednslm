@@ -1,6 +1,10 @@
 package test.view.backing.Actores;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import javax.naming.Context;
 
@@ -17,6 +21,7 @@ import oracle.adf.view.rich.component.rich.layout.RichGridCell;
 import oracle.adf.view.rich.component.rich.layout.RichGridRow;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 
+import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.output.RichMessages;
 
 import org.apache.myfaces.trinidad.event.SelectionEvent;
@@ -45,6 +50,11 @@ public class Frm_Consultar_Actores {
     private final static String LOOKUP_ACTORES = "mapBDL_C_SFActor#test.negocio.BDL.IR.BDL_C_SFActorRemote";
     private List<Actor> lstActores;
     private SessionScopedBeanConsultarActores beanConsultarActores;
+    private RichButton b1;
+    private RichButton b2;
+    private RichButton b3;
+    private RichButton b4;
+    FacesContext ctx = FacesContext.getCurrentInstance();
 
     public Frm_Consultar_Actores(){
         try{
@@ -59,13 +69,62 @@ public class Frm_Consultar_Actores {
 
     public void cambioActores(SelectionEvent se) {
         Utils.depurar("SELECCIONASTE LA FILA! ");
+        b2.setDisabled(false);
+        b3.setDisabled(false);
         RichTable t = (RichTable) se.getSource();
         Actor actor = (Actor) t.getSelectedRowData();
         beanConsultarActores.setActor(actor);
         beanConsultarActores.setFirst_name(actor.getFirst_name());
         beanConsultarActores.setLast_name(actor.getLast_name());
         beanConsultarActores.setLast_update(actor.getLast_update());
+        //Utils.showPopUpMIDDLE(popActor);
+        Utils.addTargetMany(b2,b3);
+    }
+    
+    public void abrirPopNuevo(ActionEvent actionEvent) {
+        beanConsultarActores.setFirst_name(null);
+        beanConsultarActores.setLast_name(null);
+        beanConsultarActores.setLast_update(null);
+        beanConsultarActores.setActor(null);
+        beanConsultarActores.setNombreBoton("Registrar Actor");
+        beanConsultarActores.setTipoEvento(1);
         Utils.showPopUpMIDDLE(popActor);
+    }
+    
+    public void registrarActor(ActionEvent actionEvent){
+        registrarAux();
+    }
+    
+    public void registrarAux(){
+        short id = (beanConsultarActores.getTipoEvento() == 1) ? 0 : beanConsultarActores.getActor().getActor_id();
+        bdL_C_SFActorRemote.registrarActor(beanConsultarActores.getTipoEvento(),
+                                              beanConsultarActores.getFirst_name(), 
+                                              beanConsultarActores.getLast_name(),
+                                              new Date(),
+                                              id);
+        String msj = "";
+        switch(beanConsultarActores.getTipoEvento()){
+            case 1 : msj = "Se registro el actor";break;
+            case 2 : msj = "Se Edito el actor";break;
+            case 3 : msj = "Se Borro el actor";break;
+        }
+        Utils.throwError_Aux(ctx,"Operacion Correcta",msj,3);
+        Utils.unselectFilas(t1);
+        b2.setDisabled(true);
+        b3.setDisabled(true);
+        Utils.addTargetMany(b2,b3);
+        popActor.hide();
+    }
+    
+    public void editarActor(ActionEvent actionEvent){
+        Utils.showPopUpMIDDLE(popActor);
+        beanConsultarActores.setNombreBoton("Editar Actor");
+        beanConsultarActores.setTipoEvento(2);
+    }
+    
+    public void borrarActor(ActionEvent actionEvent){
+        beanConsultarActores.setTipoEvento(3);
+        registrarAux();
     }
     
     public void setLstActores(List lstActores) {
@@ -195,4 +254,37 @@ public class Frm_Consultar_Actores {
     public RichDialog getD3() {
         return d3;
     }
+
+    public void setB1(RichButton b1) {
+        this.b1 = b1;
+    }
+
+    public RichButton getB1() {
+        return b1;
+    }
+
+    public void setB2(RichButton b2) {
+        this.b2 = b2;
+    }
+
+    public RichButton getB2() {
+        return b2;
+    }
+
+    public void setB3(RichButton b3) {
+        this.b3 = b3;
+    }
+
+    public RichButton getB3() {
+        return b3;
+    }
+
+    public void setB4(RichButton b4) {
+        this.b4 = b4;
+    }
+
+    public RichButton getB4() {
+        return b4;
+    }
+
 }
