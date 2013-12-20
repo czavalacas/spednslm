@@ -39,7 +39,9 @@ public class BDL_C_SFActorBean implements BDL_C_SFActorRemote,
     }
 
     public List<Actor> getActoresByNombre(String nombre) {
-        String strQuery = "SELECT a " + "FROM Actor a " + "WHERE a.first_name like :nombre ";
+        String strQuery = "SELECT a " + 
+                          "FROM Actor a " +
+                          "WHERE a.first_name like :nombre ";
         return em.createQuery(strQuery).setParameter("nombre", "%" + nombre.toUpperCase() + "%").getResultList();
     }
     
