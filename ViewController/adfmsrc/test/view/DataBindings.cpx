@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://xmlns.oracle.com/adfm/application" version="12.1.2.66.68" id="DataBindings"
+             SeparateXMLFiles="false" Package="test.view" ClientType="Generic">
+  <pageMap>
+    <page path="/Actores/Frm_Consultar_Actores.jsf" usageId="test_view_Frm_Consultar_ActoresPageDef"/>
+  </pageMap>
+  <pageDefinitionUsages>
+    <page id="test_view_Frm_Consultar_ActoresPageDef" path="Actores.Frm_Consultar_ActoresPageDef"/>
+  </pageDefinitionUsages>
+  <dataControlUsages>
+    <dc id="BDL_C_SFActorBean" path="test.negocio.BDL_C_SFActorBean"/>
+  </dataControlUsages>
+</Application>

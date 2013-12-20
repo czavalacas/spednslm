@@ -1,0 +1,650 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<table xmlns="http://xmlns.oracle.com/jdeveloper/1211/offlinedb">
+  <name>film</name>
+  <columns>
+    <column>
+      <name>film_id</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">5</value>
+          </entry>
+          <entry>
+            <key>unsigned</key>
+            <value class="java.lang.String">UNSIGNED</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>SMALLINT</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>film_id</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>title</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">255</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>VARCHAR</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>title</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>description</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>TEXT</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>description</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>release_year</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>YEAR</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>release_year</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>language_id</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">3</value>
+          </entry>
+          <entry>
+            <key>unsigned</key>
+            <value class="java.lang.String">UNSIGNED</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>TINYINT</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>language_id</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>original_language_id</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">3</value>
+          </entry>
+          <entry>
+            <key>unsigned</key>
+            <value class="java.lang.String">UNSIGNED</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>TINYINT</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>original_language_id</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>rental_duration</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">3</value>
+          </entry>
+          <entry>
+            <key>unsigned</key>
+            <value class="java.lang.String">UNSIGNED</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>TINYINT</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <default class="java.lang.String">3</default>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>rental_duration</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>rental_rate</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">2</value>
+          </entry>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">4</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>DECIMAL</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <default class="java.lang.String">4.99</default>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>rental_rate</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>length</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">5</value>
+          </entry>
+          <entry>
+            <key>unsigned</key>
+            <value class="java.lang.String">UNSIGNED</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>SMALLINT</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>length</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>replacement_cost</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">2</value>
+          </entry>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">5</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>DECIMAL</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <default class="java.lang.String">19.99</default>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>replacement_cost</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>rating</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>value_list</key>
+            <value class="java.lang.String">&apos;G&apos;,&apos;PG&apos;,&apos;PG-13&apos;,&apos;R&apos;,&apos;NC-17&apos;</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>ENUM</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <default class="java.lang.String">&apos;G&apos;</default>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>rating</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>special_features</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>value_list</key>
+            <value class="java.lang.String">&apos;Trailers&apos;,&apos;Commentaries&apos;,&apos;Deleted Scenes&apos;,&apos;Behind the Scenes&apos;</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>SET</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>special_features</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>last_update</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
+          <typeName>TIMESTAMP</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <default class="java.lang.String">&apos;CURRENT_TIMESTAMP&apos;</default>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>last_update</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+  </columns>
+  <constraints>
+    <constraint class="oracle.javatools.db.FKConstraint">
+      <name>fk_film_language</name>
+      <columnIDs>
+        <columnID class="oracle.javatools.db.NameBasedID">
+          <name>language_id</name>
+          <parent class="oracle.javatools.db.NameBasedID">
+            <name>film</name>
+            <schemaName>sakila</schemaName>
+            <type>TABLE</type>
+          </parent>
+          <schemaName>sakila</schemaName>
+          <type>COLUMN</type>
+        </columnID>
+      </columnIDs>
+      <enabled>true</enabled>
+      <onDeleteAction>NO_ACTION</onDeleteAction>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>fk_film_language</name>
+            <childObjectNames>
+              <childObjectName>language_id</childObjectName>
+            </childObjectNames>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <subType>FKConstraint</subType>
+            <type>CONSTRAINT</type>
+          </value>
+        </entry>
+      </properties>
+      <referenceID class="oracle.javatools.db.ReferenceID">
+        <name>PRIMARY</name>
+        <childObjectNames>
+          <childObjectName>language_id</childObjectName>
+        </childObjectNames>
+        <parent class="oracle.javatools.db.ReferenceID">
+          <name>language</name>
+          <schemaName>sakila</schemaName>
+          <type>TABLE</type>
+        </parent>
+        <subType>PKConstraint</subType>
+        <type>CONSTRAINT</type>
+      </referenceID>
+    </constraint>
+    <constraint class="oracle.javatools.db.FKConstraint">
+      <name>fk_film_language_original</name>
+      <columnIDs>
+        <columnID class="oracle.javatools.db.NameBasedID">
+          <name>original_language_id</name>
+          <parent class="oracle.javatools.db.NameBasedID">
+            <name>film</name>
+            <schemaName>sakila</schemaName>
+            <type>TABLE</type>
+          </parent>
+          <schemaName>sakila</schemaName>
+          <type>COLUMN</type>
+        </columnID>
+      </columnIDs>
+      <enabled>true</enabled>
+      <onDeleteAction>NO_ACTION</onDeleteAction>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>fk_film_language_original</name>
+            <childObjectNames>
+              <childObjectName>original_language_id</childObjectName>
+            </childObjectNames>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <subType>FKConstraint</subType>
+            <type>CONSTRAINT</type>
+          </value>
+        </entry>
+      </properties>
+      <referenceID class="oracle.javatools.db.ReferenceID">
+        <name>PRIMARY</name>
+        <childObjectNames>
+          <childObjectName>language_id</childObjectName>
+        </childObjectNames>
+        <parent class="oracle.javatools.db.ReferenceID">
+          <name>language</name>
+          <schemaName>sakila</schemaName>
+          <type>TABLE</type>
+        </parent>
+        <subType>PKConstraint</subType>
+        <type>CONSTRAINT</type>
+      </referenceID>
+    </constraint>
+    <constraint class="oracle.javatools.db.PKConstraint">
+      <name>PRIMARY</name>
+      <columnIDs>
+        <columnID class="oracle.javatools.db.NameBasedID">
+          <name>film_id</name>
+          <parent class="oracle.javatools.db.NameBasedID">
+            <name>film</name>
+            <schemaName>sakila</schemaName>
+            <type>TABLE</type>
+          </parent>
+          <schemaName>sakila</schemaName>
+          <type>COLUMN</type>
+        </columnID>
+      </columnIDs>
+      <enabled>true</enabled>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>PRIMARY</name>
+            <childObjectNames>
+              <childObjectName>film_id</childObjectName>
+            </childObjectNames>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <subType>PKConstraint</subType>
+            <type>CONSTRAINT</type>
+          </value>
+        </entry>
+      </properties>
+    </constraint>
+  </constraints>
+  <indexes>
+    <indexe>
+      <name>idx_fk_language_id</name>
+      <columnExpressions>
+        <columnExpression>
+          <expressionSource>language_id</expressionSource>
+          <orderType>ASC</orderType>
+        </columnExpression>
+      </columnExpressions>
+      <indexType>NORMAL</indexType>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>idx_fk_language_id</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <schemaName>sakila</schemaName>
+            <type>INDEX</type>
+          </value>
+        </entry>
+      </properties>
+      <schema>
+        <name>sakila</name>
+      </schema>
+    </indexe>
+    <indexe>
+      <name>idx_fk_original_language_id</name>
+      <columnExpressions>
+        <columnExpression>
+          <expressionSource>original_language_id</expressionSource>
+          <orderType>ASC</orderType>
+        </columnExpression>
+      </columnExpressions>
+      <indexType>NORMAL</indexType>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>idx_fk_original_language_id</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <schemaName>sakila</schemaName>
+            <type>INDEX</type>
+          </value>
+        </entry>
+      </properties>
+      <schema>
+        <name>sakila</name>
+      </schema>
+    </indexe>
+    <indexe>
+      <name>idx_title</name>
+      <columnExpressions>
+        <columnExpression>
+          <expressionSource>title</expressionSource>
+          <orderType>ASC</orderType>
+        </columnExpression>
+      </columnExpressions>
+      <indexType>NORMAL</indexType>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>idx_title</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>film</name>
+              <schemaName>sakila</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <schemaName>sakila</schemaName>
+            <type>INDEX</type>
+          </value>
+        </entry>
+      </properties>
+      <schema>
+        <name>sakila</name>
+      </schema>
+    </indexe>
+  </indexes>
+  <properties>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_CONNECTION</key>
+      <value class="java.lang.String">sakila</value>
+    </entry>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+      <value class="oracle.javatools.db.ReferenceID">
+        <name>film</name>
+        <schemaName>sakila</schemaName>
+        <type>TABLE</type>
+      </value>
+    </entry>
+    <entry>
+      <key>TableType</key>
+      <value class="oracle.javatools.db.Table$TableType">NORMAL</value>
+    </entry>
+  </properties>
+  <schema>
+    <name>sakila</name>
+  </schema>
+</table>
