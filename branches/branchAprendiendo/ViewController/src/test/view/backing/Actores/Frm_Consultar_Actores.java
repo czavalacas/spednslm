@@ -65,9 +65,6 @@ public class Frm_Consultar_Actores {
         beanConsultarActores.setFirst_name(actor.getFirst_name());
         beanConsultarActores.setLast_name(actor.getLast_name());
         beanConsultarActores.setLast_update(actor.getLast_update());
-        /*if(it1 != null){
-            Utils.addTargetMany(it1,it2,id2);
-        }*/
         Utils.showPopUpMIDDLE(popActor);
     }
     
