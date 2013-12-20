@@ -167,8 +167,8 @@
       </list>
    </hash>
    <hash n="oracle.jdeveloper.model.J2eeSettings">
-      <value n="j2eeWebAppName" v="AppTest-ViewController-webapp"/>
-      <value n="j2eeWebContextRoot" v="AppTest-ViewController-context-root"/>
+      <value n="j2eeWebAppName" v="test"/>
+      <value n="j2eeWebContextRoot" v="test"/>
    </hash>
    <hash n="oracle.jdevimpl.config.JProjectLibraries">
       <list n="exportedReferences">
