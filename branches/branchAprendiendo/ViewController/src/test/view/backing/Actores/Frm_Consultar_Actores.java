@@ -46,14 +46,14 @@ public class Frm_Consultar_Actores {
     private RichTable t2;
     private RichInputDate id1;
     private RichMessages m1;
-    private BDL_C_SFActorRemote bdL_C_SFActorRemote;
-    private final static String LOOKUP_ACTORES = "mapBDL_C_SFActor#test.negocio.BDL.IR.BDL_C_SFActorRemote";
-    private List<Actor> lstActores;
-    private SessionScopedBeanConsultarActores beanConsultarActores;
     private RichButton b1;
     private RichButton b2;
     private RichButton b3;
     private RichButton b4;
+    private BDL_C_SFActorRemote bdL_C_SFActorRemote;
+    private final static String LOOKUP_ACTORES = "mapBDL_C_SFActor#test.negocio.BDL.IR.BDL_C_SFActorRemote";
+    private List<Actor> lstActores;
+    private SessionScopedBeanConsultarActores beanConsultarActores;
     FacesContext ctx = FacesContext.getCurrentInstance();
 
     public Frm_Consultar_Actores(){
