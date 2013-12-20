@@ -14,7 +14,8 @@
                         <af:table value="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.lstActores}" var="row"
                                   rowBandingInterval="0" id="t1" rowSelection="single" 
                                   binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.t1}"
-                                  inlineStyle="height:450px;">
+                                  inlineStyle="height:450px;"
+                                  selectionListener="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.cambioActores}">
                             <af:column sortable="false" headerText="Id" align="end" id="c1">
                                 <af:outputText value="#{row.actor_id}" id="ot1"/>
                             </af:column>
@@ -71,7 +72,27 @@
                     </af:outputText>
                 </af:column>
             </af:table>
-        </af:form>
+
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popActor"
+                  binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.popActor}">
+                <af:dialog id="d3" binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.d3}" type="none"
+                           title="Edicion de Actores">
+                <af:panelFormLayout id="pfl1">
+                        <af:inputText label="Nombres" id="it1"
+                                      binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.it1}"
+                                      value="#{sessionScope.beanConsultarActores.first_name}"/>
+                        <af:inputText label="Apellidos" id="it2"
+                                      binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.it2}"
+                                      value="#{sessionScope.beanConsultarActores.last_name}"/>
+                        <af:inputDate label="Fecha Actualizacion" id="id2"
+                                      binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.id2}"
+                                      value="#{sessionScope.beanConsultarActores.last_update}">
+                            <af:convertDateTime pattern="dd/MM/yyyy"/>
+                        </af:inputDate>
+                    </af:panelFormLayout>
+            </af:dialog>
+        </af:popup>
+          </af:form>
     </af:document>
     <!--oracle-jdev-comment:auto-binding-backing-bean-name:backing_Actores_Frm_Consultar_Actores-->
 </f:view>
