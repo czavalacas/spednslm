@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <af:document title="Frm_Consultar_Actores.jsf" id="d1"
+                 binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.d1}">
+        <af:messages binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.m1}" id="m1"/>
+        <af:form id="f1" binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.f1}">
+            <af:panelGridLayout id="pgl1" binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.pgl1}">
+                <af:gridRow height="100%" id="gr1"
+                            binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.gr1}">
+                    <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc1"
+                                 binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.gc1}">
+                        <!-- Content -->
+                        <af:table value="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.lstActores}" var="row"
+                                  rowBandingInterval="0" id="t1" rowSelection="single" 
+                                  binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.t1}"
+                                  inlineStyle="height:450px;">
+                            <af:column sortable="false" headerText="Id" align="end" id="c1">
+                                <af:outputText value="#{row.actor_id}" id="ot1"/>
+                            </af:column>
+                            <af:column sortable="true" headerText="Nombres" align="start" id="c2" sortProperty="first_name">
+                                <af:outputText value="#{row.first_name}" id="ot2"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Apellidos" align="start" id="c3">
+                                <af:outputText value="#{row.last_name}" id="ot3"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Ultima Actualizacion" align="start" id="c4">
+                                <af:outputText value="#{row.last_update}" id="ot4">
+                                    <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                </af:outputText>
+                            </af:column>
+                        </af:table>
+                    </af:gridCell>
+                </af:gridRow>
+            </af:panelGridLayout>
+            <af:table value="#{bindings.actorFindAll.collectionModel}" var="row"
+                      rows="#{bindings.actorFindAll.rangeSize}"
+                      emptyText="#{bindings.actorFindAll.viewable ? 'No data to display.' : 'Access Denied.'}"
+                      rowBandingInterval="0" selectedRowKeys="#{bindings.actorFindAll.collectionModel.selectedRow}"
+                      selectionListener="#{bindings.actorFindAll.collectionModel.makeCurrent}" rowSelection="single"
+                      fetchSize="#{bindings.actorFindAll.rangeSize}"
+                      filterModel="#{bindings.actorFindAllQuery.queryDescriptor}"
+                      queryListener="#{bindings.actorFindAllQuery.processQuery}" filterVisible="true" varStatus="vs"
+                      id="t2" binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.t2}">
+                <af:column sortProperty="#{bindings.actorFindAll.hints.actor_id.name}" filterable="true" sortable="true"
+                           headerText="Id" id="c5">
+                    <af:outputText value="#{row.actor_id}" shortDesc="#{bindings.actorFindAll.hints.actor_id.tooltip}"
+                                   id="ot5"/>
+                </af:column>
+                <af:column sortProperty="#{bindings.actorFindAll.hints.first_name.name}" filterable="true"
+                           sortable="true" headerText="Names" id="c6">
+                    <af:outputText value="#{row.first_name}"
+                                   shortDesc="#{bindings.actorFindAll.hints.first_name.tooltip}" id="ot6"/>
+                </af:column>
+                <af:column sortProperty="#{bindings.actorFindAll.hints.last_name.name}" filterable="true"
+                           sortable="true" headerText="Apellidos" id="c7">
+                    <af:outputText value="#{row.last_name}" shortDesc="#{bindings.actorFindAll.hints.last_name.tooltip}"
+                                   id="ot7"/>
+                </af:column>
+                <af:column sortProperty="#{bindings.actorFindAll.hints.last_update.name}" filterable="true"
+                           sortable="true" headerText="Actualizacion" id="c8">
+                    <f:facet name="filter">
+                        <af:inputDate value="#{bindings.actorFindAllQuery.queryDescriptor.filterConjunctionCriterion.criterionMap.last_update.value}"
+                                      id="id1" binding="#{backingBeanScope.backing_Actores_Frm_Consultar_Actores.id1}">
+                            <af:convertDateTime pattern="#{bindings.actorFindAll.hints.last_update.format}"/>
+                        </af:inputDate>
+                    </f:facet>
+                    <af:outputText value="#{row.last_update}"
+                                   shortDesc="#{bindings.actorFindAll.hints.last_update.tooltip}" id="ot8">
+                        <af:convertDateTime pattern="#{bindings.actorFindAll.hints.last_update.format}"/>
+                    </af:outputText>
+                </af:column>
+            </af:table>
+        </af:form>
+    </af:document>
+    <!--oracle-jdev-comment:auto-binding-backing-bean-name:backing_Actores_Frm_Consultar_Actores-->
+</f:view>
