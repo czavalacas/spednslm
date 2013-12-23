@@ -27,7 +27,7 @@ public class Film implements Serializable {
     private String description;
     @Id
     @Column(name = "film_id", nullable = false)
-    @TableGenerator( name = "stmcodi", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "film.film_id", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @TableGenerator( name = "stmcodi_film", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "film.film_id", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
     @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi" )
     private short film_id;
     @Column(name = "language_id", nullable = false)
