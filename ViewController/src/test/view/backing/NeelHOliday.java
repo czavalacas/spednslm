@@ -51,7 +51,7 @@ public class NeelHOliday {
     private void _addBasicActivities(Modelo model) {
         // Create CalendarActivity for current day at 9 with an hour duration.
         _addTimeActivity(model, null,"Reunion por hangout", 0, 9, 0, 0,2, 0);
-
+        _addTimeActivity(model, null,"Ir al banco", 0, 11, 0, 0,2, 0);
         // Create a 2 hour overlapped activity from 9 am today activity
         //_addTimeActivity(model, null, null, 0, 9, 40, 0, 2, 0);
 
