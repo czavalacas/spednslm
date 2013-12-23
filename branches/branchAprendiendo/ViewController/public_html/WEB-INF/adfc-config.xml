@@ -16,4 +16,14 @@
     <managed-bean-class>test.view.backing.Actores.SessionScopedBeanConsultarActores</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean id="__4">
+    <managed-bean-name>bbCalendario</managed-bean-name>
+    <managed-bean-class>test.view.backing.BeanCalendario</managed-bean-class>
+    <managed-bean-scope>backingBean</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__5">
+    <managed-bean-name>bbFeriado</managed-bean-name>
+    <managed-bean-class>test.view.backing.NeelHOliday</managed-bean-class>
+    <managed-bean-scope>backingBean</managed-bean-scope>
+  </managed-bean>
 </adfc-config>
