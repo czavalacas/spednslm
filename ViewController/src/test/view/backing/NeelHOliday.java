@@ -1,16 +1,12 @@
 package test.view.backing;
 
 import java.text.DateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
 import java.util.concurrent.ConcurrentHashMap;
-
 import oracle.adf.view.rich.component.rich.data.RichCalendar;
 import oracle.adf.view.rich.model.CalendarActivity;
 import oracle.adf.view.rich.model.CalendarProvider;
@@ -18,8 +14,6 @@ import oracle.adf.view.rich.model.CalendarProvider;
 public class NeelHOliday {
     private NeelmaniCalender holidays = new NeelmaniCalender();
     private RichCalendar calFeriado;
-    private NeelHOliday _modelo;
-    private Modelo _modelBean;
     private int _activityIdCounter = 1; // This should be monotonically increasing
     private List<CalendarProvider> _providers = new ArrayList<CalendarProvider>();
     private Map<String, Modelo> _models = new ConcurrentHashMap<String, Modelo>();
@@ -56,7 +50,7 @@ public class NeelHOliday {
 
     private void _addBasicActivities(Modelo model) {
         // Create CalendarActivity for current day at 9 with an hour duration.
-        _addTimeActivity(model, null,"Reunion por hangout", 0, 9, 0, 0, 1, 0);
+        _addTimeActivity(model, null,"Reunion por hangout", 0, 9, 0, 0,2, 0);
 
         // Create a 2 hour overlapped activity from 9 am today activity
         //_addTimeActivity(model, null, null, 0, 9, 40, 0, 2, 0);
@@ -175,21 +169,9 @@ public class NeelHOliday {
     public int getActivityIdCounter() {
         return _activityIdCounter;
     }
-
-    public void setModelo(NeelHOliday _modelo) {
-        this._modelo = _modelo;
-    }
     
     public Wrapper getCalendarModel(){
       return _modelWrapper;
-    }
-
-    public void setModelBean(Modelo _modelBean) {
-        this._modelBean = _modelBean;
-    }
-
-    public Modelo getModelBean() {
-        return _modelBean;
     }
 
     public void setHolidays(NeelmaniCalender holidays) {
