@@ -76,8 +76,10 @@
          <string v="JSF"/>
          <string v="JSP"/>
          <string v="Java"/>
+         <string v="Java-Modeling"/>
          <string v="TRINIDAD"/>
          <string v="TopLink"/>
+         <string v="UML"/>
          <string v="XML"/>
       </list>
    </hash>

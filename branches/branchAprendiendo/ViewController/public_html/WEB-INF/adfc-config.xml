@@ -26,4 +26,14 @@
     <managed-bean-class>test.view.backing.NeelHOliday</managed-bean-class>
     <managed-bean-scope>backingBean</managed-bean-scope>
   </managed-bean>
+  <managed-bean id="__6">
+    <managed-bean-name>CalendarioBean</managed-bean-name>
+    <managed-bean-class>test.view.backing.calendario.CalendarioBean</managed-bean-class>
+    <managed-bean-scope>backingBean</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__7">
+    <managed-bean-name>CalendarioBean2</managed-bean-name>
+    <managed-bean-class>test.view.backing.calendario.CalendarioBean2</managed-bean-class>
+    <managed-bean-scope>backingBean</managed-bean-scope>
+  </managed-bean>
 </adfc-config>
