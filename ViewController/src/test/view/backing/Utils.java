@@ -9,6 +9,24 @@ import oracle.adf.view.rich.context.AdfFacesContext;
 
 public class Utils {
     
+    /**
+     * @author dfloresgonz
+     * @since 08.04.2013
+     * @param k Clave unica de identificacion de la variable
+     * @param v Valor de la variable a enviar en sesion
+     */
+    public static void putSession(String k, Object v) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(k, v);
+    }
+    
+    public static void removeSession(String k){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(k);
+    }
+    
+    public static Object getSession(String k){
+        return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(k);
+    }
+    
     public static String showPopUpMIDDLE(RichPopup p) {
         try {
             RichPopup.PopupHints ph = new RichPopup.PopupHints();

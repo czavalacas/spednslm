@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+  <af:outputLabel value="chauuuuuuuuuuuuuuuuuu" id="ol1"/>
+  <af:image source="#{resource['images:f2.jpg']}" id="i1" shortDesc="Hi"/>
+</ui:composition>

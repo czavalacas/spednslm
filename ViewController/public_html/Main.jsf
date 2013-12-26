@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+        beforePhase="#{backingBeanScope.bbMenu.createMenus}">
+    <af:document title="Main.jsf" id="d1">
+        <af:form id="f1">
+            <af:spacer height="10"/>
+            <af:panelSplitter orientation="vertical" splitterPosition="50" id="ps1">
+                <f:facet name="first">
+               
+                    <af:panelGridLayout id="pgl1" inlineStyle="border-top-width:thick;">
+                        <af:gridRow marginTop="1px" height="auto" id="gr1">
+                            <af:gridCell marginStart="1px" width="85%" id="gc1">
+                                <af:menuBar id="menu" var="item" binding="#{backingBeanScope.bbMenu.menu}"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="2px" width="15%" marginEnd="1px" id="gc2">
+                                <af:panelGridLayout>
+                                    <af:gridRow>
+                                        <af:gridCell>
+                                        <af:image source="#{resource['images:f2.jpg']}" id="i1"
+                                              inlineStyle="height:45px; width:40px;">
+                                        <af:showPopupBehavior popupId="popCerrar" triggerType="click"
+                                                                              alignId="i1" align="afterStart"/>
+                                    </af:image>
+                                        </af:gridCell>
+                                        <af:gridCell valign="middle">
+                                        <af:outputLabel value="Bienvenido, Diego" id="ol1"/>
+                                        </af:gridCell>
+                                    </af:gridRow>
+                                </af:panelGridLayout>
+                                
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="2px" height="auto" marginBottom="3px" id="gr2">
+                            <af:gridCell marginStart="1px" width="85%" id="gc3"></af:gridCell>
+                            <af:gridCell marginStart="2px" width="15%" marginEnd="1px" id="gc4"/>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </f:facet>
+                <f:facet name="second">
+                    <af:region value="#{bindings.dynamicRegion1.regionModel}" id="r1"/>
+                </f:facet>
+            </af:panelSplitter>
+            <af:popup id="popCerrar">
+                <af:noteWindow>
+                    <af:panelFormLayout rows="2" maxColumns="1">
+                        <af:commandLink text="> Cerrar Sesion" id="txt">
+                            <af:showPopupBehavior popupId="p1" triggerType="action"/>
+                        </af:commandLink>
+                        <af:commandLink text="> Cambiar Clave" id="txtCambClav"
+                                          actionListener="#{backingBeanScope.bbMenu.cerrarSession}"/>
+                    </af:panelFormLayout>
+                </af:noteWindow>
+            </af:popup>
+            <af:popup id="p1">
+                <af:dialog id="d2"
+                           dialogListener="#{backingBeanScope.bbMenu.dialogLogoutListener}"
+                           title="Confirmar">
+                    <af:outputText value="Desea Cerrar Sesion?" id="ot2"/>
+                </af:dialog>
+            </af:popup>
+                        
+        </af:form>
+    </af:document>
+</f:view>
