@@ -11,5 +11,9 @@
                         <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
                             <af:outputText value="Context Info in Popup" id="ot4" inlineStyle="font-size:larger;"/>
                         </af:popup>
-</f:view>
+        <af:inputText label="Local" id="it1" value="#{bRegistrarFicha.holaLocal}"/>
+        <af:inputText label="Sesion" id="it2" value="#{bSessionRegistrarFicha.hola}"/>
+        <af:button text="button 1" id="b1" actionListener="#{bRegistrarFicha.mandarParams}"/>
+        <af:activeOutputText value="#{bRegistrarFicha.holaLocal} #{bSessionRegistrarFicha.hola}" id="aot1"/>
+    </f:view>
 </ui:composition>
