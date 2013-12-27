@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <af:document title="SPED Inicio" id="d1">
+        <af:form id="f1">
+            <af:panelGridLayout id="pgl1">
+                <af:gridRow height="50px" id="gr1">
+                    <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc1">
+                        <!-- Header -->
+                    </af:gridCell>
+                </af:gridRow>
+                <af:gridRow height="100%" id="gr2">
+                    <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc2">
+                        <!-- Content -->
+                        <af:panelBox text="Iniciar Sesion" id="pb1">
+                            <af:panelFormLayout id="pfl1">
+                                <af:inputText label="Usuario" id="itUsuario" required="true" labelStyle="text-align: left;"
+                                                styleClass="login" value="#{bLogin.usuario}">
+                                    <f:converter converterId="lowerconverter"/>
+                                </af:inputText>
+                                <af:inputText label="Clave" id="itClave" secret="true" required="true" labelStyle="text-align: left;"
+                                              value="#{bLogin.clave}">
+                                    <f:converter converterId="lowerconverter"/>
+                                </af:inputText>
+                                <af:button text="Ingresar" id="btnInicio" actionListener="#{bLogin.autenticarUsuario}"
+                                            action="#{bLogin.getRedireccionar}"/>
+                                <af:messages id="m1" inline="false" binding="#{bLogin.mensaje}"/>
+                            </af:panelFormLayout>
+                        </af:panelBox>
+                    </af:gridCell>
+                </af:gridRow>
+            </af:panelGridLayout>
+        </af:form>
+    </af:document>
+</f:view>
