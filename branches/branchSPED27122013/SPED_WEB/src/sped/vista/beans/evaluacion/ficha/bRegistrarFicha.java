@@ -32,4 +32,10 @@ public class bRegistrarFicha {
         System.out.println(">>>local: "+holaLocal);
         System.out.println(">>sesion: "+sessionRegistrarFicha.getHola());
     }
+
+    public String mostrarTest() {
+        System.out.println("___>>>local: "+holaLocal);
+        System.out.println("___>>sesion: "+sessionRegistrarFicha.getHola());
+        return null;
+    }
 }
