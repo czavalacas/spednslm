@@ -1,9 +1,12 @@
 package sped.vista.beans.bienvenida;
 
 import java.util.List;
-
 import sped.negocio.entidades.beans.BeanPermiso;
 
+/** Clase de Sesion del Bean bMain.java
+ * @author dfloresgonz 
+ * @since 27.12.2013
+ */
 public class bSessionMain {
 
     private int exec = 0;

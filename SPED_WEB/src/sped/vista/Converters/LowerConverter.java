@@ -4,6 +4,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
+/** Converter que transforma el input del usuario a minusculas
+ * @author dfloresgonz
+ * @since 27.12.2013
+ */
 public class LowerConverter implements Converter {
     
     @Override
