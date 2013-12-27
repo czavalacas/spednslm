@@ -1,0 +1,17 @@
+package sped.negocio.BDL.IL;
+
+import java.util.List;
+
+import javax.ejb.Local;
+
+import sped.negocio.entidades.beans.BeanPermiso;
+import sped.negocio.entidades.sist.Permiso;
+
+@Local
+public interface BDL_C_SFPermisoLocal {
+    
+    List<Permiso> getByNidPermiso(int nidPermiso);
+    int getNiveles();
+    List<Permiso> getHijosByPadre(int nidPadre,
+                                  int nidRol);
+}

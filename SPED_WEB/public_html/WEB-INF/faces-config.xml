@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.1" xmlns="http://java.sun.com/xml/ns/javaee">
+  <application>
+    <default-render-kit-id>oracle.adf.rich</default-render-kit-id>
+  </application>
+  <managed-bean>
+    <managed-bean-name>bLogin</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.seguridad.bLogin</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+  </managed-bean>
+  <converter>
+    <converter-id>lowerconverter</converter-id>
+    <converter-class>sped.vista.Converters.LowerConverter</converter-class>
+  </converter>
+  <converter>
+    <converter-id>upperconverter</converter-id>
+    <converter-class>sped.vista.Converters.UpperConverter</converter-class>
+  </converter>
+  <managed-bean>
+    <managed-bean-name>bMain</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.bienvenida.bMain</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+  </managed-bean>
+</faces-config>
