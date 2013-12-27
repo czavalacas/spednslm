@@ -6,23 +6,25 @@
       <StringRefAddr addrType="subtype">
         <Contents>MYSQL</Contents>
       </StringRefAddr>
-      <StringRefAddr addrType="hostname">
-        <Contents>lubalserver.zapto.org</Contents>
+      <StringRefAddr addrType="user">
+        <Contents>root</Contents>
       </StringRefAddr>
       <StringRefAddr addrType="port">
         <Contents>3306</Contents>
       </StringRefAddr>
-      <StringRefAddr addrType="user">
-        <Contents>root</Contents>
+      <StringRefAddr addrType="hostname">
+        <Contents>localhost</Contents>
       </StringRefAddr>
       <SecureRefAddr addrType="password"/>
-      <StringRefAddr addrType="dataSourceName">
-        <Contents>SPED</Contents>
-      </StringRefAddr>
       <StringRefAddr addrType="driver">
         <Contents>com.mysql.jdbc.Driver</Contents>
+      </StringRefAddr>
+      <StringRefAddr addrType="dataSourceName">
+        <Contents>sped</Contents>
       </StringRefAddr>
     </RefAddresses>
   </Reference>
 </References>
+
+
 
