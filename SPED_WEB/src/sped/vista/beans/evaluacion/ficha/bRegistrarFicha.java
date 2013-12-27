@@ -4,19 +4,20 @@ import javax.faces.event.ActionEvent;
 
 public class bRegistrarFicha {
     
-    private bSessionRegistrarFicha bSessionRegistrarFicha;
+    private bSessionRegistrarFicha sessionRegistrarFicha;
     private String holaLocal;
     public bRegistrarFicha() {
         System.out.println("local: "+holaLocal);
        // System.out.println("sesion: "+bSessionRegistrarFicha.getHola());
     }
 
-    public void setBSessionRegistrarFicha(bSessionRegistrarFicha bSessionRegistrarFicha) {
-        this.bSessionRegistrarFicha = bSessionRegistrarFicha;
+
+    public void setSessionRegistrarFicha(bSessionRegistrarFicha sessionRegistrarFicha) {
+        this.sessionRegistrarFicha = sessionRegistrarFicha;
     }
 
-    public bSessionRegistrarFicha getBSessionRegistrarFicha() {
-        return bSessionRegistrarFicha;
+    public bSessionRegistrarFicha getSessionRegistrarFicha() {
+        return sessionRegistrarFicha;
     }
 
     public void setHolaLocal(String holaLocal) {
@@ -29,6 +30,6 @@ public class bRegistrarFicha {
 
     public void mandarParams(ActionEvent actionEvent) {
         System.out.println(">>>local: "+holaLocal);
-        System.out.println(">>sesion: "+bSessionRegistrarFicha.getHola());
+        System.out.println(">>sesion: "+sessionRegistrarFicha.getHola());
     }
 }
