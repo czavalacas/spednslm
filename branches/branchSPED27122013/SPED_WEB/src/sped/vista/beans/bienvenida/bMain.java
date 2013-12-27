@@ -28,6 +28,10 @@ import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
 
+/** Clase de Respaldo de Frm_Main.jsf
+ * @author dfloresgonz
+ * @since 27.12.2013
+ */
 public class bMain implements Serializable {
 
     @EJB

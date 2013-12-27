@@ -1,11 +1,13 @@
 package sped.vista.region;
 
 import java.io.Serializable;
-
 import oracle.adf.controller.TaskFlowId;
-
 import sped.vista.Utils.Utils;
 
+/** Clase que maneja al componente Region y redirecciona a las paginas seleccionadas
+ * @author dfloresgonz
+ * @since 27.12.2013
+ */
 public class beanRegion implements Serializable {
     private String taskFlowId = "/WEB-INF/main_page.xml#main_page";
     private final static String DEFAULT = "/WEB-INF/main_page.xml#main_page";

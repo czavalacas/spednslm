@@ -2,6 +2,10 @@ package sped.vista.beans.evaluacion.ficha;
 
 import javax.faces.event.ActionEvent;
 
+/** Clase de Respaldo de Frm_Registrar_Ficha.jsff
+ * @author dfloresgonz
+ * @since 27.12.2013
+ */
 public class bRegistrarFicha {
     
     private bSessionRegistrarFicha sessionRegistrarFicha;
