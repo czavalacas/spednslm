@@ -30,13 +30,13 @@ import sped.vista.Utils.Utils;
 
 public class bMain implements Serializable {
 
-    private List<BeanPermiso> lstPermisos;
     @EJB
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private String usuario;
     private final static String LOGIN = "/faces/Frm_login";
     private RichMenuBar menu;
+    private bSessionMain sessionMain;
 
     public bMain(){
         super();
@@ -54,15 +54,21 @@ public class bMain implements Serializable {
 
     public void createMenus(PhaseEvent phaseEvent) {
         System.out.println("phaseEvent");
-        if(this.getLstPermisos() != null){
-            this.getLstPermisos().removeAll(this.getLstPermisos());   
+        System.out.println("exec "+sessionMain.getExec());
+        if(sessionMain.getExec() == 0){
+            sessionMain.setExec(1);
+            if(sessionMain.getLstPermisos() != null){
+                sessionMain.getLstPermisos().removeAll(sessionMain.getLstPermisos());   
+            }else{
+                System.out.println("NULO");
+            }
+            sessionMain.setLstPermisos(ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol()));
+            for (int i = 0; i < sessionMain.getLstPermisos().size(); i++) {
+                int hijoDeMBar = 0;
+                crearHijos(sessionMain.getLstPermisos().get(i), new RichMenu(), hijoDeMBar);
+            }
         }else{
-            System.out.println("NULO");
-        }
-        this.setLstPermisos(ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol()));
-        for (int i = 0; i < lstPermisos.size(); i++) {
-            int hijoDeMBar = 0;
-            crearHijos(lstPermisos.get(i), new RichMenu(), hijoDeMBar);
+            System.out.println("getLstPermisos:"+sessionMain.getLstPermisos());
         }
     }
 
@@ -128,15 +134,6 @@ public class bMain implements Serializable {
         }
     }
 
-
-    public void setLstPermisos(List<BeanPermiso> lstPermisos) {
-        this.lstPermisos = lstPermisos;
-    }
-
-    public List<BeanPermiso> getLstPermisos() {
-        return lstPermisos;
-    }
-
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
@@ -151,5 +148,13 @@ public class bMain implements Serializable {
 
     public RichMenuBar getMenu() {
         return menu;
+    }
+
+    public void setSessionMain(bSessionMain sessionMain) {
+        this.sessionMain = sessionMain;
+    }
+
+    public bSessionMain getSessionMain() {
+        return sessionMain;
     }
 }
