@@ -2,6 +2,11 @@
 <adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
   <task-flow-definition id="task-flow-login">
     <default-activity>Frm_login</default-activity>
+    <managed-bean id="__3">
+      <managed-bean-name>beanRegion</managed-bean-name>
+      <managed-bean-class>sped.vista.region.beanRegion</managed-bean-class>
+      <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <view id="Frm_login">
       <page>/seguridad/Frm_login.jsf</page>
     </view>

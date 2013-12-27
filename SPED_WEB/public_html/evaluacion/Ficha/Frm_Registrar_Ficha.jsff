@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich" xmlns:f="http://java.sun.com/jsf/core">
+<f:view>
+      <af:outputText value="This is a test" id="ot2">
+                            <f:facet name="context">
+                                <af:contextInfo id="ci1">
+                                    <af:showPopupBehavior align="beforeStart" triggerType="contextInfo" popupId="p1"/>
+                                </af:contextInfo>
+                            </f:facet>
+                        </af:outputText>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
+                            <af:outputText value="Context Info in Popup" id="ot4" inlineStyle="font-size:larger;"/>
+                        </af:popup>
+</f:view>
+</ui:composition>

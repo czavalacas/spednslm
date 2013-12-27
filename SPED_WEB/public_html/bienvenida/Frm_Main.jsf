@@ -35,7 +35,9 @@
                         </af:gridRow>
                     </af:panelGridLayout>
                 </f:facet>
-                <f:facet name="second"/>
+                <f:facet name="second">
+                    <af:region value="#{bindings.dynamicRegion1.regionModel}" id="r1"/>
+                </f:facet>
             </af:panelSplitter>
             
             <af:popup id="popCerrar">
@@ -50,7 +52,7 @@
             </af:popup>
             <af:popup id="p1">
                 <af:dialog id="d2"
-                           title="Confirmar">
+                           title="Confirmar" dialogListener="#{bMain.dialogLogoutListener}">
                     <af:outputText value="Desea Cerrar Sesion?" id="ot2"/>
                 </af:dialog>
             </af:popup>

@@ -1,17 +1,26 @@
 package sped.vista.beans.bienvenida;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.List;
 
 import javax.ejb.EJB;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.PhaseEvent;
+
+import javax.servlet.http.HttpServletResponse;
+
+import javax.servlet.http.HttpSession;
 
 import oracle.adf.view.rich.component.rich.RichMenu;
 import oracle.adf.view.rich.component.rich.RichMenuBar;
 import oracle.adf.view.rich.component.rich.nav.RichCommandMenuItem;
+
+import oracle.adf.view.rich.event.DialogEvent;
 
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.entidades.beans.BeanPermiso;
@@ -26,13 +35,20 @@ public class bMain implements Serializable {
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private String usuario;
+    private final static String LOGIN = "/faces/Frm_login";
     private RichMenuBar menu;
 
     public bMain(){
         super();
-        
-        if(beanUsuario != null){
-            usuario = beanUsuario.getUsuario() + " - " + beanUsuario.getNombres();
+        try {
+            if (beanUsuario != null) {
+                usuario = beanUsuario.getUsuario() + " - " + beanUsuario.getNombres();
+            } else {
+                logoutTarget(LOGIN);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logoutTarget(LOGIN);
         }
     }
 
@@ -72,8 +88,8 @@ public class bMain implements Serializable {
             rcni.setId("menu" + menuItem.getNidPermiso());
             rcni.setShortDesc(menuItem.getUrl());
             rcni.setPartialSubmit(true);
-            rcni.setAction(Utils.createActionMethodBinding("#{viewScope.RegionBean.getMainCall}"));
-            rcni.setActionListener(Utils.createActionListenerMethodBinding("#{backingBeanScope.bbMenu.getUrl}"));
+            rcni.setAction(Utils.createActionMethodBinding("#{beanRegion.getMainCall}"));
+            rcni.setActionListener(Utils.createActionListenerMethodBinding("#{bMain.getUrl}"));
             if (hijoDeMBar == 0) { //Es hijo directamente del menubar
                 menu.getChildren().add(rcni);
             } else if (hijoDeMBar > 0) {
@@ -88,6 +104,31 @@ public class bMain implements Serializable {
         Utils.putSession("url", url);
     }
     
+    public String logoutTarget(String aTarget) {
+        ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletResponse response = (HttpServletResponse)ectx.getResponse();
+        String url = ectx.getRequestContextPath() + aTarget;
+        HttpSession session = (HttpSession)ectx.getSession(false);
+        //close session
+        session.invalidate();
+        try {//@TODO log
+            Utils.sysout("usuario cerro sesion");
+            response.sendRedirect(url);
+            FacesContext.getCurrentInstance().responseComplete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void dialogLogoutListener(DialogEvent dialogEvent) {
+        if (dialogEvent.getOutcome() == DialogEvent.Outcome.ok) {
+         //   ADFUtil.invokeEL("#{chatBean.logout}");
+            logoutTarget(LOGIN);
+        }
+    }
+
+
     public void setLstPermisos(List<BeanPermiso> lstPermisos) {
         this.lstPermisos = lstPermisos;
     }

@@ -16,9 +16,10 @@
     <converter-id>upperconverter</converter-id>
     <converter-class>sped.vista.Converters.UpperConverter</converter-class>
   </converter>
-  <managed-bean>
+    <managed-bean>
     <managed-bean-name>bMain</managed-bean-name>
     <managed-bean-class>sped.vista.beans.bienvenida.bMain</managed-bean-class>
     <managed-bean-scope>request</managed-bean-scope>
   </managed-bean>
+
 </faces-config>
