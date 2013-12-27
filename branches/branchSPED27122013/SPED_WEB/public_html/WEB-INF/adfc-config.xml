@@ -13,4 +13,9 @@
       <to-activity-id>Frm_Main</to-activity-id>
     </control-flow-case>
   </control-flow-rule>
+  <managed-bean id="__3">
+    <managed-bean-name>beanRegion</managed-bean-name>
+    <managed-bean-class>sped.vista.region.beanRegion</managed-bean-class>
+    <managed-bean-scope>view</managed-bean-scope>
+  </managed-bean>
 </adfc-config>
