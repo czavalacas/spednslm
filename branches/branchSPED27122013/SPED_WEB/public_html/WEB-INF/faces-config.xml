@@ -20,6 +20,11 @@
     <managed-bean-name>bMain</managed-bean-name>
     <managed-bean-class>sped.vista.beans.bienvenida.bMain</managed-bean-class>
     <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionMain</property-name>
+      <property-class>sped.vista.beans.bienvenida.bSessionMain</property-class>
+      <value>#{sessionMain}</value>
+    </managed-property>
   </managed-bean>
   <managed-bean>
     <managed-bean-name>sessionRegistrarFicha</managed-bean-name>
@@ -35,5 +40,10 @@
       <property-class>sped.vista.beans.evaluacion.ficha.bSessionRegistrarFicha</property-class>
       <value>#{sessionRegistrarFicha}</value>
     </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionMain</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.bienvenida.bSessionMain</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
 </faces-config>
