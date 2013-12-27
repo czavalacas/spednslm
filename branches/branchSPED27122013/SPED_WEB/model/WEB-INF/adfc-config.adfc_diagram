@@ -1,0 +1,45 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SDM>
+   <OverallProperties
+      id="OverallProperties1"/>
+   <View
+      id="View2">
+      <property
+         name="activityId">Frm_login</property>
+      <property
+         name="page">/seguridad/Frm_login.jsf</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Frm_login&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">287.59375</property>
+      <property
+         name="x">238.5</property>
+   </View>
+   <View
+      id="View3">
+      <property
+         name="activityId">Frm_Main</property>
+      <property
+         name="page">/bienvenida/Frm_Main.jsf</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Frm_Main&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">290.59375</property>
+      <property
+         name="x">478.5</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase4"
+      from="View2"
+      to="View3">
+      <property
+         name="fromOutcome">000</property>
+      <property
+         name="sdm:polyPoints">R50,279.5,287.60938,437.5,290.60938,L50</property>
+   </ControlFlowCase>
+</SDM>

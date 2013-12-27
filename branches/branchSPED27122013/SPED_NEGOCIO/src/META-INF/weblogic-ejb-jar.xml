@@ -1,0 +1,29 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<weblogic-ejb-jar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://xmlns.oracle.com/weblogic/weblogic-ejb-jar http://xmlns.oracle.com/weblogic/weblogic-ejb-jar/1.1/weblogic-ejb-jar.xsd"
+                  xmlns="http://xmlns.oracle.com/weblogic/weblogic-ejb-jar">
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_C_SFUsuario</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_C_SFUsuario</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_C_SFError</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_C_SFError</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_C_SFPermisos</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_C_SFPermiso</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+</weblogic-ejb-jar>

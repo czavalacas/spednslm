@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<ProviderSettings xmlns="http://xmlns.oracle.com/ide/hash">
+   <hash n="dataTypeSettings">
+      <value n="sourceKey" v="oracle.javatools.db.mysql.MySQL5"/>
+   </hash>
+   <value n="id" v="3baf1995-4128-4f69-8600-f9ea7466c4ce"/>
+   <value n="name" v="SPED_Remoto"/>
+</ProviderSettings>

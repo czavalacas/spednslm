@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="task-flow-login">
+    <default-activity>Frm_login</default-activity>
+    <view id="Frm_login">
+      <page>/seguridad/Frm_login.jsf</page>
+    </view>
+    <view id="Frm_Main">
+      <page>/bienvenida/Frm_Main.jsf</page>
+    </view>
+    <control-flow-rule id="__1">
+      <from-activity-id>Frm_login</from-activity-id>
+      <control-flow-case id="__2">
+        <from-outcome>000</from-outcome>
+        <to-activity-id>Frm_Main</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+  </task-flow-definition>
+</adfc-config>
