@@ -1,5 +1,7 @@
 package sped.vista.beans.bienvenida;
 
+import java.awt.AWTKeyStroke;
+
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -97,6 +99,17 @@ public class bMain implements Serializable {
             rcni.setText(menuItem.getDescripcionPermiso());
             rcni.setId("menu" + menuItem.getNidPermiso());
             rcni.setShortDesc(menuItem.getUrl());
+            try {
+                if (menuItem.getAccelerator() != null) {
+                    if (!menuItem.getAccelerator().equals("")) {
+                        rcni.setAccelerator(AWTKeyStroke.getAWTKeyStroke(menuItem.getAccelerator()));
+                    }
+                }
+            } catch (Exception e) {
+                // TODO: GRABAR EN EL LOG
+                e.printStackTrace();
+            }
+            rcni.setAccessKey(menuItem.getAccessKey());
             rcni.setPartialSubmit(true);
             rcni.setAction(Utils.createActionMethodBinding("#{beanRegion.getMainCall}"));
             rcni.setActionListener(Utils.createActionListenerMethodBinding("#{bMain.getUrl}"));

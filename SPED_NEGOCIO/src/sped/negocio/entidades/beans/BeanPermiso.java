@@ -23,6 +23,8 @@ public class BeanPermiso implements Serializable {
     private List<Integer> lstPermisos;
     private String indMostrar;
     private List<BeanPermiso> listaHijos;
+    private char accessKey;
+    private String accelerator;
 
     public void setIndMostrar(String indMostrar) {
         this.indMostrar = indMostrar;
@@ -118,5 +120,21 @@ public class BeanPermiso implements Serializable {
 
     public String getUrlIcono() {
         return urlIcono;
+    }
+
+    public void setAccessKey(char accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public char getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccelerator(String accelerator) {
+        this.accelerator = accelerator;
+    }
+
+    public String getAccelerator() {
+        return accelerator;
     }
 }
