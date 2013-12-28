@@ -41,6 +41,10 @@ public class Permiso implements Serializable {
     private List<RolPermiso> rolPermisoLista;
     @Column(name = "indMostrar")
     private String indMostrar;
+    @Column(name = "accelerator")
+    private String accelerator;
+    @Column(name = "accessKey")
+    private char accessKey;
 
     public Permiso() {
     }
@@ -156,6 +160,22 @@ public class Permiso implements Serializable {
         getRolPermisoLista().remove(rolPermiso);
         rolPermiso.setPermiso(null);
         return rolPermiso;
+    }
+
+    public void setAccelerator(String accelerator) {
+        this.accelerator = accelerator;
+    }
+
+    public String getAccelerator() {
+        return accelerator;
+    }
+
+    public void setAccessKey(char accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public char getAccessKey() {
+        return accessKey;
     }
 
     @Override
