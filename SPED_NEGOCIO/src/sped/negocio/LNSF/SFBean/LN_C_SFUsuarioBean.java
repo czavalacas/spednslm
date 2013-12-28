@@ -46,7 +46,7 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
         try{
             Map mapa = bdL_C_SFUsuarioLocal.autenticarUsuarioBDL(usuario, clave);
             Usuario user = (Usuario) mapa.get("USUARIO");
-            msj   = (String) mapa.get("MSJ");System.out.println("msj:"+msj);
+            msj   = (String) mapa.get("MSJ");
             if(user != null){
                 if(msj.equals("000")){
                     beanUsuario = (BeanUsuario)mapper.map(user, BeanUsuario.class);
