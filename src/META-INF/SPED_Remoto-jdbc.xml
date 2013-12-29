@@ -4,7 +4,7 @@
                   xmlns="http://xmlns.oracle.com/weblogic/jdbc-data-source">
     <name>SPED_Remoto</name>
     <jdbc-driver-params>
-        <url>jdbc:mysql://lubalserver.zapto.org:3306/SPED</url>
+        <url>jdbc:mysql://localhost:3306/sped</url>
         <driver-name>com.mysql.jdbc.Driver</driver-name>
         <properties>
             <property>
@@ -12,7 +12,6 @@
                 <value>root</value>
             </property>
         </properties>
-        <password-encrypted>0732C0B96905F3CFB6A5B02EBA548C27</password-encrypted>
     </jdbc-driver-params>
     <jdbc-connection-pool-params>
         <test-table-name>SQL SELECT 1</test-table-name>

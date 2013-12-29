@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Entity SYSTEM "jbo_03_01.dtd">
+<!---->
+<Entity
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="Evmeval"
+  Version="12.1.2.66.68"
+  InheritPersonalization="merge"
+  DBObjectType="table"
+  DBObjectName="evmeval"
+  AliasName="Evmeval"
+  BindingStyle="JDBC">
+  <Attribute
+    Name="Nidevaluacion"
+    IsNotNull="true"
+    ColumnName="nidEvaluacion"
+    SQLType="INTEGER"
+    Type="java.lang.Integer"
+    ColumnType="INT"
+    TableName="evmeval"
+    PrimaryKey="true">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="10"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="StartDate"
+    IsNotNull="true"
+    ColumnName="start_Date"
+    SQLType="DATE"
+    Type="java.util.Date"
+    ColumnType="DATE"
+    TableName="evmeval"/>
+  <Attribute
+    Name="EstadoEvaluacion"
+    Precision="10"
+    ColumnName="estado_evaluacion"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR"
+    TableName="evmeval">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="10"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="Nidmain"
+    IsNotNull="true"
+    ColumnName="nidMain"
+    SQLType="INTEGER"
+    Type="java.lang.Integer"
+    ColumnType="INT"
+    TableName="evmeval">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="10"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="EndDate"
+    IsNotNull="true"
+    ColumnName="end_Date"
+    SQLType="DATE"
+    Type="java.util.Date"
+    ColumnType="DATE"
+    TableName="evmeval"/>
+  <Attribute
+    Name="Descripcion"
+    Precision="300"
+    ColumnName="descripcion"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR"
+    TableName="evmeval">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="300"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="Niddate"
+    IsNotNull="true"
+    Precision="50"
+    ColumnName="nidDate"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR"
+    TableName="evmeval">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+  </Attribute>
+  <Attribute
+    Name="NidEvaluador"
+    IsNotNull="true"
+    ColumnName="nid_evaluador"
+    SQLType="INTEGER"
+    Type="java.lang.Integer"
+    ColumnType="INT"
+    TableName="evmeval">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="10"/>
+    </DesignTime>
+  </Attribute>
+  <Key
+    Name="Primary1"
+    PrimaryKey="true">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="PRIMARY"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="sped.vista.Calendario.Evmeval.Nidevaluacion"/>
+    </AttrArray>
+  </Key>
+</Entity>
