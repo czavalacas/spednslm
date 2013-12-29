@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+  <af:panelFormLayout id="pfl1">
+    <af:panelStretchLayout id="psl1" >
+            <f:facet name="bottom">
+                <af:spacer width="10" height="10" id="s4"/>
+            </f:facet>
+            <f:facet name="center">
+                <af:calendar value="#{bindings.EvmevalView1.calendarModel}" id="c1" binding="#{bPlanificarEva.calendar}"
+                             calendarActivityListener="#{bPlanificarEva.abrirPopupEvaluar}"
+                             calendarListener="#{bPlanificarEva.abrirNuevoEvento}"/>
+            </f:facet>
+            <f:facet name="start">
+                <af:spacer width="10" height="10" id="s3"/>
+            </f:facet>
+            <f:facet name="end">
+                <af:spacer width="10" height="10" id="s2"/>
+            </f:facet>
+            <f:facet name="top">
+                <af:spacer width="10" height="10" id="s1"/>
+            </f:facet>
+        </af:panelStretchLayout>          
+  </af:panelFormLayout>
+    <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}">
+        <af:selectOneChoice label="Label 1" id="soc1">
+            <f:selectItems value="" id="si1"/>
+        </af:selectOneChoice>
+        <af:selectOneChoice label="Label 2" id="soc2">
+            <f:selectItems value="" id="si2"/>
+        </af:selectOneChoice>
+        <af:table var="row" rowBandingInterval="0" id="t1">
+            <af:column sortable="false" headerText="col3" id="c2">
+                <af:outputText value="#{row.col3}" id="ot1"/>
+            </af:column>
+            <af:column sortable="false" headerText="col4" id="c3">
+                <af:outputText value="#{row.col4}" id="ot2"/>
+            </af:column>
+            <af:column sortable="false" headerText="col5" id="c4">
+                <af:outputText value="#{row.col5}" id="ot3"/>
+            </af:column>
+        </af:table>
+    </af:popup>
+</ui:composition>

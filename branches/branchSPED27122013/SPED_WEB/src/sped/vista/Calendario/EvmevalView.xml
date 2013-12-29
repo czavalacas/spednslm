@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="EvmevalView"
+  Version="12.1.2.66.68"
+  InheritPersonalization="merge"
+  SelectList="Evmeval.nidEvaluacion, 
+       Evmeval.start_Date, 
+       Evmeval.estado_evaluacion, 
+       Evmeval.nidMain, 
+       Evmeval.end_Date, 
+       Evmeval.descripcion, 
+       Evmeval.nidDate, 
+       Evmeval.nid_evaluador"
+  FromList="evmeval Evmeval"
+  BindingStyle="JDBC"
+  CustomQuery="false"
+  PageIterMode="Full">
+  <Variable
+    Name="startDate"
+    Kind="viewcriteria"
+    Type="java.util.Date">
+    <AttrArray Name="ExtendedDataInts">
+      <Item Value="0"/>
+    </AttrArray>
+  </Variable>
+  <Variable
+    Name="endDate"
+    Kind="viewcriteria"
+    Type="java.util.Date">
+    <AttrArray Name="ExtendedDataInts">
+      <Item Value="0"/>
+    </AttrArray>
+  </Variable>
+  <Variable
+    Name="timeZone"
+    Kind="viewcriteria"
+    Type="java.lang.String">
+    <AttrArray Name="ExtendedDataInts">
+      <Item Value="0"/>
+    </AttrArray>
+  </Variable>
+  <EntityUsage
+    Name="Evmeval"
+    Entity="sped.vista.Calendario.Evmeval"/>
+  <ViewAttribute
+    Name="Nidevaluacion"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Nidevaluacion"
+    EntityUsage="Evmeval"
+    AliasName="nidEvaluacion"/>
+  <ViewAttribute
+    Name="StartDate"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="StartDate"
+    EntityUsage="Evmeval"
+    AliasName="start_Date"/>
+  <ViewAttribute
+    Name="EstadoEvaluacion"
+    PrecisionRule="true"
+    EntityAttrName="EstadoEvaluacion"
+    EntityUsage="Evmeval"
+    AliasName="estado_evaluacion"/>
+  <ViewAttribute
+    Name="Nidmain"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Nidmain"
+    EntityUsage="Evmeval"
+    AliasName="nidMain"/>
+  <ViewAttribute
+    Name="EndDate"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="EndDate"
+    EntityUsage="Evmeval"
+    AliasName="end_Date"/>
+  <ViewAttribute
+    Name="Descripcion"
+    PrecisionRule="true"
+    EntityAttrName="Descripcion"
+    EntityUsage="Evmeval"
+    AliasName="descripcion"/>
+  <ViewAttribute
+    Name="Niddate"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Niddate"
+    EntityUsage="Evmeval"
+    AliasName="nidDate"/>
+  <ViewAttribute
+    Name="NidEvaluador"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="NidEvaluador"
+    EntityUsage="Evmeval"
+    AliasName="nid_evaluador"/>
+</ViewObject>
