@@ -5,11 +5,24 @@
     <factory nameSpace="http://xmlns.oracle.com/adf/controller/binding"
              className="oracle.adf.controller.internal.binding.TaskFlowBindingDefFactoryImpl"/>
     <dtfactory className="oracle.adf.controller.internal.dtrt.binding.BindingDTObjectFactory"/>
+    <factory className="oracle.adfinternal.view.faces.model.binding.ExtendedFacesBindingDefFactoryImpl"
+             nameSpace="http://xmlns.oracle.com/adf/faces/binding"/>
   </definitionFactories>
   <pageMap>
     <page path="/bienvenida/Frm_Main.jsf" usageId="sped_vista_Frm_MainPageDef"/>
+    <page path="/evaluacion/Planificar/Frm_Planificar_Evaluacion.jsff"
+          usageId="sped_vista_Frm_Planificar_EvaluacionPageDef"/>
   </pageMap>
   <pageDefinitionUsages>
     <page id="sped_vista_Frm_MainPageDef" path="bienvenida.Frm_MainPageDef"/>
+    <page id="sped_vista_Frm_Planificar_EvaluacionPageDef"
+          path="evaluacion.Planificar.Frm_Planificar_EvaluacionPageDef"/>
   </pageDefinitionUsages>
+  <dataControlUsages>
+    <BC4JDataControl id="AppModuleDataControl" Package="sped.vista.Calendario"
+                     FactoryClass="oracle.adf.model.bc4j.DataControlFactoryImpl" SupportsTransactions="true"
+                     SupportsFindMode="true" SupportsRangesize="true" SupportsResetState="true"
+                     SupportsSortCollection="true" Configuration="AppModuleLocal" syncMode="Immediate"
+                     xmlns="http://xmlns.oracle.com/adfm/datacontrol"/>
+  </dataControlUsages>
 </Application>

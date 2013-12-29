@@ -9,22 +9,24 @@
       <StringRefAddr addrType="user">
         <Contents>root</Contents>
       </StringRefAddr>
-      <StringRefAddr addrType="port">
-        <Contents>3306</Contents>
-      </StringRefAddr>
       <StringRefAddr addrType="hostname">
         <Contents>localhost</Contents>
       </StringRefAddr>
-      <SecureRefAddr addrType="password"/>
-      <StringRefAddr addrType="driver">
-        <Contents>com.mysql.jdbc.Driver</Contents>
+      <StringRefAddr addrType="port">
+        <Contents>3306</Contents>
       </StringRefAddr>
+      <SecureRefAddr addrType="password"/>
       <StringRefAddr addrType="dataSourceName">
         <Contents>sped</Contents>
+      </StringRefAddr>
+      <StringRefAddr addrType="driver">
+        <Contents>com.mysql.jdbc.Driver</Contents>
       </StringRefAddr>
     </RefAddresses>
   </Reference>
 </References>
+
+
 
 
 

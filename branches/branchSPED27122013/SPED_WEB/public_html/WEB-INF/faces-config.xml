@@ -46,4 +46,18 @@
     <managed-bean-class>sped.vista.beans.bienvenida.bSessionMain</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bPlanificarEva</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.planificar.bPlanificarEva</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionPlanificar</property-name>
+      <property-class>sped.vista.beans.evaluacion.planificar.sessionPlanificar</property-class>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionPlanificar</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.planificar.sessionPlanificar</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>
