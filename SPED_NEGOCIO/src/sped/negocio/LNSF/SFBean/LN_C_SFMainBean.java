@@ -23,7 +23,10 @@ import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanMain;
-
+/** Clase SFLN SFMainBean.java
+ * @author czavalacas 
+ * @since 29.12.2013
+ */
 @Stateless(name = "LN_C_SFMain", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFMain")
 public class LN_C_SFMainBean implements LN_C_SFMainRemote, LN_C_SFMainLocal {
     @Resource
@@ -37,9 +40,8 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote, LN_C_SFMainLocal {
     }
     
     public List<BeanMain> llenarHorario(BeanMain beanMain){
-        System.out.println("EN EL LN");
-        List<Main>listaMain=bdl_C_SFMainLocal.findHorariosByAttributes(beanMain);
-        System.out.println("Tamaño de la lista MAIN"+listaMain.size());
+        System.out.println("Entro a llenarhorario");
+        List<Main>listaMain=bdl_C_SFMainLocal.findHorariosByAttributes(beanMain);        
         List<BeanMain> listaBean=new ArrayList<BeanMain>();
         MapperIF mapper = new DozerBeanMapper();
         Iterator it=listaMain.iterator();
@@ -48,8 +50,6 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote, LN_C_SFMainLocal {
             BeanMain bean = (BeanMain)mapper.map(entida,BeanMain.class);
             listaBean.add(bean);
         }
-        System.out.println("Tamaño de la lista bean"+ listaBean.size());
         return listaBean;
-        
-    }
+      }
 }

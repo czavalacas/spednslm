@@ -20,24 +20,26 @@ public class BeanMain implements Serializable {
     private int nidMain;
     private List<BeanEvaluacion> evaluacionLista;
     private BeanAula aula;
+    private BeanCurso curso;
+    private BeanProfesor profesor;
 
-    public void setCurso(Curso curso) {
+
+    public void setCurso(BeanCurso curso) {
         this.curso = curso;
     }
 
-    public Curso getCurso() {
+    public BeanCurso getCurso() {
         return curso;
     }
 
-    public void setProfesor(Profesor profesor) {
+    public void setProfesor(BeanProfesor profesor) {
         this.profesor = profesor;
     }
 
-    public Profesor getProfesor() {
+    public BeanProfesor getProfesor() {
         return profesor;
     }
-    private Curso curso;
-    private Profesor profesor;
+
 
     public void setDia(String dia) {
         this.dia = dia;

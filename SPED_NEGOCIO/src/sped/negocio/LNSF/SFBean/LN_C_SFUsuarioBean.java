@@ -1,5 +1,8 @@
 package sped.negocio.LNSF.SFBean;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -19,8 +22,10 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanError;
+import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "LN_C_SFUsuario", mappedName = "mapLN_C_SFUsuario")
@@ -60,4 +65,21 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             return beanUsuario;
         }
     }
+    
+    /**Metodo LN 
+     * creador: czavalacas**/
+    public List<BeanUsuario> getEvaluadores(){      
+        List<Usuario>listaEvaluadores=bdL_C_SFUsuarioLocal.getEvaluadores(); 
+        System.out.println("ENTRO A GET EVALUADORES TAMAÑO DE LA ENTIDA : "+listaEvaluadores.size() );
+        List<BeanUsuario> listaBean=new ArrayList<BeanUsuario>();
+        MapperIF mapper = new DozerBeanMapper();
+        Iterator it=listaEvaluadores.iterator();
+        while(it.hasNext()){
+            Usuario entida= (Usuario)it.next();
+            BeanUsuario bean = (BeanUsuario)mapper.map(entida,BeanUsuario.class);
+            listaBean.add(bean);
+        }
+          System.out.println("TAMAÑO DEL BEAN: "+listaBean.size() );
+        return listaBean;
+      }
 }

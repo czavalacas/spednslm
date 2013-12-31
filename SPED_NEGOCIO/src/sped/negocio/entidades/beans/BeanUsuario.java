@@ -8,13 +8,15 @@ public class BeanUsuario implements java.io.Serializable{
     private String dni;
     private String estadoUsuario;
     private byte[] foto;
-    private int nidUsuario;
+    private Integer nidUsuario;
     private String nombres;
     private String usuario;
     private BeanRol rol;
     private BeanSedeNivel sedeNivel;
     private BeanAreaAcademica areaAcademica;
     private BeanError error;
+    private String areaAcYProf;
+    
 
     public BeanUsuario(){}
     
@@ -50,11 +52,12 @@ public class BeanUsuario implements java.io.Serializable{
         return foto;
     }
 
-    public void setNidUsuario(int nidUsuario) {
+
+    public void setNidUsuario(Integer nidUsuario) {
         this.nidUsuario = nidUsuario;
     }
 
-    public int getNidUsuario() {
+    public Integer getNidUsuario() {
         return nidUsuario;
     }
 
@@ -104,5 +107,13 @@ public class BeanUsuario implements java.io.Serializable{
 
     public BeanError getError() {
         return error;
+    }
+
+    public void setAreaAcYProf(String areaAcYProf) {
+        this.areaAcYProf = areaAcYProf;
+    }
+
+    public String getAreaAcYProf() {
+        return areaAcYProf;
     }
 }
