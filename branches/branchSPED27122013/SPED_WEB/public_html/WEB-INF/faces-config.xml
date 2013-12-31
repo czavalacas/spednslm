@@ -51,12 +51,13 @@
     <managed-bean-class>sped.vista.beans.evaluacion.planificar.bPlanificarEva</managed-bean-class>
     <managed-bean-scope>request</managed-bean-scope>
     <managed-property>
-      <property-name>sessionPlanificar</property-name>
+      <property-name>sessionPlanificarEva</property-name>
       <property-class>sped.vista.beans.evaluacion.planificar.sessionPlanificar</property-class>
+      <value>#{sessionPlanificarEva}</value>
     </managed-property>
   </managed-bean>
   <managed-bean>
-    <managed-bean-name>sessionPlanificar</managed-bean-name>
+    <managed-bean-name>sessionPlanificarEva</managed-bean-name>
     <managed-bean-class>sped.vista.beans.evaluacion.planificar.sessionPlanificar</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>

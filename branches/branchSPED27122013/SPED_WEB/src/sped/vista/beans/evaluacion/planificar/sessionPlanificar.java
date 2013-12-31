@@ -1,11 +1,40 @@
 package sped.vista.beans.evaluacion.planificar;
 
-import java.io.Serializable;
+import java.util.List;
+import sped.negocio.entidades.beans.BeanMain;
 
-public class sessionPlanificar implements Serializable {
-    @SuppressWarnings("compatibility:1965230916421175318")
-    private static final long serialVersionUID = 1L;
+/** Clase de Sesion del Bean BeanMain.java
+ * @author czavalacas 
+ * @since 29.12.2013
+ */
+public class sessionPlanificar {
+   
+    private List<BeanMain> listaHorarios;
+    private BeanMain beanHorario;
+    private int nidAula;
 
-    public sessionPlanificar() {
+
+    public void setListaHorarios(List<BeanMain> listaHorarios) {
+        this.listaHorarios = listaHorarios;
+    }
+
+    public List<BeanMain> getListaHorarios() {
+        return listaHorarios;
+    }
+
+    public void setBeanHorario(BeanMain beanHorario) {
+        this.beanHorario = beanHorario;
+    }
+
+    public BeanMain getBeanHorario() {
+        return beanHorario;
+    }
+
+    public void setNidAula(int nidAula) {
+        this.nidAula = nidAula;
+    }
+
+    public int getNidAula() {
+        return nidAula;
     }
 }
