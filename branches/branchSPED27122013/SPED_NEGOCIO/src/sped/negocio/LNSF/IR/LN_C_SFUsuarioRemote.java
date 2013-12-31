@@ -9,6 +9,7 @@ import sped.negocio.entidades.beans.BeanUsuario;
 @Remote
 public interface LN_C_SFUsuarioRemote {
     
-    BeanUsuario autenticarUsuarioLN(String usuario,String clave);
+    BeanUsuario autenticarUsuarioLN(String usuario,String clave);    
+    List<BeanUsuario> getUsuarioByEstadoLN(String estado);
     List<BeanUsuario> getEvaluadores();
 }
