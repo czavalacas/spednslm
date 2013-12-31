@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
-  <af:panelFormLayout id="pfl1">
-    <af:panelStretchLayout id="psl1" >
+    <af:panelFormLayout id="pfl1">
+        <af:panelStretchLayout id="psl1">
             <f:facet name="bottom">
                 <af:spacer width="10" height="10" id="s4"/>
             </f:facet>
@@ -20,8 +20,8 @@
             <f:facet name="top">
                 <af:spacer width="10" height="10" id="s1"/>
             </f:facet>
-        </af:panelStretchLayout>          
-  </af:panelFormLayout>
+        </af:panelStretchLayout>
+    </af:panelFormLayout>
     <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}">
         <af:selectOneChoice label="Label 1" id="soc1">
             <f:selectItems value="" id="si1"/>
@@ -29,16 +29,30 @@
         <af:selectOneChoice label="Label 2" id="soc2">
             <f:selectItems value="" id="si2"/>
         </af:selectOneChoice>
-        <af:table var="row" rowBandingInterval="0" id="t1">
-            <af:column sortable="false" headerText="col3" id="c2">
-                <af:outputText value="#{row.col3}" id="ot1"/>
+        <af:table var="row" rowBandingInterval="0" id="t1" binding="#{bPlanificarEva.tbHorario}"
+                  value="#{sessionScope.sessionPlanificarEva.listaHorarios}">
+            <af:column sortable="false" headerText="Docente" id="c4">
+                <af:outputText value="#{row.profesor.apellidos} #{row.profesor.nombres}" id="ot1"/>
             </af:column>
-            <af:column sortable="false" headerText="col4" id="c3">
-                <af:outputText value="#{row.col4}" id="ot2"/>
+            <af:column sortable="false" headerText="Curso" id="c5">
+                <af:outputText value="#{row.curso.descripcionCurso}" id="ot5"/>
+            </af:column>            
+            <af:column sortable="false" headerText="Grado" id="c3">
+                <af:outputText value="#{row.aula.gradoNivel.grado.descripcionGrado}" id="ot7"/>
             </af:column>
-            <af:column sortable="false" headerText="col5" id="c4">
-                <af:outputText value="#{row.col5}" id="ot3"/>
+            <af:column sortable="false" headerText="Nivel" id="c2">
+                <af:outputText value="#{row.aula.gradoNivel.nivel.descripcionNivel}" id="ot8"/>
             </af:column>
+            <af:column sortable="false" headerText="Aula" id="c8">
+                <af:outputText value="#{row.aula.descripcionAula}" id="ot2"/>
+            </af:column>
+            <af:column sortable="false" headerText="Sede" id="c6">
+                <af:outputText value="#{row.aula.sede.descripcionSede}" id="ot6"/>
+            </af:column>
+            <af:column sortable="false" headerText="Hora De Clase" id="c7">
+                <af:outputText value="#{row.horaInicio.hours}:#{row.horaInicio.minutes}:#{row.horaInicio.seconds} - #{row.horaFin.hours}:#{row.horaFin.minutes}:#{row.horaFin.seconds}"
+                               id="ot3"/>
+            </af:column>           
         </af:table>
     </af:popup>
 </ui:composition>
