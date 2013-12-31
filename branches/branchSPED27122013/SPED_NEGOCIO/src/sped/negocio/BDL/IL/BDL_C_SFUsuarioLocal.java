@@ -12,4 +12,5 @@ import sped.negocio.entidades.admin.Usuario;
 public interface BDL_C_SFUsuarioLocal {
     List<Usuario> getUsuarioFindAll();
     Map autenticarUsuarioBDL(String user, String clave);
+    List<Usuario> getEvaluadores();
 }

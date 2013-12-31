@@ -1,13 +1,16 @@
 package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
-
+/** Clase BeanAreaAcademica.java
+ * @author czavalacas 
+ * @since 29.12.2013
+ */
 public class BeanAreaAcademica implements Serializable {
     @SuppressWarnings("compatibility:8537437121961504324")
     private static final long serialVersionUID = 1L;
     
     private String descripcionAreaAcademica;
-    private int nidAreaAcademica;
+    private Integer nidAreaAcademica;
 
     public void setDescripcionAreaAcademica(String descripcionAreaAcademica) {
         this.descripcionAreaAcademica = descripcionAreaAcademica;
@@ -17,11 +20,12 @@ public class BeanAreaAcademica implements Serializable {
         return descripcionAreaAcademica;
     }
 
-    public void setNidAreaAcademica(int nidAreaAcademica) {
+
+    public void setNidAreaAcademica(Integer nidAreaAcademica) {
         this.nidAreaAcademica = nidAreaAcademica;
     }
 
-    public int getNidAreaAcademica() {
+    public Integer getNidAreaAcademica() {
         return nidAreaAcademica;
     }
 }
