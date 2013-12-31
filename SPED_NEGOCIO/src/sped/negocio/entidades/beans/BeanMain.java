@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import sped.negocio.entidades.admin.Aula;
+import sped.negocio.entidades.admin.Curso;
+import sped.negocio.entidades.admin.Profesor;
 
 public class BeanMain implements Serializable {
     @SuppressWarnings("compatibility:-8366719624247402844")
@@ -18,8 +20,24 @@ public class BeanMain implements Serializable {
     private int nidMain;
     private List<BeanEvaluacion> evaluacionLista;
     private BeanAula aula;
-    private BeanCurso curso;
-    private BeanProfesor profesor;
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
+    public Profesor getProfesor() {
+        return profesor;
+    }
+    private Curso curso;
+    private Profesor profesor;
 
     public void setDia(String dia) {
         this.dia = dia;
@@ -77,19 +95,5 @@ public class BeanMain implements Serializable {
         return aula;
     }
 
-    public void setCurso(BeanCurso curso) {
-        this.curso = curso;
-    }
 
-    public BeanCurso getCurso() {
-        return curso;
-    }
-
-    public void setProfesor(BeanProfesor profesor) {
-        this.profesor = profesor;
-    }
-
-    public BeanProfesor getProfesor() {
-        return profesor;
-    }
 }
