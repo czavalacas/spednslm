@@ -22,7 +22,10 @@ import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.beans.BeanMain;
 
 import utils.system;
-
+/** Clase SFBDL SFMainBean.java
+ * @author czavalacas 
+ * @since 29.12.2013
+ */
 @Stateless(name = "BDL_C_SFMain", mappedName = "map-BDL_C_SFMain")
 public class BDL_C_SFMainBean implements BDL_C_SFMainRemote, BDL_C_SFMainLocal {
     @Resource
