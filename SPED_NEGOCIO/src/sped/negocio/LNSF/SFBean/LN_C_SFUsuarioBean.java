@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,12 +26,11 @@ import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanError;
-import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "LN_C_SFUsuario", mappedName = "mapLN_C_SFUsuario")
 public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote, 
-                                              LN_C_SFUsuarioLocal {
+                                           LN_C_SFUsuarioLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -82,4 +82,23 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
           System.out.println("TAMAÑO DEL BEAN: "+listaBean.size() );
         return listaBean;
       }
+
+    @Override
+    public List<BeanUsuario> getUsuarioByEstadoLN(String estado) {
+        List<BeanUsuario> lstUsuario = new ArrayList<BeanUsuario>();
+        try{
+            List<Usuario> lstBDL = bdL_C_SFUsuarioLocal.getUsuarioByEstadoBDL(estado);
+            for(int i = 0; i < lstBDL.size(); i++){
+                BeanUsuario beanUsuario = new BeanUsuario();
+                beanUsuario = (BeanUsuario) mapper.map(lstBDL.get(i), BeanUsuario.class);
+                String[] separarNombres = beanUsuario.getNombres().split("%");
+                beanUsuario.setNombre(separarNombres[0]);
+                beanUsuario.setApellidos(separarNombres[1]);
+                lstUsuario.add(beanUsuario);
+            }
+            return lstUsuario;
+        }catch(RuntimeException re){
+            throw re;
+        }
+    }
 }
