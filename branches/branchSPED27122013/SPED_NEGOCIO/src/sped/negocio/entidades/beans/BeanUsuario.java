@@ -10,6 +10,8 @@ public class BeanUsuario implements java.io.Serializable{
     private byte[] foto;
     private Integer nidUsuario;
     private String nombres;
+    private String nombre;
+    private String apellidos;
     private String usuario;
     private BeanRol rol;
     private BeanSedeNivel sedeNivel;
@@ -67,6 +69,22 @@ public class BeanUsuario implements java.io.Serializable{
 
     public String getNombres() {
         return nombres;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getApellidos() {
+        return apellidos;
     }
 
     public void setUsuario(String usuario) {

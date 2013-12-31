@@ -13,4 +13,6 @@ public interface BDL_C_SFUsuarioRemote {
     List<Usuario> getUsuarioFindAll();
     Map autenticarUsuarioBDL(String user, String clave);
     List<Usuario> getEvaluadores();
+    List<Usuario> getUsuarioByEstadoBDL(String estado);
+    Usuario findConstrainById(int id);
 }

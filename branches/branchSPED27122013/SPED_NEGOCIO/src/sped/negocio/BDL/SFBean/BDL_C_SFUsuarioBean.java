@@ -24,7 +24,7 @@ import sped.negocio.entidades.admin.Usuario;
 
 @Stateless(name = "BDL_C_SFUsuario", mappedName = "mapBDL_C_SFUsuario")
 public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote, 
-                                               BDL_C_SFUsuarioLocal {
+                                            BDL_C_SFUsuarioLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -73,6 +73,26 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         }catch(Exception e){
             e.printStackTrace();  
             return null;
+        }
+    }
+    
+    public List<Usuario> getUsuarioByEstadoBDL(String estado) {
+        List<Usuario> lstUsuario = null;
+        try {
+            String strQuery = "SELECT u " + "FROM Usuario u " + "WHERE u.estadoUsuario = :estado ";
+            lstUsuario = em.createQuery(strQuery).setParameter("estado", estado).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lstUsuario;
+    }
+    
+    public Usuario findConstrainById(int id){
+        try{
+            Usuario instance = em.find(Usuario.class, id);
+            return instance;
+        }catch(RuntimeException re){
+            throw re;
         }
     }
 }
