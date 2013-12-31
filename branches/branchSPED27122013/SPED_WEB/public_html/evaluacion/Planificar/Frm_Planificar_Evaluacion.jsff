@@ -1,6 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+    <af:panelFormLayout id="pfl2">
+        <af:selectOneChoice label="Evaluador" id="choiceEvaluador"
+                            unselectedLabel="::Seleccionar Evaluador::" autoSubmit="true"
+                            binding="#{bPlanificarEva.choiceEvaluadores}"
+                            value="#{sessionScope.sessionPlanificarEva.nidAreaAcademica}"
+                            valueChangeListener="#{bPlanificarEva.getValoresChoice}">
+        <f:selectItems id="si1" value="#{requestScope.bPlanificarEva.evaluadores}"/>
+       </af:selectOneChoice>
+    </af:panelFormLayout>
     <af:panelFormLayout id="pfl1">
         <af:panelStretchLayout id="psl1">
             <f:facet name="bottom">
@@ -24,7 +33,7 @@
     </af:panelFormLayout>
     <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}">
         <af:selectOneChoice label="Label 1" id="soc1">
-            <f:selectItems value="" id="si1"/>
+            <f:selectItems value="" id="si3"/>
         </af:selectOneChoice>
         <af:selectOneChoice label="Label 2" id="soc2">
             <f:selectItems value="" id="si2"/>

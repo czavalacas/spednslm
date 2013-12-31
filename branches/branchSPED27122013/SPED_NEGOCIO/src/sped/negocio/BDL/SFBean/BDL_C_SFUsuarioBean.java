@@ -19,6 +19,7 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
+import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Usuario;
 
 @Stateless(name = "BDL_C_SFUsuario", mappedName = "mapBDL_C_SFUsuario")
@@ -60,5 +61,18 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         }
         mapa.put("MSJ",error);
         return mapa;
+    }
+    
+    /**Metodo para traer a los Evaluadores Siendo nidRol=1 el de evaluador**/
+    public List<Usuario> getEvaluadores(){
+        try{
+            String ejbQl = "SELECT ma FROM Usuario ma" +
+                           " WHERE ma.rol.nidRol=1";
+                List<Usuario> lstEval = em.createQuery(ejbQl).getResultList();        
+                return lstEval;       
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
     }
 }

@@ -7,7 +7,10 @@ import java.util.List;
 import sped.negocio.entidades.admin.GradoNivel;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Sede;
-
+/** Clase BeanAula.java
+ * @author czavalacas 
+ * @since 29.12.2013
+ */
 public class BeanAula implements Serializable {
     @SuppressWarnings("compatibility:-3143063337760356247")
     private static final long serialVersionUID = 1L;
