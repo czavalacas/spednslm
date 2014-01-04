@@ -6,6 +6,7 @@ import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionEvent;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
+import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.context.AdfFacesContext;
 
 /** Clase Utils contiene metodos reutilizables
@@ -97,5 +98,13 @@ public class Utils {
         MethodBinding methodBinding = null;
         methodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(action, args);
         return methodBinding;
+    }
+    public static void unselectFilas(RichTable tabla){
+        if(tabla != null){
+            if(tabla.getSelectedRowKeys() != null ){
+                tabla.getSelectedRowKeys().removeAll();
+                addTarget(tabla);
+            }
+        }
     }
 }
