@@ -34,4 +34,13 @@ public class BDL_C_SFRolBean implements BDL_C_SFRolRemote,
     public List<Rol> getRolFindAll() {
         return em.createNamedQuery("Rol.findAll", Rol.class).getResultList();
     }
+    
+    public Rol findConstrainById(int id){
+        try{
+            Rol instance = em.find(Rol.class, id);
+            return instance;
+        }catch(RuntimeException re){
+            throw re;
+        }
+    }
 }

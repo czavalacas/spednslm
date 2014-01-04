@@ -10,5 +10,5 @@ import sped.negocio.entidades.admin.Usuario;
 @Local
 public interface BDL_C_SFAreaAcademicaLocal {
     List<AreaAcademica> getAreaAcademicaFindAll();
-    Usuario findEvaluadorById(int id);
+    AreaAcademica findEvaluadorById(int id);
 }
