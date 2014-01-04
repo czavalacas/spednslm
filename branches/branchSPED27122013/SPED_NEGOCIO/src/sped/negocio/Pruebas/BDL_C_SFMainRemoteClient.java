@@ -20,15 +20,21 @@ public class BDL_C_SFMainRemoteClient {
             final Context context = getInitialContext();
             BDL_C_SFMainRemote bDL_C_SFMainRemote =
                 (BDL_C_SFMainRemote) context.lookup("map-BDL_C_SFMain#sped.negocio.BDL.IR.BDL_C_SFMainRemote");
-            BeanMain beanMain=new BeanMain();
+       /*     BeanMain beanMain=new BeanMain();
             beanMain.setNidMain(1);
             List<Main> lista=bDL_C_SFMainRemote.findHorariosByAttributes(beanMain);
             Iterator it=lista.iterator();
             while(it.hasNext()){
                 Main entida= (Main)it.next();
                 System.out.println(entida.getProfesor().getApellidos()+" "+entida.getCurso().getDescripcionCurso());
+            }*/
+           List <Main> hola=bDL_C_SFMainRemote.getMainFindAll(); 
+          Iterator it=hola.iterator();
+            while(it.hasNext()){
+                Main entida = (Main)it.next();
+                System.out.println("HORA INICIO "+entida.getHoraInicio()+" - HORA FIN "+entida.getHoraFin());
             }
-            
+                        
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());

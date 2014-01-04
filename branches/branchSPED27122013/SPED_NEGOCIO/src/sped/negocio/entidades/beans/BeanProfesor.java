@@ -10,6 +10,7 @@ public class BeanProfesor implements Serializable {
     private String apellidos;
     private String dniProfesor;
     private String nombres;
+    private String nombreCompleto;
     private List<BeanMain> mainLista;
 
     public void setApellidos(String apellidos) {
@@ -42,5 +43,13 @@ public class BeanProfesor implements Serializable {
 
     public List<BeanMain> getMainLista() {
         return mainLista;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
     }
 }

@@ -64,6 +64,10 @@
          <url path="src/sped/negocio/Pruebas/BDL_C_SFUsuarioRemoteClient.java"/>
          <url path="src/sped/negocio/Pruebas/BDL_C_SFMainRemoteClient.java"/>
          <url path="../SPED_APP.jws"/>
+         <url path="src/sped/negocio/Pruebas/LN_C_SFUsuarioRemoteClient.java"/>
+         <url path="src/sped/negocio/Pruebas/BDL_C_SFAreaAcademicaRemoteClient.java"/>
+         <url path="src/sped/negocio/Pruebas/BDL_T_SFEvaluacionRemotoClient.java"/>
+         <url path="src/sped/negocio/Pruebas/BDL_C_SFEvaluacionRemotoClient.java"/>
       </list>
       <url n="weblogicEjbJarNodeURL" path="src/META-INF/weblogic-ejb-jar.xml"/>
    </hash>
