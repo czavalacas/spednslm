@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import sped.negocio.BDL.IL.BDL_C_SFMainLocal;
 import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
 import sped.negocio.entidades.admin.Main;
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanMain;
 
 import utils.system;
@@ -45,16 +46,20 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote, BDL_C_SFMainLocal {
                            " and au.sede.nidSede=sed.nidSede" + 
                            " and au.gradoNivel.nivel.nidNivel=niv.nidNivel" + 
                            " and au.gradoNivel.grado.nidGrado=gra.nidGrado" + 
-                           " and prof.dniProfesor=ma.profesor.dniProfesor" +
-                           " and ma.curso.areaAcademica.nidAreaAcademica=1";
-          /*  if(beanGasto.getFechaGastoMIN() != null && beanGasto.getFechaGastoMAX() != null){
-                ejbQl = ejbQl.concat(" AND m.fechaGasto BETWEEN :min AND :max ");
-            }
-            if(beanGasto.getTipoGasto() != null){
-                if(beanGasto.getTipoGasto().getNidTiga() != 0){
-                    ejbQl = ejbQl.concat(" AND m.tipoGasto.nidTiga = "+beanGasto.getTipoGasto().getNidTiga());
+                           " and prof.dniProfesor=ma.profesor.dniProfesor" ;
+           
+           if(beanMain.getCurso().getAreaAcademica() != null){
+                if(beanMain.getCurso().getAreaAcademica().getNidAreaAcademica() != 0){
+                    ejbQl = ejbQl.concat(" and ma.curso.areaAcademica.nidAreaAcademica= "+beanMain.getCurso().getAreaAcademica().getNidAreaAcademica());
                 }
             }
+            if(beanMain.getDia() != null){               
+                     ejbQl = ejbQl.concat(" and ma.dia= '"+beanMain.getDia()+"'");                
+             }
+            if(beanMain.getProfesor() != null){               
+                     ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor= '"+beanMain.getProfesor().getDniProfesor()+"'");                
+             }
+/*
             if(beanGasto.getModalidadPago() != null){
                 if(beanGasto.getModalidadPago().getNidModalidadPago() != 0){
                 ejbQl = ejbQl.concat(" AND m.modalidadPago.nidModalidadPago ="+beanGasto.getModalidadPago().getNidModalidadPago());
@@ -90,6 +95,34 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote, BDL_C_SFMainLocal {
             }else{*/
              System.out.println("TERMINO EL QUERY");
                 List<Main> lstMain = em.createQuery(ejbQl).getResultList();
+            System.out.println("TAMAÑO DE LA LISTA" +lstMain.size());
+                return lstMain;
+          //  }
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }   
+        }
+        
+        public List<Profesor> findProfesoresPorAreaAcademica(Integer nidAreaAcademica, String dia) {
+        try{
+            String ejbQl = "SELECT distinct prof FROM Main ma, Curso cur , Profesor prof, AreaAcademica ac" +
+                           " WHERE ma.curso.nidCurso=cur.nidCurso " + 
+                           " and cur.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica " +                           
+                           " and prof.dniProfesor=ma.profesor.dniProfesor" ;
+
+           if(nidAreaAcademica != null){
+                if(nidAreaAcademica != 0){
+                    ejbQl = ejbQl.concat(" and ac.nidAreaAcademica="+nidAreaAcademica);
+                }
+            }   
+            
+            if(dia != null){               
+                     ejbQl = ejbQl.concat(" and ma.dia='"+dia+"'");
+             }           
+
+             System.out.println("TERMINO EL QUERY");
+                List<Profesor> lstMain = em.createQuery(ejbQl).getResultList();
             System.out.println("TAMAÑO DE LA LISTA" +lstMain.size());
                 return lstMain;
           //  }

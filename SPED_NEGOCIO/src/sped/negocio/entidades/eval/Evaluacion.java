@@ -9,6 +9,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import javax.persistence.TableGenerator;
 
 import sped.negocio.entidades.admin.Main;
 
@@ -30,10 +34,12 @@ public class Evaluacion implements Serializable {
     private Timestamp endDate;
     @Column(name = "estado_evaluacion")
     private String estadoEvaluacion;
-    @Column(name = "nidDate", nullable = false)
+    @Column(name = "nidDate", nullable = false)    
     private String nidDate;
     @Id
     @Column(name = "nidEvaluacion", nullable = false)
+    @TableGenerator( name = "stmcodi", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evmeval.nidEvaluacion", valueColumnName = "APP_SEQ_VALUE", initialValue = 4, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi" )
     private int nidEvaluacion;
     @Column(name = "nid_evaluador", nullable = false)
     private int nidEvaluador;
