@@ -61,4 +61,19 @@
     <managed-bean-class>sped.vista.beans.evaluacion.planificar.sessionPlanificar</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bGestionarUsuarios</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.administrativo.usuario.bGestionarUsuarios</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionGestionarUsuarios</property-name>
+      <property-class>sped.vista.beans.administrativo.usuario.bSessionGestionarUsuarios</property-class>
+      <value>#{sessionGestionarUsuarios}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionGestionarUsuarios</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.administrativo.usuario.bSessionGestionarUsuarios</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>
