@@ -3,20 +3,22 @@
    <OverallProperties
       id="OverallProperties1"/>
    <View
-      id="View2">
+      id="View3">
       <property
-         name="activityId">Frm_Gestionar_Usuarios</property>
+         name="activityId">Frm_Gestionar_Usuario</property>
       <property
-         name="page">/administrativo/usuario/Frm_Gestionar_Usuarios.jsf</property>
+         name="page">/administrativo/usuario/Frm_Gestionar_Usuario.jsff</property>
       <property
          name="start">true</property>
       <property
-         name="description">&lt;html>&lt;p>&lt;b>Frm_Gestionar_Usuarios&lt;/b> (Default Activity)&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+         name="description">&lt;html>&lt;p>&lt;b>Frm_Gestionar_Usuario&lt;/b> (Default Activity)&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
       <property
          name="exceptionHandler">false</property>
       <property
-         name="y">342.79883</property>
+         name="y">474.79883</property>
       <property
-         name="x">668.02246</property>
+         name="pageFragment">true</property>
+      <property
+         name="x">502.02246</property>
    </View>
 </SDM>
