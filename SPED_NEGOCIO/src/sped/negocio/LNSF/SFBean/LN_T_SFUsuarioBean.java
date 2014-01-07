@@ -57,6 +57,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setDni(dni);
             u.setRol(rol);
             u.setAreaAcademica(area);
+            u.setEstadoUsuario("1");
             u.setUsuario(usuario);
             u.setClave(clave);
             bdL_T_SFUsuarioLocal.persistUsuario(u);

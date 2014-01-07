@@ -19,6 +19,7 @@ public class bSessionGestionarUsuarios implements Serializable {
     private String dni;
     private String usuario;
     private String clave;
+    private boolean renderAreaAcdemica = true;
 
     public bSessionGestionarUsuarios() {
     }
@@ -125,5 +126,13 @@ public class bSessionGestionarUsuarios implements Serializable {
 
     public int getNidUsuario() {
         return nidUsuario;
+    }
+
+    public void setRenderAreaAcdemica(boolean renderAreaAcdemica) {
+        this.renderAreaAcdemica = renderAreaAcdemica;
+    }
+
+    public boolean isRenderAreaAcdemica() {
+        return renderAreaAcdemica;
     }
 }

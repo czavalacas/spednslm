@@ -10,4 +10,5 @@ import sped.negocio.entidades.sist.Rol;
 public interface BDL_C_SFRolRemote {
     List<Rol> getRolFindAll();
     Rol findConstrainById(int id);
+    int getIdbyDescripcion(String descripcion);
 }

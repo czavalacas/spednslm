@@ -12,6 +12,7 @@ import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import javax.naming.Context;
@@ -19,7 +20,9 @@ import javax.naming.InitialContext;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
+import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
+import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
 import oracle.adf.view.rich.event.DialogEvent;
@@ -62,6 +65,7 @@ public class bGestionarUsuarios {
     private UISelectItems si2;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private RichPopup popConfirmar;
+    private RichPanelFormLayout pf2;
 
     public bGestionarUsuarios() {
         try {
@@ -112,13 +116,19 @@ public class bGestionarUsuarios {
         RichTable t = (RichTable) se.getSource();
         BeanUsuario usuario = (BeanUsuario) t.getSelectedRowData();
         sessionGestionarUsuarios.setNidUsuario(usuario.getNidUsuario());
-        sessionGestionarUsuarios.setNombre(usuario.getNombre());
+        sessionGestionarUsuarios.setNombre(usuario.getNombre());      
         sessionGestionarUsuarios.setApellido(usuario.getApellidos());
         sessionGestionarUsuarios.setDni(usuario.getDni());
         sessionGestionarUsuarios.setUsuario(usuario.getUsuario());
         sessionGestionarUsuarios.setClave(usuario.getClave());
         sessionGestionarUsuarios.setNidRol(usuario.getRol().getNidRol());
-        sessionGestionarUsuarios.setNidAreaAcademica(usuario.getAreaAcademica().getNidAreaAcademica());
+        if(usuario.getAreaAcademica() != null){
+            sessionGestionarUsuarios.setNidAreaAcademica(usuario.getAreaAcademica().getNidAreaAcademica());
+            sessionGestionarUsuarios.setRenderAreaAcdemica(true);
+        }else{
+            sessionGestionarUsuarios.setNidAreaAcademica(0);
+            sessionGestionarUsuarios.setRenderAreaAcdemica(false);
+        }
         Utils.addTargetMany(b2, b3);
     }
 
@@ -133,6 +143,7 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setDni("");
         sessionGestionarUsuarios.setNidRol(0);
         sessionGestionarUsuarios.setNidAreaAcademica(0);
+        sessionGestionarUsuarios.setRenderAreaAcdemica(false);
         sessionGestionarUsuarios.setUsuario("");
         sessionGestionarUsuarios.setClave("");
         Utils.showPopUpMIDDLE(popGestionUsuario);
@@ -194,6 +205,23 @@ public class bGestionarUsuarios {
         b3.setDisabled(true);
         Utils.addTargetMany(b2, b3, t1);
         popGestionUsuario.hide();
+    }
+    
+    public void tipoRolChangeListener(ValueChangeEvent valueChangeEvent) {
+        try{
+            String index = valueChangeEvent.getNewValue().toString();
+            System.out.println("error2"+index);
+            int nidrol = Integer.parseInt(index);
+            if (ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "Evaluador")){
+                sessionGestionarUsuarios.setRenderAreaAcdemica(true);
+            }else{
+                sessionGestionarUsuarios.setNidAreaAcademica(0);
+                sessionGestionarUsuarios.setRenderAreaAcdemica(false);
+            }
+            Utils.addTargetMany(pf2);
+        }catch(Exception e){
+            e.printStackTrace();
+        }        
     }
 
     public void setB1(RichButton b1) {
@@ -314,5 +342,13 @@ public class bGestionarUsuarios {
 
     public RichPopup getPopConfirmar() {
         return popConfirmar;
-    }    
+    }
+
+    public void setPf2(RichPanelFormLayout pf2) {
+        this.pf2 = pf2;
+    }
+
+    public RichPanelFormLayout getPf2() {
+        return pf2;
+    }
 }
