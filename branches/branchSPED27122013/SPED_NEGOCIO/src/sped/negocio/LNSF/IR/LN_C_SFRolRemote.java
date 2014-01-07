@@ -9,4 +9,5 @@ import sped.negocio.entidades.beans.BeanRol;
 @Remote
 public interface LN_C_SFRolRemote {
     List<BeanRol> getRolLN();
+    boolean validaRolbyDescripcion(int nidRol, String descripcion);
 }
