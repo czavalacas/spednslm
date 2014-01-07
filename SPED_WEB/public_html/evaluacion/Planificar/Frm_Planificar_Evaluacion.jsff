@@ -5,11 +5,13 @@
         <af:selectOneChoice label="Evaluador" id="choiceEvaluador" unselectedLabel="::Seleccionar Evaluador::"
                             autoSubmit="true" binding="#{bPlanificarEva.choiceEvaluadores}"
                             value="#{sessionScope.sessionPlanificarEva.nidUsuario}"
-                            valueChangeListener="#{bPlanificarEva.getValoresChoice}">
+                           >
             <f:selectItems id="si1" value="#{requestScope.bPlanificarEva.evaluadores}"
                            binding="#{bPlanificarEva.itemsEvaluadores}"/>
         </af:selectOneChoice>
-    </af:panelFormLayout>
+        <af:commandButton text="Buscar" id="btnBuscar2" 
+                                         />
+    </af:panelFormLayout>  
     <af:panelFormLayout id="pfl1">
         <af:panelStretchLayout id="psl1">
             <f:facet name="bottom">
@@ -34,12 +36,15 @@
     <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}">
         <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.dniProfesor}" label="Docente" id="choiceDocente"
                             unselectedLabel="::Seleccionar Docente::" autoSubmit="true"
-                            valueChangeListener="#{bPlanificarEva.getValoresChoice}"
+                            valueChangeListener="#{bPlanificarEva.getValoresChoicePROF}"
                             binding="#{bPlanificarEva.choiceProfesores}">
             <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaProfesores}" id="si3"/>
         </af:selectOneChoice>
-        <af:selectOneChoice label="Label 2" id="soc2">
-            <f:selectItems value="" id="si2"/>
+       <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidCurso}" label="Cursos" id="choiceCursos"
+                            unselectedLabel="::Seleccionar Cursos::" autoSubmit="true"
+                            valueChangeListener="#{bPlanificarEva.getValoresChoiceCURS}"
+                            binding="#{bPlanificarEva.choiceCursos}">
+            <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaCursos}" id="si4"/>
         </af:selectOneChoice>
         <af:panelGroupLayout id="pgl4">
             <af:panelGridLayout id="pgl3">
@@ -49,7 +54,7 @@
                                           action="#{bPlanificarEva.buscarHorariosFiltro}"/>
                     </af:gridCell>
                     <af:gridCell marginStart="1px" width="auto" id="gc6">
-                        <af:commandButton text="Limpiar" id="btnLimpiar"/>
+                        <af:commandButton text="Limpiar" id="btnLimpiar" action="#{bPlanificarEva.btnLimpiar}"/>
                     </af:gridCell>
                     <af:gridCell marginStart="1px" width="auto" id="gc7">
                         <af:commandButton text="ASIGNAR EVALUACION" id="btnEvaluar"
@@ -90,28 +95,29 @@
         <af:panelFormLayout id="pfl3">
             <af:panelBox text="Fecha y Hora de Evaluacion" id="pb1">
                 <af:inputText label="Fecha " id="inputFecha" autoSubmit="true"
-                              value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"/>
-                <af:inputText label="Hora" autoSubmit="true" id="it11" value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"/>
+                              value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true"/>
+                <af:inputText label="Hora" autoSubmit="true" id="it11" value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
+                              disabled="true"/>
             </af:panelBox>
             <af:panelBox text="Lugar de Evaluacion" id="pb2">
                 <af:inputText label="Sede" autoSubmit="true" id="it6"
-                              value="#{sessionScope.sessionPlanificarEva.sedeEvaluacion}"/>
+                              value="#{sessionScope.sessionPlanificarEva.sedeEvaluacion}" disabled="true"/>
                 <af:inputText label="Aula" autoSubmit="true" id="it5"
-                              value="#{sessionScope.sessionPlanificarEva.aulaEvaluacion}"/>
+                              value="#{sessionScope.sessionPlanificarEva.aulaEvaluacion}" disabled="true"/>
             </af:panelBox>
             <af:panelBox text="Curso a Evaluar" id="pb3">
                 <af:inputText label="Curso" autoSubmit="true" id="it8"
-                              value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}"/>
+                              value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}" disabled="true"/>
                 <af:inputText label="Grado" autoSubmit="true" id="it9"
-                              value="#{sessionScope.sessionPlanificarEva.gradoEvaluacion}"/>
+                              value="#{sessionScope.sessionPlanificarEva.gradoEvaluacion}" disabled="true"/>
                 <af:inputText label="Nivel" autoSubmit="true" id="it10"
-                              value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}"/>
+                              value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}" disabled="true"/>
             </af:panelBox>
             <af:panelBox text="Docente a Evaluar" id="pb4">
             <af:inputText label="Docente" autoSubmit="true" id="it12"
-                          value="#{sessionScope.sessionPlanificarEva.docenteEvaluacion}"/>
+                          value="#{sessionScope.sessionPlanificarEva.docenteEvaluacion}" disabled="true"/>
             <af:inputText label="DNI" autoSubmit="true" id="it32"
-                          value="#{sessionScope.sessionPlanificarEva.dniDocenteEvaluacion}"/>
+                          value="#{sessionScope.sessionPlanificarEva.dniDocenteEvaluacion}" disabled="true"/>
             </af:panelBox>
         </af:panelFormLayout>
     </af:popup>

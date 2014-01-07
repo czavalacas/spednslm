@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.naming.CommunicationException;
@@ -23,9 +24,20 @@ public class BDL_C_SFEvaluacionRemotoClient {
             final Context context = getInitialContext();
             BDL_C_SFEvaluacionRemoto bDL_C_SFEvaluacionRemoto =
                 (BDL_C_SFEvaluacionRemoto) context.lookup("map-BDL_C_SFEvaluacion#sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto");
-        Evaluacion eva=bDL_C_SFEvaluacionRemoto.getEvaluacionById("4316-BBHG-GJGC-QWSP-9224");
+       /* Evaluacion eva=bDL_C_SFEvaluacionRemoto.getEvaluacionById("4316-BBHG-GJGC-QWSP-9224");
+            System.out.println(" ENTIDA"+eva.getNidEvaluacion()+" - "+eva.getStartDate()+" - "+eva.getEndDate());*/
             
-            System.out.println(" ENTIDA"+eva.getNidEvaluacion()+" - "+eva.getStartDate()+" - "+eva.getEndDate());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+            Date fechaActual = new Date();           
+            String fechaConFormato = sdf.format(fechaActual);        
+            List<Evaluacion> listEva=bDL_C_SFEvaluacionRemoto.getEvaluaciones(fechaConFormato);
+            Iterator it= listEva.iterator();
+            while(it.hasNext()){
+                Evaluacion entida=(Evaluacion)it.next();
+                System.out.println(entida.getMain().getNidMain());  
+            }
+             System.out.println();
+       
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());

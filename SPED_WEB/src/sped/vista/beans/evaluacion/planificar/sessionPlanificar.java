@@ -17,12 +17,14 @@ public class sessionPlanificar {
     private BeanMain beanHorario;
     private int nidAula;   
     private BeanUsuario beanUsuario;
-    private int nidUsuario;
+    private Integer nidUsuario;
     private int nidAreaAcademica;
     private int nidEvaluador;
+    private Integer nidCurso;
     private Integer dniProfesor;
     private List listaProfesores;
     private List listaEvaluadores;
+    private List listaCursos;
     private String diaDeLaSemana;
     private Date fechaInicioSeleccionada;   
     private Date fechaInicioEvaluacion;
@@ -119,11 +121,11 @@ public class sessionPlanificar {
         return diaDeLaSemana;
     }
 
-    public void setNidUsuario(int nidUsuario) {
+    public void setNidUsuario(Integer nidUsuario) {
         this.nidUsuario = nidUsuario;
     }
 
-    public int getNidUsuario() {
+    public Integer getNidUsuario() {
         return nidUsuario;
     }
 
@@ -222,5 +224,21 @@ public class sessionPlanificar {
 
     public String getDniDocenteEvaluacion() {
         return dniDocenteEvaluacion;
+    }
+
+    public void setListaCursos(List listaCursos) {
+        this.listaCursos = listaCursos;
+    }
+
+    public List getListaCursos() {
+        return listaCursos;
+    }
+
+    public void setNidCurso(Integer nidCurso) {
+        this.nidCurso = nidCurso;
+    }
+
+    public Integer getNidCurso() {
+        return nidCurso;
     }
 }

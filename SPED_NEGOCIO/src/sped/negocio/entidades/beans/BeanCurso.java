@@ -12,7 +12,7 @@ public class BeanCurso implements Serializable {
     @SuppressWarnings("compatibility:2272983401047662390")
     private static final long serialVersionUID = 1L;
     private String descripcionCurso;
-    private int nidCurso;
+    private Integer nidCurso;
     private List<BeanMain> mainLista;
     private BeanAreaAcademica areaAcademica;
 
@@ -24,11 +24,12 @@ public class BeanCurso implements Serializable {
         return descripcionCurso;
     }
 
-    public void setNidCurso(int nidCurso) {
+
+    public void setNidCurso(Integer nidCurso) {
         this.nidCurso = nidCurso;
     }
 
-    public int getNidCurso() {
+    public Integer getNidCurso() {
         return nidCurso;
     }
 
