@@ -28,7 +28,8 @@ import sped.negocio.entidades.beans.BeanMain;
  * @since 29.12.2013
  */
 @Stateless(name = "LN_C_SFMain", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFMain")
-public class LN_C_SFMainBean implements LN_C_SFMainRemote, LN_C_SFMainLocal {
+public class LN_C_SFMainBean implements LN_C_SFMainRemote, 
+                                        LN_C_SFMainLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -40,7 +41,7 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote, LN_C_SFMainLocal {
     }
     
     public List<BeanMain> llenarHorario(BeanMain beanMain){
-        System.out.println("Entro a llenarhorario");
+  //      System.out.println("Entro a llenarhorario");
         List<Main>listaMain=bdl_C_SFMainLocal.findHorariosByAttributes(beanMain);        
         List<BeanMain> listaBean=new ArrayList<BeanMain>();
         MapperIF mapper = new DozerBeanMapper();
