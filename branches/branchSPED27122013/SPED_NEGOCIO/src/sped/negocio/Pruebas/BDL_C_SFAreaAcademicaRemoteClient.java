@@ -22,11 +22,11 @@ public class BDL_C_SFAreaAcademicaRemoteClient {
             final Context context = getInitialContext();
             BDL_C_SFAreaAcademicaRemote bDL_C_SFAreaAcademicaRemote =
                 (BDL_C_SFAreaAcademicaRemote) context.lookup("SPED_APP-SPED_NEGOCIO-BDL_C_SFAreaAcademica#sped.negocio.BDL.IR.BDL_C_SFAreaAcademicaRemote");
-          
+          /*
             String [] abecedario = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", 
                                      "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"  };
             String [] numeros= {"0","1","2","3","4","5","6","7","8","9"};         
-            for(int j=0;j<=5;j++){
+          
                 
                 String [] cadena={"","","","","","","","","","","","","","","","","","","",""};            
                 
@@ -41,8 +41,19 @@ public class BDL_C_SFAreaAcademicaRemoteClient {
                                    cadena[12]+cadena[13]+cadena[14]+cadena[15]+"-"+
                                    cadena[16]+cadena[17]+cadena[18]+cadena[19]+"-"+
                                    cadena[4]+cadena[5]+cadena[6]+cadena[7]);
+            */
+            int [] num1 ={1,2,3,4,5,6,7};
+            int [] num2={1,3,6};
+            
+            for(int i=0; i<num1.length; i++){
+                for(int j=0; j<num2.length;j++){                    
+                    System.out.println(num1[i]+" - "+num2[j]);
+                    if(num1[i]==num2[j]){
+                    System.out.println("IGUALDAD");
+                    }
+                }
+               
             }
-          
         /** NN-XXXX-XXXX-XXXX-NN*/
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
