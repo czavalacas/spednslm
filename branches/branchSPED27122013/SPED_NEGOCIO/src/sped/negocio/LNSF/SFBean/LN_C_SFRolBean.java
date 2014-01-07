@@ -46,4 +46,12 @@ public class LN_C_SFRolBean implements LN_C_SFRolRemote,
         }
         return lstBean;
     }
+    
+    public boolean validaRolbyDescripcion(int nidRol, String descripcion){
+        boolean valida = false;        
+        if(nidRol == bdL_C_SFRolLocal.getIdbyDescripcion(descripcion)){
+            valida = true;
+        }
+        return valida;        
+    }
 }

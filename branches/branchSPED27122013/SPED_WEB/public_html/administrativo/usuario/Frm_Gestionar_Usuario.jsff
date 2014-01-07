@@ -34,36 +34,55 @@
                                    title="#{sessionScope.sessionGestionarUsuarios.titleDialogGestion}">
                             <af:panelFormLayout id="pfl1">
                                         <af:inputText label="Nombres" id="itNombres" maximumLength="100" labelStyle="text-align: left;"
-                                                      value="#{sessionGestionarUsuarios.nombre}" required="true"/>
+                                                      value="#{sessionGestionarUsuarios.nombre}" required="true">
+                                                <f:validator validatorId="LetrasValidator"/>
+                                        </af:inputText>
                                         <af:inputText label="Apellidos" id="itApellidos" maximumLength="149" labelStyle="text-align: left;"
-                                                      value="#{sessionGestionarUsuarios.apellido}" required="true"/>
-                                        <af:inputText label="DNI" id="itDni" labelStyle="text-align: left;" maximumLength="8"
-                                                      converter="javax.faces.Integer" required="true"
-                                                      value="#{sessionGestionarUsuarios.dni}"/>
+                                                      value="#{sessionGestionarUsuarios.apellido}" required="true">
+                                                <f:validator validatorId="LetrasValidator"/>
+                                        </af:inputText>
+                                        <af:inputText label="DNI" id="itDni" labelStyle="text-align: left;" required="true"
+                                                      value="#{sessionGestionarUsuarios.dni}" maximumLength="8">
+                                                <af:validateLongRange minimum="8"/>
+                                                <f:validator validatorId="javax.faces.DoubleRange"/>                                                
+                                        </af:inputText>
+                            </af:panelFormLayout>
+                            <af:panelFormLayout id="pfl2" binding="#{bGestionarUsuarios.pf2}">
                                         <af:selectOneChoice label="Tipo Rol" unselectedLabel="::Selecionar Rol::"
-                                                            value="#{sessionGestionarUsuarios.nidRol}"
+                                                            value="#{sessionGestionarUsuarios.nidRol}" required="true"
                                                             id="choiceTipoRol" autoSubmit="true" labelStyle="text-align: left;"
-                                                            binding="#{bGestionarUsuarios.choiceTipoRol}">
+                                                            binding="#{bGestionarUsuarios.choiceTipoRol}"
+                                                            valueChangeListener="#{bGestionarUsuarios.tipoRolChangeListener}">
                                                 <f:selectItems value="#{bGestionarUsuarios.lstRol}"
                                                                id="si1" binding="#{bGestionarUsuarios.si1}"/>
                                         </af:selectOneChoice>
-                                        <af:selectOneChoice label="Area Academica" unselectedLabel="::Selecionar Area Academica::"
-                                                            value="#{sessionGestionarUsuarios.nidAreaAcademica}"
+                                        <af:selectOneChoice label="Area Academica" unselectedLabel="::Selecionar Area::"
+                                                            value="#{sessionGestionarUsuarios.nidAreaAcademica}"                                                            
                                                             id="choiceTipoArea" autoSubmit="true" labelStyle="text-align: left;"
-                                                            binding="#{bGestionarUsuarios.choiceTipoArea}">                                                            
+                                                            binding="#{bGestionarUsuarios.choiceTipoArea}"
+                                                            required="#{sessionGestionarUsuarios.renderAreaAcdemica}"
+                                                            rendered="#{sessionGestionarUsuarios.renderAreaAcdemica}">                                                            
                                                 <f:selectItems value="#{bGestionarUsuarios.lstAreaAcademica}"
                                                                id="si2" binding="#{bGestionarUsuarios.si2}"/>
                                         </af:selectOneChoice>
+                            </af:panelFormLayout>
+                            <af:panelFormLayout id="pfl3">
                                         <af:inputText label="Usuario" id="itUsuario" maximumLength="10" required="true"
                                                       labelStyle="text-align: left;"
-                                                      value="#{sessionGestionarUsuarios.usuario}"/>
+                                                      value="#{sessionGestionarUsuarios.usuario}">
+                                                <f:converter converterId="lowerconverter"/>
+                                        </af:inputText>
                                         <af:inputText label="Clave" id="itClave" secret="true" required="true"
                                                       labelStyle="text-align: left;"
-                                                      value="#{sessionGestionarUsuarios.clave}"/>
+                                                      value="#{sessionGestionarUsuarios.clave}">
+                                                <af:validateLongRange minimum="6" maximum="32"/>
+                                                <f:converter converterId="lowerconverter"/>                                                
+                                        </af:inputText>
                                         <af:button text="#{sessionGestionarUsuarios.nomBtnGestion}" id="b4"
                                                    binding="#{bGestionarUsuarios.b4}"
                                                    actionListener="#{bGestionarUsuarios.btnGestionarUsuario}"/>
-                                </af:panelFormLayout>
+                            </af:panelFormLayout>
+                                
                         </af:dialog>
                 </af:popup>
                 <af:popup childCreation="deferred" autoCancel="disabled" id="p1"

@@ -76,4 +76,8 @@
     <managed-bean-class>sped.vista.beans.administrativo.usuario.bSessionGestionarUsuarios</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <validator>
+    <validator-id>LetrasValidator</validator-id>
+    <validator-class>sped.vista.Utils.Validators.LetrasValidator</validator-class>
+  </validator>
 </faces-config>
