@@ -1,132 +1,159 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
-   <f:view>
-    <af:panelFormLayout id="pfl2">
-        <af:selectOneChoice label="Evaluador" id="choiceEvaluador" unselectedLabel="::Seleccionar Evaluador::"
-                            autoSubmit="true" binding="#{bPlanificarEva.choiceEvaluadores}"
-                            value="#{sessionScope.sessionPlanificarEva.nidUsuario}"
-                            visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}">
-            <f:selectItems id="si1" value="#{bPlanificarEva.evaluadores}"
-                           binding="#{bPlanificarEva.itemsEvaluadores}"/>
-        </af:selectOneChoice>
-        <af:commandButton text="Buscar" id="btnBuscar2" 
-                                         />
-    </af:panelFormLayout>  
-    <af:panelFormLayout id="pfl1">
-        <af:panelStretchLayout id="psl1">
-            <f:facet name="bottom">
-                <af:spacer width="10" height="10" id="s4"/>
-            </f:facet>
-            <f:facet name="center">
-                <af:calendar value="#{bindings.EvmevalView1.calendarModel}" id="c1" binding="#{bPlanificarEva.calendar}"
-                             calendarActivityListener="#{bPlanificarEva.abrirPopupEvaluar}"
-                             calendarListener="#{bPlanificarEva.abrirNuevoEvento}"/>
-            </f:facet>
-            <f:facet name="start">
-                <af:spacer width="10" height="10" id="s3"/>
-            </f:facet>
-            <f:facet name="end">
-                <af:spacer width="10" height="10" id="s2"/>
-            </f:facet>
-            <f:facet name="top">
-                <af:spacer width="10" height="10" id="s1"/>
-            </f:facet>
-        </af:panelStretchLayout>
-    </af:panelFormLayout>
-    <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}">
-       <af:dialog id="d1" 
-               title="Horarios Disponibles" type="ok">
-        <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.dniProfesor}" label="Docente" id="choiceDocente"
-                            unselectedLabel="::Seleccionar Docente::" autoSubmit="true"
-                            valueChangeListener="#{bPlanificarEva.getValoresChoicePROF}"
-                            binding="#{bPlanificarEva.choiceProfesores}">
-            <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaProfesores}" id="si3"/>
-        </af:selectOneChoice>
-       <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidCurso}" label="Cursos" id="choiceCursos"
-                            unselectedLabel="::Seleccionar Cursos::" autoSubmit="true"
-                            valueChangeListener="#{bPlanificarEva.getValoresChoiceCURS}"
-                            binding="#{bPlanificarEva.choiceCursos}">
-            <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaCursos}" id="si4"/>
-        </af:selectOneChoice>
-        <af:panelGroupLayout id="pgl4">
-            <af:panelGridLayout id="pgl3">
-                <af:gridRow marginTop="1px" marginBottom="1px" height="auto" id="gr3">
-                    <af:gridCell marginStart="1px" width="auto" id="gc5">
-                        <af:commandButton text="Buscar" id="btnBuscar" binding="#{bPlanificarEva.btnBuscar}"
-                                          action="#{bPlanificarEva.buscarHorariosFiltro}"/>
-                    </af:gridCell>
-                    <af:gridCell marginStart="1px" width="auto" id="gc6">
-                        <af:commandButton text="Limpiar" id="btnLimpiar" action="#{bPlanificarEva.btnLimpiar}"/>
-                    </af:gridCell>
-                    <af:gridCell marginStart="1px" width="auto" id="gc7">
-                        <af:commandButton text="ASIGNAR EVALUACION" id="btnEvaluar"
-                                          binding="#{bPlanificarEva.btnAsignarEva}"
-                                          action="#{bPlanificarEva.grabarEvaluacion}"/>
-                    </af:gridCell>
-                </af:gridRow>
-            </af:panelGridLayout>
-        </af:panelGroupLayout>
-        <af:table var="row" rowBandingInterval="0" id="t1" binding="#{bPlanificarEva.tbHorario}"
-                  value="#{sessionScope.sessionPlanificarEva.listaHorarios}" rowSelection="single"
-                  selectionListener="#{bPlanificarEva.seleccionarHorario}">
-            <af:column sortable="false" headerText="Docente" id="c4">
-                <af:outputText value="#{row.profesor.apellidos} #{row.profesor.nombres}" id="ot1"/>
-            </af:column>
-            <af:column sortable="false" headerText="Curso" id="c5">
-                <af:outputText value="#{row.curso.descripcionCurso}" id="ot5"/>
-            </af:column>
-            <af:column sortable="false" headerText="Grado" id="c3">
-                <af:outputText value="#{row.aula.gradoNivel.grado.descripcionGrado}" id="ot7"/>
-            </af:column>
-            <af:column sortable="false" headerText="Nivel" id="c2">
-                <af:outputText value="#{row.aula.gradoNivel.nivel.descripcionNivel}" id="ot8"/>
-            </af:column>
-            <af:column sortable="false" headerText="Aula" id="c8">
-                <af:outputText value="#{row.aula.descripcionAula}" id="ot2"/>
-            </af:column>
-            <af:column sortable="false" headerText="Sede" id="c6">
-                <af:outputText value="#{row.aula.sede.descripcionSede}" id="ot6"/>
-            </af:column>
-            <af:column sortable="false" headerText="Hora De Clase" id="c7">
-                <af:outputText value="#{row.horaInicio.hours}:#{row.horaInicio.minutes}:#{row.horaInicio.seconds} - #{row.horaFin.hours}:#{row.horaFin.minutes}:#{row.horaFin.seconds}"
-                               id="ot3"/>
-            </af:column>
-        </af:table>
-        </af:dialog>
-    </af:popup>
-    <af:popup childCreation="deferred" autoCancel="disabled" id="p2" binding="#{bPlanificarEva.popupDetalleEva}">
-        <af:panelFormLayout id="pfl3">
-            <af:panelBox text="Fecha y Hora de Evaluacion" id="pb1">
-                <af:inputText label="Fecha " id="inputFecha" autoSubmit="true"
-                              value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true"/>
-                <af:inputText label="Hora" autoSubmit="true" id="it11" value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
-                              disabled="true">
-                        <af:convertDateTime type="date" pattern="HH:mm:SS"/>
-                        
-                    </af:inputText>
-            </af:panelBox>
-            <af:panelBox text="Lugar de Evaluacion" id="pb2">
-                <af:inputText label="Sede" autoSubmit="true" id="it6"
-                              value="#{sessionScope.sessionPlanificarEva.sedeEvaluacion}" disabled="true"/>
-                <af:inputText label="Aula" autoSubmit="true" id="it5"
-                              value="#{sessionScope.sessionPlanificarEva.aulaEvaluacion}" disabled="true"/>
-            </af:panelBox>
-            <af:panelBox text="Curso a Evaluar" id="pb3">
-                <af:inputText label="Curso" autoSubmit="true" id="it8"
-                              value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}" disabled="true"/>
-                <af:inputText label="Grado" autoSubmit="true" id="it9"
-                              value="#{sessionScope.sessionPlanificarEva.gradoEvaluacion}" disabled="true"/>
-                <af:inputText label="Nivel" autoSubmit="true" id="it10"
-                              value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}" disabled="true"/>
-            </af:panelBox>
-            <af:panelBox text="Docente a Evaluar" id="pb4">
-            <af:inputText label="Docente" autoSubmit="true" id="it12"
-                          value="#{sessionScope.sessionPlanificarEva.docenteEvaluacion}" disabled="true"/>
-            <af:inputText label="DNI" autoSubmit="true" id="it32"
-                          value="#{sessionScope.sessionPlanificarEva.dniDocenteEvaluacion}" disabled="true"/>
-            </af:panelBox>
+    <f:view>
+        <af:panelFormLayout id="pfl2">      
+            <af:button text="SELECCIONAR EVALUADOR" id="b1" action="#{bPlanificarEva.popupEvaluadores}"/>
+            <h:outputText value="#{sessionScope.sessionPlanificarEva.nombreEvaluador} #{sessionScope.sessionPlanificarEva.areaEvaluador}" id="ot4" binding="#{bPlanificarEva.outDatosEva}"/>          
         </af:panelFormLayout>
-    </af:popup>
+        <af:panelFormLayout id="pfl1">
+            <af:panelStretchLayout id="psl1">
+                <f:facet name="bottom">
+                    <af:spacer width="10" height="10" id="s4"/>
+                </f:facet>
+                <f:facet name="center">
+                    <af:calendar value="#{bindings.EvmevalView1.calendarModel}" id="c1"
+                                 binding="#{bPlanificarEva.calendar}"
+                                 calendarActivityListener="#{bPlanificarEva.abrirPopupEvaluar}"
+                                 calendarListener="#{bPlanificarEva.abrirNuevoEvento}"/>
+                </f:facet>
+                <f:facet name="start">
+                    <af:spacer width="10" height="10" id="s3"/>
+                </f:facet>
+                <f:facet name="end">
+                    <af:spacer width="10" height="10" id="s2"/>
+                </f:facet>
+                <f:facet name="top">
+                    <af:spacer width="10" height="10" id="s1"/>
+                </f:facet>
+            </af:panelStretchLayout>
+        </af:panelFormLayout>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}">
+            <af:dialog id="d1" title="Horarios Disponibles" type="ok">
+                <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.dniProfesor}" label="Docente"
+                                    id="choiceDocente" unselectedLabel="::Seleccionar Docente::" autoSubmit="true"
+                                    valueChangeListener="#{bPlanificarEva.getValoresChoicePROF}"
+                                    binding="#{bPlanificarEva.choiceProfesores}">
+                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaProfesores}" id="si3"/>
+                </af:selectOneChoice>
+                <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidCurso}" label="Cursos"
+                                    id="choiceCursos" unselectedLabel="::Seleccionar Cursos::" autoSubmit="true"
+                                    valueChangeListener="#{bPlanificarEva.getValoresChoiceCURS}"
+                                    binding="#{bPlanificarEva.choiceCursos}">
+                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaCursos}" id="si4"/>
+                </af:selectOneChoice>
+                <af:panelGroupLayout id="pgl4">
+                    <af:panelGridLayout id="pgl3">
+                        <af:gridRow marginTop="1px" marginBottom="1px" height="auto" id="gr3">
+                            <af:gridCell marginStart="1px" width="auto" id="gc5">
+                                <af:commandButton text="Buscar" id="btnBuscar" binding="#{bPlanificarEva.btnBuscar}"
+                                                  action="#{bPlanificarEva.buscarHorariosFiltro}"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="1px" width="auto" id="gc6">
+                                <af:commandButton text="Limpiar" id="btnLimpiar" action="#{bPlanificarEva.btnLimpiar}"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="1px" width="auto" id="gc7">
+                                <af:commandButton text="ASIGNAR EVALUACION" id="btnEvaluar"
+                                                  binding="#{bPlanificarEva.btnAsignarEva}"
+                                                  action="#{bPlanificarEva.grabarEvaluacion}"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelGroupLayout>
+                <af:table var="row" rowBandingInterval="0" id="t1" binding="#{bPlanificarEva.tbHorario}"
+                          value="#{sessionScope.sessionPlanificarEva.listaHorarios}" rowSelection="single"
+                          selectionListener="#{bPlanificarEva.seleccionarHorario}">
+                    <af:column sortable="false" headerText="Docente" id="c4">
+                        <af:outputText value="#{row.profesor.apellidos} #{row.profesor.nombres}" id="ot1"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Curso" id="c5">
+                        <af:outputText value="#{row.curso.descripcionCurso}" id="ot5"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Grado" id="c3">
+                        <af:outputText value="#{row.aula.gradoNivel.grado.descripcionGrado}" id="ot7"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Nivel" id="c2">
+                        <af:outputText value="#{row.aula.gradoNivel.nivel.descripcionNivel}" id="ot8"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Aula" id="c8">
+                        <af:outputText value="#{row.aula.descripcionAula}" id="ot2"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Sede" id="c6">
+                        <af:outputText value="#{row.aula.sede.descripcionSede}" id="ot6"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Hora De Clase" id="c7">
+                        <af:outputText value="#{row.horaInicio.hours}:#{row.horaInicio.minutes}:#{row.horaInicio.seconds} - #{row.horaFin.hours}:#{row.horaFin.minutes}:#{row.horaFin.seconds}"
+                                       id="ot3"/>
+                    </af:column>
+                </af:table>
+            </af:dialog>
+        </af:popup>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="p2" binding="#{bPlanificarEva.popupDetalleEva}">
+            <af:panelFormLayout id="pfl3">
+                <af:panelBox text="Fecha y Hora de Evaluacion" id="pb1">
+                    <af:inputText label="Fecha " id="inputFecha" autoSubmit="true"
+                                  value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true"/>
+                    <af:inputText label="Hora" autoSubmit="true" id="it11"
+                                  value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true">
+                        <af:convertDateTime type="date" pattern="HH:mm:SS"/>
+                    </af:inputText>
+                </af:panelBox>
+                <af:panelBox text="Lugar de Evaluacion" id="pb2">
+                    <af:inputText label="Sede" autoSubmit="true" id="it6"
+                                  value="#{sessionScope.sessionPlanificarEva.sedeEvaluacion}" disabled="true"/>
+                    <af:inputText label="Aula" autoSubmit="true" id="it5"
+                                  value="#{sessionScope.sessionPlanificarEva.aulaEvaluacion}" disabled="true"/>
+                </af:panelBox>
+                <af:panelBox text="Curso a Evaluar" id="pb3">
+                    <af:inputText label="Curso" autoSubmit="true" id="it8"
+                                  value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}" disabled="true"/>
+                    <af:inputText label="Grado" autoSubmit="true" id="it9"
+                                  value="#{sessionScope.sessionPlanificarEva.gradoEvaluacion}" disabled="true"/>
+                    <af:inputText label="Nivel" autoSubmit="true" id="it10"
+                                  value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}" disabled="true"/>
+                </af:panelBox>
+                <af:panelBox text="Docente a Evaluar" id="pb4">
+                    <af:inputText label="Docente" autoSubmit="true" id="it12"
+                                  value="#{sessionScope.sessionPlanificarEva.docenteEvaluacion}" disabled="true"/>
+                    <af:inputText label="DNI" autoSubmit="true" id="it32"
+                                  value="#{sessionScope.sessionPlanificarEva.dniDocenteEvaluacion}" disabled="true"/>
+                </af:panelBox>
+            </af:panelFormLayout>
+        </af:popup>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="p3" binding="#{bPlanificarEva.popupEvalua}">
+            <af:dialog id="d2" type="ok">
+                <af:selectOneChoice label="Label 1" id="soc1">
+                    <f:selectItems value="" id="si2"/>
+                </af:selectOneChoice>
+                <af:panelGroupLayout id="pgl5">
+                    <af:panelGridLayout id="pgl6">
+                        <af:gridRow marginTop="1px" marginBottom="1px" height="auto" id="gr4">
+                            <af:gridCell marginStart="1px" width="auto" id="gc8">
+                                <af:commandButton text="Buscar" id="btnBuscarEva"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="1px" width="auto" id="gc9">
+                                <af:commandButton text="Limpiar" id="btnLimpiarEva"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="1px" width="auto" id="gc10">
+                                <af:commandButton text="ASIGNAR EVALUACION" id="btnEvaluarEva"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelGroupLayout>
+                <af:table var="row" rowBandingInterval="0" id="t2"
+                          value="#{sessionScope.sessionPlanificarEva.listBeanUsua}" rowSelection="single"
+                          selectionListener="#{bPlanificarEva.seleccionarEvaluador}">
+                    <af:column width="20">
+                        <af:outputText value="#{vs.index + 1}"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Docente" id="c9">
+                        <af:outputText value="#{row.nombres}" id="ot9"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Curso" id="c10">
+                        <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot10"/>
+                    </af:column>
+                </af:table>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>

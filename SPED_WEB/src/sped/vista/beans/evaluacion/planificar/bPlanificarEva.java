@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.EJB;
 
 import javax.faces.component.UISelectItems;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -101,6 +102,8 @@ public class bPlanificarEva {
     private RichPopup popupDetalleEva;
     private RichSelectOneChoice choiceCursos;
     private BeanUsuario beanUsuario=new BeanUsuario();
+    private RichPopup popupEvalua;
+    private HtmlOutputText outDatosEva;
 
 
     public bPlanificarEva() {
@@ -122,6 +125,12 @@ public class bPlanificarEva {
         }else{
             sessionPlanificarEva.setEstadoChoiceEvaluadores(false);        
         }
+    }
+    
+    public String popupEvaluadores(){
+        sessionPlanificarEva.setListBeanUsua(ln_C_SFUsuarioRemote.getEvaluadores());  
+        Utils.showPopUpMIDDLE(popupEvalua);
+        return null;
     }
  
 
@@ -496,5 +505,32 @@ public class bPlanificarEva {
 
     public RichSelectOneChoice getChoiceCursos() {
         return choiceCursos;
-    }   
+    }
+
+    public void setPopupEvalua(RichPopup popupEvalua) {
+        this.popupEvalua = popupEvalua;
+    }
+
+    public RichPopup getPopupEvalua() {
+        return popupEvalua;
+    }
+
+    public void seleccionarEvaluador(SelectionEvent selectionEvent) {
+        RichTable t = (RichTable) selectionEvent.getSource();
+        Object _selectedRowData = t.getSelectedRowData();
+        BeanUsuario usu = (BeanUsuario) _selectedRowData;
+        sessionPlanificarEva.setNidUsuario(usu.getNidUsuario().toString());
+        sessionPlanificarEva.setNombreEvaluador(usu.getNombres());
+        sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());
+        Utils.addTarget(outDatosEva);
+        System.out.println("NID USUARIO EN SESSION "+sessionPlanificarEva.getNidUsuario());
+    }
+
+    public void setOutDatosEva(HtmlOutputText outDatosEva) {
+        this.outDatosEva = outDatosEva;
+    }
+
+    public HtmlOutputText getOutDatosEva() {
+        return outDatosEva;
+    }
 }
