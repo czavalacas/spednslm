@@ -1,0 +1,51 @@
+package sped.negocio.LNSF.SFBean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import javax.ejb.EJB;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateless;
+
+import javax.persistence.EntityManager;
+
+import javax.persistence.PersistenceContext;
+
+import net.sf.dozer.util.mapping.DozerBeanMapper;
+import net.sf.dozer.util.mapping.MapperIF;
+
+import sped.negocio.BDL.IL.BDL_C_SFSedeLocal;
+import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
+import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
+import sped.negocio.entidades.admin.Sede;
+import sped.negocio.entidades.beans.BeanSede;
+
+@Stateless(name = "LN_C_SFSede", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFSede")
+public class LN_C_SFSedeBean implements LN_C_SFSedeRemote, 
+                                        LN_C_SFSedeLocal {
+    @Resource
+    SessionContext sessionContext;
+    @PersistenceContext(unitName = "SPED_NEGOCIO")
+    private EntityManager em;
+    
+    @EJB
+    private BDL_C_SFSedeLocal bdL_C_SFSedeLocal;
+    private MapperIF mapper = new DozerBeanMapper();
+
+    public LN_C_SFSedeBean() {
+    }
+    
+    public List<BeanSede> getSedeLN(){
+        List<BeanSede> lstBean = new ArrayList();
+        List<Sede> lstSede = bdL_C_SFSedeLocal.getSedeFindAll();
+        for(Sede s : lstSede){
+            BeanSede bean =  (BeanSede) mapper.map(s, BeanSede.class);
+            lstBean.add(bean);
+        }
+        return lstBean;
+    }
+    
+    
+}

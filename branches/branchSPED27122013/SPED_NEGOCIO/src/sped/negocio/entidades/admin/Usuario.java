@@ -33,8 +33,8 @@ public class Usuario implements Serializable {
     private byte[] foto;
     @Id
     @Column(name = "nidUsuario", nullable = false)
-    @TableGenerator( name = "stmcodi", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evmadmin.nidUsuario", valueColumnName = "APP_SEQ_VALUE", initialValue = 3, allocationSize = 1 )
-    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi" )
+    @TableGenerator( name = "stmcodi_admusua", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "admusua.nidUsuario", valueColumnName = "APP_SEQ_VALUE", initialValue = 3, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi_admusua" )
     private int nidUsuario;
     @Column(name = "nombres")
     private String nombres;
