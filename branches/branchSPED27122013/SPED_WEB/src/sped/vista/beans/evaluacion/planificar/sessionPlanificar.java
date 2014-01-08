@@ -17,11 +17,11 @@ public class sessionPlanificar {
     private BeanMain beanHorario;
     private int nidAula;   
     private BeanUsuario beanUsuario;
-    private Integer nidUsuario;
+    private String nidUsuario;
     private int nidAreaAcademica;
     private int nidEvaluador;
-    private Integer nidCurso;
-    private Integer dniProfesor;
+    private String nidCurso;
+    private String dniProfesor;
     private List listaProfesores;
     private List listaEvaluadores;
     private List listaCursos;
@@ -39,6 +39,7 @@ public class sessionPlanificar {
     private String nivelEvaluacion;
     private String docenteEvaluacion;
     private String dniDocenteEvaluacion;
+    private boolean estadoChoiceEvaluadores;
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
         this.listaHorarios = listaHorarios;
@@ -97,11 +98,20 @@ public class sessionPlanificar {
         return beanUsuario;
     }
 
-    public void setDniProfesor(Integer dniProfesor) {
+
+    public void setNidCurso(String nidCurso) {
+        this.nidCurso = nidCurso;
+    }
+
+    public String getNidCurso() {
+        return nidCurso;
+    }
+
+    public void setDniProfesor(String dniProfesor) {
         this.dniProfesor = dniProfesor;
     }
 
-    public Integer getDniProfesor() {
+    public String getDniProfesor() {
         return dniProfesor;
     }
 
@@ -121,11 +131,12 @@ public class sessionPlanificar {
         return diaDeLaSemana;
     }
 
-    public void setNidUsuario(Integer nidUsuario) {
+
+    public void setNidUsuario(String nidUsuario) {
         this.nidUsuario = nidUsuario;
     }
 
-    public Integer getNidUsuario() {
+    public String getNidUsuario() {
         return nidUsuario;
     }
 
@@ -234,11 +245,13 @@ public class sessionPlanificar {
         return listaCursos;
     }
 
-    public void setNidCurso(Integer nidCurso) {
-        this.nidCurso = nidCurso;
+
+
+    public void setEstadoChoiceEvaluadores(boolean estadoChoiceEvaluadores) {
+        this.estadoChoiceEvaluadores = estadoChoiceEvaluadores;
     }
 
-    public Integer getNidCurso() {
-        return nidCurso;
+    public boolean isEstadoChoiceEvaluadores() {
+        return estadoChoiceEvaluadores;
     }
 }

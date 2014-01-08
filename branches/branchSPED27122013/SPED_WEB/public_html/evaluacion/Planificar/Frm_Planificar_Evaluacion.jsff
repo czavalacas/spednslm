@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+   <f:view>
     <af:panelFormLayout id="pfl2">
         <af:selectOneChoice label="Evaluador" id="choiceEvaluador" unselectedLabel="::Seleccionar Evaluador::"
                             autoSubmit="true" binding="#{bPlanificarEva.choiceEvaluadores}"
                             value="#{sessionScope.sessionPlanificarEva.nidUsuario}"
-                           >
-            <f:selectItems id="si1" value="#{requestScope.bPlanificarEva.evaluadores}"
+                            visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}">
+            <f:selectItems id="si1" value="#{bPlanificarEva.evaluadores}"
                            binding="#{bPlanificarEva.itemsEvaluadores}"/>
         </af:selectOneChoice>
         <af:commandButton text="Buscar" id="btnBuscar2" 
@@ -34,6 +35,8 @@
         </af:panelStretchLayout>
     </af:panelFormLayout>
     <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}">
+       <af:dialog id="d1" 
+               title="Horarios Disponibles" type="ok">
         <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.dniProfesor}" label="Docente" id="choiceDocente"
                             unselectedLabel="::Seleccionar Docente::" autoSubmit="true"
                             valueChangeListener="#{bPlanificarEva.getValoresChoicePROF}"
@@ -90,6 +93,7 @@
                                id="ot3"/>
             </af:column>
         </af:table>
+        </af:dialog>
     </af:popup>
     <af:popup childCreation="deferred" autoCancel="disabled" id="p2" binding="#{bPlanificarEva.popupDetalleEva}">
         <af:panelFormLayout id="pfl3">
@@ -97,7 +101,10 @@
                 <af:inputText label="Fecha " id="inputFecha" autoSubmit="true"
                               value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true"/>
                 <af:inputText label="Hora" autoSubmit="true" id="it11" value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
-                              disabled="true"/>
+                              disabled="true">
+                        <af:convertDateTime type="date" pattern="HH:mm:SS"/>
+                        
+                    </af:inputText>
             </af:panelBox>
             <af:panelBox text="Lugar de Evaluacion" id="pb2">
                 <af:inputText label="Sede" autoSubmit="true" id="it6"
@@ -121,4 +128,5 @@
             </af:panelBox>
         </af:panelFormLayout>
     </af:popup>
+    </f:view>
 </ui:composition>
