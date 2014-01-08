@@ -38,7 +38,7 @@ public class Evaluacion implements Serializable {
     private String nidDate;
     @Id
     @Column(name = "nidEvaluacion", nullable = false)
-    @TableGenerator( name = "stmcodi", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evmeval.nidEvaluacion", valueColumnName = "APP_SEQ_VALUE", initialValue = 4, allocationSize = 1 )
+    @TableGenerator( name = "stmcodi", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evmeval.nidEvaluacion", valueColumnName = "APP_SEQ_VALUE", initialValue = 50, allocationSize = 1 )
     @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi" )
     private int nidEvaluacion;
     @Column(name = "nid_evaluador", nullable = false)

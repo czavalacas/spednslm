@@ -17,6 +17,9 @@ public class sessionPlanificar {
     private BeanMain beanHorario;
     private int nidAula;   
     private BeanUsuario beanUsuario;
+    private List<BeanUsuario> listBeanUsua;
+    private String nombreEvaluador;
+    private String areaEvaluador;
     private String nidUsuario;
     private int nidAreaAcademica;
     private int nidEvaluador;
@@ -253,5 +256,29 @@ public class sessionPlanificar {
 
     public boolean isEstadoChoiceEvaluadores() {
         return estadoChoiceEvaluadores;
+    }
+
+    public void setListBeanUsua(List<BeanUsuario> listBeanUsua) {
+        this.listBeanUsua = listBeanUsua;
+    }
+
+    public List<BeanUsuario> getListBeanUsua() {
+        return listBeanUsua;
+    }
+
+    public void setNombreEvaluador(String nombreEvaluador) {
+        this.nombreEvaluador = nombreEvaluador;
+    }
+
+    public String getNombreEvaluador() {
+        return nombreEvaluador;
+    }
+
+    public void setAreaEvaluador(String areaEvaluador) {
+        this.areaEvaluador = areaEvaluador;
+    }
+
+    public String getAreaEvaluador() {
+        return areaEvaluador;
     }
 }
