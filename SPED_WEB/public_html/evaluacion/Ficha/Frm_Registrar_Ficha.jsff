@@ -1,19 +1,167 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich" xmlns:f="http://java.sun.com/jsf/core">
-<f:view>
-      <af:outputText value="This is a test" id="ot2">
-                            <f:facet name="context">
-                                <af:contextInfo id="ci1">
-                                    <af:showPopupBehavior align="beforeStart" triggerType="contextInfo" popupId="p1"/>
-                                </af:contextInfo>
-                            </f:facet>
-                        </af:outputText>
-                        <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
-                            <af:outputText value="Context Info in Popup" id="ot4" inlineStyle="font-size:larger;"/>
-                        </af:popup>
-        <af:inputText label="Local" id="it1" value="#{bRegistrarFicha.holaLocal}"/>
-        <af:inputText label="Sesion" id="it2" value="#{sessionRegistrarFicha.hola}"/>
-        <af:button text="button 1" id="b1" actionListener="#{bRegistrarFicha.mandarParams}"
-                   action="#{bRegistrarFicha.mostrarTest}"/>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                  xmlns:af="http://xmlns.oracle.com/adf/faces/rich" 
+                  xmlns:f="http://java.sun.com/jsf/core">
+    <f:view>
+           <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+                <af:panelGroupLayout halign="left">
+                    <af:spacer height="10"/>
+                    <af:outputText value="Registrar Ficha de Evaluacion" id="otTitulo"
+                                styleClass="titulos"/>
+                    <af:spacer height="10"/>
+                </af:panelGroupLayout>
+            <af:panelGroupLayout>
+                <af:button text="Nueva Ficha" id="btnNewFicha" actionListener="#{bRegistrarFicha.nuevaFicha}"
+                           binding="#{bRegistrarFicha.btnNuevaFlota}"/>
+                <af:button text="Editar Ficha" id="btnEditFicha" disabled="true"
+                           binding="#{bRegistrarFicha.btnEditFicha}"/>
+                <af:button id="btnRefresh" icon="#{resource['images:refresh.png']}"
+                           actionListener="#{bRegistrarFicha.refrescarTablaFichas}"/>
+            </af:panelGroupLayout>
+            <af:table value="#{bRegistrarFicha.sessionRegistrarFicha.lstFichas}" var="row" rowBandingInterval="0"
+                      id="tbFichas" rowSelection="single" varStatus="vs" emptyText="No hay fichas de evaluacion"
+                      summary="Tabla de Fichas de evaluacion" binding="#{bRegistrarFicha.tbFichas}"
+                      selectionListener="#{bRegistrarFicha.selectFicha}">
+                <af:column width="18" frozen="true">
+                    <af:outputText value="#{vs.index + 1}"/>
+                </af:column>
+                <af:column sortable="true" headerText="Version" align="start" id="c1" sortProperty="descripcionVersion">
+                    <af:outputText value="#{row.descripcionVersion}" id="ot1"/>
+                </af:column>
+                <af:column sortable="true" headerText="Tipo Ficha" align="start" id="c2" sortProperty="descripcionTipoFicha" width="120">
+                    <af:outputText value="#{row.descripcionTipoFicha}" id="ot2"/>
+                </af:column>
+                <af:column sortable="true" headerText="Tipo Ficha Curso" align="start" id="c3" sortProperty="descripcionTipoFichaCurso">
+                    <af:outputText value="#{row.descripcionTipoFichaCurso}" id="ot3"/>
+                </af:column>
+                <af:column sortable="true" headerText="Estado" align="start" id="c4" sortProperty="descripcionEstadoFicha"
+                           inlineStyle="#{row.estadoFicha == 1 ? 'background-color:Green;' : 'background-color:Red;'} color:White; font-weight:bold;text-align:center;">
+                    <af:outputText value="#{row.descripcionEstadoFicha}" id="ot4"/>
+                </af:column>
+            </af:table>
+            <af:spacer height="10"/>
+            <af:panelBox text="Nueva Ficha" id="pBoxFicha"
+                         visible="#{bRegistrarFicha.sessionRegistrarFicha.visiblePanelBoxPanelBoxFicha}"
+                         binding="#{bRegistrarFicha.panelBoxNewFicha}">
+                <af:panelGridLayout id="pgl1">
+                    <af:gridRow marginTop="3px" height="auto" marginBottom="3px" id="gr1">
+                        <af:gridCell marginStart="1px" width="40%" id="gc1">
+                                 <af:panelFormLayout>
+                                        <af:selectOneChoice label="Tipo Ficha" requiredMessageDetail="Seleccionar un tipo de Ficha"
+                                                            id="socTipFicha" 
+                                                            value="#{bRegistrarFicha.sessionRegistrarFicha.tipoFicha}"
+                                                            labelStyle="text-align: left;">
+                                            <af:selectItem label="Ficha de Evaluador" value="E" id="si1"/>
+                                            <af:selectItem label="Ficha de Sub-Director" value="S" id="si2"/>
+                                        </af:selectOneChoice>
+                                        <af:selectOneChoice label="Tipo Ficha Curso" requiredMessageDetail="Seleccione un tipo de ficha curso"
+                                                            value="#{bRegistrarFicha.sessionRegistrarFicha.tipFichaCurs}" id="socTipFichaCurs"
+                                                            labelStyle="text-align: left;">
+                                            <af:selectItem label="Cursos Principales" value="P" id="si3"/>
+                                            <af:selectItem label="Cursos Otros" value="O" id="si4"/>
+                                        </af:selectOneChoice>
+                                        <af:inputText label="Version" id="itDescVersion" labelStyle="text-align: left;"
+                                                      disabled="true"/>
+                                        <af:inputNumberSlider label="Numero de Valores" id="ins1" minimum="1"/>
+                                    </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="2px" width="60%" marginEnd="1px" id="gc2">
+                            <af:panelGridLayout id="pgl2" dimensionsFrom="parent">
+                                <af:gridRow marginTop="2px" height="auto" marginBottom="2px" id="gr2">
+                                    <af:gridCell marginStart="2px" width="50%" id="gc3" valign="middle">
+                                            <af:outputLabel value="Criterios" id="ol1"/>
+                                            <af:button id="b1"
+                                                        icon="#{resource['images:consultar.png']}"
+                                                       actionListener="#{bRegistrarFicha.abrirPopCriterios}"/>
+                                    </af:gridCell>
+                                    <af:gridCell marginStart="2px" width="50%" marginEnd="2px" id="gc4">
+                                            <af:outputLabel value="Indicadores" id="ol2"/>
+                                            <af:button icon="#{resource['images:consultar.png']}" id="b2"
+                                                       actionListener="#{bRegistrarFicha.abrirPopIndicadores}"/>
+                                    </af:gridCell>
+                                </af:gridRow>
+                                <af:gridRow>
+                                    <af:gridCell>
+                                        <af:treeTable value="#{bRegistrarFicha.permisosTree}" var="row"
+                                                      rowBandingInterval="0" id="tt1" initiallyExpanded="true"
+                                                      binding="#{bRegistrarFicha.treeCriIndi}">
+                                            <f:facet name="nodeStamp">
+                                                <af:column sortable="false" headerText="Node Stamp" id="c9">
+                                                    <af:outputText value="#{row.descripcionCriterio}" id="ot9"/>
+                                                </af:column>
+                                            </f:facet>
+                                        </af:treeTable>
+                                    </af:gridCell>
+                                </af:gridRow>
+                            </af:panelGridLayout>
+                        </af:gridCell>
+                    </af:gridRow>
+                </af:panelGridLayout>
+                    
+            </af:panelBox>
+        </af:panelGroupLayout>
+        
+        <!-- POPUPS -->
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popCrits" binding="#{bRegistrarFicha.popCrits}">
+            <af:dialog id="dialog_popCrits" type="ok" title="Criterios" dialogListener="#{bRegistrarFicha.dialogOkCriterios}">
+                <af:subform defaultCommand="btnBuscarCrits">
+                        <af:panelFormLayout id="pflPopCrits">
+                            <af:inputNumberSpinbox label="Codigo Criterio" id="ins2" labelStyle="text-align: left;"
+                                                      value="#{bRegistrarFicha.sessionRegistrarFicha.nidCriterio}"/>
+                            <af:inputText label="Criterio" id="it1" labelStyle="text-align: left;" autoSubmit="true"
+                                            value="#{bRegistrarFicha.sessionRegistrarFicha.descCriterio}">
+                                <f:ajax event="keyDown" listener="#{bRegistrarFicha.buscarAjaxCriterio}"/>
+                            </af:inputText>
+                        <af:panelGroupLayout id="pgl3">
+                            <af:button text="Buscar" id="btnBuscarCrits" action="#{bRegistrarFicha.buscarCriterios}"/>
+                            <af:button id="btnRefreshCrits" icon="#{resource['images:refresh.png']}"
+                                        action="#{bRegistrarFicha.resetCrits}"/>
+                        </af:panelGroupLayout>
+                    </af:panelFormLayout>
+                </af:subform>
+                    <af:separator/>
+                    <af:table value="#{bRegistrarFicha.sessionRegistrarFicha.lstCriterios}" var="row" rowBandingInterval="0" id="t1"
+                               rowSelection="single" binding="#{bRegistrarFicha.tbCrits}"
+                              selectionListener="#{bRegistrarFicha.selectCriterios}">
+                        <af:column align="center"  width="35">
+                        <af:selectBooleanCheckbox id="sbc1" selected="#{row.selected}"/>
+                    </af:column>
+                        <af:column sortable="true" headerText="Codigo" align="start" id="c5" width="35" sortProperty="nidCriterio">
+                            <af:outputText value="#{row.nidCriterio}" id="ot5"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Criterio" align="start" id="c6" width="200"  sortProperty="descripcionCriterio">
+                            <af:outputText value="#{row.descripcionCriterio}" id="ot6"/>
+                        </af:column>
+                    </af:table>
+            </af:dialog>
+        </af:popup>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popIndis" binding="#{bRegistrarFicha.popIndis}">
+            <af:dialog id="dialog_popIndis" title="Indicadores" type="ok">
+                <af:subform defaultCommand="btnBuscarIndis">
+                    <af:panelFormLayout id="pflPopIndis">
+                        <af:inputNumberSpinbox label="Codigo Indicador" id="insNidIndi" labelStyle="text-align: left;"
+                                               value="#{bRegistrarFicha.sessionRegistrarFicha.nidIndicador}"/>
+                        <af:inputText label="Indicador" id="itDescIndi" labelStyle="text-align: left;"
+                                        value="#{bRegistrarFicha.sessionRegistrarFicha.descIndicador}"/>
+                        <af:panelGroupLayout id="pgl4">
+                            <af:button text="Buscar" id="btnBuscarIndis" action="#{bRegistrarFicha.buscarIndicadores}"/>
+                            <af:button id="btnRefreshIndis" icon="#{resource['images:refresh.png']}"
+                                        action="#{bRegistrarFicha.resetIndis}"/>
+                        </af:panelGroupLayout>
+                    </af:panelFormLayout>
+                </af:subform>
+                    <af:separator/>
+                    <af:table value="#{sessionRegistrarFicha.lstIndicadores}" var="row" rowBandingInterval="0" id="t2"
+                               rowSelection="single" binding="#{bRegistrarFicha.tbIndis}">
+                        <af:column sortable="true" headerText="Codigo" align="end" id="c7" width="35" sortProperty="nidIndicador">
+                            <af:outputText value="#{row.nidIndicador}" id="ot7"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Indicador" align="start" id="c8" width="250" sortProperty="descripcionIndicador">
+                            <af:outputText value="#{row.descripcionIndicador}" id="ot8"/>
+                        </af:column>
+                    </af:table>
+            </af:dialog>
+        </af:popup>
+        <!-- FIN POPUPS -->
     </f:view>
 </ui:composition>
