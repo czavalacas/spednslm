@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFErrorLocal;
 import sped.negocio.BDL.IR.BDL_C_SFErrorRemote;
+import sped.negocio.Utils.Utiles;
 
 @Stateless(name = "BDL_C_SFError", mappedName = "mapBDL_C_SFError")
 public class BDL_C_SFErrorBean implements BDL_C_SFErrorRemote, 
@@ -29,7 +30,7 @@ public class BDL_C_SFErrorBean implements BDL_C_SFErrorRemote,
             stError = (sped.negocio.entidades.sist.Error) em.createQuery(ejbQl).setParameter("ciderror",cidError)
                                 .getSingleResult();
         }catch(NoResultException nre){
-            System.out.println("\n\n\nEl Codigo de Error no existe!!!!!!!!!!!!!!!!!!!! nre. \n\n\n");
+            Utiles.sysout("\n\n\nEl Codigo de Error no existe!!!!!!!!!!!!!!!!!!!! nre. \n\n\n");
             return null;
         }catch(Exception e){
             e.printStackTrace();

@@ -7,3 +7,15 @@ af|inputText.login::content {
     color: rgb(19, 76, 149);
     font-weight: bold;
 }
+
+.titulos{
+    color:Navy; 
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight:bold; 
+    text-decoration: none;
+     border-bottom: 2px solid white;
+    text-align:center;
+    font-size:medium;
+    /*margin:0px 0px 0px 42px;*/
+   /* margin-top: 20px;*/
+}
