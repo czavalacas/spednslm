@@ -6,13 +6,10 @@
   Name="SPED_WEB"
   Version="12.1.2.66.68"
   SeparateXMLFiles="true"
-  PackageName="sped.vista">
+  PackageName="sped.vista"
+  ExportIntfPackage="">
   <DesignTime>
-    <Attr Name="_useAnsiJoinSyntax" Value="true"/>
     <Attr Name="_jprName" Value="../../../SPED_WEB.jpr"/>
-    <Attr Name="_jbo.SQLBuilder" Value="SQL92"/>
-    <Attr Name="_jbo.TypeMapEntries" Value="Java"/>
-    <Attr Name="_NamedConnection" Value="SPED_Remoto"/>
     <Attr Name="_appModuleNames0" Value="sped.vista.Calendario.AppModule"/>
   </DesignTime>
   <Containee

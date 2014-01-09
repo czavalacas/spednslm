@@ -1,13 +1,19 @@
 package sped.vista.Utils;
 
+import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionEvent;
-
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
+import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.context.AdfFacesContext;
+
+import org.apache.myfaces.trinidad.event.SelectionEvent;
 
 /** Clase Utils contiene metodos reutilizables
  * @author dfloresgonz
@@ -39,8 +45,45 @@ public class Utils {
         ctx.addMessage(summary, msg);
     }
     
+    public static Object getRowTable(SelectionEvent se){
+        RichTable t = (RichTable)se.getSource();
+        return t.getSelectedRowData();
+    }
+    
     public static void sysout(Object o){
         System.out.println(o);
+    }
+    
+    public static void unselectFilas(RichTable tabla){
+        if(tabla != null){
+            if(tabla.getSelectedRowKeys() != null ){
+                tabla.getSelectedRowKeys().removeAll();
+                addTarget(tabla);
+            }
+        }
+    }
+    
+    public static String getChoiceLabel(ValueChangeEvent vce){
+        String label = "";
+        try { 
+            RichSelectOneChoice csoc = (RichSelectOneChoice)vce.getComponent();
+            UISelectItems itms = (UISelectItems)csoc.getChildren().get(0);
+            List listaRoles = (List) itms.getValue();
+            if(listaRoles != null){
+                if(listaRoles.size() > 0){
+                    for(int i = 0; i < listaRoles.size(); i++){
+                        SelectItem selItm = (SelectItem) listaRoles.get(i);
+                        if (((String)selItm.getValue()).equals((String)vce.getNewValue())) {
+                            label = selItm.getLabel();
+                            return label;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return label;
     }
     
     public static void addTarget(javax.faces.component.UIComponent componente){
@@ -98,13 +141,5 @@ public class Utils {
         MethodBinding methodBinding = null;
         methodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(action, args);
         return methodBinding;
-    }
-    public static void unselectFilas(RichTable tabla){
-        if(tabla != null){
-            if(tabla.getSelectedRowKeys() != null ){
-                tabla.getSelectedRowKeys().removeAll();
-                addTarget(tabla);
-            }
-        }
     }
 }

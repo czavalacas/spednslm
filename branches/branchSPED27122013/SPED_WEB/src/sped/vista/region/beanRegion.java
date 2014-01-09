@@ -16,11 +16,16 @@ public class beanRegion implements Serializable {
     }
 
     public String getMainCall(){
+        removerSesiones();
         taskFlowId = (String)Utils.getSession("url");
         if(taskFlowId == null){
             taskFlowId = DEFAULT;
         }
         return null;
+    }
+    
+    public void removerSesiones(){
+        Utils.removeSession("sessionRegistrarFicha");
     }
     
     public TaskFlowId getDynamicTaskFlowId() {
