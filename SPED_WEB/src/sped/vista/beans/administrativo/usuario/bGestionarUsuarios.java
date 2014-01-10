@@ -65,7 +65,9 @@ public class bGestionarUsuarios {
     private UISelectItems si2;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private RichPopup popConfirmar;
-    private RichPanelFormLayout pf2;
+    private RichPanelFormLayout pfl1;
+    private RichInputText itNombres;
+    private RichInputText itApellidos;
 
     public bGestionarUsuarios() {
         try {
@@ -138,12 +140,17 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setTipoEvento(1);
         sessionGestionarUsuarios.setTitleDialogGestion("Registrar Usuario");
         sessionGestionarUsuarios.setNomBtnGestion("Registrar");
+        if(itNombres!=null){
+            itNombres.resetValue();
+            
+        }
         sessionGestionarUsuarios.setNombre("");
         sessionGestionarUsuarios.setApellido("");
         sessionGestionarUsuarios.setDni("");
-        sessionGestionarUsuarios.setNidRol(0);
+        sessionGestionarUsuarios.setNidRol(0);        
         sessionGestionarUsuarios.setNidAreaAcademica(0);
         sessionGestionarUsuarios.setRenderAreaAcdemica(false);
+        sessionGestionarUsuarios.setRenderActualizar(true);
         sessionGestionarUsuarios.setUsuario("");
         sessionGestionarUsuarios.setClave("");
         Utils.showPopUpMIDDLE(popGestionUsuario);
@@ -154,6 +161,7 @@ public class bGestionarUsuarios {
         b2.setDisabled(true);
         b3.setDisabled(true);
         sessionGestionarUsuarios.setTipoEvento(2);
+        sessionGestionarUsuarios.setRenderActualizar(false);
         sessionGestionarUsuarios.setTitleDialogGestion("Modificar usuario : "+
                                                        sessionGestionarUsuarios.getNombre());
         sessionGestionarUsuarios.setNomBtnGestion("Actualizar");
@@ -213,12 +221,12 @@ public class bGestionarUsuarios {
             System.out.println("error2"+index);
             int nidrol = Integer.parseInt(index);
             if (ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "Evaluador")){
-                sessionGestionarUsuarios.setRenderAreaAcdemica(true);
+                sessionGestionarUsuarios.setRenderAreaAcdemica(true);                               
             }else{
                 sessionGestionarUsuarios.setNidAreaAcademica(0);
                 sessionGestionarUsuarios.setRenderAreaAcdemica(false);
             }
-            Utils.addTargetMany(pf2);
+            Utils.addTargetMany(pfl1);
         }catch(Exception e){
             e.printStackTrace();
         }        
@@ -344,11 +352,27 @@ public class bGestionarUsuarios {
         return popConfirmar;
     }
 
-    public void setPf2(RichPanelFormLayout pf2) {
-        this.pf2 = pf2;
+    public void setPfl1(RichPanelFormLayout pfl1) {
+        this.pfl1 = pfl1;
     }
 
-    public RichPanelFormLayout getPf2() {
-        return pf2;
+    public RichPanelFormLayout getPfl1() {
+        return pfl1;
+    }
+
+    public void setItNombres(RichInputText itNombres) {
+        this.itNombres = itNombres;
+    }
+
+    public RichInputText getItNombres() {
+        return itNombres;
+    }
+
+    public void setItApellidos(RichInputText itApellidos) {
+        this.itApellidos = itApellidos;
+    }
+
+    public RichInputText getItApellidos() {
+        return itApellidos;
     }
 }
