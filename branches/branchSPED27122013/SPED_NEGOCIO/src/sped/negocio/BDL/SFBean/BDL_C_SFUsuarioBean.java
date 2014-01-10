@@ -95,4 +95,28 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
             throw re;
         }
     }
+    
+    public int countUsuarioByDniBDL(String dni){
+        String ejbQL = "SELECT  count(u) FROM Usuario u " 
+                       + "WHERE u.dni = :dni ";
+        Object object = em.createQuery(ejbQL).setParameter("dni", dni)
+                            .getSingleResult();
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
+        }
+        return cont;
+    }
+    
+    public int countUsuarioByNomUsuarioBDL(String usuario){
+        String ejbQL = "SELECT  count(u) FROM Usuario u " 
+                       + "WHERE u.usuario = :usuario ";
+        Object object = em.createQuery(ejbQL).setParameter("usuario", usuario)
+                            .getSingleResult();
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
+        }
+        return cont;
+    }
 }

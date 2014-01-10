@@ -80,4 +80,16 @@
     <validator-id>LetrasValidator</validator-id>
     <validator-class>sped.vista.Utils.Validators.LetrasValidator</validator-class>
   </validator>
+  <converter>
+    <converter-id>trimConverter</converter-id>
+    <converter-class>sped.vista.Converters.TrimConverter</converter-class>
+  </converter>
+  <validator>
+    <validator-id>DniValidator</validator-id>
+    <validator-class>sped.vista.Utils.Validators.DniValidator</validator-class>
+  </validator>
+  <validator>
+    <validator-id>NomUsuarioValidator</validator-id>
+    <validator-class>sped.vista.Utils.Validators.NomUsuarioValidator</validator-class>
+  </validator>
 </faces-config>
