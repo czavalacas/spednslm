@@ -10,10 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LetrasValidator implements Validator {
-    public LetrasValidator() {
-        super();
-    }
-
     @Override
     public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) throws ValidatorException {
         String entrada = object.toString();

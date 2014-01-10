@@ -15,4 +15,6 @@ public interface BDL_C_SFUsuarioLocal {
     List<Usuario> getEvaluadores();
     List<Usuario> getUsuarioByEstadoBDL(String estado);
     Usuario findConstrainById(int id);
+    int countUsuarioByDniBDL(String dni);
+    int countUsuarioByNomUsuarioBDL(String usuario);
 }
