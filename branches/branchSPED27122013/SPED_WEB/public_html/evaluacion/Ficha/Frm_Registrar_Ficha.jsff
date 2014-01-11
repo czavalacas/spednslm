@@ -53,7 +53,7 @@
                          binding="#{bRegistrarFicha.panelBoxNewFicha}">
                 <af:panelGridLayout id="pgl1">
                     <af:gridRow marginTop="3px" height="auto" marginBottom="3px" id="gr1">
-                        <af:gridCell marginStart="1px" width="40%" id="gc1">
+                        <af:gridCell marginStart="1px" width="30%" id="gc1">
                                  <af:panelFormLayout>
                                         <af:selectOneChoice label="Tipo Ficha" requiredMessageDetail="Seleccionar un tipo de Ficha"
                                                             id="socTipFicha" 
@@ -73,16 +73,16 @@
                                         <af:inputNumberSlider label="Numero de Valores" id="ins1" minimum="1"/>
                                     </af:panelFormLayout>
                         </af:gridCell>
-                        <af:gridCell marginStart="2px" width="60%" marginEnd="1px" id="gc2">
+                        <af:gridCell marginStart="2px" width="70%" marginEnd="1px" id="gc2">
                             <af:panelGridLayout id="pgl2" dimensionsFrom="parent">
                                 <af:gridRow marginTop="2px" height="auto" marginBottom="2px" id="gr2">
-                                    <af:gridCell marginStart="2px" width="50%" id="gc3" valign="middle">
+                                    <af:gridCell marginStart="2px" width="70%" id="gc3" valign="middle">
                                             <af:outputLabel value="Criterios" id="ol1"/>
                                             <af:button id="b1"
                                                         icon="#{resource['images:consultar.png']}"
                                                        actionListener="#{bRegistrarFicha.abrirPopCriterios}"/>
                                     </af:gridCell>
-                                    <af:gridCell marginStart="2px" width="50%" marginEnd="2px" id="gc4">
+                                    <af:gridCell marginStart="2px" width="30%" marginEnd="2px" id="gc4">
                                             <af:outputLabel value="Indicadores" id="ol2"/>
                                             <af:button icon="#{resource['images:consultar.png']}" id="b2"
                                                        actionListener="#{bRegistrarFicha.abrirPopIndicadores}"/>
@@ -96,11 +96,13 @@
                                                       selectionListener="#{bRegistrarFicha.selectTree}">
                                             <f:facet name="nodeStamp">
                                                 <af:column sortable="false" headerText="Descripcion" id="c9"
-                                                           width="200">
+                                                           width="500">
                                                     <af:outputText value="#{row.descripcionCriterio}" id="ot9" shortDesc="#{row.nidCriterio}"/>
                                                 </af:column>
                                             </f:facet>
-                                            
+                                            <af:column width="30">
+                                                <af:button icon="#{resource['images:consultar.png']}" rendered="#{row.mostrarBoton}"/>
+                                            </af:column>
                                         </af:treeTable>
                                     </af:gridCell>
                                 </af:gridRow>
@@ -136,9 +138,9 @@
                     <af:table value="#{bRegistrarFicha.sessionRegistrarFicha.lstCriterios}" var="row" rowBandingInterval="0" id="tbCrits"
                                rowSelection="single" binding="#{bRegistrarFicha.tbCrits}"
                                selectionListener="#{bRegistrarFicha.selectCriterios}">
-                        <af:column align="center"  width="35">
-                        <af:selectBooleanCheckbox id="sbc1" selected="#{row.selected}"/>
-                    </af:column>
+                        <af:column align="center" width="35">
+                            <af:selectBooleanCheckbox id="sbc1" selected="#{row.selected}"/>
+                        </af:column>
                         <af:column sortable="true" headerText="Codigo" align="start" id="c5" width="35" sortProperty="nidCriterio">
                             <af:outputText value="#{row.nidCriterio}" id="ot5"/>
                         </af:column>
@@ -164,8 +166,12 @@
                     </af:panelFormLayout>
                 </af:subform>
                     <af:separator/>
-                    <af:table value="#{sessionRegistrarFicha.lstIndicadores}" var="row" rowBandingInterval="0" id="t2"
-                               rowSelection="single" binding="#{bRegistrarFicha.tbIndis}">
+                    <af:table value="#{sessionRegistrarFicha.lstIndicadores}" var="row" rowBandingInterval="0" id="tbIndis"
+                               rowSelection="single" binding="#{bRegistrarFicha.tbIndis}"
+                               selectionListener="#{bRegistrarFicha.selectIndis}">
+                        <af:column align="center" width="35">
+                            <af:selectBooleanCheckbox id="sbc2" selected="#{row.selected}"/>
+                        </af:column>
                         <af:column sortable="true" headerText="Codigo" align="end" id="c7" width="35" sortProperty="nidIndicador">
                             <af:outputText value="#{row.nidIndicador}" id="ot7"/>
                         </af:column>
@@ -175,7 +181,27 @@
                     </af:table>
             </af:dialog>
         </af:popup>
-       
+        <af:popup childCreation="deferred" id="popIndByCrit"
+                  binding="#{bRegistrarFicha.popIndByCrit}">
+            <af:dialog id="diaIndByCrit"
+                       title="Indicadores del Criterio: #{sessionScope.sessionRegistrarFicha.descCriterioSeleccionado}" type="none">
+                <af:panelGroupLayout id="pgl5">
+                    <af:button text="Nuevo" id="b3" actionListener="#{bRegistrarFicha.abrirPopIndicadores}"/>
+                    <af:button text="Borrar" id="b4"/>
+                </af:panelGroupLayout>
+                <af:separator/>
+                <af:table value="#{sessionScope.sessionRegistrarFicha.lstIndicadoresByCriterio}" var="row"
+                          rowBandingInterval="0" id="tbIndCr" rowSelection="single" varStatus="vs"
+                          binding="#{bRegistrarFicha.tbIndCr}" emptyText="No hay Indicadores asignados">
+                    <af:column sortable="true" headerText="Codigo" align="end" id="c10" width="35" sortProperty="nidIndicador">
+                        <af:outputText value="#{row.nidIndicador}" id="ot10"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Indicador" align="start" id="c11" width="250" sortProperty="descripcionIndicador">
+                        <af:outputText value="#{row.descripcionIndicador}" id="ot11"/>
+                    </af:column>
+                </af:table>
+            </af:dialog>
+        </af:popup>
         <!-- FIN POPUPS -->
     </f:view>
 </ui:composition>
