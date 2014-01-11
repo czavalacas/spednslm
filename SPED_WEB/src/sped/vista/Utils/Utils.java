@@ -142,4 +142,14 @@ public class Utils {
         methodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(action, args);
         return methodBinding;
     }
+    
+    public static boolean validarExtensionImg(String nombreArchivo){
+        String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".") + 1, nombreArchivo.length());
+        if(extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
 }

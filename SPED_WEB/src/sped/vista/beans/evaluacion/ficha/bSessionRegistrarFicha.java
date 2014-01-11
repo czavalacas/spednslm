@@ -32,9 +32,45 @@ public class bSessionRegistrarFicha implements Serializable {
     private List<BeanCriterio> lstCriteriosFin;
     private HashSet<BeanCriterio> lstCriteriosMultiples = new HashSet<BeanCriterio>();
     //private HashSet<BeanTRItem> hashItemsFinal = new HashSet<BeanTRItem>();
+    private List<BeanIndicador> lstIndicadoresByCriterio = new ArrayList<BeanIndicador>();
+    private String descCriterioSeleccionado;
+    private List<BeanIndicador> lstIndisSelected = new ArrayList<BeanIndicador>();
+    private BeanCriterio critSelected;
     
     public bSessionRegistrarFicha() {
 
+    }
+
+    public void setCritSelected(BeanCriterio critSelected) {
+        this.critSelected = critSelected;
+    }
+
+    public BeanCriterio getCritSelected() {
+        return critSelected;
+    }
+
+    public void setLstIndisSelected(List<BeanIndicador> lstIndisSelected) {
+        this.lstIndisSelected = lstIndisSelected;
+    }
+
+    public List<BeanIndicador> getLstIndisSelected() {
+        return lstIndisSelected;
+    }
+
+    public void setDescCriterioSeleccionado(String descCriterioSeleccionado) {
+        this.descCriterioSeleccionado = descCriterioSeleccionado;
+    }
+
+    public String getDescCriterioSeleccionado() {
+        return descCriterioSeleccionado;
+    }
+
+    public void setLstIndicadoresByCriterio(List<BeanIndicador> lstIndicadoresByCriterio) {
+        this.lstIndicadoresByCriterio = lstIndicadoresByCriterio;
+    }
+
+    public List<BeanIndicador> getLstIndicadoresByCriterio() {
+        return lstIndicadoresByCriterio;
     }
 
     public void setLstCriteriosMultiples(HashSet<BeanCriterio> lstCriteriosMultiples) {
