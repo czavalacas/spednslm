@@ -13,6 +13,7 @@ public class BeanCriterio implements Serializable {
     private Integer nidCriterio;
     private List<BeanCriterio> lstIndicadores = new ArrayList<BeanCriterio>();
     private boolean selected = false;
+    private boolean mostrarBoton = false;
 
     @Override
     public int hashCode(){
@@ -35,7 +36,15 @@ public class BeanCriterio implements Serializable {
             return false;
         }
     }
-    
+
+    public void setMostrarBoton(boolean mostrarBoton) {
+        this.mostrarBoton = mostrarBoton;
+    }
+
+    public boolean isMostrarBoton() {
+        return mostrarBoton;
+    }
+
     public void setDescripcionCriterio(String descripcionCriterio) {
         this.descripcionCriterio = descripcionCriterio;
     }

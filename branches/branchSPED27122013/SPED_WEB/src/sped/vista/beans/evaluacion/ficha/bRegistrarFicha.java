@@ -77,6 +77,8 @@ public class bRegistrarFicha {
     private RichTable tbCrits;
     private RichTable tbIndis;
     private RichTreeTable treeCriIndi;
+    private RichTable tbIndCr;
+    private RichPopup popIndByCrit;
 
     public bRegistrarFicha() {
         
@@ -154,25 +156,82 @@ public class bRegistrarFicha {
         BeanCriterio beanCriterio = new BeanCriterio();
         beanCriterio = (BeanCriterio) Utils.getRowTable(se);
         if(beanCriterio != null){
-            Utils.sysout("isselec: "+beanCriterio.isSelected());
             if(beanCriterio.isSelected()){
-                
-                Utils.sysout("list size 1:"+sessionRegistrarFicha.getLstCriteriosMultiples().size());
-                Utils.sysout("contains?:"+sessionRegistrarFicha.getLstCriteriosMultiples().contains(beanCriterio)+" beanCriterio: "+beanCriterio.getNidCriterio()+" isSelected"+beanCriterio.isSelected());
                 Iterator iti = sessionRegistrarFicha.getLstCriteriosMultiples().iterator();
                 while(iti.hasNext()){
                     BeanCriterio bCrit = (BeanCriterio) iti.next();
-                    Utils.sysout("getNidCriterio"+bCrit.getNidCriterio()+" isSelected"+beanCriterio.isSelected());
                 }
                 sessionRegistrarFicha.getLstCriteriosMultiples().remove(beanCriterio);
                 beanCriterio.setSelected(false);
-                Utils.sysout("list size 2:"+sessionRegistrarFicha.getLstCriteriosMultiples().size());
             }else{
                 beanCriterio.setSelected(true);
+                beanCriterio.setMostrarBoton(true);
                 sessionRegistrarFicha.getLstCriteriosMultiples().add(beanCriterio);
             }
             Utils.unselectFilas(tbCrits);
         }
+    }
+    
+    public void selectIndis(SelectionEvent se) {
+        BeanIndicador beanIndicador = (BeanIndicador) Utils.getRowTable(se);
+        if(beanIndicador != null){
+            if(beanIndicador.isSelected()){
+                Iterator iti = sessionRegistrarFicha.getLstIndisSelected().iterator();
+                while(iti.hasNext()){
+                    BeanIndicador bInd = (BeanIndicador) iti.next();
+                }
+                sessionRegistrarFicha.getLstIndisSelected().remove(beanIndicador);
+                beanIndicador.setSelected(false);
+            }else{
+                beanIndicador.setSelected(true);
+                sessionRegistrarFicha.getLstIndisSelected().add(beanIndicador);
+            }
+            BeanCriterio critSelected = sessionRegistrarFicha.getCritSelected();
+            if(critSelected.getLstIndicadores() != null){
+                critSelected.getLstIndicadores().removeAll(critSelected.getLstIndicadores());
+                critSelected.setLstIndicadores(this.lstIndisToCrit(sessionRegistrarFicha.getLstIndisSelected()));
+                sessionRegistrarFicha.setLstIndicadoresByCriterio(sessionRegistrarFicha.getLstIndisSelected());
+            }
+            Utils.unselectFilas(tbIndis);
+            Utils.addTarget(treeCriIndi);
+            if(tbIndCr != null){
+                Utils.unselectFilas(tbIndCr);
+            }
+        }
+    }
+    
+    public List<BeanCriterio> lstIndisToCrit(List<BeanIndicador> lstIndis){
+        List<BeanCriterio> lstCrits = new ArrayList<BeanCriterio>();
+        if(lstIndis != null){
+            Iterator it = lstIndis.iterator();
+            BeanIndicador indi = new BeanIndicador();
+            while(it.hasNext()){
+                BeanCriterio crit = new BeanCriterio();
+                indi = (BeanIndicador) it.next();
+                crit.setNidCriterio(indi.getNidIndicador());
+                crit.setDescripcionCriterio(indi.getDescripcionIndicador());
+                crit.setSelected(indi.isSelected());
+                lstCrits.add(crit);
+            }
+        }
+        return lstCrits;
+    }
+    
+    public List<BeanIndicador> lstCritToIndi(List<BeanCriterio> lstCrits){
+        List<BeanIndicador> lstIns = new ArrayList<BeanIndicador>();
+        if(lstCrits != null){
+            Iterator it = lstCrits.iterator();
+            BeanCriterio cri = new BeanCriterio();
+            while(it.hasNext()){
+                BeanIndicador ind = new BeanIndicador();
+                cri = (BeanCriterio) it.next();
+                ind.setNidIndicador(cri.getNidCriterio());
+                ind.setDescripcionIndicador(cri.getDescripcionCriterio());
+                ind.setSelected(cri.isSelected());
+                lstIns.add(ind);
+            }
+        }
+        return lstIns;
     }
     
     public void cancelarPopUpCriterios(PopupCanceledEvent popupCanceledEvent) {
@@ -277,16 +336,20 @@ public class bRegistrarFicha {
         RichTreeTable tt = (RichTreeTable) se.getSource();
         TreeModel model = (TreeModel) tt.getValue();
         RowKeySet rks = tt.getSelectedRowKeys();
-        Utils.sysout("tt:"+tt.getRowData(1));
-        Utils.sysout("rkets: "+rks);
         Iterator keys = rks.iterator();
         if (keys.hasNext()) {
-            List key = (List)keys.next();
-            Utils.sysout("key: "+key);
+            List key = (List)keys.next();Utils.sysout("key; "+key+" size: "+key.size());
+            if(key.size() == 2){
+                int llave = Integer.parseInt(key.get(1).toString());
+                List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) model.getWrappedData();
+                BeanCriterio criterio = lstBeanCriterio.get(0).getLstIndicadores().get(llave);
+                sessionRegistrarFicha.setCritSelected(criterio);
+                Utils.showPopUpMIDDLE(popIndByCrit);
+                sessionRegistrarFicha.setDescCriterioSeleccionado(criterio.getDescripcionCriterio());
+                sessionRegistrarFicha.setLstIndicadoresByCriterio(this.lstCritToIndi(criterio.getLstIndicadores()));
+                Utils.sysout("crit"+criterio.getDescripcionCriterio());
+            }
         }
-        //CollectionModel treeModel = (CollectionModel)tt.getRowData();
-        List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) model.getWrappedData();
-        Utils.sysout("lst "+lstBeanCriterio.get(0).getDescripcionCriterio());
     }
     
     public void setTbFichas(RichTable tbFichas) {
@@ -375,5 +438,21 @@ public class bRegistrarFicha {
 
     public RichTreeTable getTreeCriIndi() {
         return treeCriIndi;
+    }
+
+    public void setTbIndCr(RichTable tbIndCr) {
+        this.tbIndCr = tbIndCr;
+    }
+
+    public RichTable getTbIndCr() {
+        return tbIndCr;
+    }
+
+    public void setPopIndByCrit(RichPopup popIndByCrit) {
+        this.popIndByCrit = popIndByCrit;
+    }
+
+    public RichPopup getPopIndByCrit() {
+        return popIndByCrit;
     }
 }
