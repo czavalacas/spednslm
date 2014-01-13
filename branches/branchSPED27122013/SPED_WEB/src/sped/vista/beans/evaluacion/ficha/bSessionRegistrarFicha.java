@@ -16,7 +16,9 @@ import sped.negocio.entidades.beans.BeanIndicador;
  * @since 27.12.2013
  */
 public class bSessionRegistrarFicha implements Serializable {
-    
+    @SuppressWarnings("compatibility:-5173839665784232314")
+    private static final long serialVersionUID = 1L;
+
     private List<BeanFicha> lstFichas;
     private int exec = 0;
     private String tipoFicha;
@@ -35,7 +37,8 @@ public class bSessionRegistrarFicha implements Serializable {
     private List<BeanIndicador> lstIndicadoresByCriterio = new ArrayList<BeanIndicador>();
     private String descCriterioSeleccionado;
     private List<BeanIndicador> lstIndisSelected = new ArrayList<BeanIndicador>();
-    private BeanCriterio critSelected;
+    private BeanCriterio critSelected;   
+
     
     public bSessionRegistrarFicha() {
 
@@ -184,4 +187,5 @@ public class bSessionRegistrarFicha implements Serializable {
     public String getDescIndicador() {
         return descIndicador;
     }
+
 }

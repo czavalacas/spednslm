@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Sede.findAll", query = "select o from Sede o") })
+@NamedQueries({ @NamedQuery(name = "Sede.findAll", query = "select o from Sede o ORDER BY o.descripcionSede ASC") })
 @Table(name = "\"admsede\"")
 public class Sede implements Serializable {
     private static final long serialVersionUID = 4786028708705973709L;

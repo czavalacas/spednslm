@@ -92,4 +92,8 @@
     <validator-id>NomUsuarioValidator</validator-id>
     <validator-class>sped.vista.Utils.Validators.NomUsuarioValidator</validator-class>
   </validator>
+  <validator>
+    <validator-id>ClaveValidator</validator-id>
+    <validator-class>sped.vista.Utils.Validators.ClaveValidator</validator-class>
+  </validator>
 </faces-config>

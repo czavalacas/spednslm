@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.ejb.Remote;
 
 import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.beans.BeanUsuario;
 
 @Remote
 public interface BDL_C_SFUsuarioRemote {
@@ -17,4 +18,5 @@ public interface BDL_C_SFUsuarioRemote {
     Usuario findConstrainById(int id);
     int countUsuarioByDniBDL(String dni);
     int countUsuarioByNomUsuarioBDL(String usuario);
+    List<Usuario> getUsuariobyByAttrBDL(BeanUsuario beanUsuario);
 }

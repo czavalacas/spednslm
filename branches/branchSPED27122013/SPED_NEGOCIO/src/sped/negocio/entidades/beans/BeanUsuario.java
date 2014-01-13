@@ -10,14 +10,17 @@ public class BeanUsuario implements java.io.Serializable{
     private byte[] foto;
     private Integer nidUsuario;
     private String nombres;
-    private String nombre;
-    private String apellidos;
     private String usuario;
     private BeanRol rol;
-    private BeanSedeNivel sedeNivel;
+    private int nidRol;
+    private BeanSedeNivel sedeNivel;   
+    private int nidSede;
+    private int nidNivel;
     private BeanAreaAcademica areaAcademica;
+    private int nidAreaAcademica;
     private BeanError error;
     private String areaAcYProf;
+    private String descripcionEstadoUsuario;//Auxiliares tabla:admcons
     
 
     public BeanUsuario(){}
@@ -69,24 +72,8 @@ public class BeanUsuario implements java.io.Serializable{
 
     public String getNombres() {
         return nombres;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
+    } 
+    
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
@@ -133,5 +120,45 @@ public class BeanUsuario implements java.io.Serializable{
 
     public String getAreaAcYProf() {
         return areaAcYProf;
+    }
+
+    public void setDescripcionEstadoUsuario(String descripcionEstadoUsuario) {
+        this.descripcionEstadoUsuario = descripcionEstadoUsuario;
+    }
+
+    public String getDescripcionEstadoUsuario() {
+        return descripcionEstadoUsuario;
+    }
+
+    public void setNidRol(int nidRol) {
+        this.nidRol = nidRol;
+    }
+
+    public int getNidRol() {
+        return nidRol;
+    }
+
+    public void setNidAreaAcademica(int nidAreaAcademica) {
+        this.nidAreaAcademica = nidAreaAcademica;
+    }
+
+    public int getNidAreaAcademica() {
+        return nidAreaAcademica;
+    }
+
+    public void setNidSede(int nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public int getNidSede() {
+        return nidSede;
+    }
+
+    public void setNidNivel(int nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public int getNidNivel() {
+        return nidNivel;
     }
 }

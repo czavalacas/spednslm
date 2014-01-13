@@ -1,7 +1,7 @@
 package sped.vista.beans.administrativo.usuario;
 
+import javax.faces.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,8 +10,6 @@ import javax.ejb.EJB;
 
 import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
@@ -23,6 +21,7 @@ import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
+import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
 import oracle.adf.view.rich.event.DialogEvent;
@@ -31,29 +30,23 @@ import org.apache.myfaces.trinidad.event.SelectionEvent;
 
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
+import sped.negocio.LNSF.IR.LN_C_SFSedeNivelRemote;
+import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanRol;
+import sped.negocio.entidades.beans.BeanSede;
+import sped.negocio.entidades.beans.BeanSedeNivel;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
 
 public class bGestionarUsuarios {
-    @EJB
-    private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
-    @EJB
-    private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
-    private final static String LOOKUP_USUARIO = "mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote";
-    @EJB
-    private LN_C_SFRolRemote ln_C_SFRolRemote;
-    @EJB
-    private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
     private RichButton b1;
-    private bSessionGestionarUsuarios sessionGestionarUsuarios;
-    private List<BeanUsuario> lstUsuario;
-    private List lstRol;
-    private List lstAreaAcademica;
+    private bSessionGestionarUsuarios sessionGestionarUsuarios;     
     private RichTable t1;
     private RichPopup popGestionUsuario;
     private RichButton b2;
@@ -66,15 +59,43 @@ public class bGestionarUsuarios {
     FacesContext ctx = FacesContext.getCurrentInstance();
     private RichPopup popConfirmar;
     private RichPanelFormLayout pfl1;
-    private RichInputText itNombres;
-    private RichInputText itApellidos;
+    private RichInputText itNombres;    
+    private UISelectItems si3;
+    private RichSelectOneChoice choiceFTipoEstado;
+    private RichSelectOneChoice choiceFTipoRol;
+    private UISelectItems si4;
+    private RichSelectOneChoice choiceFTipoArea;
+    private UISelectItems si5;
+    private RichInputText itDni;
+    private RichInputText itUsuario;
+    private RichInputText itClave;
+    private RichPanelGridLayout pgl2;
+    @EJB
+    private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
+    @EJB
+    private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
+    private final static String LOOKUP_USUARIO = "mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote";
+    @EJB
+    private LN_C_SFRolRemote ln_C_SFRolRemote;
+    @EJB
+    private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
+    @EJB
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
+    @EJB
+    private LN_C_SFSedeRemote ln_C_SFSedeRemote;
+    @EJB
+    private LN_C_SFSedeNivelRemote ln_C_SFSedeNivelRemote;
+    private RichPanelFormLayout pfl3;
+    private RichSelectOneChoice choiceFTipoSede;
+    private UISelectItems si6;
+    private RichSelectOneChoice choiceFTipoNivel;
+    private UISelectItems si7;
 
     public bGestionarUsuarios() {
         try {
             final Context ctx;
             ctx = new InitialContext();
             ln_C_SFUsuarioRemote = (LN_C_SFUsuarioRemote) ctx.lookup(LOOKUP_USUARIO);
-            this.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,12 +105,13 @@ public class bGestionarUsuarios {
     public void methodInvokeOncedOnPageLoad() {
         if (sessionGestionarUsuarios.getExec() == 0) {
             sessionGestionarUsuarios.setExec(1);
-            this.setLstRol(this.llenarComboRol());
-            this.setLstAreaAcademica(this.llenarComboAreaA());
+            sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
+            sessionGestionarUsuarios.setLstRol(this.llenarComboRol());
+            sessionGestionarUsuarios.setLstAreaAcademica(this.llenarComboAreaA());
+            sessionGestionarUsuarios.setLstEstadoUsario(this.llenarComboEstado());
+            sessionGestionarUsuarios.setLstSede(this.llenarComboSede());
         } else {
-            sessionGestionarUsuarios.setExec(1);
-            this.setLstRol(this.llenarComboRol());
-            this.setLstAreaAcademica(this.llenarComboAreaA());
+            
         }
     }
 
@@ -97,7 +119,8 @@ public class bGestionarUsuarios {
         ArrayList unItems = new ArrayList();
         List<BeanRol> beanrol = ln_C_SFRolRemote.getRolLN();
         for (BeanRol r : beanrol) {
-            unItems.add(new SelectItem(r.getNidRol(), r.getDescripcionRol().toString()));
+            unItems.add(new SelectItem(r.getNidRol(), 
+                                       r.getDescripcionRol().toString()));
         }
         return unItems;
     }
@@ -111,15 +134,45 @@ public class bGestionarUsuarios {
         }
         return unItems;
     }
+    
+    private ArrayList llenarComboEstado(){
+        ArrayList unItems = new ArrayList();
+        List<BeanConstraint> lstbean = ln_C_SFUtilsRemote.getListaConstraintsLN("estado_usuario", "admusua");
+        for(BeanConstraint bc : lstbean){
+            int valorCampo = Integer.parseInt(bc.getValorCampo())+1;//(0 y 1)aumento +1 para poder validar el estado usuario(1 y 2)
+            unItems.add(new SelectItem(valorCampo,
+                                       bc.getDescripcionAMostrar()));
+        }
+        return unItems;
+    }
+    
+    private ArrayList llenarComboSede(){
+        ArrayList unItems = new ArrayList();
+        List<BeanSede> lstbean = ln_C_SFSedeRemote.getSedeLN();
+        for(BeanSede b : lstbean){            
+            unItems.add(new SelectItem(b.getNidSede(),
+                                       b.getDescripcionSede().toString()));
+        }
+        return unItems;
+    }
+    
+    private ArrayList llenarComboNivel(int nidSede){
+        ArrayList unItems = new ArrayList();
+        List<BeanSedeNivel> lstSedeNivel = ln_C_SFSedeNivelRemote.getSedeNivelbyNidSedeLN(nidSede);
+        for(BeanSedeNivel sn : lstSedeNivel){            
+            unItems.add(new SelectItem(sn.getNivel().getNidNivel(),
+                                       sn.getNivel().getDescripcionNivel()));
+        }
+        return unItems;
+    }
 
-    public void selecionarUsuario(SelectionEvent se) {
-        b2.setDisabled(false);
+    public void selecionarUsuario(SelectionEvent se) {        
         b3.setDisabled(false);
+        resetValues();
         RichTable t = (RichTable) se.getSource();
-        BeanUsuario usuario = (BeanUsuario) t.getSelectedRowData();
+        BeanUsuario usuario = (BeanUsuario) t.getSelectedRowData();        
         sessionGestionarUsuarios.setNidUsuario(usuario.getNidUsuario());
-        sessionGestionarUsuarios.setNombre(usuario.getNombre());      
-        sessionGestionarUsuarios.setApellido(usuario.getApellidos());
+        sessionGestionarUsuarios.setNombres(usuario.getNombres());
         sessionGestionarUsuarios.setDni(usuario.getDni());
         sessionGestionarUsuarios.setUsuario(usuario.getUsuario());
         sessionGestionarUsuarios.setClave(usuario.getClave());
@@ -131,6 +184,13 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setNidAreaAcademica(0);
             sessionGestionarUsuarios.setRenderAreaAcdemica(false);
         }
+        if(Integer.parseInt(usuario.getEstadoUsuario()) != 0){
+            b3.setText("Anular");
+            b2.setDisabled(false);
+        }else{
+            b3.setText("Activar");
+            b2.setDisabled(true);
+        }
         Utils.addTargetMany(b2, b3);
     }
 
@@ -140,12 +200,7 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setTipoEvento(1);
         sessionGestionarUsuarios.setTitleDialogGestion("Registrar Usuario");
         sessionGestionarUsuarios.setNomBtnGestion("Registrar");
-        if(itNombres!=null){
-            itNombres.resetValue();
-            
-        }
-        sessionGestionarUsuarios.setNombre("");
-        sessionGestionarUsuarios.setApellido("");
+        sessionGestionarUsuarios.setNombres("");
         sessionGestionarUsuarios.setDni("");
         sessionGestionarUsuarios.setNidRol(0);        
         sessionGestionarUsuarios.setNidAreaAcademica(0);
@@ -153,6 +208,7 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setRenderActualizar(true);
         sessionGestionarUsuarios.setUsuario("");
         sessionGestionarUsuarios.setClave("");
+        resetValues();
         Utils.showPopUpMIDDLE(popGestionUsuario);
         Utils.addTargetMany(b2, b3);
     }
@@ -163,7 +219,7 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setTipoEvento(2);
         sessionGestionarUsuarios.setRenderActualizar(false);
         sessionGestionarUsuarios.setTitleDialogGestion("Modificar usuario : "+
-                                                       sessionGestionarUsuarios.getNombre());
+                                                       sessionGestionarUsuarios.getNombres());
         sessionGestionarUsuarios.setNomBtnGestion("Actualizar");
         Utils.unselectFilas(t1);
         Utils.showPopUpMIDDLE(popGestionUsuario);
@@ -173,9 +229,14 @@ public class bGestionarUsuarios {
     public void anularUsuario(ActionEvent actionEvent) {
         b2.setDisabled(true);
         b3.setDisabled(true);
-        sessionGestionarUsuarios.setTipoEvento(3);
-        Utils.showPopUpMIDDLE(popConfirmar);
-        Utils.addTargetMany(b2, b3);
+        if(b3.getText() != "Activar"){
+            sessionGestionarUsuarios.setTipoEvento(3);
+            Utils.showPopUpMIDDLE(popConfirmar);
+            Utils.addTargetMany(b2, b3);
+        }else{
+            sessionGestionarUsuarios.setTipoEvento(4);
+            btnGestionarUsuario_aux();
+        }        
     }
     
     public void confirmaAnular(DialogEvent dialogEvent) {
@@ -191,8 +252,7 @@ public class bGestionarUsuarios {
     
     public void btnGestionarUsuario_aux(){
         ln_T_SFUsuarioRemote.gestionUsuarioLN(sessionGestionarUsuarios.getTipoEvento(), 
-                                              sessionGestionarUsuarios.getNombre(), 
-                                              sessionGestionarUsuarios.getApellido(), 
+                                              sessionGestionarUsuarios.getNombres(),
                                               sessionGestionarUsuarios.getDni(), 
                                               sessionGestionarUsuarios.getNidRol(), 
                                               sessionGestionarUsuarios.getNidAreaAcademica(), 
@@ -204,11 +264,13 @@ public class bGestionarUsuarios {
         case 1 : msj =  "Se registro al usuario "; break;
         case 2 : msj =  "Se modifico al usuario "; break;
         case 3 : msj =  "Se anulo al usuario "; break;
+        case 4 : msj =  "Se activo al usuario "; break;
         } 
         Utils.mostrarMensaje(ctx, 
                              msj+sessionGestionarUsuarios.getUsuario(), 
                              "Operacion Correcta", 
                              3);
+        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
         b2.setDisabled(true);
         b3.setDisabled(true);
         Utils.addTargetMany(b2, b3, t1);
@@ -231,6 +293,93 @@ public class bGestionarUsuarios {
             e.printStackTrace();
         }        
     }
+    
+    public void tipoRolFChangeListener(ValueChangeEvent valueChangeEvent) {
+        try{            
+            if(valueChangeEvent.getNewValue() != null){
+                String index = valueChangeEvent.getNewValue().toString();                
+                int nidrol = Integer.parseInt(index);
+                if (ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "SubDirector")){
+                    sessionGestionarUsuarios.setFbooleanSede(true);                                          
+                }
+                else{
+                    sessionGestionarUsuarios.setFbooleanSede(false);
+                    sessionGestionarUsuarios.setFbooleanNivel(false);
+                    sessionGestionarUsuarios.setFNidNivel(0);
+                    sessionGestionarUsuarios.setFNidSede(0);                        
+                }
+                Utils.addTarget(pfl3);
+            }            
+        }catch(Exception e){
+            e.printStackTrace();
+        }     
+    }
+    
+    public void tipoSedeFChangeListener(ValueChangeEvent valueChangeEvent) {
+        if(valueChangeEvent.getNewValue() != null){
+            String index = valueChangeEvent.getNewValue().toString();                
+            int nidSede = Integer.parseInt(index);
+            sessionGestionarUsuarios.setLstNivel(llenarComboNivel(nidSede));
+            if(sessionGestionarUsuarios.getLstNivel() != null){
+                if(sessionGestionarUsuarios.getLstNivel().size() > 0){
+                    sessionGestionarUsuarios.setFbooleanNivel(true);
+                }
+                else{
+                    sessionGestionarUsuarios.setFNidNivel(0);
+                    sessionGestionarUsuarios.setFbooleanNivel(false);
+                }                
+            }
+            Utils.addTarget(pfl3);
+        }
+    }
+
+    public void buscarUsuarioFiltro(ActionEvent actionEvent) {
+        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuariobyByAttrLN(sessionGestionarUsuarios.getFNombres(), 
+                                                                                         sessionGestionarUsuarios.getFUsuario(),
+                                                                                         sessionGestionarUsuarios.getFDni(),
+                                                                                         sessionGestionarUsuarios.getFNidAreaAcademica(),
+                                                                                         sessionGestionarUsuarios.getFNidRol(),
+                                                                                         sessionGestionarUsuarios.getFNidEstado(),
+                                                                                         sessionGestionarUsuarios.getFNidSede(),
+                                                                                         sessionGestionarUsuarios.getFNidNivel()));        
+        Utils.unselectFilas(t1);
+        b2.setDisabled(true);
+        b3.setDisabled(true);
+        Utils.addTargetMany(b2, b3, t1);
+    }
+    
+    public void refrescarTabla(ActionEvent actionEvent) {
+        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
+        Utils.unselectFilas(t1);
+        b2.setDisabled(true);
+        b3.setDisabled(true);
+        Utils.addTargetMany(b2, b3);
+    }
+    
+    public void refrescarFiltro(ActionEvent actionEvent) {
+        sessionGestionarUsuarios.setFNombres("");
+        sessionGestionarUsuarios.setFUsuario("");
+        sessionGestionarUsuarios.setFDni("");
+        sessionGestionarUsuarios.setFNidRol(0);
+        sessionGestionarUsuarios.setFNidAreaAcademica(0);
+        sessionGestionarUsuarios.setFNidEstado(0);
+        sessionGestionarUsuarios.setFbooleanSede(false);
+        sessionGestionarUsuarios.setFbooleanNivel(false);
+        sessionGestionarUsuarios.setFNidNivel(0);
+        sessionGestionarUsuarios.setFNidSede(0);   
+        Utils.addTarget(pgl2);
+    }
+    
+    public void resetValues(){
+        if(itNombres!=null){
+            itNombres.resetValue();
+            itDni.resetValue();
+            choiceTipoArea.resetValue();
+            choiceTipoRol.resetValue();
+            itUsuario.resetValue();
+            itClave.resetValue();
+        }
+    }
 
     public void setB1(RichButton b1) {
         this.b1 = b1;
@@ -246,14 +395,6 @@ public class bGestionarUsuarios {
 
     public bSessionGestionarUsuarios getSessionGestionarUsuarios() {
         return sessionGestionarUsuarios;
-    }
-
-    public void setLstUsuario(List<BeanUsuario> lstUsuario) {
-        this.lstUsuario = lstUsuario;
-    }
-
-    public List<BeanUsuario> getLstUsuario() {
-        return lstUsuario;
     }
 
     public void setT1(RichTable t1) {
@@ -294,22 +435,6 @@ public class bGestionarUsuarios {
 
     public RichButton getB4() {
         return b4;
-    }
-
-    public void setLstRol(List lstRol) {
-        this.lstRol = lstRol;
-    }
-
-    public List getLstRol() {
-        return lstRol;
-    }
-
-    public void setLstAreaAcademica(List lstAreaAcademica) {
-        this.lstAreaAcademica = lstAreaAcademica;
-    }
-
-    public List getLstAreaAcademica() {
-        return lstAreaAcademica;
     }
 
     public void setChoiceTipoRol(RichSelectOneChoice choiceTipoRol) {
@@ -368,11 +493,123 @@ public class bGestionarUsuarios {
         return itNombres;
     }
 
-    public void setItApellidos(RichInputText itApellidos) {
-        this.itApellidos = itApellidos;
+    public void setSi3(UISelectItems si3) {
+        this.si3 = si3;
     }
 
-    public RichInputText getItApellidos() {
-        return itApellidos;
+    public UISelectItems getSi3() {
+        return si3;
+    }
+
+    public void setChoiceFTipoEstado(RichSelectOneChoice choiceFTipoEstado) {
+        this.choiceFTipoEstado = choiceFTipoEstado;
+    }
+
+    public RichSelectOneChoice getChoiceFTipoEstado() {
+        return choiceFTipoEstado;
+    }
+
+    public void setChoiceFTipoRol(RichSelectOneChoice choiceFTipoRol) {
+        this.choiceFTipoRol = choiceFTipoRol;
+    }
+
+    public RichSelectOneChoice getChoiceFTipoRol() {
+        return choiceFTipoRol;
+    }
+
+    public void setSi4(UISelectItems si4) {
+        this.si4 = si4;
+    }
+
+    public UISelectItems getSi4() {
+        return si4;
+    }
+
+    public void setChoiceFTipoArea(RichSelectOneChoice choiceFTipoArea) {
+        this.choiceFTipoArea = choiceFTipoArea;
+    }
+
+    public RichSelectOneChoice getChoiceFTipoArea() {
+        return choiceFTipoArea;
+    }
+
+    public void setSi5(UISelectItems si5) {
+        this.si5 = si5;
+    }
+
+    public UISelectItems getSi5() {
+        return si5;
+    }   
+
+    public void setItDni(RichInputText itDni) {
+        this.itDni = itDni;
+    }
+
+    public RichInputText getItDni() {
+        return itDni;
+    }
+
+    public void setItUsuario(RichInputText itUsuario) {
+        this.itUsuario = itUsuario;
+    }
+
+    public RichInputText getItUsuario() {
+        return itUsuario;
+    }
+
+    public void setItClave(RichInputText itClave) {
+        this.itClave = itClave;
+    }
+
+    public RichInputText getItClave() {
+        return itClave;
+    }
+
+    public void setPgl2(RichPanelGridLayout pgl2) {
+        this.pgl2 = pgl2;
+    }
+
+    public RichPanelGridLayout getPgl2() {
+        return pgl2;
+    }
+
+    public void setPfl3(RichPanelFormLayout pfl3) {
+        this.pfl3 = pfl3;
+    }
+
+    public RichPanelFormLayout getPfl3() {
+        return pfl3;
+    }
+
+    public void setChoiceFTipoSede(RichSelectOneChoice choiceFTipoSede) {
+        this.choiceFTipoSede = choiceFTipoSede;
+    }
+
+    public RichSelectOneChoice getChoiceFTipoSede() {
+        return choiceFTipoSede;
+    }
+
+    public void setSi6(UISelectItems si6) {
+        this.si6 = si6;
+    }
+
+    public UISelectItems getSi6() {
+        return si6;
+    }
+
+    public void setChoiceFTipoNivel(RichSelectOneChoice choiceFTipoNivel) {
+        this.choiceFTipoNivel = choiceFTipoNivel;
+    }
+
+    public RichSelectOneChoice getChoiceFTipoNivel() {
+        return choiceFTipoNivel;
+    }
+
+    public void setSi7(UISelectItems si7) {
+        this.si7 = si7;
+    }
+
+    public UISelectItems getSi7() {
+        return si7;
     }
 }

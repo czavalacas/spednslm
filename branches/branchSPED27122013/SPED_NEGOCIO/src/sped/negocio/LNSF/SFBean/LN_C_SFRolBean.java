@@ -38,13 +38,18 @@ public class LN_C_SFRolBean implements LN_C_SFRolRemote,
     }
     
     public List<BeanRol> getRolLN(){
-        List<Rol> lstRol = bdL_C_SFRolLocal.getRolFindAll();
         List<BeanRol> lstBean = new ArrayList();
-        for(Rol r : lstRol){
-            BeanRol bean = (BeanRol) mapper.map(r, BeanRol.class);
-            lstBean.add(bean);
+        try{
+            List<Rol> lstRol = bdL_C_SFRolLocal.getRolFindAll();        
+            for(Rol r : lstRol){
+                BeanRol bean = (BeanRol) mapper.map(r, BeanRol.class);
+                lstBean.add(bean);
+            }
+            return lstBean;
+        }catch(Exception e){
+            e.printStackTrace();
+            return lstBean;
         }
-        return lstBean;
     }
     
     public boolean validaRolbyDescripcion(int nidRol, String descripcion){

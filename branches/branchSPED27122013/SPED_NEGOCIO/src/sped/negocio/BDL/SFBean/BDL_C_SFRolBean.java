@@ -46,9 +46,9 @@ public class BDL_C_SFRolBean implements BDL_C_SFRolRemote,
     
     public int getIdbyDescripcion(String descripcion){
         String ejbQL =  "select o.nidRol " +
-                        "from Rol o where o.descripcionRol = :descripcionRol ";
+                        "from Rol o where upper(o.descripcionRol) = :descripcionRol ";
         Object oRol = em.createQuery(ejbQL)
-                            .setParameter("descripcionRol", descripcion)
+                            .setParameter("descripcionRol", descripcion.toUpperCase())
                             .getSingleResult();
         int nidRol = 0;
         if(oRol != null){

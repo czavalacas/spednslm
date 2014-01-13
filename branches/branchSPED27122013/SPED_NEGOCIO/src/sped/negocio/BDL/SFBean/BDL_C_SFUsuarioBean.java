@@ -17,10 +17,13 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import javax.persistence.Query;
+
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "BDL_C_SFUsuario", mappedName = "mapBDL_C_SFUsuario")
 public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote, 
@@ -79,7 +82,10 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     public List<Usuario> getUsuarioByEstadoBDL(String estado) {
         List<Usuario> lstUsuario = null;
         try {
-            String strQuery = "SELECT u " + "FROM Usuario u " + "WHERE u.estadoUsuario = :estado ";
+            String strQuery = "SELECT u " + 
+                              "FROM Usuario u " + 
+                              "WHERE u.estadoUsuario = :estado " +
+                              "ORDER BY u.nidUsuario DESC";
             lstUsuario = em.createQuery(strQuery).setParameter("estado", estado).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,5 +124,70 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
             cont = Integer.parseInt(object.toString());
         }
         return cont;
+    }
+    
+    public List<Usuario> getUsuariobyByAttrBDL(BeanUsuario beanUsuario){
+        try {
+            String strQuery = "SELECT u " +
+                              "FROM Usuario u " +
+                              "WHERE 1 = 1";
+            if(beanUsuario!=null){
+                if(beanUsuario.getNombres() != null){
+                    strQuery = strQuery.concat(" AND upper(u.nombres) like :u_nombres ");
+                }
+                if(beanUsuario.getUsuario() != null){
+                    strQuery = strQuery.concat(" AND upper(u.usuario) like :u_usuario ");
+                }
+                if(beanUsuario.getDni() != null){
+                    strQuery = strQuery.concat(" AND u.dni like :u_dni ");
+                }
+                if(beanUsuario.getNidRol() != 0){
+                    strQuery = strQuery.concat(" AND u.rol.nidRol = :u_nidRol ");
+                }
+                if(beanUsuario.getNidAreaAcademica() != 0){
+                    strQuery = strQuery.concat(" AND u.areaAcademica.nidAreaAcademica = :u_nidAreaAcademica ");
+                }
+                if(beanUsuario.getEstadoUsuario() != null){
+                    strQuery = strQuery.concat(" AND u.estadoUsuario = :u_estadoUsuario ");
+                }
+                if(beanUsuario.getNidSede() != 0){
+                    strQuery = strQuery.concat(" AND u.sedeNivel.sede.nidSede = :u_nidSede ");
+                }
+                if(beanUsuario.getNidNivel() != 0){
+                    strQuery = strQuery.concat(" AND u.sedeNivel.nivel.nidNivel = :u_nidNivel ");
+                }
+            }
+            strQuery = strQuery.concat(" ORDER BY u.nidUsuario DESC ");
+            Query query = em.createQuery(strQuery);
+            if(beanUsuario!=null){
+                if(beanUsuario.getNombres() != null){
+                    query.setParameter("u_nombres", "%"+beanUsuario.getNombres().toUpperCase()+"%");
+                }
+                if(beanUsuario.getUsuario() != null){
+                    query.setParameter("u_usuario", "%"+beanUsuario.getUsuario().toUpperCase()+"%");
+                }
+                if(beanUsuario.getDni() != null){
+                    query.setParameter("u_dni", "%"+beanUsuario.getDni()+"%");
+                }
+                if(beanUsuario.getNidRol() != 0){
+                    query.setParameter("u_nidRol", beanUsuario.getNidRol());
+                }
+                if(beanUsuario.getNidAreaAcademica() != 0){
+                    query.setParameter("u_nidAreaAcademica", beanUsuario.getNidAreaAcademica());
+                }
+                if(beanUsuario.getEstadoUsuario() != null){
+                    query.setParameter("u_estadoUsuario", beanUsuario.getEstadoUsuario());
+                }
+                if(beanUsuario.getNidSede() != 0){
+                    query.setParameter("u_nidSede", beanUsuario.getNidSede());
+                }
+                if(beanUsuario.getNidNivel() != 0){
+                    query.setParameter("u_nidNivel", beanUsuario.getNidNivel());
+                }
+            }
+            return query.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
