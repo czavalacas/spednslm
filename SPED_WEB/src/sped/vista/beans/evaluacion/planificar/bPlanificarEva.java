@@ -130,7 +130,7 @@ public class bPlanificarEva {
             ctx = new InitialContext();
             ln_C_SFUsuarioRemote = (LN_C_SFUsuarioRemote) ctx.lookup(LOOKUP_NAME_SFEVALUADORES_REMOTO);
             this.setEvaluadores(this.llenarEvaluadores());   
-            System.out.println("CONS: "+evaluadores.size());
+        //    System.out.println("CONS: "+evaluadores.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -323,7 +323,7 @@ public class bPlanificarEva {
     
     public void abrirNuevoEvento(CalendarEvent calendarEvent) {
         if(sessionPlanificarEva.getNidUsuario()!=null){            
-            if(beanUsuario.getRol().getNidRol()==2){
+           // if(beanUsuario.getRol().getNidRol()==2){
             sessionPlanificarEva.setListaProfesores(null);
             sessionPlanificarEva.setListaHorarios(null);
             sessionPlanificarEva.setListaCursos(null);
@@ -346,7 +346,8 @@ public class bPlanificarEva {
             llenarBean();
             sessionPlanificarEva.setListaProfesores(this.llenarProfesores(sessionPlanificarEva.getNidAreaAcademica()));
             sessionPlanificarEva.setListaCursos(this.llenarCursos());
-            showPopUp(popupEvento);}
+            showPopUp(popupEvento);
+            //}
         }
      
     }
