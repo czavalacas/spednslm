@@ -41,8 +41,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
     }
     
     public void gestionUsuarioLN(int tipoEvento,
-                                 String nombre,
-                                 String apellido,
+                                 String nombres,
                                  String dni,
                                  int nidRol,
                                  int nidAreaA,
@@ -53,7 +52,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         if(tipoEvento == 1){
             Rol rol = bdL_C_SFRolLocal.findConstrainById(nidRol);
             AreaAcademica area = bdL_C_SFAreaAcademicaLocal.findEvaluadorById(nidAreaA);
-            u.setNombres(nombre+"%"+apellido);            
+            u.setNombres(nombres);            
             u.setDni(dni);
             u.setRol(rol);
             u.setAreaAcademica(area);
@@ -65,7 +64,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u = bdL_C_SFUsuarioLocal.findConstrainById(idUsuario);
             Rol rol = bdL_C_SFRolLocal.findConstrainById(nidRol);
             AreaAcademica area = bdL_C_SFAreaAcademicaLocal.findEvaluadorById(nidAreaA);
-            u.setNombres(nombre+"%"+apellido);            
+            u.setNombres(nombres);            
             u.setDni(dni);
             u.setRol(rol);
             u.setAreaAcademica(area);
@@ -75,6 +74,10 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         }else if(tipoEvento == 3){
             u = bdL_C_SFUsuarioLocal.findConstrainById(idUsuario);
             u.setEstadoUsuario("0");
+            bdL_T_SFUsuarioLocal.mergeUsuario(u);
+        }else if(tipoEvento == 4){
+            u = bdL_C_SFUsuarioLocal.findConstrainById(idUsuario);
+            u.setEstadoUsuario("1");
             bdL_T_SFUsuarioLocal.mergeUsuario(u);
         }
     }

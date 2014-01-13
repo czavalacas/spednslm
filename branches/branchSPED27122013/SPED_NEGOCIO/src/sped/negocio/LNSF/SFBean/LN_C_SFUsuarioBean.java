@@ -1,7 +1,6 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +18,15 @@ import javax.persistence.PersistenceContext;
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
+import net.sf.dozer.util.mapping.MappingException;
+
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
+import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
-import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -39,6 +41,8 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
     private BDL_C_SFUsuarioLocal bdL_C_SFUsuarioLocal;
     @EJB
     private LN_C_SFErrorLocal ln_C_SFErrorLocal;
+    @EJB
+    private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFUsuarioBean() {
@@ -85,20 +89,68 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
 
     @Override
     public List<BeanUsuario> getUsuarioByEstadoLN(String estado) {
-        List<BeanUsuario> lstUsuario = new ArrayList<BeanUsuario>();
         try{
-            List<Usuario> lstBDL = bdL_C_SFUsuarioLocal.getUsuarioByEstadoBDL(estado);
-            for(int i = 0; i < lstBDL.size(); i++){
-                BeanUsuario beanUsuario = new BeanUsuario();
-                beanUsuario = (BeanUsuario) mapper.map(lstBDL.get(i), BeanUsuario.class);
-                String[] separarNombres = beanUsuario.getNombres().split("%");
-                beanUsuario.setNombre(separarNombres[0]);
-                beanUsuario.setApellidos(separarNombres[1]);
-                lstUsuario.add(beanUsuario);
-            }
-            return lstUsuario;
-        }catch(RuntimeException re){
-            throw re;
+            return transformLstUsuario(bdL_C_SFUsuarioLocal.getUsuarioByEstadoBDL(estado));
+        }catch(Exception e){
+            return new ArrayList<BeanUsuario>();
         }
     }
+    
+    public boolean countUsuarioByDniLN(String dni){
+        boolean valida = false;
+        if(bdL_C_SFUsuarioLocal.countUsuarioByDniBDL(dni) != 0){
+            valida = true;
+        }
+        return valida;
+    }
+    
+    public boolean countUsuarioByNomUsuarioLN(String usuario){
+        boolean valida = false;
+        if(bdL_C_SFUsuarioLocal.countUsuarioByNomUsuarioBDL(usuario) != 0){
+            valida = true;
+        }
+        return valida;
+    }
+    
+    public List<BeanUsuario> getUsuariobyByAttrLN(String nombres,
+                                                  String usuario,
+                                                  String dni,
+                                                  int nidAreaAcademica,
+                                                  int nidRol,
+                                                  int estadoUsuario,
+                                                  int nidSede,
+                                                  int nidNivel){
+        try{
+            BeanUsuario beanUsuario = new BeanUsuario();
+            beanUsuario.setNombres(nombres);
+            beanUsuario.setUsuario(usuario);
+            beanUsuario.setDni(dni);
+            beanUsuario.setNidRol(nidRol);
+            beanUsuario.setNidAreaAcademica(nidAreaAcademica);
+            beanUsuario.setNidSede(nidSede);
+            beanUsuario.setNidNivel(nidNivel);
+            beanUsuario.setEstadoUsuario(estadoUsuario != 0 ? (estadoUsuario-1)+"" : null);
+            return transformLstUsuario(bdL_C_SFUsuarioLocal.getUsuariobyByAttrBDL(beanUsuario));
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return new ArrayList<BeanUsuario>();
+        }    
+    }
+    
+    public List<BeanUsuario> transformLstUsuario(List<Usuario> lstUsurio){
+        try{
+            List<BeanUsuario> lstBean = new ArrayList();
+            for(Usuario u : lstUsurio){
+                BeanUsuario beanUsuario = (BeanUsuario) mapper.map(u, BeanUsuario.class);
+                BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("estado_usuario", "admusua", beanUsuario.getEstadoUsuario());
+                beanUsuario.setDescripcionEstadoUsuario(constr.getDescripcionAMostrar());
+                lstBean.add(beanUsuario);
+            }
+            return lstBean;
+        }catch(MappingException me){
+            me.printStackTrace();
+            return null;
+        }        
+    } 
+    
 }
