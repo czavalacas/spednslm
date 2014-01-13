@@ -42,14 +42,14 @@ public class BDL_C_SFAreaAcademicaRemoteClient {
                                    cadena[16]+cadena[17]+cadena[18]+cadena[19]+"-"+
                                    cadena[4]+cadena[5]+cadena[6]+cadena[7]);
             */
-            int [] num1 ={1,2,3,4,5,6,7};
-            int [] num2={1,3,6};
+            int [] num1 ={1,2,3,4};
+            int [] num2={1,3,6,9,8};
             
             for(int i=0; i<num1.length; i++){
                 for(int j=0; j<num2.length;j++){                    
                     System.out.println(num1[i]+" - "+num2[j]);
                     if(num1[i]==num2[j]){
-                    System.out.println("IGUALDAD");
+                   System.out.println("IGUALDAD");
                     }
                 }
                
