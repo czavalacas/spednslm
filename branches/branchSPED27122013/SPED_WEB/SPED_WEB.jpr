@@ -75,6 +75,7 @@
          <string v="ADFbc"/>
          <string v="ADFc"/>
          <string v="ADFm"/>
+         <string v="CDI"/>
          <string v="JSF"/>
          <string v="JSP"/>
          <string v="Java"/>
@@ -349,6 +350,10 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
+            <value n="id" v="Contexts and Dependency Injection"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
             <value n="id" v="Oracle XML Parser v2"/>
             <value n="isJDK" v="false"/>
          </hash>
@@ -370,10 +375,6 @@
          </hash>
          <hash>
             <value n="id" v="Connection Manager"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="BC4J Oracle Domains"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
@@ -471,6 +472,10 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
+            <value n="id" v="Contexts and Dependency Injection"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
             <value n="id" v="Oracle XML Parser v2"/>
             <value n="isJDK" v="false"/>
          </hash>
@@ -492,10 +497,6 @@
          </hash>
          <hash>
             <value n="id" v="Connection Manager"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="BC4J Oracle Domains"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>

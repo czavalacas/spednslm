@@ -11,5 +11,5 @@ import sped.negocio.entidades.eval.Evaluacion;
 public interface BDL_C_SFEvaluacionRemoto {
     List<Evaluacion> getEvaluacionFindAll();
     Evaluacion getEvaluacionById(String nidDate);
-    List<Evaluacion> getEvaluaciones(String fechaHoy);
+    List<Evaluacion> getEvaluaciones(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador);
 }

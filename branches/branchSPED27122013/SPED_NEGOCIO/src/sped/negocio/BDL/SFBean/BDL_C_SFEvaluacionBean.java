@@ -53,10 +53,16 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }   
         }
     
-    public List<Evaluacion> getEvaluaciones(String fechaHoy) {
-        try{
-            String ejbQl = "SELECT ma FROM Evaluacion ma" +
-                           " WHERE ma.startDate like '%"+fechaHoy+"%'";   
+    public List<Evaluacion> getEvaluaciones(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador) {
+        try{   
+             String ejbQl = "SELECT ev FROM Evaluacion ev, Main ma, Curso cu, AreaAcademica ac" +
+                                   " WHERE ev.startDate like '%"+fechaHoy+"%'" +
+                                   " AND ma.nidMain=ev.main.nidMain" +
+                                   " AND ma.curso.nidCurso=cu.nidCurso" +
+                                   " AND cu.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica"+
+                                   " AND ac.nidAreaAcademica="+nidAreaAcademica+
+                                   " AND ev.nidEvaluador="+nidEvaluador ;
+            
                 List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();           
                 return eva;         
         }catch(Exception e){
