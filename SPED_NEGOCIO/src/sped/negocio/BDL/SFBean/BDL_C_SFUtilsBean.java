@@ -1,5 +1,8 @@
 package sped.negocio.BDL.SFBean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -20,7 +23,7 @@ import sped.negocio.entidades.beans.BeanConstraint;
 
 @Stateless(name = "BDL_C_SFUtils", mappedName = "mapBDL_C_SFUtils")
 public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
-                                             BDL_C_SFUtilsLocal {
+                                          BDL_C_SFUtilsLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -55,6 +58,25 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
             return instance;
         } catch (RuntimeException re) {
             throw re;
+        }
+    }
+    
+    /**
+     * Trae una lista de la tabla Constraint
+     * @param nombreCampo
+     * @param nombreTabla
+     * @return
+     */
+    public List<Constraint> getListaConstraintsBDL(String nombreCampo, String nombreTabla){
+        try{
+            String ejbQl = "SELECT o FROM Constraint o" +
+                           " WHERE o.nombreCampo = :nombreC"+
+                           " and o.nombreTabla = :nombreT";
+            List<Constraint> lstConstraint = em.createQuery(ejbQl).setParameter("nombreC", nombreCampo).
+                                                                   setParameter("nombreT", nombreTabla).getResultList();
+            return lstConstraint;
+        }catch(Exception e){
+            return null;
         }
     }
 }

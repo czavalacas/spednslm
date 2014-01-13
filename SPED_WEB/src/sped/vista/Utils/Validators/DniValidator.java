@@ -13,16 +13,20 @@ import javax.naming.InitialContext;
 
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
 
+import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+
+import sped.vista.Utils.Utils;
+
 public class DniValidator implements Validator {
     @EJB
-    private BDL_C_SFUsuarioRemote bdL_C_SFUsuarioRemote;
-    private final static String LOOKUP_USUARIO = "mapBDL_C_SFUsuario#sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote";
+    private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
+    private final static String LOOKUP_USUARIO = "mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote";
     
     public DniValidator(){
         try{
             final Context ctx;
             ctx = new InitialContext();
-            bdL_C_SFUsuarioRemote = (BDL_C_SFUsuarioRemote) ctx.lookup(LOOKUP_USUARIO);
+            ln_C_SFUsuarioRemote = (LN_C_SFUsuarioRemote) ctx.lookup(LOOKUP_USUARIO);
         }catch(Exception e){
             e.printStackTrace();        
         }        
@@ -31,10 +35,24 @@ public class DniValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) throws ValidatorException {
         String dato = object.toString();
-        int num = 0;
-        if(num != bdL_C_SFUsuarioRemote.countUsuarioByDniBDL(dato)){
-            FacesMessage fm = new FacesMessage("El dni se encuentra registrado");
-            throw new ValidatorException(fm);
-        }
+        String msj = "";
+        try{
+            Integer.parseInt(dato.toString());
+            if(dato.length()!=8){
+                msj="Dni debe tener 8 digitos";
+            }else{
+                if(ln_C_SFUsuarioRemote.countUsuarioByDniLN(dato)){
+                    msj = "El Dni se encuentra registrado";
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            msj = "Ingrese solo numeros";
+        }finally{
+            if(!msj.isEmpty()){
+                FacesMessage fm = new FacesMessage(msj);
+                throw new ValidatorException(fm);
+            }
+        }                
     }
 }

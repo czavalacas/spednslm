@@ -16,11 +16,14 @@ import javax.persistence.PersistenceContext;
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
+import net.sf.dozer.util.mapping.MappingException;
+
 import sped.negocio.BDL.IL.BDL_C_SFSedeLocal;
 import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.beans.BeanSede;
+import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "LN_C_SFSede", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFSede")
 public class LN_C_SFSedeBean implements LN_C_SFSedeRemote, 
@@ -38,13 +41,25 @@ public class LN_C_SFSedeBean implements LN_C_SFSedeRemote,
     }
     
     public List<BeanSede> getSedeLN(){
-        List<BeanSede> lstBean = new ArrayList();
-        List<Sede> lstSede = bdL_C_SFSedeLocal.getSedeFindAll();
-        for(Sede s : lstSede){
-            BeanSede bean =  (BeanSede) mapper.map(s, BeanSede.class);
-            lstBean.add(bean);
+        try{
+            return transformLstSede(bdL_C_SFSedeLocal.getSedeFindAll());
+        }catch(Exception e){
+            return new ArrayList<BeanSede>();
+        }            
+    }
+    
+    public List<BeanSede> transformLstSede(List<Sede> lstSede){
+        try{
+            List<BeanSede> lstBeanSede = new ArrayList();
+            for(Sede s : lstSede){
+                BeanSede bean =  (BeanSede) mapper.map(s, BeanSede.class);
+                lstBeanSede.add(bean);
+            }
+            return lstBeanSede;
+        }catch(MappingException me){
+            me.printStackTrace();
+            return null;
         }
-        return lstBean;
     }
     
     
