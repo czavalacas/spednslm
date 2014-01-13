@@ -3,7 +3,8 @@
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
         <af:panelFormLayout id="pfl2">      
-            <af:button text="SELECCIONAR EVALUADOR" id="b1" action="#{bPlanificarEva.popupEvaluadores}"/>
+            <af:button text="SELECCIONAR EVALUADOR" id="b1" action="#{bPlanificarEva.popupEvaluadores}"
+                       visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}"/>
             <h:outputText value="#{sessionScope.sessionPlanificarEva.nombreEvaluador} #{sessionScope.sessionPlanificarEva.areaEvaluador}" id="ot4" binding="#{bPlanificarEva.outDatosEva}"/>          
         </af:panelFormLayout>
         <af:panelFormLayout id="pfl1">

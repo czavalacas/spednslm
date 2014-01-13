@@ -1,6 +1,12 @@
 package sped.vista.Utils;
 
 import java.util.List;
+
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
+import javax.el.ValueExpression;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
@@ -8,10 +14,15 @@ import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+
+import oracle.adf.model.BindingContext;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.context.AdfFacesContext;
+
+import oracle.binding.BindingContainer;
+import oracle.binding.OperationBinding;
 
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 
@@ -141,15 +152,16 @@ public class Utils {
         MethodBinding methodBinding = null;
         methodBinding = FacesContext.getCurrentInstance().getApplication().createMethodBinding(action, args);
         return methodBinding;
-    }
+    }    
     
-    public static boolean validarExtensionImg(String nombreArchivo){
-        String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".") + 1, nombreArchivo.length());
-        if(extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")){
-            return true;
-        }else{
-            return false;
-        }
+    public static Object invokeEL(String el) {
+        return invokeEL(el, new Class[0], new Object[0]);
     }
-    
+    public static Object invokeEL(String el, Class[] paramTypes, Object[] params) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ELContext elContext = facesContext.getELContext();
+        ExpressionFactory expressionFactory = facesContext.getApplication().getExpressionFactory();
+        MethodExpression exp = expressionFactory.createMethodExpression(elContext, el, Object.class, paramTypes);
+        return exp.invoke(elContext, params);
+    } 
 }

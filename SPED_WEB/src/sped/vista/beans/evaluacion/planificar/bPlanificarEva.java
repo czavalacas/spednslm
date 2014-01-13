@@ -22,9 +22,19 @@ import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
+import javax.el.ValueExpression;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
+import javax.sql.RowSet;
+
+import oracle.adf.model.BindingContext;
+import oracle.adf.model.binding.DCBindingContainer;
+import oracle.adf.model.binding.DCIteratorBinding;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichCalendar;
 import oracle.adf.view.rich.component.rich.data.RichTable;
@@ -34,6 +44,13 @@ import oracle.adf.view.rich.event.CalendarActivityEvent;
 import oracle.adf.view.rich.event.CalendarEvent;
 import oracle.adf.view.rich.model.CalendarActivity;
 
+
+import oracle.binding.BindingContainer;
+import oracle.binding.OperationBinding;
+
+import oracle.jbo.ViewObject;
+import oracle.jbo.server.ViewObjectImpl;
+import oracle.jbo.uicli.binding.JUCtrlActionBinding;
 
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 
@@ -58,6 +75,7 @@ import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.negocio.entidades.eval.Evaluacion;
 
+import sped.vista.Calendario.AppModuleImpl;
 import sped.vista.Utils.Utils;
 
 import utils.system;
@@ -120,10 +138,12 @@ public class bPlanificarEva {
     @PostConstruct
     public void methodInvokeOncedOnPageLoad(){
         beanUsuario = (BeanUsuario) Utils.getSession("USER");
+       // sessionPlanificarEva.setNidUsuario(beanUsuario.getNidUsuario().toString());
         if(beanUsuario.getRol().getNidRol()==2){
-            sessionPlanificarEva.setEstadoChoiceEvaluadores(true);   
+            sessionPlanificarEva.setEstadoChoiceEvaluadores(true);            
         }else{
-            sessionPlanificarEva.setEstadoChoiceEvaluadores(false);        
+            sessionPlanificarEva.setEstadoChoiceEvaluadores(false);  
+            sessionPlanificarEva.setNidUsuario(beanUsuario.getNidUsuario().toString());
         }
     }
     
@@ -192,8 +212,19 @@ public class bPlanificarEva {
             tbHorario.setValue(sessionPlanificarEva.getListaHorarios());
             Utils.addTarget(tbHorario);
         } 
-        
+        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}"); 
+        Utils.addTarget(calendar);
         return null;
+    }
+    
+   
+
+    public static void setEL(String el, Object val) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ELContext elContext = facesContext.getELContext();
+        ExpressionFactory expressionFactory = facesContext.getApplication().getExpressionFactory();
+        ValueExpression exp = expressionFactory.createValueExpression(elContext, el, Object.class);
+        exp.setValue(elContext, val);
     }
 
     public void abrirPopupEvaluar(CalendarActivityEvent calendarActivityEvent) {
@@ -245,9 +276,9 @@ public class bPlanificarEva {
             Date fechaActual = sessionPlanificarEva.getFechaInicioSeleccionada();
             String fechaConFormato = sdf.format(fechaActual);
     //        System.out.println("Valor de fecha a buscar ::>  " + fechaConFormato);
-            List<Evaluacion> listaEvaluaciones = bdl_C_SFEvaluacionRemoto.getEvaluaciones(fechaConFormato);
-    //        System.out.println("TAMAÑO DE EVALUACIONES EN EL DIA :::> " + listaEvaluaciones.size());
-     //       System.out.println("TAMAÑO DE CURSOS EN EL DIA :::> " + lis.size());
+            List<Evaluacion> listaEvaluaciones =bdl_C_SFEvaluacionRemoto.getEvaluaciones(fechaConFormato, sessionPlanificarEva.getNidAreaAcademica(), Integer.parseInt(sessionPlanificarEva.getNidUsuario()));
+     //    System.out.println("TAMAÑO DE EVALUACIONES EN EL DIA :::> " + listaEvaluaciones.size());
+    //       System.out.println("TAMAÑO DE CURSOS EN EL DIA :::> " + lis.size());
             if(listaEvaluaciones.size()==lis.size()){
                 lis.clear();
             }else{
@@ -255,7 +286,7 @@ public class bPlanificarEva {
                      for (int i = 0; i < lis.size(); i++) {
                         if (listaEvaluaciones.size() != 0) {
                             for (int j = 0; j < listaEvaluaciones.size(); j++) {                           
-      //                              System.out.println("NID MAIN ("+i+") "+lis.get(i).getNidMain()+" -- NID EVA ("+j+") "+listaEvaluaciones.get(j).getMain().getNidMain());
+                    //         System.out.println("NID MAIN ("+i+") "+lis.get(i).getNidMain()+" -- NID EVA ("+j+") "+listaEvaluaciones.get(j).getMain().getNidMain());
                                 if (listaEvaluaciones.get(j).getMain().getNidMain() == lis.get(i).getNidMain()) {
                                     lis.remove(i);
                                 }
@@ -270,7 +301,7 @@ public class bPlanificarEva {
     }
     
     public void llenarBean(){
-        System.out.println("NID EVALUADOR LLENAR BEAN" + sessionPlanificarEva.getNidUsuario());
+    //    System.out.println("NID EVALUADOR LLENAR BEAN" + sessionPlanificarEva.getNidUsuario());
         BeanMain beanMain = new BeanMain();
         BeanAreaAcademica beanAca = new BeanAreaAcademica();
         beanAca.setNidAreaAcademica(sessionPlanificarEva.getNidAreaAcademica());        
@@ -286,35 +317,38 @@ public class bPlanificarEva {
         }   
         beanMain.setCurso(beanCurso);
         beanMain.setDia(sessionPlanificarEva.getDiaDeLaSemana());
-        System.out.println("NID EVALUADOR ANTES DE LLENAR HORARIOS" + sessionPlanificarEva.getNidUsuario());
+     //   System.out.println("NID EVALUADOR ANTES DE LLENAR HORARIOS" + sessionPlanificarEva.getNidUsuario());
         llenarHorarios(beanMain);
     }
     
     public void abrirNuevoEvento(CalendarEvent calendarEvent) {
-        if(beanUsuario.getRol().getNidRol()==2){
-        sessionPlanificarEva.setListaProfesores(null);
-        sessionPlanificarEva.setListaHorarios(null);
-        sessionPlanificarEva.setListaCursos(null);
-        sessionPlanificarEva.setDniProfesor(null);
-        sessionPlanificarEva.setDiaDeLaSemana(null);
-        sessionPlanificarEva.setNidCurso(null);
-        if (tbHorario != null) {
-            tbHorario.setValue(null);
+        if(sessionPlanificarEva.getNidUsuario()!=null){            
+            if(beanUsuario.getRol().getNidRol()==2){
+            sessionPlanificarEva.setListaProfesores(null);
+            sessionPlanificarEva.setListaHorarios(null);
+            sessionPlanificarEva.setListaCursos(null);
+            sessionPlanificarEva.setDniProfesor(null);
+            sessionPlanificarEva.setDiaDeLaSemana(null);
+            sessionPlanificarEva.setNidCurso(null);
+            if (tbHorario != null) {
+                tbHorario.setValue(null);
+            }
+            if (sessionPlanificarEva.getNidUsuario() != null) {
+               
+                Usuario evaluador = bdl_C_SFUsuarioRemote.findConstrainById(Integer.parseInt(sessionPlanificarEva.getNidUsuario()));
+      //          System.out.println("NID USUARIO" + evaluador.getNidUsuario());
+                sessionPlanificarEva.setNidAreaAcademica(evaluador.getAreaAcademica().getNidAreaAcademica());
+            }
+            sessionPlanificarEva.setFechaInicioSeleccionada(calendarEvent.getTriggerDate());      
+            String dia = getDiaDeCalendario(calendarEvent.getTriggerDate().getDay());
+            sessionPlanificarEva.setDiaDeLaSemana(dia);
+            //  System.out.println("DIA DELA SEMANA : " + dia);
+            llenarBean();
+            sessionPlanificarEva.setListaProfesores(this.llenarProfesores(sessionPlanificarEva.getNidAreaAcademica()));
+            sessionPlanificarEva.setListaCursos(this.llenarCursos());
+            showPopUp(popupEvento);}
         }
-        if (sessionPlanificarEva.getNidUsuario() != null) {
-           
-            Usuario evaluador = bdl_C_SFUsuarioRemote.findConstrainById(Integer.parseInt(sessionPlanificarEva.getNidUsuario()));
-            System.out.println("NID USUARIO" + evaluador.getNidUsuario());
-            sessionPlanificarEva.setNidAreaAcademica(evaluador.getAreaAcademica().getNidAreaAcademica());
-        }
-        sessionPlanificarEva.setFechaInicioSeleccionada(calendarEvent.getTriggerDate());      
-        String dia = getDiaDeCalendario(calendarEvent.getTriggerDate().getDay());
-        sessionPlanificarEva.setDiaDeLaSemana(dia);
-      //  System.out.println("DIA DELA SEMANA : " + dia);
-        llenarBean();
-        sessionPlanificarEva.setListaProfesores(this.llenarProfesores(sessionPlanificarEva.getNidAreaAcademica()));
-        sessionPlanificarEva.setListaCursos(this.llenarCursos());
-        showPopUp(popupEvento);}
+     
     }
 
     public String showPopUp(RichPopup p) {
@@ -343,13 +377,13 @@ public class bPlanificarEva {
         horaFin.setMinutes(sessionPlanificarEva.getBeanHorario().getHoraFin().getMinutes());
         sessionPlanificarEva.setFechaInicioEvaluacion(horaInicio);
         sessionPlanificarEva.setFechaFinEvaluacion(horaFin);
-        System.out.println("NID EVALUADOR SELECCION TABLA " + sessionPlanificarEva.getNidUsuario());
+      //  System.out.println("NID EVALUADOR SELECCION TABLA " + sessionPlanificarEva.getNidUsuario());
     }
 
     public String buscarHorariosFiltro() {
-        System.out.println("NID EVALUADOR FILTRO ANTES LLENAR BEAN " + sessionPlanificarEva.getNidUsuario());
+  //      System.out.println("NID EVALUADOR FILTRO ANTES LLENAR BEAN " + sessionPlanificarEva.getNidUsuario());
         llenarBean();      
-        System.out.println("NID EVALUADOR FILTRO DESPUES LLENAR BEAN" + sessionPlanificarEva.getNidUsuario());
+    //    System.out.println("NID EVALUADOR FILTRO DESPUES LLENAR BEAN" + sessionPlanificarEva.getNidUsuario());
         if (tbHorario != null) {
             Utils.unselectFilas(tbHorario);
             tbHorario.setValue(sessionPlanificarEva.getListaHorarios());
@@ -388,6 +422,19 @@ public class bPlanificarEva {
             "-" + cadena[12] + cadena[13] + cadena[14] + cadena[15] + "-" + cadena[16] + cadena[17] + cadena[18] +
             cadena[19] + "-" + cadena[4] + cadena[5] + cadena[6] + cadena[7];
         return codigo;
+    }    
+
+    public void seleccionarEvaluador(SelectionEvent selectionEvent) {
+        RichTable t = (RichTable) selectionEvent.getSource();
+        Object _selectedRowData = t.getSelectedRowData();
+        BeanUsuario usu = (BeanUsuario) _selectedRowData;
+        sessionPlanificarEva.setNidUsuario(usu.getNidUsuario().toString());
+        sessionPlanificarEva.setNombreEvaluador(usu.getNombres());
+        sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());
+        Utils.addTarget(outDatosEva);        
+        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}"); 
+        Utils.addTarget(calendar);        
+      
     }
 
     public void setCalendar(RichCalendar calendar) {
@@ -513,18 +560,7 @@ public class bPlanificarEva {
 
     public RichPopup getPopupEvalua() {
         return popupEvalua;
-    }
-
-    public void seleccionarEvaluador(SelectionEvent selectionEvent) {
-        RichTable t = (RichTable) selectionEvent.getSource();
-        Object _selectedRowData = t.getSelectedRowData();
-        BeanUsuario usu = (BeanUsuario) _selectedRowData;
-        sessionPlanificarEva.setNidUsuario(usu.getNidUsuario().toString());
-        sessionPlanificarEva.setNombreEvaluador(usu.getNombres());
-        sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());
-        Utils.addTarget(outDatosEva);
-        System.out.println("NID USUARIO EN SESSION "+sessionPlanificarEva.getNidUsuario());
-    }
+    }  
 
     public void setOutDatosEva(HtmlOutputText outDatosEva) {
         this.outDatosEva = outDatosEva;

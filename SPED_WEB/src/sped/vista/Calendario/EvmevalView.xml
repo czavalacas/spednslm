@@ -6,6 +6,9 @@
   Name="EvmevalView"
   Version="12.1.2.66.68"
   InheritPersonalization="merge"
+  BindingStyle="JDBC"
+  CustomQuery="false"
+  PageIterMode="Full"
   SelectList="Evmeval.nidEvaluacion, 
        Evmeval.start_Date, 
        Evmeval.estado_evaluacion, 
@@ -15,33 +18,20 @@
        Evmeval.nidDate, 
        Evmeval.nid_evaluador"
   FromList="evmeval Evmeval"
-  BindingStyle="JDBC"
-  CustomQuery="false"
-  PageIterMode="Full">
+  Where="Evmeval.nid_evaluador= ?">
   <Variable
-    Name="startDate"
-    Kind="viewcriteria"
-    Type="java.util.Date">
+    Name="nidUsuario"
+    Kind="where"
+    Type="java.lang.String"
+    DefaultValue="0">
     <AttrArray Name="ExtendedDataInts">
       <Item Value="0"/>
     </AttrArray>
   </Variable>
-  <Variable
-    Name="endDate"
-    Kind="viewcriteria"
-    Type="java.util.Date">
-    <AttrArray Name="ExtendedDataInts">
-      <Item Value="0"/>
-    </AttrArray>
-  </Variable>
-  <Variable
-    Name="timeZone"
-    Kind="viewcriteria"
-    Type="java.lang.String">
-    <AttrArray Name="ExtendedDataInts">
-      <Item Value="0"/>
-    </AttrArray>
-  </Variable>
+  <ViewAccessor
+    Name="EvmevalView1"
+    ViewObjectName="sped.vista.Calendario.EvmevalView"
+    RowLevelBinds="true"/>
   <EntityUsage
     Name="Evmeval"
     Entity="sped.vista.Calendario.Evmeval"/>

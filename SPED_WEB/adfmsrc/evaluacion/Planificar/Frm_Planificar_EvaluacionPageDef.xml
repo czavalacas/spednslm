@@ -7,12 +7,6 @@
     <iterator Binds="EvmevalView1" RangeSize="-1" DataControl="AppModuleDataControl" id="EvmevalView1Iterator"/>
   </executables>
   <bindings>
-    <action IterBinding="EvmevalView1Iterator" id="ExecuteWithParams" RequiresUpdateModel="true"
-            Action="executeWithParams">
-      <NamedData NDName="start_date" NDValue="#{bindings.EvmevalView1.startDate}" NDType="java.util.Date"/>
-      <NamedData NDName="end_date" NDValue="#{bindings.EvmevalView1.endDate}" NDType="java.util.Date"/>
-      <NamedData NDName="timeZone" NDValue="#{bindings.EvmevalView1.timeZoneId}" NDType="java.lang.String"/>
-    </action>
     <calendar IterBinding="EvmevalView1Iterator" id="EvmevalView1" xmlns="http://xmlns.oracle.com/adf/faces/binding"
               ActionBindingName="ExecuteWithParams">
       <nodeDefinition DefName="sped.vista.Calendario.EvmevalView">
@@ -25,5 +19,10 @@
         </AttrNames>
       </nodeDefinition>
     </calendar>
+    <action IterBinding="EvmevalView1Iterator" id="ExecuteWithParams" InstanceName="AppModuleDataControl.EvmevalView1"
+            DataControl="AppModuleDataControl" RequiresUpdateModel="true" Action="executeWithParams">
+      <NamedData NDName="nidUsuario" NDValue="#{sessionScope.sessionPlanificarEva.nidUsuario}"
+                 NDType="java.lang.String"/>
+    </action>
   </bindings>
 </pageDefinition>
