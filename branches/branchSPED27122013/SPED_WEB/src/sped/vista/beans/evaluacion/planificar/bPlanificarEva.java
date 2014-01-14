@@ -72,12 +72,8 @@ import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.beans.BeanUsuario;
-
 import sped.negocio.entidades.eval.Evaluacion;
-
-import sped.vista.Calendario.AppModuleImpl;
 import sped.vista.Utils.Utils;
-
 import utils.system;
 
 
@@ -122,6 +118,7 @@ public class bPlanificarEva {
     private BeanUsuario beanUsuario=new BeanUsuario();
     private RichPopup popupEvalua;
     private HtmlOutputText outDatosEva;
+    private RichPopup popupEliminarEvalu;
 
 
     public bPlanificarEva() {
@@ -240,7 +237,9 @@ public class bPlanificarEva {
         sessionPlanificarEva.setDocenteEvaluacion(entida.getMain().getProfesor().getApellidos() + " " +
                                                   entida.getMain().getProfesor().getNombres());
         sessionPlanificarEva.setDniDocenteEvaluacion(entida.getMain().getProfesor().getDniProfesor());
-        showPopUp(popupDetalleEva);
+        sessionPlanificarEva.setNidEvaluacionDelet(entida.getNidEvaluacion());
+        Utils.showPopUpMIDDLE(popupDetalleEva);
+        
     }
 
     public String getDiaDeCalendario(int dia) {
@@ -346,8 +345,7 @@ public class bPlanificarEva {
             llenarBean();
             sessionPlanificarEva.setListaProfesores(this.llenarProfesores(sessionPlanificarEva.getNidAreaAcademica()));
             sessionPlanificarEva.setListaCursos(this.llenarCursos());
-            showPopUp(popupEvento);
-            //}
+            Utils.showPopUpMIDDLE(popupEvento);
         }
      
     }
@@ -437,6 +435,26 @@ public class bPlanificarEva {
         Utils.addTarget(calendar);        
       
     }
+    
+    public void eliminarEvaluacion(ActionEvent actionEvent) {        
+        Evaluacion evaluacion=new Evaluacion();
+        evaluacion.setNidEvaluacion(sessionPlanificarEva.getNidEvaluacionDelet());
+        bdl_T_SFEvaluacionRemoto.removeEvaluacion(evaluacion);
+        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}"); 
+        Utils.addTarget(calendar);
+        popupDetalleEva.hide();
+    }
+    
+    public void cancelarAnulacion(ActionEvent actionEvent) {
+      popupEliminarEvalu.hide();      
+    }
+    
+
+    public void confirmarAnulacion(ActionEvent actionEvent) {
+       Utils.showPopUpMIDDLE(popupEliminarEvalu);
+    }
+
+    
 
     public void setCalendar(RichCalendar calendar) {
         this.calendar = calendar;
@@ -570,4 +588,14 @@ public class bPlanificarEva {
     public HtmlOutputText getOutDatosEva() {
         return outDatosEva;
     }
+  
+    public void setPopupEliminarEvalu(RichPopup popupEliminarEvalu) {
+        this.popupEliminarEvalu = popupEliminarEvalu;
+    }
+
+    public RichPopup getPopupEliminarEvalu() {
+        return popupEliminarEvalu;
+    }
+
+    
 }

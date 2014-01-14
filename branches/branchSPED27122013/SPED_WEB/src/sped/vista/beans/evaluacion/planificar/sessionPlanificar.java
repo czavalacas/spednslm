@@ -32,6 +32,7 @@ public class sessionPlanificar {
     private Date fechaInicioSeleccionada;   
     private Date fechaInicioEvaluacion;
     private Date fechaFinEvaluacion;
+    private Integer nidEvaluacionDelet;
     //atributos para popup
     private Date fechaEvaluacionPopup;
     private Date horaEvaluacionPopup;
@@ -281,4 +282,13 @@ public class sessionPlanificar {
     public String getAreaEvaluador() {
         return areaEvaluador;
     }
+
+    public void setNidEvaluacionDelet(Integer nidEvaluacionDelet) {
+        this.nidEvaluacionDelet = nidEvaluacionDelet;
+    }
+
+    public Integer getNidEvaluacionDelet() {
+        return nidEvaluacionDelet;
+    }
+
 }
