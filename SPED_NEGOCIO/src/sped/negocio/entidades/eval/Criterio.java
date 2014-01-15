@@ -7,11 +7,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Criterio.findAll", query = "select o from Criterio o") })
@@ -21,6 +24,8 @@ public class Criterio implements Serializable {
     @Column(name = "desc_criterio")
     private String descripcionCriterio;
     @Id
+    @TableGenerator( name = "stmcodi_evmcrit", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evmcrit.nidCriterio", valueColumnName = "APP_SEQ_VALUE", initialValue = 4, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi_evmcrit" )
     @Column(name = "nidCriterio", nullable = false)
     private int nidCriterio;
     @OneToMany(mappedBy = "criterio", cascade = { CascadeType.PERSIST, CascadeType.MERGE })

@@ -42,6 +42,11 @@
                 <af:column sortable="true" headerText="Tipo Ficha Curso" align="start" id="c3" sortProperty="descripcionTipoFichaCurso">
                     <af:outputText value="#{row.descripcionTipoFichaCurso}" id="ot3"/>
                 </af:column>
+                <af:column sortable="true" headerText="Fecha Creacion" align="center" sortProperty="fechaFicha">
+                    <af:outputText value="#{row.fechaFicha}" >
+                        <af:convertDateTime pattern="dd/MM/yyyy"/>
+                    </af:outputText>
+                </af:column>
                 <af:column sortable="true" headerText="Estado" align="start" id="c4" sortProperty="descripcionEstadoFicha"
                            inlineStyle="#{row.estadoFicha == 1 ? 'background-color:Green;' : 'background-color:Red;'} color:White; font-weight:bold;text-align:center;">
                     <af:outputText value="#{row.descripcionEstadoFicha}" id="ot4"/>
@@ -56,21 +61,26 @@
                         <af:gridCell marginStart="1px" width="30%" id="gc1">
                                  <af:panelFormLayout>
                                         <af:selectOneChoice label="Tipo Ficha" requiredMessageDetail="Seleccionar un tipo de Ficha"
-                                                            id="socTipFicha" 
-                                                            value="#{bRegistrarFicha.sessionRegistrarFicha.tipoFicha}"
-                                                            labelStyle="text-align: left;">
+                                                               id="socTipFicha" autoSubmit="true"
+                                                               value="#{bRegistrarFicha.sessionRegistrarFicha.tipoFicha}"
+                                                               labelStyle="text-align: left;"
+                                                               valueChangeListener="#{bRegistrarFicha.changeTipoFicha}">
                                             <af:selectItem label="Ficha de Evaluador" value="E" id="si1"/>
                                             <af:selectItem label="Ficha de Sub-Director" value="S" id="si2"/>
                                         </af:selectOneChoice>
                                         <af:selectOneChoice label="Tipo Ficha Curso" requiredMessageDetail="Seleccione un tipo de ficha curso"
-                                                            value="#{bRegistrarFicha.sessionRegistrarFicha.tipFichaCurs}" id="socTipFichaCurs"
-                                                            labelStyle="text-align: left;">
+                                                               value="#{bRegistrarFicha.sessionRegistrarFicha.tipFichaCurs}" id="socTipFichaCurs"
+                                                               labelStyle="text-align: left;" autoSubmit="true"
+                                                               valueChangeListener="#{bRegistrarFicha.changeTipoFichaCurso}">
                                             <af:selectItem label="Cursos Principales" value="P" id="si3"/>
                                             <af:selectItem label="Cursos Otros" value="O" id="si4"/>
                                         </af:selectOneChoice>
-                                        <af:inputText label="Version" id="itDescVersion" labelStyle="text-align: left;"
-                                                      disabled="true"/>
-                                        <af:inputNumberSlider label="Numero de Valores" id="ins1" minimum="1"/>
+                                        <af:inputText label="Version" id="itDescVersion" labelStyle="text-align: left;" autoSubmit="true"
+                                                        value="#{bRegistrarFicha.sessionRegistrarFicha.versionGenerada}"
+                                                        disabled="true" binding="#{bRegistrarFicha.itDescVersion}"/>
+                                        <af:inputNumberSlider label="Numero de Valores" id="ins1" minimum="1" autoSubmit="true"
+                                                                 valueChangeListener="#{bRegistrarFicha.changeSliderValor}"
+                                                              maximum="6"/>
                                     </af:panelFormLayout>
                         </af:gridCell>
                         <af:gridCell marginStart="2px" width="70%" marginEnd="1px" id="gc2">
@@ -80,20 +90,20 @@
                                             <af:outputLabel value="Criterios" id="ol1"/>
                                             <af:button id="b1"
                                                         icon="#{resource['images:consultar.png']}"
-                                                       actionListener="#{bRegistrarFicha.abrirPopCriterios}"/>
+                                                        actionListener="#{bRegistrarFicha.abrirPopCriterios}"/>
                                     </af:gridCell>
                                     <af:gridCell marginStart="2px" width="30%" marginEnd="2px" id="gc4">
                                             <af:outputLabel value="Indicadores" id="ol2"/>
                                             <af:button icon="#{resource['images:consultar.png']}" id="b2"
-                                                       actionListener="#{bRegistrarFicha.abrirPopIndicadores}"/>
+                                                        actionListener="#{bRegistrarFicha.abrirPopIndicadores}"/>
                                     </af:gridCell>
                                 </af:gridRow>
                                 <af:gridRow>
                                     <af:gridCell>
                                         <af:treeTable value="#{bRegistrarFicha.permisosTree}" var="row"
-                                                      rowBandingInterval="0" id="treeCriIndi" initiallyExpanded="true"
-                                                      binding="#{bRegistrarFicha.treeCriIndi}" rowSelection="single"
-                                                      selectionListener="#{bRegistrarFicha.selectTree}">
+                                                        rowBandingInterval="0" id="treeCriIndi" initiallyExpanded="true"
+                                                        binding="#{bRegistrarFicha.treeCriIndi}" rowSelection="single"
+                                                        selectionListener="#{bRegistrarFicha.selectTree}">
                                             <f:facet name="nodeStamp">
                                                 <af:column sortable="false" headerText="Descripcion" id="c9"
                                                            width="500">
@@ -120,17 +130,21 @@
             <af:dialog id="dialog_popCrits" type="none" title="Criterios" dialogListener="#{bRegistrarFicha.dialogOkCriterios}">
                 <af:subform defaultCommand="btnBuscarCrits">
                         <af:panelFormLayout id="pflPopCrits">
-                            <af:inputNumberSpinbox label="Codigo Criterio" id="ins2" labelStyle="text-align: left;"
-                                                      value="#{bRegistrarFicha.sessionRegistrarFicha.nidCriterio}"/>
+                          <!--  <af:inputNumberSpinbox label="Codigo Criterio" id="ins2" labelStyle="text-align: left;"
+                                                      value="#{bRegistrarFicha.sessionRegistrarFicha.nidCriterio}"/>-->
                             <af:inputText label="Criterio" id="it1" labelStyle="text-align: left;" autoSubmit="true"
-                                            value="#{bRegistrarFicha.sessionRegistrarFicha.descCriterio}">
-                                <af:clientListener method="busquedaTecleando" type="keyUp"/>
-                                <af:serverListener type="teclaEvento" method="#{bRegistrarFicha.busquedaConTecla}"/>
+                                            value="#{bRegistrarFicha.sessionRegistrarFicha.descCriterio}"
+                                            binding="#{bRegistrarFicha.itDescCrit}">
+                                <!--<af:clientListener method="busquedaTecleando" type="keyUp"/>
+                                <af:serverListener type="teclaEvento" method="#{bRegistrarFicha.busquedaConTecla}"/>-->
                             </af:inputText>
+                        <af:messages id="msjCrit" inline="true" binding="#{bRegistrarFicha.mensaje}"/>
                         <af:panelGroupLayout id="pgl3">
                             <af:button text="Buscar" id="btnBuscarCrits" action="#{bRegistrarFicha.buscarCriterios}"/>
                             <af:button id="btnRefreshCrits" icon="#{resource['images:refresh.png']}"
                                         action="#{bRegistrarFicha.resetCrits}"/>
+                            <af:button text="Registrar" id="btnRegCrit"
+                                        actionListener="#{bRegistrarFicha.registrarCriterio}"/>
                         </af:panelGroupLayout>
                     </af:panelFormLayout>
                 </af:subform>
@@ -154,14 +168,18 @@
             <af:dialog id="dialog_popIndis" title="Indicadores" type="none">
                 <af:subform defaultCommand="btnBuscarIndis">
                     <af:panelFormLayout id="pflPopIndis">
-                        <af:inputNumberSpinbox label="Codigo Indicador" id="insNidIndi" labelStyle="text-align: left;"
-                                               value="#{bRegistrarFicha.sessionRegistrarFicha.nidIndicador}"/>
+                        <!--<af:inputNumberSpinbox label="Codigo Indicador" id="insNidIndi" labelStyle="text-align: left;"
+                                               value="#{bRegistrarFicha.sessionRegistrarFicha.nidIndicador}"/>-->
                         <af:inputText label="Indicador" id="itDescIndi" labelStyle="text-align: left;"
-                                        value="#{bRegistrarFicha.sessionRegistrarFicha.descIndicador}"/>
+                                        value="#{bRegistrarFicha.sessionRegistrarFicha.descIndicador}"
+                                        binding="#{bRegistrarFicha.itDescIndi}"/>
+                        <af:messages id="msjIndi" inline="true" binding="#{bRegistrarFicha.mensajeIndicador}"/>
                         <af:panelGroupLayout id="pgl4">
                             <af:button text="Buscar" id="btnBuscarIndis" action="#{bRegistrarFicha.buscarIndicadores}"/>
                             <af:button id="btnRefreshIndis" icon="#{resource['images:refresh.png']}"
                                         action="#{bRegistrarFicha.resetIndis}"/>
+                            <af:button text="Registrar" id="btnRegIndi"
+                                        actionListener="#{bRegistrarFicha.registrarIndicador}"/>
                         </af:panelGroupLayout>
                     </af:panelFormLayout>
                 </af:subform>
@@ -182,25 +200,33 @@
             </af:dialog>
         </af:popup>
         <af:popup childCreation="deferred" id="popIndByCrit"
-                  binding="#{bRegistrarFicha.popIndByCrit}">
+                  binding="#{bRegistrarFicha.popIndByCrit}"
+                  popupCanceledListener="#{bRegistrarFicha.cancelarPopIndiByCrit}">
             <af:dialog id="diaIndByCrit"
                        title="Indicadores del Criterio: #{sessionScope.sessionRegistrarFicha.descCriterioSeleccionado}" type="none">
                 <af:panelGroupLayout id="pgl5">
                     <af:button text="Nuevo" id="b3" actionListener="#{bRegistrarFicha.abrirPopIndicadores}"/>
-                    <af:button text="Borrar" id="b4"/>
                 </af:panelGroupLayout>
                 <af:separator/>
                 <af:table value="#{sessionScope.sessionRegistrarFicha.lstIndicadoresByCriterio}" var="row"
-                          rowBandingInterval="0" id="tbIndCr" rowSelection="single" varStatus="vs"
-                          binding="#{bRegistrarFicha.tbIndCr}" emptyText="No hay Indicadores asignados">
+                           rowBandingInterval="0" id="tbIndCr" rowSelection="single" varStatus="vs"
+                           binding="#{bRegistrarFicha.tbIndCr}" emptyText="No hay Indicadores asignados"
+                           selectionListener="#{bRegistrarFicha.selectIndicadorByCriterio}" width="410">
                     <af:column sortable="true" headerText="Codigo" align="end" id="c10" width="35" sortProperty="nidIndicador">
                         <af:outputText value="#{row.nidIndicador}" id="ot10"/>
                     </af:column>
-                    <af:column sortable="true" headerText="Indicador" align="start" id="c11" width="250" sortProperty="descripcionIndicador">
+                    <af:column sortable="true" headerText="Indicador" align="start" id="c11" width="315" sortProperty="descripcionIndicador">
                         <af:outputText value="#{row.descripcionIndicador}" id="ot11"/>
+                    </af:column>
+                    <af:column width="40">
+                        <af:button icon="#{resource['images:borrar.png']}"/>
                     </af:column>
                 </af:table>
             </af:dialog>
+        </af:popup>
+        
+        <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
+            <af:outputText value="Context Info in Popup"  inlineStyle="font-size:larger;"/>
         </af:popup>
         <!-- FIN POPUPS -->
     </f:view>

@@ -1,5 +1,6 @@
 package sped.negocio.BDL.SFBean;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ import javax.persistence.Query;
 
 import sped.negocio.BDL.IL.BDL_C_SFIndicadorLocal;
 import sped.negocio.BDL.IR.BDL_C_SFIndicadorRemote;
+import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanIndicador;
 import sped.negocio.entidades.eval.Indicador;
 
@@ -38,8 +40,18 @@ public class BDL_C_SFIndicadorBean implements BDL_C_SFIndicadorRemote,
                 if(beanIndicador.getDescripcionIndicador() != null){
                     qlString = qlString.concat(" AND upper(i.descripcionIndicador) like :descripcionIndicador ");
                 }
-                if(beanIndicador.getNidIndicador() != 0){
-                    qlString = qlString.concat(" AND i.nidIndicador = :nidIndicador ");
+                if(beanIndicador.getLstCritsArbol() != null){
+                    if(beanIndicador.getLstCritsArbol().size() > 0){
+                        Iterator it = beanIndicador.getLstCritsArbol().iterator();
+                        while(it.hasNext()){
+                            Integer crit = (Integer) it.next();
+                            qlString = qlString.concat(" AND i.nidIndicador <> "+crit);
+                        }
+                    }
+                }else{
+                    if(beanIndicador.getNidIndicador() != 0){
+                        qlString = qlString.concat(" AND i.nidIndicador = :nidIndicador ");
+                    }
                 }
             }
             Query query = em.createQuery(qlString);

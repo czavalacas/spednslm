@@ -10,4 +10,8 @@ import sped.negocio.entidades.eval.Ficha;
 public interface BDL_C_SFFichaRemote {
     List<Ficha> getFichaFindAll();
     List<Ficha> getFichaByAttr_BDL();
+    Object[] getLastestFichaVersionByAttr_BDL(int year,
+                                            int mes,
+                                            String tipFicha,
+                                            String tipFichaCurso);
 }

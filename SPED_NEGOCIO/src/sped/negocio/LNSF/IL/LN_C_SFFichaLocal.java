@@ -9,4 +9,8 @@ import sped.negocio.entidades.beans.BeanFicha;
 @Local
 public interface LN_C_SFFichaLocal {
     List<BeanFicha> getLstFichasByAttr_LN();
+    String getNextVersionFichaByAttr_LN(int year,
+                                        int mes,
+                                        String tipFicha,
+                                        String tipFichaCurso);
 }

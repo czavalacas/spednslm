@@ -23,7 +23,7 @@ import sped.negocio.entidades.beans.BeanConstraint;
 
 @Stateless(name = "BDL_C_SFUtils", mappedName = "mapBDL_C_SFUtils")
 public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
-                                          BDL_C_SFUtilsLocal {
+                                             BDL_C_SFUtilsLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -79,4 +79,33 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
             return null;
         }
     }
+    
+    public int findCountByProperty(String atributoDesc, 
+                                    Object atributoValor, 
+                                    String entidad, 
+                                    boolean changeCase,
+                                    boolean isUpdate) {
+         try {
+             String queryString = "select count(model) " +
+                                  "from "+entidad+" model " +
+                                  "where 1 = 1 ";
+             if(changeCase){
+                 queryString = queryString.concat(" and upper(model."+ atributoDesc +") = upper(:propertyValue) ");
+             }else{
+                 queryString = queryString.concat(" and model."+ atributoDesc +" = :propertyValue ");
+             }
+             if(isUpdate){
+                 queryString = queryString.concat(" and upper(model."+ atributoDesc +") <> :propertyValue ");
+             }
+             List lst = em.createQuery(queryString).setParameter("propertyValue",atributoValor).getResultList();
+             if(lst.isEmpty()){
+                 return 0;
+             }else{
+                 return Integer.parseInt(lst.get(0).toString());
+             }
+         } catch (Exception re) {
+             re.printStackTrace();
+             return 0;
+         }
+     }
 }
