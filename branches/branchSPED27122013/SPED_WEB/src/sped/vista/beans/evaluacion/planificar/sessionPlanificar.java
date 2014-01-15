@@ -33,6 +33,8 @@ public class sessionPlanificar {
     private Date fechaInicioEvaluacion;
     private Date fechaFinEvaluacion;
     private Integer nidEvaluacionDelet;
+    private Integer nidPlanificador;
+    private Integer nidRol;
     //atributos para popup
     private Date fechaEvaluacionPopup;
     private Date horaEvaluacionPopup;
@@ -44,6 +46,7 @@ public class sessionPlanificar {
     private String docenteEvaluacion;
     private String dniDocenteEvaluacion;
     private boolean estadoChoiceEvaluadores;
+    private boolean estadoBotonEliminarEvaluacion;
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
         this.listaHorarios = listaHorarios;
@@ -291,4 +294,27 @@ public class sessionPlanificar {
         return nidEvaluacionDelet;
     }
 
+    public void setNidPlanificador(Integer nidPlanificador) {
+        this.nidPlanificador = nidPlanificador;
+    }
+
+    public Integer getNidPlanificador() {
+        return nidPlanificador;
+    }
+
+    public void setEstadoBotonEliminarEvaluacion(boolean estadoBotonEliminarEvaluacion) {
+        this.estadoBotonEliminarEvaluacion = estadoBotonEliminarEvaluacion;
+    }
+
+    public boolean isEstadoBotonEliminarEvaluacion() {
+        return estadoBotonEliminarEvaluacion;
+    }
+
+    public void setNidRol(Integer nidRol) {
+        this.nidRol = nidRol;
+    }
+
+    public Integer getNidRol() {
+        return nidRol;
+    }
 }

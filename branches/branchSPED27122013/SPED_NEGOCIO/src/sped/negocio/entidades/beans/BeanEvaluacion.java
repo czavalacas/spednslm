@@ -16,6 +16,7 @@ public class BeanEvaluacion implements Serializable {
         private int nidEvaluador;    
         private Date startDate;      
         private BeanMain main;
+        private int nidPlanificador;
         private List<BeanResultado> resultadoLista;
 
 
@@ -89,5 +90,13 @@ public class BeanEvaluacion implements Serializable {
 
     public List<BeanResultado> getResultadoLista() {
         return resultadoLista;
+    }
+
+    public void setNidPlanificador(int nidPlanificador) {
+        this.nidPlanificador = nidPlanificador;
+    }
+
+    public int getNidPlanificador() {
+        return nidPlanificador;
     }
 }

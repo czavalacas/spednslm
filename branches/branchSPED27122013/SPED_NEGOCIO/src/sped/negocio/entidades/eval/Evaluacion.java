@@ -42,7 +42,9 @@ public class Evaluacion implements Serializable {
     @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi" )
     private int nidEvaluacion;
     @Column(name = "nid_evaluador", nullable = false)
-    private int nidEvaluador;
+    private int nidEvaluador;    
+    @Column(name = "nid_planificador", nullable = false)
+    private int nidPlanificador;
     @Column(name = "start_Date", nullable = false)
     private Timestamp startDate;
     @ManyToOne
@@ -55,13 +57,14 @@ public class Evaluacion implements Serializable {
     }
 
     public Evaluacion(String descripcion, Timestamp endDate, String estadoEvaluacion, String nidDate, int nidEvaluacion,
-                      int nidEvaluador, Main main, Timestamp startDate) {
+                      int nidEvaluador, int nidPlanificador, Main main, Timestamp startDate) {
         this.descripcion = descripcion;
         this.endDate = endDate;
         this.estadoEvaluacion = estadoEvaluacion;
         this.nidDate = nidDate;
         this.nidEvaluacion = nidEvaluacion;
         this.nidEvaluador = nidEvaluador;
+        this.nidPlanificador = nidPlanificador;
         this.main = main;
         this.startDate = startDate;
     }
@@ -138,6 +141,14 @@ public class Evaluacion implements Serializable {
 
     public void setResultadoLista(List<Resultado> resultadoLista) {
         this.resultadoLista = resultadoLista;
+    }
+
+    public void setNidPlanificador(int nidPlanificador) {
+        this.nidPlanificador = nidPlanificador;
+    }
+
+    public int getNidPlanificador() {
+        return nidPlanificador;
     }
 
     public Resultado addResultado(Resultado resultado) {
