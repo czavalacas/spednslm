@@ -3,6 +3,7 @@ package sped.vista.beans.evaluacion.ficha;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -39,9 +40,36 @@ public class bSessionRegistrarFicha implements Serializable {
     private List<BeanIndicador> lstIndisSelected = new ArrayList<BeanIndicador>();
     private BeanCriterio critSelected;   
 
+    private BeanCriterio critSelectedAux;
+    private Date fechaHoy = new Date();
+    private String versionGenerada;
     
     public bSessionRegistrarFicha() {
 
+    }
+
+    public void setVersionGenerada(String versionGenerada) {
+        this.versionGenerada = versionGenerada;
+    }
+
+    public String getVersionGenerada() {
+        return versionGenerada;
+    }
+
+    public void setFechaHoy(Date fechaHoy) {
+        this.fechaHoy = fechaHoy;
+    }
+
+    public Date getFechaHoy() {
+        return fechaHoy;
+    }
+
+    public void setCritSelectedAux(BeanCriterio critSelectedAux) {
+        this.critSelectedAux = critSelectedAux;
+    }
+
+    public BeanCriterio getCritSelectedAux() {
+        return critSelectedAux;
     }
 
     public void setCritSelected(BeanCriterio critSelected) {

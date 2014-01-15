@@ -2,6 +2,8 @@ package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
 
+import java.sql.Timestamp;
+
 public class BeanFicha implements Serializable {
     @SuppressWarnings("compatibility:-6254141762681500770")
     private static final long serialVersionUID = 1L;
@@ -14,6 +16,15 @@ public class BeanFicha implements Serializable {
     private String descripcionTipoFicha;//Auxiliares tabla:admcons
     private String descripcionTipoFichaCurso;//Auxiliares tabla:admcons
     private String descripcionEstadoFicha;//Auxiliares tabla:admcons
+    private Timestamp fechaFicha;
+
+    public void setFechaFicha(Timestamp fechaFicha) {
+        this.fechaFicha = fechaFicha;
+    }
+
+    public Timestamp getFechaFicha() {
+        return fechaFicha;
+    }
 
     public void setDescripcionVersion(String descripcionVersion) {
         this.descripcionVersion = descripcionVersion;

@@ -2,6 +2,9 @@ package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
 
+import java.util.HashSet;
+import java.util.List;
+
 public class BeanIndicador implements Serializable {
     @SuppressWarnings("compatibility:273036889079562424")
     private static final long serialVersionUID = 1L;
@@ -9,6 +12,8 @@ public class BeanIndicador implements Serializable {
     private String descripcionIndicador;
     private Integer nidIndicador;
     private boolean selected = false;
+    List<Integer> lstCritsArbol;
+    private BeanError beanError = new BeanError();
 
     @Override
     public int hashCode(){
@@ -30,6 +35,22 @@ public class BeanIndicador implements Serializable {
         }else{
             return false;
         }
+    }
+
+    public void setBeanError(BeanError beanError) {
+        this.beanError = beanError;
+    }
+
+    public BeanError getBeanError() {
+        return beanError;
+    }
+
+    public void setLstCritsArbol(List<Integer> lstCritsArbol) {
+        this.lstCritsArbol = lstCritsArbol;
+    }
+
+    public List<Integer> getLstCritsArbol() {
+        return lstCritsArbol;
     }
 
     public void setSelected(boolean selected) {

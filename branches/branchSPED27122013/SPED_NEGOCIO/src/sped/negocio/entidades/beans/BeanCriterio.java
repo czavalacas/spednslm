@@ -3,9 +3,10 @@ package sped.negocio.entidades.beans;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-public class BeanCriterio implements Serializable {
+public class BeanCriterio implements Serializable, Cloneable {
     @SuppressWarnings("compatibility:-4334476189667862718")
     private static final long serialVersionUID = 1L;
 
@@ -14,7 +15,18 @@ public class BeanCriterio implements Serializable {
     private List<BeanCriterio> lstIndicadores = new ArrayList<BeanCriterio>();
     private boolean selected = false;
     private boolean mostrarBoton = false;
+    private BeanError beanError = new BeanError();
 
+    public Object clone() {
+        Object clone = null;
+        try {
+            clone = super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return clone;
+    }
+    
     @Override
     public int hashCode(){
         if(this.getNidCriterio() != 0){
@@ -35,6 +47,14 @@ public class BeanCriterio implements Serializable {
         }else{
             return false;
         }
+    }
+
+    public void setBeanError(BeanError beanError) {
+        this.beanError = beanError;
+    }
+
+    public BeanError getBeanError() {
+        return beanError;
     }
 
     public void setMostrarBoton(boolean mostrarBoton) {

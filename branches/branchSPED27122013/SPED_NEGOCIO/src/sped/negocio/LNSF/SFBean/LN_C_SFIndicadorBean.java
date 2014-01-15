@@ -1,6 +1,8 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,6 +21,7 @@ import net.sf.dozer.util.mapping.MapperIF;
 import sped.negocio.BDL.IL.BDL_C_SFIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFIndicadorLocal;
 import sped.negocio.LNSF.IR.LN_C_SFIndicadorRemote;
+import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanIndicador;
 import sped.negocio.entidades.eval.Indicador;
 
@@ -37,11 +40,17 @@ public class LN_C_SFIndicadorBean implements LN_C_SFIndicadorRemote,
     }
     
     public List<BeanIndicador> getIndicadoresByAttr_LN(String descIndicador, 
-                                                        int nidIndicador){
+                                                        int nidIndicador,
+                                                        HashSet<BeanCriterio> lstCritsArbol){
         try{
             BeanIndicador beanIndicador = new BeanIndicador();
             beanIndicador.setDescripcionIndicador(descIndicador);
             beanIndicador.setNidIndicador(nidIndicador);
+            if(lstCritsArbol != null){
+                if(lstCritsArbol.size() > 0){
+                    beanIndicador.setLstCritsArbol(this.toListInteger(lstCritsArbol));
+                }
+            }
             return transformLstIndicadores(bdL_C_SFIndicadorLocal.getIndicadoresByAttr_BD(beanIndicador));
         }catch(Exception e){
             return new ArrayList<BeanIndicador>();
@@ -61,5 +70,23 @@ public class LN_C_SFIndicadorBean implements LN_C_SFIndicadorRemote,
             e.printStackTrace();
             return null;
         }
+    }
+    
+    public List<Integer> toListInteger(HashSet<BeanCriterio> lstCritsArbol){
+        List<Integer> lstNidsANoBuscar = new ArrayList<Integer>();
+        Iterator it = lstCritsArbol.iterator();
+        while(it.hasNext()){
+            BeanCriterio crit = (BeanCriterio) it.next();
+            if(crit.getLstIndicadores() != null){
+                if(crit.getLstIndicadores().size() > 0){
+                    Iterator iti = crit.getLstIndicadores().iterator();
+                    while(iti.hasNext()){
+                        BeanCriterio crit2 = (BeanCriterio) iti.next();
+                        lstNidsANoBuscar.add(crit2.getNidCriterio());
+                    }
+                }
+            }
+        }
+        return lstNidsANoBuscar;
     }
 }

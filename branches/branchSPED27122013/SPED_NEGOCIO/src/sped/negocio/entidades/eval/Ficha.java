@@ -2,6 +2,8 @@ package sped.negocio.entidades.eval;
 
 import java.io.Serializable;
 
+import java.sql.Timestamp;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,7 +35,9 @@ public class Ficha implements Serializable {
     private List<FichaValor> fichaValorLista;
     @OneToMany(mappedBy = "ficha", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<FichaCriterio> fichaCriterioLista;
-
+    @Column(name = "fecha_ficha", nullable = false)
+    private Timestamp fechaFicha;
+    
     public Ficha() {
     }
 
@@ -45,6 +49,13 @@ public class Ficha implements Serializable {
         this.tipoFichaCurso = tipoFichaCurso;
     }
 
+    public void setFechaFicha(Timestamp fechaFicha) {
+        this.fechaFicha = fechaFicha;
+    }
+
+    public Timestamp getFechaFicha() {
+        return fechaFicha;
+    }
 
     public String getDescripcionVersion() {
         return descripcionVersion;

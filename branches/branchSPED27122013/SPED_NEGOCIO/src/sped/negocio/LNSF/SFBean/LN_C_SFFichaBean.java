@@ -21,6 +21,7 @@ import sped.negocio.BDL.IL.BDL_C_SFFichaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaLocal;
 import sped.negocio.LNSF.IR.LN_C_SFFichaRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.eval.Ficha;
@@ -67,6 +68,31 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
             return lstBeanFichas;
         } catch (MappingException me) {
             me.printStackTrace();
+            return null;
+        }
+    }
+    
+    public String getNextVersionFichaByAttr_LN(int year,
+                                                int mes,
+                                                String tipFicha,
+                                                String tipFichaCurso){
+        String desc = "";
+        try{
+            Object[] o = bdL_C_SFFichaLocal.getLastestFichaVersionByAttr_BDL(year,mes,tipFicha,tipFichaCurso);
+            if(o != null){
+                int vers = 1;
+                String strMes = "";
+                if(o[0] != null){
+                    vers = Integer.parseInt(o[0].toString()) + 1;
+                }
+                if(mes < 10){
+                    strMes = "0"+mes;
+                }
+                desc = "v."+tipFicha+"."+tipFichaCurso+"."+year+"."+strMes+"."+vers;
+            }
+            return desc;
+        }catch(Exception e){
+            e.printStackTrace();
             return null;
         }
     }
