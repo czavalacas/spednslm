@@ -18,6 +18,7 @@ import javax.faces.model.SelectItem;
 import oracle.adf.model.BindingContext;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
+import oracle.adf.view.rich.component.rich.data.RichTreeTable;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.context.AdfFacesContext;
 
@@ -41,9 +42,9 @@ public class Utils {
      * @param severidad SEVERITY_ERROR = 1,SEVERITY_FATAL = 2, SEVERITY_INFO = 3, SEVERITY_WARN = 4
      */
     public static void mostrarMensaje(FacesContext ctx, 
-                                     String detalle,
-                                     String summary,
-                                     int severidad) {
+                                        String detalle,
+                                        String summary,
+                                        int severidad) {
         FacesMessage msg = new FacesMessage();
         switch(severidad){
             case 1 : msg.setSeverity(FacesMessage.SEVERITY_ERROR);break;
@@ -66,6 +67,15 @@ public class Utils {
     }
     
     public static void unselectFilas(RichTable tabla){
+        if(tabla != null){
+            if(tabla.getSelectedRowKeys() != null ){
+                tabla.getSelectedRowKeys().removeAll();
+                addTarget(tabla);
+            }
+        }
+    }
+    
+    public static void unselectFilas(RichTreeTable tabla){
         if(tabla != null){
             if(tabla.getSelectedRowKeys() != null ){
                 tabla.getSelectedRowKeys().removeAll();

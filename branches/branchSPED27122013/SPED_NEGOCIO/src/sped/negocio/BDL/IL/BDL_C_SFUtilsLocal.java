@@ -15,4 +15,9 @@ public interface BDL_C_SFUtilsLocal {
                                           String valorCampo);
     List<Constraint> getListaConstraintsBDL(String nombreCampo, 
                                          String nombreTabla);
+    int findCountByProperty(String atributoDesc, 
+                            Object atributoValor, 
+                            String entidad, 
+                            boolean changeCase,
+                            boolean isUpdate);
 }

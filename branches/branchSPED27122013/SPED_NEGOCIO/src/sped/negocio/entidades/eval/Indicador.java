@@ -7,11 +7,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Indicador.findAll", query = "select o from Indicador o") })
@@ -21,6 +24,8 @@ public class Indicador implements Serializable {
     @Column(name = "desc_indicador")
     private String descripcionIndicador;
     @Id
+    @TableGenerator( name = "stmcodi_evmindi", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evmindi.nidIndicador", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi_evmindi" )
     @Column(name = "nidIndicador", nullable = false)
     private int nidIndicador;
     @OneToMany(mappedBy = "indicador", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
