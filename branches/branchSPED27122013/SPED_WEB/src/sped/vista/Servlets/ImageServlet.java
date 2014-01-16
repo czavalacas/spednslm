@@ -34,13 +34,50 @@ public class ImageServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(CONTENT_TYPE);
         String nomusuario = request.getParameter("nomusuario");
-        OutputStream os = response.getOutputStream();
-        Connection conn = null;
+        Connection conn = null;        
+        Img(conn, response, nomusuario);
+    }
+    
+    public void Img(Connection conn, HttpServletResponse response, String nomusuario){
         try {
-            conn = spedDS.getConnection();
-            String sql = "SELECT a.foto " + 
-                         "FROM admusua a " + 
-                         "WHERE a.usuario =" + nomusuario + "";            
+            OutputStream os = response.getOutputStream();            
+            conn = spedDS.getConnection();       
+            String sql = "SELECT a.foto " +
+                         "FROM admusua a " +
+                         "WHERE a.usuario =" + nomusuario + "";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Blob blob = rs.getBlob("foto");
+                if (blob != null) {
+                    BufferedInputStream in = new BufferedInputStream(blob.getBinaryStream());
+                    int b;
+                    byte[] buffer = new byte[10240];
+                    while ((b = in.read(buffer, 0, 10240)) != -1) {
+                        os.write(buffer, 0, b);
+                    }
+                    os.close();
+                }else{
+                    Img2(conn, response);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception sqle) {
+                sqle.printStackTrace();
+            }
+        }
+    }
+    
+    public void Img2(Connection conn, HttpServletResponse response){
+        try {
+            OutputStream os = response.getOutputStream();
+            String sql = "SELECT a.foto FROM imagen a WHERE a.descripcion = 'imgdefecto'";
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
@@ -57,15 +94,6 @@ public class ImageServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception sqle) {
-                sqle.printStackTrace();
-            }
         }
-
     }
 }
