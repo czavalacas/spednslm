@@ -88,7 +88,14 @@ public class bGestionarUsuarios {
     private RichInputText itDni;
     private RichInputText itUsuario;
     private RichInputText itClave;
-    private RichPanelGridLayout pgl2;
+    private RichPanelGridLayout pgl2;    
+    private RichPanelFormLayout pfl3;
+    private RichSelectOneChoice choiceFTipoSede;
+    private UISelectItems si6;
+    private RichSelectOneChoice choiceFTipoNivel;
+    private UISelectItems si7;
+    private RichInputFile fileImg;
+    private RichImage i1;
     @EJB
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
     @EJB
@@ -104,13 +111,6 @@ public class bGestionarUsuarios {
     private LN_C_SFSedeRemote ln_C_SFSedeRemote;
     @EJB
     private LN_C_SFSedeNivelRemote ln_C_SFSedeNivelRemote;
-    private RichPanelFormLayout pfl3;
-    private RichSelectOneChoice choiceFTipoSede;
-    private UISelectItems si6;
-    private RichSelectOneChoice choiceFTipoNivel;
-    private UISelectItems si7;
-    private RichInputFile fileImg;
-    private RichImage i1;
 
     public bGestionarUsuarios() {
         try {
@@ -198,6 +198,11 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setUsuario(usuario.getUsuario());
         sessionGestionarUsuarios.setClave(usuario.getClave());
         sessionGestionarUsuarios.setNidRol(usuario.getRol().getNidRol());
+        if(usuario.getFoto() == null){
+            sessionGestionarUsuarios.setRenderImg(false);
+        }else{
+            sessionGestionarUsuarios.setRenderImg(true);
+        }
         if(usuario.getAreaAcademica() != null){
             sessionGestionarUsuarios.setNidAreaAcademica(usuario.getAreaAcademica().getNidAreaAcademica());
             sessionGestionarUsuarios.setRenderAreaAcdemica(true);
@@ -227,8 +232,10 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setNidAreaAcademica(0);
         sessionGestionarUsuarios.setRenderAreaAcdemica(false);
         sessionGestionarUsuarios.setRenderActualizar(true);
-        sessionGestionarUsuarios.setUsuario("");
+        sessionGestionarUsuarios.setUsuario("");        
         sessionGestionarUsuarios.setClave("");
+        sessionGestionarUsuarios.setRutaImg("");
+        sessionGestionarUsuarios.setRenderImg(false);
         resetValues();
         Utils.showPopUpMIDDLE(popGestionUsuario);
         Utils.addTargetMany(b2, b3);
@@ -279,7 +286,8 @@ public class bGestionarUsuarios {
                                               sessionGestionarUsuarios.getNidAreaAcademica(), 
                                               sessionGestionarUsuarios.getUsuario(), 
                                               sessionGestionarUsuarios.getClave(), 
-                                              sessionGestionarUsuarios.getNidUsuario());
+                                              sessionGestionarUsuarios.getNidUsuario(),
+                                              sessionGestionarUsuarios.getRutaImg());
         String msj="";
         switch(sessionGestionarUsuarios.getTipoEvento()){
         case 1 : msj =  "Se registro al usuario "; break;
@@ -301,7 +309,6 @@ public class bGestionarUsuarios {
     public void tipoRolChangeListener(ValueChangeEvent valueChangeEvent) {
         try{
             String index = valueChangeEvent.getNewValue().toString();
-            System.out.println("error2"+index);
             int nidrol = Integer.parseInt(index);
             if (ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "Evaluador")){
                 sessionGestionarUsuarios.setRenderAreaAcdemica(true);                               
@@ -424,8 +431,7 @@ public class bGestionarUsuarios {
                 String imageDirPath = servletCtx.getRealPath("/");
                 InputStream inputStream = file.getInputStream();
                 String rutaImg = imageDirPath + rutaLocal;
-                System.out.println("ruta:"+rutaImg);
-                sessionGestionarUsuarios.setRenderImagen(true);
+                sessionGestionarUsuarios.setRenderImg(true);
                 sessionGestionarUsuarios.setRutaImg(rutaImg);
                 TransferFile(rutaImg, rutaLocal, inputStream);
             }else{
@@ -439,9 +445,9 @@ public class bGestionarUsuarios {
     
     public void TransferFile(String ruta, String rutalocal, InputStream in) throws Exception {
         OutputStream out = new FileOutputStream(new File(ruta));
-        resize(in, out, 175, 150);        
+        resize(in, out, 175, 150);  
         i1.setSource(rutalocal);
-        Utils.addTarget(i1);
+        Utils.addTarget(i1);              
     }
     
     public void resize(InputStream input, OutputStream output, int width, int height) throws Exception {

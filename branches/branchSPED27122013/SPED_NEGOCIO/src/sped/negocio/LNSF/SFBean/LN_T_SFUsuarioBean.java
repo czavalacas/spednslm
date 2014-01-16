@@ -1,5 +1,10 @@
 package sped.negocio.LNSF.SFBean;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.annotation.Resource;
 
 import javax.ejb.EJB;
@@ -47,8 +52,21 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                                  int nidAreaA,
                                  String usuario,
                                  String clave,
-                                 int idUsuario){
+                                 int idUsuario,
+                                 String rutaImg){
         Usuario u = new Usuario();
+        try{
+            if(rutaImg != null){
+                if(!rutaImg.equals("")){
+                    byte[] byt = extractBytes(rutaImg);
+                    if(byt != null){
+                        u.setFoto(byt);
+                    }
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         if(tipoEvento == 1){
             Rol rol = bdL_C_SFRolLocal.findConstrainById(nidRol);
             AreaAcademica area = bdL_C_SFAreaAcademicaLocal.findEvaluadorById(nidAreaA);
@@ -80,5 +98,26 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setEstadoUsuario("1");
             bdL_T_SFUsuarioLocal.mergeUsuario(u);
         }
+    }
+    
+    public static byte[] extractBytes(String ImageName) throws IOException {
+        File archivo = new File(ImageName);
+        byte[] aBytes = null;
+        long tamanoA = archivo.length(); 
+        aBytes = new byte[(int) tamanoA];
+        try{
+            FileInputStream docu = new FileInputStream(archivo);
+            int numBytes = docu.read(aBytes);
+            docu.close(); 
+        }
+        catch (FileNotFoundException e)
+        {
+        System.out.println("No se ha encontrado el archivo.");
+        }
+        catch (IOException e)
+        {
+        System.out.println("No se ha podido leer el archivo.");
+        }
+        return aBytes;
     }
 }
