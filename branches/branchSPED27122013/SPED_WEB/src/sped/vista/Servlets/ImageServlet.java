@@ -37,10 +37,10 @@ public class ImageServlet extends HttpServlet {
         OutputStream os = response.getOutputStream();
         Connection conn = null;
         try {
+            conn = spedDS.getConnection();
             String sql = "SELECT a.foto " + 
                          "FROM admusua a " + 
-                         "WHERE a.usuario =" + nomusuario + "";
-            conn = spedDS.getConnection();
+                         "WHERE a.usuario =" + nomusuario + "";            
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
@@ -59,6 +59,9 @@ public class ImageServlet extends HttpServlet {
             e.printStackTrace();
         } finally {
             try {
+                if (conn != null) {
+                    conn.close();
+                }
             } catch (Exception sqle) {
                 sqle.printStackTrace();
             }

@@ -27,7 +27,7 @@ public class bSessionGestionarUsuarios implements Serializable {
     private String clave;
     private boolean renderAreaAcdemica = false;
     private boolean renderActualizar = false;
-    private boolean renderImagen = false;
+    private boolean renderImg = false;
     ///filtro///
     private String fNombres;
     private String fDni;
@@ -291,14 +291,6 @@ public class bSessionGestionarUsuarios implements Serializable {
         return fbooleanNivel;
     }
 
-    public void setRenderImagen(boolean renderImagen) {
-        this.renderImagen = renderImagen;
-    }
-
-    public boolean isRenderImagen() {
-        return renderImagen;
-    }
-
     public void setRutaImg(String rutaImg) {
         this.rutaImg = rutaImg;
     }
@@ -307,4 +299,11 @@ public class bSessionGestionarUsuarios implements Serializable {
         return rutaImg;
     }
 
+    public void setRenderImg(boolean renderImg) {
+        this.renderImg = renderImg;
+    }
+
+    public boolean isRenderImg() {
+        return renderImg;
+    }
 }
