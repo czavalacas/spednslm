@@ -11,5 +11,6 @@ public interface LN_T_SFUsuarioRemote {
                           int nidAreaA,
                           String usuario,
                           String clave,
-                          int idUsuario);
+                          int idUsuario,
+                          String rutaImg);
 }
