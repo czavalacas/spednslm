@@ -3,7 +3,7 @@
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         beforePhase="#{bMain.createMenus}">
     <af:document title="SPED ©" id="d1">
-        <af:form id="f1">
+        <af:form id="f1" usesUpload="true">
             <af:spacer height="10"/>
             <af:panelSplitter orientation="vertical" splitterPosition="50" id="ps1">
                 <f:facet name="first">

@@ -1,7 +1,18 @@
 package sped.vista.beans.administrativo.usuario;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
+import java.io.OutputStream;
+
 import javax.faces.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,20 +24,28 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import javax.imageio.ImageIO;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
+import javax.servlet.ServletContext;
+
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
+import oracle.adf.view.rich.component.rich.input.RichInputFile;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
+import oracle.adf.view.rich.component.rich.output.RichImage;
 import oracle.adf.view.rich.event.DialogEvent;
 
 import org.apache.myfaces.trinidad.event.SelectionEvent;
+
+import org.apache.myfaces.trinidad.model.UploadedFile;
 
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
@@ -90,6 +109,8 @@ public class bGestionarUsuarios {
     private UISelectItems si6;
     private RichSelectOneChoice choiceFTipoNivel;
     private UISelectItems si7;
+    private RichInputFile fileImg;
+    private RichImage i1;
 
     public bGestionarUsuarios() {
         try {
@@ -379,6 +400,58 @@ public class bGestionarUsuarios {
             itUsuario.resetValue();
             itClave.resetValue();
         }
+    }    
+
+    public void uploadFileValueChangeEvent(ValueChangeEvent valueChangeEvent) {
+        try{
+            UploadedFile file = (UploadedFile)valueChangeEvent.getNewValue();            
+            long fileSize = file.getLength() / (1024 * 1024);//megabytes
+            if(file.getLength() > 2097152){
+                Utils.mostrarMensaje(ctx, "El archivo no puede ser de mas de 2 MB.", "Error", 4);
+                return;
+            }
+            String extension = file.getFilename().substring(file.getFilename().lastIndexOf(".") + 1, file.getFilename().length());
+            if(extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")){
+                String ext = file.getFilename().substring(file.getFilename().lastIndexOf(".") + 1, file.getFilename().length());
+                String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
+                String rutaLocal = "";
+                if(File.separator.equals("/")){
+                    rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + "usuarios" + File.separator +  timePath + "." + ext;     
+                }else{
+                    rutaLocal = "recursos" + File.separator + "img" + File.separator + "usuarios" + File.separator + timePath + "." + ext;   
+                }
+                ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
+                String imageDirPath = servletCtx.getRealPath("/");
+                InputStream inputStream = file.getInputStream();
+                String rutaImg = imageDirPath + rutaLocal;
+                System.out.println("ruta:"+rutaImg);
+                sessionGestionarUsuarios.setRenderImagen(true);
+                sessionGestionarUsuarios.setRutaImg(rutaImg);
+                TransferFile(rutaImg, rutaLocal, inputStream);
+            }else{
+                Utils.mostrarMensaje(ctx, "El archivo no es de tipo imagen suba un jpg/png", "Error", 1);
+            }            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    public void TransferFile(String ruta, String rutalocal, InputStream in) throws Exception {
+        OutputStream out = new FileOutputStream(new File(ruta));
+        resize(in, out, 175, 150);        
+        i1.setSource(rutalocal);
+        Utils.addTarget(i1);
+    }
+    
+    public void resize(InputStream input, OutputStream output, int width, int height) throws Exception {
+            BufferedImage src = ImageIO.read(input);
+            BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = dest.createGraphics();
+            AffineTransform at = AffineTransform.getScaleInstance((double) width / src.getWidth(), (double) height / src.getHeight());
+            g.drawRenderedImage(src, at);
+            ImageIO.write(dest, "JPG", output);
+            output.close();
     }
 
     public void setB1(RichButton b1) {
@@ -611,5 +684,21 @@ public class bGestionarUsuarios {
 
     public UISelectItems getSi7() {
         return si7;
+    }
+
+    public void setFileImg(RichInputFile fileImg) {
+        this.fileImg = fileImg;
+    }
+
+    public RichInputFile getFileImg() {
+        return fileImg;
+    }
+
+    public void setI1(RichImage i1) {
+        this.i1 = i1;
+    }
+
+    public RichImage getI1() {
+        return i1;
     }
 }
