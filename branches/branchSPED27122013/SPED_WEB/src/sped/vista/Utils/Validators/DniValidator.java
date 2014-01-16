@@ -21,38 +21,44 @@ public class DniValidator implements Validator {
     @EJB
     private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
     private final static String LOOKUP_USUARIO = "mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote";
-    
-    public DniValidator(){
-        try{
+
+    public DniValidator() {
+        try {
             final Context ctx;
             ctx = new InitialContext();
             ln_C_SFUsuarioRemote = (LN_C_SFUsuarioRemote) ctx.lookup(LOOKUP_USUARIO);
-        }catch(Exception e){
-            e.printStackTrace();        
-        }        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) throws ValidatorException {
         String dato = object.toString();
         String msj = "";
-        try{
-            Integer.parseInt(dato.toString());
-            if(dato.length()!=8){
-                msj="Dni debe tener 8 digitos";
-            }else{
-                if(ln_C_SFUsuarioRemote.countUsuarioByDniLN(dato)){
+        if (isNumeric(dato) == false) {
+            msj = "Ingrese solo numeros";
+        } else {
+            if (dato.length() != 8) {
+                msj = "Dni debe tener 8 digitos";
+            } else {
+                if (ln_C_SFUsuarioRemote.countUsuarioByDniLN(dato)) {
                     msj = "El Dni se encuentra registrado";
                 }
             }
-        }catch(Exception e){
-            e.printStackTrace();
-            msj = "Ingrese solo numeros";
-        }finally{
-            if(!msj.isEmpty()){
-                FacesMessage fm = new FacesMessage(msj);
-                throw new ValidatorException(fm);
-            }
-        }                
+        }
+        if(msj != ""){
+            FacesMessage fm = new FacesMessage(msj);
+            throw new ValidatorException(fm);
+        }        
+    }
+
+    private static boolean isNumeric(String cadena) {
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
     }
 }

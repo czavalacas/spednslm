@@ -148,6 +148,13 @@
                         <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si2"
                                        binding="#{bGestionarUsuarios.si2}"/>
                     </af:selectOneChoice>
+                    <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true" 
+                                  labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"                                  
+                                  binding="#{bGestionarUsuarios.fileImg}" maximumFiles="1"
+                                  valueChangeListener="#{bGestionarUsuarios.uploadFileValueChangeEvent}"/>
+                    <af:image id="i1" binding="#{bGestionarUsuarios.i1}"
+                              rendered="#{sessionGestionarUsuarios.renderImagen}"
+                              source="/imageservlet?nomusuario=#{sessionGestionarUsuarios.usuario}"/>
                     <af:inputText label="Usuario" id="itUsuario" maximumLength="10" required="true"
                                   labelStyle="text-align: left;" rendered="#{sessionGestionarUsuarios.renderActualizar}"
                                   value="#{sessionGestionarUsuarios.usuario}" binding="#{bGestionarUsuarios.itUsuario}">
