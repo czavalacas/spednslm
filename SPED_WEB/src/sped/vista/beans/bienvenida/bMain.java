@@ -40,6 +40,7 @@ public class bMain implements Serializable {
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private String usuario;
+    private String nomUsuario;
     private final static String LOGIN = "/faces/Frm_login";
     private RichMenuBar menu;
     private bSessionMain sessionMain;
@@ -49,6 +50,7 @@ public class bMain implements Serializable {
         try {
             if (beanUsuario != null) {
                 usuario = beanUsuario.getUsuario() + " - " + beanUsuario.getNombres();
+                nomUsuario = beanUsuario.getUsuario();
             } else {
                 logoutTarget(LOGIN);
             }
@@ -167,5 +169,13 @@ public class bMain implements Serializable {
 
     public bSessionMain getSessionMain() {
         return sessionMain;
+    }
+
+    public void setNomUsuario(String nomUsuario) {
+        this.nomUsuario = nomUsuario;
+    }
+
+    public String getNomUsuario() {
+        return nomUsuario;
     }
 }
