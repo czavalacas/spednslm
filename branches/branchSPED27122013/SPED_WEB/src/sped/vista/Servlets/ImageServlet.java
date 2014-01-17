@@ -43,9 +43,10 @@ public class ImageServlet extends HttpServlet {
             OutputStream os = response.getOutputStream();            
             conn = spedDS.getConnection();       
             String sql = "SELECT a.foto " +
-                         "FROM admusua a " +
-                         "WHERE a.usuario = '" + nomusuario + "' ";
+                                     "FROM admusua a " +
+                                     "WHERE a.usuario =?";
             PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, nomusuario);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 Blob blob = rs.getBlob("foto");
