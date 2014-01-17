@@ -35,6 +35,18 @@ public class NomUsuarioValidator implements Validator {
         if(num != bdL_C_SFUsuarioRemote.countUsuarioByNomUsuarioBDL(dato)){
             FacesMessage fm = new FacesMessage("El Usuario se encuentra registrado");
             throw new ValidatorException(fm);
+        }else if(!isOnlyletter(dato)){
+            FacesMessage fm = new FacesMessage("Ingrese solo letras");
+            throw new ValidatorException(fm);
         }
+    }
+    
+    public static boolean isOnlyletter(String nombre) {
+        for (int i = 0; i < nombre.length(); i++) {
+            if (!Character.isLetter(nombre.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

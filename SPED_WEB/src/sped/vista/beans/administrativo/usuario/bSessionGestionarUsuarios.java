@@ -17,6 +17,8 @@ public class bSessionGestionarUsuarios implements Serializable {
     private int cod;
     private int nidRol;
     private int nidAreaAcademica;
+    private int nidSede;
+    private int nidNivel;
     private int nidUsuario;
     private int tipoEvento;
     private String titleDialogGestion;
@@ -27,6 +29,8 @@ public class bSessionGestionarUsuarios implements Serializable {
     private String clave;
     private boolean renderAreaAcdemica = false;
     private boolean renderActualizar = false;
+    private boolean renderSede = false;
+    private boolean renderNivel = false;
     private boolean renderImg = false;
     ///filtro///
     private String fNombres;
@@ -305,5 +309,37 @@ public class bSessionGestionarUsuarios implements Serializable {
 
     public boolean isRenderImg() {
         return renderImg;
+    }
+
+    public void setRenderSede(boolean renderSede) {
+        this.renderSede = renderSede;
+    }
+
+    public boolean isRenderSede() {
+        return renderSede;
+    }
+
+    public void setRenderNivel(boolean renderNivel) {
+        this.renderNivel = renderNivel;
+    }
+
+    public boolean isRenderNivel() {
+        return renderNivel;
+    }
+
+    public void setNidSede(int nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public int getNidSede() {
+        return nidSede;
+    }
+
+    public void setNidNivel(int nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public int getNidNivel() {
+        return nidNivel;
     }
 }

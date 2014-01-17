@@ -12,5 +12,7 @@ public interface LN_T_SFUsuarioLocal {
                           String usuario,
                           String clave,
                           int idUsuario,
-                          String rutaImg);
+                          String rutaImg,
+                          int nidSede,
+                          int nidNivel);
 }
