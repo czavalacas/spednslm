@@ -111,6 +111,10 @@ public class bGestionarUsuarios {
     private LN_C_SFSedeRemote ln_C_SFSedeRemote;
     @EJB
     private LN_C_SFSedeNivelRemote ln_C_SFSedeNivelRemote;
+    private RichSelectOneChoice choiceTipoSede;
+    private UISelectItems si8;
+    private RichSelectOneChoice choiceTipoNivel;
+    private UISelectItems si9;
 
     public bGestionarUsuarios() {
         try {
@@ -198,17 +202,19 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setUsuario(usuario.getUsuario());
         sessionGestionarUsuarios.setClave(usuario.getClave());
         sessionGestionarUsuarios.setNidRol(usuario.getRol().getNidRol());
-        if(usuario.getFoto() == null){
-            sessionGestionarUsuarios.setRenderImg(false);
-        }else{
+        if(usuario.getFoto() != null){
             sessionGestionarUsuarios.setRenderImg(true);
         }
         if(usuario.getAreaAcademica() != null){
             sessionGestionarUsuarios.setNidAreaAcademica(usuario.getAreaAcademica().getNidAreaAcademica());
             sessionGestionarUsuarios.setRenderAreaAcdemica(true);
-        }else{
-            sessionGestionarUsuarios.setNidAreaAcademica(0);
-            sessionGestionarUsuarios.setRenderAreaAcdemica(false);
+        }
+        if(usuario.getSedeNivel()!=null){
+            sessionGestionarUsuarios.setNidSede(usuario.getSedeNivel().getSede().getNidSede());
+            sessionGestionarUsuarios.setLstNivel(llenarComboNivel(usuario.getSedeNivel().getSede().getNidSede()));
+            sessionGestionarUsuarios.setNidNivel(usuario.getSedeNivel().getNivel().getNidNivel());
+            sessionGestionarUsuarios.setRenderNivel(true);
+            sessionGestionarUsuarios.setRenderSede(true);
         }
         if(Integer.parseInt(usuario.getEstadoUsuario()) != 0){
             b3.setText("Anular");
@@ -223,19 +229,10 @@ public class bGestionarUsuarios {
     public void nuevoUsuario(ActionEvent actionEvent) {
         b2.setDisabled(true);
         b3.setDisabled(true);
+        sessionGestionarUsuarios.setRenderActualizar(true);
         sessionGestionarUsuarios.setTipoEvento(1);
         sessionGestionarUsuarios.setTitleDialogGestion("Registrar Usuario");
-        sessionGestionarUsuarios.setNomBtnGestion("Registrar");
-        sessionGestionarUsuarios.setNombres("");
-        sessionGestionarUsuarios.setDni("");
-        sessionGestionarUsuarios.setNidRol(0);        
-        sessionGestionarUsuarios.setNidAreaAcademica(0);
-        sessionGestionarUsuarios.setRenderAreaAcdemica(false);
-        sessionGestionarUsuarios.setRenderActualizar(true);
-        sessionGestionarUsuarios.setUsuario("");        
-        sessionGestionarUsuarios.setClave("");
-        sessionGestionarUsuarios.setRutaImg("");
-        sessionGestionarUsuarios.setRenderImg(false);
+        sessionGestionarUsuarios.setNomBtnGestion("Registrar");        
         resetValues();
         Utils.showPopUpMIDDLE(popGestionUsuario);
         Utils.addTargetMany(b2, b3);
@@ -287,7 +284,9 @@ public class bGestionarUsuarios {
                                               sessionGestionarUsuarios.getUsuario(), 
                                               sessionGestionarUsuarios.getClave(), 
                                               sessionGestionarUsuarios.getNidUsuario(),
-                                              sessionGestionarUsuarios.getRutaImg());
+                                              sessionGestionarUsuarios.getRutaImg(),
+                                              sessionGestionarUsuarios.getNidSede(),
+                                              sessionGestionarUsuarios.getNidNivel());
         String msj="";
         switch(sessionGestionarUsuarios.getTipoEvento()){
         case 1 : msj =  "Se registro al usuario "; break;
@@ -311,10 +310,18 @@ public class bGestionarUsuarios {
             String index = valueChangeEvent.getNewValue().toString();
             int nidrol = Integer.parseInt(index);
             if (ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "Evaluador")){
-                sessionGestionarUsuarios.setRenderAreaAcdemica(true);                               
+                sessionGestionarUsuarios.setRenderAreaAcdemica(true);          
+                sessionGestionarUsuarios.setNidSede(0);
+                sessionGestionarUsuarios.setRenderSede(false);
+            }else if(ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "SubDirector")){
+                sessionGestionarUsuarios.setRenderSede(true);   
+                sessionGestionarUsuarios.setNidAreaAcademica(0);
+                sessionGestionarUsuarios.setRenderAreaAcdemica(false);
             }else{
                 sessionGestionarUsuarios.setNidAreaAcademica(0);
                 sessionGestionarUsuarios.setRenderAreaAcdemica(false);
+                sessionGestionarUsuarios.setNidSede(0);
+                sessionGestionarUsuarios.setRenderSede(false);
             }
             Utils.addTargetMany(pfl1);
         }catch(Exception e){
@@ -341,6 +348,25 @@ public class bGestionarUsuarios {
         }catch(Exception e){
             e.printStackTrace();
         }     
+    }
+    
+
+    public void tipoSedeChangeListener(ValueChangeEvent valueChangeEvent) {
+        if(valueChangeEvent.getNewValue() != null){
+            String index = valueChangeEvent.getNewValue().toString();                
+            int nidSede = Integer.parseInt(index);
+            sessionGestionarUsuarios.setLstNivel(llenarComboNivel(nidSede));
+            if(sessionGestionarUsuarios.getLstNivel() != null){
+                if(sessionGestionarUsuarios.getLstNivel().size() > 0){
+                    sessionGestionarUsuarios.setRenderNivel(true);
+                }
+                else{
+                    sessionGestionarUsuarios.setNidNivel(0);
+                    sessionGestionarUsuarios.setRenderNivel(false);
+                }                
+            }
+            Utils.addTarget(pfl1);
+        }
     }
     
     public void tipoSedeFChangeListener(ValueChangeEvent valueChangeEvent) {
@@ -399,6 +425,19 @@ public class bGestionarUsuarios {
     }
     
     public void resetValues(){
+        sessionGestionarUsuarios.setNombres("");
+        sessionGestionarUsuarios.setDni("");
+        sessionGestionarUsuarios.setUsuario("");        
+        sessionGestionarUsuarios.setClave("");
+        sessionGestionarUsuarios.setRutaImg("");
+        sessionGestionarUsuarios.setNidRol(0);        
+        sessionGestionarUsuarios.setNidAreaAcademica(0);
+        sessionGestionarUsuarios.setNidSede(0);
+        sessionGestionarUsuarios.setNidNivel(0);
+        sessionGestionarUsuarios.setRenderAreaAcdemica(false);
+        sessionGestionarUsuarios.setRenderNivel(false);
+        sessionGestionarUsuarios.setRenderSede(false);
+        sessionGestionarUsuarios.setRenderImg(false);
         if(itNombres!=null){
             itNombres.resetValue();
             itDni.resetValue();
@@ -706,5 +745,37 @@ public class bGestionarUsuarios {
 
     public RichImage getI1() {
         return i1;
+    }
+
+    public void setChoiceTipoSede(RichSelectOneChoice choiceTipoSede) {
+        this.choiceTipoSede = choiceTipoSede;
+    }
+
+    public RichSelectOneChoice getChoiceTipoSede() {
+        return choiceTipoSede;
+    }
+
+    public void setSi8(UISelectItems si8) {
+        this.si8 = si8;
+    }
+
+    public UISelectItems getSi8() {
+        return si8;
+    }
+
+    public void setChoiceTipoNivel(RichSelectOneChoice choiceTipoNivel) {
+        this.choiceTipoNivel = choiceTipoNivel;
+    }
+
+    public RichSelectOneChoice getChoiceTipoNivel() {
+        return choiceTipoNivel;
+    }
+
+    public void setSi9(UISelectItems si9) {
+        this.si9 = si9;
+    }
+
+    public UISelectItems getSi9() {
+        return si9;
     }
 }

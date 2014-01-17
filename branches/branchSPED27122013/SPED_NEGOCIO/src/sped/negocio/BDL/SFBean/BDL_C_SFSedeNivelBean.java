@@ -18,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFSedeNivelLocal;
 import sped.negocio.BDL.IR.BDL_C_SFSedeNivelRemote;
 import sped.negocio.entidades.admin.SedeNivel;
+import sped.negocio.entidades.admin.SedeNivelPK;
 
 @Stateless(name = "BDL_C_SFSedeNivel", mappedName = "SPED_APP-SPED_NEGOCIO-BDL_C_SFSedeNivel")
 public class BDL_C_SFSedeNivelBean implements BDL_C_SFSedeNivelRemote, 
@@ -47,6 +48,21 @@ public class BDL_C_SFSedeNivelBean implements BDL_C_SFSedeNivelRemote,
             e.printStackTrace();
         }
         return lstSedeNivel;
-    }    
+    }
+    
+    
+    
+    public SedeNivel findSedeNivelById(int nidSede, 
+                                       int nidNivel){
+        try{
+            SedeNivelPK id = new SedeNivelPK();
+            id.setNivel(nidNivel);
+            id.setSede(nidSede);
+            SedeNivel instance = em.find(SedeNivel.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
+        }
+    }
     
 }
