@@ -13,11 +13,18 @@ public class LetrasValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) throws ValidatorException {
         String entrada = object.toString();
-        Pattern patron = Pattern.compile("[^A-Za-z ]");
-        Matcher encaja = patron.matcher(entrada);
-        if(encaja.find()){
+        if (!isOnlyletter(entrada)) {
             FacesMessage fm = new FacesMessage("Solo letras");
             throw new ValidatorException(fm);
         }
+    }
+
+    public static boolean isOnlyletter(String nombre) {
+        for (int i = 0; i < nombre.length(); i++) {
+            if (nombre.charAt(i) != ' ' && !Character.isLetter(nombre.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

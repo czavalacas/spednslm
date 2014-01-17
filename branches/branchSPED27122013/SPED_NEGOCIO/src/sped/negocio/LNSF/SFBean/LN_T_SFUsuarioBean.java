@@ -17,11 +17,13 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFAreaAcademicaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFRolLocal;
+import sped.negocio.BDL.IL.BDL_C_SFSedeNivelLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.SedeNivel;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.sist.Rol;
 
@@ -41,6 +43,8 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
     private BDL_C_SFRolLocal bdL_C_SFRolLocal;
     @EJB
     private BDL_C_SFAreaAcademicaLocal bdL_C_SFAreaAcademicaLocal;
+    @EJB
+    private BDL_C_SFSedeNivelLocal bdL_C_SFSedeNivelLocal;
 
     public LN_T_SFUsuarioBean() {
     }
@@ -53,7 +57,9 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                                  String usuario,
                                  String clave,
                                  int idUsuario,
-                                 String rutaImg){
+                                 String rutaImg,
+                                 int nidSede,
+                                 int nidNivel){
         Usuario u = new Usuario();
         try{
             if(rutaImg != null){
@@ -77,6 +83,8 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setEstadoUsuario("1");
             u.setUsuario(usuario);
             u.setClave(clave);
+            SedeNivel seni = bdL_C_SFSedeNivelLocal.findSedeNivelById(nidSede, nidNivel);
+            u.setSedeNivel(seni);
             bdL_T_SFUsuarioLocal.persistUsuario(u);
         }else if(tipoEvento == 2){
             u = bdL_C_SFUsuarioLocal.findConstrainById(idUsuario);
@@ -88,6 +96,8 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setAreaAcademica(area);
             u.setUsuario(usuario);
             u.setClave(clave);
+            SedeNivel seni = bdL_C_SFSedeNivelLocal.findSedeNivelById(nidSede, nidNivel);
+            u.setSedeNivel(seni);
             bdL_T_SFUsuarioLocal.mergeUsuario(u);
         }else if(tipoEvento == 3){
             u = bdL_C_SFUsuarioLocal.findConstrainById(idUsuario);

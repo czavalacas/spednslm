@@ -148,6 +148,23 @@
                         <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si2"
                                        binding="#{bGestionarUsuarios.si2}"/>
                     </af:selectOneChoice>
+                    <af:selectOneChoice label="Sede" value="#{sessionScope.sessionGestionarUsuarios.nidSede}" id="choiceTipoSede"
+                                        binding="#{bGestionarUsuarios.choiceTipoSede}" unselectedLabel="::Selecionar Sede::"
+                                        autoSubmit="true" labelStyle="text-align: left;"
+                                        rendered="#{sessionScope.sessionGestionarUsuarios.renderSede}"
+                                        required="#{sessionScope.sessionGestionarUsuarios.renderSede}"
+                                        valueChangeListener="#{bGestionarUsuarios.tipoSedeChangeListener}">
+                        <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstSede}" id="si8"
+                                       binding="#{bGestionarUsuarios.si8}"/>
+                    </af:selectOneChoice>
+                    <af:selectOneChoice label="Nivel" value="#{sessionScope.sessionGestionarUsuarios.nidNivel}"
+                                        id="choiceTipoNivel" binding="#{bGestionarUsuarios.choiceTipoNivel}"
+                                        unselectedLabel="::Selecionar Nivel::" autoSubmit="true" labelStyle="text-align: left;"
+                                        rendered="#{sessionScope.sessionGestionarUsuarios.renderNivel}"
+                                        required="#{sessionScope.sessionGestionarUsuarios.renderNivel}">
+                        <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstNivel}" id="si9"
+                                       binding="#{bGestionarUsuarios.si9}"/>
+                    </af:selectOneChoice>
                     <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true" 
                                   labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"                                  
                                   binding="#{bGestionarUsuarios.fileImg}" maximumFiles="1"
