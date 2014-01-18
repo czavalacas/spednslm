@@ -60,19 +60,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                                  String rutaImg,
                                  int nidSede,
                                  int nidNivel){
-        Usuario u = new Usuario();
-        try{
-            if(rutaImg != null){
-                if(!rutaImg.equals("")){
-                    byte[] byt = extractBytes(rutaImg);
-                    if(byt != null){
-                        u.setFoto(byt);
-                    }
-                }
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        Usuario u = new Usuario();        
         if(tipoEvento == 1){
             Rol rol = bdL_C_SFRolLocal.findConstrainById(nidRol);
             AreaAcademica area = bdL_C_SFAreaAcademicaLocal.findEvaluadorById(nidAreaA);
@@ -84,6 +72,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setUsuario(usuario);
             u.setClave(clave);
             SedeNivel seni = bdL_C_SFSedeNivelLocal.findSedeNivelById(nidSede, nidNivel);
+            Imagen(rutaImg, u);
             u.setSedeNivel(seni);
             bdL_T_SFUsuarioLocal.persistUsuario(u);
         }else if(tipoEvento == 2){
@@ -97,6 +86,8 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setUsuario(usuario);
             u.setClave(clave);
             SedeNivel seni = bdL_C_SFSedeNivelLocal.findSedeNivelById(nidSede, nidNivel);
+            Imagen(rutaImg, u);
+            System.out.println(u.getFoto());
             u.setSedeNivel(seni);
             bdL_T_SFUsuarioLocal.mergeUsuario(u);
         }else if(tipoEvento == 3){
@@ -129,5 +120,20 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         System.out.println("No se ha podido leer el archivo.");
         }
         return aBytes;
+    }
+    
+    public void Imagen(String rutaImg, Usuario u){
+        try{
+            if(rutaImg != null){
+                if(!rutaImg.equals("")){
+                    byte[] byt = extractBytes(rutaImg);
+                    if(byt != null){
+                        u.setFoto(byt);
+                    }
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
