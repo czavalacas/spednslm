@@ -5,78 +5,84 @@
         <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
             <af:panelGroupLayout halign="left">
                 <af:spacer height="10"/>
-                <af:outputText value="Registrar Usuario" id="otTituloU"
-                               styleClass="titulos"/>
+                <af:outputText value="Registrar Usuario" id="otTituloU" styleClass="titulos"/>
                 <af:spacer height="10"/>
             </af:panelGroupLayout>
-            <af:panelGridLayout id="pgl2" binding="#{bGestionarUsuarios.pgl2}">
-                <af:gridRow marginTop="5px" height="auto" id="gr1">
-                    <af:gridCell marginStart="5px" width="25%" id="gc1">
-                        <af:panelFormLayout id="pfl2">
-                            <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;"
-                                          value="#{sessionGestionarUsuarios.FNombres}"/>
-                            <af:spacer height="5"/>
-                            <af:selectOneChoice label="Vigencia " value="#{sessionGestionarUsuarios.FNidEstado}"
-                                                id="choiceFTipoEstado" autoSubmit="true" labelStyle="text-align: left;"
-                                                binding="#{bGestionarUsuarios.choiceFTipoEstado}"
-                                                clientComponent="true">
-                                <f:selectItems value="#{sessionGestionarUsuarios.lstEstadoUsario}" id="si3"
-                                               binding="#{bGestionarUsuarios.si3}"/>
-                            </af:selectOneChoice>                            
-                        </af:panelFormLayout>                        
-                    </af:gridCell>
-                    <af:gridCell marginStart="5px" width="25%" id="gc2">
-                        <af:panelFormLayout id="pfl3" binding="#{bGestionarUsuarios.pfl3}">
-                            <af:inputText label="Usuario " id="it2" labelStyle="text-align: left;"
-                                          value="#{sessionScope.sessionGestionarUsuarios.FUsuario}"/>
-                            <af:spacer height="5"/>
-                            <af:selectOneChoice label="Rol " value="#{sessionGestionarUsuarios.FNidRol}"
-                                            id="choiceFTipoRol" autoSubmit="true" labelStyle="text-align: left;"
-                                            binding="#{bGestionarUsuarios.choiceFTipoRol}"
-                                            valueChangeListener="#{bGestionarUsuarios.tipoRolFChangeListener}">
-                                <f:selectItems value="#{sessionGestionarUsuarios.lstRol}" id="si4"
-                                               binding="#{bGestionarUsuarios.si4}"/>
-                            </af:selectOneChoice>
-                            <af:spacer height="5"/>
-                            <af:selectOneChoice label="Sede" value="#{sessionGestionarUsuarios.FNidSede}" 
-                                                id="choiceFTipoSede" autoSubmit="true" labelStyle="text-align: left;"
-                                                binding="#{bGestionarUsuarios.choiceFTipoSede}"
-                                                rendered="#{sessionScope.sessionGestionarUsuarios.fbooleanSede}"
-                                                valueChangeListener="#{bGestionarUsuarios.tipoSedeFChangeListener}">
-                                <f:selectItems value="#{sessionGestionarUsuarios.lstSede}" id="si6"
-                                               binding="#{bGestionarUsuarios.si6}"/>
-                            </af:selectOneChoice>
-                            <af:spacer height="5"/>
-                            <af:selectOneChoice label="Nivel" value="#{sessionGestionarUsuarios.FNidNivel}"
-                                                id="choiceFTipoNivel" autoSubmit="true" labelStyle="text-align: left;"
-                                                binding="#{bGestionarUsuarios.choiceFTipoNivel}"
-                                                rendered="#{sessionScope.sessionGestionarUsuarios.fbooleanNivel}">
-                                <f:selectItems value="#{sessionGestionarUsuarios.lstNivel}" id="si7"
-                                               binding="#{bGestionarUsuarios.si7}"/>
-                            </af:selectOneChoice>
-                        </af:panelFormLayout>                        
-                    </af:gridCell>
-                    <af:gridCell marginStart="5px" width="25%" id="gc3">
-                        <af:panelFormLayout id="pfl4">
-                            <af:inputText label="Dni " id="it3" labelStyle="text-align: left;"
-                                          value="#{sessionScope.sessionGestionarUsuarios.FDni}"/>
-                            <af:spacer height="5"/>
-                            <af:selectOneChoice label="Area " value="#{sessionGestionarUsuarios.FNidAreaAcademica}"
-                                                id="choiceFTipoArea" autoSubmit="true" labelStyle="text-align: left;"
-                                                binding="#{bGestionarUsuarios.choiceFTipoArea}">
-                                <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si5"
-                                               binding="#{bGestionarUsuarios.si5}"/>
-                            </af:selectOneChoice>
-                        </af:panelFormLayout>
-                    </af:gridCell>
-                    <af:gridCell marginStart="5px" width="25%" marginEnd="5px" id="gc4"/>
-                </af:gridRow>                
-            </af:panelGridLayout>
-            <af:panelGroupLayout id="pgl3">
-                                <af:button text="Buscar" id="b5" actionListener="#{bGestionarUsuarios.buscarUsuarioFiltro}" labelStyle="text-align: left;"/>
-                                <af:button id="btnRefreshFiltro" icon="#{resource['images:refresh.png']}" labelStyle="text-align: left;"
-                                           actionListener="#{bGestionarUsuarios.refrescarFiltro}"/>
-            </af:panelGroupLayout>
+            <af:subform id="s2" defaultCommand="b5">
+                <af:panelGridLayout id="pgl2" binding="#{bGestionarUsuarios.pgl2}">
+                    <af:gridRow marginTop="5px" height="auto" id="gr1">
+                        <af:gridCell marginStart="5px" width="250px" id="gc1">
+                            <af:panelFormLayout id="pfl2">
+                                <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;"
+                                              value="#{sessionGestionarUsuarios.FNombres}"/>
+                                <af:spacer height="4"/>
+                                <af:selectOneChoice label="Vigencia " value="#{sessionGestionarUsuarios.FNidEstado}"
+                                                    id="choiceFTipoEstado" autoSubmit="true"
+                                                    labelStyle="text-align: left;"
+                                                    binding="#{bGestionarUsuarios.choiceFTipoEstado}"
+                                                    clientComponent="true">
+                                    <f:selectItems value="#{sessionGestionarUsuarios.lstEstadoUsario}" id="si3"
+                                                   binding="#{bGestionarUsuarios.si3}"/>
+                                </af:selectOneChoice>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="5px" width="250px" id="gc2">
+                            <af:panelFormLayout id="pfl3" binding="#{bGestionarUsuarios.pfl3}">
+                                <af:inputText label="Usuario " id="it2" labelStyle="text-align: left;"
+                                              value="#{sessionScope.sessionGestionarUsuarios.FUsuario}"/>
+                                <af:spacer height="4"/>
+                                <af:selectOneChoice label="Rol " value="#{sessionGestionarUsuarios.FNidRol}"
+                                                    id="choiceFTipoRol" autoSubmit="true" labelStyle="text-align: left;"
+                                                    binding="#{bGestionarUsuarios.choiceFTipoRol}"
+                                                    valueChangeListener="#{bGestionarUsuarios.tipoRolFChangeListener}">
+                                    <f:selectItems value="#{sessionGestionarUsuarios.lstRol}" id="si4"
+                                                   binding="#{bGestionarUsuarios.si4}"/>
+                                </af:selectOneChoice>
+                                <af:spacer height="4"/>
+                                <af:selectOneChoice label="Sede" value="#{sessionGestionarUsuarios.FNidSede}"
+                                                    id="choiceFTipoSede" autoSubmit="true"
+                                                    labelStyle="text-align: left;"
+                                                    binding="#{bGestionarUsuarios.choiceFTipoSede}"
+                                                    rendered="#{sessionScope.sessionGestionarUsuarios.fbooleanSede}"
+                                                    valueChangeListener="#{bGestionarUsuarios.tipoSedeFChangeListener}">
+                                    <f:selectItems value="#{sessionGestionarUsuarios.lstSede}" id="si6"
+                                                   binding="#{bGestionarUsuarios.si6}"/>
+                                </af:selectOneChoice>
+                                <af:spacer height="4"/>
+                                <af:selectOneChoice label="Nivel" value="#{sessionGestionarUsuarios.FNidNivel}"
+                                                    id="choiceFTipoNivel" autoSubmit="true"
+                                                    labelStyle="text-align: left;"
+                                                    binding="#{bGestionarUsuarios.choiceFTipoNivel}"
+                                                    rendered="#{sessionScope.sessionGestionarUsuarios.fbooleanNivel}">
+                                    <f:selectItems value="#{sessionGestionarUsuarios.lstNivel}" id="si7"
+                                                   binding="#{bGestionarUsuarios.si7}"/>
+                                </af:selectOneChoice>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="5px" width="250px" id="gc3">
+                            <af:panelFormLayout id="pfl4">
+                                <af:inputText label="Dni " id="it3" labelStyle="text-align: left;"
+                                              value="#{sessionScope.sessionGestionarUsuarios.FDni}"/>
+                                <af:spacer height="4"/>
+                                <af:selectOneChoice label="Area " value="#{sessionGestionarUsuarios.FNidAreaAcademica}"
+                                                    id="choiceFTipoArea" autoSubmit="true"
+                                                    labelStyle="text-align: left;"
+                                                    binding="#{bGestionarUsuarios.choiceFTipoArea}">
+                                    <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si5"
+                                                   binding="#{bGestionarUsuarios.si5}"/>
+                                </af:selectOneChoice>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="5px" width="25%" marginEnd="5px" id="gc4"/>
+                    </af:gridRow>
+                </af:panelGridLayout>
+                <af:panelGroupLayout id="pgl3">
+                    <af:button text="Buscar" id="b5" actionListener="#{bGestionarUsuarios.buscarUsuarioFiltro}"
+                               labelStyle="text-align: left;"/>
+                    <af:button id="btnRefreshFiltro" text="Limpiar"
+                               labelStyle="text-align: left;" actionListener="#{bGestionarUsuarios.refrescarFiltro}"/>
+                </af:panelGroupLayout>
+            </af:subform>
             <af:separator id="s1"/>
             <af:spacer height="10"/>
             <af:panelGroupLayout id="pgl1">
@@ -85,27 +91,24 @@
                 <af:button text="Modificar" id="b2" binding="#{bGestionarUsuarios.b2}" disabled="true"
                            actionListener="#{bGestionarUsuarios.modificarUsuario}"/>
                 <af:button text="Anular" id="b3" binding="#{bGestionarUsuarios.b3}" disabled="true"
-                           actionListener="#{bGestionarUsuarios.anularUsuario}" />
+                           actionListener="#{bGestionarUsuarios.anularUsuario}"/>
                 <af:button id="btnRefresh" icon="#{resource['images:refresh.png']}"
                            actionListener="#{bGestionarUsuarios.refrescarTabla}"/>
             </af:panelGroupLayout>
             <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" id="t1"
                       binding="#{bGestionarUsuarios.t1}" rowSelection="single"
                       selectionListener="#{bGestionarUsuarios.selecionarUsuario}">
-                <af:column sortable="true" headerText="Nombre y Apellidos" align="start" id="c1" 
-                           sortProperty="nombres">
+                <af:column sortable="true" headerText="Nombre y Apellidos" align="start" id="c1" sortProperty="nombres">
                     <af:outputText value="#{row.nombres}" id="ot1"/>
                 </af:column>
-                <af:column sortable="true" headerText="Area Academica" align="start" id="c3" 
+                <af:column sortable="true" headerText="Area Academica" align="start" id="c3"
                            sortProperty="areaAcademica.descripcionAreaAcademica">
                     <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot3"/>
                 </af:column>
-                <af:column sortable="true" headerText="Usuario" align="start" id="c4"
-                           sortProperty="usuario">
+                <af:column sortable="true" headerText="Usuario" align="start" id="c4" sortProperty="usuario">
                     <af:outputText value="#{row.usuario}" id="ot4"/>
                 </af:column>
-                <af:column sortable="true" headerText="Rol" align="start" id="c5"
-                           sortProperty="rol.descripcionRol">
+                <af:column sortable="true" headerText="Rol" align="start" id="c5" sortProperty="rol.descripcionRol">
                     <af:outputText value="#{row.rol.descripcionRol}" id="ot5"/>
                 </af:column>
                 <af:column sortable="true" headerText="Estado" align="start" id="c6"
@@ -119,14 +122,14 @@
                   binding="#{bGestionarUsuarios.popGestionUsuario}">
             <af:dialog id="d1" type="none" title="#{sessionGestionarUsuarios.titleDialogGestion}">
                 <af:panelFormLayout id="pfl1" binding="#{bGestionarUsuarios.pfl1}">
-                    <af:inputText label="Nombre y Apellidos" id="itNombres" maximumLength="100" labelStyle="text-align: left;"
-                                  value="#{sessionGestionarUsuarios.nombres}" required="true" autoSubmit="true"
-                                  binding="#{bGestionarUsuarios.itNombres}">
+                    <af:inputText label="Nombre y Apellidos" id="itNombres" maximumLength="100"
+                                  labelStyle="text-align: left;" value="#{sessionGestionarUsuarios.nombres}"
+                                  required="true" autoSubmit="true" binding="#{bGestionarUsuarios.itNombres}">
                         <f:validator validatorId="LetrasValidator"/>
                         <f:converter converterId="trimConverter"/>
                     </af:inputText>
                     <af:inputText label="DNI" id="itDni" labelStyle="text-align: left;" required="true"
-                                  value="#{sessionGestionarUsuarios.dni}" maximumLength="8"                                  
+                                  value="#{sessionGestionarUsuarios.dni}" maximumLength="8"
                                   rendered="#{sessionGestionarUsuarios.renderActualizar}" autoSubmit="true"
                                   binding="#{bGestionarUsuarios.itDni}">
                         <f:validator validatorId="DniValidator"/>
@@ -148,9 +151,10 @@
                         <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si2"
                                        binding="#{bGestionarUsuarios.si2}"/>
                     </af:selectOneChoice>
-                    <af:selectOneChoice label="Sede" value="#{sessionScope.sessionGestionarUsuarios.nidSede}" id="choiceTipoSede"
-                                        binding="#{bGestionarUsuarios.choiceTipoSede}" unselectedLabel="::Selecionar Sede::"
-                                        autoSubmit="true" labelStyle="text-align: left;"
+                    <af:selectOneChoice label="Sede" value="#{sessionScope.sessionGestionarUsuarios.nidSede}"
+                                        id="choiceTipoSede" binding="#{bGestionarUsuarios.choiceTipoSede}"
+                                        unselectedLabel="::Selecionar Sede::" autoSubmit="true"
+                                        labelStyle="text-align: left;"
                                         rendered="#{sessionScope.sessionGestionarUsuarios.renderSede}"
                                         required="#{sessionScope.sessionGestionarUsuarios.renderSede}"
                                         valueChangeListener="#{bGestionarUsuarios.tipoSedeChangeListener}">
@@ -159,17 +163,18 @@
                     </af:selectOneChoice>
                     <af:selectOneChoice label="Nivel" value="#{sessionScope.sessionGestionarUsuarios.nidNivel}"
                                         id="choiceTipoNivel" binding="#{bGestionarUsuarios.choiceTipoNivel}"
-                                        unselectedLabel="::Selecionar Nivel::" autoSubmit="true" labelStyle="text-align: left;"
+                                        unselectedLabel="::Selecionar Nivel::" autoSubmit="true"
+                                        labelStyle="text-align: left;"
                                         rendered="#{sessionScope.sessionGestionarUsuarios.renderNivel}"
                                         required="#{sessionScope.sessionGestionarUsuarios.renderNivel}">
                         <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstNivel}" id="si9"
                                        binding="#{bGestionarUsuarios.si9}"/>
                     </af:selectOneChoice>
-                    <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true" 
-                                  labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"                                  
+                    <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true"
+                                  labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"
                                   binding="#{bGestionarUsuarios.fileImg}" maximumFiles="1"
                                   valueChangeListener="#{bGestionarUsuarios.uploadFileValueChangeEvent}"/>
-                    <af:image id="i1" binding="#{bGestionarUsuarios.i1}" 
+                    <af:image id="i1" binding="#{bGestionarUsuarios.i1}"
                               source="/imageservlet?nomusuario=#{sessionGestionarUsuarios.usuario}"
                               rendered="#{sessionScope.sessionGestionarUsuarios.renderImg}"/>
                     <af:inputText label="Usuario" id="itUsuario" maximumLength="10" required="true"
