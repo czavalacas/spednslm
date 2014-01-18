@@ -95,7 +95,8 @@ public class bGestionarUsuarios {
     private RichSelectOneChoice choiceFTipoNivel;
     private UISelectItems si7;
     private RichInputFile fileImg;
-    private RichImage i1;
+    private RichImage i1;    
+    private int cont=0;
     @EJB
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
     @EJB
@@ -136,7 +137,6 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setLstEstadoUsario(this.llenarComboEstado());
             sessionGestionarUsuarios.setLstSede(this.llenarComboSede());
         } else {
-            
         }
     }
 
@@ -195,7 +195,7 @@ public class bGestionarUsuarios {
         b3.setDisabled(false);
         resetValues();
         RichTable t = (RichTable) se.getSource();
-        BeanUsuario usuario = (BeanUsuario) t.getSelectedRowData();        
+        BeanUsuario usuario = (BeanUsuario) t.getSelectedRowData();
         sessionGestionarUsuarios.setNidUsuario(usuario.getNidUsuario());
         sessionGestionarUsuarios.setNombres(usuario.getNombres());
         sessionGestionarUsuarios.setDni(usuario.getDni());
@@ -216,6 +216,9 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setRenderNivel(true);
             sessionGestionarUsuarios.setRenderSede(true);
         }
+        if(i1!=null){
+            i1.setSource("/imageservlet?nomusuario="+usuario.getUsuario());
+        }
         if(Integer.parseInt(usuario.getEstadoUsuario()) != 0){
             b3.setText("Anular");
             b2.setDisabled(false);
@@ -235,6 +238,7 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setNomBtnGestion("Registrar");        
         resetValues();
         Utils.showPopUpMIDDLE(popGestionUsuario);
+        Utils.unselectFilas(t1);
         Utils.addTargetMany(b2, b3);
     }
 
@@ -246,7 +250,10 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setTitleDialogGestion("Modificar usuario : "+
                                                        sessionGestionarUsuarios.getNombres());
         sessionGestionarUsuarios.setNomBtnGestion("Actualizar");
-        Utils.unselectFilas(t1);
+        Utils.unselectFilas(t1);        
+        if(i1!=null){
+            Utils.addTarget(i1);
+        }
         Utils.showPopUpMIDDLE(popGestionUsuario);
         Utils.addTargetMany(b2, b3);
     }
@@ -261,7 +268,8 @@ public class bGestionarUsuarios {
         }else{
             sessionGestionarUsuarios.setTipoEvento(4);
             btnGestionarUsuario_aux();
-        }        
+        }
+        Utils.unselectFilas(t1);
     }
     
     public void confirmaAnular(DialogEvent dialogEvent) {
@@ -424,7 +432,7 @@ public class bGestionarUsuarios {
         Utils.addTarget(pgl2);
     }
     
-    public void resetValues(){
+    public void resetValues(){        
         sessionGestionarUsuarios.setNombres("");
         sessionGestionarUsuarios.setDni("");
         sessionGestionarUsuarios.setUsuario("");        
@@ -445,6 +453,7 @@ public class bGestionarUsuarios {
             choiceTipoRol.resetValue();
             itUsuario.resetValue();
             itClave.resetValue();
+            fileImg.resetValue();
         }
     }    
 
@@ -486,7 +495,8 @@ public class bGestionarUsuarios {
         OutputStream out = new FileOutputStream(new File(ruta));
         resize(in, out, 175, 150);  
         i1.setSource(rutalocal);
-        Utils.addTarget(i1);              
+        fileImg.resetValue();
+        Utils.addTarget(pfl1);           
     }
     
     public void resize(InputStream input, OutputStream output, int width, int height) throws Exception {
