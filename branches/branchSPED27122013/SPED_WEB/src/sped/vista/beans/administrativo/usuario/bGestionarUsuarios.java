@@ -428,8 +428,9 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setFbooleanSede(false);
         sessionGestionarUsuarios.setFbooleanNivel(false);
         sessionGestionarUsuarios.setFNidNivel(0);
-        sessionGestionarUsuarios.setFNidSede(0);   
-        Utils.addTarget(pgl2);
+        sessionGestionarUsuarios.setFNidSede(0); 
+        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
+        Utils.addTargetMany(pgl2,t1);
     }
     
     public void resetValues(){        
@@ -461,8 +462,8 @@ public class bGestionarUsuarios {
         try{
             UploadedFile file = (UploadedFile)valueChangeEvent.getNewValue();            
             long fileSize = file.getLength() / (1024 * 1024);//megabytes
-            if(file.getLength() > 2097152){
-                Utils.mostrarMensaje(ctx, "El archivo no puede ser de mas de 2 MB.", "Error", 4);
+            if(file.getLength() > 1048576){
+                Utils.mostrarMensaje(ctx, "El archivo no puede ser de mas de 1 MB.", "Error", 4);
                 return;
             }
             String extension = file.getFilename().substring(file.getFilename().lastIndexOf(".") + 1, file.getFilename().length());
