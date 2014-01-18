@@ -169,7 +169,7 @@
                                   labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"                                  
                                   binding="#{bGestionarUsuarios.fileImg}" maximumFiles="1"
                                   valueChangeListener="#{bGestionarUsuarios.uploadFileValueChangeEvent}"/>
-                    <af:image id="i1" binding="#{bGestionarUsuarios.i1}"
+                    <af:image id="i1" binding="#{bGestionarUsuarios.i1}" 
                               source="/imageservlet?nomusuario=#{sessionGestionarUsuarios.usuario}"
                               rendered="#{sessionScope.sessionGestionarUsuarios.renderImg}"/>
                     <af:inputText label="Usuario" id="itUsuario" maximumLength="10" required="true"
