@@ -21,11 +21,12 @@
         </af:resource>
                 </af:panelGroupLayout>
             <af:panelGroupLayout>
-                <af:button text="Nueva Ficha" id="btnNewFicha" actionListener="#{bRegistrarFicha.nuevaFicha}"
-                           binding="#{bRegistrarFicha.btnNuevaFlota}"/>
+                <af:button text="#{sessionScope.sessionRegistrarFicha.btnRegistrarFicha}" id="btnNewFicha" actionListener="#{bRegistrarFicha.nuevaFicha}"
+                           binding="#{bRegistrarFicha.btnNewFicha}"
+                           styleClass="#{sessionScope.sessionRegistrarFicha.styleClass}"/>
                 <af:button text="Editar Ficha" id="btnEditFicha" disabled="true"
                            binding="#{bRegistrarFicha.btnEditFicha}"/>
-                <af:button id="btnRefresh" icon="#{resource['images:refresh.png']}"
+                <af:button id="btnRefresh" icon="#{resource['images:refresh.png']}" immediate="true"
                            actionListener="#{bRegistrarFicha.refrescarTablaFichas}" />
             </af:panelGroupLayout>
             <af:table value="#{bRegistrarFicha.sessionRegistrarFicha.lstFichas}" var="row" rowBandingInterval="0"
@@ -63,26 +64,28 @@
                         <af:gridCell marginStart="1px" width="30%" id="gc1">
                                  <af:panelFormLayout>
                                         <af:selectOneChoice label="Tipo Ficha" requiredMessageDetail="Seleccionar un tipo de Ficha"
-                                                               id="socTipFicha" autoSubmit="true"
+                                                               id="socTipFicha" autoSubmit="true" 
                                                                value="#{bRegistrarFicha.sessionRegistrarFicha.tipoFicha}"
                                                                labelStyle="text-align: left;"
-                                                               valueChangeListener="#{bRegistrarFicha.changeTipoFicha}">
+                                                               valueChangeListener="#{bRegistrarFicha.changeTipoFicha}"
+                                                               binding="#{bRegistrarFicha.socTipFicha}">
                                             <af:selectItem label="Ficha de Evaluador" value="E" id="si1"/>
                                             <af:selectItem label="Ficha de Sub-Director" value="S" id="si2"/>
                                         </af:selectOneChoice>
                                         <af:selectOneChoice label="Tipo Ficha Curso" requiredMessageDetail="Seleccione un tipo de ficha curso"
                                                                value="#{bRegistrarFicha.sessionRegistrarFicha.tipFichaCurs}" id="socTipFichaCurs"
-                                                               labelStyle="text-align: left;" autoSubmit="true"
-                                                               valueChangeListener="#{bRegistrarFicha.changeTipoFichaCurso}">
+                                                               labelStyle="text-align: left;" autoSubmit="true" 
+                                                               valueChangeListener="#{bRegistrarFicha.changeTipoFichaCurso}"
+                                                               binding="#{bRegistrarFicha.socTipFichaCurs}">
                                             <af:selectItem label="Cursos Principales" value="P" id="si3"/>
                                             <af:selectItem label="Cursos Otros" value="O" id="si4"/>
                                         </af:selectOneChoice>
                                         <af:inputText label="Version" id="itDescVersion" labelStyle="text-align: left;" autoSubmit="true"
-                                                        value="#{bRegistrarFicha.sessionRegistrarFicha.versionGenerada}"
+                                                        value="#{bRegistrarFicha.sessionRegistrarFicha.versionGenerada}" 
                                                         disabled="true" binding="#{bRegistrarFicha.itDescVersion}"/>
                                         <af:inputNumberSlider label="Numero de Valores" id="ins1" minimum="0" autoSubmit="true"
-                                                                 valueChangeListener="#{bRegistrarFicha.changeSliderValor}"
-                                                                 maximum="6"/>
+                                                                 valueChangeListener="#{bRegistrarFicha.changeSliderValor}" 
+                                                                 maximum="6" binding="#{bRegistrarFicha.ins1}"/>
                                     </af:panelFormLayout>
                         </af:gridCell>
                         <af:gridCell marginStart="2px" width="70%" marginEnd="1px" id="gc2">
