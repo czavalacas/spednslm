@@ -232,7 +232,7 @@ public class bGestionarUsuarios {
     public void nuevoUsuario(ActionEvent actionEvent) {
         b2.setDisabled(true);
         b3.setDisabled(true);
-        sessionGestionarUsuarios.setRenderActualizar(true);
+        sessionGestionarUsuarios.setDisabledActualizar(false);
         sessionGestionarUsuarios.setTipoEvento(1);
         sessionGestionarUsuarios.setTitleDialogGestion("Registrar Usuario");
         sessionGestionarUsuarios.setNomBtnGestion("Registrar");        
@@ -246,7 +246,7 @@ public class bGestionarUsuarios {
         b2.setDisabled(true);
         b3.setDisabled(true);
         sessionGestionarUsuarios.setTipoEvento(2);
-        sessionGestionarUsuarios.setRenderActualizar(false);
+        sessionGestionarUsuarios.setDisabledActualizar(true);
         sessionGestionarUsuarios.setTitleDialogGestion("Modificar usuario : "+
                                                        sessionGestionarUsuarios.getNombres());
         sessionGestionarUsuarios.setNomBtnGestion("Actualizar");
@@ -317,19 +317,18 @@ public class bGestionarUsuarios {
         try{
             String index = valueChangeEvent.getNewValue().toString();
             int nidrol = Integer.parseInt(index);
+            sessionGestionarUsuarios.setRenderAreaAcdemica(false);
+            sessionGestionarUsuarios.setRenderSede(false);
+            sessionGestionarUsuarios.setRenderNivel(false);
+            sessionGestionarUsuarios.setNidAreaAcademica(0);
+            sessionGestionarUsuarios.setNidSede(0);
+            sessionGestionarUsuarios.setNidNivel(0);
             if (ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "Evaluador")){
-                sessionGestionarUsuarios.setRenderAreaAcdemica(true);          
-                sessionGestionarUsuarios.setNidSede(0);
-                sessionGestionarUsuarios.setRenderSede(false);
+                sessionGestionarUsuarios.setRenderAreaAcdemica(true); 
             }else if(ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "SubDirector")){
                 sessionGestionarUsuarios.setRenderSede(true);   
-                sessionGestionarUsuarios.setNidAreaAcademica(0);
-                sessionGestionarUsuarios.setRenderAreaAcdemica(false);
-            }else{
-                sessionGestionarUsuarios.setNidAreaAcademica(0);
-                sessionGestionarUsuarios.setRenderAreaAcdemica(false);
-                sessionGestionarUsuarios.setNidSede(0);
-                sessionGestionarUsuarios.setRenderSede(false);
+            }else if(ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "Director")){
+                
             }
             Utils.addTargetMany(pfl1);
         }catch(Exception e){
@@ -365,13 +364,7 @@ public class bGestionarUsuarios {
             int nidSede = Integer.parseInt(index);
             sessionGestionarUsuarios.setLstNivel(llenarComboNivel(nidSede));
             if(sessionGestionarUsuarios.getLstNivel() != null){
-                if(sessionGestionarUsuarios.getLstNivel().size() > 0){
-                    sessionGestionarUsuarios.setRenderNivel(true);
-                }
-                else{
-                    sessionGestionarUsuarios.setNidNivel(0);
-                    sessionGestionarUsuarios.setRenderNivel(false);
-                }                
+                sessionGestionarUsuarios.setRenderNivel(true);                
             }
             Utils.addTarget(pfl1);
         }
@@ -408,14 +401,6 @@ public class bGestionarUsuarios {
         b2.setDisabled(true);
         b3.setDisabled(true);
         Utils.addTargetMany(b2, b3, t1);
-    }
-    
-    public void refrescarTabla(ActionEvent actionEvent) {
-        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
-        Utils.unselectFilas(t1);
-        b2.setDisabled(true);
-        b3.setDisabled(true);
-        Utils.addTargetMany(b2, b3);
     }
     
     public void refrescarFiltro(ActionEvent actionEvent) {

@@ -15,7 +15,6 @@
                             <af:panelFormLayout id="pfl2">
                                 <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;"
                                               value="#{sessionGestionarUsuarios.FNombres}"/>
-                                <af:spacer height="4"/>
                                 <af:selectOneChoice label="Vigencia " value="#{sessionGestionarUsuarios.FNidEstado}"
                                                     id="choiceFTipoEstado" autoSubmit="true"
                                                     labelStyle="text-align: left;"
@@ -30,7 +29,6 @@
                             <af:panelFormLayout id="pfl3" binding="#{bGestionarUsuarios.pfl3}">
                                 <af:inputText label="Usuario " id="it2" labelStyle="text-align: left;"
                                               value="#{sessionScope.sessionGestionarUsuarios.FUsuario}"/>
-                                <af:spacer height="4"/>
                                 <af:selectOneChoice label="Rol " value="#{sessionGestionarUsuarios.FNidRol}"
                                                     id="choiceFTipoRol" autoSubmit="true" labelStyle="text-align: left;"
                                                     binding="#{bGestionarUsuarios.choiceFTipoRol}"
@@ -38,7 +36,6 @@
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstRol}" id="si4"
                                                    binding="#{bGestionarUsuarios.si4}"/>
                                 </af:selectOneChoice>
-                                <af:spacer height="4"/>
                                 <af:selectOneChoice label="Sede" value="#{sessionGestionarUsuarios.FNidSede}"
                                                     id="choiceFTipoSede" autoSubmit="true"
                                                     labelStyle="text-align: left;"
@@ -48,7 +45,6 @@
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstSede}" id="si6"
                                                    binding="#{bGestionarUsuarios.si6}"/>
                                 </af:selectOneChoice>
-                                <af:spacer height="4"/>
                                 <af:selectOneChoice label="Nivel" value="#{sessionGestionarUsuarios.FNidNivel}"
                                                     id="choiceFTipoNivel" autoSubmit="true"
                                                     labelStyle="text-align: left;"
@@ -63,7 +59,6 @@
                             <af:panelFormLayout id="pfl4">
                                 <af:inputText label="Dni " id="it3" labelStyle="text-align: left;"
                                               value="#{sessionScope.sessionGestionarUsuarios.FDni}"/>
-                                <af:spacer height="4"/>
                                 <af:selectOneChoice label="Area " value="#{sessionGestionarUsuarios.FNidAreaAcademica}"
                                                     id="choiceFTipoArea" autoSubmit="true"
                                                     labelStyle="text-align: left;"
@@ -77,10 +72,9 @@
                     </af:gridRow>
                 </af:panelGridLayout>
                 <af:panelGroupLayout id="pgl3">
-                    <af:button text="Buscar" id="b5" actionListener="#{bGestionarUsuarios.buscarUsuarioFiltro}"
-                               labelStyle="text-align: left;"/>
-                    <af:button id="btnRefreshFiltro" text="Limpiar"
-                               labelStyle="text-align: left;" actionListener="#{bGestionarUsuarios.refrescarFiltro}"/>
+                    <af:button text="Buscar" id="b5" actionListener="#{bGestionarUsuarios.buscarUsuarioFiltro}"/>
+                    <af:button id="btnRefreshFiltro" actionListener="#{bGestionarUsuarios.refrescarFiltro}"
+                               icon="#{resource['images:refresh.png']}"/>
                 </af:panelGroupLayout>
             </af:subform>
             <af:separator id="s1"/>
@@ -92,8 +86,6 @@
                            actionListener="#{bGestionarUsuarios.modificarUsuario}"/>
                 <af:button text="Anular" id="b3" binding="#{bGestionarUsuarios.b3}" disabled="true"
                            actionListener="#{bGestionarUsuarios.anularUsuario}"/>
-                <af:button id="btnRefresh" icon="#{resource['images:refresh.png']}"
-                           actionListener="#{bGestionarUsuarios.refrescarTabla}"/>
             </af:panelGroupLayout>
             <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" id="t1"
                       binding="#{bGestionarUsuarios.t1}" rowSelection="single"
@@ -130,7 +122,7 @@
                     </af:inputText>
                     <af:inputText label="DNI" id="itDni" labelStyle="text-align: left;" required="true"
                                   value="#{sessionGestionarUsuarios.dni}" maximumLength="8"
-                                  rendered="#{sessionGestionarUsuarios.renderActualizar}" autoSubmit="true"
+                                  disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
                                   binding="#{bGestionarUsuarios.itDni}">
                         <f:validator validatorId="DniValidator"/>
                     </af:inputText>
@@ -169,24 +161,25 @@
                                         required="#{sessionScope.sessionGestionarUsuarios.renderNivel}">
                         <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstNivel}" id="si9"
                                        binding="#{bGestionarUsuarios.si9}"/>
-                    </af:selectOneChoice>
+                    </af:selectOneChoice>                    
+                    <af:inputText label="Usuario" id="itUsuario" labelStyle="text-align: left;" required="true"
+                                  value="#{sessionGestionarUsuarios.usuario}" maximumLength="10" 
+                                  disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
+                                  binding="#{bGestionarUsuarios.itUsuario}">
+                        <f:validator validatorId="NomUsuarioValidator"/>
+                    </af:inputText>
+                    <af:inputText label="Clave" id="itClave" maximumLength="32" required="true" secret="true" 
+                                  labelStyle="text-align: left;"  autoSubmit="true"
+                                  value="#{sessionGestionarUsuarios.clave}" binding="#{bGestionarUsuarios.itClave}">
+                        <f:validator validatorId="ClaveValidator"/>
+                    </af:inputText>
                     <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true"
                                   labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"
                                   binding="#{bGestionarUsuarios.fileImg}" maximumFiles="1"
                                   valueChangeListener="#{bGestionarUsuarios.uploadFileValueChangeEvent}"/>
                     <af:image id="i1" binding="#{bGestionarUsuarios.i1}"
                               source="/imageservlet?nomusuario=#{sessionGestionarUsuarios.usuario}"
-                              rendered="#{sessionScope.sessionGestionarUsuarios.renderImg}"/>
-                    <af:inputText label="Usuario" id="itUsuario" maximumLength="10" required="true"
-                                  labelStyle="text-align: left;" rendered="#{sessionGestionarUsuarios.renderActualizar}"
-                                  value="#{sessionGestionarUsuarios.usuario}" binding="#{bGestionarUsuarios.itUsuario}">
-                        <f:validator validatorId="NomUsuarioValidator"/>
-                    </af:inputText>
-                    <af:inputText label="Clave" id="itClave" secret="true" required="true"
-                                  labelStyle="text-align: left;" maximumLength="32" autoSubmit="true"
-                                  value="#{sessionGestionarUsuarios.clave}" binding="#{bGestionarUsuarios.itClave}">
-                        <f:validator validatorId="ClaveValidator"/>
-                    </af:inputText>
+                              rendered="#{sessionGestionarUsuarios.renderImg}"/>
                     <af:button text="#{sessionGestionarUsuarios.nomBtnGestion}" id="b4"
                                binding="#{bGestionarUsuarios.b4}"
                                actionListener="#{bGestionarUsuarios.btnGestionarUsuario}"/>
