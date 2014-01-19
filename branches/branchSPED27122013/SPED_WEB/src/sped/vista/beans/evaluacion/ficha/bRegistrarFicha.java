@@ -36,7 +36,9 @@ import oracle.adf.view.rich.component.rich.data.RichColumn;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
+import oracle.adf.view.rich.component.rich.input.RichInputNumberSlider;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
+import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
@@ -105,7 +107,6 @@ public class bRegistrarFicha {
     private ChildPropertyTreeModel permisosTree;
     private RichTable tbFichas;
     private RichButton btnEditFicha;
-    private RichButton btnNuevaFlota;
     private RichPanelBox panelBoxNewFicha;
     private RichPopup popCrits;
     private RichPopup popIndis;
@@ -121,6 +122,10 @@ public class bRegistrarFicha {
     private RichInputText itDescIndi;
     private RichInputText itLey;
     private RichPopup popLey;
+    private RichSelectOneChoice socTipFicha;
+    private RichSelectOneChoice socTipFichaCurs;
+    private RichInputNumberSlider ins1;
+    private RichButton btnNewFicha;
 
     public bRegistrarFicha() {
         
@@ -132,6 +137,7 @@ public class bRegistrarFicha {
             sessionRegistrarFicha.setExec(1);
             sessionRegistrarFicha.setLstFichas(ln_C_SFFichaRemote.getLstFichasByAttr_LN());
             mostrarCuadre();
+            sessionRegistrarFicha.setBtnRegistrarFicha("Nueva Ficha");
         }else{
             mostrarCuadre();
             //Utils.depurar("POST CONSTRUCT otras veces");
@@ -140,7 +146,7 @@ public class bRegistrarFicha {
     
     public String mostrarCuadre() {
         BeanCriterio b = new BeanCriterio();
-        b.setDescripcionCriterio("Ficha de Evaluacion");
+        b.setDescripcionCriterio("::: Ficha de Evaluacion :::");
         List<BeanCriterio> lstBeanCriterio = new ArrayList<BeanCriterio>();
         b.setLstIndicadores(new ArrayList<BeanCriterio>(sessionRegistrarFicha.getLstCriteriosMultiples()));
         lstBeanCriterio.add(b);
@@ -305,7 +311,16 @@ public class bRegistrarFicha {
         sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(true);
         panelBoxNewFicha.setVisible(true);
         btnEditFicha.setDisabled(true);
-        Utils.addTargetMany(btnNuevaFlota,btnEditFicha,panelBoxNewFicha);
+        if(socTipFicha != null){
+            socTipFicha.setRequired(true);
+            socTipFichaCurs.setRequired(true);
+            ins1.setRequired(true);
+        }
+        sessionRegistrarFicha.setBtnRegistrarFicha("Registrar Ficha");
+        sessionRegistrarFicha.setStyleClass("FondoRojoLetraBlanca");
+        btnNewFicha.setText("Registrar Ficha");
+        btnNewFicha.setStyleClass("FondoRojoLetraBlanca");
+        Utils.addTargetMany(btnNewFicha,btnEditFicha,panelBoxNewFicha,socTipFicha,socTipFichaCurs,ins1);
     }
     
     public void abrirPopCriterios(ActionEvent actionEvent) {
@@ -728,14 +743,6 @@ public class bRegistrarFicha {
         return btnEditFicha;
     }
 
-    public void setBtnNuevaFlota(RichButton btnNuevaFlota) {
-        this.btnNuevaFlota = btnNuevaFlota;
-    }
-
-    public RichButton getBtnNuevaFlota() {
-        return btnNuevaFlota;
-    }
-
     public void setPanelBoxNewFicha(RichPanelBox panelBoxNewFicha) {
         this.panelBoxNewFicha = panelBoxNewFicha;
     }
@@ -863,5 +870,37 @@ public class bRegistrarFicha {
 
     public RichPopup getPopLey() {
         return popLey;
+    }
+
+    public void setSocTipFicha(RichSelectOneChoice socTipFicha) {
+        this.socTipFicha = socTipFicha;
+    }
+
+    public RichSelectOneChoice getSocTipFicha() {
+        return socTipFicha;
+    }
+
+    public void setSocTipFichaCurs(RichSelectOneChoice socTipFichaCurs) {
+        this.socTipFichaCurs = socTipFichaCurs;
+    }
+
+    public RichSelectOneChoice getSocTipFichaCurs() {
+        return socTipFichaCurs;
+    }
+
+    public void setIns1(RichInputNumberSlider ins1) {
+        this.ins1 = ins1;
+    }
+
+    public RichInputNumberSlider getIns1() {
+        return ins1;
+    }
+
+    public void setBtnNewFicha(RichButton btnNewFicha) {
+        this.btnNewFicha = btnNewFicha;
+    }
+
+    public RichButton getBtnNewFicha() {
+        return btnNewFicha;
     }
 }

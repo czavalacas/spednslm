@@ -51,9 +51,27 @@ public class bSessionRegistrarFicha implements Serializable {
     private String descIndicadorSelected;
     private String valorDesc;
     private BeanCriterio indiSelectLeyenda = new BeanCriterio();
+    private String btnRegistrarFicha;
+    private String styleClass;
     
     public bSessionRegistrarFicha() {
 
+    }
+
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
+    }
+
+    public void setBtnRegistrarFicha(String btnRegistrarFicha) {
+        this.btnRegistrarFicha = btnRegistrarFicha;
+    }
+
+    public String getBtnRegistrarFicha() {
+        return btnRegistrarFicha;
     }
 
     public void setIndiSelectLeyenda(BeanCriterio indiSelectLeyenda) {
