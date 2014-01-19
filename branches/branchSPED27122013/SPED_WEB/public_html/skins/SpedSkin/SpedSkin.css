@@ -22,10 +22,6 @@ af|inputText.login::content {
 
 af|button.FondoRojoLetraBlanca {
     background-image: none;
-}
-
-af|button.FondoRojoLetraBlanca:text-only {
-    background-image: none;
     background-color: rgb(205,0,0);
     color: rgb(255,255,255);
     border-color: rgb(205,0,0);
