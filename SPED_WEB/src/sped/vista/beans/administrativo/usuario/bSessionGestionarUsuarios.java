@@ -30,7 +30,7 @@ public class bSessionGestionarUsuarios implements Serializable {
     private String usuario;
     private String clave;
     private boolean renderAreaAcdemica = false;
-    private boolean renderActualizar = false;
+    private boolean disabledActualizar = false;
     private boolean renderSede = false;
     private boolean renderNivel = false;
     private boolean renderImg = false;
@@ -160,12 +160,12 @@ public class bSessionGestionarUsuarios implements Serializable {
         return renderAreaAcdemica;
     }
 
-    public void setRenderActualizar(boolean renderActualizar) {
-        this.renderActualizar = renderActualizar;
+    public void setDisabledActualizar(boolean disabledActualizar) {
+        this.disabledActualizar = disabledActualizar;
     }
 
-    public boolean isRenderActualizar() {
-        return renderActualizar;
+    public boolean isDisabledActualizar() {
+        return disabledActualizar;
     }
 
     public void setFNombres(String fNombres) {
