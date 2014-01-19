@@ -61,17 +61,14 @@ public class bMain implements Serializable {
     }
 
     public void createMenus(PhaseEvent phaseEvent) {
-       // if(sessionMain.getExec() == 0){
-           // sessionMain.setExec(1);
-            if(sessionMain.getLstPermisos() != null){
-                sessionMain.getLstPermisos().removeAll(sessionMain.getLstPermisos());   
-            }
-            sessionMain.setLstPermisos(ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol()));
-            for (int i = 0; i < sessionMain.getLstPermisos().size(); i++) {
-                int hijoDeMBar = 0;
-                crearHijos(sessionMain.getLstPermisos().get(i), new RichMenu(), hijoDeMBar);
-            }
-     //   }
+        if(sessionMain.getLstPermisos() != null){
+            sessionMain.getLstPermisos().removeAll(sessionMain.getLstPermisos());   
+        }
+        sessionMain.setLstPermisos(ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol()));
+        for (int i = 0; i < sessionMain.getLstPermisos().size(); i++) {
+            int hijoDeMBar = 0;
+            crearHijos(sessionMain.getLstPermisos().get(i), new RichMenu(), hijoDeMBar);
+        }
     }
 
     public void crearHijos(BeanPermiso menuItem, RichMenu _menu, int hijoDeMBar) {

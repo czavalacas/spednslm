@@ -7,10 +7,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import oracle.adf.view.rich.component.rich.data.RichTreeTable;
+
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.beans.BeanIndicador;
+import sped.negocio.entidades.beans.BeanLeyenda;
 
 /** Clase de Sesion del Bean bRegistrarFicha
  * @author dfloresgonz
@@ -39,13 +42,66 @@ public class bSessionRegistrarFicha implements Serializable {
     private String descCriterioSeleccionado;
     private List<BeanIndicador> lstIndisSelected = new ArrayList<BeanIndicador>();
     private BeanCriterio critSelected;   
-
+    private List<BeanLeyenda> lstLeyendas = new ArrayList<BeanLeyenda>();
     private BeanCriterio critSelectedAux;
     private Date fechaHoy = new Date();
     private String versionGenerada;
+    private transient RichTreeTable tt;
+    private String leyenda;
+    private String descIndicadorSelected;
+    private String valorDesc;
+    private BeanCriterio indiSelectLeyenda = new BeanCriterio();
     
     public bSessionRegistrarFicha() {
 
+    }
+
+    public void setIndiSelectLeyenda(BeanCriterio indiSelectLeyenda) {
+        this.indiSelectLeyenda = indiSelectLeyenda;
+    }
+
+    public BeanCriterio getIndiSelectLeyenda() {
+        return indiSelectLeyenda;
+    }
+
+    public void setValorDesc(String valorDesc) {
+        this.valorDesc = valorDesc;
+    }
+
+    public String getValorDesc() {
+        return valorDesc;
+    }
+
+    public void setDescIndicadorSelected(String descIndicadorSelected) {
+        this.descIndicadorSelected = descIndicadorSelected;
+    }
+
+    public String getDescIndicadorSelected() {
+        return descIndicadorSelected;
+    }
+
+    public void setLeyenda(String leyenda) {
+        this.leyenda = leyenda;
+    }
+
+    public String getLeyenda() {
+        return leyenda;
+    }
+
+    public void setTt(RichTreeTable tt) {
+        this.tt = tt;
+    }
+
+    public RichTreeTable getTt() {
+        return tt;
+    }
+
+    public void setLstLeyendas(List<BeanLeyenda> lstLeyendas) {
+        this.lstLeyendas = lstLeyendas;
+    }
+
+    public List<BeanLeyenda> getLstLeyendas() {
+        return lstLeyendas;
     }
 
     public void setVersionGenerada(String versionGenerada) {

@@ -1,9 +1,7 @@
 package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class BeanCriterio implements Serializable, Cloneable {
@@ -16,6 +14,8 @@ public class BeanCriterio implements Serializable, Cloneable {
     private boolean selected = false;
     private boolean mostrarBoton = false;
     private BeanError beanError = new BeanError();
+    private List<BeanLeyenda> lstLeyenda = new ArrayList<BeanLeyenda>();
+    private String display = "display:none;";
 
     public Object clone() {
         Object clone = null;
@@ -47,6 +47,23 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+
+    public void setDisplay(String display) {
+        this.display = display;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
+
+
+    public void setLstLeyenda(List<BeanLeyenda> lstLeyenda) {
+        this.lstLeyenda = lstLeyenda;
+    }
+
+    public List<BeanLeyenda> getLstLeyenda() {
+        return lstLeyenda;
     }
 
     public void setBeanError(BeanError beanError) {
