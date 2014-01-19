@@ -2,8 +2,10 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                   xmlns:af="http://xmlns.oracle.com/adf/faces/rich" 
                   xmlns:f="http://java.sun.com/jsf/core">
-    <f:view>
+    <f:view><!--beforePhase="#{bRegistrarFicha.agregarColumnas}" -->
+    
            <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+         
                 <af:panelGroupLayout halign="left">
                     <af:spacer height="10"/>
                     <af:outputText value="Registrar Ficha de Evaluacion" id="otTitulo"
@@ -24,7 +26,7 @@
                 <af:button text="Editar Ficha" id="btnEditFicha" disabled="true"
                            binding="#{bRegistrarFicha.btnEditFicha}"/>
                 <af:button id="btnRefresh" icon="#{resource['images:refresh.png']}"
-                           actionListener="#{bRegistrarFicha.refrescarTablaFichas}"/>
+                           actionListener="#{bRegistrarFicha.refrescarTablaFichas}" />
             </af:panelGroupLayout>
             <af:table value="#{bRegistrarFicha.sessionRegistrarFicha.lstFichas}" var="row" rowBandingInterval="0"
                       id="tbFichas" rowSelection="single" varStatus="vs" emptyText="No hay fichas de evaluacion"
@@ -78,9 +80,9 @@
                                         <af:inputText label="Version" id="itDescVersion" labelStyle="text-align: left;" autoSubmit="true"
                                                         value="#{bRegistrarFicha.sessionRegistrarFicha.versionGenerada}"
                                                         disabled="true" binding="#{bRegistrarFicha.itDescVersion}"/>
-                                        <af:inputNumberSlider label="Numero de Valores" id="ins1" minimum="1" autoSubmit="true"
+                                        <af:inputNumberSlider label="Numero de Valores" id="ins1" minimum="0" autoSubmit="true"
                                                                  valueChangeListener="#{bRegistrarFicha.changeSliderValor}"
-                                                              maximum="6"/>
+                                                                 maximum="6"/>
                                     </af:panelFormLayout>
                         </af:gridCell>
                         <af:gridCell marginStart="2px" width="70%" marginEnd="1px" id="gc2">
@@ -111,7 +113,10 @@
                                                 </af:column>
                                             </f:facet>
                                             <af:column width="30">
-                                                <af:button icon="#{resource['images:consultar.png']}" rendered="#{row.mostrarBoton}"/>
+                                                <af:button icon="#{resource['images:consultar.png']}" rendered="#{row.mostrarBoton}" 
+                                                           actionListener="#{bRegistrarFicha.alwp}">
+                                                    <f:attribute name="consultar" value="consultar"/>
+                                                </af:button>
                                             </af:column>
                                         </af:treeTable>
                                     </af:gridCell>
@@ -225,8 +230,20 @@
             </af:dialog>
         </af:popup>
         
-        <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
-            <af:outputText value="Context Info in Popup"  inlineStyle="font-size:larger;"/>
+        <af:popup childCreation="deferred" id="popLey" binding="#{bRegistrarFicha.popLey}">
+            <af:dialog type="none" title="Leyenda por valor">
+                <af:subform defaultCommand="btnAsigLey">
+                      <af:panelFormLayout id="pflpopLey">
+                        <af:outputText value="Criterio  :  #{sessionScope.sessionRegistrarFicha.descCriterioSeleccionado}" id="ot12"
+                                         inlineStyle="font-weight:bold;"/>
+                        <af:outputText value="Indicador : #{sessionScope.sessionRegistrarFicha.descIndicadorSelected}" id="ot13" inlineStyle="font-weight:bold;"/>
+                        <af:outputText value="#{bRegistrarFicha.sessionRegistrarFicha.valorDesc}" id="ot14" inlineStyle="font-weight:bold;"/>
+                        <af:inputText value="#{bRegistrarFicha.sessionRegistrarFicha.leyenda}" id="itLey" binding="#{bRegistrarFicha.itLey}"
+                                      rows="3"/>
+                        <af:button text="Asignar Leyenda" id="btnAsigLey" actionListener="#{bRegistrarFicha.asignarLeyenda}"/>
+                    </af:panelFormLayout>
+                </af:subform>
+            </af:dialog>
         </af:popup>
         <!-- FIN POPUPS -->
     </f:view>

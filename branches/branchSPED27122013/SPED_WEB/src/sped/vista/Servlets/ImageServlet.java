@@ -20,6 +20,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+import sped.vista.Utils.Utils;
+
 public class ImageServlet extends HttpServlet {
     @SuppressWarnings("compatibility:-5668859933847456737")
     private static final long serialVersionUID = 1L;
