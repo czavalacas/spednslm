@@ -123,6 +123,21 @@
                                                     <f:attribute name="consultar" value="consultar"/>
                                                 </af:button>
                                             </af:column>
+                                            <af:column width="50" headerText="Ordenar">
+                                                <af:panelFormLayout id="pfl1" rows="1">
+                                                    <af:button id="b4" actionListener="#{bRegistrarFicha.mover}" styleClass="flechaUp"
+                                                    inlineStyle="min-height:6px; max-height:6px; height:6px; border-bottom-width:0px;min-width:12px; max-width:12px; width:12px;">
+                                                        <f:attribute name="mover" value="0"/>
+                                                        <f:attribute name="orden" value="#{row.orden}"/>
+                                                    </af:button>
+                                                    <af:button id="b5" styleClass="flechaDown" 
+                                                    inlineStyle="min-height:6px; max-height:6px; height:6px;border-top-width:0px;min-width:12px; max-width:12px; width:12px"
+                                                                actionListener="#{bRegistrarFicha.mover}">
+                                                        <f:attribute name="mover" value="1"/> 
+                                                        <f:attribute name="orden" value="#{row.orden}"/>
+                                                    </af:button>
+                                                </af:panelFormLayout>
+                                            </af:column>
                                         </af:treeTable>
                                     </af:gridCell>
                                 </af:gridRow>
