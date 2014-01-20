@@ -53,9 +53,27 @@ public class bSessionRegistrarFicha implements Serializable {
     private BeanCriterio indiSelectLeyenda = new BeanCriterio();
     private String btnRegistrarFicha;
     private String styleClass;
+    private int numValores;
+    private int tipEvento;//0=default, 1=registrar(nuevo), 2=editar
     
     public bSessionRegistrarFicha() {
 
+    }
+
+    public void setNumValores(int numValores) {
+        this.numValores = numValores;
+    }
+
+    public int getNumValores() {
+        return numValores;
+    }
+
+    public void setTipEvento(int tipEvento) {
+        this.tipEvento = tipEvento;
+    }
+
+    public int getTipEvento() {
+        return tipEvento;
     }
 
     public void setStyleClass(String styleClass) {
