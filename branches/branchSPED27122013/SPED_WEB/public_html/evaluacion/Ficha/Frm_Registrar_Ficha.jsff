@@ -56,6 +56,7 @@
                 </af:column>
             </af:table>
             <af:spacer height="10"/>
+            <af:messages id="msjGen" binding="#{bRegistrarFicha.msjGen}" inline="true"/>
             <af:panelBox text="Nueva Ficha" id="pBoxFicha"
                          visible="#{bRegistrarFicha.sessionRegistrarFicha.visiblePanelBoxPanelBoxFicha}"
                          binding="#{bRegistrarFicha.panelBoxNewFicha}">
@@ -85,7 +86,8 @@
                                                         disabled="true" binding="#{bRegistrarFicha.itDescVersion}"/>
                                         <af:inputNumberSlider label="Numero de Valores" id="ins1" minimum="0" autoSubmit="true"
                                                                  valueChangeListener="#{bRegistrarFicha.changeSliderValor}" 
-                                                                 maximum="6" binding="#{bRegistrarFicha.ins1}"/>
+                                                                 maximum="6" binding="#{bRegistrarFicha.ins1}"
+                                                                 value="#{sessionScope.sessionRegistrarFicha.numValores}"/>
                                     </af:panelFormLayout>
                         </af:gridCell>
                         <af:gridCell marginStart="2px" width="70%" marginEnd="1px" id="gc2">
