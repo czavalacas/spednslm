@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -149,7 +150,12 @@ public class bRegistrarFicha {
         BeanCriterio b = new BeanCriterio();
         b.setDescripcionCriterio("::: Ficha de Evaluacion :::");
         List<BeanCriterio> lstBeanCriterio = new ArrayList<BeanCriterio>();
-        b.setLstIndicadores(new ArrayList<BeanCriterio>(sessionRegistrarFicha.getLstCriteriosMultiples()));
+        Collections.sort(sessionRegistrarFicha.getLstCriteriosMultiples(), new Comparator<BeanCriterio>() {
+            public int compare(BeanCriterio s1,BeanCriterio s2) {
+                return s1.getOrden().compareTo(s2.getOrden());
+            }
+        });
+        b.setLstIndicadores(sessionRegistrarFicha.getLstCriteriosMultiples());
         lstBeanCriterio.add(b);
         permisosTree = new ChildPropertyTreeModel(lstBeanCriterio,"lstIndicadores");
         sessionRegistrarFicha.setPermisosTree(permisosTree);
@@ -296,7 +302,7 @@ public class bRegistrarFicha {
                 BeanCriterio crit = new BeanCriterio();
                 indi = (BeanIndicador) it.next();
                 crit.setNidCriterio(indi.getNidIndicador());
-                crit.setOrden(indi.getOrden());Utils.sysout("oren:"+indi.getOrden());
+                crit.setOrden(indi.getOrden());
                 crit.setDescripcionCriterio(indi.getDescripcionIndicador());
                 crit.setDisplay("display:block;");
                 crit.setSelected(indi.isSelected());
@@ -418,6 +424,29 @@ public class bRegistrarFicha {
                             return "Agregue los indicadores";
                         }else{
                             //chequear leyendas
+                            Iterator tit = crit.getLstIndicadores().iterator();
+                            while(tit.hasNext()){
+                                BeanCriterio indi = (BeanCriterio) tit.next();
+                                if(indi.getLstLeyenda() != null){
+                                    if(indi.getLstLeyenda().size() != sessionRegistrarFicha.getNumValores()){
+                                        return "Agregue las leyendas";
+                                    }else if(indi.getLstLeyenda().size() == sessionRegistrarFicha.getNumValores()){
+                                        Iterator it3 = indi.getLstLeyenda().iterator();
+                                        while(it3.hasNext()){
+                                            BeanLeyenda ley = (BeanLeyenda) it3.next();
+                                            if(ley.getDescripcionLeyenda() == null){
+                                                return "Agregue las leyendas";
+                                            }else{
+                                                if(ley.getDescripcionLeyenda().equalsIgnoreCase("")){
+                                                    return "Agregue las leyendas";
+                                                }
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    return "Agregue las leyendas";
+                                }
+                            }
                         }
                     }else{
                         return "Agregue los indicadores";
@@ -500,23 +529,61 @@ public class bRegistrarFicha {
     public void alwp(ActionEvent actionEvent) {
       String param = (String)actionEvent.getComponent().getAttributes().get("consultar");
       if(sessionRegistrarFicha.getTt() != null && param.equalsIgnoreCase("consultar")){
-          RichTreeTable tt = sessionRegistrarFicha.getTt();
-          TreeModel model = (TreeModel) tt.getValue();
-          RowKeySet rks = tt.getSelectedRowKeys();
-          Iterator keys = rks.iterator();
-          List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) model.getWrappedData();
-          if (keys.hasNext()) {
-              List key = (List)keys.next();
-              if(key.size() == 2){
-                  int llave = Integer.parseInt(key.get(1).toString());
-                  BeanCriterio criterio = (BeanCriterio) lstBeanCriterio.get(0).getLstIndicadores().get(llave).clone();
-                  sessionRegistrarFicha.setCritSelected(criterio);
-                  Utils.showPopUpMIDDLE(popIndByCrit);
-                  sessionRegistrarFicha.setDescCriterioSeleccionado(criterio.getDescripcionCriterio());
-                  sessionRegistrarFicha.setLstIndicadoresByCriterio(this.lstCritToIndi(criterio.getLstIndicadores()));
-              }
-          }
+          setear();
+          Utils.showPopUpMIDDLE(popIndByCrit);
       }
+    }
+    
+    public void setear(){
+        RichTreeTable tt = sessionRegistrarFicha.getTt();
+        TreeModel model = (TreeModel) tt.getValue();
+        RowKeySet rks = tt.getSelectedRowKeys();
+        Iterator keys = rks.iterator();
+        List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) model.getWrappedData();
+        if (keys.hasNext()) {
+            List key = (List)keys.next();
+            if(key.size() == 2){
+                int llave = Integer.parseInt(key.get(1).toString());
+                BeanCriterio criterio = (BeanCriterio) lstBeanCriterio.get(0).getLstIndicadores().get(llave).clone();
+                sessionRegistrarFicha.setCritSelected(criterio);
+                sessionRegistrarFicha.setDescCriterioSeleccionado(criterio.getDescripcionCriterio());
+                sessionRegistrarFicha.setLstIndicadoresByCriterio(this.lstCritToIndi(criterio.getLstIndicadores()));
+            }
+        }
+    }
+    
+    public void mover(ActionEvent actionEvent){
+        String param = (String)actionEvent.getComponent().getAttributes().get("mover");
+        int orden = Integer.parseInt(actionEvent.getComponent().getAttributes().get("orden").toString());
+        Utils.sysout("mover:"+param+"|orden:"+orden);
+        setear();
+        int mov = Integer.parseInt(param);//0 subir; 1 bajar
+        int ord = orden - 1;
+        if((ord > 0 && mov == 0) || (orden < sessionRegistrarFicha.getLstCriteriosMultiples().size() && mov == 1) ){
+            if(mov == 0){
+                actualizarOrden(sessionRegistrarFicha.getLstCriteriosMultiples(),orden,mov);
+                Collections.swap(sessionRegistrarFicha.getLstCriteriosMultiples(),ord,ord - 1);
+            }else{
+                actualizarOrden(sessionRegistrarFicha.getLstCriteriosMultiples(),orden,mov);
+                Collections.swap(sessionRegistrarFicha.getLstCriteriosMultiples(),ord,ord + 1);
+            }
+        }else{
+            Utils.sysout("no cumple");
+        }
+        Utils.unselectFilas(treeCriIndi);
+    }
+    
+    public void actualizarOrden(List<BeanCriterio> lista, int orden, int subirBajar/*0,1*/){
+        for(BeanCriterio crit: lista){
+            if(crit.getOrden() == orden){
+                BeanCriterio otro = lista.get(subirBajar == 0 ? orden - 2 : orden);
+                Utils.sysout("otro:"+otro.getDescripcionCriterio());
+                otro.setOrden(orden);Utils.sysout("orden:"+otro.getOrden());
+                crit.setOrden(subirBajar == 0 ? orden - 1 : orden + 1);
+                Utils.sysout("este:"+crit.getOrden());
+                return;
+            }
+        }
     }
     
     public void selectTree(SelectionEvent se) {
