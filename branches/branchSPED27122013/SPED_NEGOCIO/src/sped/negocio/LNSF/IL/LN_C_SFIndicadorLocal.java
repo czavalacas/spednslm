@@ -13,5 +13,5 @@ public interface LN_C_SFIndicadorLocal {
     
     List<BeanIndicador> getIndicadoresByAttr_LN(String descIndicador, 
                                                 int nidIndicador,
-                                                HashSet<BeanCriterio> lstCritsArbol);
+                                                List<BeanCriterio> lstCritsArbol);
 }

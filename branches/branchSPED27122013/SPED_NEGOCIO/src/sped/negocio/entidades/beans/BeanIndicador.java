@@ -14,6 +14,7 @@ public class BeanIndicador implements Serializable {
     private boolean selected = false;
     List<Integer> lstCritsArbol;
     private BeanError beanError = new BeanError();
+    private Integer orden;
 
     @Override
     public int hashCode(){
@@ -29,12 +30,27 @@ public class BeanIndicador implements Serializable {
         if(obj == null){
             return false;
         }
-        if(obj instanceof BeanCriterio){
-            BeanCriterio crit = (BeanCriterio) obj;
-            return this.getNidIndicador().equals(crit.getNidCriterio());
+        if(obj instanceof BeanIndicador){
+            BeanIndicador crit = (BeanIndicador) obj;
+            return this.getNidIndicador().equals(crit.getNidIndicador());
         }else{
             return false;
         }
+    }
+
+    public int compareTo(Object obj){
+        BeanIndicador item = (BeanIndicador) obj;
+        Integer ordenObj = item.getOrden();
+        Integer ordenThis = this.getOrden();
+        return (ordenThis.compareTo(ordenObj));
+    }
+    
+    public void setOrden(Integer orden) {
+        this.orden = orden;
+    }
+
+    public Integer getOrden() {
+        return orden;
     }
 
     public void setBeanError(BeanError beanError) {
