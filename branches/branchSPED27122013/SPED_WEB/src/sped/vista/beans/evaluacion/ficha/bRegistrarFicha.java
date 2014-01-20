@@ -126,6 +126,7 @@ public class bRegistrarFicha {
     private RichSelectOneChoice socTipFichaCurs;
     private RichInputNumberSlider ins1;
     private RichButton btnNewFicha;
+    private RichMessages msjGen;
 
     public bRegistrarFicha() {
         
@@ -308,19 +309,54 @@ public class bRegistrarFicha {
     }
 
     public void nuevaFicha(ActionEvent actionEvent) {
-        sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(true);
-        panelBoxNewFicha.setVisible(true);
-        btnEditFicha.setDisabled(true);
-        if(socTipFicha != null){
-            socTipFicha.setRequired(true);
-            socTipFichaCurs.setRequired(true);
-            ins1.setRequired(true);
+        if(sessionRegistrarFicha.getTipEvento() == 0){
+            //DEFAULT NI BIEN CARGA LA PAGINA Y SE APLASTA EL BOTON ESTO SE EJECUTA
+            sessionRegistrarFicha.setTipEvento(1);
+            sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(true);
+            panelBoxNewFicha.setVisible(true);
+            btnEditFicha.setDisabled(true);
+            if(socTipFicha != null){
+                socTipFicha.setRequired(true);
+                socTipFichaCurs.setRequired(true);
+                ins1.setRequired(true);
+            }
+            sessionRegistrarFicha.setBtnRegistrarFicha("Registrar Ficha");
+            sessionRegistrarFicha.setStyleClass("FondoRojoLetraBlanca");
+            btnNewFicha.setText("Registrar Ficha");
+            btnNewFicha.setStyleClass("FondoRojoLetraBlanca");
+            Utils.addTargetMany(btnNewFicha,btnEditFicha,panelBoxNewFicha,socTipFicha,socTipFichaCurs,ins1);
+        }else if(sessionRegistrarFicha.getTipEvento() == 1){
+            //CUANDO SE APLASTO ESTE BOTON X 1ERA VEZ SE SETEO LA VARIABLE A 1 (REGISTRAR FICHA)
+            if(isOkRegistrarFicha()){
+                //Registrar
+            }
         }
-        sessionRegistrarFicha.setBtnRegistrarFicha("Registrar Ficha");
-        sessionRegistrarFicha.setStyleClass("FondoRojoLetraBlanca");
-        btnNewFicha.setText("Registrar Ficha");
-        btnNewFicha.setStyleClass("FondoRojoLetraBlanca");
-        Utils.addTargetMany(btnNewFicha,btnEditFicha,panelBoxNewFicha,socTipFicha,socTipFichaCurs,ins1);
+
+    }
+    
+    public boolean isOkRegistrarFicha(){
+        boolean isOk = true;
+        int severidad = 4;
+        String detalle = "Faltan Campos";
+        if(sessionRegistrarFicha.getVersionGenerada() == null){
+            isOk = false;
+            Utils.mostrarMensaje(ctx,"Genere el numero de version de la ficha",detalle, severidad);
+        }else{
+            if(sessionRegistrarFicha.getVersionGenerada().equalsIgnoreCase("")){
+                isOk = false;
+                Utils.mostrarMensaje(ctx,"Genere el numero de version de la ficha",detalle, severidad);
+            }
+        }
+        if(sessionRegistrarFicha.getNumValores() == 0){
+            isOk = false;
+            Utils.mostrarMensaje(ctx,"El numero de Valores tiene que ser mayor a 0",detalle,severidad);
+        }
+        if(isOk == false){
+            msjGen.setText(detalle);
+            Utils.addTarget(msjGen);
+        }
+        //faltan mas
+        return isOk;
     }
     
     public void abrirPopCriterios(ActionEvent actionEvent) {
@@ -902,5 +938,13 @@ public class bRegistrarFicha {
 
     public RichButton getBtnNewFicha() {
         return btnNewFicha;
+    }
+
+    public void setMsjGen(RichMessages msjGen) {
+        this.msjGen = msjGen;
+    }
+
+    public RichMessages getMsjGen() {
+        return msjGen;
     }
 }
