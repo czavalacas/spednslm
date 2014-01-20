@@ -36,7 +36,8 @@ public class bSessionRegistrarFicha implements Serializable {
     private String descIndicador;//busqueda popIndis
     private ChildPropertyTreeModel permisosTree;
     private List<BeanCriterio> lstCriteriosFin;
-    private HashSet<BeanCriterio> lstCriteriosMultiples = new HashSet<BeanCriterio>();
+    //private HashSet<BeanCriterio> lstCriteriosMultiples = new HashSet<BeanCriterio>();
+    private List<BeanCriterio> lstCriteriosMultiples = new ArrayList<BeanCriterio>();
     //private HashSet<BeanTRItem> hashItemsFinal = new HashSet<BeanTRItem>();
     private List<BeanIndicador> lstIndicadoresByCriterio = new ArrayList<BeanIndicador>();
     private String descCriterioSeleccionado;
@@ -195,12 +196,20 @@ public class bSessionRegistrarFicha implements Serializable {
     public List<BeanIndicador> getLstIndicadoresByCriterio() {
         return lstIndicadoresByCriterio;
     }
-
+/*
     public void setLstCriteriosMultiples(HashSet<BeanCriterio> lstCriteriosMultiples) {
         this.lstCriteriosMultiples = lstCriteriosMultiples;
     }
 
     public HashSet<BeanCriterio> getLstCriteriosMultiples() {
+        return lstCriteriosMultiples;
+    }
+*/
+    public void setLstCriteriosMultiples(List<BeanCriterio> lstCriteriosMultiples) {
+        this.lstCriteriosMultiples = lstCriteriosMultiples;
+    }
+
+    public List<BeanCriterio> getLstCriteriosMultiples() {
         return lstCriteriosMultiples;
     }
 

@@ -175,16 +175,34 @@ public class bRegistrarFicha {
         beanCriterio = (BeanCriterio) Utils.getRowTable(se);
         if(beanCriterio != null){
             if(beanCriterio.isSelected()){
-                Iterator iti = sessionRegistrarFicha.getLstCriteriosMultiples().iterator();
-                while(iti.hasNext()){
-                    BeanCriterio bCrit = (BeanCriterio) iti.next();
-                }
-                sessionRegistrarFicha.getLstCriteriosMultiples().remove(beanCriterio);
-                beanCriterio.setSelected(false);
+                int ordenBorrar = beanCriterio.getOrden();
+                int size = sessionRegistrarFicha.getLstCriteriosMultiples().size();
+                if(ordenBorrar < size){
+                    if(ordenBorrar > 1){
+                        for(BeanCriterio itm : sessionRegistrarFicha.getLstCriteriosMultiples()){
+                            if(itm.getOrden() > 1){
+                                itm.setOrden(itm.getOrden() - 1);    
+                            }
+                        }
+                    }else{
+                        for(BeanCriterio itm : sessionRegistrarFicha.getLstCriteriosMultiples()){
+                            itm.setOrden(itm.getOrden() - 1);
+                        }
+                    }
+               }
+               sessionRegistrarFicha.getLstCriteriosMultiples().remove(beanCriterio);
+               beanCriterio.setSelected(false);
             }else{
                 beanCriterio.setSelected(true);
                 beanCriterio.setMostrarBoton(true);
-                sessionRegistrarFicha.getLstCriteriosMultiples().add(beanCriterio);
+                int orden = 1;
+                if (sessionRegistrarFicha.getLstCriteriosMultiples() != null) {
+                    if (sessionRegistrarFicha.getLstCriteriosMultiples().size() >= 1) {
+                        orden = sessionRegistrarFicha.getLstCriteriosMultiples().size() + 1;
+                    }
+                }
+                beanCriterio.setOrden(orden);
+                sessionRegistrarFicha.getLstCriteriosMultiples().add(sessionRegistrarFicha.getLstCriteriosMultiples().size(),beanCriterio);
             }
             Utils.unselectFilas(tbCrits);
             mostrarCuadre();
@@ -198,6 +216,21 @@ public class bRegistrarFicha {
                 BeanIndicador bInd = (BeanIndicador) it.next();
                 if(bInd.getNidIndicador().compareTo(nidInd) == 0){
                     if(borrar){
+                        int ordenBorrar = bInd.getOrden();
+                        int size = sessionRegistrarFicha.getLstIndisSelected().size();
+                        if(ordenBorrar < size){
+                            if(ordenBorrar > 1){
+                                for(BeanIndicador itm : sessionRegistrarFicha.getLstIndisSelected()){
+                                    if(itm.getOrden() > 1){
+                                        itm.setOrden(itm.getOrden() - 1);    
+                                    }
+                                }
+                            }else{
+                                for(BeanIndicador itm : sessionRegistrarFicha.getLstIndisSelected()){
+                                    itm.setOrden(itm.getOrden() - 1);
+                                }
+                            }
+                        }
                         it.remove();
                     }
                     return true;
@@ -219,7 +252,14 @@ public class bRegistrarFicha {
             }else{
                 beanIndicador.setSelected(true);
                 if(!contiene(sessionRegistrarFicha.getLstIndisSelected(),beanIndicador.getNidIndicador(),false)){
-                    sessionRegistrarFicha.getLstIndisSelected().add(beanIndicador);   
+                    int orden = 1;
+                    if (sessionRegistrarFicha.getLstIndisSelected() != null) {
+                        if (sessionRegistrarFicha.getLstIndisSelected().size() >= 1) {
+                            orden = sessionRegistrarFicha.getLstIndisSelected().size() + 1;
+                        }
+                    }
+                    beanIndicador.setOrden(orden);
+                    sessionRegistrarFicha.getLstIndisSelected().add(sessionRegistrarFicha.getLstIndisSelected().size(),beanIndicador);   
                 }
             }
             BeanCriterio critSelected = this.getCriterio(sessionRegistrarFicha.getCritSelected().getNidCriterio());
@@ -256,10 +296,11 @@ public class bRegistrarFicha {
                 BeanCriterio crit = new BeanCriterio();
                 indi = (BeanIndicador) it.next();
                 crit.setNidCriterio(indi.getNidIndicador());
-                crit.setDisplay("display:block;");
+                crit.setOrden(indi.getOrden());Utils.sysout("oren:"+indi.getOrden());
                 crit.setDescripcionCriterio(indi.getDescripcionIndicador());
+                crit.setDisplay("display:block;");
                 crit.setSelected(indi.isSelected());
-                lstCrits.add(crit);    
+                lstCrits.add(crit);
             }
         }
         return lstCrits;
@@ -274,6 +315,7 @@ public class bRegistrarFicha {
                 BeanIndicador ind = new BeanIndicador();
                 cri = (BeanCriterio) it.next();
                 ind.setNidIndicador(cri.getNidCriterio());
+                ind.setOrden(cri.getOrden());
                 ind.setDescripcionIndicador(cri.getDescripcionCriterio());
                 ind.setSelected(cri.isSelected());
                 lstIns.add(ind);
@@ -334,7 +376,7 @@ public class bRegistrarFicha {
 
     }
     
-    public boolean isOkRegistrarFicha(){
+    private boolean isOkRegistrarFicha(){
         boolean isOk = true;
         int severidad = 4;
         String detalle = "Faltan Campos";
@@ -351,12 +393,41 @@ public class bRegistrarFicha {
             isOk = false;
             Utils.mostrarMensaje(ctx,"El numero de Valores tiene que ser mayor a 0",detalle,severidad);
         }
+        if(this.arbolIsOk() != null){
+            isOk = false;
+            Utils.mostrarMensaje(ctx,this.arbolIsOk(),detalle,severidad);
+        }
         if(isOk == false){
             msjGen.setText(detalle);
             Utils.addTarget(msjGen);
         }
         //faltan mas
         return isOk;
+    }
+    
+    private String arbolIsOk(){
+        if(sessionRegistrarFicha.getLstCriteriosMultiples() != null){
+            if(sessionRegistrarFicha.getLstCriteriosMultiples().size() == 0){
+                return "Agregue los Criterios";
+            }else{
+                Iterator it = sessionRegistrarFicha.getLstCriteriosMultiples().iterator();
+                while(it.hasNext()){
+                    BeanCriterio crit = (BeanCriterio) it.next();
+                    if(crit.getLstIndicadores() != null){
+                        if(crit.getLstIndicadores().size() == 0){
+                            return "Agregue los indicadores";
+                        }else{
+                            //chequear leyendas
+                        }
+                    }else{
+                        return "Agregue los indicadores";
+                    }
+                }
+            }
+        }else{
+            return "Agregue los Criterios";
+        }
+        return null;
     }
     
     public void abrirPopCriterios(ActionEvent actionEvent) {
@@ -374,7 +445,7 @@ public class bRegistrarFicha {
         Utils.showPopUpMIDDLE(popCrits);
     }
     
-    public boolean contiene(HashSet<BeanCriterio> lstCritMult,Integer nidCrit){
+    public boolean contiene(/*HashSet<BeanCriterio> lstCritMult*/List<BeanCriterio> lstCritMult,Integer nidCrit){
         Iterator it = lstCritMult.iterator();
         while(it.hasNext()){
             BeanCriterio bCrit = (BeanCriterio) it.next();
@@ -470,6 +541,21 @@ public class bRegistrarFicha {
             while(iti.hasNext()){
                 BeanCriterio beanCriterio = (BeanCriterio) iti.next();
                 if(beanIndicador.getNidIndicador().compareTo(beanCriterio.getNidCriterio()) == 0){
+                    int ordenBorrar = beanCriterio.getOrden();
+                    int size = critSelected.getLstIndicadores().size();
+                    if(ordenBorrar < size){
+                        if(ordenBorrar > 1){
+                            for(BeanCriterio itm : critSelected.getLstIndicadores()){
+                                if(itm.getOrden() > 1){
+                                    itm.setOrden(itm.getOrden() - 1);    
+                                }
+                            }
+                        }else{
+                            for(BeanCriterio itm : critSelected.getLstIndicadores()){
+                                itm.setOrden(itm.getOrden() - 1);
+                            }
+                        }
+                    }
                     iti.remove();
                     Utils.unselectFilas(treeCriIndi);
                     return;
@@ -504,7 +590,7 @@ public class bRegistrarFicha {
     }
     
     public void cancelarPopIndiByCrit(PopupCanceledEvent popupCanceledEvent) {
-        Utils.unselectFilas(treeCriIndi);
+       // Utils.unselectFilas(treeCriIndi);
     }
     
     public void registrarCriterio(ActionEvent ae) {

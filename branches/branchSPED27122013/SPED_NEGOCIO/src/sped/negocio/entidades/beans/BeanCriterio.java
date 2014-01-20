@@ -16,6 +16,7 @@ public class BeanCriterio implements Serializable, Cloneable {
     private BeanError beanError = new BeanError();
     private List<BeanLeyenda> lstLeyenda = new ArrayList<BeanLeyenda>();
     private String display = "display:none;";
+    private Integer orden;
 
     public Object clone() {
         Object clone = null;
@@ -47,6 +48,21 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+    
+    public int compareTo(Object obj){
+        BeanCriterio item = (BeanCriterio) obj;
+        Integer ordenObj = item.getOrden();
+        Integer ordenThis = this.getOrden();
+        return (ordenThis.compareTo(ordenObj));
+    }
+
+    public void setOrden(Integer orden) {
+        this.orden = orden;
+    }
+
+    public Integer getOrden() {
+        return orden;
     }
 
     public void setDisplay(String display) {
