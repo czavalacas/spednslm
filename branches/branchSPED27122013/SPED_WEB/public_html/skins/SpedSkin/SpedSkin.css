@@ -26,3 +26,26 @@ af|button.FondoRojoLetraBlanca {
     color: rgb(255,255,255);
     border-color: rgb(205,0,0);
 }
+
+
+af|button.flechaUp {
+    background-image: url("../../recursos/img/usuarios/up.png");
+}
+
+af|button.flechaUp:text-only {
+    background-image: url("../../recursos/img/usuarios/up.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    border-color: rgb(255,255,255);
+}
+
+af|button.flechaDown {
+    background-image: url("../../recursos/img/usuarios/down.png");
+}
+
+af|button.flechaDown:text-only {
+    background-image: url("../../recursos/img/usuarios/down.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    border-color: rgb(255,255,255);
+}
