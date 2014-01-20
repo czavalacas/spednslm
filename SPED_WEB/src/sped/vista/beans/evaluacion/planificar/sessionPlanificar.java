@@ -4,6 +4,8 @@ package sped.vista.beans.evaluacion.planificar;
 
 import java.util.Date;
 import java.util.List;
+
+import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -17,10 +19,12 @@ public class sessionPlanificar {
     private BeanMain beanHorario;
     private int nidAula;   
     private BeanUsuario beanUsuario;
+    private List listAreaAcademica;
     private List<BeanUsuario> listBeanUsua;
     private String nombreEvaluador;
     private String areaEvaluador;
     private String nidUsuario;
+    private String nidAreaFiltro;
     private int nidAreaAcademica;
     private int nidEvaluador;
     private String nidCurso;
@@ -47,6 +51,8 @@ public class sessionPlanificar {
     private String dniDocenteEvaluacion;
     private boolean estadoChoiceEvaluadores;
     private boolean estadoBotonEliminarEvaluacion;
+    private String styleClass;
+    
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
         this.listaHorarios = listaHorarios;
@@ -317,4 +323,30 @@ public class sessionPlanificar {
     public Integer getNidRol() {
         return nidRol;
     }
+
+
+    public void setListAreaAcademica(List listAreaAcademica) {
+        this.listAreaAcademica = listAreaAcademica;
+    }
+
+    public List getListAreaAcademica() {
+        return listAreaAcademica;
+    }
+
+    public void setNidAreaFiltro(String nidAreaFiltro) {
+        this.nidAreaFiltro = nidAreaFiltro;
+    }
+
+    public String getNidAreaFiltro() {
+        return nidAreaFiltro;
+    }
+
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
+    }
+
 }
