@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
         <af:panelFormLayout id="pfl2">      
-            <af:button text="SELECCIONAR EVALUADOR" id="b1" action="#{bPlanificarEva.popupEvaluadores}"
+            <af:button text="Seleccionar Evaluador" id="b1" action="#{bPlanificarEva.popupEvaluadores}"
                        visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}"/>
             <h:outputText value="#{sessionScope.sessionPlanificarEva.nombreEvaluador} #{sessionScope.sessionPlanificarEva.areaEvaluador}" id="ot4" binding="#{bPlanificarEva.outDatosEva}"/>          
         </af:panelFormLayout>
@@ -47,16 +47,17 @@
                     <af:panelGridLayout id="pgl3">
                         <af:gridRow marginTop="1px" marginBottom="1px" height="auto" id="gr3">
                             <af:gridCell marginStart="1px" width="auto" id="gc5">
-                                <af:commandButton text="Buscar" id="btnBuscar" binding="#{bPlanificarEva.btnBuscar}"
+                                <af:button  text="Buscar" id="btnBuscar" 
                                                   action="#{bPlanificarEva.buscarHorariosFiltro}"/>
                             </af:gridCell>
                             <af:gridCell marginStart="1px" width="auto" id="gc6">
-                                <af:commandButton text="Limpiar" id="btnLimpiar" action="#{bPlanificarEva.btnLimpiar}"/>
+                                <af:button  text="Limpiar" id="btnLimpiar" action="#{bPlanificarEva.btnLimpiar}"/>
                             </af:gridCell>
                             <af:gridCell marginStart="1px" width="auto" id="gc7">
-                                <af:commandButton text="ASIGNAR EVALUACION" id="btnEvaluar"
+                                <af:button text="Agregar Evaluacion" id="btnEvaluar"
                                                   binding="#{bPlanificarEva.btnAsignarEva}"
-                                                  action="#{bPlanificarEva.grabarEvaluacion}"/>
+                                                  action="#{bPlanificarEva.grabarEvaluacion}"
+                                                  styleClass="#{sessionPlanificarEva.styleClass}"/>
                             </af:gridCell>
                         </af:gridRow>
                     </af:panelGridLayout>
@@ -83,8 +84,9 @@
                         <af:outputText value="#{row.aula.sede.descripcionSede}" id="ot6"/>
                     </af:column>
                     <af:column sortable="false" headerText="Hora De Clase" id="c7">
-                        <af:outputText value="#{row.horaInicio.hours}:#{row.horaInicio.minutes}:#{row.horaInicio.seconds} - #{row.horaFin.hours}:#{row.horaFin.minutes}:#{row.horaFin.seconds}"
-                                       id="ot3"/>
+                        <af:outputText value="#{row.horaInicio}"
+                                       id="ot3">
+                                       <af:convertDateTime type="date" pattern="HH:mm"/></af:outputText>
                     </af:column>
                 </af:table>
             </af:dialog>
@@ -97,7 +99,7 @@
                                   value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true"/>
                     <af:inputText label="Hora" autoSubmit="true" id="it11"
                                   value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true">
-                        <af:convertDateTime type="date" pattern="HH:mm:SS"/>
+                        <af:convertDateTime type="date" pattern="HH:mm"/>
                     </af:inputText>
                 </af:panelBox>
                 <af:panelBox text="Lugar de Evaluacion" id="pb2">
@@ -125,7 +127,7 @@
                 <af:panelGridLayout id="pgl1">
                     <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
                         <af:gridCell marginStart="5px" width="34%" id="gc1">
-                          <af:button text="ANULAR EVALUACION" id="b2" partialSubmit="true"
+                          <af:button text="Anular Evaluacion" id="b2" partialSubmit="true"
                                      actionListener="#{bPlanificarEva.confirmarAnulacion}"
                                      visible="#{sessionScope.sessionPlanificarEva.estadoBotonEliminarEvaluacion}"/>
                         </af:gridCell>                     
@@ -163,8 +165,10 @@
                 </af:popup>
         <af:popup childCreation="deferred" autoCancel="disabled" id="p3" binding="#{bPlanificarEva.popupEvalua}">
             <af:dialog id="d2" type="ok">
-                <af:selectOneChoice label="Area Academica" unselectedLabel="::: AREA ACADEMICA :::" id="soc1">
-                    <f:selectItems value="" id="si2"/>
+                <af:selectOneChoice label="Area Academica" unselectedLabel="::: AREA ACADEMICA :::" id="soc1"
+                                    value="#{sessionScope.sessionPlanificarEva.nidAreaFiltro}"
+                                    valueChangeListener="#{bPlanificarEva.filtrarListaEvaluadores}">
+                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listAreaAcademica}" id="si2"/>
                 </af:selectOneChoice>
                 <af:spacer width="10" height="10" id="s7"/>
                 <af:table var="row" rowBandingInterval="0" id="t2" varStatus="vs"

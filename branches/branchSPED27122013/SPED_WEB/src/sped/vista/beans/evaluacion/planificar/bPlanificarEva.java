@@ -39,6 +39,7 @@ import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichCalendar;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
+import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.nav.RichCommandButton;
 import oracle.adf.view.rich.event.CalendarActivityEvent;
 import oracle.adf.view.rich.event.CalendarEvent;
@@ -60,9 +61,11 @@ import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
 import sped.negocio.BDL.IR.BDL_T_SFEvaluacionRemoto;
 import sped.negocio.BDL.IR.BDL_T_SFUsuarioRemote;
+import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;
@@ -96,7 +99,7 @@ public class bPlanificarEva {
     @EJB
     private BDL_C_SFMainRemote bdl_C_SFMainRemote;
     @EJB
-    private BDL_C_SFAreaAcademicaRemote bdl_C_SFAreaAcademicaRemote;
+    private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
     @EJB
     private BDL_T_SFEvaluacionRemoto bdl_T_SFEvaluacionRemoto;
     @EJB
@@ -110,17 +113,16 @@ public class bPlanificarEva {
     private RichTable tbHorario;
     private List evaluadores;
     private RichSelectOneChoice choiceEvaluadores;
-    private RichSelectOneChoice choiceProfesores;
-    private RichCommandButton btnBuscar;
+    private RichSelectOneChoice choiceProfesores;    
     private UISelectItems itemsEvaluadores;
-    private RichCommandButton btnEvaluar;
-    private RichCommandButton btnAsignarEva;
+    private RichCommandButton btnEvaluar;    
     private RichPopup popupDetalleEva;
     private RichSelectOneChoice choiceCursos;
     private BeanUsuario beanUsuario=new BeanUsuario();
     private RichPopup popupEvalua;
     private HtmlOutputText outDatosEva;
     private RichPopup popupEliminarEvalu;
+    private RichButton btnAsignarEva;
 
 
     public bPlanificarEva() {
@@ -147,7 +149,8 @@ public class bPlanificarEva {
     }
     
     public String popupEvaluadores(){
-        sessionPlanificarEva.setListBeanUsua(ln_C_SFUsuarioRemote.getEvaluadores());  
+        sessionPlanificarEva.setListBeanUsua(ln_C_SFUsuarioRemote.getEvaluadores());    
+        sessionPlanificarEva.setListAreaAcademica(llenarAreasAcademicas());
         Utils.showPopUpMIDDLE(popupEvalua);
         return null;
     }
@@ -170,6 +173,17 @@ public class bPlanificarEva {
             //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
             unItems.add(new SelectItem(r.getNidCurso().toString(),               
                     r.getDescripcionCurso().toString()));
+        }
+        return unItems;
+    }
+    public ArrayList llenarAreasAcademicas() {
+        ArrayList unItems = new ArrayList();
+        List<BeanAreaAcademica> roles =  ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
+        System.out.println("TAMAÑO AREAS "+roles.size());
+        for (BeanAreaAcademica r : roles) {
+            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+            unItems.add(new SelectItem(r.getNidAreaAcademica().toString(),               
+                    r.getDescripcionAreaAcademica().toString()));
         }
         return unItems;
     }
@@ -361,7 +375,7 @@ public class bPlanificarEva {
             sessionPlanificarEva.setDiaDeLaSemana(dia);
             llenarBean();
             sessionPlanificarEva.setListaProfesores(this.llenarProfesores(sessionPlanificarEva.getNidAreaAcademica()));
-            sessionPlanificarEva.setListaCursos(this.llenarCursos());
+            sessionPlanificarEva.setListaCursos(this.llenarCursos());            
             Utils.showPopUpMIDDLE(popupEvento);
         }
             }    
@@ -384,6 +398,7 @@ public class bPlanificarEva {
         RichTable t = (RichTable) selectionEvent.getSource();
         Object _selectedRowData = t.getSelectedRowData();
         BeanMain main = (BeanMain) _selectedRowData;
+        if(main!= null){
         sessionPlanificarEva.setBeanHorario(main);
         Date fechaMaster = sessionPlanificarEva.getFechaInicioSeleccionada();
         Date horaInicio = (Date) fechaMaster.clone();
@@ -393,7 +408,10 @@ public class bPlanificarEva {
         horaFin.setHours(sessionPlanificarEva.getBeanHorario().getHoraFin().getHours());
         horaFin.setMinutes(sessionPlanificarEva.getBeanHorario().getHoraFin().getMinutes());
         sessionPlanificarEva.setFechaInicioEvaluacion(horaInicio);
-        sessionPlanificarEva.setFechaFinEvaluacion(horaFin);
+        sessionPlanificarEva.setFechaFinEvaluacion(horaFin);}
+        sessionPlanificarEva.setStyleClass("FondoRojoLetraBlanca");
+        btnAsignarEva.setStyleClass("FondoRojoLetraBlanca");
+        Utils.addTarget(btnAsignarEva);
     }
 
     public String buscarHorariosFiltro() {
@@ -441,13 +459,15 @@ public class bPlanificarEva {
     public void seleccionarEvaluador(SelectionEvent selectionEvent) {
         RichTable t = (RichTable) selectionEvent.getSource();
         Object _selectedRowData = t.getSelectedRowData();
-        BeanUsuario usu = (BeanUsuario) _selectedRowData;
-        sessionPlanificarEva.setNidUsuario(usu.getNidUsuario().toString());
-        sessionPlanificarEva.setNombreEvaluador(usu.getNombres());
-        sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());
-        Utils.addTarget(outDatosEva);        
-        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}"); 
-        Utils.addTarget(calendar);        
+        BeanUsuario usu = (BeanUsuario) _selectedRowData;  
+        if(usu!=null){
+            sessionPlanificarEva.setNidUsuario(usu.getNidUsuario().toString());
+            sessionPlanificarEva.setNombreEvaluador(usu.getNombres());
+            sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());
+            Utils.addTarget(outDatosEva);        
+            Utils.invokeEL("#{bindings.ExecuteWithParams.execute}"); 
+            Utils.addTarget(calendar);  
+        }             
       
     }
     
@@ -517,14 +537,6 @@ public class bPlanificarEva {
         return choiceProfesores;
     }
 
-    public void setBtnBuscar(RichCommandButton btnBuscar) {
-        this.btnBuscar = btnBuscar;
-    }
-
-    public RichCommandButton getBtnBuscar() {
-        return btnBuscar;
-    }
-
     public void setItemsEvaluadores(UISelectItems itemsEvaluadores) {
         this.itemsEvaluadores = itemsEvaluadores;
     }
@@ -540,15 +552,7 @@ public class bPlanificarEva {
 
     public RichCommandButton getBtnEvaluar() {
         return btnEvaluar;
-    }
-
-    public void setBtnAsignarEva(RichCommandButton btnAsignarEva) {
-        this.btnAsignarEva = btnAsignarEva;
-    }
-
-    public RichCommandButton getBtnAsignarEva() {
-        return btnAsignarEva;
-    }
+    }  
 
     public void setSessionPlanificarEva(sessionPlanificar sessionPlanificarEva) {
         this.sessionPlanificarEva = sessionPlanificarEva;
@@ -598,5 +602,21 @@ public class bPlanificarEva {
         return popupEliminarEvalu;
     }
 
-    
+
+    public void setBtnAsignarEva(RichButton btnAsignarEva) {
+        this.btnAsignarEva = btnAsignarEva;
+    }
+
+    public RichButton getBtnAsignarEva() {
+        return btnAsignarEva;
+    }
+
+    public void filtrarListaEvaluadores(ValueChangeEvent valueChangeEvent) {
+      /*  llenarBean();      
+        if (tbHorario != null) {
+            Utils.unselectFilas(tbHorario);
+            tbHorario.setValue(sessionPlanificarEva.getListaHorarios());
+            Utils.addTarget(tbHorario);
+        }*/
+    }
 }
