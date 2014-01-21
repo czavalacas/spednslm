@@ -10,7 +10,7 @@ import sped.negocio.entidades.beans.BeanUsuario;
 public interface LN_C_SFUsuarioLocal {    
     BeanUsuario autenticarUsuarioLN(String usuario,String clave);
     List<BeanUsuario> getUsuarioByEstadoLN(String estado);
-    List<BeanUsuario> getEvaluadores();
+    List<BeanUsuario> getEvaluadores(String nidAreaAcademica);
     boolean countUsuarioByDniLN(String dni);
     boolean countUsuarioByNomUsuarioLN(String usuario);
     List<BeanUsuario> getUsuariobyByAttrLN(String nombres,

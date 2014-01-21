@@ -165,22 +165,25 @@
                 </af:popup>
         <af:popup childCreation="deferred" autoCancel="disabled" id="p3" binding="#{bPlanificarEva.popupEvalua}">
             <af:dialog id="d2" type="ok">
-                <af:selectOneChoice label="Area Academica" unselectedLabel="::: AREA ACADEMICA :::" id="soc1"
-                                    value="#{sessionScope.sessionPlanificarEva.nidAreaFiltro}"
-                                    valueChangeListener="#{bPlanificarEva.filtrarListaEvaluadores}">
+                <af:selectOneChoice label="Area Academica"  id="soc1" unselectedLabel="::: Seleccionar Area :::"
+                                    value="#{requestScope.bPlanificarEva.nidAreaAcademicaFiltro}"
+                                    valueChangeListener="#{bPlanificarEva.filtrarListaEvaluadores}" autoSubmit="true"
+                                    binding="#{bPlanificarEva.choiceFiltArea}">
                     <f:selectItems value="#{sessionScope.sessionPlanificarEva.listAreaAcademica}" id="si2"/>
+                    <f:selectItem id="it2" itemLabel="Todos" itemValue="0"/>
                 </af:selectOneChoice>
                 <af:spacer width="10" height="10" id="s7"/>
-                <af:table var="row" rowBandingInterval="0" id="t2" varStatus="vs"
+                <af:table var="row" rowBandingInterval="0" id="t2" varStatus="vs" width="278"
                           value="#{sessionScope.sessionPlanificarEva.listBeanUsua}" rowSelection="single"
-                          selectionListener="#{bPlanificarEva.seleccionarEvaluador}">
+                          selectionListener="#{bPlanificarEva.seleccionarEvaluador}"
+                          binding="#{bPlanificarEva.tbEvaluadores}">
                     <af:column width="20">
                         <af:outputText value="#{vs.index + 1}"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Docente" id="c9">
+                    <af:column width="140" sortable="false" headerText="Evaluador" id="c9">
                         <af:outputText value="#{row.nombres}" id="ot9"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Curso" id="c10">
+                    <af:column width="100" sortable="false" headerText="Area Academica" id="c10">
                         <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot10"/>
                     </af:column>
                 </af:table>
