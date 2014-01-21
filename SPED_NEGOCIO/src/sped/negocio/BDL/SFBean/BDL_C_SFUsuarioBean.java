@@ -67,11 +67,19 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     }
     
     /**Metodo para traer a los Evaluadores Siendo nidRol=1 el de evaluador**/
-    public List<Usuario> getEvaluadores(){
+    public List<Usuario> getEvaluadores(String nidAreaAcademica){
         try{
             String ejbQl = "SELECT ma FROM Usuario ma" +
                            " WHERE ma.rol.nidRol=1";
+            System.out.println(" ::::: ");
+            if (nidAreaAcademica!= null) {               
+                    ejbQl =
+                        ejbQl.concat(" and ma.areaAcademica.nidAreaAcademica= " +
+                                     nidAreaAcademica);  
+                System.out.println(" ENTRO ");
+            }
                 List<Usuario> lstEval = em.createQuery(ejbQl).getResultList();        
+            System.out.println(" SIZE ::: " +lstEval.size());
                 return lstEval;       
         }catch(Exception e){
             e.printStackTrace();  

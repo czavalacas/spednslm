@@ -20,7 +20,7 @@ public class LN_C_SFUsuarioRemoteClient {
             final Context context = getInitialContext();
             LN_C_SFUsuarioRemote lN_C_SFUsuarioRemote =
                 (LN_C_SFUsuarioRemote) context.lookup("mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote");
-            for (BeanUsuario usuario : (List<BeanUsuario>) lN_C_SFUsuarioRemote.getEvaluadores()) {
+            for (BeanUsuario usuario : (List<BeanUsuario>) lN_C_SFUsuarioRemote.getEvaluadores("2")) {
                 System.out.println(usuario.getNombres()+" - "+usuario.getAreaAcademica().getDescripcionAreaAcademica());
             }
         } catch (CommunicationException ex) {

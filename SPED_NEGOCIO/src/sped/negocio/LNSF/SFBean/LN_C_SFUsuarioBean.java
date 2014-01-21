@@ -72,9 +72,9 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
     
     /**Metodo LN 
      * creador: czavalacas**/
-    public List<BeanUsuario> getEvaluadores(){      
-        List<Usuario>listaEvaluadores=bdL_C_SFUsuarioLocal.getEvaluadores(); 
-    //    System.out.println("ENTRO A GET EVALUADORES TAMAÑO DE LA ENTIDA : "+listaEvaluadores.size() );
+    public List<BeanUsuario> getEvaluadores(String nidAreaAcademica){      
+        List<Usuario>listaEvaluadores=bdL_C_SFUsuarioLocal.getEvaluadores(nidAreaAcademica); 
+    //    System.out.println("ENTRO A GET EVALUADORES TAMAï¿½O DE LA ENTIDA : "+listaEvaluadores.size() );
         List<BeanUsuario> listaBean=new ArrayList<BeanUsuario>();
         MapperIF mapper = new DozerBeanMapper();
         Iterator it=listaEvaluadores.iterator();
@@ -83,7 +83,7 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             BeanUsuario bean = (BeanUsuario)mapper.map(entida,BeanUsuario.class);
             listaBean.add(bean);
         }
-   //       System.out.println("TAMAÑO DEL BEAN: "+listaBean.size() );
+   //       System.out.println("TAMAï¿½O DEL BEAN: "+listaBean.size() );
         return listaBean;
       }
 
