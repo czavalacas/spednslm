@@ -52,6 +52,7 @@ public class sessionPlanificar {
     private boolean estadoChoiceEvaluadores;
     private boolean estadoBotonEliminarEvaluacion;
     private String styleClass;
+    private boolean estadoAsignarEvaluacion=true;
     
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
@@ -347,6 +348,14 @@ public class sessionPlanificar {
 
     public String getStyleClass() {
         return styleClass;
+    }
+
+    public void setEstadoAsignarEvaluacion(boolean estadoAsignarEvaluacion) {
+        this.estadoAsignarEvaluacion = estadoAsignarEvaluacion;
+    }
+
+    public boolean isEstadoAsignarEvaluacion() {
+        return estadoAsignarEvaluacion;
     }
 
 }

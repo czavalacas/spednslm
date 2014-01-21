@@ -217,8 +217,12 @@ public class bPlanificarEva {
             tbHorario.setValue(sessionPlanificarEva.getListaHorarios());
             Utils.addTarget(tbHorario);
         }
-        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
-        Utils.addTarget(calendar);
+        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");    
+        sessionPlanificarEva.setStyleClass(null);
+        btnAsignarEva.setStyleClass(null);
+        sessionPlanificarEva.setEstadoAsignarEvaluacion(true);
+        btnAsignarEva.setDisabled(true);
+        Utils.addTargetMany(calendar,btnAsignarEva);        
         return null;
     }
 
@@ -350,7 +354,7 @@ public class bPlanificarEva {
         llenarHorarios(beanMain);
     }
 
-    public void abrirNuevoEvento(CalendarEvent calendarEvent) {
+    public void abrirNuevoEvento(CalendarEvent calendarEvent) {        
         Date fechaHoy = new Date();
         Date fecha = (Date) fechaHoy.clone();
         fecha.setHours(0);
@@ -381,6 +385,7 @@ public class bPlanificarEva {
                 llenarBean();
                 sessionPlanificarEva.setListaProfesores(this.llenarProfesores(sessionPlanificarEva.getNidAreaAcademica()));
                 sessionPlanificarEva.setListaCursos(this.llenarCursos());
+                sessionPlanificarEva.setEstadoAsignarEvaluacion(true);
                 Utils.showPopUpMIDDLE(popupEvento);
             }
         }
@@ -417,6 +422,8 @@ public class bPlanificarEva {
         }
         sessionPlanificarEva.setStyleClass("FondoRojoLetraBlanca");
         btnAsignarEva.setStyleClass("FondoRojoLetraBlanca");
+        sessionPlanificarEva.setEstadoAsignarEvaluacion(false);
+        btnAsignarEva.setDisabled(false);       ;
         Utils.addTarget(btnAsignarEva);
     }
 
