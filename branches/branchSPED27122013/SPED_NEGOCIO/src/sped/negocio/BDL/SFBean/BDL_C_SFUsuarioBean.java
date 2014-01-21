@@ -134,6 +134,18 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         return cont;
     }
     
+    public String getNombresUsuarioByNidUsuario(int nidUsuario){
+        String ejbQL = "SELECT  u.nombres FROM Usuario u " 
+                       + "WHERE u.nidUsuario = :nid_usuario ";
+        Object object = em.createQuery(ejbQL).setParameter("nid_usuario", nidUsuario)
+                          .getSingleResult();
+        String nombreUsuario = "";
+        if(object != null){
+            nombreUsuario = object.toString();
+        }
+        return nombreUsuario;
+    }
+    
     public List<Usuario> getUsuariobyByAttrBDL(BeanUsuario beanUsuario){
         try {
             String strQuery = "SELECT u " +
