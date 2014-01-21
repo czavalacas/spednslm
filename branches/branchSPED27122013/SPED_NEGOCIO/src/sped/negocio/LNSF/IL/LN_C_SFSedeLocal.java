@@ -9,4 +9,5 @@ import sped.negocio.entidades.beans.BeanSede;
 @Local
 public interface LN_C_SFSedeLocal {
     List<BeanSede> getSedeLN();
+    List<BeanSede> findSedePorAreaAcademica(Integer nidAreaAcademica, String dia);
 }

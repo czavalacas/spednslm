@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFSedeLocal;
 import sped.negocio.BDL.IR.BDL_C_SFSedeRemote;
+import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Sede;
 
 @Stateless(name = "BDL_C_SFSede", mappedName = "SPED_APP-SPED_NEGOCIO-BDL_C_SFSede")
@@ -34,4 +35,33 @@ public class BDL_C_SFSedeBean implements BDL_C_SFSedeRemote,
     public List<Sede> getSedeFindAll() {
         return em.createNamedQuery("Sede.findAll", Sede.class).getResultList();
     }
+    public List<Sede> findSedePorAreaAcademica(Integer nidAreaAcademica, String dia) {
+        try {
+            String ejbQl =    "SELECT distinct sed FROM Main ma, " +
+                              " Curso cur , " +
+                              " Profesor prof," +
+                              " Sede sed," +
+                              " AreaAcademica ac" +
+                              " WHERE ma.curso.nidCurso=cur.nidCurso " +
+                              " and cur.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica " +
+                              " and prof.dniProfesor=ma.profesor.dniProfesor "+
+                              " and ma.aula.sede.nidSede=sed.nidSede";
+
+            if (nidAreaAcademica != null) {
+                if (nidAreaAcademica != 0) {
+                    ejbQl = ejbQl.concat(" and ac.nidAreaAcademica=" + nidAreaAcademica);
+                }
+            }
+
+            if (dia != null) {
+                ejbQl = ejbQl.concat(" and ma.dia='" + dia + "'");
+            }
+
+            List<Sede> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }}
 }

@@ -4,9 +4,10 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.beans.BeanCurso;
 
 @Remote
-public interface LN_C_SFCursoRemoto {
-    List<BeanCurso> getlistaCursos();
+public interface LN_C_SFCursoRemoto {   
+    List<BeanCurso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia);
 }

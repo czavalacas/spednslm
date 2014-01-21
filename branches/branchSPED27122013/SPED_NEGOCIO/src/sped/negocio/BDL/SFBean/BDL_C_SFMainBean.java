@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 
 import sped.negocio.BDL.IL.BDL_C_SFMainLocal;
 import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
+import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanMain;
@@ -77,6 +78,24 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                     System.out.println("REPO Valor de Curso "+beanMain.getCurso().getNidCurso());
                 }
             }
+            if (beanMain.getAula().getSede() != null) {
+                if (beanMain.getAula().getSede().getNidSede() != 0) {
+                    ejbQl = ejbQl.concat(" and ma.aula.sede.nidSede=" + beanMain.getAula().getSede().getNidSede());
+                    System.out.println("REPO Valor de Sede "+beanMain.getAula().getSede().getNidSede());
+                }
+            }
+            if (beanMain.getAula().getGradoNivel().getGrado() != null) {
+                if (beanMain.getAula().getGradoNivel().getGrado().getNidGrado() != 0) {
+                    ejbQl = ejbQl.concat(" and ma.aula.gradoNivel.grado.nidGrado=" + beanMain.getAula().getGradoNivel().getGrado().getNidGrado());
+                    System.out.println("REPO Valor de Grado "+beanMain.getAula().getGradoNivel().getGrado().getNidGrado());
+                }
+            }
+            if (beanMain.getAula().getGradoNivel().getNivel() != null) {
+                if (beanMain.getAula().getGradoNivel().getNivel().getNidNivel() != 0) {
+                    ejbQl = ejbQl.concat(" and ma.aula.gradoNivel.nivel.nidNivel=" + beanMain.getAula().getGradoNivel().getNivel().getNidNivel());
+                    System.out.println("REPO Valor de Nivel "+beanMain.getAula().getGradoNivel().getNivel().getNidNivel());
+                }
+            }
 
             List<Main> lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;
@@ -120,5 +139,6 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Main> getMainFindAll() {
         return em.createNamedQuery("Main.findAll", Main.class).getResultList();
-    }
+    }    
+   
 }

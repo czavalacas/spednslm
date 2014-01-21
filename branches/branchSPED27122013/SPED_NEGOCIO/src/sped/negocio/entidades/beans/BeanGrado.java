@@ -9,7 +9,7 @@ public class BeanGrado implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String descripcionGrado;
-    private int nidGrado;
+    private Integer nidGrado;
     private List<BeanGradoNivel> gradoNivelLista;
 
     public void setDescripcionGrado(String descripcionGrado) {
@@ -20,11 +20,12 @@ public class BeanGrado implements Serializable {
         return descripcionGrado;
     }
 
-    public void setNidGrado(int nidGrado) {
+
+    public void setNidGrado(Integer nidGrado) {
         this.nidGrado = nidGrado;
     }
 
-    public int getNidGrado() {
+    public Integer getNidGrado() {
         return nidGrado;
     }
 

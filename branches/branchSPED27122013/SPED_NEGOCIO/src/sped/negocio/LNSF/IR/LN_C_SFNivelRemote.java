@@ -9,4 +9,5 @@ import sped.negocio.entidades.beans.BeanNivel;
 @Remote
 public interface LN_C_SFNivelRemote {
     List<BeanNivel> getNivelLN();
+    List<BeanNivel> findNivelPorAreaAcademica(Integer nidAreaAcademica, String dia);
 }

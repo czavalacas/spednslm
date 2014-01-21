@@ -7,7 +7,7 @@ public class BeanSede implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String descripcionSede;
-    private int nidSede;
+    private Integer nidSede;
 
     public void setDescripcionSede(String descripcionSede) {
         this.descripcionSede = descripcionSede;
@@ -17,11 +17,12 @@ public class BeanSede implements Serializable {
         return descripcionSede;
     }
 
-    public void setNidSede(int nidSede) {
+
+    public void setNidSede(Integer nidSede) {
         this.nidSede = nidSede;
     }
 
-    public int getNidSede() {
+    public Integer getNidSede() {
         return nidSede;
     }
 }

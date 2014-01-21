@@ -9,4 +9,5 @@ import sped.negocio.entidades.admin.Nivel;
 @Local
 public interface BDL_C_SFNivelLocal {
     List<Nivel> getNivelFindAll();
+    List<Nivel> findGradpPorAreaAcademica(Integer nidAreaAcademica, String dia);
 }
