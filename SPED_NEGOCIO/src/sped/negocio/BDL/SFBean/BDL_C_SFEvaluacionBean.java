@@ -1,5 +1,6 @@
 package sped.negocio.BDL.SFBean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +16,13 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import javax.persistence.Query;
+
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.beans.BeanMain;
+import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 /** Clase SFBDL SFMainBean.java
  * @author czavalacas
@@ -69,5 +73,44 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             e.printStackTrace();  
             return null;
         }   
+        }
+    
+    public List<Evaluacion> getEvaluacionesByUsuarioBDL(BeanUsuario beanUsuario){
+            try{                 
+                if(beanUsuario!=null){
+                    String strQuery = "SELECT eva " +
+                                   "FROM Evaluacion eva " +
+                                   "WHERE 1=1"; 
+                    if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("SUBDIRECTOR") == 0){
+                        strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede " +
+                                                   " AND eva.main.aula.gradoNivel.nivel.nidNivel = :nid_nivel ");
+                    }
+                    if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("EVALUADOR") == 0){
+                        strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
+                    }
+                    if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("PROFESOR") == 0){
+                        strQuery = strQuery.concat(" AND eva.main.profesor.dniProfesor = :dni_profesor ");
+                    }
+                    
+                    Query query = em.createQuery(strQuery);
+                    
+                    if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("SUBDIRECTOR") == 0){
+                        query.setParameter("nid_sede", beanUsuario.getSedeNivel().getSede().getNidSede());
+                        query.setParameter("nid_nivel", beanUsuario.getSedeNivel().getNivel().getNidNivel());
+                    }
+                    if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("EVALUADOR") == 0){
+                        query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
+                    }
+                    if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("PROFESOR") == 0){
+                        query.setParameter("dni_profesor", beanUsuario.getDni());
+                    }
+                    return query.getResultList();
+                }else{
+                    return new ArrayList();
+                }
+            }catch(Exception e){
+                e.printStackTrace();  
+                return null;
+            }   
         }
 }
