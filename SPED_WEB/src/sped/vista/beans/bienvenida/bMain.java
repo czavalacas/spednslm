@@ -92,6 +92,7 @@ public class bMain implements Serializable {
             rcni.setText(menuItem.getDescripcionPermiso());
             rcni.setId("menu" + menuItem.getNidPermiso());
             rcni.setShortDesc(menuItem.getUrl());
+            rcni.setImmediate(true);
             try {
                 if (menuItem.getAccelerator() != null) {
                     if (!menuItem.getAccelerator().equals("")) {

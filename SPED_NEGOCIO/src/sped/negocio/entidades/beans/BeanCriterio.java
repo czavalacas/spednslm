@@ -17,6 +17,9 @@ public class BeanCriterio implements Serializable, Cloneable {
     private List<BeanLeyenda> lstLeyenda = new ArrayList<BeanLeyenda>();
     private String display = "display:none;";
     private Integer orden;
+    private boolean mostrarUpDown;
+    private int esIndicador;
+    private boolean noMostrarDown;
 
     public Object clone() {
         Object clone = null;
@@ -49,12 +52,36 @@ public class BeanCriterio implements Serializable, Cloneable {
             return false;
         }
     }
-    
+
+    public void setNoMostrarDown(boolean noMostrarDown) {
+        this.noMostrarDown = noMostrarDown;
+    }
+
+    public boolean isNoMostrarDown() {
+        return noMostrarDown;
+    }
+
+    public void setEsIndicador(int esIndicador) {
+        this.esIndicador = esIndicador;
+    }
+
+    public int getEsIndicador() {
+        return esIndicador;
+    }
+
     public int compareTo(Object obj){
         BeanCriterio item = (BeanCriterio) obj;
         Integer ordenObj = item.getOrden();
         Integer ordenThis = this.getOrden();
         return (ordenThis.compareTo(ordenObj));
+    }
+
+    public void setMostrarUpDown(boolean mostrarUpDown) {
+        this.mostrarUpDown = mostrarUpDown;
+    }
+
+    public boolean isMostrarUpDown() {
+        return mostrarUpDown;
     }
 
     public void setOrden(Integer orden) {
