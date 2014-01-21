@@ -125,16 +125,19 @@
                                             </af:column>
                                             <af:column width="50" headerText="Ordenar">
                                                 <af:panelFormLayout id="pfl1" rows="1">
-                                                    <af:button id="b4" actionListener="#{bRegistrarFicha.mover}" styleClass="flechaUp"
-                                                    inlineStyle="min-height:6px; max-height:6px; height:6px; border-bottom-width:0px;min-width:12px; max-width:12px; width:12px;">
+                                                    <af:button id="b4" actionListener="#{bRegistrarFicha.mover}" styleClass="flechaUp" rendered="#{row.mostrarUpDown}"
+                                                    inlineStyle="min-height:6px; max-height:6px; height:6px; border-bottom-width:0px;min-width:12px; max-width:12px; width:12px;"
+                                                    visible="#{row.orden > 1}">
                                                         <f:attribute name="mover" value="0"/>
                                                         <f:attribute name="orden" value="#{row.orden}"/>
+                                                        <f:attribute name="esIndicador" value="#{row.esIndicador}"/>
                                                     </af:button>
-                                                    <af:button id="b5" styleClass="flechaDown" 
+                                                    <af:button id="b5" styleClass="flechaDown" rendered="#{row.mostrarUpDown}" visible="#{row.noMostrarDown == false}"
                                                     inlineStyle="min-height:6px; max-height:6px; height:6px;border-top-width:0px;min-width:12px; max-width:12px; width:12px"
                                                                 actionListener="#{bRegistrarFicha.mover}">
                                                         <f:attribute name="mover" value="1"/> 
                                                         <f:attribute name="orden" value="#{row.orden}"/>
+                                                        <f:attribute name="esIndicador" value="#{row.esIndicador}"/>
                                                     </af:button>
                                                 </af:panelFormLayout>
                                             </af:column>
@@ -151,7 +154,7 @@
         
         <!-- POPUPS -->
         <af:popup childCreation="deferred" id="popCrits" binding="#{bRegistrarFicha.popCrits}"
-                  popupCanceledListener="#{bRegistrarFicha.cancelarPopUpCriterios}">
+                  popupCanceledListener="#{bRegistrarFicha.cancelarPopUpCriterios}" contentDelivery="immediate">
             <af:dialog id="dialog_popCrits" type="none" title="Criterios" dialogListener="#{bRegistrarFicha.dialogOkCriterios}">
                 <af:subform defaultCommand="btnBuscarCrits">
                         <af:panelFormLayout id="pflPopCrits">
@@ -184,7 +187,7 @@
                             <af:outputText value="#{row.nidCriterio}" id="ot5"/>
                         </af:column>
                         <af:column sortable="true" headerText="Criterio" align="start" id="c6" width="200"  sortProperty="descripcionCriterio">
-                            <af:outputText value="#{row.descripcionCriterio}" id="ot6"/>
+                            <af:outputText value="#{row.descripcionCriterio} - #{row.orden}" id="ot6"/>
                         </af:column>
                     </af:table>
             </af:dialog>

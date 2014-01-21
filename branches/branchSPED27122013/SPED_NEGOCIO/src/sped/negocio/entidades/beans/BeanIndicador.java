@@ -15,6 +15,7 @@ public class BeanIndicador implements Serializable {
     List<Integer> lstCritsArbol;
     private BeanError beanError = new BeanError();
     private Integer orden;
+    private boolean noMostrarDown;
 
     @Override
     public int hashCode(){
@@ -44,7 +45,15 @@ public class BeanIndicador implements Serializable {
         Integer ordenThis = this.getOrden();
         return (ordenThis.compareTo(ordenObj));
     }
-    
+
+    public void setNoMostrarDown(boolean noMostrarDown) {
+        this.noMostrarDown = noMostrarDown;
+    }
+
+    public boolean isNoMostrarDown() {
+        return noMostrarDown;
+    }
+
     public void setOrden(Integer orden) {
         this.orden = orden;
     }
