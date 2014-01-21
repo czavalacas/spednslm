@@ -48,4 +48,17 @@ public class LN_C_SFGradoBean implements LN_C_SFGradoRemote, LN_C_SFGradoLocal {
         }
         return list;
     }
+    
+    public List<BeanGrado> getGradoLN(){
+        List<Grado> listaGrados=bdl_C_SFGradoLocal.getGradoFindAll();
+        List<BeanGrado> list=new ArrayList<BeanGrado>();
+        MapperIF mapper = new DozerBeanMapper();
+        Iterator it=listaGrados.iterator();
+        while(it.hasNext()){
+            Grado entida= (Grado)it.next();
+            BeanGrado bean = (BeanGrado)mapper.map(entida,BeanGrado.class);
+            list.add(bean);
+        }
+        return list;
+    }
 }
