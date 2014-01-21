@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import sped.negocio.entidades.admin.Constraint;
+import sped.negocio.entidades.admin.ConstraintPK;
 import sped.negocio.entidades.beans.BeanConstraint;
 
 @Local
