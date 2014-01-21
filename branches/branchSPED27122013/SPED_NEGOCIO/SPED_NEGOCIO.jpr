@@ -103,7 +103,7 @@
             <value n="remoteDebuggingProfiling" v="false"/>
             <value n="runActiveFile" v="true"/>
             <value n="runAntBeforeRun" v="false"/>
-            <url n="runDirectoryURL" protocol="file" path="/home/carlos/Oracle/Middleware/Oracle_Home/jdeveloper/"/>
+            <url n="runDirectoryURL" path="../../../../Oracle/Middleware/Oracle_Home/jdeveloper/"/>
             <value n="targetURL"/>
             <value n="VMName" v="server"/>
          </hash>

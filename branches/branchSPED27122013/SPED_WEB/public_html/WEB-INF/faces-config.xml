@@ -96,4 +96,19 @@
     <validator-id>ClaveValidator</validator-id>
     <validator-class>sped.vista.Utils.Validators.ClaveValidator</validator-class>
   </validator>
+  <managed-bean>
+    <managed-bean-name>bConsultarEvaluacion</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.consulta.bConsultarEvaluacion</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionConsultarEvaluacion</property-name>
+      <property-class>sped.vista.beans.evaluacion.consulta.bSessionConsultarEvaluacion</property-class>
+      <value>#{sessionConsultarEvaluacion}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionConsultarEvaluacion</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.consulta.bSessionConsultarEvaluacion</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>
