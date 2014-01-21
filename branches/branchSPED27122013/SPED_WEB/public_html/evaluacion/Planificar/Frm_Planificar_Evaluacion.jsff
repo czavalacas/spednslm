@@ -55,7 +55,8 @@
                                 <af:button text="Agregar Evaluacion" id="btnEvaluar"
                                                   binding="#{bPlanificarEva.btnAsignarEva}"
                                                   action="#{bPlanificarEva.grabarEvaluacion}"
-                                                  styleClass="#{sessionPlanificarEva.styleClass}"/>
+                                                  styleClass="#{sessionPlanificarEva.styleClass}"
+                                                  disabled="#{sessionScope.sessionPlanificarEva.estadoAsignarEvaluacion}"/>
                             </af:gridCell>
                         </af:gridRow>
                     </af:panelGridLayout>
