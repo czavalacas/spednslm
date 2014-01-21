@@ -63,7 +63,10 @@ import sped.negocio.BDL.IR.BDL_T_SFEvaluacionRemoto;
 import sped.negocio.BDL.IR.BDL_T_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
+import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
+import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
+import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Curso;
@@ -71,9 +74,14 @@ import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanCurso;
+import sped.negocio.entidades.beans.BeanGrado;
+import sped.negocio.entidades.beans.BeanGradoNivel;
 import sped.negocio.entidades.beans.BeanMain;
+import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanProfesor;
+import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 
@@ -98,13 +106,19 @@ public class bPlanificarEva {
     private final static String LOOKUP_NAME_SFEVALUADORES_REMOTO =
         "mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote";
     @EJB
-    private BDL_C_SFMainRemote bdl_C_SFMainRemote;
+    private BDL_C_SFMainRemote bdl_C_SFMainRemote;   
     @EJB
     private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
+    @EJB
+    private LN_C_SFSedeRemote ln_C_SFSedeRemote;        
     @EJB
     private BDL_T_SFEvaluacionRemoto bdl_T_SFEvaluacionRemoto;
     @EJB
     private LN_C_SFCursoRemoto ln_C_SFCursoRemoto;
+    @EJB
+    private LN_C_SFGradoRemote ln_C_SFGradoRemote;
+    @EJB
+    private LN_C_SFNivelRemote ln_C_SFNivelRemote;
     @EJB
     private BDL_C_SFUsuarioRemote bdl_C_SFUsuarioRemote;
     FacesContext ctx = FacesContext.getCurrentInstance();
@@ -127,6 +141,9 @@ public class bPlanificarEva {
     private RichTable tbEvaluadores;
     private String nidAreaAcademicaFiltro;
     private RichSelectOneChoice choiceFiltArea;
+    private RichSelectOneChoice choiceSede;
+    private RichSelectOneChoice choiceNivel;
+    private RichSelectOneChoice choiceGrado;
 
 
     public bPlanificarEva() {
@@ -162,10 +179,43 @@ public class bPlanificarEva {
 
     public ArrayList llenarCursos() {
         ArrayList unItems = new ArrayList();
-        List<BeanCurso> roles = ln_C_SFCursoRemoto.getlistaCursos();
+        List<BeanCurso> roles = ln_C_SFCursoRemoto.findCursosPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                              sessionPlanificarEva.getDiaDeLaSemana());
         for (BeanCurso r : roles) {
             //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
             unItems.add(new SelectItem(r.getNidCurso().toString(), r.getDescripcionCurso().toString()));
+        }
+        return unItems;
+    }
+         
+    public ArrayList llenarSedes() {
+        ArrayList unItems = new ArrayList();
+        List<BeanSede> roles = ln_C_SFSedeRemote.findSedePorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                              sessionPlanificarEva.getDiaDeLaSemana());
+        for (BeanSede r : roles) {
+            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+            unItems.add(new SelectItem(r.getNidSede().toString(), r.getDescripcionSede().toString()));
+        }
+        return unItems;
+    }
+    public ArrayList llenarGrados() {
+        ArrayList unItems = new ArrayList();
+        List<BeanGrado> roles = ln_C_SFGradoRemote.findGradoPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                              sessionPlanificarEva.getDiaDeLaSemana());
+        for (BeanGrado r : roles) {
+            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+            unItems.add(new SelectItem(r.getNidGrado().toString(), r.getDescripcionGrado().toString()));
+        }
+        return unItems;
+    }
+         
+    public ArrayList llenarNiveles() {
+        ArrayList unItems = new ArrayList();
+        List<BeanNivel> roles = ln_C_SFNivelRemote.findNivelPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                              sessionPlanificarEva.getDiaDeLaSemana());
+        for (BeanNivel r : roles) {
+            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+            unItems.add(new SelectItem(r.getNidNivel().toString(), r.getDescripcionNivel().toString()));
         }
         return unItems;
     }
@@ -182,7 +232,7 @@ public class bPlanificarEva {
     }
 
 
-    public ArrayList llenarProfesores(Integer nidAreaAcademica) {
+    public ArrayList llenarProfesores() {
         ArrayList unItems = new ArrayList();
         List<Profesor> roles =
             bdl_C_SFMainRemote.findProfesoresPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
@@ -348,7 +398,29 @@ public class bPlanificarEva {
             beanProf.setDniProfesor(sessionPlanificarEva.getDniProfesor().toString());
             beanMain.setProfesor(beanProf);
             System.out.println("Valor deProfesor "+sessionPlanificarEva.getDniProfesor());
-        }   
+        }
+        BeanSede sede=new BeanSede();
+        BeanAula aula=new BeanAula();
+        BeanGradoNivel grani=new BeanGradoNivel();
+        if (sessionPlanificarEva.getNidSede() != null) {
+            sede.setNidSede(Integer.parseInt(sessionPlanificarEva.getNidSede()));            
+            aula.setSede(sede);
+            System.out.println("Valor sede "+sessionPlanificarEva.getNidSede());
+        }  
+        if (sessionPlanificarEva.getNidGrado() != null) {
+            BeanGrado grado=new BeanGrado();
+            grado.setNidGrado(Integer.parseInt(sessionPlanificarEva.getNidGrado()));
+            grani.setGrado(grado);
+            System.out.println("Valor Grado "+sessionPlanificarEva.getNidGrado());
+        }     
+        if (sessionPlanificarEva.getNidNivel() != null) {
+           BeanNivel nivel=new BeanNivel();
+           nivel.setNidNivel(Integer.parseInt(sessionPlanificarEva.getNidNivel()));
+           grani.setNivel(nivel);
+            System.out.println("Valor Nivel "+sessionPlanificarEva.getNidNivel());
+        }            
+        aula.setGradoNivel(grani);
+        beanMain.setAula(aula);
         beanMain.setCurso(beanCurso);
         beanMain.setDia(sessionPlanificarEva.getDiaDeLaSemana());
         llenarHorarios(beanMain);
@@ -371,6 +443,12 @@ public class bPlanificarEva {
                 sessionPlanificarEva.setDniProfesor(null);
                 sessionPlanificarEva.setDiaDeLaSemana(null);
                 sessionPlanificarEva.setNidCurso(null);
+                sessionPlanificarEva.setListaSedes(null);
+                sessionPlanificarEva.setListaNiveles(null);
+                sessionPlanificarEva.setListaGrados(null);
+                sessionPlanificarEva.setNidSede(null);
+                sessionPlanificarEva.setNidGrado(null);
+                sessionPlanificarEva.setNidNivel(null);
                 if (tbHorario != null) {
                     tbHorario.setValue(null);
                 }
@@ -383,8 +461,11 @@ public class bPlanificarEva {
                 String dia = getDiaDeCalendario(calendarEvent.getTriggerDate().getDay());
                 sessionPlanificarEva.setDiaDeLaSemana(dia);
                 llenarBean();
-                sessionPlanificarEva.setListaProfesores(this.llenarProfesores(sessionPlanificarEva.getNidAreaAcademica()));
+                sessionPlanificarEva.setListaProfesores(this.llenarProfesores());
                 sessionPlanificarEva.setListaCursos(this.llenarCursos());
+                sessionPlanificarEva.setListaSedes(this.llenarSedes());
+                sessionPlanificarEva.setListaGrados(this.llenarGrados());
+                sessionPlanificarEva.setListaNiveles(this.llenarNiveles());
                 sessionPlanificarEva.setEstadoAsignarEvaluacion(true);
                 Utils.showPopUpMIDDLE(popupEvento);
             }
@@ -437,16 +518,39 @@ public class bPlanificarEva {
         return null;
     }
 
-    public String btnLimpiar() {
-        sessionPlanificarEva.setNidCurso(null);
-        sessionPlanificarEva.setDniProfesor(null);
-        Utils.addTargetMany(choiceProfesores,choiceCursos);
+    public String btnLimpiar() {     
+        if(choiceCursos!=null){
+            sessionPlanificarEva.setNidCurso(null);
+            choiceCursos.resetValue();
+            Utils.addTarget(choiceCursos);
+        }
+        if(choiceProfesores!=null){
+            sessionPlanificarEva.setDniProfesor(null);
+            choiceProfesores.resetValue();
+            Utils.addTarget(choiceProfesores);
+        }
+        if(choiceGrado!=null){
+            sessionPlanificarEva.setNidGrado(null);
+            choiceGrado.resetValue();
+            Utils.addTarget(choiceGrado);
+        }
+        if(choiceNivel!=null){
+            sessionPlanificarEva.setNidNivel(null);
+            choiceNivel.resetValue();
+            Utils.addTarget(choiceNivel);
+        }
+        if(choiceSede!=null){
+            sessionPlanificarEva.setNidSede(null);
+            choiceSede.resetValue();
+            Utils.addTarget(choiceSede);
+        }        
         llenarBean();
         if (tbHorario != null) {
             Utils.unselectFilas(tbHorario);
             tbHorario.setValue(sessionPlanificarEva.getListaHorarios());
             Utils.addTarget(tbHorario);
         }
+        
         return null;
     }
 
@@ -665,5 +769,29 @@ public class bPlanificarEva {
 
     public RichSelectOneChoice getChoiceFiltArea() {
         return choiceFiltArea;
+    }
+
+    public void setChoiceSede(RichSelectOneChoice choiceSede) {
+        this.choiceSede = choiceSede;
+    }
+
+    public RichSelectOneChoice getChoiceSede() {
+        return choiceSede;
+    }
+
+    public void setChoiceNivel(RichSelectOneChoice choiceNivel) {
+        this.choiceNivel = choiceNivel;
+    }
+
+    public RichSelectOneChoice getChoiceNivel() {
+        return choiceNivel;
+    }
+
+    public void setChoiceGrado(RichSelectOneChoice choiceGrado) {
+        this.choiceGrado = choiceGrado;
+    }
+
+    public RichSelectOneChoice getChoiceGrado() {
+        return choiceGrado;
     }
 }

@@ -41,8 +41,8 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
     public LN_C_SFCursoBean() {
     }
     
-    public List<BeanCurso> getlistaCursos(){
-        List<Curso> listaCursos=bdl_C_SFCursoLocal.getCursoFindAll();
+    public List<BeanCurso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia){
+        List<Curso> listaCursos=bdl_C_SFCursoLocal.findCursosPorAreaAcademica(nidAreaAcademica,dia);
         List<BeanCurso> list=new ArrayList<BeanCurso>();
         MapperIF mapper = new DozerBeanMapper();
         Iterator it=listaCursos.iterator();
@@ -53,4 +53,5 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
         }
         return list;
     }
+    
 }

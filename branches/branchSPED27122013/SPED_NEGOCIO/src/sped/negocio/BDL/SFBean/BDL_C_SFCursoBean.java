@@ -37,4 +37,31 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
     public List<Curso> getCursoFindAll() {
         return em.createNamedQuery("Curso.findAll", Curso.class).getResultList();
     }
+    public List<Curso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia) {
+        try {
+            String ejbQl =    "SELECT distinct cur FROM Main ma, " +
+                              " Curso cur , " +
+                              " Profesor prof," +
+                              " AreaAcademica ac" +
+                              " WHERE ma.curso.nidCurso=cur.nidCurso " +
+                              " and cur.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica " +
+                              " and prof.dniProfesor=ma.profesor.dniProfesor";
+
+            if (nidAreaAcademica != null) {
+                if (nidAreaAcademica != 0) {
+                    ejbQl = ejbQl.concat(" and ac.nidAreaAcademica=" + nidAreaAcademica);
+                }
+            }
+
+            if (dia != null) {
+                ejbQl = ejbQl.concat(" and ma.dia='" + dia + "'");
+            }
+
+            List<Curso> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }}
 }

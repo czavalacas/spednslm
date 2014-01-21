@@ -29,9 +29,15 @@ public class sessionPlanificar {
     private int nidEvaluador;
     private String nidCurso;
     private String dniProfesor;
+    private String nidSede;
+    private String nidGrado;
+    private String nidNivel;
     private List listaProfesores;
     private List listaEvaluadores;
     private List listaCursos;
+    private List listaSedes;
+    private List listaGrados;
+    private List listaNiveles;
     private String diaDeLaSemana;
     private Date fechaInicioSeleccionada;   
     private Date fechaInicioEvaluacion;
@@ -356,6 +362,54 @@ public class sessionPlanificar {
 
     public boolean isEstadoAsignarEvaluacion() {
         return estadoAsignarEvaluacion;
+    }
+
+    public void setNidSede(String nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public String getNidSede() {
+        return nidSede;
+    }
+
+    public void setListaSedes(List listaSedes) {
+        this.listaSedes = listaSedes;
+    }
+
+    public List getListaSedes() {
+        return listaSedes;
+    }
+
+    public void setNidGrado(String nidGrado) {
+        this.nidGrado = nidGrado;
+    }
+
+    public String getNidGrado() {
+        return nidGrado;
+    }
+
+    public void setListaGrados(List listaGrados) {
+        this.listaGrados = listaGrados;
+    }
+
+    public List getListaGrados() {
+        return listaGrados;
+    }
+
+    public void setNidNivel(String nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public String getNidNivel() {
+        return nidNivel;
+    }
+
+    public void setListaNiveles(List listaNiveles) {
+        this.listaNiveles = listaNiveles;
+    }
+
+    public List getListaNiveles() {
+        return listaNiveles;
     }
 
 }

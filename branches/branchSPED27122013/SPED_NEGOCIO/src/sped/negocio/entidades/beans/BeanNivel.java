@@ -6,7 +6,7 @@ public class BeanNivel implements Serializable {
     @SuppressWarnings("compatibility:3778582013062934877")
     private static final long serialVersionUID = 1L;
     private String descripcionNivel;
-    private int nidNivel;
+    private Integer nidNivel;
 
     public void setDescripcionNivel(String descripcionNivel) {
         this.descripcionNivel = descripcionNivel;
@@ -16,11 +16,12 @@ public class BeanNivel implements Serializable {
         return descripcionNivel;
     }
 
-    public void setNidNivel(int nidNivel) {
+
+    public void setNidNivel(Integer nidNivel) {
         this.nidNivel = nidNivel;
     }
 
-    public int getNidNivel() {
+    public Integer getNidNivel() {
         return nidNivel;
     }
 }
