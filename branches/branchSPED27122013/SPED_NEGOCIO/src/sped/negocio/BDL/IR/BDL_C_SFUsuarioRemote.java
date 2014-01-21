@@ -13,7 +13,7 @@ import sped.negocio.entidades.beans.BeanUsuario;
 public interface BDL_C_SFUsuarioRemote {
     List<Usuario> getUsuarioFindAll();
     Map autenticarUsuarioBDL(String user, String clave);
-    List<Usuario> getEvaluadores();
+    List<Usuario> getEvaluadores(String nidAreaAcademica);
     List<Usuario> getUsuarioByEstadoBDL(String estado);
     Usuario findConstrainById(int id);
     int countUsuarioByDniBDL(String dni);
