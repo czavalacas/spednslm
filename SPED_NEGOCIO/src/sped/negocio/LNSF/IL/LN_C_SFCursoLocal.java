@@ -10,4 +10,5 @@ import sped.negocio.entidades.beans.BeanCurso;
 @Local
 public interface LN_C_SFCursoLocal {   
     List<BeanCurso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia);
+    List<BeanCurso>  getlistaCursos();
 }
