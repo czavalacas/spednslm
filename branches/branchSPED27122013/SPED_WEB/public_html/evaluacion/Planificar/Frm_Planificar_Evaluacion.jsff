@@ -94,7 +94,8 @@
             <af:panelFormLayout id="pfl3">
                 <af:panelBox text="Fecha y Hora de Evaluacion" id="pb1">
                     <af:inputText label="Fecha " id="inputFecha" autoSubmit="true"
-                                  value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true"/>
+                                  value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true">
+                                 <af:convertDateTime type="date" pattern="dd/MM/yyyy" /></af:inputText>
                     <af:inputText label="Hora" autoSubmit="true" id="it11"
                                   value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true">
                         <af:convertDateTime type="date" pattern="HH:mm"/>

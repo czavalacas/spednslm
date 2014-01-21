@@ -30,7 +30,7 @@ public class BDL_C_SFEvaluacionRemotoClient {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
             Date fechaActual = new Date();           
             String fechaConFormato = sdf.format(fechaActual);        
-            List<Evaluacion> listEva=bDL_C_SFEvaluacionRemoto.getEvaluaciones(fechaConFormato, 2,2);
+            List<Evaluacion> listEva=bDL_C_SFEvaluacionRemoto.getEvaluaciones(fechaConFormato, 2,2,"1","1");
             Iterator it= listEva.iterator();
             while(it.hasNext()){
                 Evaluacion entida=(Evaluacion)it.next();
