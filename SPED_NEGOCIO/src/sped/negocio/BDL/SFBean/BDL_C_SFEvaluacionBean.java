@@ -57,7 +57,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }   
         }
     
-    public List<Evaluacion> getEvaluaciones(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador) {
+    public List<Evaluacion> getEvaluaciones(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador, String dniProfesor, String nidCurso) {
         try{   
              String ejbQl = "SELECT ev FROM Evaluacion ev, Main ma, Curso cu, AreaAcademica ac" +
                                    " WHERE ev.startDate like '%"+fechaHoy+"%'" +
@@ -66,6 +66,22 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                                    " AND cu.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica"+
                                    " AND ac.nidAreaAcademica="+nidAreaAcademica+
                                    " AND ev.nidEvaluador="+nidEvaluador ;
+            
+            if (dniProfesor!= null) {                
+                    ejbQl =
+                        ejbQl.concat(" and ma.profesor.dniProfesor='" +
+                                     dniProfesor+"'");
+                    System.out.println("REPO DNI PROFE : "+dniProfesor);
+                
+            }
+            if (nidCurso!= null) {              
+                    ejbQl =
+                        ejbQl.concat(" and ma.curso.nidCurso=" +
+                                     nidCurso);
+                    System.out.println("REPO nidCurso: "+nidCurso);                
+                
+            }
+            
             
                 List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();           
                 return eva;         

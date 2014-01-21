@@ -160,17 +160,6 @@ public class bPlanificarEva {
         return null;
     }
 
-    /* public ArrayList llenarEvaluadores() {
-        ArrayList unItems = new ArrayList();
-        List<BeanUsuario> roles = ln_C_SFUsuarioRemote.getEvaluadores();
-        for (BeanUsuario r : roles) {
-            r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
-            unItems.add(new SelectItem(r.getNidUsuario().toString(),
-                    r.getNombres().toString()));
-        }
-        return unItems;
-    }*/
-
     public ArrayList llenarCursos() {
         ArrayList unItems = new ArrayList();
         List<BeanCurso> roles = ln_C_SFCursoRemoto.getlistaCursos();
@@ -298,13 +287,16 @@ public class bPlanificarEva {
 
     public String llenarHorarios(BeanMain beanMain) {
         List<BeanMain> lis = ln_C_SFMainRemote.llenarHorario(beanMain);
+        System.out.println("Tamaño de beanMain " + lis.size());
         if (lis != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date fechaActual = sessionPlanificarEva.getFechaInicioSeleccionada();
             String fechaConFormato = sdf.format(fechaActual);
             List<Evaluacion> listaEvaluaciones =
                 bdl_C_SFEvaluacionRemoto.getEvaluaciones(fechaConFormato, sessionPlanificarEva.getNidAreaAcademica(),
-                                                         Integer.parseInt(sessionPlanificarEva.getNidUsuario()));
+                                                         Integer.parseInt(sessionPlanificarEva.getNidUsuario()),sessionPlanificarEva.getDniProfesor()
+                                                         ,sessionPlanificarEva.getNidCurso());
+            System.out.println("Tamaño de evaluaciones " + listaEvaluaciones.size());
             if (listaEvaluaciones.size() == lis.size()) {
                 lis.clear();
             } else {
@@ -339,17 +331,20 @@ public class bPlanificarEva {
     public void llenarBean() {
         BeanMain beanMain = new BeanMain();
         BeanAreaAcademica beanAca = new BeanAreaAcademica();
+        System.out.println("Valor de Area Academica "+sessionPlanificarEva.getNidAreaAcademica());
         beanAca.setNidAreaAcademica(sessionPlanificarEva.getNidAreaAcademica());
         BeanCurso beanCurso = new BeanCurso();
         beanCurso.setAreaAcademica(beanAca);
         if (sessionPlanificarEva.getNidCurso() != null) {
-            beanCurso.setNidCurso(Integer.parseInt(sessionPlanificarEva.getNidCurso()));
+            beanCurso.setNidCurso(Integer.parseInt(sessionPlanificarEva.getNidCurso()));            
+            System.out.println("Valor de Curso "+sessionPlanificarEva.getNidCurso());
         }
         BeanProfesor beanProf = new BeanProfesor();
         if (sessionPlanificarEva.getDniProfesor() != null) {
             beanProf.setDniProfesor(sessionPlanificarEva.getDniProfesor().toString());
             beanMain.setProfesor(beanProf);
-        }
+            System.out.println("Valor deProfesor "+sessionPlanificarEva.getDniProfesor());
+        }   
         beanMain.setCurso(beanCurso);
         beanMain.setDia(sessionPlanificarEva.getDiaDeLaSemana());
         llenarHorarios(beanMain);
@@ -438,6 +433,7 @@ public class bPlanificarEva {
     public String btnLimpiar() {
         sessionPlanificarEva.setNidCurso(null);
         sessionPlanificarEva.setDniProfesor(null);
+        Utils.addTargetMany(choiceProfesores,choiceCursos);
         llenarBean();
         if (tbHorario != null) {
             Utils.unselectFilas(tbHorario);
