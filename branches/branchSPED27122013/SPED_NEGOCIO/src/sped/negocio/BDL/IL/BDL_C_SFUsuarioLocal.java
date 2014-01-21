@@ -18,5 +18,6 @@ public interface BDL_C_SFUsuarioLocal {
     Usuario findConstrainById(int id);
     int countUsuarioByDniBDL(String dni);
     int countUsuarioByNomUsuarioBDL(String usuario);
+    String getNombresUsuarioByNidUsuario(int nidUsuario);
     List<Usuario> getUsuariobyByAttrBDL(BeanUsuario beanUsuario);
 }
