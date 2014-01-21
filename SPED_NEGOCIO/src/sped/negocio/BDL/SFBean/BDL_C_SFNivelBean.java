@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFNivelLocal;
 import sped.negocio.BDL.IR.BDL_C_SFNivelRemote;
+import sped.negocio.entidades.admin.Grado;
 import sped.negocio.entidades.admin.Nivel;
 
 @Stateless(name = "BDL_C_SFNivel", mappedName = "SPED_APP-SPED_NEGOCIO-BDL_C_SFNivel")
@@ -34,4 +35,34 @@ public class BDL_C_SFNivelBean implements BDL_C_SFNivelRemote,
     public List<Nivel> getNivelFindAll() {
         return em.createNamedQuery("Nivel.findAll", Nivel.class).getResultList();
     }
+    
+    public List<Nivel> findGradpPorAreaAcademica(Integer nidAreaAcademica, String dia) {
+        try {
+            String ejbQl =    "SELECT distinct niv FROM Main ma, " +
+                              " Curso cur , " +
+                              " Profesor prof," +
+                              " Nivel niv," +
+                              " AreaAcademica ac" +
+                              " WHERE ma.curso.nidCurso=cur.nidCurso " +
+                              " and cur.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica " +
+                              " and prof.dniProfesor=ma.profesor.dniProfesor "+
+                              " and ma.aula.gradoNivel.nivel.nidNivel=niv.nidNivel";
+
+            if (nidAreaAcademica != null) {
+                if (nidAreaAcademica != 0) {
+                    ejbQl = ejbQl.concat(" and ac.nidAreaAcademica=" + nidAreaAcademica);
+                }
+            }
+
+            if (dia != null) {
+                ejbQl = ejbQl.concat(" and ma.dia='" + dia + "'");
+            }
+
+            List<Nivel> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }}
 }

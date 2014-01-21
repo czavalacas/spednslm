@@ -9,4 +9,5 @@ import sped.negocio.entidades.admin.Curso;
 @Local
 public interface BDL_C_SFCursoLocal {
     List<Curso> getCursoFindAll();
+    List<Curso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia);
 }

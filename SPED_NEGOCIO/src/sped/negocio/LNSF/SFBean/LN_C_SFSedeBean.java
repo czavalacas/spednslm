@@ -21,6 +21,7 @@ import net.sf.dozer.util.mapping.MappingException;
 import sped.negocio.BDL.IL.BDL_C_SFSedeLocal;
 import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
+import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -46,6 +47,13 @@ public class LN_C_SFSedeBean implements LN_C_SFSedeRemote,
         }catch(Exception e){
             return new ArrayList<BeanSede>();
         }            
+    }
+    public List<BeanSede> findSedePorAreaAcademica(Integer nidAreaAcademica, String dia) {
+        try{
+            return transformLstSede(bdL_C_SFSedeLocal.findSedePorAreaAcademica(nidAreaAcademica,dia));
+        }catch(Exception e){
+            return new ArrayList<BeanSede>();
+        }  
     }
     
     public List<BeanSede> transformLstSede(List<Sede> lstSede){
