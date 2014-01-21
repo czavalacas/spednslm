@@ -32,14 +32,12 @@
         <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}">
             <af:dialog id="d1" title="Horarios Disponibles" type="ok">
                 <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.dniProfesor}" label="Docente"
-                                    id="choiceDocente" unselectedLabel="::Seleccionar Docente::" autoSubmit="true"
-                                    valueChangeListener="#{bPlanificarEva.getValoresChoicePROF}"
+                                    id="choiceDocente" unselectedLabel="::Seleccionar Docente::" autoSubmit="true"                                   
                                     binding="#{bPlanificarEva.choiceProfesores}">
                     <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaProfesores}" id="si3"/>
                 </af:selectOneChoice>
                 <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidCurso}" label="Cursos"
-                                    id="choiceCursos" unselectedLabel="::Seleccionar Cursos::" autoSubmit="true"
-                                    valueChangeListener="#{bPlanificarEva.getValoresChoiceCURS}"
+                                    id="choiceCursos" unselectedLabel="::Seleccionar Cursos::" autoSubmit="true"                                   
                                     binding="#{bPlanificarEva.choiceCursos}">
                     <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaCursos}" id="si4"/>
                 </af:selectOneChoice>
