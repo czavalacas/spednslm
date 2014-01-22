@@ -9,7 +9,7 @@
                 <af:spacer height="10"/>
             </af:panelGroupLayout>
          <af:subform id="s1">
-            <af:panelGridLayout id="pgl1">
+            <af:panelGridLayout id="pgl1" binding="#{bConsultarEvaluacion.pgl1}">
                <af:gridRow marginTop="5px" height="auto" id="gr1">
                   <af:gridCell marginStart="5px" width="200px" id="gc1">
                      <af:panelFormLayout id="pfl1">
@@ -20,7 +20,9 @@
                             <f:selectItems value="#{sessionConsultarEvaluacion.lstSede}" id="si1"
                                            binding="#{bConsultarEvaluacion.si1}"/>
                         </af:selectOneChoice>
-                        <af:inputDate label="Desde" id="idfechaInicio"/>
+                        <af:inputDate label="Fecha planificación" id="idfechaInicio" columns="8"
+                                      value="#{sessionScope.sessionConsultarEvaluacion.fechaP}"
+                                      binding="#{bConsultarEvaluacion.idFechaInicio}"/>
                      </af:panelFormLayout>
                   </af:gridCell>
                   <af:gridCell marginStart="5px" width="200px" id="gc2">
@@ -32,7 +34,10 @@
                             <f:selectItems value="#{sessionConsultarEvaluacion.lstNivel}" id="si2"
                                            binding="#{bConsultarEvaluacion.si2}"/>
                         </af:selectOneChoice>
-                        <af:inputDate label="Hasta" id="idfechaFin"/>
+                        <af:inputDate label="Fecha evaluación" id="idfechaFin" columns="8" autoSubmit="true"
+                                      value="#{sessionScope.sessionConsultarEvaluacion.fechaF}"
+                                      binding="#{bConsultarEvaluacion.idfechaFin}">
+                        </af:inputDate>
                      </af:panelFormLayout>                     
                   </af:gridCell>
                   <af:gridCell marginStart="5px" width="150px" id="gc3">
@@ -44,11 +49,6 @@
                             <f:selectItems value="#{sessionConsultarEvaluacion.lstArea}" id="si3"
                                            binding="#{bConsultarEvaluacion.si3}"/>
                         </af:selectOneChoice>
-                        <af:selectOneChoice label="Grado" value="#{sessionConsultarEvaluacion.nidGrado}" id="choiceFGrado"
-                                            binding="#{bConsultarEvaluacion.choiceFGrado}" autoSubmit="true"
-                                            labelStyle="text-align: left;">
-                            <f:selectItems value="#{sessionConsultarEvaluacion.lstGrado}" id="si5"/>
-                        </af:selectOneChoice>
                      </af:panelFormLayout> 
                   </af:gridCell>
                   <af:gridCell marginStart="5px" width="150px" marginEnd="5px" id="gc4">
@@ -58,13 +58,15 @@
                                             labelStyle="text-align: left;">
                             <f:selectItems value="#{sessionConsultarEvaluacion.lstCurso}" id="si4"/>
                         </af:selectOneChoice>
+                        <af:inputText label="Profesor" id="itProfesor"
+                                      value="#{sessionScope.sessionConsultarEvaluacion.nombreProfesor}"/>
                      </af:panelFormLayout>                     
                   </af:gridCell>
                </af:gridRow>
             </af:panelGridLayout>
             <af:panelGroupLayout id="pgl2">
-               <af:button text="Buscar" id="btnBuscar"/>
-               <af:button text="button 2" id="btnRefreshFiltro"/>
+               <af:button text="Buscar" id="btnBuscar" actionListener="#{bConsultarEvaluacion.buscarByFiltro}"/>
+               <af:button id="btnRefreshFiltro" actionListener="#{bConsultarEvaluacion.resetFiltro}" icon="#{resource['images:refresh.png']}"/>
             </af:panelGroupLayout>
          </af:subform>
          <af:table value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row" rowBandingInterval="0" id="t1"
@@ -72,7 +74,7 @@
             <af:column sortable="true" sortProperty="main.profesor.apellidos" 
                        headerText="Profesor" align="start" id="c1"
                        rendered="#{sessionConsultarEvaluacion.columnProfesor}">
-               <af:outputText value="#{row.main.profesor.apellidos} #{row.main.profesor.nombres}" id="ot1"/>
+               <af:outputText value="#{row.main.profesor.nombres} #{row.main.profesor.apellidos}" id="ot1"/>
             </af:column>
             <af:column sortable="true" sortProperty="main.curso.areaAcademica.descripcionAreaAcademica"
                        headerText="Area" align="start" id="c2"

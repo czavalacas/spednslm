@@ -15,7 +15,10 @@ import javax.faces.model.SelectItem;
 
 import oracle.adf.view.rich.component.rich.data.RichTable;
 
+import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
+
+import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
@@ -26,6 +29,7 @@ import sped.negocio.LNSF.IR.LN_C_SFSedeNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCurso;
+import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanSede;
@@ -59,6 +63,9 @@ public class bConsultarEvaluacion {
     private LN_C_SFCursoRemoto ln_C_SFCursoRemoto;
     @EJB
     private LN_C_SFGradoRemote ln_C_SFGradoRemote;
+    private RichPanelGridLayout pgl1;
+    private RichInputDate idFechaInicio;
+    private RichInputDate idfechaFin;
 
     public bConsultarEvaluacion() {
         
@@ -73,8 +80,7 @@ public class bConsultarEvaluacion {
             sessionConsultarEvaluacion.setLstNivel(llenarComboNivel());
             sessionConsultarEvaluacion.setLstArea(llenarComboAreaA());
             sessionConsultarEvaluacion.setLstCurso(llenarComboCurso());
-            sessionConsultarEvaluacion.setLstGrado(llenarComboGrado());
-            sessionConsultarEvaluacion.setLstBeanEvaluacion(ln_C_SFEvaluacionRemote.getEvaluacionesByUsuarioLN(beanUsuario));
+            llenarTabla();
         }
     }
     
@@ -132,14 +138,37 @@ public class bConsultarEvaluacion {
         return unItems;
     }
     
-    private ArrayList llenarComboGrado(){
-        ArrayList unItems = new ArrayList();
-        List<BeanGrado> lstBeanGrado = ln_C_SFGradoRemote.getGradoLN();
-        for(BeanGrado g : lstBeanGrado){
-            unItems.add(new SelectItem(g.getNidGrado(),
-                                       g.getDescripcionGrado().toString()));
-        }
-        return unItems;
+    public void buscarByFiltro(ActionEvent actionEvent) {
+        llenarTabla();
+    }
+
+    public void resetFiltro(ActionEvent actionEvent) {
+        idFechaInicio.resetValue();
+        idfechaFin.resetValue();
+        sessionConsultarEvaluacion.setFechaP(null);
+        sessionConsultarEvaluacion.setFechaF(null);
+        sessionConsultarEvaluacion.setNombreProfesor("");
+        sessionConsultarEvaluacion.setNidSede(0);
+        sessionConsultarEvaluacion.setNidNivel(0);
+        sessionConsultarEvaluacion.setNidArea(0);
+        sessionConsultarEvaluacion.setNidCurso(0);
+        Utils.addTarget(pgl1);
+        llenarTabla();
+    }
+    
+    public void llenarTabla(){
+        sessionConsultarEvaluacion.setLstBeanEvaluacion(
+             ln_C_SFEvaluacionRemote.getEvaluacionesByUsuarioLN(beanUsuario, 
+                                                                sessionConsultarEvaluacion.getNidSede(), 
+                                                                sessionConsultarEvaluacion.getNidNivel(), 
+                                                                sessionConsultarEvaluacion.getNidArea(), 
+                                                                sessionConsultarEvaluacion.getNidCurso(), 
+                                                                sessionConsultarEvaluacion.getNombreProfesor(),
+                                                                sessionConsultarEvaluacion.getFechaP(),
+                                                                sessionConsultarEvaluacion.getFechaF()));
+        if(t1 != null){
+            Utils.addTarget(t1);
+        }        
     }
 
     public void setSessionConsultarEvaluacion(bSessionConsultarEvaluacion sessionConsultarEvaluacion) {
@@ -220,5 +249,29 @@ public class bConsultarEvaluacion {
 
     public RichSelectOneChoice getChoiceFGrado() {
         return choiceFGrado;
+    }
+
+    public void setPgl1(RichPanelGridLayout pgl1) {
+        this.pgl1 = pgl1;
+    }
+
+    public RichPanelGridLayout getPgl1() {
+        return pgl1;
+    }
+
+    public void setIdFechaInicio(RichInputDate idFechaInicio) {
+        this.idFechaInicio = idFechaInicio;
+    }
+
+    public RichInputDate getIdFechaInicio() {
+        return idFechaInicio;
+    }
+
+    public void setIdfechaFin(RichInputDate idfechaFin) {
+        this.idfechaFin = idfechaFin;
+    }
+
+    public RichInputDate getIdfechaFin() {
+        return idfechaFin;
     }
 }
