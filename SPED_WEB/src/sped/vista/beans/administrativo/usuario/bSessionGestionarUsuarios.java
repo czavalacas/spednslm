@@ -50,8 +50,8 @@ public class bSessionGestionarUsuarios implements Serializable {
     private List lstAreaAcademica;
     private List lstEstadoUsario;
     private List<BeanUsuario> lstUsuario;
-    private List<BeanSede> lstSede;
-    private List<BeanSedeNivel> lstNivel;
+    private List lstSede;
+    private List lstNivel;
 
     public bSessionGestionarUsuarios() {
     }
@@ -264,22 +264,6 @@ public class bSessionGestionarUsuarios implements Serializable {
         return lstUsuario;
     }
 
-    public void setLstSede(List<BeanSede> lstSede) {
-        this.lstSede = lstSede;
-    }
-
-    public List<BeanSede> getLstSede() {
-        return lstSede;
-    }
-
-    public void setLstNivel(List<BeanSedeNivel> lstNivel) {
-        this.lstNivel = lstNivel;
-    }
-
-    public List<BeanSedeNivel> getLstNivel() {
-        return lstNivel;
-    }
-
     public void setFbooleanSede(boolean fbooleanSede) {
         this.fbooleanSede = fbooleanSede;
     }
@@ -342,5 +326,21 @@ public class bSessionGestionarUsuarios implements Serializable {
 
     public int getNidNivel() {
         return nidNivel;
+    }
+
+    public void setLstSede(List lstSede) {
+        this.lstSede = lstSede;
+    }
+
+    public List getLstSede() {
+        return lstSede;
+    }
+
+    public void setLstNivel(List lstNivel) {
+        this.lstNivel = lstNivel;
+    }
+
+    public List getLstNivel() {
+        return lstNivel;
     }
 }
