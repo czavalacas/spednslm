@@ -20,7 +20,13 @@ public class BeanEvaluacion implements Serializable {
         private BeanMain main;
         private int nidPlanificador;
         private List<BeanResultado> resultadoLista;
-
+        ///atributos para la busqueda filtro///
+        private int nidSede;
+        private int nidNivel;
+        private int nidArea;
+        private int nidCurso;
+        private Date fechaPlanificacion;     
+        
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
@@ -116,5 +122,45 @@ public class BeanEvaluacion implements Serializable {
 
     public int getNidPlanificador() {
         return nidPlanificador;
+    }
+
+    public void setNidSede(int nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public int getNidSede() {
+        return nidSede;
+    }
+
+    public void setNidNivel(int nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public int getNidNivel() {
+        return nidNivel;
+    }
+
+    public void setNidArea(int nidArea) {
+        this.nidArea = nidArea;
+    }
+
+    public int getNidArea() {
+        return nidArea;
+    }
+
+    public void setNidCurso(int nidCurso) {
+        this.nidCurso = nidCurso;
+    }
+
+    public int getNidCurso() {
+        return nidCurso;
+    }
+
+    public void setFechaPlanificacion(Date fechaPlanificacion) {
+        this.fechaPlanificacion = fechaPlanificacion;
+    }
+
+    public Date getFechaPlanificacion() {
+        return fechaPlanificacion;
     }
 }

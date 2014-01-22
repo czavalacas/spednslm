@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -43,9 +44,24 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     public LN_C_SFEvaluacionBean() {
     }
     
-    public List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario){
+    public List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario,
+                                                           int nidSede,
+                                                           int nidNivel,
+                                                           int nidArea,
+                                                           int nidCurso,
+                                                           String nomProfesor,
+                                                           Date fechaPlanifiacion,
+                                                           Date fechaRealizado){
         try{
-            return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getEvaluacionesByUsuarioBDL(beanUsuario));
+            BeanEvaluacion beanEva = new BeanEvaluacion();
+            beanEva.setNidSede(nidSede);
+            beanEva.setNidNivel(nidNivel);
+            beanEva.setNidArea(nidArea);
+            beanEva.setNidCurso(nidCurso);
+            beanEva.setNombreEvaluador(nomProfesor);
+            beanEva.setEndDate(fechaRealizado);
+            return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getEvaluacionesByUsuarioBDL(beanUsuario,
+                                                                                              beanEva));
         }catch(Exception e){
             System.out.println(e.getMessage());
             return new ArrayList<BeanEvaluacion>();

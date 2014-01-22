@@ -1,5 +1,6 @@
 package sped.vista.beans.evaluacion.consulta;
 
+import java.util.Date;
 import java.util.List;
 
 import sped.negocio.entidades.beans.BeanAreaAcademica;
@@ -23,11 +24,12 @@ public class bSessionConsultarEvaluacion {
     private List lstCurso;
     private List lstGrado;
     private String nombreProfesor;
+    private Date fechaP;
+    private Date fechaF;
     private int nidSede;
     private int nidNivel;
     private int nidArea;
     private int nidCurso;
-    private int nidGrado;
         
     public bSessionConsultarEvaluacion() {
     }
@@ -160,19 +162,27 @@ public class bSessionConsultarEvaluacion {
         return nidCurso;
     }
 
-    public void setNidGrado(int nidGrado) {
-        this.nidGrado = nidGrado;
-    }
-
-    public int getNidGrado() {
-        return nidGrado;
-    }
-
     public void setNombreProfesor(String nombreProfesor) {
         this.nombreProfesor = nombreProfesor;
     }
 
     public String getNombreProfesor() {
         return nombreProfesor;
+    }
+
+    public void setFechaP(Date fechaP) {
+        this.fechaP = fechaP;
+    }
+
+    public Date getFechaP() {
+        return fechaP;
+    }
+
+    public void setFechaF(Date fechaF) {
+        this.fechaF = fechaF;
+    }
+
+    public Date getFechaF() {
+        return fechaF;
     }
 }

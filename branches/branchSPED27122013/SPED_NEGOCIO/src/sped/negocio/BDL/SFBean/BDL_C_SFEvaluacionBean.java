@@ -1,5 +1,9 @@
 package sped.negocio.BDL.SFBean;
 
+import java.text.DateFormat;
+
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,9 +22,12 @@ import javax.persistence.PersistenceContext;
 
 import javax.persistence.Query;
 
+import oracle.sql.DATE;
+
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.entidades.admin.Main;
+import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
@@ -91,26 +98,53 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }   
         }
     
-    public List<Evaluacion> getEvaluacionesByUsuarioBDL(BeanUsuario beanUsuario){
+    public List<Evaluacion> getEvaluacionesByUsuarioBDL(BeanUsuario beanUsuario,
+                                                        BeanEvaluacion beanFiltroEva){
+            List<Evaluacion> listEvaluacion = new ArrayList();
             try{                 
-                if(beanUsuario!=null){
+                if(beanUsuario != null){
                     String strQuery = "SELECT eva " +
                                    "FROM Evaluacion eva " +
-                                   "WHERE 1=1"; 
+                                   "WHERE 1=1";                    
                     if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("SUBDIRECTOR") == 0){
                         strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede " +
                                                    " AND eva.main.aula.gradoNivel.nivel.nidNivel = :nid_nivel ");
+                        beanFiltroEva.setNidSede(0);
+                        beanFiltroEva.setNidNivel(0);
                     }
                     if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("EVALUADOR") == 0){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
                         strQuery = strQuery.concat(" AND eva.main.curso.areaAcademica.nidAreaAcademica = :nid_area ");
+                        beanFiltroEva.setNidArea(0);
                     }
                     if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("PROFESOR") == 0){
                         strQuery = strQuery.concat(" AND eva.main.profesor.dniProfesor = :dni_profesor ");
-                        strQuery = strQuery.concat(" AND upper(eva.estadoEvaluacion) != 'PENDIENTE' ");
-                    }
+                        //strQuery = strQuery.concat(" AND upper(eva.estadoEvaluacion) = 'REALIZADA' ");
+                    }                    
+                    if(beanFiltroEva != null){
+                        if(beanFiltroEva.getNidSede() != 0){
+                            strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nidf_sede ");                            
+                        }
+                        if(beanFiltroEva.getNidNivel() != 0){
+                            strQuery = strQuery.concat(" AND eva.main.aula.gradoNivel.nivel.nidNivel = :nidf_nivel ");
+                        }
+                        if(beanFiltroEva.getNidArea() != 0){
+                            strQuery = strQuery.concat(" AND eva.main.curso.areaAcademica.nidAreaAcademica = :nidf_area ");
+                        }
+                        if(beanFiltroEva.getNidCurso() != 0){
+                            strQuery = strQuery.concat(" AND eva.main.curso.nidCurso = :nidf_curso ");
+                        }
+                        if(beanFiltroEva.getNombreEvaluador() != null){
+                            strQuery = strQuery.concat(" AND upper(CONCAT(eva.main.profesor.nombres ,' ' ," +
+                                                       " eva.main.profesor.apellidos)) like :eva_profesor ");
+                        }                        
+                        if(beanFiltroEva.getEndDate() != null){                            
+                            strQuery = strQuery.concat(" AND eva.endDate  >= :end_date ");
+                        }
+                    }         
+                    System.out.println(strQuery);
                     strQuery = strQuery.concat(" ORDER BY eva.estadoEvaluacion DESC ");
-                    Query query = em.createQuery(strQuery);                    
+                    Query query = em.createQuery(strQuery);      
                     if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("SUBDIRECTOR") == 0){
                         query.setParameter("nid_sede", beanUsuario.getSedeNivel().getSede().getNidSede());
                         query.setParameter("nid_nivel", beanUsuario.getSedeNivel().getNivel().getNidNivel());
@@ -122,13 +156,32 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("PROFESOR") == 0){
                         query.setParameter("dni_profesor", beanUsuario.getDni());
                     }
-                    return query.getResultList();
-                }else{
-                    return new ArrayList();
+                    if(beanFiltroEva != null){
+                        if(beanFiltroEva.getNidSede() != 0){ 
+                            query.setParameter("nidf_sede", beanFiltroEva.getNidSede());
+                        }
+                        if(beanFiltroEva.getNidNivel() != 0){
+                            query.setParameter("nidf_nivel", beanFiltroEva.getNidNivel());
+                        }
+                        if(beanFiltroEva.getNidArea() != 0){
+                            query.setParameter("nidf_area", beanFiltroEva.getNidArea());
+                        }
+                        if(beanFiltroEva.getNidCurso() != 0){
+                            query.setParameter("nidf_curso", beanFiltroEva.getNidCurso());
+                        }
+                        if(beanFiltroEva.getNombreEvaluador() != null){
+                            query.setParameter("eva_profesor", "%"+beanFiltroEva.getNombreEvaluador().toUpperCase()+"%");
+                        }
+                        if(beanFiltroEva.getEndDate() != null){
+                            query.setParameter("end_date",beanFiltroEva.getEndDate());
+                        }
+                    }
+                    listEvaluacion = query.getResultList();
                 }
+                return listEvaluacion;
             }catch(Exception e){
                 e.printStackTrace();  
                 return null;
-            }   
+            } 
         }
 }
