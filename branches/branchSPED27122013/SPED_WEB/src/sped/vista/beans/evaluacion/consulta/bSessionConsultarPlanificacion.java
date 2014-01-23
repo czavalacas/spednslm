@@ -3,15 +3,34 @@ package sped.vista.beans.evaluacion.consulta;
 import java.io.Serializable;
 
 public class bSessionConsultarPlanificacion {
-    private String nombre;
+    private String nidEvaluadorChoice;
+    private String nidSedeChoice;
+    private String nidNivelChoice;
     public bSessionConsultarPlanificacion() {
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+    public void setNidEvaluadorChoice(String nidEvaluadorChoice) {
+        this.nidEvaluadorChoice = nidEvaluadorChoice;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNidEvaluadorChoice() {
+        return nidEvaluadorChoice;
+    }
+
+    public void setNidSedeChoice(String nidSedeChoice) {
+        this.nidSedeChoice = nidSedeChoice;
+    }
+
+    public String getNidSedeChoice() {
+        return nidSedeChoice;
+    }
+
+    public void setNidNivelChoice(String nidNivelChoice) {
+        this.nidNivelChoice = nidNivelChoice;
+    }
+
+    public String getNidNivelChoice() {
+        return nidNivelChoice;
     }
 }
