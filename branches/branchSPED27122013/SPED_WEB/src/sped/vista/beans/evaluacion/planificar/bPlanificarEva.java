@@ -260,6 +260,9 @@ public class bPlanificarEva {
         String nidDat = generarAlfanumerico();
         eva.setNidDate(nidDat);
         eva.setNidPlanificador(sessionPlanificarEva.getNidPlanificador());
+        Date fechaHoy=new Date();
+        long d=fechaHoy.getTime();
+        eva.setFechaPlanificacion(new Timestamp(d));
         bdl_T_SFEvaluacionRemoto.persistEvaluacion(eva);
         llenarBean();
         if (tbHorario != null) {

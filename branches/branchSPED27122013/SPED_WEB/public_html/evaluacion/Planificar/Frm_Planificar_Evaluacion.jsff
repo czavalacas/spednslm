@@ -2,12 +2,20 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
+     <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+      <af:panelGroupLayout halign="left">
+                <af:spacer height="10"/>
+                <af:outputText value="Registro de Asignaciones" id="otTituloU" styleClass="titulos"/>
+                <af:spacer height="10"/>
+      </af:panelGroupLayout>
         <af:panelFormLayout id="pfl2">
             <af:button text="Seleccionar Evaluador" id="b1" action="#{bPlanificarEva.popupEvaluadores}"
                        visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}"/>
             <h:outputText value="#{sessionScope.sessionPlanificarEva.nombreEvaluador} #{sessionScope.sessionPlanificarEva.areaEvaluador}"
                           id="ot4" binding="#{bPlanificarEva.outDatosEva}"/>
         </af:panelFormLayout>
+      </af:panelGroupLayout>
+        
         <af:panelFormLayout id="pfl1">
             <af:panelStretchLayout id="psl1">
                 <f:facet name="bottom">
@@ -98,9 +106,12 @@
                         </af:gridRow>
                     </af:panelGridLayout>
                 </af:panelGroupLayout>
-                <af:table width="820" var="row" rowBandingInterval="0" id="t1" binding="#{bPlanificarEva.tbHorario}"
-                          value="#{sessionScope.sessionPlanificarEva.listaHorarios}" rowSelection="single"
+                <af:table width="840" var="row" rowBandingInterval="0" id="t1" binding="#{bPlanificarEva.tbHorario}"
+                          value="#{sessionScope.sessionPlanificarEva.listaHorarios}" varStatus="vs" rowSelection="single"
                           selectionListener="#{bPlanificarEva.seleccionarHorario}">
+                           <af:column width="20">
+                        <af:outputText value="#{vs.index + 1}"/>
+                    </af:column>
                     <af:column width="180" sortable="false" headerText="Docente" id="c4">
                         <af:outputText value="#{row.profesor.apellidos} #{row.profesor.nombres}" id="ot1"/>
                     </af:column>
@@ -223,5 +234,6 @@
                 </af:table>
             </af:dialog>
         </af:popup>
+       
     </f:view>
 </ui:composition>
