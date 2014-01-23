@@ -74,6 +74,7 @@ import org.apache.myfaces.trinidad.model.CollectionModel;
 import org.apache.myfaces.trinidad.model.RowKeySet;
 import org.apache.myfaces.trinidad.model.TreeModel;
 
+import sped.negocio.LNSF.IL.LN_T_SFFichaLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCriterioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFFichaRemote;
 
@@ -96,18 +97,6 @@ import sped.vista.Utils.Utils;
  */
 public class bRegistrarFicha {
     
-    private bSessionRegistrarFicha sessionRegistrarFicha;
-    @EJB
-    private LN_C_SFFichaRemote ln_C_SFFichaRemote;
-    @EJB
-    private LN_C_SFCriterioRemote ln_C_SFCriterioRemote;
-    @EJB
-    private LN_C_SFIndicadorRemote ln_C_SFIndicadorRemote;
-    @EJB
-    private LN_T_SFCriterioRemote ln_T_SFCriterioRemote;
-    @EJB
-    private LN_T_SFIndicadorRemote ln_T_SFIndicadorRemote;
-    FacesContext ctx = FacesContext.getCurrentInstance();
     private ChildPropertyTreeModel permisosTree;
     private RichTable tbFichas;
     private RichButton btnEditFicha;
@@ -131,6 +120,20 @@ public class bRegistrarFicha {
     private RichInputNumberSlider ins1;
     private RichButton btnNewFicha;
     private RichMessages msjGen;
+    private bSessionRegistrarFicha sessionRegistrarFicha;
+    @EJB
+    private LN_C_SFFichaRemote ln_C_SFFichaRemote;
+    @EJB
+    private LN_C_SFCriterioRemote ln_C_SFCriterioRemote;
+    @EJB
+    private LN_C_SFIndicadorRemote ln_C_SFIndicadorRemote;
+    @EJB
+    private LN_T_SFCriterioRemote ln_T_SFCriterioRemote;
+    @EJB
+    private LN_T_SFIndicadorRemote ln_T_SFIndicadorRemote;
+    @EJB
+    private LN_T_SFFichaLocal ln_T_SFFichaLocal;
+    FacesContext ctx = FacesContext.getCurrentInstance();
 
     public bRegistrarFicha() {
         
@@ -398,6 +401,10 @@ public class bRegistrarFicha {
     }
     
     public void refrescarTablaFichas(ActionEvent actionEvent) {
+        refrescarTablaFichasAux();
+    }
+    
+    public void refrescarTablaFichasAux(){
         sessionRegistrarFicha.setLstFichas(ln_C_SFFichaRemote.getLstFichasByAttr_LN());
         tbFichas.setValue(sessionRegistrarFicha.getLstFichas());
         btnEditFicha.setDisabled(true);
@@ -425,10 +432,93 @@ public class bRegistrarFicha {
         }else if(sessionRegistrarFicha.getTipEvento() == 1){
             //CUANDO SE APLASTO ESTE BOTON X 1ERA VEZ SE SETEO LA VARIABLE A 1 (REGISTRAR FICHA)
             if(isOkRegistrarFicha()){
-                //Registrar
+                try {
+                    BeanFicha beanFicha = ln_T_SFFichaLocal.registrarFicha(sessionRegistrarFicha.getTipoFicha(),
+                                                                             sessionRegistrarFicha.getTipFichaCurs(),
+                                                                             sessionRegistrarFicha.getVersionGenerada(),
+                                                                             sessionRegistrarFicha.getNumValores(),
+                                                                             sessionRegistrarFicha.getLstCriteriosMultiples());
+                    if (beanFicha.getBeanError() != null) {
+                        BeanError error = beanFicha.getBeanError();
+                        int severidad = 0;
+                        if (error.getCidError().equals("000")) {
+                            severidad = 3;
+                            Utils.sysout("Grabo la Ficha");
+                        } else {
+                            severidad = 1;
+                        }
+                        msjGen.setText(error.getTituloError());
+                        Utils.addTarget(msjGen);
+                        Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
+                    } else {
+                        Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
+                    }
+                } catch (Exception e) {
+                    Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
+                    e.printStackTrace();
+                } finally {
+                    resetearDespuesGrabarEditar();
+                }
             }
         }
-
+    }
+    
+    public void resetearDespuesGrabarEditar(){
+        sessionRegistrarFicha.setTipEvento(0);
+        sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(false);
+        panelBoxNewFicha.setVisible(false);
+        btnEditFicha.setDisabled(true);
+        sessionRegistrarFicha.setBtnRegistrarFicha("Nueva Ficha");
+        sessionRegistrarFicha.setStyleClass(null);
+        sessionRegistrarFicha.setTipoFicha(null);
+        sessionRegistrarFicha.setTipFichaCurs(null);
+        sessionRegistrarFicha.setVersionGenerada(null);
+        sessionRegistrarFicha.setNumValores(0);
+        socTipFicha.resetValue();
+        socTipFichaCurs.resetValue();
+        itDescVersion.resetValue();
+        ins1.resetValue();
+        btnNewFicha.setText("Nueva Ficha");
+        btnNewFicha.setStyleClass(null);
+        if(socTipFicha != null){
+            socTipFicha.setRequired(false);
+            socTipFichaCurs.setRequired(false);
+            ins1.setRequired(false);
+        }
+        try {
+            List<UIComponent> children = null;
+            children = this.treeCriIndi.getChildren();
+            if (children != null) {
+                Iterator it = children.iterator();
+                while(it.hasNext()){
+                    UIComponent child = (UIComponent) it.next();
+                    it.remove();   
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        refrescarTablaFichasAux();
+        removerLista(sessionRegistrarFicha.getLstCriteriosMultiples());
+        removerLista(sessionRegistrarFicha.getLstCriterios());
+        removerLista(sessionRegistrarFicha.getLstIndicadores());
+        removerLista(sessionRegistrarFicha.getLstIndicadoresByCriterio());
+        removerLista(sessionRegistrarFicha.getLstIndisSelected());
+        removerLista(sessionRegistrarFicha.getLstLeyendas());
+        sessionRegistrarFicha.setCritSelected(null);
+        sessionRegistrarFicha.setTt(null);
+        sessionRegistrarFicha.setDescCriterioSeleccionado(null);
+        sessionRegistrarFicha.setDescCriterio(null);
+        sessionRegistrarFicha.setDescIndicador(null);
+        sessionRegistrarFicha.setLeyenda(null);
+        sessionRegistrarFicha.setValorDesc(null);
+        Utils.addTargetMany(btnNewFicha,panelBoxNewFicha,btnEditFicha,socTipFicha,socTipFichaCurs,itDescVersion,treeCriIndi);
+    }
+    
+    public void removerLista(List<?> lista){
+        if(lista != null){
+            lista.removeAll(lista);
+        }
     }
     
     private boolean isOkRegistrarFicha(){
@@ -483,16 +573,16 @@ public class bRegistrarFicha {
                                         Iterator it3 = indi.getLstLeyenda().iterator();
                                         while(it3.hasNext()){
                                             BeanLeyenda ley = (BeanLeyenda) it3.next();
-                                            if(ley.getDescripcionLeyenda() == null){
+                                            if(ley.getDescripcionLeyenda() == null){Utils.sysout("2");
                                                 return "Agregue las leyendas";
                                             }else{
-                                                if(ley.getDescripcionLeyenda().equalsIgnoreCase("")){
+                                                if(ley.getDescripcionLeyenda().equalsIgnoreCase("")){Utils.sysout("3");
                                                     return "Agregue las leyendas";
                                                 }
                                             }
                                         }
                                     }
-                                }else{
+                                }else{Utils.sysout("4");
                                     return "Agregue las leyendas";
                                 }
                             }
@@ -543,7 +633,9 @@ public class bRegistrarFicha {
     public void abrirPopIndicadores(ActionEvent actionEvent) {
         buscarIndicadores();
         sessionRegistrarFicha.setLstIndisSelected(new ArrayList<BeanIndicador>());
-        sessionRegistrarFicha.setLstIndisSelected(this.lstCritToIndi(sessionRegistrarFicha.getCritSelected().getLstIndicadores()));
+        if(sessionRegistrarFicha.getCritSelected() != null){
+            sessionRegistrarFicha.setLstIndisSelected(this.lstCritToIndi(sessionRegistrarFicha.getCritSelected().getLstIndicadores()));   
+        }
         Utils.showPopUpMIDDLE(popIndis);
     }
     
@@ -634,7 +726,6 @@ public class bRegistrarFicha {
         String param = (String)actionEvent.getComponent().getAttributes().get("mover");
         int orden = Integer.parseInt(actionEvent.getComponent().getAttributes().get("orden").toString());
         int esIndicador = Integer.parseInt(actionEvent.getComponent().getAttributes().get("esIndicador").toString());
-        Utils.sysout("mover:"+param+"|orden:"+orden);
         setear();
         int mov = Integer.parseInt(param);//0 subir; 1 bajar
         int ord = orden - 1;
@@ -664,10 +755,8 @@ public class bRegistrarFicha {
         for(BeanCriterio crit : lista){
             if(crit.getOrden() == orden){
                 BeanCriterio otro = lista.get(subirBajar == 0 ? orden - 2 : orden);
-                Utils.sysout("otro:"+otro.getDescripcionCriterio());
-                otro.setOrden(orden);Utils.sysout("orden:"+otro.getOrden());
+                otro.setOrden(orden);
                 crit.setOrden(subirBajar == 0 ? orden - 1 : orden + 1);
-                Utils.sysout("este:"+crit.getOrden());
                 return;
             }
         }
@@ -696,11 +785,11 @@ public class bRegistrarFicha {
                 BeanCriterio beanCriterio = (BeanCriterio) iti.next();
                 if(beanIndicador.getNidIndicador().compareTo(beanCriterio.getNidCriterio()) == 0){
                     int ordenBorrar = beanCriterio.getOrden();
-                    int size = critSelected.getLstIndicadores().size();Utils.sysout(">>>orden:"+ordenBorrar+"|size:"+size);
+                    int size = critSelected.getLstIndicadores().size();
                     if(ordenBorrar > 1){
-                        if(ordenBorrar == size){Utils.sysout("entro");
-                            BeanCriterio criAnterior = critSelected.getLstIndicadores().get(ordenBorrar - 2);Utils.sysout("cri");
-                            criAnterior.setNoMostrarDown(true);Utils.sysout("crianterior:"+criAnterior.getDescripcionCriterio());
+                        if(ordenBorrar == size){
+                            BeanCriterio criAnterior = critSelected.getLstIndicadores().get(ordenBorrar - 2);
+                            criAnterior.setNoMostrarDown(true);
                         }
                     }
                     if(ordenBorrar < size){
@@ -842,6 +931,47 @@ public class bRegistrarFicha {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if(sessionRegistrarFicha.getLstLeyendas() != null){
+            Iterator itLey = sessionRegistrarFicha.getLstLeyendas().iterator();
+            int valAux = 1;
+            while(itLey.hasNext()){
+                int comp = valAux - val;
+                BeanLeyenda leyenda = (BeanLeyenda) itLey.next();
+                if(comp > 0 ){
+                    itLey.remove();
+                }
+                valAux++;
+            }
+        }
+        if(sessionRegistrarFicha.getLstCriteriosMultiples() != null){
+            if(sessionRegistrarFicha.getLstCriteriosMultiples().size() > 0){
+                Iterator it = sessionRegistrarFicha.getLstCriteriosMultiples().iterator();
+                while(it.hasNext()){
+                    BeanCriterio crit = (BeanCriterio) it.next();
+                    if(crit.getLstIndicadores() != null){
+                        if(crit.getLstIndicadores().size() > 0){
+                            Iterator tit = crit.getLstIndicadores().iterator();
+                            while(tit.hasNext()){
+                                BeanCriterio indi = (BeanCriterio) tit.next();
+                                if(indi.getLstLeyenda() != null){
+                                    Iterator itLey = indi.getLstLeyenda().iterator();
+                                    int valAux = 1;
+                                    while(itLey.hasNext()){
+                                        int comp = valAux - val;
+                                        BeanLeyenda leyenda = (BeanLeyenda) itLey.next();
+                                        if(comp > 0 ){
+                                            itLey.remove();
+                                        }
+                                        valAux++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
         }
         for(int c = 0; c < val; c++) {
             BeanLeyenda leyenda = new BeanLeyenda();

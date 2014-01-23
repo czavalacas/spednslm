@@ -54,4 +54,13 @@ public class BDL_C_SFCriterioBean implements BDL_C_SFCriterioRemote,
             return null;
         }
     }
+    
+    public Criterio findCriterioById(int id) {
+        try {
+            Criterio instance = em.find(Criterio.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
+        }
+    }
 }

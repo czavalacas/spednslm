@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "FichaValor.findAll", query = "select o from FichaValor o") })
@@ -21,6 +24,8 @@ import javax.persistence.Table;
 public class FichaValor implements Serializable {
     private static final long serialVersionUID = -6557091396121525959L;
     @Id
+    @TableGenerator( name = "stmcodi.evdfiva", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evdfiva.nidFiva", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi.evdfiva" )
     @Column(name = "nidFiva", nullable = false)
     private int nidFichaValor;
     @ManyToOne
