@@ -111,4 +111,19 @@
     <managed-bean-class>sped.vista.beans.evaluacion.consulta.bSessionConsultarEvaluacion</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bConsultaPlanificacion</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.consulta.bConsultaPlanificacion</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionConsultarPlanificacion</property-name>
+      <property-class>sped.vista.beans.evaluacion.consulta.bSessionConsultarPlanificacion</property-class>
+      <value>#{sessionConsultarPlanificacion}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionConsultarPlanificacion</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.consulta.bSessionConsultarPlanificacion</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>
