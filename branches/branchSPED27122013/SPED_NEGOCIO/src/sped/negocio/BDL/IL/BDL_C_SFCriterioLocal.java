@@ -10,4 +10,5 @@ import sped.negocio.entidades.eval.Criterio;
 @Local
 public interface BDL_C_SFCriterioLocal {
     List<Criterio> getCriteriosByAttr_BDL(BeanCriterio beanCriterio);
+    public Criterio findCriterioById(int id);
 }

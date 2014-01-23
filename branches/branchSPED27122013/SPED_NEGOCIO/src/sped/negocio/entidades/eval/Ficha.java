@@ -9,11 +9,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Ficha.findAll", query = "select o from Ficha o") })
@@ -25,6 +28,8 @@ public class Ficha implements Serializable {
     @Column(name = "estado_ficha")
     private String estadoFicha;
     @Id
+    @TableGenerator( name = "stmcodi.evmfich", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evmfich.nidFicha", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi.evmfich" )
     @Column(name = "nidFicha", nullable = false)
     private int nidFicha;
     @Column(name = "tipo_ficha")

@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
@@ -15,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "CriterioIndicador.findAll", query = "select o from CriterioIndicador o") })
@@ -22,6 +25,8 @@ import javax.persistence.Table;
 public class CriterioIndicador implements Serializable {
     private static final long serialVersionUID = -8838816706570217560L;
     @Id
+    @TableGenerator( name = "stmcodi.evdcrin", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evdcrin.nidCriterioIndicador", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi.evdcrin" )
     @Column(name = "nidCriterioIndicador", nullable = false)
     private int nidCriterioIndicador;
     @ManyToOne
