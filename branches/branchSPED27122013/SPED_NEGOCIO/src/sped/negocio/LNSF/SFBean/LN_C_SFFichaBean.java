@@ -37,7 +37,7 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
     private BDL_C_SFFichaLocal bdL_C_SFFichaLocal;
     @EJB
     private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
-    MapperIF mapper = new DozerBeanMapper();
+    private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFFichaBean() {
     }

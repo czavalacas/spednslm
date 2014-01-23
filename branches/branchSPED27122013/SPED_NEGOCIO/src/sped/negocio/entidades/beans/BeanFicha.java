@@ -17,6 +17,15 @@ public class BeanFicha implements Serializable {
     private String descripcionTipoFichaCurso;//Auxiliares tabla:admcons
     private String descripcionEstadoFicha;//Auxiliares tabla:admcons
     private Timestamp fechaFicha;
+    private BeanError beanError = new BeanError();
+
+    public void setBeanError(BeanError beanError) {
+        this.beanError = beanError;
+    }
+
+    public BeanError getBeanError() {
+        return beanError;
+    }
 
     public void setFechaFicha(Timestamp fechaFicha) {
         this.fechaFicha = fechaFicha;
