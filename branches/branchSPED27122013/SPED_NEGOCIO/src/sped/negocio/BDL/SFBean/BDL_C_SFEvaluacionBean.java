@@ -1,11 +1,6 @@
 package sped.negocio.BDL.SFBean;
 
-import java.text.DateFormat;
-
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -21,8 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import javax.persistence.Query;
-
-import oracle.sql.DATE;
 
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
@@ -138,8 +131,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                             strQuery = strQuery.concat(" AND upper(CONCAT(eva.main.profesor.nombres ,' ' ," +
                                                        " eva.main.profesor.apellidos)) like :eva_profesor ");
                         }                        
-                        if(beanFiltroEva.getEndDate() != null){                            
-                            strQuery = strQuery.concat(" AND eva.endDate  >= :end_date ");
+                        if(beanFiltroEva.getStartDate() != null){                            
+                            strQuery = strQuery.concat(" AND CAST(eva.endDate AS date) = :end_date ");
                         }
                     }         
                     System.out.println(strQuery);
@@ -172,8 +165,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         if(beanFiltroEva.getNombreEvaluador() != null){
                             query.setParameter("eva_profesor", "%"+beanFiltroEva.getNombreEvaluador().toUpperCase()+"%");
                         }
-                        if(beanFiltroEva.getEndDate() != null){
-                            query.setParameter("end_date",beanFiltroEva.getEndDate());
+                        if(beanFiltroEva.getStartDate() != null){
+                            query.setParameter("end_date",beanFiltroEva.getStartDate());
                         }
                     }
                     listEvaluacion = query.getResultList();
