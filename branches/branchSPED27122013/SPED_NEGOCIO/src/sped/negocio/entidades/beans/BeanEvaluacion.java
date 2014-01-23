@@ -18,7 +18,7 @@ public class BeanEvaluacion implements Serializable {
         private String nombreEvaluador;
         private Date startDate;      
         private BeanMain main;
-        private int nidPlanificador;
+        private int nidPlanificador;       
         private List<BeanResultado> resultadoLista;
         ///atributos para la busqueda filtro///
         private int nidSede;
@@ -38,6 +38,14 @@ public class BeanEvaluacion implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public void setFechaPlanificacion(Date fechaPlanificacion) {
+        this.fechaPlanificacion = fechaPlanificacion;
+    }
+
+    public Date getFechaPlanificacion() {
+        return fechaPlanificacion;
     }
 
     public Date getEndDate() {
@@ -155,12 +163,5 @@ public class BeanEvaluacion implements Serializable {
     public int getNidCurso() {
         return nidCurso;
     }
-
-    public void setFechaPlanificacion(Date fechaPlanificacion) {
-        this.fechaPlanificacion = fechaPlanificacion;
-    }
-
-    public Date getFechaPlanificacion() {
-        return fechaPlanificacion;
-    }
+  
 }

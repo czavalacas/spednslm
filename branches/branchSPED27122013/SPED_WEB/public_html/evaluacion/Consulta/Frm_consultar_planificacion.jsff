@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <f:view>
+        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+            <af:panelGroupLayout halign="left">
+                <af:spacer height="10"/>
+                <af:outputText value="Consultar Planificacion de Evaluaciones" id="otTituloU" styleClass="titulos"/>
+                <af:spacer height="10"/>
+            </af:panelGroupLayout>
+            <af:panelGroupLayout id="pgl2">
+                <af:panelGridLayout id="pgl3">
+                    <af:gridRow marginTop="5px" height="auto" id="gr1">
+                        <af:gridCell marginStart="5px" width="34%" id="gc1">
+                            <af:selectOneChoice label="Evaluador" id="soc1">
+                                <f:selectItems value="" id="si1"/>
+                            </af:selectOneChoice>
+                        </af:gridCell>
+                        <af:gridCell marginStart="5px" width="33%" id="gc2">
+                            <af:inputText label="Docente" id="it1"/>
+                        </af:gridCell>
+                        <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc3">
+                            <af:inputDate label="Fecha Min" id="id1"/>
+                        </af:gridCell>
+                    </af:gridRow>
+                    <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr2">
+                        <af:gridCell marginStart="5px" width="34%" id="gc4">
+                            <af:selectOneChoice label="Sede" id="soc2">
+                                <f:selectItems value="" id="si2"/>
+                            </af:selectOneChoice>
+                        </af:gridCell>
+                        <af:gridCell marginStart="5px" width="33%" id="gc5">
+                            <af:selectOneChoice label="Nivel" id="soc3">
+                                <f:selectItems value="" id="si3"/>
+                            </af:selectOneChoice>
+                        </af:gridCell>
+                        <af:gridCell marginStart="5px" width="33%" id="gc6">
+                            <af:inputDate label="Fecha Max" id="id2"/>
+                        </af:gridCell>
+                    </af:gridRow>
+                </af:panelGridLayout>
+            </af:panelGroupLayout>
+            <af:panelGroupLayout id="pgl1">
+                <af:button text="Buscar" id="b1"/>
+                <af:spacer width="10" height="10" id="s1"/>
+                <af:button text="Limpiar" id="b2"/>
+                <af:spacer width="10" height="10" id="s2"/>
+                <af:button text="Hoy" id="b3"/>
+            </af:panelGroupLayout>
+            <af:panelGroupLayout id="pgl4">
+                <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs" width="1200"
+                          binding="#{bConsultaPlanificacion.tbPlanificacion}">
+                 <af:column width="20">
+                        <af:outputText value="#{vs.index + 1}"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Planificador" id="c1" width="180">
+                        <af:outputText value="#{row.col1}" id="ot1"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Fecha Planificacion" id="c2" width="100">
+                        <af:outputText value="#{row.col2}" id="ot2"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Evaluador" id="c3"  width="180">
+                        <af:outputText value="#{row.col3}" id="ot3"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Fecha Evaluacion" id="c4" width="100">
+                        <af:outputText value="#{row.col4}" id="ot4"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Docente" id="c5"  width="180">
+                        <af:outputText value="#{row.col5}" id="ot5"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Curso" id="c6"  width="100">
+                        <af:outputText value="#{row.col6}" id="ot6"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Grado" id="c7" width="100">
+                        <af:outputText value="#{row.col7}" id="ot7"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Nivel" id="c8" width="100">
+                        <af:outputText value="#{row.col8}" id="ot8"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Sede" id="c9" width="100">
+                        <af:outputText value="#{row.col9}" id="ot9"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Hora" id="c10" width="50">
+                        <af:outputText value="#{row.col10}" id="ot10"/>
+                    </af:column>
+                </af:table>
+            </af:panelGroupLayout>
+        </af:panelGroupLayout>
+    </f:view>
+</ui:composition>
