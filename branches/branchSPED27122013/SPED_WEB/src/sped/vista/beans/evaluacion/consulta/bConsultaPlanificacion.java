@@ -15,6 +15,8 @@ import javax.naming.InitialContext;
 
 import oracle.adf.view.rich.component.rich.data.RichTable;
 
+import oracle.adf.view.rich.component.rich.input.RichInputDate;
+import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
 import oracle.adf.view.rich.component.rich.nav.RichButton;
@@ -55,6 +57,10 @@ public class bConsultaPlanificacion {
     private RichSelectOneChoice choiceEvaluadores;
     private RichSelectOneChoice choiceSedes;
     private RichButton btnBuscar;
+    private RichInputDate inputFechaMin;
+    private RichInputText inputProfesor;
+    private RichSelectOneChoice choiceNivel;
+    private RichInputDate inputFechaMax;
 
 
     public bConsultaPlanificacion() {
@@ -189,10 +195,26 @@ public class bConsultaPlanificacion {
             System.out.println("FECHA MIN" + sessionConsultarPlanificacion.getFechaMinPlanificacion());
             beanEvaluacion.setFechaMinPlanificacion(sessionConsultarPlanificacion.getFechaMinPlanificacion());
         }       
+        if(sessionConsultarPlanificacion.getNidEvaluadorChoice()!=null){
+            System.out.println("NID EVALUADOR "+sessionConsultarPlanificacion.getNidEvaluadorChoice());
+            beanEvaluacion.setNidEvaluador(Integer.parseInt(sessionConsultarPlanificacion.getNidEvaluadorChoice()));
+        }
+        if(sessionConsultarPlanificacion.getNidSedeChoice()!=null){
+            beanEvaluacion.setNidSede(Integer.parseInt(sessionConsultarPlanificacion.getNidSedeChoice()));
+        }
+        if(sessionConsultarPlanificacion.getNidNivelChoice()!=null){
+            beanEvaluacion.setNidNivel(Integer.parseInt(sessionConsultarPlanificacion.getNidNivelChoice()));
+        }
+        if(sessionConsultarPlanificacion.getApellidosDocente()!=null){
+            beanEvaluacion.setApellidosDocentes(sessionConsultarPlanificacion.getApellidosDocente());
+        }
         this.listaEvaluacionesPlanificadas=ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion);
         tbPlanificacion.setValue(listaEvaluacionesPlanificadas);
         Utils.addTarget(tbPlanificacion);
     }
+    
+    
+    
 
     public void setBtnBuscar(RichButton btnBuscar) {
         this.btnBuscar = btnBuscar;
@@ -200,5 +222,54 @@ public class bConsultaPlanificacion {
 
     public RichButton getBtnBuscar() {
         return btnBuscar;
+    }
+
+    public void limpiarPlanificacion(ActionEvent actionEvent) {
+      sessionConsultarPlanificacion.setApellidosDocente(null);
+      sessionConsultarPlanificacion.setFechaMaxPlanificacion(null);
+      sessionConsultarPlanificacion.setFechaMinPlanificacion(null);
+      sessionConsultarPlanificacion.setNidEvaluadorChoice(null);
+      sessionConsultarPlanificacion.setNidNivelChoice(null);
+      sessionConsultarPlanificacion.setNidSedeChoice(null);
+      choiceEvaluadores.resetValue();
+      choiceNivel.resetValue();
+      choiceSedes.resetValue();
+      inputFechaMax.resetValue();
+      inputFechaMin.resetValue();
+      inputProfesor.resetValue();
+      tbPlanificacion.setValue(null);      
+      Utils.addTargetMany(choiceEvaluadores,choiceNivel,choiceSedes,inputFechaMax,inputFechaMin,inputProfesor,tbPlanificacion);
+    }
+
+    public void setInputFechaMin(RichInputDate inputFechaMin) {
+        this.inputFechaMin = inputFechaMin;
+    }
+
+    public RichInputDate getInputFechaMin() {
+        return inputFechaMin;
+    }
+
+    public void setInputProfesor(RichInputText inputProfesor) {
+        this.inputProfesor = inputProfesor;
+    }
+
+    public RichInputText getInputProfesor() {
+        return inputProfesor;
+    }
+
+    public void setChoiceNivel(RichSelectOneChoice choiceNivel) {
+        this.choiceNivel = choiceNivel;
+    }
+
+    public RichSelectOneChoice getChoiceNivel() {
+        return choiceNivel;
+    }
+
+    public void setInputFechaMax(RichInputDate inputFechaMax) {
+        this.inputFechaMax = inputFechaMax;
+    }
+
+    public RichInputDate getInputFechaMax() {
+        return inputFechaMax;
     }
 }
