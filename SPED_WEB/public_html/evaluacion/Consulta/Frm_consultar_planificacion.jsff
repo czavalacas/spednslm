@@ -32,24 +32,29 @@
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc3">
                             <af:inputDate label="Fecha Min" id="id1"
-                                          value="#{requestScope.bConsultaPlanificacion.sessionConsultarPlanificacion.fechaMinPlanificacion}"/>
+                                          value="#{requestScope.bConsultaPlanificacion.sessionConsultarPlanificacion.fechaMinPlanificacion}"
+                                          binding="#{bConsultaPlanificacion.inputFechaMin}"/>
                         </af:gridCell>
                     </af:gridRow>
                     <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr2">
                         <af:gridCell marginStart="5px" width="34%" id="gc4">
-                            <af:inputText label="Docente" id="it1"/>
+                            <af:inputText label="Docente" id="it1"
+                                          value="#{sessionScope.sessionConsultarPlanificacion.apellidosDocente}"
+                                          binding="#{bConsultaPlanificacion.inputProfesor}"/>
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="33%" id="gc5">
                             <af:selectOneChoice label="Nivel" id="soc3" autoSubmit="true"
                                                 unselectedLabel=";;Seleccionar Nivel::"
-                                                value="#{sessionScope.sessionConsultarPlanificacion.nidNivelChoice}">
+                                                value="#{sessionScope.sessionConsultarPlanificacion.nidNivelChoice}"
+                                                binding="#{bConsultaPlanificacion.choiceNivel}">
                                 <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaNvelesChoice}"
                                                id="si3"/>
                             </af:selectOneChoice>
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="33%" id="gc6">
                             <af:inputDate label="Fecha Max" id="id2"
-                                          value="#{sessionScope.sessionConsultarPlanificacion.fechaMaxPlanificacion}"/>
+                                          value="#{sessionScope.sessionConsultarPlanificacion.fechaMaxPlanificacion}"
+                                          binding="#{bConsultaPlanificacion.inputFechaMax}"/>
                         </af:gridCell>
                     </af:gridRow>
                 </af:panelGridLayout>
@@ -58,7 +63,7 @@
                 <af:button text="Buscar" id="btnBuscar" actionListener="#{bConsultaPlanificacion.buscarPlanificacion}"
                            binding="#{bConsultaPlanificacion.btnBuscar}"/>
                 <af:spacer width="10" height="10" id="s1"/>
-                <af:button text="Limpiar" id="b2"/>
+                <af:button text="Limpiar" id="b2" actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
                 <af:spacer width="10" height="10" id="s2"/>
                 <af:button text="Hoy" id="b3"/>
             </af:panelGroupLayout>

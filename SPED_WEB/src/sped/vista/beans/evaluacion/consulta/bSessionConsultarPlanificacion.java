@@ -8,6 +8,7 @@ public class bSessionConsultarPlanificacion {
     private String nidEvaluadorChoice;
     private String nidSedeChoice;
     private String nidNivelChoice;
+    private String apellidosDocente;
     private Date fechaMinPlanificacion;
     private Date fechaMaxPlanificacion;
     public bSessionConsultarPlanificacion() {
@@ -52,5 +53,13 @@ public class bSessionConsultarPlanificacion {
 
     public String getNidNivelChoice() {
         return nidNivelChoice;
+    }
+
+    public void setApellidosDocente(String apellidosDocente) {
+        this.apellidosDocente = apellidosDocente;
+    }
+
+    public String getApellidosDocente() {
+        return apellidosDocente;
     }
 }
