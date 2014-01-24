@@ -31,7 +31,8 @@
                             </af:selectOneChoice>
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc3">
-                            <af:inputDate label="Fecha Min" id="id1"/>
+                            <af:inputDate label="Fecha Min" id="id1"
+                                          value="#{requestScope.bConsultaPlanificacion.sessionConsultarPlanificacion.fechaMinPlanificacion}"/>
                         </af:gridCell>
                     </af:gridRow>
                     <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr2">
@@ -47,7 +48,8 @@
                             </af:selectOneChoice>
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="33%" id="gc6">
-                            <af:inputDate label="Fecha Max" id="id2"/>
+                            <af:inputDate label="Fecha Max" id="id2"
+                                          value="#{sessionScope.sessionConsultarPlanificacion.fechaMaxPlanificacion}"/>
                         </af:gridCell>
                     </af:gridRow>
                 </af:panelGridLayout>
