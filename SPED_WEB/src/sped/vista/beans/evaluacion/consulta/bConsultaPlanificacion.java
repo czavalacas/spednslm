@@ -181,6 +181,14 @@ public class bConsultaPlanificacion {
 
     public void buscarPlanificacion(ActionEvent actionEvent) {
         BeanEvaluacion beanEvaluacion=new BeanEvaluacion();
+        if(sessionConsultarPlanificacion.getFechaMaxPlanificacion()!=null){
+            System.out.println("FECHA MAX" + sessionConsultarPlanificacion.getFechaMaxPlanificacion());
+            beanEvaluacion.setFechaMaxPlanificacion(sessionConsultarPlanificacion.getFechaMaxPlanificacion());
+        }
+        if(sessionConsultarPlanificacion.getFechaMinPlanificacion()!=null){
+            System.out.println("FECHA MIN" + sessionConsultarPlanificacion.getFechaMinPlanificacion());
+            beanEvaluacion.setFechaMinPlanificacion(sessionConsultarPlanificacion.getFechaMinPlanificacion());
+        }       
         this.listaEvaluacionesPlanificadas=ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion);
         tbPlanificacion.setValue(listaEvaluacionesPlanificadas);
         Utils.addTarget(tbPlanificacion);

@@ -2,16 +2,36 @@ package sped.vista.beans.evaluacion.consulta;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 public class bSessionConsultarPlanificacion {
     private String nidEvaluadorChoice;
     private String nidSedeChoice;
     private String nidNivelChoice;
+    private Date fechaMinPlanificacion;
+    private Date fechaMaxPlanificacion;
     public bSessionConsultarPlanificacion() {
     }
 
 
     public void setNidEvaluadorChoice(String nidEvaluadorChoice) {
         this.nidEvaluadorChoice = nidEvaluadorChoice;
+    }
+
+    public void setFechaMinPlanificacion(Date fechaMinPlanificacion) {
+        this.fechaMinPlanificacion = fechaMinPlanificacion;
+    }
+
+    public Date getFechaMinPlanificacion() {
+        return fechaMinPlanificacion;
+    }
+
+    public void setFechaMaxPlanificacion(Date fechaMaxPlanificacion) {
+        this.fechaMaxPlanificacion = fechaMaxPlanificacion;
+    }
+
+    public Date getFechaMaxPlanificacion() {
+        return fechaMaxPlanificacion;
     }
 
     public String getNidEvaluadorChoice() {
