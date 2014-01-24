@@ -26,8 +26,11 @@ public class BeanEvaluacion implements Serializable {
         private int nidNivel;
         private int nidArea;
         private int nidCurso;
-        private Date fechaPlanificacion;     
-        
+        private Date fechaPlanificacion; 
+        private Date fechaMinEvaluacion;
+        private Date fechaMaxEvaluacion;
+        private Date fechaMinPlanificacion;
+        private Date fechaMaxPlanificacion;
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
@@ -171,6 +174,38 @@ public class BeanEvaluacion implements Serializable {
 
     public String getNombrePLanificador() {
         return nombrePLanificador;
+    }
+
+    public void setFechaMinEvaluacion(Date fechaMinEvaluacion) {
+        this.fechaMinEvaluacion = fechaMinEvaluacion;
+    }
+
+    public Date getFechaMinEvaluacion() {
+        return fechaMinEvaluacion;
+    }
+
+    public void setFechaMaxEvaluacion(Date fechaMaxEvaluacion) {
+        this.fechaMaxEvaluacion = fechaMaxEvaluacion;
+    }
+
+    public Date getFechaMaxEvaluacion() {
+        return fechaMaxEvaluacion;
+    }
+
+    public void setFechaMinPlanificacion(Date fechaMinPlanificacion) {
+        this.fechaMinPlanificacion = fechaMinPlanificacion;
+    }
+
+    public Date getFechaMinPlanificacion() {
+        return fechaMinPlanificacion;
+    }
+
+    public void setFechaMaxPlanificacion(Date fechaMaxPlanificacion) {
+        this.fechaMaxPlanificacion = fechaMaxPlanificacion;
+    }
+
+    public Date getFechaMaxPlanificacion() {
+        return fechaMaxPlanificacion;
     }
 
 }
