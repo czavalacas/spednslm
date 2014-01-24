@@ -17,6 +17,8 @@ import oracle.adf.view.rich.component.rich.data.RichTable;
 
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
+import oracle.adf.view.rich.component.rich.nav.RichButton;
+
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
@@ -52,6 +54,7 @@ public class bConsultaPlanificacion {
     private RichTable tbPlanificacion;
     private RichSelectOneChoice choiceEvaluadores;
     private RichSelectOneChoice choiceSedes;
+    private RichButton btnBuscar;
 
 
     public bConsultaPlanificacion() {
@@ -181,5 +184,13 @@ public class bConsultaPlanificacion {
         this.listaEvaluacionesPlanificadas=ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion);
         tbPlanificacion.setValue(listaEvaluacionesPlanificadas);
         Utils.addTarget(tbPlanificacion);
+    }
+
+    public void setBtnBuscar(RichButton btnBuscar) {
+        this.btnBuscar = btnBuscar;
+    }
+
+    public RichButton getBtnBuscar() {
+        return btnBuscar;
     }
 }
