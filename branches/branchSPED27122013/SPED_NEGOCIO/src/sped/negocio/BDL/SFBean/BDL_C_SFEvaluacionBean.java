@@ -54,8 +54,27 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             if(beanEvaluacion.getFechaMaxPlanificacion() != null && beanEvaluacion.getFechaMinPlanificacion() != null){
                 ejbQl = ejbQl.concat(" AND ev.fechaPlanificacion BETWEEN :min AND :max ");
             }
-                   
+            
+            if(beanEvaluacion.getNidEvaluador() != null){
+                               if(beanEvaluacion.getNidEvaluador() != 0){
+                               ejbQl = ejbQl.concat(" AND ev.nidEvaluador ="+beanEvaluacion.getNidEvaluador());
+                 }
+            }
+                if(beanEvaluacion.getNidNivel() != null){
+                    if(beanEvaluacion.getNidNivel() != 0){
+                    ejbQl = ejbQl.concat(" AND ev.main.aula.gradoNivel.nivel.nidNivel ="+beanEvaluacion.getNidNivel());
+                    }
+                }
+              
+                if(beanEvaluacion.getNidSede() != null){
+                    if(beanEvaluacion.getNidSede() != 0){
+                        ejbQl = ejbQl.concat(" AND ev.main.aula.sede.nidSede="+beanEvaluacion.getNidSede());
+                    }
+                }
           
+                if(beanEvaluacion.getApellidosDocentes() != null){
+                        ejbQl = ejbQl.concat(" AND upper(ev.main.profesor.apellidos) like '%"+beanEvaluacion.getApellidosDocentes().toUpperCase()+"%' ");
+                }   
             if(beanEvaluacion.getFechaMaxPlanificacion() != null && beanEvaluacion.getFechaMinPlanificacion() != null){
                 List<Evaluacion> lstEvaluaciones = em.createQuery(ejbQl)
                                              .setParameter("min", beanEvaluacion.getFechaMinPlanificacion(), TemporalType.DATE)

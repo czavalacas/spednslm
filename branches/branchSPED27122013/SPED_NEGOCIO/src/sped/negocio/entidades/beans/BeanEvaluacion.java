@@ -12,20 +12,21 @@ public class BeanEvaluacion implements Serializable {
         private Date endDate;    
         private String estadoEvaluacion; 
         private String nidDate;
-        private int nidEvaluacion;    
-        private int nidEvaluador;
+        private Integer nidEvaluacion;    
+        private Integer nidEvaluador;
         private String resultado;
         private String nombreEvaluador;
         private String nombrePLanificador;
+        private String apellidosDocentes;
         private Date startDate;      
         private BeanMain main;
-        private int nidPlanificador;       
+        private Integer nidPlanificador;       
         private List<BeanResultado> resultadoLista;
         ///atributos para la busqueda filtro///
-        private int nidSede;
-        private int nidNivel;
-        private int nidArea;
-        private int nidCurso;
+        private Integer nidSede;
+        private Integer nidNivel;
+        private Integer nidArea;
+        private Integer nidCurso;
         private Date fechaPlanificacion; 
         private Date fechaMinEvaluacion;
         private Date fechaMaxEvaluacion;
@@ -70,23 +71,7 @@ public class BeanEvaluacion implements Serializable {
 
     public String getNidDate() {
         return nidDate;
-    }
-
-    public void setNidEvaluacion(int nidEvaluacion) {
-        this.nidEvaluacion = nidEvaluacion;
-    }
-
-    public int getNidEvaluacion() {
-        return nidEvaluacion;
-    }
-
-    public void setNidEvaluador(int nidEvaluador) {
-        this.nidEvaluador = nidEvaluador;
-    }
-
-    public int getNidEvaluador() {
-        return nidEvaluador;
-    }
+    } 
 
     public void setResultado(String resultado) {
         this.resultado = resultado;
@@ -128,45 +113,6 @@ public class BeanEvaluacion implements Serializable {
         return resultadoLista;
     }
 
-    public void setNidPlanificador(int nidPlanificador) {
-        this.nidPlanificador = nidPlanificador;
-    }
-
-    public int getNidPlanificador() {
-        return nidPlanificador;
-    }
-
-    public void setNidSede(int nidSede) {
-        this.nidSede = nidSede;
-    }
-
-    public int getNidSede() {
-        return nidSede;
-    }
-
-    public void setNidNivel(int nidNivel) {
-        this.nidNivel = nidNivel;
-    }
-
-    public int getNidNivel() {
-        return nidNivel;
-    }
-
-    public void setNidArea(int nidArea) {
-        this.nidArea = nidArea;
-    }
-
-    public int getNidArea() {
-        return nidArea;
-    }
-
-    public void setNidCurso(int nidCurso) {
-        this.nidCurso = nidCurso;
-    }
-
-    public int getNidCurso() {
-        return nidCurso;
-    }
 
     public void setNombrePLanificador(String nombrePLanificador) {
         this.nombrePLanificador = nombrePLanificador;
@@ -206,6 +152,70 @@ public class BeanEvaluacion implements Serializable {
 
     public Date getFechaMaxPlanificacion() {
         return fechaMaxPlanificacion;
+    }
+
+    public void setNidEvaluacion(Integer nidEvaluacion) {
+        this.nidEvaluacion = nidEvaluacion;
+    }
+
+    public Integer getNidEvaluacion() {
+        return nidEvaluacion;
+    }
+
+    public void setNidEvaluador(Integer nidEvaluador) {
+        this.nidEvaluador = nidEvaluador;
+    }
+
+    public Integer getNidEvaluador() {
+        return nidEvaluador;
+    }
+
+    public void setNidPlanificador(Integer nidPlanificador) {
+        this.nidPlanificador = nidPlanificador;
+    }
+
+    public Integer getNidPlanificador() {
+        return nidPlanificador;
+    }
+
+    public void setNidSede(Integer nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public Integer getNidSede() {
+        return nidSede;
+    }
+
+    public void setNidNivel(Integer nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public Integer getNidNivel() {
+        return nidNivel;
+    }
+
+    public void setNidArea(Integer nidArea) {
+        this.nidArea = nidArea;
+    }
+
+    public Integer getNidArea() {
+        return nidArea;
+    }
+
+    public void setNidCurso(Integer nidCurso) {
+        this.nidCurso = nidCurso;
+    }
+
+    public Integer getNidCurso() {
+        return nidCurso;
+    }
+
+    public void setApellidosDocentes(String apellidosDocentes) {
+        this.apellidosDocentes = apellidosDocentes;
+    }
+
+    public String getApellidosDocentes() {
+        return apellidosDocentes;
     }
 
 }
