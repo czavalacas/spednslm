@@ -23,6 +23,8 @@ import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
+import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanResultado;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -44,6 +46,17 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     public LN_C_SFEvaluacionBean() {
     }
     
+    public List<BeanEvaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion){
+        List<BeanEvaluacion> lstBean = new ArrayList();
+        List<Evaluacion> lstAreaAcd = bdL_C_SFEvaluacionLocal.getPlanificacion(beanEvaluacion);
+        for(Evaluacion a : lstAreaAcd){
+            BeanEvaluacion bean = (BeanEvaluacion) mapper.map(a, BeanEvaluacion.class);
+            bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidEvaluador()));
+            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidPlanificador()));
+            lstBean.add(bean);
+        }
+        return lstBean;
+    }
     public List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario,
                                                            int nidSede,
                                                            int nidNivel,

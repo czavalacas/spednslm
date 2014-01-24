@@ -17,6 +17,8 @@ import javax.persistence.PersistenceContext;
 
 import javax.persistence.Query;
 
+import javax.persistence.TemporalType;
+
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.entidades.admin.Main;
@@ -43,6 +45,60 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Evaluacion> getEvaluacionFindAll() {
         return em.createNamedQuery("Evaluacion.findAll", Evaluacion.class).getResultList();
+    }
+    
+    public List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion){
+        try{
+            String ejbQl = "SELECT ev FROM Evaluacion ev ";
+                           
+          /*  if(beanGasto.getFechaGastoMIN() != null && beanGasto.getFechaGastoMAX() != null){
+                ejbQl = ejbQl.concat(" AND m.fechaGasto BETWEEN :min AND :max ");
+            }
+            if(beanGasto.getTipoGasto() != null){
+                if(beanGasto.getTipoGasto().getNidTiga() != 0){
+                    ejbQl = ejbQl.concat(" AND m.tipoGasto.nidTiga = "+beanGasto.getTipoGasto().getNidTiga());
+                }
+            }
+            if(beanGasto.getModalidadPago() != null){
+                if(beanGasto.getModalidadPago().getNidModalidadPago() != 0){
+                ejbQl = ejbQl.concat(" AND m.modalidadPago.nidModalidadPago ="+beanGasto.getModalidadPago().getNidModalidadPago());
+                }
+            }
+            if(beanGasto.getNidProtra() != null){
+                ejbQl = ejbQl.concat(" AND m.nidProtra ="+beanGasto.getNidProtra());
+            }
+            if(beanGasto.getSimboloMonto() != null){
+                if(beanGasto.getDMontoGeneral() != null){
+                    ejbQl = ejbQl.concat(" AND m.dMontoGeneral "+beanGasto.getSimboloMonto()+" "+beanGasto.getDMontoGeneral());
+                }
+            }
+            if(beanGasto.getAdFlota() != null){
+                if(beanGasto.getAdFlota().getNidFlota() != null){
+                    ejbQl = ejbQl.concat(" AND m.adFlota.nidFlota = "+beanGasto.getAdFlota().getNidFlota()+" ");
+                }
+            }
+            if(beanGasto.getCidFactura() != null){
+                
+                    ejbQl = ejbQl.concat(" AND upper(m.cidFactura) like '%"+beanGasto.getCidFactura().toUpperCase()+"%' ");   
+            }
+                if(beanGasto.getC_detalle() != null){
+                    ejbQl = ejbQl.concat(" AND upper(m.c_detalle) like '%"+beanGasto.getC_detalle().toUpperCase()+"%' ");
+            }
+                  
+           // List<ADGasto> lstGasto = new ArrayList<ADGasto>();
+            if(beanGasto.getFechaGastoMIN() != null && beanGasto.getFechaGastoMAX() != null){
+                List<ADGasto> lstGastos = em.createQuery(ejbQl)
+                                             .setParameter("min", beanGasto.getFechaGastoMIN(), TemporalType.DATE)
+                                             .setParameter("max", beanGasto.getFechaGastoMAX(), TemporalType.DATE).getResultList();
+                return lstGastos;
+            }else{}
+              */
+            List<Evaluacion> lstaEvaluaciones = em.createQuery(ejbQl).getResultList();
+                return lstaEvaluaciones;            
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
     }
     
     public Evaluacion getEvaluacionById(String nidDate) {

@@ -19,4 +19,5 @@ public interface LN_C_SFEvaluacionRemote {
                                                     String nomProfesor,
                                                     Date fechaPlanifiacion,
                                                     Date fechaRealizado);
+    List<BeanEvaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion);
 }

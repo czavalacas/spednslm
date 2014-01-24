@@ -16,4 +16,5 @@ public interface BDL_C_SFEvaluacionRemoto {
     List<Evaluacion> getEvaluaciones(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador, String dniProfesor, String nidCurso);
     List<Evaluacion> getEvaluacionesByUsuarioBDL(BeanUsuario beanUsuario,
                                                  BeanEvaluacion beanFiltroEva);
+    List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion);
 }

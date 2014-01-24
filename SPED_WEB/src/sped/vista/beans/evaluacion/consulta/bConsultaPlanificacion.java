@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import javax.naming.Context;
@@ -16,10 +17,12 @@ import oracle.adf.view.rich.component.rich.data.RichTable;
 
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
+import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanCurso;
+import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -34,11 +37,14 @@ public class bConsultaPlanificacion {
     private LN_C_SFSedeRemote ln_C_SFSedeRemote;
     @EJB
     private LN_C_SFNivelRemote ln_C_SFNivelRemote;
+    @EJB
+    private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
     private bSessionConsultarPlanificacion sessionConsultarPlanificacion;
     
     private List listaEvaludaoresChoice;
     private List listaSedesChoice;
     private List listaNvelesChoice;
+    private List<BeanEvaluacion> listaEvaluacionesPlanificadas;
     private BeanUsuario usuarioEnSesion;
     
     
@@ -61,8 +67,8 @@ public class bConsultaPlanificacion {
         this.setListaEvaludaoresChoice(llenarEvaluadores());
         this.setListaSedesChoice(llenarSedes());
         this.setListaNvelesChoice(llenarNiveles());
-    }
-
+    }    
+    
     public ArrayList llenarEvaluadores() {
         ArrayList unItems = new ArrayList();
         List<BeanUsuario> roles = ln_C_SFUsuarioRemote.getEvaluadores(null);
@@ -130,6 +136,14 @@ public class bConsultaPlanificacion {
         return usuarioEnSesion;
     }
 
+    public void setListaEvaluacionesPlanificadas(List<BeanEvaluacion> listaEvaluacionesPlanificadas) {
+        this.listaEvaluacionesPlanificadas = listaEvaluacionesPlanificadas;
+    }
+
+    public List<BeanEvaluacion> getListaEvaluacionesPlanificadas() {
+        return listaEvaluacionesPlanificadas;
+    }
+
     public void setListaSedesChoice(List listaSedesChoice) {
         this.listaSedesChoice = listaSedesChoice;
     }
@@ -160,5 +174,12 @@ public class bConsultaPlanificacion {
 
     public List getListaNvelesChoice() {
         return listaNvelesChoice;
+    }
+
+    public void buscarPlanificacion(ActionEvent actionEvent) {
+        BeanEvaluacion beanEvaluacion=new BeanEvaluacion();
+        this.listaEvaluacionesPlanificadas=ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion);
+        tbPlanificacion.setValue(listaEvaluacionesPlanificadas);
+        Utils.addTarget(tbPlanificacion);
     }
 }
