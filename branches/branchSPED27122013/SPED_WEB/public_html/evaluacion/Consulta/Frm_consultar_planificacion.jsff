@@ -8,6 +8,7 @@
                 <af:outputText value="Consultar Planificacion de Evaluaciones" id="otTituloU" styleClass="titulos"/>
                 <af:spacer height="10"/>
             </af:panelGroupLayout>
+            <af:subform id="s3" defaultCommand="btnBuscar" >
             <af:panelGroupLayout id="pgl2">
                 <af:panelGridLayout id="pgl3">
                     <af:gridRow marginTop="5px" height="auto" id="gr1">
@@ -52,7 +53,8 @@
                 </af:panelGridLayout>
             </af:panelGroupLayout>
             <af:panelGroupLayout id="pgl1">
-                <af:button text="Buscar" id="b1" actionListener="#{bConsultaPlanificacion.buscarPlanificacion}"/>
+                <af:button text="Buscar" id="btnBuscar" actionListener="#{bConsultaPlanificacion.buscarPlanificacion}"
+                           binding="#{bConsultaPlanificacion.btnBuscar}"/>
                 <af:spacer width="10" height="10" id="s1"/>
                 <af:button text="Limpiar" id="b2"/>
                 <af:spacer width="10" height="10" id="s2"/>
@@ -105,6 +107,7 @@
                     </af:column>
                 </af:table>
             </af:panelGroupLayout>
+        </af:subform>
         </af:panelGroupLayout>
     </f:view>
 </ui:composition>
