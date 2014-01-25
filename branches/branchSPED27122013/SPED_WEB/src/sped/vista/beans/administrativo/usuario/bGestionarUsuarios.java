@@ -175,7 +175,7 @@ public class bGestionarUsuarios {
         ArrayList unItems = new ArrayList();
         List<BeanSede> lstbean = ln_C_SFSedeRemote.getSedeLN();
         for(BeanSede b : lstbean){            
-            unItems.add(new SelectItem(b.getNidSede().toString(),
+            unItems.add(new SelectItem(b.getNidSede(),
                                        b.getDescripcionSede().toString()));
         }
         return unItems;
@@ -185,7 +185,7 @@ public class bGestionarUsuarios {
         ArrayList unItems = new ArrayList();
         List<BeanSedeNivel> lstSedeNivel = ln_C_SFSedeNivelRemote.getSedeNivelbyNidSedeLN(nidSede);
         for(BeanSedeNivel sn : lstSedeNivel){            
-            unItems.add(new SelectItem(sn.getNivel().getNidNivel().toString(),
+            unItems.add(new SelectItem(sn.getNivel().getNidNivel(),
                                        sn.getNivel().getDescripcionNivel()));
         }
         return unItems;

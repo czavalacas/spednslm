@@ -13,6 +13,7 @@ import javax.faces.event.ActionEvent;
 
 import javax.faces.model.SelectItem;
 
+import oracle.adf.view.rich.component.rich.RichSubform;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
@@ -65,7 +66,10 @@ public class bConsultarEvaluacion {
     private LN_C_SFGradoRemote ln_C_SFGradoRemote;
     private RichPanelGridLayout pgl1;
     private RichInputDate idFechaInicio;
-    private RichInputDate idfechaFin;
+    private RichInputDate idfechaIniciofin;
+    private RichInputDate idfechaEvaluacion;
+    private RichInputDate idfechaEvaluacionf;
+    private RichSubform s1;
 
     public bConsultarEvaluacion() {
         
@@ -144,15 +148,17 @@ public class bConsultarEvaluacion {
 
     public void resetFiltro(ActionEvent actionEvent) {
         idFechaInicio.resetValue();
-        idfechaFin.resetValue();
+        idfechaIniciofin.resetValue();
+        idfechaEvaluacion.resetValue();
+        idfechaEvaluacionf.resetValue();
         sessionConsultarEvaluacion.setFechaP(null);
         sessionConsultarEvaluacion.setFechaF(null);
-        sessionConsultarEvaluacion.setNombreProfesor("");
+        sessionConsultarEvaluacion.setNombreProfesor(null);
         sessionConsultarEvaluacion.setNidSede(0);
         sessionConsultarEvaluacion.setNidNivel(0);
         sessionConsultarEvaluacion.setNidArea(0);
         sessionConsultarEvaluacion.setNidCurso(0);
-        Utils.addTarget(pgl1);
+        Utils.addTarget(s1);
         llenarTabla();
     }
     
@@ -164,8 +170,11 @@ public class bConsultarEvaluacion {
                                                                 sessionConsultarEvaluacion.getNidArea(), 
                                                                 sessionConsultarEvaluacion.getNidCurso(), 
                                                                 sessionConsultarEvaluacion.getNombreProfesor(),
+                                                                sessionConsultarEvaluacion.getNombreEvaluador(),
                                                                 sessionConsultarEvaluacion.getFechaP(),
-                                                                sessionConsultarEvaluacion.getFechaF()));
+                                                                sessionConsultarEvaluacion.getFechaPf(),
+                                                                sessionConsultarEvaluacion.getFechaF(),
+                                                                sessionConsultarEvaluacion.getFechaFf()));
         if(t1 != null){
             Utils.addTarget(t1);
         }        
@@ -266,12 +275,36 @@ public class bConsultarEvaluacion {
     public RichInputDate getIdFechaInicio() {
         return idFechaInicio;
     }
-
-    public void setIdfechaFin(RichInputDate idfechaFin) {
-        this.idfechaFin = idfechaFin;
+    
+    public void setIdfechaIniciofin(RichInputDate idfechaIniciofin) {
+        this.idfechaIniciofin = idfechaIniciofin;
     }
 
-    public RichInputDate getIdfechaFin() {
-        return idfechaFin;
+    public RichInputDate getIdfechaIniciofin() {
+        return idfechaIniciofin;
+    }
+
+    public void setIdfechaEvaluacion(RichInputDate idfechaEvaluacion) {
+        this.idfechaEvaluacion = idfechaEvaluacion;
+    }
+
+    public RichInputDate getIdfechaEvaluacion() {
+        return idfechaEvaluacion;
+    }
+
+    public void setIdfechaEvaluacionf(RichInputDate idfechaEvaluacionf) {
+        this.idfechaEvaluacionf = idfechaEvaluacionf;
+    }
+
+    public RichInputDate getIdfechaEvaluacionf() {
+        return idfechaEvaluacionf;
+    }
+
+    public void setS1(RichSubform s1) {
+        this.s1 = s1;
+    }
+
+    public RichSubform getS1() {
+        return s1;
     }
 }
