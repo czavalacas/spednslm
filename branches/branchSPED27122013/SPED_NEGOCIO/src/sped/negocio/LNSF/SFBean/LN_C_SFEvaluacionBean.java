@@ -63,8 +63,11 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                            int nidArea,
                                                            int nidCurso,
                                                            String nomProfesor,
+                                                           String nomEvaluador,
                                                            Date fechaPlanifiacion,
-                                                           Date fechaRealizado){
+                                                           Date fechaPlanifiacionF,
+                                                           Date fechaRealizado,
+                                                           Date fachaRealizadoF){
         try{
             BeanEvaluacion beanEva = new BeanEvaluacion();
             beanEva.setNidSede(nidSede);
