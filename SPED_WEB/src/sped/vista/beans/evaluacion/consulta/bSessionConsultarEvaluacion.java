@@ -24,8 +24,11 @@ public class bSessionConsultarEvaluacion {
     private List lstCurso;
     private List lstGrado;
     private String nombreProfesor;
+    private String nombreEvaluador;
     private Date fechaP;
+    private Date fechaPf;
     private Date fechaF;
+    private Date fechaFf;
     private int nidSede;
     private int nidNivel;
     private int nidArea;
@@ -184,5 +187,29 @@ public class bSessionConsultarEvaluacion {
 
     public Date getFechaF() {
         return fechaF;
+    }
+
+    public void setFechaPf(Date fechaPf) {
+        this.fechaPf = fechaPf;
+    }
+
+    public Date getFechaPf() {
+        return fechaPf;
+    }
+
+    public void setFechaFf(Date fechaFf) {
+        this.fechaFf = fechaFf;
+    }
+
+    public Date getFechaFf() {
+        return fechaFf;
+    }
+
+    public void setNombreEvaluador(String nombreEvaluador) {
+        this.nombreEvaluador = nombreEvaluador;
+    }
+
+    public String getNombreEvaluador() {
+        return nombreEvaluador;
     }
 }
