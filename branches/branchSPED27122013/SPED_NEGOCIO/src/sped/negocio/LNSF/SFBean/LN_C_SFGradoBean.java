@@ -26,7 +26,8 @@ import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanGrado;
 
 @Stateless(name = "LN_C_SFGrado", mappedName = "map-LN_C_SFGrado")
-public class LN_C_SFGradoBean implements LN_C_SFGradoRemote, LN_C_SFGradoLocal {
+public class LN_C_SFGradoBean implements LN_C_SFGradoRemote, 
+                                         LN_C_SFGradoLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")

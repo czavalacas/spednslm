@@ -12,15 +12,17 @@ import sped.negocio.entidades.eval.Evaluacion;
 @Local
 public interface LN_C_SFEvaluacionLocal {
     List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario,
-                                                               int nidSede,
-                                                               int nidNivel,
-                                                               int nidArea,
-                                                               int nidCurso,
-                                                               String nomProfesor,
-                                                               String nomEvaluador,
-                                                               Date fechaPlanifiacion,
-                                                               Date fechaPlanifiacionF,
-                                                               Date fechaRealizado,
-                                                               Date fachaRealizadoF);
+                                                    int nidSede,
+                                                    int nidNivel,
+                                                    int nidArea,
+                                                    int nidCurso,
+                                                    int nidGrado,
+                                                    String estado,
+                                                    String nomProfesor,
+                                                    String nomEvaluador,
+                                                    Date fechaPlanifiacion,
+                                                    Date fechaPlanifiacionF,
+                                                    Date fechaEvaluacion,
+                                                    Date fachaEvaluacionF);
     List<BeanEvaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion);
 }

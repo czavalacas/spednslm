@@ -27,6 +27,7 @@ public class BeanEvaluacion implements Serializable {
         private Integer nidNivel;
         private Integer nidArea;
         private Integer nidCurso;
+        private Integer nidGrado;
         private Date fechaPlanificacion; 
         private Date fechaMinEvaluacion;
         private Date fechaMaxEvaluacion;
@@ -218,4 +219,11 @@ public class BeanEvaluacion implements Serializable {
         return apellidosDocentes;
     }
 
+    public void setNidGrado(Integer nidGrado) {
+        this.nidGrado = nidGrado;
+    }
+
+    public Integer getNidGrado() {
+        return nidGrado;
+    }
 }
