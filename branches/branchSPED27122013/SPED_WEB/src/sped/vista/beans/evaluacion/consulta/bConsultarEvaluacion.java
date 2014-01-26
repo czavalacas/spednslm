@@ -11,6 +11,7 @@ import javax.ejb.EJB;
 import javax.faces.component.UISelectItems;
 import javax.faces.event.ActionEvent;
 
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import oracle.adf.view.rich.component.rich.RichSubform;
@@ -28,7 +29,9 @@ import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
+import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanGrado;
@@ -51,7 +54,13 @@ public class bConsultarEvaluacion {
     private UISelectItems si2;
     private UISelectItems si3;
     private RichSelectOneChoice choiceFCurso;
-    private RichSelectOneChoice choiceFGrado;
+    private RichSelectOneChoice choiceFGrado;    
+    private RichPanelGridLayout pgl1;
+    private RichInputDate idFechaInicio;
+    private RichInputDate idfechaIniciofin;
+    private RichInputDate idfechaEvaluacion;
+    private RichInputDate idfechaEvaluacionf;
+    private RichSubform s1;
     @EJB
     private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
     @EJB
@@ -64,12 +73,9 @@ public class bConsultarEvaluacion {
     private LN_C_SFCursoRemoto ln_C_SFCursoRemoto;
     @EJB
     private LN_C_SFGradoRemote ln_C_SFGradoRemote;
-    private RichPanelGridLayout pgl1;
-    private RichInputDate idFechaInicio;
-    private RichInputDate idfechaIniciofin;
-    private RichInputDate idfechaEvaluacion;
-    private RichInputDate idfechaEvaluacionf;
-    private RichSubform s1;
+    @EJB
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
+    private RichSelectOneChoice choiceFEstado;
 
     public bConsultarEvaluacion() {
         
@@ -84,6 +90,8 @@ public class bConsultarEvaluacion {
             sessionConsultarEvaluacion.setLstNivel(llenarComboNivel());
             sessionConsultarEvaluacion.setLstArea(llenarComboAreaA());
             sessionConsultarEvaluacion.setLstCurso(llenarComboCurso());
+            sessionConsultarEvaluacion.setLstGrado(llenarComboGrado());
+            sessionConsultarEvaluacion.setLstEstadoEvaluacion(llenarComboEstadoEvaluacion());
             llenarTabla();
         }
     }
@@ -142,6 +150,27 @@ public class bConsultarEvaluacion {
         return unItems;
     }
     
+    private ArrayList llenarComboGrado(){
+        ArrayList unItems = new ArrayList();
+        List<BeanGrado> lstBeanGrado = ln_C_SFGradoRemote.getGradoLN();
+        for(BeanGrado g : lstBeanGrado){
+            unItems.add(new SelectItem(g.getNidGrado(),
+                                       g.getDescripcionGrado().toString()));
+        }
+        return unItems;
+    }
+    
+    private ArrayList llenarComboEstadoEvaluacion(){
+        ArrayList unItems = new ArrayList();
+        List<BeanConstraint> lstBeanConstraint = ln_C_SFUtilsRemote.getListaConstraintsLN("estado_evaluacion", 
+                                                                                          "evmeval");
+        for(BeanConstraint c : lstBeanConstraint){
+            unItems.add(new SelectItem(c.getValorCampo(),
+                                       c.getDescripcionAMostrar().toString()));
+        }
+        return unItems;
+    }
+    
     public void buscarByFiltro(ActionEvent actionEvent) {
         llenarTabla();
     }
@@ -154,10 +183,13 @@ public class bConsultarEvaluacion {
         sessionConsultarEvaluacion.setFechaP(null);
         sessionConsultarEvaluacion.setFechaF(null);
         sessionConsultarEvaluacion.setNombreProfesor(null);
+        sessionConsultarEvaluacion.setNombreEvaluador(null);
+        sessionConsultarEvaluacion.setDescripcionEstadoEvaluacion(null);
         sessionConsultarEvaluacion.setNidSede(0);
         sessionConsultarEvaluacion.setNidNivel(0);
         sessionConsultarEvaluacion.setNidArea(0);
         sessionConsultarEvaluacion.setNidCurso(0);
+        sessionConsultarEvaluacion.setNidGrado(0);
         Utils.addTarget(s1);
         llenarTabla();
     }
@@ -168,7 +200,9 @@ public class bConsultarEvaluacion {
                                                                 sessionConsultarEvaluacion.getNidSede(), 
                                                                 sessionConsultarEvaluacion.getNidNivel(), 
                                                                 sessionConsultarEvaluacion.getNidArea(), 
-                                                                sessionConsultarEvaluacion.getNidCurso(), 
+                                                                sessionConsultarEvaluacion.getNidCurso(),
+                                                                sessionConsultarEvaluacion.getNidGrado(),
+                                                                sessionConsultarEvaluacion.getDescripcionEstadoEvaluacion(),
                                                                 sessionConsultarEvaluacion.getNombreProfesor(),
                                                                 sessionConsultarEvaluacion.getNombreEvaluador(),
                                                                 sessionConsultarEvaluacion.getFechaP(),
@@ -178,6 +212,16 @@ public class bConsultarEvaluacion {
         if(t1 != null){
             Utils.addTarget(t1);
         }        
+    }
+    
+    public void changeListenerEstadoEvaluacion(ValueChangeEvent vce) {
+        try {
+            if(vce.getNewValue() != null){
+                sessionConsultarEvaluacion.setDescripcionEstadoEvaluacion(Utils.getChoiceLabel(vce));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setSessionConsultarEvaluacion(bSessionConsultarEvaluacion sessionConsultarEvaluacion) {
@@ -307,4 +351,13 @@ public class bConsultarEvaluacion {
     public RichSubform getS1() {
         return s1;
     }
+
+    public void setChoiceFEstado(RichSelectOneChoice choiceFEstado) {
+        this.choiceFEstado = choiceFEstado;
+    }
+
+    public RichSelectOneChoice getChoiceFEstado() {
+        return choiceFEstado;
+    }
+
 }

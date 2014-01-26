@@ -62,20 +62,28 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                            int nidNivel,
                                                            int nidArea,
                                                            int nidCurso,
+                                                           int nidGrado,
+                                                           String estado,
                                                            String nomProfesor,
                                                            String nomEvaluador,
                                                            Date fechaPlanifiacion,
                                                            Date fechaPlanifiacionF,
-                                                           Date fechaRealizado,
-                                                           Date fachaRealizadoF){
+                                                           Date fechaEvaluacion,
+                                                           Date fachaEvaluacionF){
         try{
             BeanEvaluacion beanEva = new BeanEvaluacion();
             beanEva.setNidSede(nidSede);
             beanEva.setNidNivel(nidNivel);
             beanEva.setNidArea(nidArea);
             beanEva.setNidCurso(nidCurso);
-            beanEva.setNombreEvaluador(nomProfesor);
-            beanEva.setEndDate(fechaRealizado);
+            beanEva.setNidGrado(nidGrado);
+            beanEva.setEstadoEvaluacion(estado);
+            beanEva.setApellidosDocentes(nomProfesor);//nom y ap del docente
+            beanEva.setNombreEvaluador(nomEvaluador);
+            beanEva.setFechaMinPlanificacion(fechaPlanifiacion);
+            beanEva.setFechaMaxPlanificacion(fechaPlanifiacionF);
+            beanEva.setFechaMinEvaluacion(fechaEvaluacion);
+            beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
             return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getEvaluacionesByUsuarioBDL(beanUsuario,
                                                                                               beanEva));
         }catch(Exception e){

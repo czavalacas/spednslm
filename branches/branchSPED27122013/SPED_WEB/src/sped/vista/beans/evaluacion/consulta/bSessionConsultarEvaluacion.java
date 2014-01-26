@@ -23,16 +23,19 @@ public class bSessionConsultarEvaluacion {
     private List lstArea;
     private List lstCurso;
     private List lstGrado;
+    private List lstEstadoEvaluacion;
     private String nombreProfesor;
     private String nombreEvaluador;
     private Date fechaP;
     private Date fechaPf;
     private Date fechaF;
     private Date fechaFf;
+    private String descripcionEstadoEvaluacion;
     private int nidSede;
     private int nidNivel;
     private int nidArea;
     private int nidCurso;
+    private int nidGrado;
         
     public bSessionConsultarEvaluacion() {
     }
@@ -211,5 +214,29 @@ public class bSessionConsultarEvaluacion {
 
     public String getNombreEvaluador() {
         return nombreEvaluador;
+    }
+
+    public void setNidGrado(int nidGrado) {
+        this.nidGrado = nidGrado;
+    }
+
+    public int getNidGrado() {
+        return nidGrado;
+    }
+
+    public void setLstEstadoEvaluacion(List lstEstadoEvaluacion) {
+        this.lstEstadoEvaluacion = lstEstadoEvaluacion;
+    }
+
+    public List getLstEstadoEvaluacion() {
+        return lstEstadoEvaluacion;
+    }
+
+    public void setDescripcionEstadoEvaluacion(String descripcionEstadoEvaluacion) {
+        this.descripcionEstadoEvaluacion = descripcionEstadoEvaluacion;
+    }
+
+    public String getDescripcionEstadoEvaluacion() {
+        return descripcionEstadoEvaluacion;
     }
 }

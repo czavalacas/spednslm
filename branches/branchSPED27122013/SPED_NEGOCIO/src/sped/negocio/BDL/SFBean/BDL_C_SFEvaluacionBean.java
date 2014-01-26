@@ -141,8 +141,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             try{                 
                 if(beanUsuario != null){
                     String strQuery = "SELECT eva " +
-                                   "FROM Evaluacion eva " +
-                                   "WHERE 1=1";                    
+                                      "FROM Evaluacion eva, Usuario usu " +
+                                      "WHERE eva.nidEvaluador=usu.nidUsuario";                    
                     if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("SUBDIRECTOR") == 0){
                         strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede " +
                                                    " AND eva.main.aula.gradoNivel.nivel.nidNivel = :nid_nivel ");
@@ -171,12 +171,32 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         if(beanFiltroEva.getNidCurso() != 0){
                             strQuery = strQuery.concat(" AND eva.main.curso.nidCurso = :nidf_curso ");
                         }
-                        if(beanFiltroEva.getNombreEvaluador() != null){
+                        if(beanFiltroEva.getNidGrado() != 0){
+                            strQuery = strQuery.concat(" AND eva.main.aula.gradoNivel.grado.nidGrado = :nidf_grado ");
+                        }
+                        if(beanFiltroEva.getEstadoEvaluacion() != null){
+                            strQuery = strQuery.concat(" AND eva.estadoEvaluacion = :eva_estado ");
+                        }
+                        if(beanFiltroEva.getApellidosDocentes() != null){
                             strQuery = strQuery.concat(" AND upper(CONCAT(eva.main.profesor.nombres ,' ' ," +
                                                        " eva.main.profesor.apellidos)) like :eva_profesor ");
-                        }                        
-                        if(beanFiltroEva.getStartDate() != null){                            
-                            strQuery = strQuery.concat(" AND CAST(eva.endDate AS date) = :end_date ");
+                        }
+                        if(beanFiltroEva.getNombreEvaluador() != null){
+                            strQuery = strQuery.concat(" AND usu.nombres like :eva_nomEva ");
+                        }
+                        if(beanFiltroEva.getFechaMinEvaluacion() != null && beanFiltroEva.getFechaMaxEvaluacion() != null){
+                            strQuery = strQuery.concat(" AND ( CAST(eva.endDate AS date) BETWEEN :eva_dateEva1 AND :eva_dateEva2 ) ");
+                        }else{
+                            if(beanFiltroEva.getFechaMinEvaluacion() != null || beanFiltroEva.getFechaMaxEvaluacion() != null){
+                                strQuery = strQuery.concat(" AND CAST(eva.endDate AS date) = :eva_dateEva1 ");
+                            }
+                        }
+                        if(beanFiltroEva.getFechaMinPlanificacion() != null && beanFiltroEva.getFechaMaxPlanificacion() != null){
+                            strQuery = strQuery.concat(" AND ( CAST(eva.fecha_planificacion AS date) BETWEEN :eva_datePla1 AND :eva_datePla2 ) ");
+                        }else{
+                            if(beanFiltroEva.getFechaMinPlanificacion() != null || beanFiltroEva.getFechaMaxPlanificacion() != null){
+                                strQuery = strQuery.concat(" AND CAST(eva.fecha_planificacion AS date) = :eva_datePla1 ");
+                            }
                         }
                     }         
                     System.out.println(strQuery);
@@ -206,11 +226,42 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         if(beanFiltroEva.getNidCurso() != 0){
                             query.setParameter("nidf_curso", beanFiltroEva.getNidCurso());
                         }
+                        if(beanFiltroEva.getNidGrado() != 0){
+                            query.setParameter("nidf_grado", beanFiltroEva.getNidGrado());
+                        }
+                        if(beanFiltroEva.getEstadoEvaluacion() != null){
+                            query.setParameter("eva_estado", beanFiltroEva.getEstadoEvaluacion());
+                        }
+                        if(beanFiltroEva.getApellidosDocentes() != null){
+                            query.setParameter("eva_profesor", "%"+beanFiltroEva.getApellidosDocentes().toUpperCase()+"%");
+                        }
                         if(beanFiltroEva.getNombreEvaluador() != null){
-                            query.setParameter("eva_profesor", "%"+beanFiltroEva.getNombreEvaluador().toUpperCase()+"%");
+                            query.setParameter("eva_nomEva", "%"+beanFiltroEva.getNombreEvaluador()+"%");
                         }
                         if(beanFiltroEva.getStartDate() != null){
                             query.setParameter("end_date",beanFiltroEva.getStartDate());
+                        }
+                        if(beanFiltroEva.getFechaMinEvaluacion() != null && beanFiltroEva.getFechaMaxEvaluacion()!=null){
+                            query.setParameter("eva_dateEva1",beanFiltroEva.getFechaMinEvaluacion());
+                            query.setParameter("eva_dateEva2",beanFiltroEva.getFechaMaxEvaluacion());
+                        }else{
+                            if(beanFiltroEva.getFechaMinEvaluacion() != null){
+                                query.setParameter("eva_dateEva1",beanFiltroEva.getFechaMinEvaluacion());
+                            }
+                            if(beanFiltroEva.getFechaMaxEvaluacion() != null){
+                                query.setParameter("eva_dateEva1",beanFiltroEva.getFechaMaxEvaluacion());
+                            }
+                        }
+                        if(beanFiltroEva.getFechaMinPlanificacion() != null && beanFiltroEva.getFechaMaxPlanificacion() != null){
+                            query.setParameter("eva_datePla1",beanFiltroEva.getFechaMinPlanificacion());
+                            query.setParameter("eva_datePla2",beanFiltroEva.getFechaMaxPlanificacion());
+                        }else{
+                            if(beanFiltroEva.getFechaMinPlanificacion() != null){
+                                query.setParameter("eva_datePla1",beanFiltroEva.getFechaMinPlanificacion());
+                            }
+                            if(beanFiltroEva.getFechaMaxPlanificacion() != null){
+                                query.setParameter("eva_datePla1",beanFiltroEva.getFechaMaxPlanificacion());
+                            }
                         }
                     }
                     listEvaluacion = query.getResultList();
