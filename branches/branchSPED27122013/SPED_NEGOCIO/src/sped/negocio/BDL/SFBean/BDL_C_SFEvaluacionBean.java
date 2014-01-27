@@ -175,7 +175,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                             strQuery = strQuery.concat(" AND eva.main.aula.gradoNivel.grado.nidGrado = :nidf_grado ");
                         }
                         if(beanFiltroEva.getEstadoEvaluacion() != null){
-                            strQuery = strQuery.concat(" AND eva.estadoEvaluacion = :eva_estado ");
+                            strQuery = strQuery.concat(" AND upper(eva.estadoEvaluacion) = :eva_estado ");
                         }
                         if(beanFiltroEva.getApellidosDocentes() != null){
                             strQuery = strQuery.concat(" AND upper(CONCAT(eva.main.profesor.nombres ,' ' ," +
@@ -230,7 +230,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                             query.setParameter("nidf_grado", beanFiltroEva.getNidGrado());
                         }
                         if(beanFiltroEva.getEstadoEvaluacion() != null){
-                            query.setParameter("eva_estado", beanFiltroEva.getEstadoEvaluacion());
+                            query.setParameter("eva_estado", beanFiltroEva.getEstadoEvaluacion().toUpperCase());
                         }
                         if(beanFiltroEva.getApellidosDocentes() != null){
                             query.setParameter("eva_profesor", "%"+beanFiltroEva.getApellidosDocentes().toUpperCase()+"%");
