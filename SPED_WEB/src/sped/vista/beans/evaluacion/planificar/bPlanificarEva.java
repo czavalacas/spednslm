@@ -144,6 +144,7 @@ public class bPlanificarEva {
     private RichSelectOneChoice choiceSede;
     private RichSelectOneChoice choiceNivel;
     private RichSelectOneChoice choiceGrado;
+    private RichPopup popupSeleccionBloque;
 
 
     public bPlanificarEva() {
@@ -244,13 +245,32 @@ public class bPlanificarEva {
         }
         return unItems;
     }
+    
+    public String grabarEva1(){
+        grabarEvaluacion(1);
+        popupSeleccionBloque.hide();
+        return null;
+    }
+    public String grabarEva2(){
+        grabarEvaluacion(2);
+        popupSeleccionBloque.hide();
+        return null;
+    }
 
-    public String grabarEvaluacion() {
+    public String grabarEvaluacion(int opc) {
         Evaluacion eva = new Evaluacion();
-        long s = sessionPlanificarEva.getFechaInicioEvaluacion().getTime();
-        eva.setStartDate(new Timestamp(s));
-        long c = sessionPlanificarEva.getFechaFinEvaluacion().getTime();
-        eva.setEndDate(new Timestamp(c));
+        if(opc==1){
+            long s = sessionPlanificarEva.getFechaInicioEvaluacion().getTime();
+            eva.setStartDate(new Timestamp(s));
+            long c = sessionPlanificarEva.getHoraPartidaInicio().getTime();
+            eva.setEndDate(new Timestamp(c));
+        }        
+        if(opc==2){
+            long s = sessionPlanificarEva.getHoraPartidaInicio().getTime();
+            eva.setStartDate(new Timestamp(s));
+            long c = sessionPlanificarEva.getFechaFinEvaluacion().getTime();
+            eva.setEndDate(new Timestamp(c));
+        }
         Main main = new Main();
         main.setNidMain(sessionPlanificarEva.getBeanHorario().getNidMain());
         eva.setMain(main);
@@ -291,7 +311,7 @@ public class bPlanificarEva {
         CalendarActivity activity = calendarActivityEvent.getCalendarActivity();
         Evaluacion entida = bdl_C_SFEvaluacionRemoto.getEvaluacionById(activity.getId());
         sessionPlanificarEva.setFechaEvaluacionPopup(entida.getStartDate());
-        sessionPlanificarEva.setHoraEvaluacionPopup(entida.getStartDate());
+        sessionPlanificarEva.setHoraEvaluacionPopup(entida.getEndDate());
         sessionPlanificarEva.setSedeEvaluacion(entida.getMain().getAula().getSede().getDescripcionSede());
         sessionPlanificarEva.setAulaEvaluacion(entida.getMain().getAula().getDescripcionAula());
         sessionPlanificarEva.setCursoEvaluacion(entida.getMain().getCurso().getDescripcionCurso());
@@ -502,7 +522,33 @@ public class bPlanificarEva {
             horaFin.setHours(sessionPlanificarEva.getBeanHorario().getHoraFin().getHours());
             horaFin.setMinutes(sessionPlanificarEva.getBeanHorario().getHoraFin().getMinutes());
             sessionPlanificarEva.setFechaInicioEvaluacion(horaInicio);
-            sessionPlanificarEva.setFechaFinEvaluacion(horaFin);
+            sessionPlanificarEva.setFechaFinEvaluacion(horaFin);                        
+            
+            sessionPlanificarEva.setFechaEvaluacionPopup(sessionPlanificarEva.getFechaInicioEvaluacion());
+            sessionPlanificarEva.setHoraEvaluacionPopup(sessionPlanificarEva.getFechaFinEvaluacion());
+            sessionPlanificarEva.setSedeEvaluacion(main.getAula().getSede().getDescripcionSede());
+            sessionPlanificarEva.setAulaEvaluacion(main.getAula().getDescripcionAula());
+            sessionPlanificarEva.setCursoEvaluacion(main.getCurso().getDescripcionCurso());
+            sessionPlanificarEva.setGradoEvaluacion(main.getAula().getGradoNivel().getGrado().getDescripcionGrado());
+            sessionPlanificarEva.setNivelEvaluacion(main.getAula().getGradoNivel().getNivel().getDescripcionNivel());
+            sessionPlanificarEva.setDocenteEvaluacion(main.getProfesor().getApellidos() + " " +
+                                                      main.getProfesor().getNombres());           
+            
+            int numHora=horaFin.getHours()-horaInicio.getHours();
+            int numMinutos=horaFin.getMinutes()-horaInicio.getMinutes();            
+            int segundosEnMinutos=numMinutos*60;
+            int toalSegundos=numHora*3600+segundosEnMinutos;
+            int segundosAumen=toalSegundos/2;   
+            int num=segundosAumen;  
+            int hor=num/3600;  
+            int min=(num-(3600*hor))/60;  
+            int seg=num-((hor*3600)+(min*60));  
+            System.out.println(hor+"h "+min+"m "+seg+"s"); 
+            Date fechaPartida=(Date)horaInicio.clone();            
+            fechaPartida.setHours(fechaPartida.getHours()+hor);
+            fechaPartida.setMinutes(fechaPartida.getMinutes()+min);
+           
+            sessionPlanificarEva.setHoraPartidaInicio(fechaPartida);
         }
         sessionPlanificarEva.setStyleClass("FondoRojoLetraBlanca");
         btnAsignarEva.setStyleClass("FondoRojoLetraBlanca");
@@ -796,5 +842,18 @@ public class bPlanificarEva {
 
     public RichSelectOneChoice getChoiceGrado() {
         return choiceGrado;
+    }
+
+    public void setPopupSeleccionBloque(RichPopup popupSeleccionBloque) {
+        this.popupSeleccionBloque = popupSeleccionBloque;
+    }
+
+    public RichPopup getPopupSeleccionBloque() {
+        return popupSeleccionBloque;
+    }
+
+    public String seleccionarBloque() {
+        Utils.showPopUpMIDDLE(popupSeleccionBloque);
+        return null;
     }
 }

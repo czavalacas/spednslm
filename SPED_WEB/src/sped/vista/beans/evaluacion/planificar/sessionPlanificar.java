@@ -59,6 +59,7 @@ public class sessionPlanificar {
     private boolean estadoBotonEliminarEvaluacion;
     private String styleClass;
     private boolean estadoAsignarEvaluacion=true;
+    private Date horaPartidaInicio;  
     
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
@@ -411,5 +412,14 @@ public class sessionPlanificar {
     public List getListaNiveles() {
         return listaNiveles;
     }
+
+    public void setHoraPartidaInicio(Date horaPartidaInicio) {
+        this.horaPartidaInicio = horaPartidaInicio;
+    }
+
+    public Date getHoraPartidaInicio() {
+        return horaPartidaInicio;
+    }
+  
 
 }
