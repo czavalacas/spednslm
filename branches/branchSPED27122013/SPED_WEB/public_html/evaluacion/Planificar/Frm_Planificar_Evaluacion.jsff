@@ -2,20 +2,19 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
-     <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
-      <af:panelGroupLayout halign="left">
+        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+            <af:panelGroupLayout halign="left">
                 <af:spacer height="10"/>
                 <af:outputText value="Registro de Asignaciones" id="otTituloU" styleClass="titulos"/>
                 <af:spacer height="10"/>
-      </af:panelGroupLayout>
-        <af:panelFormLayout id="pfl2">
-            <af:button text="Seleccionar Evaluador" id="b1" action="#{bPlanificarEva.popupEvaluadores}"
-                       visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}"/>
-            <h:outputText value="#{sessionScope.sessionPlanificarEva.nombreEvaluador} #{sessionScope.sessionPlanificarEva.areaEvaluador}"
-                          id="ot4" binding="#{bPlanificarEva.outDatosEva}"/>
-        </af:panelFormLayout>
-      </af:panelGroupLayout>
-        
+            </af:panelGroupLayout>
+            <af:panelFormLayout id="pfl2">
+                <af:button text="Seleccionar Evaluador" id="b1" action="#{bPlanificarEva.popupEvaluadores}"
+                           visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}"/>
+                <h:outputText value="#{sessionScope.sessionPlanificarEva.nombreEvaluador} #{sessionScope.sessionPlanificarEva.areaEvaluador}"
+                              id="ot4" binding="#{bPlanificarEva.outDatosEva}"/>
+            </af:panelFormLayout>
+        </af:panelGroupLayout>
         <af:panelFormLayout id="pfl1">
             <af:panelStretchLayout id="psl1">
                 <f:facet name="bottom">
@@ -53,7 +52,8 @@
                             <af:gridCell marginStart="5px" width="33%" id="gc3">
                                 <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidCurso}" label="Curso"
                                                     id="choiceCursos" unselectedLabel="::Seleccionar Curso::"
-                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceCursos}">>
+                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceCursos}">
+                                    &gt;
                                     <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaCursos}" id="si4"/>
                                 </af:selectOneChoice>
                             </af:gridCell>
@@ -99,17 +99,17 @@
                             <af:gridCell marginStart="1px" width="auto" id="gc7">
                                 <af:button text="Agregar Evaluacion" id="btnEvaluar"
                                            binding="#{bPlanificarEva.btnAsignarEva}"
-                                           action="#{bPlanificarEva.grabarEvaluacion}"
+                                           action="#{bPlanificarEva.seleccionarBloque}"
                                            styleClass="#{sessionPlanificarEva.styleClass}"
                                            disabled="#{sessionScope.sessionPlanificarEva.estadoAsignarEvaluacion}"/>
                             </af:gridCell>
                         </af:gridRow>
                     </af:panelGridLayout>
                 </af:panelGroupLayout>
-                <af:table width="840" var="row" rowBandingInterval="0" id="t1" binding="#{bPlanificarEva.tbHorario}"
-                          value="#{sessionScope.sessionPlanificarEva.listaHorarios}" varStatus="vs" rowSelection="single"
-                          selectionListener="#{bPlanificarEva.seleccionarHorario}">
-                           <af:column width="20">
+                <af:table width="940" var="row" rowBandingInterval="0" id="t1" binding="#{bPlanificarEva.tbHorario}"
+                          value="#{sessionScope.sessionPlanificarEva.listaHorarios}" varStatus="vs"
+                          rowSelection="single" selectionListener="#{bPlanificarEva.seleccionarHorario}">
+                    <af:column width="20">
                         <af:outputText value="#{vs.index + 1}"/>
                     </af:column>
                     <af:column width="180" sortable="false" headerText="Docente" id="c4">
@@ -130,8 +130,13 @@
                     <af:column sortable="false" headerText="Sede" id="c6">
                         <af:outputText value="#{row.aula.sede.descripcionSede}" id="ot6"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Hora De Clase" id="c7">
+                    <af:column sortable="false" headerText="Hora Inicio" id="c7">
                         <af:outputText value="#{row.horaInicio}" id="ot3">
+                            <af:convertDateTime type="date" pattern="HH:mm"/>
+                        </af:outputText>
+                    </af:column>
+                    <af:column sortable="false" headerText="Hora Fin" id="c10">
+                        <af:outputText value="#{row.horaFin}" id="ot11">
                             <af:convertDateTime type="date" pattern="HH:mm"/>
                         </af:outputText>
                     </af:column>
@@ -140,40 +145,50 @@
         </af:popup>
         <af:popup childCreation="deferred" autoCancel="disabled" id="p2" binding="#{bPlanificarEva.popupDetalleEva}">
             <af:dialog id="d3" title="Detalle de Evaluacion" type="ok">
-                <af:panelFormLayout id="pfl3">
-                    <af:panelBox text="Fecha y Hora de Evaluacion" id="pb1">
+                <af:panelBox text="Fecha y Hora de Evaluacion" id="pb1">
+                    <af:panelFormLayout id="pfl3">
                         <af:inputText label="Fecha " id="inputFecha" autoSubmit="true"
                                       value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true">
                             <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                         </af:inputText>
-                        <af:inputText label="Hora" autoSubmit="true" id="it11"
+                        <af:inputText label="Hora Inicio" autoSubmit="true" id="it11"
                                       value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true">
                             <af:convertDateTime type="date" pattern="HH:mm"/>
                         </af:inputText>
-                    </af:panelBox>
-                    <af:panelBox text="Lugar de Evaluacion" id="pb2">
+                        <af:inputText label="Hora Fin" autoSubmit="true" id="it22"
+                                      value="#{sessionScope.sessionPlanificarEva.horaEvaluacionPopup}" disabled="true">
+                            <af:convertDateTime type="date" pattern="HH:mm"/>
+                        </af:inputText>
+                    </af:panelFormLayout>
+                </af:panelBox>
+                <af:panelBox text="Lugar de Evaluacion" id="pb2">
+                    <af:panelFormLayout id="pfl4">
                         <af:inputText label="Sede" autoSubmit="true" id="it6"
                                       value="#{sessionScope.sessionPlanificarEva.sedeEvaluacion}" disabled="true"/>
                         <af:inputText label="Aula" autoSubmit="true" id="it5"
                                       value="#{sessionScope.sessionPlanificarEva.aulaEvaluacion}" disabled="true"/>
-                    </af:panelBox>
-                    <af:panelBox text="Curso a Evaluar" id="pb3">
+                    </af:panelFormLayout>
+                </af:panelBox>
+                <af:panelBox text="Curso a Evaluar" id="pb3">
+                    <af:panelFormLayout id="pfl5">
                         <af:inputText label="Curso" autoSubmit="true" id="it8"
                                       value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}" disabled="true"/>
                         <af:inputText label="Grado" autoSubmit="true" id="it9"
                                       value="#{sessionScope.sessionPlanificarEva.gradoEvaluacion}" disabled="true"/>
                         <af:inputText label="Nivel" autoSubmit="true" id="it10"
                                       value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}" disabled="true"/>
-                    </af:panelBox>
-                    <af:panelBox text="Docente a Evaluar" id="pb4">
+                    </af:panelFormLayout>
+                </af:panelBox>
+                <af:panelBox text="Docente a Evaluar" id="pb4">
+                    <af:panelFormLayout id="pfl6">
                         <af:inputText label="Docente" autoSubmit="true" id="it12"
                                       value="#{sessionScope.sessionPlanificarEva.docenteEvaluacion}" disabled="true"/>
                         <af:inputText label="DNI" autoSubmit="true" id="it32"
                                       value="#{sessionScope.sessionPlanificarEva.dniDocenteEvaluacion}"
                                       disabled="true"/>
-                    </af:panelBox>
-                </af:panelFormLayout>
-                <af:panelFormLayout id="pfl4">
+                    </af:panelFormLayout>
+                </af:panelBox>
+                <af:panelFormLayout id="pfl7">
                     <af:panelGridLayout id="pgl1">
                         <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
                             <af:gridCell marginStart="5px" width="34%" id="gc1">
@@ -228,12 +243,114 @@
                     <af:column width="140" sortable="false" headerText="Evaluador" id="c9">
                         <af:outputText value="#{row.nombres}" id="ot9"/>
                     </af:column>
-                    <af:column width="100" sortable="false" headerText="Area Academica" id="c10">
+                    <af:column width="100" sortable="false" headerText="Area Academica" id="c11">
                         <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot10"/>
                     </af:column>
                 </af:table>
             </af:dialog>
         </af:popup>
-       
+        <af:popup childCreation="deferred" autoCancel="disabled" id="p5"
+                  binding="#{bPlanificarEva.popupSeleccionBloque}">
+            <af:dialog id="d4" type="cancel" title="Seleccion de Bloque">
+                <af:panelGroupLayout id="pgl10">
+                    <af:panelGridLayout id="pgl11">
+                        <af:gridRow marginTop="5px" height="auto" id="gr6">
+                            <af:gridCell marginStart="5px" width="auto" id="gc11">
+                                <af:inputText label="Docente" id="it4"
+                                              value="#{sessionScope.sessionPlanificarEva.docenteEvaluacion}"
+                                              disabled="true"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="auto" id="gc14">
+                                <af:inputText label="Sede" id="it7"
+                                              value="#{sessionScope.sessionPlanificarEva.sedeEvaluacion}"
+                                              disabled="true"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc15">
+                                <af:inputText label="Aula" id="it13"
+                                              value="#{sessionScope.sessionPlanificarEva.aulaEvaluacion}"
+                                              disabled="true"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="5px" height="auto" id="gr7">
+                            <af:gridCell marginStart="5px" width="auto" id="gc16">
+                                <af:inputText label="Curso" id="it14"
+                                              value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}"
+                                              disabled="true"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="auto" id="gc17">
+                                <af:inputText label="Grado" id="it15"
+                                              value="#{sessionScope.sessionPlanificarEva.gradoEvaluacion}"
+                                              disabled="true"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc18">
+                                <af:inputText label="Nivel" id="it16"
+                                              value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}"
+                                              disabled="true"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr8">
+                            <af:gridCell marginStart="5px" width="auto" id="gc19">
+                                <af:inputText label="Fecha" id="it17"
+                                              value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
+                                              disabled="true">
+                                    <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                </af:inputText>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="auto" id="gc20">
+                                <af:inputText label="Hora Inicio" id="it18"
+                                              value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
+                                              disabled="true">
+                                    <af:convertDateTime type="date" pattern="HH:mm"/>
+                                </af:inputText>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc21">
+                                <af:inputText label="Hora Fin" id="it19"
+                                              value="#{sessionScope.sessionPlanificarEva.horaEvaluacionPopup}"
+                                              disabled="true">
+                                    <af:convertDateTime type="date" pattern="HH:mm"/>
+                                </af:inputText>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelGroupLayout>
+                <af:panelGroupLayout id="pgl8" halign="center">
+                    <af:panelGridLayout id="pgl9">
+                        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr5">
+                            <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc13">
+                                <af:panelBox text="Primer Bloque" id="pb5">
+                                    <af:panelFormLayout id="pfl8">
+                                        <af:inputText label="Hora Inicio" id="it1" disabled="true"
+                                                      value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}">
+                                            <af:convertDateTime type="date" pattern="HH:mm"/>
+                                        </af:inputText>
+                                        <af:inputText label="Hora Fin" id="it21" disabled="true"
+                                                      value="#{sessionScope.sessionPlanificarEva.horaPartidaInicio}">
+                                            <af:convertDateTime type="date" pattern="HH:mm"/>
+                                        </af:inputText>
+                                        <af:button text="Asignar" id="b3" action="#{bPlanificarEva.grabarEva1}"/>
+                                    </af:panelFormLayout>
+                                </af:panelBox>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc12">
+                                <af:panelBox text="Segundo Bloque" id="pb6">
+                                    <af:panelFormLayout id="pfl9">
+                                        <af:inputText label="Hora Inicio" id="it3" disabled="true"
+                                                      value="#{sessionScope.sessionPlanificarEva.horaPartidaInicio}">
+                                            <af:convertDateTime type="date" pattern="HH:mm"/>
+                                        </af:inputText>
+                                        <af:inputText label="Hora Fin" id="it20"
+                                                      value="#{sessionScope.sessionPlanificarEva.horaEvaluacionPopup}"
+                                                      disabled="true">
+                                            <af:convertDateTime type="date" pattern="HH:mm"/>
+                                        </af:inputText>
+                                        <af:button text="Asignar" id="b4" action="#{bPlanificarEva.grabarEva2}"/>
+                                    </af:panelFormLayout>
+                                </af:panelBox>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelGroupLayout>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>

@@ -109,7 +109,8 @@
                         <af:convertDateTime type="date" pattern="HH:mm"/>
                         </af:outputText>
                     </af:column>
-                    <af:column sortable="false" headerText="Estado" id="c11" width="100">
+                    <af:column sortable="false" headerText="Estado" id="c11" width="100"
+                    inlineStyle="#{row.nidEstadoEvaluacion == '1' ? 'background-color:green' : (row.nidEstadoEvaluacion == '2'  ? 'background-color:Orange' :(row.nidEstadoEvaluacion == '3' ? 'background-color:Red' : 'background-color:red'))} ">
                         <af:outputText value="#{row.estadoEvaluacion}" id="ot11"/>
                     </af:column>
                 </af:table>
