@@ -76,6 +76,7 @@ public class bConsultarEvaluacion {
     @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     private RichSelectOneChoice choiceFEstado;
+    private UISelectItems si4;
 
     public bConsultarEvaluacion() {
         
@@ -360,4 +361,11 @@ public class bConsultarEvaluacion {
         return choiceFEstado;
     }
 
+    public void setSi4(UISelectItems si4) {
+        this.si4 = si4;
+    }
+
+    public UISelectItems getSi4() {
+        return si4;
+    }
 }

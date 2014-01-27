@@ -60,43 +60,37 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                                  String rutaImg,
                                  int nidSede,
                                  int nidNivel){
-        Usuario u = new Usuario();        
-        if(tipoEvento == 1){
-            Rol rol = bdL_C_SFRolLocal.findConstrainById(nidRol);
-            AreaAcademica area = bdL_C_SFAreaAcademicaLocal.findEvaluadorById(nidAreaA);
-            u.setNombres(nombres);            
-            u.setDni(dni);
-            u.setRol(rol);
-            u.setAreaAcademica(area);
-            u.setEstadoUsuario("1");
-            u.setUsuario(usuario);
-            u.setClave(clave);
-            SedeNivel seni = bdL_C_SFSedeNivelLocal.findSedeNivelById(nidSede, nidNivel);
-            Imagen(rutaImg, u);
-            u.setSedeNivel(seni);
-            bdL_T_SFUsuarioLocal.persistUsuario(u);
-        }else if(tipoEvento == 2){
+        Usuario u = new Usuario(); 
+        if(tipoEvento > 1){
             u = bdL_C_SFUsuarioLocal.findConstrainById(idUsuario);
+        }
+        if(tipoEvento == 1 || tipoEvento == 2){
             Rol rol = bdL_C_SFRolLocal.findConstrainById(nidRol);
             AreaAcademica area = bdL_C_SFAreaAcademicaLocal.findEvaluadorById(nidAreaA);
+            SedeNivel seni = bdL_C_SFSedeNivelLocal.findSedeNivelById(nidSede, nidNivel);
+            u.setSedeNivel(seni);
             u.setNombres(nombres);            
             u.setDni(dni);
             u.setRol(rol);
             u.setAreaAcademica(area);
             u.setUsuario(usuario);
             u.setClave(clave);
-            SedeNivel seni = bdL_C_SFSedeNivelLocal.findSedeNivelById(nidSede, nidNivel);
-            Imagen(rutaImg, u);
-            System.out.println(u.getFoto());
-            u.setSedeNivel(seni);
-            bdL_T_SFUsuarioLocal.mergeUsuario(u);
-        }else if(tipoEvento == 3){
-            u = bdL_C_SFUsuarioLocal.findConstrainById(idUsuario);
+            if(rutaImg != null){
+                Imagen(rutaImg, u);
+            }
+            if(tipoEvento == 1){
+                u.setEstadoUsuario("1");
+                bdL_T_SFUsuarioLocal.persistUsuario(u);
+                return;
+            }            
+        }
+        if(tipoEvento == 3){
             u.setEstadoUsuario("0");
-            bdL_T_SFUsuarioLocal.mergeUsuario(u);
-        }else if(tipoEvento == 4){
-            u = bdL_C_SFUsuarioLocal.findConstrainById(idUsuario);
+        }
+        if(tipoEvento == 4){
             u.setEstadoUsuario("1");
+        }
+        if(tipoEvento > 1){
             bdL_T_SFUsuarioLocal.mergeUsuario(u);
         }
     }

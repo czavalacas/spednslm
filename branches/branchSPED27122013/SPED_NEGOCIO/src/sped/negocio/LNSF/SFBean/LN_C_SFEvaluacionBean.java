@@ -112,10 +112,12 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     
     public String resultadoBeanEvaluacion(BeanEvaluacion beanEva){
         String resu = "-";
-        if(beanEva.getResultadoLista()!=null){
+        int indicador = 0, criterio = 0,
+            contCriterios, contIndicador, sumaIndicador;
+        double promedio, sumaPromedio;
+        if(beanEva.getResultadoLista().size() != 0){
             double total = 0;
             for(BeanResultado res : beanEva.getResultadoLista()){
-                total = total + res.getValor();
             }
             resu = total+"";
         }
