@@ -142,7 +142,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 if(beanUsuario != null){
                     String strQuery = "SELECT eva " +
                                       "FROM Evaluacion eva, Usuario usu " +
-                                      "WHERE eva.nidEvaluador=usu.nidUsuario";                    
+                                      "WHERE eva.nidEvaluador=usu.nidUsuario ";                    
                     if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("SUBDIRECTOR") == 0){
                         strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede " +
                                                    " AND eva.main.aula.gradoNivel.nivel.nidNivel = :nid_nivel ");
@@ -192,10 +192,10 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                             }
                         }
                         if(beanFiltroEva.getFechaMinPlanificacion() != null && beanFiltroEva.getFechaMaxPlanificacion() != null){
-                            strQuery = strQuery.concat(" AND ( CAST(eva.fecha_planificacion AS date) BETWEEN :eva_datePla1 AND :eva_datePla2 ) ");
+                            strQuery = strQuery.concat(" AND ( CAST(eva.fechaPlanificacion AS date) BETWEEN :eva_datePla1 AND :eva_datePla2 ) ");
                         }else{
                             if(beanFiltroEva.getFechaMinPlanificacion() != null || beanFiltroEva.getFechaMaxPlanificacion() != null){
-                                strQuery = strQuery.concat(" AND CAST(eva.fecha_planificacion AS date) = :eva_datePla1 ");
+                                strQuery = strQuery.concat(" AND CAST(eva.fechaPlanificacion AS date) = :eva_datePla1 ");
                             }
                         }
                     }         

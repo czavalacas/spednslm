@@ -129,9 +129,10 @@
                     <af:selectOneChoice label="Tipo Rol" unselectedLabel="::Selecionar Rol::"
                                         value="#{sessionGestionarUsuarios.nidRol}" required="true" id="choiceTipoRol"
                                         autoSubmit="true" labelStyle="text-align: left;"
-                                        binding="#{bGestionarUsuarios.choiceTipoRol}"
-                                        valueChangeListener="#{bGestionarUsuarios.tipoRolChangeListener}">
-                        <f:selectItems value="#{sessionGestionarUsuarios.lstRol}" id="si1"
+                                        binding="#{bGestionarUsuarios.choiceTipoRol}"                                        
+                                        valueChangeListener="#{bGestionarUsuarios.tipoRolChangeListener}"
+                                        disabled="#{sessionGestionarUsuarios.disableRol}">
+                        <f:selectItems value="#{sessionGestionarUsuarios.lstRolf}" id="si1"
                                        binding="#{bGestionarUsuarios.si1}"/>
                     </af:selectOneChoice>
                     <af:selectOneChoice label="Area Academica" unselectedLabel="::Selecionar Area::"

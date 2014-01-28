@@ -53,13 +53,15 @@ public class Evaluacion implements Serializable {
     @OneToMany(mappedBy = "evaluacion", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Resultado> resultadoLista;
     @Column(name = "fecha_planificacion", nullable = false)
-    private Timestamp fechaPlanificacion;    
+    private Timestamp fechaPlanificacion;
+    @Column(name = "comentario")
+    private String comentarioEvaluador;
 
     public Evaluacion() {
     }
 
     public Evaluacion(String descripcion, Timestamp endDate, String estadoEvaluacion, String nidDate, int nidEvaluacion,
-                      int nidEvaluador, int nidPlanificador, Main main, Timestamp startDate, Timestamp fechaPlanificacion) {
+                      int nidEvaluador, int nidPlanificador, Main main, Timestamp startDate, Timestamp fechaPlanificacion, String comentarioEvaluador) {
         this.descripcion = descripcion;
         this.endDate = endDate;
         this.estadoEvaluacion = estadoEvaluacion;
@@ -70,6 +72,7 @@ public class Evaluacion implements Serializable {
         this.main = main;
         this.startDate = startDate;
         this.fechaPlanificacion = fechaPlanificacion;
+        this.comentarioEvaluador = comentarioEvaluador;
     }
 
 
@@ -162,6 +165,13 @@ public class Evaluacion implements Serializable {
         return fechaPlanificacion;
     }
 
+    public void setComentarioEvaluador(String comentarioEvaluador) {
+        this.comentarioEvaluador = comentarioEvaluador;
+    }
+
+    public String getComentarioEvaluador() {
+        return comentarioEvaluador;
+    }
 
     public Resultado addResultado(Resultado resultado) {
         getResultadoLista().add(resultado);

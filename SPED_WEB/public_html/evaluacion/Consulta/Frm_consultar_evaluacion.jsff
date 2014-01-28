@@ -134,8 +134,8 @@
                 <af:column headerText="Opcion" align="left"
                            id="c12">
                     <af:panelFormLayout id="pfl8" rows="1">
-                        <af:button id="btnVer" icon="#{resource['images:ver.png']}"/>
-                        <af:button id="btnComentario" icon="#{resource['images:refresh.png']}"/>
+                        <af:button id="btnVer" icon="#{resource['images:ver.png']}" visible="#{(row.estadoEvaluacion == 'EVALUADO') == true}"/>
+                        <af:button id="btnComentario" icon="#{resource['images:refresh.png']}" visible="#{(row.comentarioEvaluador != null) == true}"/>
                     </af:panelFormLayout>                    
                 </af:column>
             </af:table>

@@ -31,6 +31,7 @@ public class bSessionGestionarUsuarios implements Serializable {
     private String clave;
     private boolean renderAreaAcdemica = false;
     private boolean disabledActualizar = false;
+    private boolean disableRol;
     private boolean renderSede = false;
     private boolean renderNivel = false;
     private boolean renderImg = false;
@@ -46,6 +47,7 @@ public class bSessionGestionarUsuarios implements Serializable {
     private boolean fbooleanSede = false;
     private boolean fbooleanNivel = false;
     private String rutaImg;
+    private List lstRolf;
     private List lstRol;
     private List lstAreaAcademica;
     private List lstEstadoUsario;
@@ -342,5 +344,21 @@ public class bSessionGestionarUsuarios implements Serializable {
 
     public List getLstNivel() {
         return lstNivel;
+    }
+
+    public void setLstRolf(List lstRolf) {
+        this.lstRolf = lstRolf;
+    }
+
+    public List getLstRolf() {
+        return lstRolf;
+    }
+
+    public void setDisableRol(boolean disableRol) {
+        this.disableRol = disableRol;
+    }
+
+    public boolean isDisableRol() {
+        return disableRol;
     }
 }
