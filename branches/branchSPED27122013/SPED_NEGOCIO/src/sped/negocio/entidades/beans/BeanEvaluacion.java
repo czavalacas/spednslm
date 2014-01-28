@@ -23,6 +23,7 @@ public class BeanEvaluacion implements Serializable {
         private BeanMain main;
         private Integer nidPlanificador;       
         private List<BeanResultado> resultadoLista;
+        private String comentarioEvaluador;
         ///atributos para la busqueda filtro///
         private Integer nidSede;
         private Integer nidNivel;
@@ -234,5 +235,13 @@ public class BeanEvaluacion implements Serializable {
 
     public String getNidEstadoEvaluacion() {
         return nidEstadoEvaluacion;
+    }
+
+    public void setComentarioEvaluador(String comentarioEvaluador) {
+        this.comentarioEvaluador = comentarioEvaluador;
+    }
+
+    public String getComentarioEvaluador() {
+        return comentarioEvaluador;
     }
 }

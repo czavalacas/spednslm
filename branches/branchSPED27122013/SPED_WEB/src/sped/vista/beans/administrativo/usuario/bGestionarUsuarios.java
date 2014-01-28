@@ -132,7 +132,8 @@ public class bGestionarUsuarios {
         if (sessionGestionarUsuarios.getExec() == 0) {
             sessionGestionarUsuarios.setExec(1);
             sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
-            sessionGestionarUsuarios.setLstRol(this.llenarComboRol());
+            sessionGestionarUsuarios.setLstRol(this.llenarComboRol(1));
+            sessionGestionarUsuarios.setLstRolf(this.llenarComboRol(2));
             sessionGestionarUsuarios.setLstAreaAcademica(this.llenarComboAreaA());
             sessionGestionarUsuarios.setLstEstadoUsario(this.llenarComboEstado());
             sessionGestionarUsuarios.setLstSede(this.llenarComboSede());
@@ -140,12 +141,15 @@ public class bGestionarUsuarios {
         }
     }
 
-    private ArrayList llenarComboRol() {
+    private ArrayList llenarComboRol(int tipo) {
         ArrayList unItems = new ArrayList();
         List<BeanRol> beanrol = ln_C_SFRolRemote.getRolLN();
         for (BeanRol r : beanrol) {
-            unItems.add(new SelectItem(r.getNidRol(), 
-                                       r.getDescripcionRol().toString()));
+            SelectItem se = new SelectItem(r.getNidRol(), r.getDescripcionRol().toString());
+            if(tipo == 2 && r.getDescripcionRol().compareTo("Profesor") == 0){//1= ComboFiltro 2=Combo gestion usuario
+                se.setDisabled(true);
+            }
+            unItems.add(se);
         }
         return unItems;
     }
@@ -216,9 +220,12 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setRenderNivel(true);
             sessionGestionarUsuarios.setRenderSede(true);
         }
+        if(usuario.getRol().getDescripcionRol().compareTo("Profesor") == 0){
+            sessionGestionarUsuarios.setDisableRol(true);
+        }
         if(i1!=null){
             i1.setSource("/imageservlet?nomusuario="+usuario.getUsuario());
-        }
+        }        
         if(Integer.parseInt(usuario.getEstadoUsuario()) != 0){
             b3.setText("Anular");
             b2.setDisabled(false);
@@ -432,6 +439,7 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setRenderNivel(false);
         sessionGestionarUsuarios.setRenderSede(false);
         sessionGestionarUsuarios.setRenderImg(false);
+        sessionGestionarUsuarios.setDisableRol(false);
         if(itNombres!=null){
             itNombres.resetValue();
             itDni.resetValue();
