@@ -256,61 +256,54 @@
                     <af:panelGridLayout id="pgl11">
                         <af:gridRow marginTop="5px" height="auto" id="gr6">
                             <af:gridCell marginStart="5px" width="auto" id="gc11">
-                                <af:inputText label="Docente" id="it4"
+                                <af:panelFormLayout id="pfl10">
+                                   <af:inputText label="Docente" id="it4"
                                               value="#{sessionScope.sessionPlanificarEva.docenteEvaluacion}"
                                               disabled="true"/>
-                            </af:gridCell>
-                            <af:gridCell marginStart="5px" width="auto" id="gc14">
-                                <af:inputText label="Sede" id="it7"
-                                              value="#{sessionScope.sessionPlanificarEva.sedeEvaluacion}"
-                                              disabled="true"/>
-                            </af:gridCell>
-                            <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc15">
-                                <af:inputText label="Aula" id="it13"
-                                              value="#{sessionScope.sessionPlanificarEva.aulaEvaluacion}"
-                                              disabled="true"/>
-                            </af:gridCell>
-                        </af:gridRow>
-                        <af:gridRow marginTop="5px" height="auto" id="gr7">
-                            <af:gridCell marginStart="5px" width="auto" id="gc16">
-                                <af:inputText label="Curso" id="it14"
-                                              value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}"
-                                              disabled="true"/>
-                            </af:gridCell>
-                            <af:gridCell marginStart="5px" width="auto" id="gc17">
-                                <af:inputText label="Grado" id="it15"
+                                               <af:inputText label="Grado" id="it15"
                                               value="#{sessionScope.sessionPlanificarEva.gradoEvaluacion}"
                                               disabled="true"/>
-                            </af:gridCell>
-                            <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc18">
-                                <af:inputText label="Nivel" id="it16"
-                                              value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}"
+                                              <af:inputText label="Aula" id="it13"
+                                              value="#{sessionScope.sessionPlanificarEva.aulaEvaluacion}"
                                               disabled="true"/>
-                            </af:gridCell>
-                        </af:gridRow>
-                        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr8">
-                            <af:gridCell marginStart="5px" width="auto" id="gc19">
-                                <af:inputText label="Fecha" id="it17"
+                                                 <af:inputText label="Hora Inicio" id="it18"
+                                              value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
+                                              disabled="true">
+                                    <af:convertDateTime type="date" pattern="HH:mm"/>
+                                </af:inputText>
+                                 <af:inputText label="Fecha" id="it17"
                                               value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
                                               disabled="true">
                                     <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-                                </af:inputText>
-                            </af:gridCell>
-                            <af:gridCell marginStart="5px" width="auto" id="gc20">
-                                <af:inputText label="Hora Inicio" id="it18"
-                                              value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
-                                              disabled="true">
-                                    <af:convertDateTime type="date" pattern="HH:mm"/>
-                                </af:inputText>
-                            </af:gridCell>
-                            <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc21">
-                                <af:inputText label="Hora Fin" id="it19"
+                                </af:inputText>                                  
+                                </af:panelFormLayout>                               
+                            </af:gridCell>                           
+                            <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc15">
+                                <af:panelFormLayout id="pfl11">
+                                    <af:inputText label="Curso" id="it14"
+                                              value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}"
+                                              disabled="true"/>    
+                                                <af:inputText label="Nivel" id="it16"
+                                              value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}"
+                                              disabled="true"/>
+                                              
+                            <af:inputText label="Sede" id="it7"
+                                              value="#{sessionScope.sessionPlanificarEva.sedeEvaluacion}"
+                                              disabled="true"/>
+                                              <af:inputText label="Hora Fin" id="it19"
                                               value="#{sessionScope.sessionPlanificarEva.horaEvaluacionPopup}"
                                               disabled="true">
-                                    <af:convertDateTime type="date" pattern="HH:mm"/>
+                                          <af:convertDateTime type="date" pattern="HH:mm"/>
                                 </af:inputText>
+                                <af:selectOneChoice label="Tipo De Visita" id="soc2" unselectedLabel="::Tipo De Visita::">
+                                   
+                                        <af:selectItem label="Opinadas" id="si8"/>
+                                        <af:selectItem label="Semi Opinadas" id="si9"/>
+                                        <af:selectItem label="No Opinadas" id="si10"/>
+                                    </af:selectOneChoice>
+                                </af:panelFormLayout>                                
                             </af:gridCell>
-                        </af:gridRow>
+                        </af:gridRow>                     
                     </af:panelGridLayout>
                 </af:panelGroupLayout>
                 <af:panelGroupLayout id="pgl8" halign="center">
