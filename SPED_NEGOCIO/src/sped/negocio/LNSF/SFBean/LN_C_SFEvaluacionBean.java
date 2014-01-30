@@ -22,6 +22,7 @@ import net.sf.dozer.util.mapping.MappingException;
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
+import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
@@ -41,6 +42,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     private BDL_C_SFEvaluacionLocal bdL_C_SFEvaluacionLocal;
     @EJB
     private BDL_C_SFUsuarioLocal bdL_C_SFUsuarioLocal;
+    @EJB
+    private LN_C_SFResultadoCriterioLocal ln_C_SFResultadoCriterioLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFEvaluacionBean() {
@@ -112,7 +115,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 BeanEvaluacion beanEva = (BeanEvaluacion) mapper.map(eva, BeanEvaluacion.class);
                 beanEva.setNombreEvaluador(bdL_C_SFUsuarioLocal.
                                            getNombresUsuarioByNidUsuario(beanEva.getNidEvaluador()));
-                beanEva.setResultado(resultadoBeanEvaluacion(beanEva));
+                beanEva.setResultado(resultadoBeanEvaluacion(beanEva, eva));
                 lstBean.add(beanEva);
             }
             return lstBean;
@@ -123,16 +126,17 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }
     
     
-    public String resultadoBeanEvaluacion(BeanEvaluacion beanEva){
+    public String resultadoBeanEvaluacion(BeanEvaluacion beanEva, Evaluacion eva){
         String resu = "-";
-        int indicador = 0, criterio = 0,
-            contCriterios, contIndicador, sumaIndicador;
-        double promedio, sumaPromedio;
-        if(beanEva.getResultadoLista().size() != 0){
+        int tamano = beanEva.getResultadoCriterioList().size();
+        if(tamano != 0){
+            beanEva.setResultadoCriterioList(ln_C_SFResultadoCriterioLocal.transformLstResultadoCriterio
+                                             (eva.getResultadoCriterioList()));
             double total = 0;
-            for(BeanResultado res : beanEva.getResultadoLista()){
+            for(int i = 0; i < tamano; i++){
+                total = total + beanEva.getResultadoCriterioList().get(i).getValor();
             }
-            resu = total+"";
+            resu = (total/tamano)+"";
         }
         return resu;
     }
