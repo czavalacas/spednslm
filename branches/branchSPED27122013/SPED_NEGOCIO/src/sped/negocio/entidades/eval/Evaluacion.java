@@ -56,6 +56,8 @@ public class Evaluacion implements Serializable {
     private Timestamp fechaPlanificacion;
     @Column(name = "comentario")
     private String comentarioEvaluador;
+    @OneToMany(mappedBy = "evaluacion", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<ResultadoCriterio> resultadoCriterioList;
 
     public Evaluacion() {
     }
@@ -171,6 +173,14 @@ public class Evaluacion implements Serializable {
 
     public String getComentarioEvaluador() {
         return comentarioEvaluador;
+    }
+
+    public void setResultadoCriterioList(List<ResultadoCriterio> resultadoCriterioList) {
+        this.resultadoCriterioList = resultadoCriterioList;
+    }
+
+    public List<ResultadoCriterio> getResultadoCriterioList() {
+        return resultadoCriterioList;
     }
 
     public Resultado addResultado(Resultado resultado) {
