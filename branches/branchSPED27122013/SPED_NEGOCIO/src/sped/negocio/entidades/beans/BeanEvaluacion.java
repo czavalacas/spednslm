@@ -35,6 +35,7 @@ public class BeanEvaluacion implements Serializable {
         private Date fechaMaxEvaluacion;
         private Date fechaMinPlanificacion;
         private Date fechaMaxPlanificacion;
+        private List<BeanResultadoCriterio> resultadoCriterioList;
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
@@ -243,5 +244,13 @@ public class BeanEvaluacion implements Serializable {
 
     public String getComentarioEvaluador() {
         return comentarioEvaluador;
+    }
+
+    public void setResultadoCriterioList(List<BeanResultadoCriterio> resultadoCriterioList) {
+        this.resultadoCriterioList = resultadoCriterioList;
+    }
+
+    public List<BeanResultadoCriterio> getResultadoCriterioList() {
+        return resultadoCriterioList;
     }
 }
