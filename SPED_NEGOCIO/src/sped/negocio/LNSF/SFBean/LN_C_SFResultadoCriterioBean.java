@@ -41,9 +41,9 @@ public class LN_C_SFResultadoCriterioBean implements LN_C_SFResultadoCriterioRem
     public List<BeanResultadoCriterio> transformLstResultadoCriterio(List<ResultadoCriterio> lstResultado) {
         try {
             List<BeanResultadoCriterio> lstBeanRes = new ArrayList();
-            for(ResultadoCriterio rc : lstResultado){
+            for (ResultadoCriterio rc : lstResultado) {
                 BeanResultadoCriterio beanRes = (BeanResultadoCriterio) mapper.map(rc, BeanResultadoCriterio.class);
-                lstBeanRes.add(beanRes);                
+                lstBeanRes.add(beanRes);
             }
             return lstBeanRes;
         } catch (MappingException me) {
