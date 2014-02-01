@@ -14,5 +14,12 @@ public interface LN_T_SFFichaLocal {
                              String tipFichaCurso,
                              String version,
                              int numVal,
-                             List<BeanCriterio> listaCritsIndis);
+                             List<BeanCriterio> listaCritsIndis,
+                             int evento,
+                             int nidFicha);
+    void eliminarFichaCriterio(int nidFicha);
+    BeanFicha desactivarActivarFicha(int nidFicha,String actDesac);
+    void reactivarFichaYDesactivarElResto(String tipFicha,
+                                          String tipCursoFicha,
+                                          int nidFicha);
 }

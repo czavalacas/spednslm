@@ -3,10 +3,9 @@
                   xmlns:af="http://xmlns.oracle.com/adf/faces/rich" 
                   xmlns:f="http://java.sun.com/jsf/core">
     <f:view><!--beforePhase="#{bRegistrarFicha.agregarColumnas}" -->
-    
            <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
-         
-                <af:panelGroupLayout halign="left">
+            
+            <af:panelGroupLayout halign="left">
                     <af:spacer height="10"/>
                     <af:outputText value="Registrar Ficha de Evaluacion" id="otTitulo"
                                 styleClass="titulos"/>
@@ -21,13 +20,25 @@
         </af:resource>
                 </af:panelGroupLayout>
             <af:panelGroupLayout>
+               
                 <af:button text="#{sessionScope.sessionRegistrarFicha.btnRegistrarFicha}" id="btnNewFicha" actionListener="#{bRegistrarFicha.nuevaFicha}"
                             binding="#{bRegistrarFicha.btnNewFicha}"
                             styleClass="#{sessionScope.sessionRegistrarFicha.styleClass}"/>
-                <af:button text="Editar Ficha" id="btnEditFicha" disabled="true"
-                           binding="#{bRegistrarFicha.btnEditFicha}"/>
+                <af:button text="Editar Ficha" id="btnEditFicha" disabled="true" 
+                            binding="#{bRegistrarFicha.btnEditFicha}" actionListener="#{bRegistrarFicha.editarFicha}"/>
+                <af:button text="Usar como Base" id="btnBase" disabled="true" binding="#{bRegistrarFicha.btnBase}"
+                           actionListener="#{bRegistrarFicha.usarComoBase}"/>
                 <af:button id="btnRefresh" icon="#{resource['images:refresh.png']}" immediate="true"
-                           actionListener="#{bRegistrarFicha.refrescarTablaFichas}" />
+                            actionListener="#{bRegistrarFicha.refrescarTablaFichas}" />
+                <af:button text="Resetear" id="b7" actionListener="#{bRegistrarFicha.resetar}" immediate="true"/>
+                <af:button text="#{sessionScope.sessionRegistrarFicha.actDesact}" id="btnActDesact" disabled="true"
+                            binding="#{bRegistrarFicha.btnActDesact}" 
+                            styleClass="#{sessionScope.sessionRegistrarFicha.actDesEstilo}"
+                            actionListener="#{bRegistrarFicha.activarDesactivar}"/>
+                <af:button text="Crear word" id="b6" rendered="false">
+                    <af:fileDownloadActionListener filename="tabla.docx" contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                               method="#{bRegistrarFicha.exportData}"/>
+                </af:button>
             </af:panelGroupLayout>
             <af:table value="#{bRegistrarFicha.sessionRegistrarFicha.lstFichas}" var="row" rowBandingInterval="0"
                       id="tbFichas" rowSelection="single" varStatus="vs" emptyText="No hay fichas de evaluacion"
@@ -119,7 +130,7 @@
                                             </f:facet>
                                             <af:column width="30">
                                                 <af:button icon="#{resource['images:consultar.png']}" rendered="#{row.mostrarBoton}" 
-                                                           actionListener="#{bRegistrarFicha.alwp}">
+                                                            actionListener="#{bRegistrarFicha.alwp}">
                                                     <f:attribute name="consultar" value="consultar"/>
                                                 </af:button>
                                             </af:column>
@@ -179,7 +190,7 @@
                     <af:separator/>
                     <af:table value="#{bRegistrarFicha.sessionRegistrarFicha.lstCriterios}" var="row" rowBandingInterval="0" id="tbCrits"
                                rowSelection="single" binding="#{bRegistrarFicha.tbCrits}"
-                               selectionListener="#{bRegistrarFicha.selectCriterios}">
+                               selectionListener="#{bRegistrarFicha.selectCriterios}" columnStretching="column:c6">
                         <af:column align="center" width="35">
                             <af:selectBooleanCheckbox id="sbc1" selected="#{row.selected}"/>
                         </af:column>
@@ -199,7 +210,7 @@
                         <!--<af:inputNumberSpinbox label="Codigo Indicador" id="insNidIndi" labelStyle="text-align: left;"
                                                value="#{bRegistrarFicha.sessionRegistrarFicha.nidIndicador}"/>-->
                         <af:inputText label="Indicador" id="itDescIndi" labelStyle="text-align: left;"
-                                        value="#{bRegistrarFicha.sessionRegistrarFicha.descIndicador}"
+                                        value="#{bRegistrarFicha.sessionRegistrarFicha.descIndicador}" autoSubmit="true"
                                         binding="#{bRegistrarFicha.itDescIndi}"/>
                         <af:messages id="msjIndi" inline="true" binding="#{bRegistrarFicha.mensajeIndicador}"/>
                         <af:panelGroupLayout id="pgl4">
@@ -213,8 +224,8 @@
                 </af:subform>
                     <af:separator/>
                     <af:table value="#{sessionRegistrarFicha.lstIndicadores}" var="row" rowBandingInterval="0" id="tbIndis"
-                               rowSelection="single" binding="#{bRegistrarFicha.tbIndis}"
-                               selectionListener="#{bRegistrarFicha.selectIndis}">
+                               rowSelection="single" binding="#{bRegistrarFicha.tbIndis}" width="450"
+                               selectionListener="#{bRegistrarFicha.selectIndis}" columnStretching="column:c8">
                         <af:column align="center" width="35">
                             <af:selectBooleanCheckbox id="sbc2" selected="#{row.selected}"/>
                         </af:column>
@@ -239,7 +250,8 @@
                 <af:table value="#{sessionScope.sessionRegistrarFicha.lstIndicadoresByCriterio}" var="row"
                            rowBandingInterval="0" id="tbIndCr" rowSelection="single" varStatus="vs"
                            binding="#{bRegistrarFicha.tbIndCr}" emptyText="No hay Indicadores asignados"
-                           selectionListener="#{bRegistrarFicha.selectIndicadorByCriterio}" width="410">
+                           selectionListener="#{bRegistrarFicha.selectIndicadorByCriterio}" width="410"
+                           autoHeightRows="0" columnStretching="column:c11">
                     <af:column sortable="true" headerText="Codigo" align="end" id="c10" width="35" sortProperty="nidIndicador">
                         <af:outputText value="#{row.nidIndicador}" id="ot10"/>
                     </af:column>
@@ -266,6 +278,12 @@
                         <af:button text="Asignar Leyenda" id="btnAsigLey" actionListener="#{bRegistrarFicha.asignarLeyenda}"/>
                     </af:panelFormLayout>
                 </af:subform>
+            </af:dialog>
+        </af:popup>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popActDes" binding="#{bRegistrarFicha.popActDes}">
+            <af:dialog type="okCancel" title="Activar la Ficha - Advertencia"
+                        dialogListener="#{bRegistrarFicha.dialogOKReactivarFicha}">
+                <af:outputText value="#{sessionScope.sessionRegistrarFicha.advertenciaSPED0004}" id="ot15"/>
             </af:dialog>
         </af:popup>
         <!-- FIN POPUPS -->

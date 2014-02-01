@@ -1,94 +1,58 @@
 package sped.vista.beans.evaluacion.ficha;
 
-import com.sun.faces.facelets.tag.jsf.core.FacetHandler;
-
-import java.math.BigDecimal;
-
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import jxl.write.WriteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
-
 import javax.ejb.EJB;
-
 import javax.el.ValueExpression;
-
-import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
-
-import javax.faces.event.PhaseEvent;
-import javax.faces.event.PhaseId;
 import javax.faces.event.ValueChangeEvent;
-
-import javax.faces.webapp.FacetTag;
-
-import oracle.adf.view.rich.component.rich.RichMenu;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichColumn;
 import oracle.adf.view.rich.component.rich.data.RichTable;
-
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
 import oracle.adf.view.rich.component.rich.input.RichInputNumberSlider;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
-
 import oracle.adf.view.rich.component.rich.output.RichMessages;
 import oracle.adf.view.rich.event.DialogEvent;
-
 import oracle.adf.view.rich.event.PopupCanceledEvent;
 import oracle.adf.view.rich.render.ClientEvent;
-import oracle.adf.view.rich.component.rich.data.RichTreeTable;
-
-
-import oracle.adf.view.rich.component.rich.output.RichContextInfo;
-import oracle.adf.view.rich.component.rich.output.RichOutputText;
-
-import oracle.adf.view.rich.event.ClientListenerSet;
-
-import oracle.adfinternal.view.faces.taglib.behaviors.ShowPopupBehaviorTag;
-
-import oracle.jbo.Row;
-import oracle.jbo.uicli.binding.JUCtrlHierBinding;
-
-import oracle.jbo.uicli.binding.JUCtrlHierNodeBinding;
-
 import org.apache.myfaces.trinidad.event.SelectionEvent;
-
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
-import org.apache.myfaces.trinidad.model.CollectionModel;
-
 import org.apache.myfaces.trinidad.model.RowKeySet;
 import org.apache.myfaces.trinidad.model.TreeModel;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
+import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
+import sped.negocio.LNSF.IL.LN_C_SFResultadoLocal;
 import sped.negocio.LNSF.IL.LN_T_SFFichaLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCriterioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFFichaRemote;
-
 import sped.negocio.LNSF.IR.LN_C_SFIndicadorRemote;
 import sped.negocio.LNSF.IR.LN_T_SFCriterioRemote;
 import sped.negocio.LNSF.IR.LN_T_SFIndicadorRemote;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanFicha;
-
 import sped.negocio.entidades.beans.BeanIndicador;
-
 import sped.negocio.entidades.beans.BeanLeyenda;
-
 import sped.vista.Utils.Utils;
 
 /** Clase de Respaldo de Frm_Registrar_Ficha.jsff
@@ -120,6 +84,7 @@ public class bRegistrarFicha {
     private RichInputNumberSlider ins1;
     private RichButton btnNewFicha;
     private RichMessages msjGen;
+    private RichButton btnBase;
     private bSessionRegistrarFicha sessionRegistrarFicha;
     @EJB
     private LN_C_SFFichaRemote ln_C_SFFichaRemote;
@@ -133,7 +98,13 @@ public class bRegistrarFicha {
     private LN_T_SFIndicadorRemote ln_T_SFIndicadorRemote;
     @EJB
     private LN_T_SFFichaLocal ln_T_SFFichaLocal;
+    @EJB
+    private LN_C_SFResultadoLocal ln_C_SFResultadoLocal;
+    @EJB
+    private LN_C_SFFichaCriterioLocal ln_C_SFFichaCriterioLocal;
     FacesContext ctx = FacesContext.getCurrentInstance();
+    private RichButton btnActDesact;
+    private RichPopup popActDes;
 
     public bRegistrarFicha() {
         
@@ -152,7 +123,7 @@ public class bRegistrarFicha {
         }
     }
     
-    public String mostrarCuadre() {
+    private String mostrarCuadre() {
         BeanCriterio b = new BeanCriterio();
         b.setDescripcionCriterio("::: Ficha de Evaluacion :::");
         b.setMostrarBoton(false);
@@ -166,7 +137,7 @@ public class bRegistrarFicha {
         lstBeanCriterio.add(b);
         permisosTree = new ChildPropertyTreeModel(lstBeanCriterio,"lstIndicadores");
         sessionRegistrarFicha.setPermisosTree(permisosTree);
-        if(treeCriIndi != null){ 
+        if(treeCriIndi != null){
             treeCriIndi.setValue(sessionRegistrarFicha.getPermisosTree());
             Utils.addTarget(treeCriIndi);
         }
@@ -175,12 +146,62 @@ public class bRegistrarFicha {
     
     public void selectFicha(SelectionEvent se) {
         try{
-          //  BeanFicha beanFicha = (BeanFicha) Utils.getRowTable(se);
-            btnEditFicha.setDisabled(false);
-            Utils.addTarget(btnEditFicha);
+            BeanFicha beanFicha = (BeanFicha) Utils.getRowTable(se);
+            if(beanFicha.getEstadoFicha().equals("0")){
+                sessionRegistrarFicha.setActDesEstilo("FondoVerdeLetraRoja");
+            }else{
+                sessionRegistrarFicha.setActDesEstilo("FondoRojoLetraVerde");
+            }
+            boolean fichaEvaluada = ln_C_SFResultadoLocal.fichaUsadaEnEvaluacion_LN(beanFicha.getNidFicha());
+            Utils.sysout("usada:"+fichaEvaluada);
+            if(!fichaEvaluada){
+                btnEditFicha.setDisabled(false);
+                BeanFicha clon = (BeanFicha) beanFicha.clone();
+                sessionRegistrarFicha.setFichaEditarClon(clon);
+                Utils.addTargetMany(btnEditFicha);
+            }
+            btnActDesact.setText(sessionRegistrarFicha.getActDesact());
+            btnActDesact.setStyleClass(sessionRegistrarFicha.getActDesEstilo());
+            btnBase.setDisabled(false);
+            btnActDesact.setDisabled(false);
+            Utils.addTargetMany(btnBase,btnActDesact);
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    
+    public void editarFicha(ActionEvent ae) {
+        BeanFicha clon = sessionRegistrarFicha.getFichaEditarClon();
+        sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(true);
+        panelBoxNewFicha.setVisible(true);
+        sessionRegistrarFicha.setTipoFicha(clon.getTipoFicha());
+        sessionRegistrarFicha.setTipFichaCurs(clon.getTipoFichaCurso());
+        sessionRegistrarFicha.setVersionGenerada(clon.getDescripcionVersion());
+        sessionRegistrarFicha.setNumValores(clon.getCantidadValores());
+        sessionRegistrarFicha.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(clon.getNidFicha()));
+        mostrarCuadre();
+        List<UIComponent> children = null;
+        children = this.treeCriIndi.getChildren();
+        try {
+            if (children != null) {
+                Iterator it = children.iterator();
+                while(it.hasNext()){
+                    UIComponent child = (UIComponent) it.next();
+                    it.remove();   
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        crearColumnas(clon.getCantidadValores(), children);
+        sessionRegistrarFicha.setBtnRegistrarFicha("Actualizar Ficha");
+        sessionRegistrarFicha.setStyleClass("FondoRojoLetraBlanca");
+        btnNewFicha.setText("Actualizar Ficha");
+        btnNewFicha.setStyleClass("FondoRojoLetraBlanca");
+        sessionRegistrarFicha.setTipEvento(2);
+        btnEditFicha.setDisabled(true);
+        btnBase.setDisabled(true);
+        Utils.addTargetMany(panelBoxNewFicha,btnNewFicha,btnEditFicha,btnBase);
     }
     
     public void selectCriterios(SelectionEvent se) {
@@ -317,9 +338,28 @@ public class bRegistrarFicha {
             }
             BeanCriterio critSelected = this.getCriterio(sessionRegistrarFicha.getCritSelected().getNidCriterio());
             if(critSelected.getLstIndicadores() != null){
-                critSelected.getLstIndicadores().removeAll(critSelected.getLstIndicadores());
-                critSelected.setLstIndicadores(this.lstIndisToCrit(sessionRegistrarFicha.getLstIndisSelected()));
-                sessionRegistrarFicha.setLstIndicadoresByCriterio(sessionRegistrarFicha.getLstIndisSelected());
+                if(!contieneCriterio(critSelected.getLstIndicadores(),beanIndicador.getNidIndicador())){
+                    BeanCriterio crit = new BeanCriterio();
+                    crit.setNidCriterio(beanIndicador.getNidIndicador());
+                    crit.setOrden(beanIndicador.getOrden());
+                    crit.setMostrarBoton(true);
+                    crit.setMostrarUpDown(true);
+                    crit.setNoMostrarDown(true);
+                    crit.setEsIndicador(1);
+                    crit.setDescripcionCriterio(beanIndicador.getDescripcionIndicador());
+                    crit.setDisplay("display:block;");
+                    crit.setSelected(beanIndicador.isSelected());
+                    if(critSelected.getLstIndicadores().size() > 0){
+                        critSelected.getLstIndicadores().get(critSelected.getLstIndicadores().size()-1).setNoMostrarDown(false);   
+                    }
+                    critSelected.getLstIndicadores().add(crit);   
+                } 
+           //     critSelected.getLstIndicadores().removeAll(critSelected.getLstIndicadores());
+              //  critSelected.setLstIndicadores(this.lstIndisToCrit(sessionRegistrarFicha.getLstIndisSelected()));
+                if(!contiene(sessionRegistrarFicha.getLstIndicadoresByCriterio(),beanIndicador.getNidIndicador(),false)){
+                    sessionRegistrarFicha.getLstIndicadoresByCriterio().add(beanIndicador);   
+                }
+               // sessionRegistrarFicha.setLstIndicadoresByCriterio(sessionRegistrarFicha.getLstIndisSelected());
             }
             Utils.unselectFilas(tbIndis);
             Utils.addTarget(treeCriIndi);
@@ -415,29 +455,21 @@ public class bRegistrarFicha {
     public void nuevaFicha(ActionEvent actionEvent) {
         if(sessionRegistrarFicha.getTipEvento() == 0){
             //DEFAULT NI BIEN CARGA LA PAGINA Y SE APLASTA EL BOTON ESTO SE EJECUTA
-            sessionRegistrarFicha.setTipEvento(1);
-            sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(true);
-            panelBoxNewFicha.setVisible(true);
-            btnEditFicha.setDisabled(true);
-            if(socTipFicha != null){
-                socTipFicha.setRequired(true);
-                socTipFichaCurs.setRequired(true);
-                ins1.setRequired(true);
-            }
-            sessionRegistrarFicha.setBtnRegistrarFicha("Registrar Ficha");
-            sessionRegistrarFicha.setStyleClass("FondoRojoLetraBlanca");
-            btnNewFicha.setText("Registrar Ficha");
-            btnNewFicha.setStyleClass("FondoRojoLetraBlanca");
-            Utils.addTargetMany(btnNewFicha,btnEditFicha,panelBoxNewFicha,socTipFicha,socTipFichaCurs,ins1);
-        }else if(sessionRegistrarFicha.getTipEvento() == 1){
-            //CUANDO SE APLASTO ESTE BOTON X 1ERA VEZ SE SETEO LA VARIABLE A 1 (REGISTRAR FICHA)
+            activar();
+        }else if(sessionRegistrarFicha.getTipEvento() == 1 || sessionRegistrarFicha.getTipEvento() == 2){
+            //CUANDO SE APLASTO ESTE BOTON X 1ERA VEZ SE SETEO LA VARIABLE A 1 (REGISTRAR/ACTUALIZAR FICHA)
             if(isOkRegistrarFicha()){
                 try {
+                    if(sessionRegistrarFicha.getTipEvento() == 2){
+                        ln_T_SFFichaLocal.eliminarFichaCriterio(sessionRegistrarFicha.getFichaEditarClon().getNidFicha());
+                    }
                     BeanFicha beanFicha = ln_T_SFFichaLocal.registrarFicha(sessionRegistrarFicha.getTipoFicha(),
                                                                              sessionRegistrarFicha.getTipFichaCurs(),
                                                                              sessionRegistrarFicha.getVersionGenerada(),
                                                                              sessionRegistrarFicha.getNumValores(),
-                                                                             sessionRegistrarFicha.getLstCriteriosMultiples());
+                                                                             sessionRegistrarFicha.getLstCriteriosMultiples(),
+                                                                             sessionRegistrarFicha.getTipEvento(),
+                                                                             (sessionRegistrarFicha.getTipEvento() == 2 ? sessionRegistrarFicha.getFichaEditarClon().getNidFicha() : 0));
                     if (beanFicha.getBeanError() != null) {
                         BeanError error = beanFicha.getBeanError();
                         int severidad = 0;
@@ -451,9 +483,13 @@ public class bRegistrarFicha {
                         Utils.addTarget(msjGen);
                         Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
                     } else {
+                        msjGen.setText("Error Inesperado");
+                        Utils.addTarget(msjGen);
                         Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
                     }
                 } catch (Exception e) {
+                    msjGen.setText("Error Inesperado");
+                    Utils.addTarget(msjGen);
                     Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
                     e.printStackTrace();
                 } finally {
@@ -461,6 +497,60 @@ public class bRegistrarFicha {
                 }
             }
         }
+    }
+    
+    public void activar(){
+        sessionRegistrarFicha.setTipEvento(1);
+        sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(true);
+        panelBoxNewFicha.setVisible(true);
+        btnEditFicha.setDisabled(true);
+        btnBase.setDisabled(true);
+        btnActDesact.setDisabled(true);
+        sessionRegistrarFicha.setActDesEstilo(null);
+        btnActDesact.setStyleClass(null);
+        if(socTipFicha != null){
+            socTipFicha.setRequired(true);
+            socTipFichaCurs.setRequired(true);
+            ins1.setRequired(true);
+        }
+        sessionRegistrarFicha.setBtnRegistrarFicha("Registrar Ficha");
+        sessionRegistrarFicha.setStyleClass("FondoRojoLetraBlanca");
+        btnNewFicha.setText("Registrar Ficha");
+        btnNewFicha.setStyleClass("FondoRojoLetraBlanca");
+        Utils.addTargetMany(btnNewFicha,btnEditFicha,panelBoxNewFicha,socTipFicha,socTipFichaCurs,ins1,btnBase,btnActDesact);
+    }
+    
+    public void resetar(ActionEvent actionEvent) {
+        resetearDespuesGrabarEditar();
+    }
+    
+    public void usarComoBase(ActionEvent actionEvent) {
+        BeanFicha clon = sessionRegistrarFicha.getFichaEditarClon();
+        sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(true);
+        panelBoxNewFicha.setVisible(true);
+        sessionRegistrarFicha.setTipoFicha(clon.getTipoFicha());
+        sessionRegistrarFicha.setTipFichaCurs(clon.getTipoFichaCurso());
+        getNuevaVersion(clon.getTipoFicha(),clon.getTipoFichaCurso());
+        sessionRegistrarFicha.setNumValores(clon.getCantidadValores());
+        sessionRegistrarFicha.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(clon.getNidFicha()));
+        mostrarCuadre();
+        List<UIComponent> children = null;
+        children = this.treeCriIndi.getChildren();
+        try {
+            if (children != null) {
+                Iterator it = children.iterator();
+                while(it.hasNext()){
+                    UIComponent child = (UIComponent) it.next();
+                    it.remove();   
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        crearColumnas(clon.getCantidadValores(), children);
+        btnEditFicha.setDisabled(true);
+        Utils.addTargetMany(panelBoxNewFicha,btnNewFicha,btnEditFicha,btnBase);
+        activar();
     }
     
     public void resetearDespuesGrabarEditar(){
@@ -480,6 +570,10 @@ public class bRegistrarFicha {
         ins1.resetValue();
         btnNewFicha.setText("Nueva Ficha");
         btnNewFicha.setStyleClass(null);
+        btnBase.setDisabled(true);
+        btnActDesact.setDisabled(true);
+        btnActDesact.setStyleClass(null);
+        sessionRegistrarFicha.setActDesEstilo(null);
         if(socTipFicha != null){
             socTipFicha.setRequired(false);
             socTipFichaCurs.setRequired(false);
@@ -512,7 +606,7 @@ public class bRegistrarFicha {
         sessionRegistrarFicha.setDescIndicador(null);
         sessionRegistrarFicha.setLeyenda(null);
         sessionRegistrarFicha.setValorDesc(null);
-        Utils.addTargetMany(btnNewFicha,panelBoxNewFicha,btnEditFicha,socTipFicha,socTipFichaCurs,itDescVersion,treeCriIndi);
+        Utils.addTargetMany(btnNewFicha,panelBoxNewFicha,btnBase,btnActDesact,btnEditFicha,socTipFicha,socTipFichaCurs,itDescVersion,treeCriIndi);
     }
     
     public void removerLista(List<?> lista){
@@ -573,16 +667,16 @@ public class bRegistrarFicha {
                                         Iterator it3 = indi.getLstLeyenda().iterator();
                                         while(it3.hasNext()){
                                             BeanLeyenda ley = (BeanLeyenda) it3.next();
-                                            if(ley.getDescripcionLeyenda() == null){Utils.sysout("2");
+                                            if(ley.getDescripcionLeyenda() == null){
                                                 return "Agregue las leyendas";
                                             }else{
-                                                if(ley.getDescripcionLeyenda().equalsIgnoreCase("")){Utils.sysout("3");
+                                                if(ley.getDescripcionLeyenda().equalsIgnoreCase("")){
                                                     return "Agregue las leyendas";
                                                 }
                                             }
                                         }
                                     }
-                                }else{Utils.sysout("4");
+                                }else{
                                     return "Agregue las leyendas";
                                 }
                             }
@@ -712,14 +806,18 @@ public class bRegistrarFicha {
         List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) model.getWrappedData();
         if (keys.hasNext()) {
             List key = (List)keys.next();
+            int llave = Integer.parseInt(key.get(1).toString());
+            BeanCriterio criterio = (BeanCriterio) lstBeanCriterio.get(0).getLstIndicadores().get(llave).clone();
             if(key.size() == 2){
-                int llave = Integer.parseInt(key.get(1).toString());
-                BeanCriterio criterio = (BeanCriterio) lstBeanCriterio.get(0).getLstIndicadores().get(llave).clone();
                 sessionRegistrarFicha.setCritSelected(criterio);
                 sessionRegistrarFicha.setDescCriterioSeleccionado(criterio.getDescripcionCriterio());
                 sessionRegistrarFicha.setLstIndicadoresByCriterio(this.lstCritToIndi(criterio.getLstIndicadores()));
             }
-        }
+            if(key.size() == 3){
+                sessionRegistrarFicha.setCritSelected(criterio);
+                sessionRegistrarFicha.setLstIndicadoresByCriterio(this.lstCritToIndi(criterio.getLstIndicadores()));
+            }
+        } 
     }
     
     public void mover(ActionEvent actionEvent){
@@ -756,6 +854,21 @@ public class bRegistrarFicha {
             if(crit.getOrden() == orden){
                 BeanCriterio otro = lista.get(subirBajar == 0 ? orden - 2 : orden);
                 otro.setOrden(orden);
+                if(subirBajar == 0){//Subir
+                    if(lista.size() > 2){
+                        otro.setNoMostrarDown(false);//false muestra la flecha para abajo. true NO       
+                        if(orden == lista.size()){
+                            otro.setNoMostrarDown(true);//false muestra la flecha para abajo. true NO 
+                            crit.setNoMostrarDown(false);
+                        }
+                    }
+                }else{
+                    int next = orden + 1;
+                    if(next == lista.size()){
+                        otro.setNoMostrarDown(false);//false muestra la flecha para abajo. true NO 
+                        crit.setNoMostrarDown(true);
+                    }
+                }
                 crit.setOrden(subirBajar == 0 ? orden - 1 : orden + 1);
                 return;
             }
@@ -848,7 +961,7 @@ public class bRegistrarFicha {
     
     public void registrarCriterio(ActionEvent ae) {
         if(sessionRegistrarFicha.getDescCriterio() != null){
-            if(sessionRegistrarFicha.getDescCriterio().equalsIgnoreCase("")){
+            if(!sessionRegistrarFicha.getDescCriterio().equalsIgnoreCase("")){
                 BeanCriterio bCrit = ln_T_SFCriterioRemote.registrarCriterio(sessionRegistrarFicha.getDescCriterio());
                 if(bCrit.getBeanError() != null){
                     BeanError error = bCrit.getBeanError();
@@ -880,11 +993,10 @@ public class bRegistrarFicha {
             Utils.mostrarMensaje(ctx,"Ingrese el Criterio","Error",1);
         }
     }
-    
-    
+       
     public void registrarIndicador(ActionEvent ae) {
         if(sessionRegistrarFicha.getDescIndicador() != null){
-            if(sessionRegistrarFicha.getDescIndicador().equalsIgnoreCase("")){
+            if(!sessionRegistrarFicha.getDescIndicador().equalsIgnoreCase("")){
                 BeanIndicador bIndi = ln_T_SFIndicadorRemote.registrarIndicador(sessionRegistrarFicha.getDescIndicador());
                 if(bIndi.getBeanError() != null){
                     BeanError error = bIndi.getBeanError();
@@ -971,8 +1083,11 @@ public class bRegistrarFicha {
                     }
                 }
             }
-            
         }
+        crearColumnas(val,children);
+    }
+    
+    private void crearColumnas(int val,List<UIComponent> children){
         for(int c = 0; c < val; c++) {
             BeanLeyenda leyenda = new BeanLeyenda();
             String valor = "Valor "+c;
@@ -983,23 +1098,15 @@ public class bRegistrarFicha {
             RichColumn col = new RichColumn();
             col.setHeaderText(valor);
             col.setWidth("40");
-        //    RichOutputText coldata = new RichOutputText(); #{row.lstLeyenda[10].descripcionLeyenda}
             ValueExpression ve = Utils.createValueExpression("#{row.display}");
             ValueExpression veIcono = Utils.createValueExpression("#{row.lstLeyenda["+c+"].descripcionLeyenda == null || row.lstLeyenda["+c+"].descripcionLeyenda == '' ? '/recursos/img/usuarios/closed_eye.png' : '/recursos/img/usuarios/ver.png' }");
             RichButton buton = new RichButton();
-            //buton.setIcon("/recursos/img/usuarios/ver.png");
             String name = RichButton.INLINE_STYLE_KEY.getName();
             String nameIcono = RichButton.ICON_KEY.getName();
             buton.setValueExpression(name, ve);
             buton.setValueExpression(nameIcono,veIcono);
             buton.setActionListener(Utils.createActionListenerMethodBinding("#{bRegistrarFicha.getVerLeyenda}"));
             buton.getAttributes().put("leyenda",valor);
-            /*ClientListenerSet set = buton.getClientListeners();
-            if (set == null) {
-                set = new ClientListenerSet();
-                set.addBehavior("new AdfShowPopupBehavior('::p1',AdfRichPopup.ALIGN_AFTER_END,null,'mouseOver')");
-                buton.setClientListeners(set);
-            }*/
             col.getChildren().add(buton);
             children.add(col);
         }
@@ -1133,6 +1240,159 @@ public class bRegistrarFicha {
             }
         }
         return false;
+    }
+    
+    public void activarDesactivar(ActionEvent ae) {
+        if(sessionRegistrarFicha.getFichaEditarClon() != null){
+            if(sessionRegistrarFicha.getFichaEditarClon().getEstadoFicha().equals("0")){//VA A ACTIVAR
+                BeanFicha beanFicha = ln_C_SFFichaRemote.checkSiSePuedeActivar(sessionRegistrarFicha.getFichaEditarClon().getTipoFicha(),
+                                                                                 sessionRegistrarFicha.getFichaEditarClon().getTipoFichaCurso());
+                if (beanFicha.getBeanError() != null) {
+                    BeanError error = beanFicha.getBeanError();
+                    int severidad = 0;
+                    if (error.getCidError().equals("000")) {
+                        BeanFicha beanFicha2 = ln_T_SFFichaLocal.desactivarActivarFicha(sessionRegistrarFicha.getFichaEditarClon().getNidFicha(),"1");
+                        if (beanFicha.getBeanError() != null) {
+                            BeanError error2 = beanFicha2.getBeanError();
+                            int severidad2 = 0;
+                            if (error2.getCidError().equals("000")) {
+                                severidad2 = 3;
+                                Utils.sysout("Activo la Ficha");
+                            } else {
+                                severidad2 = 1;
+                            }
+                            msjGen.setText(error2.getTituloError());
+                            Utils.addTarget(msjGen);
+                            Utils.mostrarMensaje(ctx, error2.getDescripcionError(), error2.getTituloError(), severidad2);
+                        } else {
+                            msjGen.setText("Error Inesperado");
+                            Utils.addTarget(msjGen);
+                            Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
+                        }
+                    } else if(error.getCidError().equals("SPED-00004")){
+                        sessionRegistrarFicha.setAdvertenciaSPED0004(error.getDescripcionError());
+                        Utils.showPopUpMIDDLE(popActDes);
+                    }else{
+                        severidad = 1;
+                    }
+                    if(!error.getCidError().equals("SPED-00004")){
+                        msjGen.setText(error.getTituloError());
+                        Utils.addTarget(msjGen);
+                        Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
+                    }
+                    refrescarTablaFichasAux();
+                } else {
+                    msjGen.setText("Error Inesperado");
+                    Utils.addTarget(msjGen);
+                    Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
+                }
+            }else{//VA A DESACTIVAR
+                BeanFicha beanFicha = ln_T_SFFichaLocal.desactivarActivarFicha(sessionRegistrarFicha.getFichaEditarClon().getNidFicha(),"0");
+                if (beanFicha.getBeanError() != null) {
+                    BeanError error = beanFicha.getBeanError();
+                    int severidad = 0;
+                    if (error.getCidError().equals("000")) {
+                        severidad = 3;
+                        Utils.sysout("Desactivo la Ficha");
+                    } else {
+                        severidad = 1;
+                    }
+                    msjGen.setText(error.getTituloError());
+                    Utils.addTarget(msjGen);
+                    Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
+                    refrescarTablaFichasAux();
+                } else {
+                    msjGen.setText("Error Inesperado");
+                    Utils.addTarget(msjGen);
+                    Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
+                }
+            }
+            btnBase.setDisabled(true);
+            btnActDesact.setDisabled(true);
+            btnActDesact.setStyleClass(null);
+            sessionRegistrarFicha.setActDesEstilo(null);
+            Utils.addTargetMany(btnBase,btnActDesact);
+        }
+    }
+    
+    public void dialogOKReactivarFicha(DialogEvent dialogEvent) {
+        BeanFicha beanFicha = ln_T_SFFichaLocal.desactivarActivarFicha(sessionRegistrarFicha.getFichaEditarClon().getNidFicha(),"1");
+        ln_T_SFFichaLocal.reactivarFichaYDesactivarElResto(sessionRegistrarFicha.getFichaEditarClon().getTipoFicha(),
+                                                             sessionRegistrarFicha.getFichaEditarClon().getTipoFichaCurso(),
+                                                             sessionRegistrarFicha.getFichaEditarClon().getNidFicha());
+        if (beanFicha.getBeanError() != null) {
+            BeanError error = beanFicha.getBeanError();
+            int severidad = 0;
+            if (error.getCidError().equals("000")) {
+                severidad = 3;
+                Utils.sysout("Reactivo la Ficha y desactivo el resto");
+            } else {
+                severidad = 1;
+            }
+            msjGen.setText(error.getTituloError());
+            Utils.addTarget(msjGen);
+            Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
+            refrescarTablaFichasAux();
+        } else {
+            msjGen.setText("Error Inesperado");
+            Utils.addTarget(msjGen);
+            Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
+        }
+        btnBase.setDisabled(true);
+        btnActDesact.setDisabled(true);
+        btnActDesact.setStyleClass(null);
+        sessionRegistrarFicha.setActDesEstilo(null);
+        Utils.addTargetMany(btnBase,btnActDesact);
+    }
+     
+    public void exportData(FacesContext facesContext, OutputStream outputStream) throws IOException,WriteException{
+        XWPFDocument document = new XWPFDocument();
+ 
+        // New 2x2 table
+        XWPFTable tableOne = document.createTable();
+        XWPFTableRow tableOneRowOne = tableOne.getRow(0);
+        tableOneRowOne.getCell(0).setText("Hello");
+        tableOneRowOne.addNewTableCell().setText("World");
+ 
+        XWPFTableRow tableOneRowTwo = tableOne.createRow();
+        tableOneRowTwo.getCell(0).setText("This is");
+        tableOneRowTwo.getCell(1).setText("a table");
+ 
+        //Add a break between the tables
+        document.createParagraph().createRun().addBreak();
+ 
+        // New 3x3 table
+        XWPFTable tableTwo = document.createTable();
+        XWPFTableRow tableTwoRowOne = tableTwo.getRow(0);
+        tableTwoRowOne.getCell(0).setText("col one, row one");
+        tableTwoRowOne.addNewTableCell().setText("col two, row one");
+        tableTwoRowOne.addNewTableCell().setText("col three, row one");
+ 
+        XWPFTableRow tableTwoRowTwo = tableTwo.createRow();
+        tableTwoRowTwo.getCell(0).setText("col one, row two");
+        tableTwoRowTwo.getCell(1).setText("col two, row two");
+        tableTwoRowTwo.getCell(2).setText("col three, row two");
+ 
+        XWPFTableRow tableTwoRowThree = tableTwo.createRow();
+        tableTwoRowThree.getCell(0).setText("col one, row three");
+        tableTwoRowThree.getCell(1).setText("col two, row three");
+        tableTwoRowThree.getCell(2).setText("col three, row three");
+ 
+       /* FileOutputStream outStream = null;
+        try {
+            outStream = new FileOutputStream("");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }*/
+        try {
+            document.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public void setTbFichas(RichTable tbFichas) {
@@ -1326,5 +1586,29 @@ public class bRegistrarFicha {
 
     public RichMessages getMsjGen() {
         return msjGen;
+    }
+
+    public void setBtnBase(RichButton btnBase) {
+        this.btnBase = btnBase;
+    }
+
+    public RichButton getBtnBase() {
+        return btnBase;
+    }
+
+    public void setBtnActDesact(RichButton btnActDesact) {
+        this.btnActDesact = btnActDesact;
+    }
+
+    public RichButton getBtnActDesact() {
+        return btnActDesact;
+    }
+
+    public void setPopActDes(RichPopup popActDes) {
+        this.popActDes = popActDes;
+    }
+
+    public RichPopup getPopActDes() {
+        return popActDes;
     }
 }

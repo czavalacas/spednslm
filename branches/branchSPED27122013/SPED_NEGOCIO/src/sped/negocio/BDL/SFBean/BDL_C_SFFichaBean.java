@@ -2,19 +2,13 @@ package sped.negocio.BDL.SFBean;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-
 import javax.persistence.EntityManager;
-
 import javax.persistence.PersistenceContext;
-
 import sped.negocio.BDL.IL.BDL_C_SFFichaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFFichaRemote;
 import sped.negocio.entidades.eval.Ficha;
@@ -36,9 +30,19 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
         return em.createNamedQuery("Ficha.findAll", Ficha.class).getResultList();
     }
     
+    public Ficha findFichaById(int id) {
+        try {
+            Ficha instance = em.find(Ficha.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
+        }
+    }
+    
     public List<Ficha> getFichaByAttr_BDL() {
         String strQuery = "SELECT f " +
-                          "FROM Ficha f ";
+                          "FROM Ficha f " +
+                          "ORDER BY f.estadoFicha DESC ";
         try{
             List<Ficha> lstFichas = em.createQuery(strQuery).getResultList();
             int size = lstFichas == null ? 0 : lstFichas.size();
@@ -76,6 +80,25 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
         }catch(Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    public int hayFichasActivas(String tipFicha,String tipCursoFicha){
+        try {
+            String qlString = "SELECT count(f.nidFicha) " +
+                              "FROM Ficha f " +
+                              "WHERE f.tipoFicha = :tipFicha " +
+                              "AND   f.tipoFichaCurso = :tipFichaCurso " +
+                              "AND   f.estadoFicha = '1' ";//Cuenta cuantos activos hay
+          List lst = em.createQuery(qlString).setParameter("tipFicha",tipFicha).setParameter("tipFichaCurso",tipCursoFicha).getResultList();
+          if(lst.isEmpty()){
+              return 0;
+          }else{
+              return Integer.parseInt(lst.get(0).toString());
+          }
+       } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 }

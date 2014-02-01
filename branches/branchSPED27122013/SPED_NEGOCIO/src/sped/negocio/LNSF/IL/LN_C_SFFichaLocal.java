@@ -13,4 +13,6 @@ public interface LN_C_SFFichaLocal {
                                         int mes,
                                         String tipFicha,
                                         String tipFichaCurso);
+    BeanFicha checkSiSePuedeActivar(String tipFicha,
+                                    String tipCursoFicha);
 }

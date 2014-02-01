@@ -9,4 +9,6 @@ import sped.negocio.entidades.eval.FichaValor;
 @Local
 public interface BDL_C_SFFichaValorLocal {
     List<FichaValor> getFichaValorFindAll();
+    FichaValor findFichaValorById(int id);
+    List<FichaValor> getFichaValorByFicha(int nidFicha);
 }

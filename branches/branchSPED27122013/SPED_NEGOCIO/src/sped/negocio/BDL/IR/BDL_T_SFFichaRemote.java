@@ -11,4 +11,7 @@ public interface BDL_T_SFFichaRemote {
     Ficha mergeFicha(Ficha ficha);
 
     void removeFicha(Ficha ficha);
+    void reactivarFichaYDesactivarElResto(String tipFicha,
+                                          String tipCursoFicha,
+                                          int nidFicha);
 }
