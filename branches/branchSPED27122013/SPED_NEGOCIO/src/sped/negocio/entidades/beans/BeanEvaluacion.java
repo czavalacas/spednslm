@@ -15,7 +15,7 @@ public class BeanEvaluacion implements Serializable {
         private String nidDate;
         private Integer nidEvaluacion;    
         private Integer nidEvaluador;
-        private String resultado;
+        private double resultado;
         private String nombreEvaluador;
         private String nombrePLanificador;
         private String apellidosDocentes;
@@ -75,13 +75,13 @@ public class BeanEvaluacion implements Serializable {
 
     public String getNidDate() {
         return nidDate;
-    } 
+    }
 
-    public void setResultado(String resultado) {
+    public void setResultado(double resultado) {
         this.resultado = resultado;
     }
 
-    public String getResultado() {
+    public double getResultado() {
         return resultado;
     }
 

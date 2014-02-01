@@ -128,10 +128,11 @@
                     <af:outputText value="#{row.estadoEvaluacion}" id="ot10"/>
                 </af:column>
                 <af:column sortable="true" sortProperty="resultado" headerText="Resultado" align="center"
+                           inlineStyle="#{(row.resultado > 0 and 10 > row.resultado) ? 'background-color:Red;' : 'background-color:Green;'} color:White; font-weight:bold;text-align:center;"
                            id="c11">
-                    <af:outputText value="#{row.resultado}" id="ot11"/>
+                    <af:outputText value="#{row.resultado == 0 ? '-' : row.resultado}" id="ot11"/>
                 </af:column>
-                <af:column headerText="Opcion" align="left"
+                <af:column headerText="Opcion" align="left" 
                            id="c12">
                     <af:panelFormLayout id="pfl8" rows="1">
                         <af:button id="btnVer" icon="../recursos/img/usuarios/ver.png" visible="#{(row.estadoEvaluacion == 'EVALUADO') == true}"/>
