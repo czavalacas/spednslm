@@ -1,5 +1,7 @@
 package sped.negocio.entidades.beans;
 
+import java.util.List;
+
 public class BeanUsuario implements java.io.Serializable{
     @SuppressWarnings("compatibility:-7716331137436807403")
     private static final long serialVersionUID = 1L;
@@ -21,10 +23,18 @@ public class BeanUsuario implements java.io.Serializable{
     private BeanError error;
     private String areaAcYProf;
     private String descripcionEstadoUsuario;//Auxiliares tabla:admcons
-    
+    private List<Integer> lstPermisos;
 
     public BeanUsuario(){}
-    
+
+    public void setLstPermisos(List<Integer> lstPermisos) {
+        this.lstPermisos = lstPermisos;
+    }
+
+    public List<Integer> getLstPermisos() {
+        return lstPermisos;
+    }
+
     public void setClave(String clave) {
         this.clave = clave;
     }
