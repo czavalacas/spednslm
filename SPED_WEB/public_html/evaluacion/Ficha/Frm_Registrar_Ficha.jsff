@@ -28,7 +28,7 @@
                             binding="#{bRegistrarFicha.btnEditFicha}" actionListener="#{bRegistrarFicha.editarFicha}"/>
                 <af:button text="Usar como Base" id="btnBase" disabled="true" binding="#{bRegistrarFicha.btnBase}"
                            actionListener="#{bRegistrarFicha.usarComoBase}"/>
-                <af:button id="btnRefresh" icon="#{resource['images:refresh.png']}" immediate="true"
+                <af:button id="btnRefresh" icon="../recursos/img/usuarios/refresh.png" immediate="true"
                             actionListener="#{bRegistrarFicha.refrescarTablaFichas}" />
                 <af:button text="Resetear" id="b7" actionListener="#{bRegistrarFicha.resetar}" immediate="true"/>
                 <af:button text="#{sessionScope.sessionRegistrarFicha.actDesact}" id="btnActDesact" disabled="true"
@@ -107,12 +107,12 @@
                                     <af:gridCell marginStart="2px" width="70%" id="gc3" valign="middle">
                                             <af:outputLabel value="Criterios" id="ol1"/>
                                             <af:button id="b1"
-                                                        icon="#{resource['images:consultar.png']}"
+                                                        icon="../recursos/img/usuarios/consultar.png"
                                                         actionListener="#{bRegistrarFicha.abrirPopCriterios}"/>
                                     </af:gridCell>
                                     <af:gridCell marginStart="2px" width="30%" marginEnd="2px" id="gc4">
-                                            <af:outputLabel value="Indicadores" id="ol2"/>
-                                            <af:button icon="#{resource['images:consultar.png']}" id="b2"
+                                            <af:outputLabel visible="false" value="Indicadores" id="ol2"/>
+                                            <af:button visible="false" icon="../recursos/img/usuarios/consultar.png" id="b2"
                                                         actionListener="#{bRegistrarFicha.abrirPopIndicadores}"/>
                                     </af:gridCell>
                                 </af:gridRow>
@@ -180,7 +180,7 @@
                         <af:messages id="msjCrit" inline="true" binding="#{bRegistrarFicha.mensaje}"/>
                         <af:panelGroupLayout id="pgl3">
                             <af:button text="Buscar" id="btnBuscarCrits" action="#{bRegistrarFicha.buscarCriterios}"/>
-                            <af:button id="btnRefreshCrits" icon="#{resource['images:refresh.png']}"
+                            <af:button id="btnRefreshCrits" icon="../recursos/img/usuarios/refresh.png"
                                         action="#{bRegistrarFicha.resetCrits}"/>
                             <af:button text="Registrar" id="btnRegCrit"
                                         actionListener="#{bRegistrarFicha.registrarCriterio}"/>
@@ -215,7 +215,7 @@
                         <af:messages id="msjIndi" inline="true" binding="#{bRegistrarFicha.mensajeIndicador}"/>
                         <af:panelGroupLayout id="pgl4">
                             <af:button text="Buscar" id="btnBuscarIndis" action="#{bRegistrarFicha.buscarIndicadores}"/>
-                            <af:button id="btnRefreshIndis" icon="#{resource['images:refresh.png']}"
+                            <af:button id="btnRefreshIndis" icon="../recursos/img/usuarios/refresh.png"
                                         action="#{bRegistrarFicha.resetIndis}"/>
                             <af:button text="Registrar" id="btnRegIndi"
                                         actionListener="#{bRegistrarFicha.registrarIndicador}"/>
@@ -259,7 +259,7 @@
                         <af:outputText value="#{row.descripcionIndicador}" id="ot11"/>
                     </af:column>
                     <af:column width="40">
-                        <af:button icon="#{resource['images:borrar.png']}"/>
+                        <af:button icon="../recursos/img/usuarios/borrar.png"/>
                     </af:column>
                 </af:table>
             </af:dialog>
