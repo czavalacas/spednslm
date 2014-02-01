@@ -74,7 +74,7 @@
                 <af:panelGroupLayout id="pgl3">
                     <af:button text="Buscar" id="b5" actionListener="#{bGestionarUsuarios.buscarUsuarioFiltro}"/>
                     <af:button id="btnRefreshFiltro" actionListener="#{bGestionarUsuarios.refrescarFiltro}"
-                               icon="#{resource['images:refresh.png']}"/>
+                               icon="../recursos/img/usuarios/refresh.png"/>
                 </af:panelGroupLayout>
             </af:subform>
             <af:separator id="s1"/>
