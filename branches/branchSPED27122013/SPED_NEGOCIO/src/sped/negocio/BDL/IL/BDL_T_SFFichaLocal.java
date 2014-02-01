@@ -11,4 +11,7 @@ public interface BDL_T_SFFichaLocal {
     Ficha mergeFicha(Ficha ficha);
 
     void removeFicha(Ficha ficha);
+    void reactivarFichaYDesactivarElResto(String tipFicha,
+                                          String tipCursoFicha,
+                                          int nidFicha);
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,13 +36,15 @@ public class CriterioIndicador implements Serializable {
                  @JoinColumn(name = "nidCriterio", referencedColumnName = "nidCriterio")
         })
     private FichaCriterio fichaCriterio;
-    @OneToMany(mappedBy = "criterioIndicador", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "criterioIndicador",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Leyenda> leyendaLista;
     @ManyToOne
     @JoinColumn(name = "nidIndicador")
     private Indicador indicador;
     @OneToMany(mappedBy = "criterioIndicador", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Resultado> resultadoLista;
+    @Column(name = "orden")
+    private int orden;
 
     public CriterioIndicador() {
     }
@@ -52,6 +55,13 @@ public class CriterioIndicador implements Serializable {
         this.indicador = indicador;
     }
 
+    public void setOrden(int orden) {
+        this.orden = orden;
+    }
+
+    public int getOrden() {
+        return orden;
+    }
 
     public int getNidCriterioIndicador() {
         return nidCriterioIndicador;

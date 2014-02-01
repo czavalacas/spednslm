@@ -21,10 +21,11 @@ public class BDL_C_SFValorBean implements BDL_C_SFValorRemote,
     public BDL_C_SFValorBean() {
     }
     
-    public List<Valor> getValoresAll_BDL(int valMax){
+    public List<Valor> getValoresAll_BDL(int valMin,int valMax){
         return em.createQuery("SELECT v " +
                                "FROM Valor v " +
-                               "WHERE v.valor BETWEEN 0 and :valor").setParameter("valor",(valMax - 1)).getResultList();
+                               "WHERE v.valor BETWEEN :valMin and :valor").setParameter("valMin",valMin).
+                                                                           setParameter("valor",(valMax - 1)).getResultList();
     }
     
     public Valor findValorById(int id) {

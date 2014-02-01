@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import java.sql.Timestamp;
 
-public class BeanFicha implements Serializable {
+public class BeanFicha implements Serializable,Cloneable {
     @SuppressWarnings("compatibility:-6254141762681500770")
     private static final long serialVersionUID = 1L;
     
@@ -18,6 +18,25 @@ public class BeanFicha implements Serializable {
     private String descripcionEstadoFicha;//Auxiliares tabla:admcons
     private Timestamp fechaFicha;
     private BeanError beanError = new BeanError();
+    private int cantidadValores;
+
+    public Object clone() {
+        Object clone = null;
+        try {
+            clone = super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return clone;
+    }
+
+    public void setCantidadValores(int cantidadValores) {
+        this.cantidadValores = cantidadValores;
+    }
+
+    public int getCantidadValores() {
+        return cantidadValores;
+    }
 
     public void setBeanError(BeanError beanError) {
         this.beanError = beanError;

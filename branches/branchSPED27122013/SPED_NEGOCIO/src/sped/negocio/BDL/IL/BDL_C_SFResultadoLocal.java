@@ -1,0 +1,13 @@
+package sped.negocio.BDL.IL;
+
+import java.util.List;
+
+import javax.ejb.Local;
+
+import sped.negocio.entidades.eval.Resultado;
+
+@Local
+public interface BDL_C_SFResultadoLocal {
+    List<Resultado> getResultadoFindAll();
+    boolean fichaUsadaEnEvaluacion(int nidFicha);
+}

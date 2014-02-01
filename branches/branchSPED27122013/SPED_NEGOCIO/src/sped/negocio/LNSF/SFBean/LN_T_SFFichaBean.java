@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -24,8 +25,14 @@ import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
 import sped.negocio.BDL.IL.BDL_C_SFCriterioLocal;
+import sped.negocio.BDL.IL.BDL_C_SFFichaCriterioLocal;
+import sped.negocio.BDL.IL.BDL_C_SFFichaLocal;
+import sped.negocio.BDL.IL.BDL_C_SFFichaValorLocal;
 import sped.negocio.BDL.IL.BDL_C_SFValorLocal;
+import sped.negocio.BDL.IL.BDL_T_SFFichaCriterioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFFichaLocal;
+import sped.negocio.BDL.IL.BDL_T_SFFichaValorLocal;
+import sped.negocio.BDL.IL.BDL_T_SFLeyendaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFFichaLocal;
 import sped.negocio.LNSF.IR.LN_T_SFFichaRemote;
@@ -58,7 +65,17 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
     @EJB
     private LN_C_SFErrorLocal ln_C_SFErrorLocal;
     @EJB
-    private BDL_C_SFCriterioLocal bdL_C_SFCriterioLocal;
+    private BDL_C_SFFichaLocal bdL_C_SFFichaLocal;
+    @EJB
+    private BDL_T_SFLeyendaLocal bdL_T_SFLeyendaLocal;
+    @EJB
+    private BDL_T_SFFichaValorLocal bdL_T_SFFichaValorLocal;
+    @EJB
+    private BDL_C_SFFichaValorLocal bdL_C_SFFichaValorLocal;
+    @EJB
+    private BDL_T_SFFichaCriterioLocal bdL_T_SFFichaCriterioLocal;
+    @EJB
+    private BDL_C_SFFichaCriterioLocal bdL_C_SFFichaCriterioLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_T_SFFichaBean() {
@@ -69,22 +86,53 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
                                      String tipFichaCurso,
                                      String version,
                                      int numVal,
-                                     List<BeanCriterio> listaCritsIndis){
+                                     List<BeanCriterio> listaCritsIndis,
+                                     int evento,
+                                     int nidFicha){//1 INSERTAR, 2 ACTUALIZAR
         BeanError beanError = new BeanError();
         Ficha ficha = new Ficha();
         BeanFicha bFicha = new BeanFicha();
+        if(evento == 2){
+            ficha = bdL_C_SFFichaLocal.findFichaById(nidFicha);
+        }
         String error = "000";
         try{
             ficha.setDescripcionVersion(version);
-            ficha.setEstadoFicha("1");
+            ficha.setEstadoFicha("0");
             ficha.setFechaFicha(new Timestamp(new Date().getTime()));
             ficha.setTipoFicha(tipFicha);
             ficha.setTipoFichaCurso(tipFichaCurso);
-            ficha.setFichaValorLista(this.setFichaValor(numVal, ficha));
-            ficha.setFichaCriterioLista(this.setFichaCriteriosLista(listaCritsIndis, ficha));
-            bdL_T_SFFichaLocal.persistFicha(ficha);
+            if(evento == 1){
+                ficha.setFichaValorLista(this.setFichaValor(0,numVal, ficha));
+                ficha.setFichaCriterioLista(this.setFichaCriteriosLista(listaCritsIndis,ficha,evento));
+            }
+            if (evento == 2) {
+                ficha = bdL_T_SFFichaLocal.mergeFicha(ficha);
+                if (numVal < ficha.getFichaValorLista().size()) { //QUITARON VALORES
+                    int idx = 0;
+                    Iterator it = ficha.getFichaValorLista().iterator();
+                    while (it.hasNext()) {
+                        FichaValor fichVal = (FichaValor) it.next();
+                        idx = fichVal.getValor().getValor() + 1;
+                        if (idx > numVal) {
+                            FichaValor fichValor = bdL_C_SFFichaValorLocal.findFichaValorById(fichVal.getNidFichaValor());
+                            bdL_T_SFFichaValorLocal.removeFichaValor(fichValor);
+                            it.remove();
+                        }
+                    }
+                } else if(numVal > ficha.getFichaValorLista().size()){ //AGREGARON VALORES
+                    ficha.setFichaValorLista(this.setFichaValor(ficha.getFichaValorLista().size(), numVal, ficha));
+                }
+                List<FichaCriterio> lstFichas = this.setFichaCriteriosLista(listaCritsIndis,ficha,evento);
+                for(FichaCriterio fc : lstFichas){
+                    bdL_T_SFFichaCriterioLocal.persistFichaCriterio(fc);
+                }
+            } else if (evento == 1) {
+                bdL_T_SFFichaLocal.persistFicha(ficha);
+            }
         }catch(Exception e){
             error = "111";
+            e.printStackTrace();
         }finally{
             beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
             bFicha.setBeanError(beanError);
@@ -92,21 +140,57 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
         }
     }
     
-    public List<FichaCriterio> setFichaCriteriosLista(List<BeanCriterio> listaCritsIndis,Ficha ficha){
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public BeanFicha desactivarActivarFicha(int nidFicha,String actDesac){
+        BeanError beanError = new BeanError();
+        BeanFicha bFicha = new BeanFicha();
+        String error = "000";
+        try {
+            Ficha ficha = bdL_C_SFFichaLocal.findFichaById(nidFicha);
+            ficha.setEstadoFicha(actDesac);
+            bdL_T_SFFichaLocal.mergeFicha(ficha);
+        } catch (Exception e) {
+            error = "111";
+            e.printStackTrace();
+        } finally{
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            bFicha.setBeanError(beanError);
+            return bFicha;
+        }
+    }
+    
+    public Leyenda getLeyendaByValor(List<Leyenda> lstLeys, int val){
+        for(Leyenda ley : lstLeys){
+            if(ley.getFichaValor().getValor().getValor() == val){
+                return ley;
+            }
+        }
+        return null;
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void eliminarFichaCriterio(int nidFicha){
+        for(FichaCriterio ffc : bdL_C_SFFichaCriterioLocal.getFichaCriteriosByFicha(nidFicha)){
+            bdL_T_SFFichaCriterioLocal.removeFichaCriterio(ffc);
+        }
+    }
+    
+    public List<FichaCriterio> setFichaCriteriosLista(List<BeanCriterio> listaCritsIndis,Ficha ficha,int evento){
         List<FichaCriterio> lstFichaCriterio = new ArrayList<FichaCriterio>();
         for(BeanCriterio bCrit : listaCritsIndis){
-            Criterio criterio = (Criterio) mapper.map(bCrit, Criterio.class);
+            Criterio criterio = (Criterio) mapper.map(bCrit, Criterio.class);Utiles.sysout("crit:"+criterio.getNidCriterio());
        //     Criterio criterio = bdL_C_SFCriterioLocal.findCriterioById(bCrit.getNidCriterio()); 
             FichaCriterio fichCriterio = new FichaCriterio();
             fichCriterio.setCriterio(criterio);
             fichCriterio.setFicha(ficha);
-            fichCriterio.setCriterioIndicadorLista(this.setCriterioIndicadorLista(bCrit.getLstIndicadores(),fichCriterio));
+            fichCriterio.setOrden(bCrit.getOrden());
+            fichCriterio.setCriterioIndicadorLista(this.setCriterioIndicadorLista(bCrit.getLstIndicadores(),fichCriterio,evento));
             lstFichaCriterio.add(fichCriterio);
         }
         return lstFichaCriterio;
     }
     
-    public List<CriterioIndicador> setCriterioIndicadorLista(List<BeanCriterio> lstCritIndicadores,FichaCriterio fichaCriterio){
+    public List<CriterioIndicador> setCriterioIndicadorLista(List<BeanCriterio> lstCritIndicadores,FichaCriterio fichaCriterio,int evento){
         List<CriterioIndicador> lstCriterioIndicador = new ArrayList<CriterioIndicador>();
         for(BeanCriterio bCritIndi : lstCritIndicadores){
             CriterioIndicador critIndi = new CriterioIndicador();//(CriterioIndicador) mapper.map(bCritIndi, CriterioIndicador.class);
@@ -115,13 +199,14 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
             indicador.setNidIndicador(bCritIndi.getNidCriterio());
             critIndi.setFichaCriterio(fichaCriterio);
             critIndi.setIndicador(indicador);
-            critIndi.setLeyendaLista(this.setListaLeyendas(bCritIndi.getLstLeyenda(),critIndi,fichaCriterio.getFicha()));
+            critIndi.setOrden(bCritIndi.getOrden());
+            critIndi.setLeyendaLista(this.setListaLeyendas(bCritIndi.getLstLeyenda(),critIndi,fichaCriterio.getFicha(),evento));
             lstCriterioIndicador.add(critIndi);
         }
         return lstCriterioIndicador;
     }
     
-    public List<Leyenda> setListaLeyendas(List<BeanLeyenda> lstLeyends,CriterioIndicador criterioIndicador,Ficha ficha){
+    public List<Leyenda> setListaLeyendas(List<BeanLeyenda> lstLeyends,CriterioIndicador criterioIndicador,Ficha ficha,int evento){
         List<Leyenda> lstLeys = new ArrayList<Leyenda>();
         for(BeanLeyenda ley : lstLeyends){
             Leyenda leyenda = new Leyenda();
@@ -129,16 +214,21 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
             leyenda.setDescripcionLeyenda(ley.getDescripcionLeyenda());
             int indx = Integer.parseInt(ley.getHeader().substring(ley.getHeader().indexOf(" ") + 1,
                                                                   ley.getHeader().length())       );
-            FichaValor fichaValor = this.getFichaValorBy((indx),ficha.getFichaValorLista());
+            FichaValor fichaValor = new FichaValor();
+            if(evento == 1){
+                fichaValor = this.getFichaValorBy((indx),ficha.getFichaValorLista());
+            }else{
+                fichaValor = this.getFichaValorBy((indx),bdL_C_SFFichaValorLocal.getFichaValorByFicha(ficha.getNidFicha()));
+            }
             leyenda.setFichaValor(fichaValor);
             lstLeys.add(leyenda);
         }
         return lstLeys;
     }
     
-    public List<FichaValor> setFichaValor(int numVal,Ficha ficha){
+    public List<FichaValor> setFichaValor(int minVal,int numVal,Ficha ficha){
         List<FichaValor> lstaFichaValor = new ArrayList<FichaValor>();
-        for(Valor val : bdL_C_SFValorLocal.getValoresAll_BDL(numVal)){
+        for(Valor val : bdL_C_SFValorLocal.getValoresAll_BDL(minVal,numVal)){
             FichaValor fichaValor = new FichaValor();
             fichaValor.setFicha(ficha);
             fichaValor.setValor(val);
@@ -154,5 +244,11 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
             }
         }
         return null;
+    }
+    
+    public void reactivarFichaYDesactivarElResto(String tipFicha,
+                                                  String tipCursoFicha,
+                                                  int nidFicha){
+        bdL_T_SFFichaLocal.reactivarFichaYDesactivarElResto(tipFicha, tipCursoFicha, nidFicha);                                                 
     }
 }

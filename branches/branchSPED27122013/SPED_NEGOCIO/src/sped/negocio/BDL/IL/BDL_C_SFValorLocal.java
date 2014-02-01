@@ -9,6 +9,6 @@ import sped.negocio.entidades.eval.Valor;
 @Local
 public interface BDL_C_SFValorLocal {
     
-    List<Valor> getValoresAll_BDL(int valMax);
+    List<Valor> getValoresAll_BDL(int valMin,int valMax);
     Valor findValorById(int id);
 }

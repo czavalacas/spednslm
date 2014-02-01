@@ -20,7 +20,8 @@ public class BDL_C_SFCriterioRemoteClient {
             final Context context = getInitialContext();
             BDL_C_SFCriterioRemote bDL_C_SFCriterioRemote = (BDL_C_SFCriterioRemote) context.lookup("mapBDL_C_SFCriterio#sped.negocio.BDL.IR.BDL_C_SFCriterioRemote");
             BeanCriterio beanCriterio = new BeanCriterio();
-            beanCriterio.setDescripcionCriterio("a");
+            beanCriterio.setDescripcionCriterio("x");
+            beanCriterio.setNidCriterio(0);
             List<Criterio> lstCrits = bDL_C_SFCriterioRemote.getCriteriosByAttr_BDL(beanCriterio);
             for(Criterio cri : lstCrits){
                 System.out.println("nid: "+cri.getNidCriterio());
