@@ -31,7 +31,7 @@ public class FichaValor implements Serializable {
     @ManyToOne
     @JoinColumn(name = "nidValoracion")
     private Valor valor;
-    @OneToMany(mappedBy = "fichaValor", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "fichaValor", cascade = { CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE })
     private List<Leyenda> leyendaLista;
     @ManyToOne
     @JoinColumn(name = "nidFicha")

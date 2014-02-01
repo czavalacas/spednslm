@@ -35,6 +35,7 @@ import javax.sql.RowSet;
 import oracle.adf.model.BindingContext;
 import oracle.adf.model.binding.DCBindingContainer;
 import oracle.adf.model.binding.DCIteratorBinding;
+import oracle.adf.share.logging.ADFLogger;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichCalendar;
 import oracle.adf.view.rich.component.rich.data.RichTable;
@@ -45,6 +46,8 @@ import oracle.adf.view.rich.event.CalendarActivityEvent;
 import oracle.adf.view.rich.event.CalendarEvent;
 import oracle.adf.view.rich.model.CalendarActivity;
 
+
+import oracle.adf.view.rich.render.ClientEvent;
 
 import oracle.binding.BindingContainer;
 import oracle.binding.OperationBinding;

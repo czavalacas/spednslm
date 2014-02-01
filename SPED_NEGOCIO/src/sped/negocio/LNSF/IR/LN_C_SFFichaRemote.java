@@ -13,4 +13,6 @@ public interface LN_C_SFFichaRemote {
                                         int mes,
                                         String tipFicha,
                                         String tipFichaCurso);
+    BeanFicha checkSiSePuedeActivar(String tipFicha,
+                                    String tipCursoFicha);
 }

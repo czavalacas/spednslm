@@ -9,6 +9,9 @@ import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+
 import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
@@ -19,10 +22,12 @@ import net.sf.dozer.util.mapping.MappingException;
 
 import sped.negocio.BDL.IL.BDL_C_SFFichaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
+import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaLocal;
 import sped.negocio.LNSF.IR.LN_C_SFFichaRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanConstraint;
+import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.eval.Ficha;
 
@@ -37,6 +42,8 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
     private BDL_C_SFFichaLocal bdL_C_SFFichaLocal;
     @EJB
     private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
+    @EJB
+    private LN_C_SFErrorLocal ln_C_SFErrorLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFFichaBean() {
@@ -63,6 +70,7 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
                 beanFicha.setDescripcionTipoFichaCurso(constr.getDescripcionAMostrar());
                 constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("estado_ficha", "evmfich", ficha.getEstadoFicha());
                 beanFicha.setDescripcionEstadoFicha(constr.getDescripcionAMostrar());
+                beanFicha.setCantidadValores(ficha.getFichaValorLista().size());
                 lstBeanFichas.add(beanFicha);
             }
             return lstBeanFichas;
@@ -94,6 +102,27 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
         }catch(Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public BeanFicha checkSiSePuedeActivar(String tipFicha,
+                                            String tipCursoFicha){
+        String error = "000";
+        BeanError beanError = new BeanError();
+        BeanFicha bFicha = new BeanFicha();
+        try{
+            int count = bdL_C_SFFichaLocal.hayFichasActivas(tipFicha, tipCursoFicha);
+            if(count > 0){
+                error = "SPED-00004";
+            }
+        }catch(Exception e){
+            error = "111";
+            e.printStackTrace();
+        }finally{
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            bFicha.setBeanError(beanError);
+            return bFicha;
         }
     }
 }

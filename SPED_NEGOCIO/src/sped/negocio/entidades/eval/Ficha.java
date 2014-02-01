@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,9 +37,9 @@ public class Ficha implements Serializable {
     private String tipoFicha;
     @Column(name = "tipo_ficha_curso")
     private String tipoFichaCurso;
-    @OneToMany(mappedBy = "ficha", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "ficha",fetch = FetchType.EAGER,cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
     private List<FichaValor> fichaValorLista;
-    @OneToMany(mappedBy = "ficha", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "ficha", cascade = CascadeType.ALL)
     private List<FichaCriterio> fichaCriterioLista;
     @Column(name = "fecha_ficha", nullable = false)
     private Timestamp fechaFicha;

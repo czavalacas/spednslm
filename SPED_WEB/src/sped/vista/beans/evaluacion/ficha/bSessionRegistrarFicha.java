@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.faces.event.ActionEvent;
+
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
 
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
@@ -14,6 +16,8 @@ import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.beans.BeanIndicador;
 import sped.negocio.entidades.beans.BeanLeyenda;
+
+import sped.vista.Utils.Utils;
 
 /** Clase de Sesion del Bean bRegistrarFicha
  * @author dfloresgonz
@@ -56,9 +60,54 @@ public class bSessionRegistrarFicha implements Serializable {
     private String styleClass;
     private int numValores;
     private int tipEvento;//0=default, 1=registrar(nuevo), 2=editar
+    private BeanFicha fichaEditarClon;
+    private String actDesact;
+    private String actDesEstilo;
+    private String advertenciaSPED0004;
     
     public bSessionRegistrarFicha() {
 
+    }
+
+    public void setActDesact(String actDesact) {
+        this.actDesact = actDesact;
+    }
+
+    public void setAdvertenciaSPED0004(String advertenciaSPED0004) {
+        this.advertenciaSPED0004 = advertenciaSPED0004;
+    }
+
+    public String getAdvertenciaSPED0004() {
+        return advertenciaSPED0004;
+    }
+
+    public String getActDesact() {
+        if(fichaEditarClon != null){
+            if(fichaEditarClon.getEstadoFicha().equals("0")){
+                actDesact = "Activar";
+            }else{
+                actDesact = "Desactivar";
+            }
+        }else{
+            actDesact = "Activar/Desactivar";
+        }
+        return actDesact;
+    }
+
+    public void setActDesEstilo(String actDesEstilo) {
+        this.actDesEstilo = actDesEstilo;
+    }
+
+    public String getActDesEstilo() {
+        return actDesEstilo;
+    }
+
+    public void setFichaEditarClon(BeanFicha fichaEditarClon) {
+        this.fichaEditarClon = fichaEditarClon;
+    }
+
+    public BeanFicha getFichaEditarClon() {
+        return fichaEditarClon;
     }
 
     public void setNumValores(int numValores) {
@@ -316,5 +365,4 @@ public class bSessionRegistrarFicha implements Serializable {
     public String getDescIndicador() {
         return descIndicador;
     }
-
 }
