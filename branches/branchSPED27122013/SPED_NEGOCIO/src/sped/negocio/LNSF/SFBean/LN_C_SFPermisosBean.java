@@ -19,6 +19,7 @@ import net.sf.dozer.util.mapping.MapperIF;
 import sped.negocio.BDL.IL.BDL_C_SFPermisoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IR.LN_C_SFPermisosRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.sist.Permiso;
 
@@ -100,7 +101,8 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
             if(!objP.getHabilidad().equals("S")){
                 hijosObj = setBean(objP,"N",lstPermisos);
                 hijos.add(hijosObj);
-            }else{
+            }
+            if(!lstPermisos.contains(objP.getNidPermiso())){
                 lstPermisos.add(objP.getNidPermiso());
             }
         }
