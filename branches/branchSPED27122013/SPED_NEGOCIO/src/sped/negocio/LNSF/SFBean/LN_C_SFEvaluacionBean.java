@@ -126,8 +126,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }
     
     
-    public String resultadoBeanEvaluacion(BeanEvaluacion beanEva, Evaluacion eva){
-        String resu = "-";
+    public double resultadoBeanEvaluacion(BeanEvaluacion beanEva, Evaluacion eva){
+        double resu = 0;
         int tamano = beanEva.getResultadoCriterioList().size();
         if(tamano != 0){
             beanEva.setResultadoCriterioList(ln_C_SFResultadoCriterioLocal.transformLstResultadoCriterio
@@ -136,7 +136,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             for(int i = 0; i < tamano; i++){
                 total = total + beanEva.getResultadoCriterioList().get(i).getValor();
             }
-            resu = (total/tamano)+"";
+            resu = (total/tamano);
         }
         return resu;
     }
