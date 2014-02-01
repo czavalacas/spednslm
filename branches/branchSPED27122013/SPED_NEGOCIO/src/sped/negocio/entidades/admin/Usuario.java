@@ -2,6 +2,9 @@ package sped.negocio.entidades.admin;
 
 import java.io.Serializable;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,11 +15,13 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import javax.persistence.TableGenerator;
 
 import sped.negocio.entidades.sist.Rol;
+import sped.negocio.entidades.sist.UsuarioPermiso;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Usuario.findAll", query = "select o from Usuario o") })
@@ -52,6 +57,8 @@ public class Usuario implements Serializable {
     @ManyToOne
     @JoinColumn(name = "nidAreaAcademica")
     private AreaAcademica areaAcademica;
+    @OneToMany(mappedBy = "usuario", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<UsuarioPermiso> usuarioPermisosLista;
 
     public Usuario() {
     }
@@ -69,6 +76,13 @@ public class Usuario implements Serializable {
         this.usuario = usuario;
     }
 
+    public void setUsuarioPermisosLista(List<UsuarioPermiso> usuarioPermisosLista) {
+        this.usuarioPermisosLista = usuarioPermisosLista;
+    }
+
+    public List<UsuarioPermiso> getUsuarioPermisosLista() {
+        return usuarioPermisosLista;
+    }
 
     public String getClave() {
         return clave;
