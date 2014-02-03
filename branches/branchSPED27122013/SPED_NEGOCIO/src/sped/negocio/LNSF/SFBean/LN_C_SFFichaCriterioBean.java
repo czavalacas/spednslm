@@ -17,7 +17,9 @@ import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
 import sped.negocio.BDL.IL.BDL_C_SFFichaCriterioLocal;
+import sped.negocio.LNSF.IL.LN_C_SFCriterioIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
+import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFFichaCriterioRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCriterio;
@@ -37,6 +39,10 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
     private EntityManager em;
     @EJB
     private BDL_C_SFFichaCriterioLocal bdL_C_SFFichaCriterioLocal;
+    @EJB
+    private LN_C_SFResultadoCriterioLocal ln_C_SFResultadoCriterioLocal;
+    @EJB
+    private LN_C_SFCriterioIndicadorLocal ln_C_SFCriterioIndicadorLocal;
     private MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFFichaCriterioBean() {
@@ -103,4 +109,19 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
         }
         return lstLeyendas;
     }
+    
+    public List<BeanFichaCriterio> getLstFichaCriterioByEvaluacion(int nidEvaluacion){
+        List<BeanFichaCriterio> lstBeanFC = new ArrayList();
+        List<FichaCriterio> lstFC = bdL_C_SFFichaCriterioLocal.getLstFichaCriteriosByEvaluacion(nidEvaluacion);
+        for(FichaCriterio fc : lstFC){
+            BeanFichaCriterio bean = (BeanFichaCriterio) mapper.map(fc, BeanFichaCriterio.class);
+            bean.setLstresultadoCriterio(ln_C_SFResultadoCriterioLocal.
+                                         transformLstResultadoCriterio(fc.getResultadoCriterioList()));
+            bean.setLstcriterioIndicador(ln_C_SFCriterioIndicadorLocal.
+                                         transformLstCriterioIndicador(fc.getCriterioIndicadorLista()));
+            lstBeanFC.add(bean);
+        }
+        return lstBeanFC;
+    }
+    
 }
