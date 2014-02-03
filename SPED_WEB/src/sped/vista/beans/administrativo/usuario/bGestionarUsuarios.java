@@ -220,7 +220,7 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setRenderNivel(true);
             sessionGestionarUsuarios.setRenderSede(true);
         }
-        if(usuario.getRol().getDescripcionRol().compareTo("Profesor") == 0){
+        if(usuario.getRol().getNidRol() == 3){
             sessionGestionarUsuarios.setDisableRol(true);
         }
         if(i1!=null){
@@ -330,12 +330,10 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setNidAreaAcademica(0);
             sessionGestionarUsuarios.setNidSede(0);
             sessionGestionarUsuarios.setNidNivel(0);
-            if (ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "Evaluador")){
+            if (nidrol == 2){
                 sessionGestionarUsuarios.setRenderAreaAcdemica(true); 
-            }else if(ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "SubDirector")){
+            }else if(nidrol == 4){
                 sessionGestionarUsuarios.setRenderSede(true);   
-            }else if(ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "Director")){
-                
             }
             Utils.addTargetMany(pfl1);
         }catch(Exception e){
@@ -348,7 +346,7 @@ public class bGestionarUsuarios {
             if(valueChangeEvent.getNewValue() != null){
                 String index = valueChangeEvent.getNewValue().toString();                
                 int nidrol = Integer.parseInt(index);
-                if (ln_C_SFRolRemote.validaRolbyDescripcion(nidrol, "SubDirector")){
+                if (nidrol == 4){
                     sessionGestionarUsuarios.setFbooleanSede(true);                                          
                 }
                 else{
@@ -482,8 +480,7 @@ public class bGestionarUsuarios {
         }catch(Exception e){
             e.printStackTrace();
         }
-    }
-    
+    }    
     
     public void TransferFile(String ruta, String rutalocal, InputStream in) throws Exception {
         OutputStream out = new FileOutputStream(new File(ruta));

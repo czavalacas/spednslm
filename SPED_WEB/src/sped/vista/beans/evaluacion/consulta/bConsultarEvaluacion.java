@@ -1,5 +1,11 @@
 package sped.vista.beans.evaluacion.consulta;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import java.math.BigInteger;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -9,10 +15,13 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
 import javax.faces.component.UISelectItems;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+
+import jxl.write.WriteException;
 
 import oracle.adf.view.rich.component.rich.RichSubform;
 import oracle.adf.view.rich.component.rich.data.RichTable;
@@ -20,11 +29,22 @@ import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
+import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
+
+import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
+
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
+import sped.negocio.LNSF.IR.LN_C_SFFichaCriterioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeNivelRemote;
@@ -32,8 +52,10 @@ import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanConstraint;
+import sped.negocio.entidades.beans.BeanCriterioIndicador;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanFichaCriterio;
 import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanSede;
@@ -41,6 +63,8 @@ import sped.negocio.entidades.beans.BeanSedeNivel;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
+
+import utils.system;
 
 public class bConsultarEvaluacion {
     
@@ -61,6 +85,8 @@ public class bConsultarEvaluacion {
     private RichInputDate idfechaEvaluacion;
     private RichInputDate idfechaEvaluacionf;
     private RichSubform s1;
+    private RichSelectOneChoice choiceFEstado;
+    private UISelectItems si4;
     @EJB
     private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
     @EJB
@@ -75,8 +101,11 @@ public class bConsultarEvaluacion {
     private LN_C_SFGradoRemote ln_C_SFGradoRemote;
     @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
-    private RichSelectOneChoice choiceFEstado;
-    private UISelectItems si4;
+    @EJB
+    private LN_C_SFFichaCriterioRemote ln_C_SFFichaCriterioRemote;
+    private RichPanelFormLayout pfl7;
+    private RichShowDetail sd1;
+    private RichShowDetail sd2;
 
     public bConsultarEvaluacion() {
         
@@ -182,7 +211,9 @@ public class bConsultarEvaluacion {
         idfechaEvaluacion.resetValue();
         idfechaEvaluacionf.resetValue();
         sessionConsultarEvaluacion.setFechaP(null);
+        sessionConsultarEvaluacion.setFechaPf(null);
         sessionConsultarEvaluacion.setFechaF(null);
+        sessionConsultarEvaluacion.setFechaFf(null);
         sessionConsultarEvaluacion.setNombreProfesor(null);
         sessionConsultarEvaluacion.setNombreEvaluador(null);
         sessionConsultarEvaluacion.setDescripcionEstadoEvaluacion(null);
@@ -191,7 +222,10 @@ public class bConsultarEvaluacion {
         sessionConsultarEvaluacion.setNidArea(0);
         sessionConsultarEvaluacion.setNidCurso(0);
         sessionConsultarEvaluacion.setNidGrado(0);
-        Utils.addTarget(s1);
+        sessionConsultarEvaluacion.setEstadoEvaluacion(0);
+        sd1.setDisclosed(false);
+        sd2.setDisclosed(false);
+        Utils.addTarget(pfl7);
         llenarTabla();
     }
     
@@ -223,6 +257,67 @@ public class bConsultarEvaluacion {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void exportData(FacesContext facesContext, OutputStream outputStream) throws IOException,WriteException{
+        Data(outputStream, sessionConsultarEvaluacion.getEvaluacion());
+    }     
+    
+    public void Data(OutputStream outputStream, BeanEvaluacion eva){
+        if(eva != null){
+            List<BeanFichaCriterio> LstBeanFC = ln_C_SFFichaCriterioRemote.
+                                                getLstFichaCriterioByEvaluacion(eva.getNidEvaluacion());
+            
+            XWPFDocument document = new XWPFDocument();
+            XWPFParagraph paragraphOne = document.createParagraph(); 
+            XWPFRun paragraphOneRunOne = paragraphOne.createRun(); 
+            paragraphOneRunOne.setText("GUÍA DE OBSERVACIÓN DOCENTE NSLM"); 
+                    
+            XWPFParagraph paragraphTwo = document.createParagraph(); 
+            XWPFRun paragraphTwoRunOne = paragraphTwo.createRun(); 
+            paragraphTwoRunOne.setText("I.	DATOS GENERALES"); 
+            
+            XWPFParagraph paragraphthree = document.createParagraph(); 
+            XWPFRun paragraphthreeRunOne = paragraphthree.createRun(); 
+            paragraphthreeRunOne.setText("1.1.	Docente: "+eva.getApellidosDocentes()); 
+            
+            XWPFParagraph paragraphfour = document.createParagraph(); 
+            XWPFRun paragraphfourRunOne = paragraphthree.createRun(); 
+            paragraphfourRunOne.setText("1.2.  Evaluador: "+eva.getNombreEvaluador()); 
+
+            XWPFTable table = document.createTable();
+            XWPFTableRow rowOne = table.getRow(0);
+            rowOne.getCell(0).setText("a");
+            rowOne.addNewTableCell().setText("b");
+            rowOne.addNewTableCell().setText("c");
+            for(int i = 0; i < LstBeanFC.size(); i++){
+                XWPFTableRow row = table.createRow();
+                row.getCell(1).setText(LstBeanFC.get(i).getCriterio().getDescripcionCriterio());
+                for(int j = 0; j < LstBeanFC.get(i).getLstcriterioIndicador().size(); j++){
+                    XWPFTableRow subrow = table.createRow();
+                    BeanCriterioIndicador crin = LstBeanFC.get(i).getLstcriterioIndicador().get(j);
+                    subrow.getCell(0).setText((crin.getOrden()+1)+"");
+                    subrow.getCell(1).setText(crin.getIndicador().getDescripcionIndicador());
+                    subrow.getCell(2).setText(crin.getLstresultado().get(0).getValor()+"");
+                }
+                //int numCells = row.getTableCells().size();                
+                /* for(int j = 0; j < 3; j++){
+                    XWPFTableCell cell = row.getCell(j);
+                    cell.setText(i+ " "+j);
+                    cell.getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[j]));
+                } */
+            }
+                
+            try {
+                document.write(outputStream);
+                outputStream.flush();
+                outputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } 
     }
 
     public void setSessionConsultarEvaluacion(bSessionConsultarEvaluacion sessionConsultarEvaluacion) {
@@ -367,5 +462,34 @@ public class bConsultarEvaluacion {
 
     public UISelectItems getSi4() {
         return si4;
+    }
+
+    public String METODO1(String algo) {
+        // Add event code here...
+        return null;
+    }
+
+    public void setPfl7(RichPanelFormLayout pfl7) {
+        this.pfl7 = pfl7;
+    }
+
+    public RichPanelFormLayout getPfl7() {
+        return pfl7;
+    }
+
+    public void setSd1(RichShowDetail sd1) {
+        this.sd1 = sd1;
+    }
+
+    public RichShowDetail getSd1() {
+        return sd1;
+    }
+
+    public void setSd2(RichShowDetail sd2) {
+        this.sd2 = sd2;
+    }
+
+    public RichShowDetail getSd2() {
+        return sd2;
     }
 }
