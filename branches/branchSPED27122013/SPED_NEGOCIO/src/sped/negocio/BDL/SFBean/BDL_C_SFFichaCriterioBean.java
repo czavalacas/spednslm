@@ -51,6 +51,28 @@ public class BDL_C_SFFichaCriterioBean implements BDL_C_SFFichaCriterioRemote,
         }
     }
     
+    public List<FichaCriterio> getLstFichaCriteriosByEvaluacion(int nidEvaluacion){
+        try {
+            String strQuery = "SELECT fc FROM " +
+                              "FichaCriterio fc, " +
+                              "ResultadoCriterio rc " + 
+                              "WHERE fc = rc.fichaCriterio " +
+                              "AND rc.evaluacion.nidEvaluacion = :nidEvaluacion " +
+                              "ORDER BY fc.orden ASC ";
+            List<FichaCriterio> lstFichasCriterio = em.createQuery(strQuery).setParameter
+                                                    ("nidEvaluacion",nidEvaluacion).getResultList();
+            int size = lstFichasCriterio == null ? 0 : lstFichasCriterio.size();
+            if (size > 0) {
+                return lstFichasCriterio;
+            } else {
+                return new ArrayList<FichaCriterio>();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public FichaCriterio findFichaCriterioById(FichaCriterio fichaCriterio){
         try{
             FichaCriterio instance = em.find(FichaCriterio.class,new FichaCriterioPK(fichaCriterio.getCriterio().getNidCriterio(),

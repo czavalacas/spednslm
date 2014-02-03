@@ -2,12 +2,7 @@ package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import sped.negocio.entidades.eval.Criterio;
-import sped.negocio.entidades.eval.Ficha;
+import java.util.List;
 
 public class BeanFichaCriterio implements Serializable {
     @SuppressWarnings("compatibility:-1710919342373990512")
@@ -15,6 +10,8 @@ public class BeanFichaCriterio implements Serializable {
 
     private BeanCriterio criterio;
     private BeanFicha ficha;
+    private List<BeanResultadoCriterio> LstresultadoCriterio;
+    private List<BeanCriterioIndicador> LstcriterioIndicador;
 
     public void setCriterio(BeanCriterio criterio) {
         this.criterio = criterio;
@@ -30,5 +27,21 @@ public class BeanFichaCriterio implements Serializable {
 
     public BeanFicha getFicha() {
         return ficha;
+    }
+
+    public void setLstresultadoCriterio(List<BeanResultadoCriterio> LstresultadoCriterio) {
+        this.LstresultadoCriterio = LstresultadoCriterio;
+    }
+
+    public List<BeanResultadoCriterio> getLstresultadoCriterio() {
+        return LstresultadoCriterio;
+    }
+
+    public void setLstcriterioIndicador(List<BeanCriterioIndicador> LstcriterioIndicador) {
+        this.LstcriterioIndicador = LstcriterioIndicador;
+    }
+
+    public List<BeanCriterioIndicador> getLstcriterioIndicador() {
+        return LstcriterioIndicador;
     }
 }

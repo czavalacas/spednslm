@@ -36,6 +36,8 @@ public class bSessionConsultarEvaluacion {
     private int nidArea;
     private int nidCurso;
     private int nidGrado;
+    private int estadoEvaluacion;
+    private BeanEvaluacion evaluacion;
         
     public bSessionConsultarEvaluacion() {
     }
@@ -238,5 +240,21 @@ public class bSessionConsultarEvaluacion {
 
     public String getDescripcionEstadoEvaluacion() {
         return descripcionEstadoEvaluacion;
+    }
+
+    public void setEstadoEvaluacion(int estadoEvaluacion) {
+        this.estadoEvaluacion = estadoEvaluacion;
+    }
+
+    public int getEstadoEvaluacion() {
+        return estadoEvaluacion;
+    }
+
+    public void setEvaluacion(BeanEvaluacion evaluacion) {
+        this.evaluacion = evaluacion;
+    }
+
+    public BeanEvaluacion getEvaluacion() {
+        return evaluacion;
     }
 }

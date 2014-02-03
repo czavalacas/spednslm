@@ -93,6 +93,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         if(tipoEvento > 1){
             bdL_T_SFUsuarioLocal.mergeUsuario(u);
         }
+        
     }
     
     public static byte[] extractBytes(String ImageName) throws IOException {
@@ -103,15 +104,14 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         try{
             FileInputStream docu = new FileInputStream(archivo);
             int numBytes = docu.read(aBytes);
-            docu.close(); 
+            docu.close();
+            archivo.delete();
         }
-        catch (FileNotFoundException e)
-        {
-        System.out.println("No se ha encontrado el archivo.");
+        catch (FileNotFoundException e){
+            e.printStackTrace();
         }
-        catch (IOException e)
-        {
-        System.out.println("No se ha podido leer el archivo.");
+        catch (IOException e){
+            e.printStackTrace();
         }
         return aBytes;
     }

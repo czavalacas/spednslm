@@ -198,8 +198,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                                 strQuery = strQuery.concat(" AND CAST(eva.fechaPlanificacion AS date) = :eva_datePla1 ");
                             }
                         }
-                    }         
-                    System.out.println(strQuery);
+                    }
                     strQuery = strQuery.concat(" ORDER BY eva.estadoEvaluacion DESC ");
                     Query query = em.createQuery(strQuery);      
                     if(beanUsuario.getRol().getDescripcionRol().toUpperCase().compareTo("SUBDIRECTOR") == 0){
