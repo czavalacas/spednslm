@@ -159,8 +159,7 @@ public class bPlanificarEva {
         try {
             final Context ctx;
             ctx = new InitialContext();
-            ln_C_SFUsuarioRemote = (LN_C_SFUsuarioRemote) ctx.lookup(LOOKUP_NAME_SFEVALUADORES_REMOTO);
-            //   this.setEvaluadores(this.llenarEvaluadores());
+            ln_C_SFUsuarioRemote = (LN_C_SFUsuarioRemote) ctx.lookup(LOOKUP_NAME_SFEVALUADORES_REMOTO);           
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -191,8 +190,7 @@ public class bPlanificarEva {
     public ArrayList llenarTipoVisita() {
         ArrayList unItems = new ArrayList();
         List<Constraint> roles = bdl_C_SFEvaluacionRemoto.getTipoVisita();
-        for (Constraint r : roles) {
-            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+        for (Constraint r : roles) {          
             unItems.add(new SelectItem(r.getValorCampo().toString(), r.getDescripcionAMostrar().toString()));
         }
         return unItems;
@@ -204,8 +202,7 @@ public class bPlanificarEva {
         List<BeanCurso> roles =
             ln_C_SFCursoRemoto.findCursosPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
                                                           sessionPlanificarEva.getDiaDeLaSemana());
-        for (BeanCurso r : roles) {
-            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+        for (BeanCurso r : roles) {         
             unItems.add(new SelectItem(r.getNidCurso().toString(), r.getDescripcionCurso().toString()));
         }
         return unItems;
@@ -216,8 +213,7 @@ public class bPlanificarEva {
         List<BeanSede> roles =
             ln_C_SFSedeRemote.findSedePorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
                                                        sessionPlanificarEva.getDiaDeLaSemana());
-        for (BeanSede r : roles) {
-            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+        for (BeanSede r : roles) {        
             unItems.add(new SelectItem(r.getNidSede().toString(), r.getDescripcionSede().toString()));
         }
         return unItems;
@@ -228,8 +224,7 @@ public class bPlanificarEva {
         List<BeanGrado> roles =
             ln_C_SFGradoRemote.findGradoPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
                                                          sessionPlanificarEva.getDiaDeLaSemana());
-        for (BeanGrado r : roles) {
-            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+        for (BeanGrado r : roles) {          
             unItems.add(new SelectItem(r.getNidGrado().toString(), r.getDescripcionGrado().toString()));
         }
         return unItems;
@@ -240,8 +235,7 @@ public class bPlanificarEva {
         List<BeanNivel> roles =
             ln_C_SFNivelRemote.findNivelPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
                                                          sessionPlanificarEva.getDiaDeLaSemana());
-        for (BeanNivel r : roles) {
-            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+        for (BeanNivel r : roles) {       
             unItems.add(new SelectItem(r.getNidNivel().toString(), r.getDescripcionNivel().toString()));
         }
         return unItems;
@@ -251,8 +245,7 @@ public class bPlanificarEva {
         ArrayList unItems = new ArrayList();
         List<BeanAreaAcademica> roles = ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
         System.out.println("TAMAÑO AREAS " + roles.size());
-        for (BeanAreaAcademica r : roles) {
-            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+        for (BeanAreaAcademica r : roles) {          
             unItems.add(new SelectItem(r.getNidAreaAcademica().toString(), r.getDescripcionAreaAcademica().toString()));
         }
         return unItems;
@@ -536,8 +529,7 @@ public class bPlanificarEva {
     public String showPopUp(RichPopup p) {
         try {
             RichPopup.PopupHints ph = new RichPopup.PopupHints();
-            ph.add(RichPopup.PopupHints.HintTypes.HINT_ALIGN, RichPopup.PopupHints.AlignTypes.ALIGN_AFTER_END);
-            //ph.add(RichPopup.PopupHints.HintTypes.HINT_ALIGN_ID,cb5);
+            ph.add(RichPopup.PopupHints.HintTypes.HINT_ALIGN, RichPopup.PopupHints.AlignTypes.ALIGN_AFTER_END);         
             p.show(ph);
         } catch (Exception e) {
             e.printStackTrace();
