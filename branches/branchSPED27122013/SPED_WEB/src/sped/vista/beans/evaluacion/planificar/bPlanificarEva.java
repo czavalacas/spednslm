@@ -407,12 +407,11 @@ public class bPlanificarEva {
                                                          Integer.parseInt(sessionPlanificarEva.getNidUsuario()),
                                                          sessionPlanificarEva.getDniProfesor(),
                                                          sessionPlanificarEva.getNidCurso(),sessionPlanificarEva.getNidSedeEvaluador());
-         //   System.out.println("Tamaño de evaluaciones " + listaEvaluaciones.size());
+           System.out.println("Tamaño de Cursos del dia " + lis.size());
+           System.out.println("Tamaño de evaluaciones " + listaEvaluaciones.size());
             if (listaEvaluaciones.size() == lis.size()) {
                 lis.clear();
-            } else {
-                Date fechaMaster = sessionPlanificarEva.getFechaInicioSeleccionada();
-                //      Date horaInicio = (Date) fechaMaster.clone();
+            } else {             
                 if (lis.size() != 0) {
                     for (int i = 0; i < lis.size(); i++) {
                         if (listaEvaluaciones.size() != 0) {
@@ -664,6 +663,8 @@ public class bPlanificarEva {
     }
 
     public void seleccionarEvaluador(SelectionEvent selectionEvent) {
+        sessionPlanificarEva.setNombreEvaluador(null);
+        sessionPlanificarEva.setAreaEvaluador(null);
         RichTable t = (RichTable) selectionEvent.getSource();
         Object _selectedRowData = t.getSelectedRowData();
         BeanUsuario usu = (BeanUsuario) _selectedRowData;
@@ -671,9 +672,7 @@ public class bPlanificarEva {
             sessionPlanificarEva.setNidUsuario(usu.getNidUsuario().toString());
             sessionPlanificarEva.setNombreEvaluador(usu.getNombres());
             if(usu.getAreaAcademica()!=null ){
-            sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());}
-            if(usu.getSedeNivel()!=null){
-            sessionPlanificarEva.setNidSede(usu.getSedeNivel().getSede().getNidSede().toString());}            
+            sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());}                    
             Utils.addTarget(outDatosEva);
             Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
             Utils.addTarget(calendar);
