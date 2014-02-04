@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<amx:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amx="http://xmlns.oracle.com/adf/mf/amx"
+          xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
+    <amx:panelPage id="pp1">
+        <amx:facet name="header">
+            <amx:outputText value="SPED Movil" id="ot1"/>
+        </amx:facet>
+        <amx:facet name="primary">
+            <amx:commandButton id="cb1" icon="/resources/img/out.png" iconPosition="trailing"
+                               actionListener="#{viewScope.bLogin.salirAplicacion}"/>
+        </amx:facet>
+        <amx:panelGroupLayout id="panelGroupLayout2">
+            <amx:inputText id="it1" hintText="Usuario" value="#{viewScope.bLogin.usuario}" required="true"
+                           maximumLength="10" showRequired="true"/>
+            <amx:inputText hintText="Clave" id="it2" value="#{viewScope.bLogin.clave}" secret="true" required="true"
+                           maximumLength="32" showRequired="true"/>
+            <amx:commandButton text="Ingresar" id="cb2" 
+                               action="#{viewScope.bLogin.autenticarUsuario}"/>
+        </amx:panelGroupLayout>
+    </amx:panelPage>
+</amx:view>

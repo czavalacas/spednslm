@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="11.1.2.64.36" id="Return"
+          Package="application.WS_SPED.getPermisosByUsuarioRol_WS"
+          BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS.Return" isJavaBased="false">
+  <Attribute Name="accelerator" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="accessKey" IsUpdateable="0" IsNotNull="true" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="descripcionPermiso" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="estadoRegistro" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="habilidad" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="indMostrar" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="isNodo" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="_ROWNUM___ATTR_" PrimaryKey="true" IsNotNull="true" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="DISPLAYHINT" Value="Hide"/>
+        <Property Name="PrimaryKey" Value="true"/>
+        <Property Name="IsVisible" Value="false"/>
+        <Property Name="IsQueriable" Value="false"/>
+        <Property Name="updateable" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nidPadre" IsUpdateable="0" IsNotNull="true" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nidPermiso" IsUpdateable="0" IsNotNull="true" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nivel" IsUpdateable="0" IsNotNull="true" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="url" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="urlIcono" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <AccessorAttribute id="listaHijos" IsCollection="true"
+                     BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS.Return"
+                     CollectionBeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS.Return_Operations"/>
+  <AccessorAttribute id="lstPermisos" IsCollection="true"
+                     BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS.Return.lstPermisos"
+                     CollectionBeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS.Return_Operations"/>
+</JavaBean>

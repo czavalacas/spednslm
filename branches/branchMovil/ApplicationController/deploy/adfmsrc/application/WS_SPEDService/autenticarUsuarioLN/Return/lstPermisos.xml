@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="11.1.2.64.36" id="lstPermisos"
+          Package="application.WS_SPEDService.autenticarUsuarioLN.Return"
+          BeanClass="application.WS_SPEDService.autenticarUsuarioLN.Return.lstPermisos" isJavaBased="false">
+  <Attribute Name="item" IsUpdateable="0" Type="java.lang.Integer"/>
+</JavaBean>

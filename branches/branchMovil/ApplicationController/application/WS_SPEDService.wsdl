@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://servicios.webservice.sped/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://servicios.webservice.sped/" name="WS_SPEDService">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://servicios.webservice.sped/" schemaLocation="WS_SPEDPort1.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="getPermisosByUsuarioRol_WS">
+    <part name="parameters" element="tns:getPermisosByUsuarioRol_WS"/>
+  </message>
+  <message name="getPermisosByUsuarioRol_WSResponse">
+    <part name="parameters" element="tns:getPermisosByUsuarioRol_WSResponse"/>
+  </message>
+  <message name="autenticarUsuarioLN">
+    <part name="parameters" element="tns:autenticarUsuarioLN"/>
+  </message>
+  <message name="autenticarUsuarioLNResponse">
+    <part name="parameters" element="tns:autenticarUsuarioLNResponse"/>
+  </message>
+  <portType name="WS_SPED">
+    <operation name="getPermisosByUsuarioRol_WS">
+      <input message="tns:getPermisosByUsuarioRol_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPermisosByUsuarioRol_WSRequest"/>
+      <output message="tns:getPermisosByUsuarioRol_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPermisosByUsuarioRol_WSResponse"/>
+    </operation>
+    <operation name="autenticarUsuarioLN">
+      <input message="tns:autenticarUsuarioLN"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNRequest"/>
+      <output message="tns:autenticarUsuarioLNResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNResponse"/>
+    </operation>
+  </portType>
+  <binding name="WS_SPEDPortBinding" type="tns:WS_SPED">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getPermisosByUsuarioRol_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="autenticarUsuarioLN">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="WS_SPEDService">
+    <port name="WS_SPEDPort" binding="tns:WS_SPEDPortBinding">
+      <soap:address location="http://localhost:7101/App-ApplicationController-context-root/WS_SPEDService"/>
+    </port>
+  </service>
+</definitions>

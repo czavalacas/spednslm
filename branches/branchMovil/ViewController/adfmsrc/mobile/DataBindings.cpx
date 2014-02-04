@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://xmlns.oracle.com/adfm/application" version="11.1.2.64.36" id="DataBindings"
+             SeparateXMLFiles="false" Package="mobile" ClientType="Generic">
+  <pageMap>
+    <page path="/inicio.amx" usageId="mobile_inicioPageDef"/>
+    <page path="/Bienvenida/Main.amx" usageId="mobile_MainPageDef"/>
+  </pageMap>
+  <pageDefinitionUsages>
+    <page id="mobile_inicioPageDef" path="mobile.pageDefs.inicioPageDef"/>
+    <page id="mobile_MainPageDef" path="Bienvenida.MainPageDef"/>
+  </pageDefinitionUsages>
+  <dataControlUsages>
+    <dc id="WS_SPED" path="application.WS_SPED"/>
+  </dataControlUsages>
+</Application>

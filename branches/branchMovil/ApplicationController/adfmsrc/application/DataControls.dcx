@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DataControlConfigs xmlns="http://xmlns.oracle.com/adfm/configuration" version="11.1.2.64.36" id="DataControls"
+                    Package="application">
+   <AdapterDataControl id="DeviceFeatures" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
+                        ImplDef="oracle.adf.model.adapter.bean.BeanDCDefinition" SupportsTransactions="false"
+                        SupportsSortCollection="true" SupportsResetState="false" SupportsRangesize="false"
+                        SupportsFindMode="false" SupportsUpdates="true"
+                        Definition="oracle.adf.model.datacontrols.device.DeviceDataControl"
+                        BeanClass="oracle.adf.model.datacontrols.device.DeviceDataControl"
+                        xmlns="http://xmlns.oracle.com/adfm/datacontrol">
+        <Source>
+            <bean-definition BeanClass="oracle.adf.model.datacontrols.device.DeviceDataControl"
+                             xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
+        </Source>
+    </AdapterDataControl>
+    <AdapterDataControl id="ApplicationFeatures" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
+                        ImplDef="oracle.adf.model.adapter.bean.BeanDCDefinition" SupportsTransactions="false"
+                        SupportsSortCollection="true" SupportsResetState="false" SupportsRangesize="false"
+                        SupportsFindMode="false" SupportsUpdates="true"
+                        Definition="oracle.adf.model.datacontrols.application.ApplicationFeatures"
+                        BeanClass="oracle.adf.model.datacontrols.application.ApplicationFeatures"
+                        xmlns="http://xmlns.oracle.com/adfm/datacontrol">
+        <Source>
+            <bean-definition BeanClass="oracle.adf.model.datacontrols.application.ApplicationFeatures"
+                             xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
+        </Source>
+    </AdapterDataControl>
+  
+  
+  <AdapterDataControl id="WS_SPED" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
+                      ImplDef="oracle.adfinternal.model.adapter.webservice.WSDefinition" SupportsTransactions="false"
+                      SupportsSortCollection="false" SupportsResetState="false" SupportsRangesize="false"
+                      SupportsFindMode="false" SupportsUpdates="true" Definition="application.WS_SPED"
+                      BeanClass="application.WS_SPED" xmlns="http://xmlns.oracle.com/adfm/datacontrol">
+    <Source>
+      <definition xmlns="http://xmlns.oracle.com/adfm/adapter/webservice" name="WS_SPED" version="1.0"
+                  provider="oracle.adfinternal.model.adapter.webservice.provider.soap.SOAPProvider"
+                  wsdl="application/WS_SPEDService.wsdl" ensureKeyAttribute="true" UsePersistedStructure="false">
+        <service name="WS_SPEDService" namespace="http://servicios.webservice.sped/" connection="WS_SPED">
+          <port name="WS_SPEDPort">
+            <operation name="getPermisosByUsuarioRol_WS"/>
+            <operation name="autenticarUsuarioLN"/>
+          </port>
+        </service>
+      </definition>
+    </Source>
+  </AdapterDataControl>
+</DataControlConfigs>

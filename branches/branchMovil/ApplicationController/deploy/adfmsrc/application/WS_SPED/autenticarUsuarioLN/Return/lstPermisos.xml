@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="11.1.2.64.36" id="lstPermisos"
+          Package="application.WS_SPED.autenticarUsuarioLN.Return"
+          BeanClass="application.WS_SPED.autenticarUsuarioLN.Return.lstPermisos" isJavaBased="false">
+  <Attribute Name="item" IsUpdateable="0" Type="java.lang.Integer"/>
+  <Attribute Name="_ROWNUM___ATTR_" PrimaryKey="true" IsNotNull="true" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="DISPLAYHINT" Value="Hide"/>
+        <Property Name="PrimaryKey" Value="true"/>
+        <Property Name="IsVisible" Value="false"/>
+        <Property Name="IsQueriable" Value="false"/>
+        <Property Name="updateable" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+</JavaBean>

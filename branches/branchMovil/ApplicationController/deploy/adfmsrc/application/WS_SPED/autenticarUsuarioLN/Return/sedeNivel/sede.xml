@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="11.1.2.64.36" id="sede"
+          Package="application.WS_SPED.autenticarUsuarioLN.Return.sedeNivel"
+          BeanClass="application.WS_SPED.autenticarUsuarioLN.Return.sedeNivel.sede" isJavaBased="false">
+  <Attribute Name="descripcionSede" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nidSede" IsUpdateable="0" IsNotNull="false" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+</JavaBean>

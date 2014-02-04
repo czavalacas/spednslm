@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="11.1.2.64.36" id="error"
+          Package="application.WS_SPEDService.autenticarUsuarioLN.Return"
+          BeanClass="application.WS_SPEDService.autenticarUsuarioLN.Return.error" isJavaBased="false">
+  <Attribute Name="cidError" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="descripcionError" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="tituloError" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+</JavaBean>
