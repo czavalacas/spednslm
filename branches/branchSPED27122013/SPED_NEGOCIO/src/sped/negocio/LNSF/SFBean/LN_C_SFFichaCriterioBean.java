@@ -115,8 +115,8 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
         List<FichaCriterio> lstFC = bdL_C_SFFichaCriterioLocal.getLstFichaCriteriosByEvaluacion(nidEvaluacion);
         for(FichaCriterio fc : lstFC){
             BeanFichaCriterio bean = (BeanFichaCriterio) mapper.map(fc, BeanFichaCriterio.class);
-            bean.setLstresultadoCriterio(ln_C_SFResultadoCriterioLocal.
-                                         transformLstResultadoCriterio(fc.getResultadoCriterioList()));
+            bean.setResultadoCriterio(ln_C_SFResultadoCriterioLocal.getResCriByFichaEvaLN(nidEvaluacion, 
+                                                                                          fc));
             bean.setLstcriterioIndicador(ln_C_SFCriterioIndicadorLocal.
                                          transformLstCriterioIndicador(fc.getCriterioIndicadorLista(),
                                                                        nidEvaluacion));
