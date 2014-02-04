@@ -10,6 +10,7 @@ public class BeanUsuario implements java.io.Serializable{
     private String dni;
     private String estadoUsuario;
     private byte[] foto;
+    private String img;//WS
     private Integer nidUsuario;
     private String nombres;
     private String usuario;
@@ -26,6 +27,14 @@ public class BeanUsuario implements java.io.Serializable{
     private List<Integer> lstPermisos;
 
     public BeanUsuario(){}
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getImg() {
+        return img;
+    }
 
     public void setLstPermisos(List<Integer> lstPermisos) {
         this.lstPermisos = lstPermisos;

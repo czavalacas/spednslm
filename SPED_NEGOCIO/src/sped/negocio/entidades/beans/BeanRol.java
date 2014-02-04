@@ -9,6 +9,14 @@ public class BeanRol implements Serializable {
     private String descripcionRol;
     private int nidRol;
 
+    public BeanRol(String desc,int nidRol){
+        this.descripcionRol = desc;
+        this.nidRol = nidRol;
+    }
+    
+    public BeanRol(){
+    }
+    
     public void setDescripcionRol(String descripcionRol) {
         this.descripcionRol = descripcionRol;
     }

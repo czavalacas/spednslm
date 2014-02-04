@@ -27,7 +27,7 @@ import sped.negocio.entidades.beans.BeanNivel;
 
 @Stateless(name = "LN_C_SFNivel", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFNivel")
 public class LN_C_SFNivelBean implements LN_C_SFNivelRemote, 
-                                         LN_C_SFNivelLocal {
+                                            LN_C_SFNivelLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -49,6 +49,7 @@ public class LN_C_SFNivelBean implements LN_C_SFNivelRemote,
         }
         return lstBean;
     }
+    
     public List<BeanNivel> findNivelPorAreaAcademica(Integer nidAreaAcademica, String dia){
         List<Nivel> listaNiveles=bdL_C_SFNivelLocal.findGradpPorAreaAcademica(nidAreaAcademica,dia);
         List<BeanNivel> list=new ArrayList<BeanNivel>();

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+
+import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
@@ -16,6 +18,7 @@ import net.sf.dozer.util.mapping.MapperIF;
 
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.BDL.IR.BDL_C_SFUtilsRemote;
+import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.ConstraintPK;
@@ -29,6 +32,8 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     @PersistenceContext(unitName = "SPED_NEGOCIO")
     private EntityManager em;
     MapperIF mapper = new DozerBeanMapper();
+    @EJB
+    private LN_C_SFErrorLocal ln_C_SFErrorLocal;
 
     public BDL_C_SFUtilsBean() {
     }
