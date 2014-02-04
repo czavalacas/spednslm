@@ -56,6 +56,7 @@ import oracle.jbo.ViewObject;
 import oracle.jbo.server.ViewObjectImpl;
 import oracle.jbo.uicli.binding.JUCtrlActionBinding;
 
+import org.apache.myfaces.trinidad.event.AttributeChangeEvent;
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 
 import sped.negocio.BDL.IR.BDL_C_SFAreaAcademicaRemote;
@@ -72,6 +73,7 @@ import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;
@@ -109,11 +111,11 @@ public class bPlanificarEva {
     private final static String LOOKUP_NAME_SFEVALUADORES_REMOTO =
         "mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote";
     @EJB
-    private BDL_C_SFMainRemote bdl_C_SFMainRemote;   
+    private BDL_C_SFMainRemote bdl_C_SFMainRemote;
     @EJB
     private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
     @EJB
-    private LN_C_SFSedeRemote ln_C_SFSedeRemote;        
+    private LN_C_SFSedeRemote ln_C_SFSedeRemote;
     @EJB
     private BDL_T_SFEvaluacionRemoto bdl_T_SFEvaluacionRemoto;
     @EJB
@@ -148,6 +150,9 @@ public class bPlanificarEva {
     private RichSelectOneChoice choiceNivel;
     private RichSelectOneChoice choiceGrado;
     private RichPopup popupSeleccionBloque;
+    private RichButton btnBloque1;
+    private RichButton btnBloque2;
+    private RichSelectOneChoice choiceTipoVisita;
 
 
     public bPlanificarEva() {
@@ -166,11 +171,12 @@ public class bPlanificarEva {
         beanUsuario = (BeanUsuario) Utils.getSession("USER");
         sessionPlanificarEva.setNidPlanificador(beanUsuario.getNidUsuario());
         sessionPlanificarEva.setNidRol(beanUsuario.getRol().getNidRol());
-        if (beanUsuario.getRol().getNidRol() == 1) {
+        if (beanUsuario.getRol().getNidRol() == 2) {
+            sessionPlanificarEva.setEstadoChoiceEvaluadores(true);           
+        } 
+       else {
             sessionPlanificarEva.setEstadoChoiceEvaluadores(false);
             sessionPlanificarEva.setNidUsuario(beanUsuario.getNidUsuario().toString());
-        } else {
-            sessionPlanificarEva.setEstadoChoiceEvaluadores(true);
         }
     }
 
@@ -181,42 +187,58 @@ public class bPlanificarEva {
         return null;
     }
 
+    public ArrayList llenarTipoVisita() {
+        ArrayList unItems = new ArrayList();
+        List<Constraint> roles = bdl_C_SFEvaluacionRemoto.getTipoVisita();
+        for (Constraint r : roles) {
+            //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
+            unItems.add(new SelectItem(r.getValorCampo().toString(), r.getDescripcionAMostrar().toString()));
+        }
+        return unItems;
+    }
+
+
     public ArrayList llenarCursos() {
         ArrayList unItems = new ArrayList();
-        List<BeanCurso> roles = ln_C_SFCursoRemoto.findCursosPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                              sessionPlanificarEva.getDiaDeLaSemana());
+        List<BeanCurso> roles =
+            ln_C_SFCursoRemoto.findCursosPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                          sessionPlanificarEva.getDiaDeLaSemana());
         for (BeanCurso r : roles) {
             //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
             unItems.add(new SelectItem(r.getNidCurso().toString(), r.getDescripcionCurso().toString()));
         }
         return unItems;
     }
-         
+
     public ArrayList llenarSedes() {
         ArrayList unItems = new ArrayList();
-        List<BeanSede> roles = ln_C_SFSedeRemote.findSedePorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                              sessionPlanificarEva.getDiaDeLaSemana());
+        List<BeanSede> roles =
+            ln_C_SFSedeRemote.findSedePorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                       sessionPlanificarEva.getDiaDeLaSemana());
         for (BeanSede r : roles) {
             //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
             unItems.add(new SelectItem(r.getNidSede().toString(), r.getDescripcionSede().toString()));
         }
         return unItems;
     }
+
     public ArrayList llenarGrados() {
         ArrayList unItems = new ArrayList();
-        List<BeanGrado> roles = ln_C_SFGradoRemote.findGradoPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                              sessionPlanificarEva.getDiaDeLaSemana());
+        List<BeanGrado> roles =
+            ln_C_SFGradoRemote.findGradoPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                         sessionPlanificarEva.getDiaDeLaSemana());
         for (BeanGrado r : roles) {
             //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
             unItems.add(new SelectItem(r.getNidGrado().toString(), r.getDescripcionGrado().toString()));
         }
         return unItems;
     }
-         
+
     public ArrayList llenarNiveles() {
         ArrayList unItems = new ArrayList();
-        List<BeanNivel> roles = ln_C_SFNivelRemote.findNivelPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                              sessionPlanificarEva.getDiaDeLaSemana());
+        List<BeanNivel> roles =
+            ln_C_SFNivelRemote.findNivelPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                         sessionPlanificarEva.getDiaDeLaSemana());
         for (BeanNivel r : roles) {
             //r.setAreaAcYProf(r.getAreaAcademica().getDescripcionAreaAcademica() + " - " + r.getNombres());
             unItems.add(new SelectItem(r.getNidNivel().toString(), r.getDescripcionNivel().toString()));
@@ -248,13 +270,14 @@ public class bPlanificarEva {
         }
         return unItems;
     }
-    
-    public String grabarEva1(){
+
+    public String grabarEva1() {
         grabarEvaluacion(1);
         popupSeleccionBloque.hide();
         return null;
     }
-    public String grabarEva2(){
+
+    public String grabarEva2() {
         grabarEvaluacion(2);
         popupSeleccionBloque.hide();
         return null;
@@ -262,13 +285,13 @@ public class bPlanificarEva {
 
     public String grabarEvaluacion(int opc) {
         Evaluacion eva = new Evaluacion();
-        if(opc==1){
+        if (opc == 1) {
             long s = sessionPlanificarEva.getFechaInicioEvaluacion().getTime();
             eva.setStartDate(new Timestamp(s));
             long c = sessionPlanificarEva.getHoraPartidaInicio().getTime();
             eva.setEndDate(new Timestamp(c));
-        }        
-        if(opc==2){
+        }
+        if (opc == 2) {
             long s = sessionPlanificarEva.getHoraPartidaInicio().getTime();
             eva.setStartDate(new Timestamp(s));
             long c = sessionPlanificarEva.getFechaFinEvaluacion().getTime();
@@ -283,9 +306,10 @@ public class bPlanificarEva {
         String nidDat = generarAlfanumerico();
         eva.setNidDate(nidDat);
         eva.setNidPlanificador(sessionPlanificarEva.getNidPlanificador());
-        Date fechaHoy=new Date();
-        long d=fechaHoy.getTime();
+        Date fechaHoy = new Date();
+        long d = fechaHoy.getTime();
         eva.setFechaPlanificacion(new Timestamp(d));
+        eva.setTipoVisita(sessionPlanificarEva.getValorTipoVisita());
         bdl_T_SFEvaluacionRemoto.persistEvaluacion(eva);
         llenarBean();
         if (tbHorario != null) {
@@ -293,12 +317,12 @@ public class bPlanificarEva {
             tbHorario.setValue(sessionPlanificarEva.getListaHorarios());
             Utils.addTarget(tbHorario);
         }
-        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");    
+        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
         sessionPlanificarEva.setStyleClass(null);
         btnAsignarEva.setStyleClass(null);
         sessionPlanificarEva.setEstadoAsignarEvaluacion(true);
         btnAsignarEva.setDisabled(true);
-        Utils.addTargetMany(calendar,btnAsignarEva);        
+        Utils.addTargetMany(calendar, btnAsignarEva);
         return null;
     }
 
@@ -324,6 +348,11 @@ public class bPlanificarEva {
                                                   entida.getMain().getProfesor().getNombres());
         sessionPlanificarEva.setDniDocenteEvaluacion(entida.getMain().getProfesor().getDniProfesor());
         sessionPlanificarEva.setNidEvaluacionDelet(entida.getNidEvaluacion());
+        sessionPlanificarEva.setNombrePlanificador(bdl_C_SFUsuarioRemote.getNombresUsuarioByNidUsuario(entida.getNidPlanificador()));
+        Usuario usua=bdl_C_SFUsuarioRemote.findConstrainById(entida.getNidPlanificador());
+        sessionPlanificarEva.setRolPlanificador(usua.getRol().getDescripcionRol());
+        Constraint con = bdl_C_SFEvaluacionRemoto.getTipoVisitaByValor(entida.getTipoVisita());
+        sessionPlanificarEva.setTipoEvaluacion(con.getDescripcionAMostrar());
 
         Date fechaHoy = new Date();
         if (sessionPlanificarEva.getFechaEvaluacionPopup().before(fechaHoy)) {
@@ -374,30 +403,25 @@ public class bPlanificarEva {
             String fechaConFormato = sdf.format(fechaActual);
             List<Evaluacion> listaEvaluaciones =
                 bdl_C_SFEvaluacionRemoto.getEvaluaciones(fechaConFormato, sessionPlanificarEva.getNidAreaAcademica(),
-                                                         Integer.parseInt(sessionPlanificarEva.getNidUsuario()),sessionPlanificarEva.getDniProfesor()
-                                                         ,sessionPlanificarEva.getNidCurso());
-            System.out.println("Tamaño de evaluaciones " + listaEvaluaciones.size());
+                                                         Integer.parseInt(sessionPlanificarEva.getNidUsuario()),
+                                                         sessionPlanificarEva.getDniProfesor(),
+                                                         sessionPlanificarEva.getNidCurso(),sessionPlanificarEva.getNidSedeEvaluador());
+         //   System.out.println("Tamaño de evaluaciones " + listaEvaluaciones.size());
             if (listaEvaluaciones.size() == lis.size()) {
                 lis.clear();
             } else {
                 Date fechaMaster = sessionPlanificarEva.getFechaInicioSeleccionada();
-                Date horaInicio = (Date) fechaMaster.clone();
+                //      Date horaInicio = (Date) fechaMaster.clone();
                 if (lis.size() != 0) {
                     for (int i = 0; i < lis.size(); i++) {
-                        /*   horaInicio.setHours(lis.get(i).getHoraInicio().getHours());
-                        horaInicio.setMinutes(lis.get(i).getHoraInicio().getMinutes());
-                        Date FechaHoy=new Date();
-                         System.out.println(" ;;; " +horaInicio+" :: "+FechaHoy);
-                         if(horaInicio.before(FechaHoy)){
-                             lis.remove(i);
-                         }*/
-
-
                         if (listaEvaluaciones.size() != 0) {
                             for (int j = 0; j < listaEvaluaciones.size(); j++) {
                                 if (listaEvaluaciones.get(j).getMain().getNidMain() == lis.get(i).getNidMain()) {
                                     lis.remove(i);
                                 }
+                                /*    if(listaEvaluaciones.get(j).getStartDate().getHours()==lis.get(i).getHoraInicio().getHours()){
+                                    lis.remove(i);
+                                }*/
                             }
                         }
                     }
@@ -411,40 +435,40 @@ public class bPlanificarEva {
     public void llenarBean() {
         BeanMain beanMain = new BeanMain();
         BeanAreaAcademica beanAca = new BeanAreaAcademica();
-        System.out.println("Valor de Area Academica "+sessionPlanificarEva.getNidAreaAcademica());
+        System.out.println("Valor de Area Academica " + sessionPlanificarEva.getNidAreaAcademica());
         beanAca.setNidAreaAcademica(sessionPlanificarEva.getNidAreaAcademica());
         BeanCurso beanCurso = new BeanCurso();
         beanCurso.setAreaAcademica(beanAca);
         if (sessionPlanificarEva.getNidCurso() != null) {
-            beanCurso.setNidCurso(Integer.parseInt(sessionPlanificarEva.getNidCurso()));            
-            System.out.println("Valor de Curso "+sessionPlanificarEva.getNidCurso());
+            beanCurso.setNidCurso(Integer.parseInt(sessionPlanificarEva.getNidCurso()));
+            System.out.println("Valor de Curso " + sessionPlanificarEva.getNidCurso());
         }
         BeanProfesor beanProf = new BeanProfesor();
         if (sessionPlanificarEva.getDniProfesor() != null) {
             beanProf.setDniProfesor(sessionPlanificarEva.getDniProfesor().toString());
             beanMain.setProfesor(beanProf);
-            System.out.println("Valor deProfesor "+sessionPlanificarEva.getDniProfesor());
+            System.out.println("Valor deProfesor " + sessionPlanificarEva.getDniProfesor());
         }
-        BeanSede sede=new BeanSede();
-        BeanAula aula=new BeanAula();
-        BeanGradoNivel grani=new BeanGradoNivel();
-        if (sessionPlanificarEva.getNidSede() != null) {
-            sede.setNidSede(Integer.parseInt(sessionPlanificarEva.getNidSede()));            
+        BeanSede sede = new BeanSede();
+        BeanAula aula = new BeanAula();
+        BeanGradoNivel grani = new BeanGradoNivel();
+        if (sessionPlanificarEva.getNidSedeEvaluador() != 0) {
+            sede.setNidSede(sessionPlanificarEva.getNidSedeEvaluador());
             aula.setSede(sede);
-            System.out.println("Valor sede "+sessionPlanificarEva.getNidSede());
-        }  
+            System.out.println("Valor sede " + sessionPlanificarEva.getNidSedeEvaluador());
+        }
         if (sessionPlanificarEva.getNidGrado() != null) {
-            BeanGrado grado=new BeanGrado();
+            BeanGrado grado = new BeanGrado();
             grado.setNidGrado(Integer.parseInt(sessionPlanificarEva.getNidGrado()));
             grani.setGrado(grado);
-            System.out.println("Valor Grado "+sessionPlanificarEva.getNidGrado());
-        }     
+            System.out.println("Valor Grado " + sessionPlanificarEva.getNidGrado());
+        }
         if (sessionPlanificarEva.getNidNivel() != null) {
-           BeanNivel nivel=new BeanNivel();
-           nivel.setNidNivel(Integer.parseInt(sessionPlanificarEva.getNidNivel()));
-           grani.setNivel(nivel);
-            System.out.println("Valor Nivel "+sessionPlanificarEva.getNidNivel());
-        }            
+            BeanNivel nivel = new BeanNivel();
+            nivel.setNidNivel(Integer.parseInt(sessionPlanificarEva.getNidNivel()));
+            grani.setNivel(nivel);
+            System.out.println("Valor Nivel " + sessionPlanificarEva.getNidNivel());
+        }
         aula.setGradoNivel(grani);
         beanMain.setAula(aula);
         beanMain.setCurso(beanCurso);
@@ -452,7 +476,7 @@ public class bPlanificarEva {
         llenarHorarios(beanMain);
     }
 
-    public void abrirNuevoEvento(CalendarEvent calendarEvent) {        
+    public void abrirNuevoEvento(CalendarEvent calendarEvent) {
         Date fechaHoy = new Date();
         Date fecha = (Date) fechaHoy.clone();
         fecha.setHours(0);
@@ -479,10 +503,23 @@ public class bPlanificarEva {
                     tbHorario.setValue(null);
                 }
                 if (sessionPlanificarEva.getNidUsuario() != null) {
-                    Usuario evaluador =
-                        bdl_C_SFUsuarioRemote.findConstrainById(Integer.parseInt(sessionPlanificarEva.getNidUsuario()));
-                    sessionPlanificarEva.setNidAreaAcademica(evaluador.getAreaAcademica().getNidAreaAcademica());
-                }
+                    Usuario evaluador =  bdl_C_SFUsuarioRemote.findConstrainById(Integer.parseInt(sessionPlanificarEva.getNidUsuario()));
+                    if(evaluador.getAreaAcademica()!=null){
+                        if(evaluador.getAreaAcademica().getNidAreaAcademica()!=0){
+                            System.out.println("Valor AREA <<< " + evaluador.getAreaAcademica().getNidAreaAcademica());
+                            sessionPlanificarEva.setNidAreaAcademica(evaluador.getAreaAcademica().getNidAreaAcademica());
+                        }                        
+                        } 
+                    if(evaluador.getSedeNivel()!=null){
+                            System.out.println("NO ES NULO "); 
+                            System.out.println("Valor 1 <<< " + evaluador.getSedeNivel());
+                            System.out.println("Valor 2 <<< " + evaluador.getSedeNivel().getSede());
+                            System.out.println("Valor 3 <<< " + evaluador.getSedeNivel().getSede().getNidSede());
+                        if(evaluador.getSedeNivel().getSede().getNidSede()!=0){
+                                System.out.println("Valor SEDE <<< " + evaluador.getSedeNivel().getSede().getNidSede());
+                            sessionPlanificarEva.setNidSedeEvaluador(evaluador.getSedeNivel().getSede().getNidSede());                         }
+                        }                    }
+                        
                 sessionPlanificarEva.setFechaInicioSeleccionada(calendarEvent.getTriggerDate());
                 String dia = getDiaDeCalendario(calendarEvent.getTriggerDate().getDay());
                 sessionPlanificarEva.setDiaDeLaSemana(dia);
@@ -525,8 +562,8 @@ public class bPlanificarEva {
             horaFin.setHours(sessionPlanificarEva.getBeanHorario().getHoraFin().getHours());
             horaFin.setMinutes(sessionPlanificarEva.getBeanHorario().getHoraFin().getMinutes());
             sessionPlanificarEva.setFechaInicioEvaluacion(horaInicio);
-            sessionPlanificarEva.setFechaFinEvaluacion(horaFin);                        
-            
+            sessionPlanificarEva.setFechaFinEvaluacion(horaFin);
+
             sessionPlanificarEva.setFechaEvaluacionPopup(sessionPlanificarEva.getFechaInicioEvaluacion());
             sessionPlanificarEva.setHoraEvaluacionPopup(sessionPlanificarEva.getFechaFinEvaluacion());
             sessionPlanificarEva.setSedeEvaluacion(main.getAula().getSede().getDescripcionSede());
@@ -535,28 +572,29 @@ public class bPlanificarEva {
             sessionPlanificarEva.setGradoEvaluacion(main.getAula().getGradoNivel().getGrado().getDescripcionGrado());
             sessionPlanificarEva.setNivelEvaluacion(main.getAula().getGradoNivel().getNivel().getDescripcionNivel());
             sessionPlanificarEva.setDocenteEvaluacion(main.getProfesor().getApellidos() + " " +
-                                                      main.getProfesor().getNombres());           
-            
-            int numHora=horaFin.getHours()-horaInicio.getHours();
-            int numMinutos=horaFin.getMinutes()-horaInicio.getMinutes();            
-            int segundosEnMinutos=numMinutos*60;
-            int toalSegundos=numHora*3600+segundosEnMinutos;
-            int segundosAumen=toalSegundos/2;   
-            int num=segundosAumen;  
-            int hor=num/3600;  
-            int min=(num-(3600*hor))/60;  
-            int seg=num-((hor*3600)+(min*60));  
-            System.out.println(hor+"h "+min+"m "+seg+"s"); 
-            Date fechaPartida=(Date)horaInicio.clone();            
-            fechaPartida.setHours(fechaPartida.getHours()+hor);
-            fechaPartida.setMinutes(fechaPartida.getMinutes()+min);
-           
+                                                      main.getProfesor().getNombres());
+
+            int numHora = horaFin.getHours() - horaInicio.getHours();
+            int numMinutos = horaFin.getMinutes() - horaInicio.getMinutes();
+            int segundosEnMinutos = numMinutos * 60;
+            int toalSegundos = numHora * 3600 + segundosEnMinutos;
+            int segundosAumen = toalSegundos / 2;
+            int num = segundosAumen;
+            int hor = num / 3600;
+            int min = (num - (3600 * hor)) / 60;
+            int seg = num - ((hor * 3600) + (min * 60));
+            System.out.println(hor + "h " + min + "m " + seg + "s");
+            Date fechaPartida = (Date) horaInicio.clone();
+            fechaPartida.setHours(fechaPartida.getHours() + hor);
+            fechaPartida.setMinutes(fechaPartida.getMinutes() + min);
+
             sessionPlanificarEva.setHoraPartidaInicio(fechaPartida);
         }
         sessionPlanificarEva.setStyleClass("FondoRojoLetraBlanca");
         btnAsignarEva.setStyleClass("FondoRojoLetraBlanca");
         sessionPlanificarEva.setEstadoAsignarEvaluacion(false);
-        btnAsignarEva.setDisabled(false);       ;
+        btnAsignarEva.setDisabled(false);
+        ;
         Utils.addTarget(btnAsignarEva);
     }
 
@@ -570,39 +608,39 @@ public class bPlanificarEva {
         return null;
     }
 
-    public String btnLimpiar() {     
-        if(choiceCursos!=null){
+    public String btnLimpiar() {
+        if (choiceCursos != null) {
             sessionPlanificarEva.setNidCurso(null);
             choiceCursos.resetValue();
             Utils.addTarget(choiceCursos);
         }
-        if(choiceProfesores!=null){
+        if (choiceProfesores != null) {
             sessionPlanificarEva.setDniProfesor(null);
             choiceProfesores.resetValue();
             Utils.addTarget(choiceProfesores);
         }
-        if(choiceGrado!=null){
+        if (choiceGrado != null) {
             sessionPlanificarEva.setNidGrado(null);
             choiceGrado.resetValue();
             Utils.addTarget(choiceGrado);
         }
-        if(choiceNivel!=null){
+        if (choiceNivel != null) {
             sessionPlanificarEva.setNidNivel(null);
             choiceNivel.resetValue();
             Utils.addTarget(choiceNivel);
         }
-        if(choiceSede!=null){
+        if (choiceSede != null) {
             sessionPlanificarEva.setNidSede(null);
             choiceSede.resetValue();
             Utils.addTarget(choiceSede);
-        }        
+        }
         llenarBean();
         if (tbHorario != null) {
             Utils.unselectFilas(tbHorario);
             tbHorario.setValue(sessionPlanificarEva.getListaHorarios());
             Utils.addTarget(tbHorario);
         }
-        
+
         return null;
     }
 
@@ -634,7 +672,10 @@ public class bPlanificarEva {
         if (usu != null) {
             sessionPlanificarEva.setNidUsuario(usu.getNidUsuario().toString());
             sessionPlanificarEva.setNombreEvaluador(usu.getNombres());
-            sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());
+            if(usu.getAreaAcademica()!=null ){
+            sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());}
+            if(usu.getSedeNivel()!=null){
+            sessionPlanificarEva.setNidSede(usu.getSedeNivel().getSede().getNidSede().toString());}            
             Utils.addTarget(outDatosEva);
             Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
             Utils.addTarget(calendar);
@@ -856,7 +897,376 @@ public class bPlanificarEva {
     }
 
     public String seleccionarBloque() {
+        sessionPlanificarEva.setEstadoBtnBloq1(false);
+        sessionPlanificarEva.setEstadoBtnBloq2(false);
+        sessionPlanificarEva.setEstadoOut1(false);
+        sessionPlanificarEva.setEstadoOut2(false);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fechaActual = sessionPlanificarEva.getFechaInicioSeleccionada();
+        String fechaConFormato = sdf.format(fechaActual);
+        List<Evaluacion> listaEvaluaciones =
+            bdl_C_SFEvaluacionRemoto.getEvaluaciones(fechaConFormato, sessionPlanificarEva.getNidAreaAcademica(),
+                                                     Integer.parseInt(sessionPlanificarEva.getNidUsuario()),
+                                                     sessionPlanificarEva.getDniProfesor(),
+                                                     sessionPlanificarEva.getNidCurso(),sessionPlanificarEva.getNidSedeEvaluador());
+        if (listaEvaluaciones.size() != 0) {
+            System.out.println("Tamaño de evaluaciones del dia "+ listaEvaluaciones.size());
+            for (int i = 0; i < listaEvaluaciones.size(); i++) {
+                System.out.println("HORA PLANIFI INICIO "+ sessionPlanificarEva.getFechaInicioEvaluacion().getHours());
+                System.out.println("MINUTO PLANIFI INICIO "+ sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes());
+                System.out.println("HORA EVA INICIO "+ listaEvaluaciones.get(i).getStartDate().getHours());
+                System.out.println("MINUTO EVA INICIO "+ listaEvaluaciones.get(i).getStartDate().getMinutes());
+                System.out.println("HORA PLANIFI FIN "+ sessionPlanificarEva.getFechaFinEvaluacion().getHours() );
+                System.out.println("MINUTO PLANIFI FIN "+ sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() );
+                System.out.println("HORA EVA FIN "+ listaEvaluaciones.get(i).getEndDate().getHours());
+                System.out.println("MINUTO EVA FIN "+ listaEvaluaciones.get(i).getEndDate().getMinutes());
+                System.out.println("HORA PARTI INICIO "+ sessionPlanificarEva.getHoraPartidaInicio().getHours());
+                System.out.println("MINUTO PARTI INICIO "+ sessionPlanificarEva.getHoraPartidaInicio().getMinutes()); 
+                System.out.println("/////////////////////////////////////////////////////////////////"); 
+                
+                if (sessionPlanificarEva.getFechaInicioEvaluacion().getHours() == listaEvaluaciones.get(i).getStartDate().getHours() &&
+                    sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes()== listaEvaluaciones.get(i).getStartDate().getMinutes() &&                    
+                    sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() && 
+                    sessionPlanificarEva.getHoraPartidaInicio().getMinutes() == listaEvaluaciones.get(i).getEndDate().getMinutes() 
+                 )   
+                     {
+                        System.out.println("ENTRO IF 1 IGUALDAD"); 
+                        sessionPlanificarEva.setEstadoBtnBloq1(true);
+                        sessionPlanificarEva.setEstadoOut1(true); 
+                    }
+                  
+                  if(  sessionPlanificarEva.getFechaInicioEvaluacion().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                       sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes()== listaEvaluaciones.get(i).getStartDate().getMinutes() &&
+                                    
+                       (sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() && 
+                        sessionPlanificarEva.getHoraPartidaInicio().getMinutes() > listaEvaluaciones.get(i).getEndDate().getMinutes()
+                        ||
+                        sessionPlanificarEva.getHoraPartidaInicio().getHours() > listaEvaluaciones.get(i).getEndDate().getHours() 
+                        )          
+                     ){
+                           System.out.println("ENTRO IF 2    = HORA INICIO , HFP > HFE"); 
+                           sessionPlanificarEva.setEstadoBtnBloq1(true);
+                           sessionPlanificarEva.setEstadoOut1(true); 
+                       }
+                  
+                  if( sessionPlanificarEva.getFechaInicioEvaluacion().getHours() == listaEvaluaciones.get(i).getStartDate().getHours() &&
+                    sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes() == listaEvaluaciones.get(i).getStartDate().getMinutes() &&
+                    
+                      (sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() && 
+                       sessionPlanificarEva.getHoraPartidaInicio().getMinutes() < listaEvaluaciones.get(i).getEndDate().getMinutes()
+                       ||
+                       sessionPlanificarEva.getHoraPartidaInicio().getHours() < listaEvaluaciones.get(i).getEndDate().getHours() 
+                       )  ){
+                      System.out.println("ENTRO IF 3    = HORA INICIO , HFP < HFE"); 
+                      sessionPlanificarEva.setEstadoBtnBloq1(true);
+                      sessionPlanificarEva.setEstadoOut1(true); 
+                  }
+                 
+                        
+                  if( (sessionPlanificarEva.getFechaInicioEvaluacion().getHours() == listaEvaluaciones.get(i).getStartDate().getHours() &&
+                        sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes() > listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                               sessionPlanificarEva.getFechaInicioEvaluacion().getHours() > listaEvaluaciones.get(i).getStartDate().getHours()) &&
+                              
+                               sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() && 
+                               sessionPlanificarEva.getHoraPartidaInicio().getMinutes() == listaEvaluaciones.get(i).getEndDate().getMinutes())    {
+                        System.out.println("ENTRO IF 4"); 
+                        sessionPlanificarEva.setEstadoBtnBloq1(true);
+                        sessionPlanificarEva.setEstadoOut1(true); 
+                    }
+                   if(
+                       ( sessionPlanificarEva.getFechaInicioEvaluacion().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                         sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes()> listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                         sessionPlanificarEva.getFechaInicioEvaluacion().getHours()> listaEvaluaciones.get(i).getStartDate().getHours() 
+                       ) 
+                       
+                       &&
+                                          
+                       ( sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                         sessionPlanificarEva.getHoraPartidaInicio().getMinutes() > listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                         sessionPlanificarEva.getHoraPartidaInicio().getHours() > listaEvaluaciones.get(i).getEndDate().getHours() 
+                       )
+                       
+                       &&
+                                         
+                       ( sessionPlanificarEva.getFechaInicioEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                        sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes() < listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                        sessionPlanificarEva.getFechaInicioEvaluacion().getHours() < listaEvaluaciones.get(i).getEndDate().getHours() 
+                       )
+                   
+                   ){
+                        System.out.println("ENTRO IF 5"); 
+                        sessionPlanificarEva.setEstadoBtnBloq1(true);
+                        sessionPlanificarEva.setEstadoOut1(true); 
+                    }
+                    if((
+                    sessionPlanificarEva.getFechaInicioEvaluacion().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                    sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes()> listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                    sessionPlanificarEva.getFechaInicioEvaluacion().getHours()> listaEvaluaciones.get(i).getStartDate().getHours() ) &&
+                    
+                    (sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                    sessionPlanificarEva.getHoraPartidaInicio().getMinutes() < listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                        sessionPlanificarEva.getHoraPartidaInicio().getHours() < listaEvaluaciones.get(i).getEndDate().getHours() 
+                     )  )
+                    {
+                        System.out.println("ENTRO IF 6"); 
+                        sessionPlanificarEva.setEstadoBtnBloq1(true);
+                        sessionPlanificarEva.setEstadoOut1(true); 
+                    }
+                if(   
+                     ( sessionPlanificarEva.getFechaInicioEvaluacion().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                       sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes()< listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                       sessionPlanificarEva.getFechaInicioEvaluacion().getHours()< listaEvaluaciones.get(i).getStartDate().getHours() 
+                     ) 
+                     
+                     &&
+                                        
+                     ( sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                       sessionPlanificarEva.getHoraPartidaInicio().getMinutes() < listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                       sessionPlanificarEva.getHoraPartidaInicio().getHours() < listaEvaluaciones.get(i).getEndDate().getHours() 
+                     )
+                
+                    &&
+                                       
+                    ( sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getStartDate().getHours() &&
+                      sessionPlanificarEva.getHoraPartidaInicio().getMinutes() > listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                      sessionPlanificarEva.getHoraPartidaInicio().getHours() > listaEvaluaciones.get(i).getStartDate().getHours() 
+                    )
+                 )
+                
+                  {
+                        System.out.println("ENTRO IF 7"); 
+                        sessionPlanificarEva.setEstadoBtnBloq1(true);
+                        sessionPlanificarEva.setEstadoOut1(true); 
+                    }
+                   if(
+                       ( sessionPlanificarEva.getFechaInicioEvaluacion().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                         sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes()< listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                         sessionPlanificarEva.getFechaInicioEvaluacion().getHours()< listaEvaluaciones.get(i).getStartDate().getHours() 
+                       ) 
+                       
+                       &&
+                                          
+                        sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                        sessionPlanificarEva.getHoraPartidaInicio().getMinutes() == listaEvaluaciones.get(i).getEndDate().getMinutes() 
+                     
+                       ){
+                        System.out.println("ENTRO IF 8"); 
+                        sessionPlanificarEva.setEstadoBtnBloq1(true);
+                        sessionPlanificarEva.setEstadoOut1(true); 
+                    }                
+                
+                if (
+                    ( sessionPlanificarEva.getFechaInicioEvaluacion().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                      sessionPlanificarEva.getFechaInicioEvaluacion().getMinutes()< listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                      sessionPlanificarEva.getFechaInicioEvaluacion().getHours()< listaEvaluaciones.get(i).getStartDate().getHours() 
+                    ) 
+                    
+                    &&
+                                       
+                    ( sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                      sessionPlanificarEva.getHoraPartidaInicio().getMinutes() > listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                      sessionPlanificarEva.getHoraPartidaInicio().getHours() > listaEvaluaciones.get(i).getEndDate().getHours() 
+                    )
+             
+                )
+                {
+                    System.out.println("ENTRO IF 9"); 
+                    sessionPlanificarEva.setEstadoBtnBloq1(true);
+                    sessionPlanificarEva.setEstadoOut1(true);
+                }
+                
+                // BTN2
+                
+                if (sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getStartDate().getHours() &&
+                    sessionPlanificarEva.getHoraPartidaInicio().getMinutes()== listaEvaluaciones.get(i).getStartDate().getMinutes() &&                    
+                    sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() && 
+                    sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() == listaEvaluaciones.get(i).getEndDate().getMinutes() 
+                 )   
+                     {
+                        System.out.println("ENTRO IF 1 IGUALDAD"); 
+                        sessionPlanificarEva.setEstadoBtnBloq2(true);
+                        sessionPlanificarEva.setEstadoOut2(true); 
+                    }
+                  
+                  if(  sessionPlanificarEva.getHoraPartidaInicio().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                       sessionPlanificarEva.getHoraPartidaInicio().getMinutes()== listaEvaluaciones.get(i).getStartDate().getMinutes() &&
+                                    
+                       (sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() && 
+                        sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() > listaEvaluaciones.get(i).getEndDate().getMinutes()
+                        ||
+                        sessionPlanificarEva.getFechaFinEvaluacion().getHours() > listaEvaluaciones.get(i).getEndDate().getHours() 
+                        )          
+                     ){
+                           System.out.println("ENTRO IF 2    = HORA INICIO , HFP > HFE"); 
+                           sessionPlanificarEva.setEstadoBtnBloq2(true);
+                           sessionPlanificarEva.setEstadoOut2(true); 
+                       }
+                  
+                  if( sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getStartDate().getHours() &&
+                    sessionPlanificarEva.getHoraPartidaInicio().getMinutes() == listaEvaluaciones.get(i).getStartDate().getMinutes() &&
+                    
+                      (sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() && 
+                       sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() < listaEvaluaciones.get(i).getEndDate().getMinutes()
+                       ||
+                       sessionPlanificarEva.getFechaFinEvaluacion().getHours() < listaEvaluaciones.get(i).getEndDate().getHours() 
+                       )  ){
+                      System.out.println("ENTRO IF 3    = HORA INICIO , HFP < HFE"); 
+                      sessionPlanificarEva.setEstadoBtnBloq2(true);
+                      sessionPlanificarEva.setEstadoOut2(true); 
+                  }
+                 
+                        
+                  if( (sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getStartDate().getHours() &&
+                        sessionPlanificarEva.getHoraPartidaInicio().getMinutes() > listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                               sessionPlanificarEva.getHoraPartidaInicio().getHours() > listaEvaluaciones.get(i).getStartDate().getHours()) &&
+                              
+                               sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() && 
+                               sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() == listaEvaluaciones.get(i).getEndDate().getMinutes())    {
+                        System.out.println("ENTRO IF 4"); 
+                        sessionPlanificarEva.setEstadoBtnBloq2(true);
+                        sessionPlanificarEva.setEstadoOut2(true); 
+                    }
+                   if(
+                       ( sessionPlanificarEva.getHoraPartidaInicio().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                         sessionPlanificarEva.getHoraPartidaInicio().getMinutes()> listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                         sessionPlanificarEva.getHoraPartidaInicio().getHours()> listaEvaluaciones.get(i).getStartDate().getHours() 
+                       ) 
+                       
+                       &&
+                                          
+                       ( sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                         sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() > listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                         sessionPlanificarEva.getFechaFinEvaluacion().getHours() > listaEvaluaciones.get(i).getEndDate().getHours() 
+                       )
+                       
+                       &&
+                                         
+                       ( sessionPlanificarEva.getHoraPartidaInicio().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                        sessionPlanificarEva.getHoraPartidaInicio().getMinutes() < listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                        sessionPlanificarEva.getHoraPartidaInicio().getHours() < listaEvaluaciones.get(i).getEndDate().getHours() 
+                       )
+                   
+                   ){
+                        System.out.println("ENTRO IF 5"); 
+                        sessionPlanificarEva.setEstadoBtnBloq2(true);
+                        sessionPlanificarEva.setEstadoOut2(true); 
+                    }
+                    if((
+                    sessionPlanificarEva.getHoraPartidaInicio().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                    sessionPlanificarEva.getHoraPartidaInicio().getMinutes()> listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                    sessionPlanificarEva.getHoraPartidaInicio().getHours()> listaEvaluaciones.get(i).getStartDate().getHours() ) &&
+                    
+                    (sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                    sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() < listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                        sessionPlanificarEva.getFechaFinEvaluacion().getHours() < listaEvaluaciones.get(i).getEndDate().getHours() 
+                     )  )
+                    {
+                        System.out.println("ENTRO IF 6"); 
+                        sessionPlanificarEva.setEstadoBtnBloq2(true);
+                        sessionPlanificarEva.setEstadoOut2(true); 
+                    }
+                if(   
+                     ( sessionPlanificarEva.getHoraPartidaInicio().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                       sessionPlanificarEva.getHoraPartidaInicio().getMinutes()< listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                       sessionPlanificarEva.getHoraPartidaInicio().getHours()< listaEvaluaciones.get(i).getStartDate().getHours() 
+                     ) 
+                     
+                     &&
+                                        
+                     ( sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                       sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() < listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                       sessionPlanificarEva.getFechaFinEvaluacion().getHours() < listaEvaluaciones.get(i).getEndDate().getHours() 
+                     )
+                
+                    &&
+                                       
+                    ( sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getStartDate().getHours() &&
+                      sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() > listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                      sessionPlanificarEva.getFechaFinEvaluacion().getHours() > listaEvaluaciones.get(i).getStartDate().getHours() 
+                    )
+                 )
+                
+                  {
+                        System.out.println("ENTRO IF 7"); 
+                        sessionPlanificarEva.setEstadoBtnBloq2(true);
+                        sessionPlanificarEva.setEstadoOut2(true); 
+                    }
+                   if(
+                       ( sessionPlanificarEva.getHoraPartidaInicio().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                         sessionPlanificarEva.getHoraPartidaInicio().getMinutes()< listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                         sessionPlanificarEva.getHoraPartidaInicio().getHours()< listaEvaluaciones.get(i).getStartDate().getHours() 
+                       ) 
+                       
+                       &&
+                                          
+                        sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                        sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() == listaEvaluaciones.get(i).getEndDate().getMinutes() 
+                     
+                       ){
+                        System.out.println("ENTRO IF 8"); 
+                        sessionPlanificarEva.setEstadoBtnBloq2(true);
+                        sessionPlanificarEva.setEstadoOut2(true); 
+                    }                
+                
+                if (
+                    ( sessionPlanificarEva.getHoraPartidaInicio().getHours()== listaEvaluaciones.get(i).getStartDate().getHours() &&
+                      sessionPlanificarEva.getHoraPartidaInicio().getMinutes()< listaEvaluaciones.get(i).getStartDate().getMinutes() ||
+                      sessionPlanificarEva.getHoraPartidaInicio().getHours()< listaEvaluaciones.get(i).getStartDate().getHours() 
+                    ) 
+                    
+                    &&
+                                       
+                    ( sessionPlanificarEva.getFechaFinEvaluacion().getHours() == listaEvaluaciones.get(i).getEndDate().getHours() &&
+                      sessionPlanificarEva.getFechaFinEvaluacion().getMinutes() > listaEvaluaciones.get(i).getEndDate().getMinutes() ||
+                      sessionPlanificarEva.getFechaFinEvaluacion().getHours() > listaEvaluaciones.get(i).getEndDate().getHours() 
+                    )
+                
+                )
+                {
+                    System.out.println("ENTRO IF 9"); 
+                    sessionPlanificarEva.setEstadoBtnBloq2(true);
+                    sessionPlanificarEva.setEstadoOut2(true);
+                }
+                
+                }
+
+            }
+        
+        sessionPlanificarEva.setListatipoVisita(llenarTipoVisita());
+        sessionPlanificarEva.setValorTipoVisita("OP");
         Utils.showPopUpMIDDLE(popupSeleccionBloque);
         return null;
+    }
+
+    public void activarBotonEvaluar(AttributeChangeEvent attributeChangeEvent) {
+        System.out.println("Atributte " + choiceTipoVisita.getValue());
+    }
+
+    public void activarbtnEvaluar(ValueChangeEvent valueChangeEvent) {
+        System.out.println("Value " + choiceTipoVisita.getValue());
+    }
+
+    public void setBtnBloque1(RichButton btnBloque1) {
+        this.btnBloque1 = btnBloque1;
+    }
+
+    public RichButton getBtnBloque1() {
+        return btnBloque1;
+    }
+
+    public void setBtnBloque2(RichButton btnBloque2) {
+        this.btnBloque2 = btnBloque2;
+    }
+
+    public RichButton getBtnBloque2() {
+        return btnBloque2;
+    }
+
+    public void setChoiceTipoVisita(RichSelectOneChoice choiceTipoVisita) {
+        this.choiceTipoVisita = choiceTipoVisita;
+    }
+
+    public RichSelectOneChoice getChoiceTipoVisita() {
+        return choiceTipoVisita;
     }
 }

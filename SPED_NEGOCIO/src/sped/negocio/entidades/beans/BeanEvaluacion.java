@@ -19,6 +19,7 @@ public class BeanEvaluacion implements Serializable {
         private String nombreEvaluador;
         private String nombrePLanificador;
         private String apellidosDocentes;
+        private String tipoVisita;
         private Date startDate;      
         private BeanMain main;
         private Integer nidPlanificador;       
@@ -238,6 +239,14 @@ public class BeanEvaluacion implements Serializable {
         return nidEstadoEvaluacion;
     }
 
+    public void setTipoVisita(String tipoVisita) {
+        this.tipoVisita = tipoVisita;
+    }
+
+    public String getTipoVisita() {
+        return tipoVisita;
+    }
+
     public void setComentarioEvaluador(String comentarioEvaluador) {
         this.comentarioEvaluador = comentarioEvaluador;
     }
@@ -253,4 +262,5 @@ public class BeanEvaluacion implements Serializable {
     public List<BeanResultadoCriterio> getResultadoCriterioList() {
         return resultadoCriterioList;
     }
+
 }

@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
+import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanMain;
@@ -101,16 +102,30 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }   
         }
     
-    public List<Evaluacion> getEvaluaciones(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador, String dniProfesor, String nidCurso) {
+    public List<Evaluacion> getEvaluaciones(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador, String dniProfesor, String nidCurso, Integer nidSede) {
         try{   
              String ejbQl = "SELECT ev FROM Evaluacion ev, Main ma, Curso cu, AreaAcademica ac" +
                                    " WHERE ev.startDate like '%"+fechaHoy+"%'" +
                                    " AND ma.nidMain=ev.main.nidMain" +
                                    " AND ma.curso.nidCurso=cu.nidCurso" +
-                                   " AND cu.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica"+
-                                   " AND ac.nidAreaAcademica="+nidAreaAcademica+
+                                   " AND cu.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica"+                                  
                                    " AND ev.nidEvaluador="+nidEvaluador ;
             
+            
+            if (nidAreaAcademica!= null) {    
+                if(nidAreaAcademica!=0){
+                    ejbQl =
+                        ejbQl.concat(" AND ac.nidAreaAcademica="+nidAreaAcademica);
+                    System.out.println("REPO nidAreaAcademica : "+nidAreaAcademica);
+                }
+            }
+            if (nidSede!= null) {     
+                if(nidSede!=0){
+                    ejbQl =
+                        ejbQl.concat(" AND ma.aula.sede.nidSede="+nidSede);
+                    System.out.println("REPO nidSede : "+nidSede);
+                }
+            }
             if (dniProfesor!= null) {                
                     ejbQl =
                         ejbQl.concat(" and ma.profesor.dniProfesor='" +
@@ -270,5 +285,27 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 e.printStackTrace();  
                 return null;
             } 
+        }
+    public List<Constraint> getTipoVisita() {
+        try{
+            String ejbQl = "SELECT ma FROM Constraint ma" +
+                           " WHERE ma.nombreCampo='tipo_visita'";   
+                List<Constraint> cons = em.createQuery(ejbQl).getResultList();           
+                return cons;         
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }   
+        }
+    public Constraint getTipoVisitaByValor(String valor) {
+        try{
+            String ejbQl = "SELECT ma FROM Constraint ma" +
+                           " WHERE ma.valorCampo='"+valor+"'";   
+                Constraint cons = (Constraint)em.createQuery(ejbQl).getSingleResult();           
+                return cons;         
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }   
         }
 }

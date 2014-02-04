@@ -27,6 +27,7 @@ public class sessionPlanificar {
     private String nidAreaFiltro;
     private int nidAreaAcademica;
     private int nidEvaluador;
+    private int nidSedeEvaluador;
     private String nidCurso;
     private String dniProfesor;
     private String nidSede;
@@ -38,6 +39,7 @@ public class sessionPlanificar {
     private List listaSedes;
     private List listaGrados;
     private List listaNiveles;
+    private List listatipoVisita;
     private String diaDeLaSemana;
     private Date fechaInicioSeleccionada;   
     private Date fechaInicioEvaluacion;
@@ -60,6 +62,16 @@ public class sessionPlanificar {
     private String styleClass;
     private boolean estadoAsignarEvaluacion=true;
     private Date horaPartidaInicio;  
+    private String ValorTipoVisita;
+    private String nombrePlanificador;
+    private String tipoEvaluacion;
+    private String rolPlanificador;
+    private boolean estadoBtnBloq1=false;
+    private boolean estadoBtnBloq2=false;
+    private boolean estadoOut1=false;
+    private boolean estadoOut2=false;
+                                    
+                                    
     
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
@@ -420,6 +432,85 @@ public class sessionPlanificar {
     public Date getHoraPartidaInicio() {
         return horaPartidaInicio;
     }
-  
 
+    public void setListatipoVisita(List listatipoVisita) {
+        this.listatipoVisita = listatipoVisita;
+    }
+
+    public List getListatipoVisita() {
+        return listatipoVisita;
+    }
+
+    public void setValorTipoVisita(String ValorTipoVisita) {
+        this.ValorTipoVisita = ValorTipoVisita;
+    }
+
+    public String getValorTipoVisita() {
+        return ValorTipoVisita;
+    }
+
+    public void setNombrePlanificador(String nombrePlanificador) {
+        this.nombrePlanificador = nombrePlanificador;
+    }
+
+    public String getNombrePlanificador() {
+        return nombrePlanificador;
+    }
+
+    public void setTipoEvaluacion(String tipoEvaluacion) {
+        this.tipoEvaluacion = tipoEvaluacion;
+    }
+
+    public String getTipoEvaluacion() {
+        return tipoEvaluacion;
+    }
+
+
+    public void setEstadoBtnBloq1(boolean estadoBtnBloq1) {
+        this.estadoBtnBloq1 = estadoBtnBloq1;
+    }
+
+    public boolean isEstadoBtnBloq1() {
+        return estadoBtnBloq1;
+    }
+
+    public void setEstadoBtnBloq2(boolean estadoBtnBloq2) {
+        this.estadoBtnBloq2 = estadoBtnBloq2;
+    }
+
+    public boolean isEstadoBtnBloq2() {
+        return estadoBtnBloq2;
+    }
+
+    public void setEstadoOut1(boolean estadoOut1) {
+        this.estadoOut1 = estadoOut1;
+    }
+
+    public boolean isEstadoOut1() {
+        return estadoOut1;
+    }
+
+    public void setEstadoOut2(boolean estadoOut2) {
+        this.estadoOut2 = estadoOut2;
+    }
+
+    public boolean isEstadoOut2() {
+        return estadoOut2;
+    }
+
+    public void setRolPlanificador(String rolPlanificador) {
+        this.rolPlanificador = rolPlanificador;
+    }
+
+    public String getRolPlanificador() {
+        return rolPlanificador;
+    }
+
+    public void setNidSedeEvaluador(int nidSedeEvaluador) {
+        this.nidSedeEvaluador = nidSedeEvaluador;
+    }
+
+    public int getNidSedeEvaluador() {
+        return nidSedeEvaluador;
+    }
 }
