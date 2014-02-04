@@ -33,8 +33,18 @@ public class UsuarioPermiso implements Serializable {
                  @JoinColumn(name = "nidPermiso", referencedColumnName = "nidPermiso")
         })
     private RolPermiso rolPermiso;
+    @Column(name = "isWS", nullable = false)
+    private String isWS;
 
     public UsuarioPermiso() {
+    }
+
+    public void setIsWS(String isWS) {
+        this.isWS = isWS;
+    }
+
+    public String getIsWS() {
+        return isWS;
     }
 
     public void setRolPermiso(RolPermiso rolPermiso) {

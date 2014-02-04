@@ -10,4 +10,6 @@ import sped.negocio.entidades.beans.BeanPermiso;
 public interface LN_C_SFPermisosLocal {
     
     List<BeanPermiso> getCrearArbolNuevo(int nidRol);
+    List<BeanPermiso> getPermisos_WS(int nidRol,
+                                     int nidUsuario);
 }
