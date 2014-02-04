@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="11.1.2.64.36" id="sedeNivel"
+          Package="application.WS_SPED.autenticarUsuarioLN.Return"
+          BeanClass="application.WS_SPED.autenticarUsuarioLN.Return.sedeNivel" isJavaBased="false">
+  <AccessorAttribute id="nivel" IsCollection="false"
+                     BeanClass="application.WS_SPED.autenticarUsuarioLN.Return.sedeNivel.nivel"/>
+  <AccessorAttribute id="sede" IsCollection="false"
+                     BeanClass="application.WS_SPED.autenticarUsuarioLN.Return.sedeNivel.sede"/>
+</JavaBean>

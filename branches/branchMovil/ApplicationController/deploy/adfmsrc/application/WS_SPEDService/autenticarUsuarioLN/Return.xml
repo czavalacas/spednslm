@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="11.1.2.64.36" id="Return"
+          Package="application.WS_SPEDService.autenticarUsuarioLN"
+          BeanClass="application.WS_SPEDService.autenticarUsuarioLN.Return" isJavaBased="false">
+  <Attribute Name="areaAcYProf" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="clave" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="descripcionEstadoUsuario" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="dni" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="estadoUsuario" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="foto" IsUpdateable="0" IsNotNull="false" Type="java.lang.Object">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nidAreaAcademica" IsUpdateable="0" IsNotNull="true" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nidNivel" IsUpdateable="0" IsNotNull="true" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nidRol" IsUpdateable="0" IsNotNull="true" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nidSede" IsUpdateable="0" IsNotNull="true" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nidUsuario" IsUpdateable="0" IsNotNull="false" Type="java.lang.Integer">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="nombres" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <Attribute Name="usuario" IsUpdateable="0" IsNotNull="false" Type="java.lang.String">
+    <Properties>
+      <CustomProperties>
+        <Property Name="PrimaryKey" Value="false"/>
+      </CustomProperties>
+    </Properties>
+  </Attribute>
+  <AccessorAttribute id="areaAcademica" IsCollection="false"
+                     BeanClass="application.WS_SPEDService.autenticarUsuarioLN.Return.areaAcademica"/>
+  <AccessorAttribute id="error" IsCollection="false"
+                     BeanClass="application.WS_SPEDService.autenticarUsuarioLN.Return.error"/>
+  <AccessorAttribute id="lstPermisos" IsCollection="true"
+                     BeanClass="application.WS_SPEDService.autenticarUsuarioLN.Return.lstPermisos"
+                     CollectionBeanClass="application.WS_SPEDService.autenticarUsuarioLN.Return_Operations"/>
+  <AccessorAttribute id="rol" IsCollection="false"
+                     BeanClass="application.WS_SPEDService.autenticarUsuarioLN.Return.rol"/>
+  <AccessorAttribute id="sedeNivel" IsCollection="false"
+                     BeanClass="application.WS_SPEDService.autenticarUsuarioLN.Return.sedeNivel"/>
+</JavaBean>

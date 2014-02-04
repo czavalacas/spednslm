@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="11.1.2.64.36" id="inicioPageDef"
+                Package="mobile.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables">
+      <variable Type="java.lang.String" Name="autenticarUsuarioLN_arg0" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="autenticarUsuarioLN_arg1" IsQueriable="false"/>
+    </variableIterator>
+    <methodIterator Binds="autenticarUsuarioLN.result" DataControl="WS_SPED" RangeSize="25"
+                    BeanClass="application.WS_SPED.autenticarUsuarioLN" id="autenticarUsuarioLNIterator"/>
+  </executables>
+  <bindings>
+    <methodAction id="autenticarUsuarioLN" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="autenticarUsuarioLN" IsViewObjectMethod="false" DataControl="WS_SPED"
+                  InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.autenticarUsuarioLN_WS_SPED_autenticarUsuarioLN_result">
+      <NamedData NDName="arg0" NDType="java.lang.String" NDValue="${bindings.autenticarUsuarioLN_arg0}"/>
+      <NamedData NDName="arg1" NDType="java.lang.String" NDValue="${bindings.autenticarUsuarioLN_arg1}"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="arg0">
+      <AttrNames>
+        <Item Value="autenticarUsuarioLN_arg0"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg1">
+      <AttrNames>
+        <Item Value="autenticarUsuarioLN_arg1"/>
+      </AttrNames>
+    </attributeValues>
+  </bindings>
+</pageDefinition>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<adfc-mobile-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.0">
+  <task-flow-definition id="ViewController-task-flow">
+    <default-activity>inicio</default-activity>
+    <managed-bean id="__1">
+      <managed-bean-name>bLogin</managed-bean-name>
+      <managed-bean-class>mobile.respaldo.bLogin</managed-bean-class>
+      <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean id="__4">
+      <managed-bean-name>bMain</managed-bean-name>
+      <managed-bean-class>mobile.respaldo.Bienvenida.bMain</managed-bean-class>
+      <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <view id="inicio">
+      <page>/inicio.amx</page>
+    </view>
+    <view id="Main">
+      <page>/Bienvenida/Main.amx</page>
+    </view>
+    <view id="Consultar_Planificacion">
+      <page>/Consultas/Consultar_Planificacion.amx</page>
+    </view>
+    <view id="Consultar_Evaluacion"></view>
+    <control-flow-rule id="__2">
+      <from-activity-id>inicio</from-activity-id>
+      <control-flow-case id="__3">
+        <from-outcome>000</from-outcome>
+        <to-activity-id>Main</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__5">
+      <from-activity-id>Main</from-activity-id>
+      <control-flow-case id="__6">
+        <from-outcome>GO_LOGIN</from-outcome>
+        <to-activity-id>inicio</to-activity-id>
+      </control-flow-case>
+      <control-flow-case id="__7">
+        <from-outcome>planificar_planificacion</from-outcome>
+        <to-activity-id>Consultar_Planificacion</to-activity-id>
+      </control-flow-case>
+      <control-flow-case id="__8">
+        <from-outcome>consultar_evaluacion</from-outcome>
+        <to-activity-id>Consultar_Evaluacion</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__9">
+      <from-activity-id>Consultar_Planificacion</from-activity-id>
+      <control-flow-case id="__10">
+        <from-outcome>BACK_MAIN</from-outcome>
+        <to-activity-id>Main</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__11">
+      <from-activity-id>Consultar_Evaluacion</from-activity-id>
+      <control-flow-case id="__12">
+        <from-outcome>BACK_MAIN</from-outcome>
+        <to-activity-id>Main</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+  </task-flow-definition>
+</adfc-mobile-config>
