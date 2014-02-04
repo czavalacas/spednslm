@@ -9,5 +9,6 @@ import sped.negocio.entidades.eval.CriterioIndicador;
 
 @Remote
 public interface LN_C_SFCriterioIndicadorRemote {
-    List<BeanCriterioIndicador> transformLstCriterioIndicador(List<CriterioIndicador> lstCrIn);
+    List<BeanCriterioIndicador> transformLstCriterioIndicador(List<CriterioIndicador> lstCrIn,
+                                                              int nidEvaluacion);
 }

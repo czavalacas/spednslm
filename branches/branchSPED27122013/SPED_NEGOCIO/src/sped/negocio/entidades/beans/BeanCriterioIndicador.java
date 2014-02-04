@@ -14,7 +14,7 @@ public class BeanCriterioIndicador implements Serializable {
     //private List<Leyenda> leyendaLista;
     private int orden;
     private BeanIndicador indicador;
-    private List<BeanResultado> Lstresultado;
+    private BeanResultado resultadoEvaluacion;
     
     public void setNidCriterioIndicador(int nidCriterioIndicador) {
         this.nidCriterioIndicador = nidCriterioIndicador;
@@ -40,12 +40,12 @@ public class BeanCriterioIndicador implements Serializable {
         return indicador;
     }
 
-    public void setLstresultado(List<BeanResultado> Lstresultado) {
-        this.Lstresultado = Lstresultado;
+    public void setResultadoEvaluacion(BeanResultado resultadoEvaluacion) {
+        this.resultadoEvaluacion = resultadoEvaluacion;
     }
 
-    public List<BeanResultado> getLstresultado() {
-        return Lstresultado;
+    public BeanResultado getResultadoEvaluacion() {
+        return resultadoEvaluacion;
     }
 
     public void setOrden(int orden) {

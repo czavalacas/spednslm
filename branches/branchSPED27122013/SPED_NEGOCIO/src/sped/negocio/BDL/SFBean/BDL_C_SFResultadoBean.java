@@ -16,11 +16,13 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFResultadoLocal;
 import sped.negocio.BDL.IR.BDL_C_SFResultadoRemote;
+import sped.negocio.entidades.beans.BeanResultado;
 import sped.negocio.entidades.eval.Resultado;
+import sped.negocio.entidades.eval.ResultadoPK;
 
 @Stateless(name = "BDL_C_SFResultado", mappedName = "mapBDL_C_SFResultado")
 public class BDL_C_SFResultadoBean implements BDL_C_SFResultadoRemote, 
-                                                 BDL_C_SFResultadoLocal {
+                                              BDL_C_SFResultadoLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -54,6 +56,19 @@ public class BDL_C_SFResultadoBean implements BDL_C_SFResultadoRemote,
         }catch(Exception e){
             e.printStackTrace();
             return false;
+        }
+    }
+    
+    public Resultado findResultadoById(int criterioIndicador,
+                                       int evaluacion){
+        try {
+            ResultadoPK id = new ResultadoPK();
+            id.setCriterioIndicador(criterioIndicador);
+            id.setEvaluacion(evaluacion);
+            Resultado instance = em.find(Resultado.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
         }
     }
 }

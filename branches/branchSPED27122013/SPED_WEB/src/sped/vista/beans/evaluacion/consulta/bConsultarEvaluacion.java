@@ -6,6 +6,10 @@ import java.io.OutputStream;
 
 import java.math.BigInteger;
 
+import java.text.DateFormat;
+
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -34,12 +38,18 @@ import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 
 import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
 
+import org.apache.poi.xwpf.usermodel.Borders;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.VerticalAlign;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFStyles;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
 
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
@@ -269,45 +279,69 @@ public class bConsultarEvaluacion {
                                                 getLstFichaCriterioByEvaluacion(eva.getNidEvaluacion());
             
             XWPFDocument document = new XWPFDocument();
-            XWPFParagraph paragraphOne = document.createParagraph(); 
-            XWPFRun paragraphOneRunOne = paragraphOne.createRun(); 
-            paragraphOneRunOne.setText("GUÍA DE OBSERVACIÓN DOCENTE NSLM"); 
+            XWPFParagraph paragraphOne = document.createParagraph();
+            paragraphStyle(paragraphOne, 1);
+            XWPFRun paragraphOneRunOne = paragraphOne.createRun();
+            XWPFRunStyle(paragraphOneRunOne, true, 20, "GU\u00cdA DE OBSERVACI\u00d3N DOCENTE NSLM");
                     
             XWPFParagraph paragraphTwo = document.createParagraph(); 
-            XWPFRun paragraphTwoRunOne = paragraphTwo.createRun(); 
-            paragraphTwoRunOne.setText("I.	DATOS GENERALES"); 
+            XWPFRun paragraphTwoRunOne = paragraphTwo.createRun();
+            XWPFRunStyle(paragraphTwoRunOne, true, 12, "I.DATOS GENERALES");
             
-            XWPFParagraph paragraphthree = document.createParagraph(); 
-            XWPFRun paragraphthreeRunOne = paragraphthree.createRun(); 
-            paragraphthreeRunOne.setText("1.1.	Docente: "+eva.getApellidosDocentes()); 
+            XWPFParagraph paragraphthree = document.createParagraph();
+            XWPFRun paragraphthreeRunOne = paragraphthree.createRun();
+            XWPFRunStyle(paragraphthreeRunOne, false, 0, "1.1.  Docente    "
+                                                           +eva.getMain().getProfesor().getApellidos());
+            paragraphthreeRunOne.addBreak();
+            XWPFRun paragraphthreeRunTwo = paragraphthree.createRun();
+            XWPFRunStyle(paragraphthreeRunTwo, false, 0, "1.2.  Area           "
+                                                           +eva.getMain().getCurso().getAreaAcademica().getDescripcionAreaAcademica());
+            paragraphthreeRunTwo.addBreak();
+            XWPFRun paragraphthreeRunThree = paragraphthree.createRun();
+            XWPFRunStyle(paragraphthreeRunThree, false, 0, "1.3.  Curso         "
+                                                             +eva.getMain().getCurso().getDescripcionCurso());
+            paragraphthreeRunThree.addBreak();
+            XWPFRun paragraphthreeRunFour = paragraphthree.createRun();
+            XWPFRunStyle(paragraphthreeRunFour, false, 0, "1.4.  Nivel          "
+                                                            +eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel()+
+                                                            ".  Grado y Aula  "+
+                                                            eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+
+                                                            " - "+eva.getMain().getAula().getDescripcionAula());
+            paragraphthreeRunFour.addBreak();
+            XWPFRun paragraphthreeRunFive = paragraphthree.createRun();
+            DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            XWPFRunStyle(paragraphthreeRunFive, false, 0, "1.5.  Fecha         "
+                                                            +fechaHora.format(eva.getEndDate()));
+            paragraphthreeRunFive.addBreak();
             
-            XWPFParagraph paragraphfour = document.createParagraph(); 
-            XWPFRun paragraphfourRunOne = paragraphthree.createRun(); 
-            paragraphfourRunOne.setText("1.2.  Evaluador: "+eva.getNombreEvaluador()); 
-
+            int cols[] = {1500,7000,1500};
             XWPFTable table = document.createTable();
+            table.setInsideVBorder(XWPFTable.XWPFBorderType.DOUBLE, 4, 0, "00FF00");
+            table.setInsideVBorder(XWPFTable.XWPFBorderType.DOUBLE, 4, 0, "00FF00");
             XWPFTableRow rowOne = table.getRow(0);
-            rowOne.getCell(0).setText("a");
-            rowOne.addNewTableCell().setText("b");
-            rowOne.addNewTableCell().setText("c");
+            rowOne.addNewTableCell().setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+            rowOne.getCell(0).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[0]));
+            createParagraphCell(rowOne.getCell(0), "N°", 1, true, "000000", "ffffff");
+            rowOne.getCell(1).setText("CRITERIO");
+            rowOne.getCell(1).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[1]));
+            rowOne.addNewTableCell().setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+            rowOne.getCell(2).setText("PUNTAJE");
+            rowOne.getCell(2).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[2]));
             for(int i = 0; i < LstBeanFC.size(); i++){
                 XWPFTableRow row = table.createRow();
-                row.getCell(1).setText(LstBeanFC.get(i).getCriterio().getDescripcionCriterio());
+                createParagraphCell(row.getCell(0), (i+1)+"", 1, true, "808080","");
+                createParagraphCell(row.getCell(1), LstBeanFC.get(i).getCriterio().getDescripcionCriterio(), 0, true,"808080","ffffff");
+                createParagraphCell(row.getCell(2), LstBeanFC.get(i).getLstresultadoCriterio().get(0).getValor()+"", 0, true,"808080","ffffff");
+                row.getCell(2).setColor("696969");
                 for(int j = 0; j < LstBeanFC.get(i).getLstcriterioIndicador().size(); j++){
                     XWPFTableRow subrow = table.createRow();
                     BeanCriterioIndicador crin = LstBeanFC.get(i).getLstcriterioIndicador().get(j);
-                    subrow.getCell(0).setText((crin.getOrden()+1)+"");
-                    subrow.getCell(1).setText(crin.getIndicador().getDescripcionIndicador());
-                    subrow.getCell(2).setText(crin.getLstresultado().get(0).getValor()+"");
+                    createParagraphCell(subrow.getCell(0), (crin.getOrden()+1)+"", 1, false,"","");
+                    createParagraphCell(subrow.getCell(1), crin.getIndicador().getDescripcionIndicador(), 0, false,"","");  
+                    createParagraphCell(subrow.getCell(2), crin.getResultadoEvaluacion().getValor()+"", 1, false,"","");                   
                 }
-                //int numCells = row.getTableCells().size();                
-                /* for(int j = 0; j < 3; j++){
-                    XWPFTableCell cell = row.getCell(j);
-                    cell.setText(i+ " "+j);
-                    cell.getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[j]));
-                } */
             }
-                
+            table.setWidth(120);
             try {
                 document.write(outputStream);
                 outputStream.flush();
@@ -318,6 +352,41 @@ public class bConsultarEvaluacion {
                 e.printStackTrace();
             }
         } 
+    }
+    
+    public void XWPFRunStyle(XWPFRun paragraph, 
+                               boolean Bold, 
+                               int size, 
+                               String texto){
+        if(texto != null){
+            paragraph.setText(texto);            
+        }
+        if(size != 0){
+            paragraph.setFontSize(size);
+        }
+        if(Bold){
+            paragraph.setBold(Bold);
+        }                
+    }
+    
+    public void paragraphStyle(XWPFParagraph paragraph, int alignment){
+        if(alignment == 1){
+            paragraph.setAlignment(ParagraphAlignment.CENTER);
+        }
+    }
+    
+    public void createParagraphCell(XWPFTableCell celda, String texto, int alignment, boolean Bold, String colorCelda, String colorLetra){
+        celda.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+        if(colorCelda.length() == 6){
+            celda.setColor(colorCelda);
+        }
+        XWPFParagraph para = celda.getParagraphs().get(0);
+        paragraphStyle(para, alignment);
+        XWPFRun run = para.createRun();
+        if(colorLetra.length() == 6){
+            run.setColor(colorLetra);
+        }
+        XWPFRunStyle(run, Bold, 0, texto);
     }
 
     public void setSessionConsultarEvaluacion(bSessionConsultarEvaluacion sessionConsultarEvaluacion) {

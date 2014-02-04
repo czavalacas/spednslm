@@ -10,5 +10,6 @@ import sped.negocio.entidades.eval.Resultado;
 @Remote
 public interface LN_C_SFResultadoRemote {
     boolean fichaUsadaEnEvaluacion_LN(int nidFicha);
-    List<BeanResultado> transformLstResultado(List<Resultado> lstResultado);
+    BeanResultado findResultadoByIdLN(int criterioIndicador,
+                                      int evaluacion);
 }

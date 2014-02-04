@@ -140,7 +140,7 @@
                         <af:button id="btnVer" icon="../recursos/img/usuarios/ver.png" visible="#{(row.estadoEvaluacion == 'EVALUADO') == true}"/>
                         <af:button id="btnComentario" icon="../recursos/img/usuarios/refresh.png" visible="#{(row.comentarioEvaluador != null) == true}">
                             <f:setPropertyActionListener value="#{row}" target="#{sessionConsultarEvaluacion.evaluacion}"/>
-                            <af:fileDownloadActionListener filename="#{row.apellidosDocentes}.docx" contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                            <af:fileDownloadActionListener filename="Evaluacion.docx" contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                            method="#{bConsultarEvaluacion.exportData}"/>
                         </af:button>
                     </af:panelFormLayout>                    

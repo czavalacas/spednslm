@@ -10,4 +10,6 @@ import sped.negocio.entidades.eval.Resultado;
 public interface BDL_C_SFResultadoLocal {
     List<Resultado> getResultadoFindAll();
     boolean fichaUsadaEnEvaluacion(int nidFicha);
+    Resultado findResultadoById(int criterioIndicador,
+                                int evaluacion);
 }
