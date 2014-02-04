@@ -467,6 +467,8 @@ public class bPlanificarEva {
     }
 
     public void abrirNuevoEvento(CalendarEvent calendarEvent) {
+        sessionPlanificarEva.setNidAreaAcademica(0);
+        sessionPlanificarEva.setNidSedeEvaluador(0);
         Date fechaHoy = new Date();
         Date fecha = (Date) fechaHoy.clone();
         fecha.setHours(0);
@@ -499,16 +501,13 @@ public class bPlanificarEva {
                             System.out.println("Valor AREA <<< " + evaluador.getAreaAcademica().getNidAreaAcademica());
                             sessionPlanificarEva.setNidAreaAcademica(evaluador.getAreaAcademica().getNidAreaAcademica());
                         }                        
-                        } 
+                    } 
                     if(evaluador.getSedeNivel()!=null){
-                            System.out.println("NO ES NULO "); 
-                            System.out.println("Valor 1 <<< " + evaluador.getSedeNivel());
-                            System.out.println("Valor 2 <<< " + evaluador.getSedeNivel().getSede());
-                            System.out.println("Valor 3 <<< " + evaluador.getSedeNivel().getSede().getNidSede());
                         if(evaluador.getSedeNivel().getSede().getNidSede()!=0){
-                                System.out.println("Valor SEDE <<< " + evaluador.getSedeNivel().getSede().getNidSede());
+                            System.out.println("Valor SEDE <<< " + evaluador.getSedeNivel().getSede().getNidSede());
                             sessionPlanificarEva.setNidSedeEvaluador(evaluador.getSedeNivel().getSede().getNidSede());                         }
-                        }                    }
+                        }        
+                    }
                         
                 sessionPlanificarEva.setFechaInicioSeleccionada(calendarEvent.getTriggerDate());
                 String dia = getDiaDeCalendario(calendarEvent.getTriggerDate().getDay());
@@ -656,7 +655,7 @@ public class bPlanificarEva {
 
     public void seleccionarEvaluador(SelectionEvent selectionEvent) {
         sessionPlanificarEva.setNombreEvaluador(null);
-        sessionPlanificarEva.setAreaEvaluador(null);
+        sessionPlanificarEva.setAreaEvaluador(null);        
         RichTable t = (RichTable) selectionEvent.getSource();
         Object _selectedRowData = t.getSelectedRowData();
         BeanUsuario usu = (BeanUsuario) _selectedRowData;
