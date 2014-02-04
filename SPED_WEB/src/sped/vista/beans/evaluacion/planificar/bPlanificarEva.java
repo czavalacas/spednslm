@@ -302,7 +302,7 @@ public class bPlanificarEva {
         main.setNidMain(sessionPlanificarEva.getBeanHorario().getNidMain());
         eva.setMain(main);
         eva.setNidEvaluador(Integer.parseInt(getSessionPlanificarEva().getNidUsuario()));
-        eva.setDescripcion("HOLA QUE HACE");
+        eva.setDescripcion("");
         eva.setEstadoEvaluacion("PENDIENTE");
         String nidDat = generarAlfanumerico();
         eva.setNidDate(nidDat);
