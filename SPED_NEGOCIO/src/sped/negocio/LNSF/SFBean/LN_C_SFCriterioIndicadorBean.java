@@ -36,13 +36,14 @@ public class LN_C_SFCriterioIndicadorBean implements LN_C_SFCriterioIndicadorRem
     public LN_C_SFCriterioIndicadorBean() {
     }
     
-    public List<BeanCriterioIndicador> transformLstCriterioIndicador(List<CriterioIndicador> lstCrIn){
+    public List<BeanCriterioIndicador> transformLstCriterioIndicador(List<CriterioIndicador> lstCrIn,
+                                                                     int nidEvaluacion){
         try {
             List<BeanCriterioIndicador> beanCrIn = new ArrayList();
             for(CriterioIndicador crin : lstCrIn){
                 BeanCriterioIndicador bean = (BeanCriterioIndicador) mapper.map(crin, BeanCriterioIndicador.class);
-                bean.setLstresultado(ln_C_SFResultadoLocal.
-                                     transformLstResultado(crin.getResultadoLista()));
+                bean.setResultadoEvaluacion(ln_C_SFResultadoLocal.findResultadoByIdLN(bean.getNidCriterioIndicador(), 
+                                                                                      nidEvaluacion));
                 beanCrIn.add(bean);
             }                    
             return beanCrIn;

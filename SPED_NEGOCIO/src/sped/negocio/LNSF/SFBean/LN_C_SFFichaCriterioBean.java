@@ -118,7 +118,8 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             bean.setLstresultadoCriterio(ln_C_SFResultadoCriterioLocal.
                                          transformLstResultadoCriterio(fc.getResultadoCriterioList()));
             bean.setLstcriterioIndicador(ln_C_SFCriterioIndicadorLocal.
-                                         transformLstCriterioIndicador(fc.getCriterioIndicadorLista()));
+                                         transformLstCriterioIndicador(fc.getCriterioIndicadorLista(),
+                                                                       nidEvaluacion));
             lstBeanFC.add(bean);
         }
         return lstBeanFC;

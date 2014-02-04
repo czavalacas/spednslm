@@ -9,5 +9,6 @@ import sped.negocio.entidades.eval.CriterioIndicador;
 
 @Local
 public interface LN_C_SFCriterioIndicadorLocal {
-    List<BeanCriterioIndicador> transformLstCriterioIndicador(List<CriterioIndicador> lstCrIn);
+    List<BeanCriterioIndicador> transformLstCriterioIndicador(List<CriterioIndicador> lstCrIn,
+                                                              int nidEvaluacion);
 }
