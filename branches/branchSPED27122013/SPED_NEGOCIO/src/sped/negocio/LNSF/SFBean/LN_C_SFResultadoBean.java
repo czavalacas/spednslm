@@ -40,6 +40,12 @@ public class LN_C_SFResultadoBean implements LN_C_SFResultadoRemote,
         return bdL_C_SFResultadoLocal.fichaUsadaEnEvaluacion(nidFicha);
     }
     
+    public BeanResultado findResultadoByIdLN(int criterioIndicador,
+                                             int evaluacion){
+        return (BeanResultado) mapper.map(bdL_C_SFResultadoLocal.findResultadoById(criterioIndicador, evaluacion), 
+                                          BeanResultado.class);
+    }
+    
     public List<BeanResultado> transformLstResultado(List<Resultado> lstResultado){
         try {
             List<BeanResultado> lstBeanRes = new ArrayList();
