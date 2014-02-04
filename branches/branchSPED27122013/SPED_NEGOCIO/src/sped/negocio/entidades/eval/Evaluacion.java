@@ -58,12 +58,16 @@ public class Evaluacion implements Serializable {
     private String comentarioEvaluador;
     @OneToMany(mappedBy = "evaluacion", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<ResultadoCriterio> resultadoCriterioList;
+    @Column(name = "tipo_visita", nullable = false)    
+    private String tipoVisita;
 
     public Evaluacion() {
     }
 
     public Evaluacion(String descripcion, Timestamp endDate, String estadoEvaluacion, String nidDate, int nidEvaluacion,
-                      int nidEvaluador, int nidPlanificador, Main main, Timestamp startDate, Timestamp fechaPlanificacion, String comentarioEvaluador) {
+                      int nidEvaluador, int nidPlanificador, Main main, Timestamp startDate, Timestamp fechaPlanificacion, String tipoVisita,
+                      String comentarioEvaluador) {
+
         this.descripcion = descripcion;
         this.endDate = endDate;
         this.estadoEvaluacion = estadoEvaluacion;
@@ -74,6 +78,7 @@ public class Evaluacion implements Serializable {
         this.main = main;
         this.startDate = startDate;
         this.fechaPlanificacion = fechaPlanificacion;
+        this.tipoVisita=tipoVisita;
         this.comentarioEvaluador = comentarioEvaluador;
     }
 
@@ -166,6 +171,14 @@ public class Evaluacion implements Serializable {
     public Timestamp getFechaPlanificacion() {
         return fechaPlanificacion;
     }
+    
+    public void setTipoVisita(String tipoVisita) {
+        this.tipoVisita = tipoVisita;
+    }
+
+    public String getTipoVisita() {
+        return tipoVisita;
+    }
 
     public void setComentarioEvaluador(String comentarioEvaluador) {
         this.comentarioEvaluador = comentarioEvaluador;
@@ -182,6 +195,7 @@ public class Evaluacion implements Serializable {
     public List<ResultadoCriterio> getResultadoCriterioList() {
         return resultadoCriterioList;
     }
+
 
     public Resultado addResultado(Resultado resultado) {
         getResultadoLista().add(resultado);
