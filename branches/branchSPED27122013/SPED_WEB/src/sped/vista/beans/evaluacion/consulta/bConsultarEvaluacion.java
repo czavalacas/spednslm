@@ -1,5 +1,7 @@
 package sped.vista.beans.evaluacion.consulta;
 
+import com.rsa.cryptoj.c.N;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -8,6 +10,7 @@ import java.math.BigInteger;
 
 import java.text.DateFormat;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -276,33 +279,32 @@ public class bConsultarEvaluacion {
     public void Data(OutputStream outputStream, BeanEvaluacion eva){
         if(eva != null){
             List<BeanFichaCriterio> LstBeanFC = ln_C_SFFichaCriterioRemote.
-                                                getLstFichaCriterioByEvaluacion(eva.getNidEvaluacion());
-            
+                                                getLstFichaCriterioByEvaluacion(eva.getNidEvaluacion());            
             XWPFDocument document = new XWPFDocument();
             XWPFParagraph paragraphOne = document.createParagraph();
             paragraphStyle(paragraphOne, 1);
             XWPFRun paragraphOneRunOne = paragraphOne.createRun();
             XWPFRunStyle(paragraphOneRunOne, true, 20, "GU\u00cdA DE OBSERVACI\u00d3N DOCENTE NSLM");
                     
-            XWPFParagraph paragraphTwo = document.createParagraph(); 
+            XWPFParagraph paragraphTwo = document.createParagraph();
             XWPFRun paragraphTwoRunOne = paragraphTwo.createRun();
             XWPFRunStyle(paragraphTwoRunOne, true, 12, "I.DATOS GENERALES");
             
             XWPFParagraph paragraphthree = document.createParagraph();
             XWPFRun paragraphthreeRunOne = paragraphthree.createRun();
-            XWPFRunStyle(paragraphthreeRunOne, false, 0, "1.1.  Docente    "
+            XWPFRunStyle(paragraphthreeRunOne, false, 0, " \t1.1.  Docente\t"
                                                            +eva.getMain().getProfesor().getApellidos());
             paragraphthreeRunOne.addBreak();
             XWPFRun paragraphthreeRunTwo = paragraphthree.createRun();
-            XWPFRunStyle(paragraphthreeRunTwo, false, 0, "1.2.  Area           "
+            XWPFRunStyle(paragraphthreeRunTwo, false, 0, " \t1.2.  \u00c1rea\t"
                                                            +eva.getMain().getCurso().getAreaAcademica().getDescripcionAreaAcademica());
             paragraphthreeRunTwo.addBreak();
             XWPFRun paragraphthreeRunThree = paragraphthree.createRun();
-            XWPFRunStyle(paragraphthreeRunThree, false, 0, "1.3.  Curso         "
+            XWPFRunStyle(paragraphthreeRunThree, false, 0, " \t1.3.  Curso\t"
                                                              +eva.getMain().getCurso().getDescripcionCurso());
             paragraphthreeRunThree.addBreak();
             XWPFRun paragraphthreeRunFour = paragraphthree.createRun();
-            XWPFRunStyle(paragraphthreeRunFour, false, 0, "1.4.  Nivel          "
+            XWPFRunStyle(paragraphthreeRunFour, false, 0, " \t1.4.  Nivel\t"
                                                             +eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel()+
                                                             ".  Grado y Aula  "+
                                                             eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+
@@ -310,38 +312,36 @@ public class bConsultarEvaluacion {
             paragraphthreeRunFour.addBreak();
             XWPFRun paragraphthreeRunFive = paragraphthree.createRun();
             DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            XWPFRunStyle(paragraphthreeRunFive, false, 0, "1.5.  Fecha         "
+            XWPFRunStyle(paragraphthreeRunFive, false, 0, " \t1.5.  Fecha\t"
                                                             +fechaHora.format(eva.getEndDate()));
             paragraphthreeRunFive.addBreak();
             
-            int cols[] = {1500,7000,1500};
+            int cols[] = {8000,2000};
+            double totalCriterios = 0;
+            int sizeCri = LstBeanFC.size();
             XWPFTable table = document.createTable();
-            table.setInsideVBorder(XWPFTable.XWPFBorderType.DOUBLE, 4, 0, "00FF00");
-            table.setInsideVBorder(XWPFTable.XWPFBorderType.DOUBLE, 4, 0, "00FF00");
+            table.setInsideVBorder(XWPFTable.XWPFBorderType.DOUBLE, 4, 0, "000000");
+            table.setInsideHBorder(XWPFTable.XWPFBorderType.DOUBLE, 4, 0, "000000");
             XWPFTableRow rowOne = table.getRow(0);
-            rowOne.addNewTableCell().setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+            rowOne.createCell();
             rowOne.getCell(0).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[0]));
-            createParagraphCell(rowOne.getCell(0), "N°", 1, true, "000000", "ffffff");
-            rowOne.getCell(1).setText("CRITERIO");
-            rowOne.getCell(1).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[1]));
-            rowOne.addNewTableCell().setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
-            rowOne.getCell(2).setText("PUNTAJE");
-            rowOne.getCell(2).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[2]));
-            for(int i = 0; i < LstBeanFC.size(); i++){
+            createParagraphCell(rowOne.getCell(0), "RESULTADO GLOBAL", 0, true, "000000", "ffffff",12);
+            rowOne.createCell();
+            rowOne.getCell(1).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[1]));            
+            for(int i = 0; i < sizeCri; i++){
                 XWPFTableRow row = table.createRow();
-                createParagraphCell(row.getCell(0), (i+1)+"", 1, true, "808080","");
-                createParagraphCell(row.getCell(1), LstBeanFC.get(i).getCriterio().getDescripcionCriterio(), 0, true,"808080","ffffff");
-                createParagraphCell(row.getCell(2), LstBeanFC.get(i).getLstresultadoCriterio().get(0).getValor()+"", 0, true,"808080","ffffff");
-                row.getCell(2).setColor("696969");
+                createParagraphCell(row.getCell(0), LstBeanFC.get(i).getCriterio().getDescripcionCriterio(), 0, true,"808080","ffffff",11);
+                createParagraphCell(row.getCell(1), nota(LstBeanFC.get(i).getResultadoCriterio().getValor()), 1, true,"808080","ffffff",11);
+                totalCriterios = totalCriterios + LstBeanFC.get(i).getResultadoCriterio().getValor();
                 for(int j = 0; j < LstBeanFC.get(i).getLstcriterioIndicador().size(); j++){
                     XWPFTableRow subrow = table.createRow();
                     BeanCriterioIndicador crin = LstBeanFC.get(i).getLstcriterioIndicador().get(j);
-                    createParagraphCell(subrow.getCell(0), (crin.getOrden()+1)+"", 1, false,"","");
-                    createParagraphCell(subrow.getCell(1), crin.getIndicador().getDescripcionIndicador(), 0, false,"","");  
-                    createParagraphCell(subrow.getCell(2), crin.getResultadoEvaluacion().getValor()+"", 1, false,"","");                   
+                    createParagraphCell(subrow.getCell(0), crin.getIndicador().getDescripcionIndicador(), 0, false,"","",9);  
+                    createParagraphCell(subrow.getCell(1), crin.getResultadoEvaluacion().getValor()+"", 1, false,"","",9);                   
                 }
             }
-            table.setWidth(120);
+            totalCriterios = totalCriterios/sizeCri;            
+            createParagraphCell(rowOne.getCell(1), nota(totalCriterios), 1, true, "000000", "ffffff",12);
             try {
                 document.write(outputStream);
                 outputStream.flush();
@@ -375,7 +375,13 @@ public class bConsultarEvaluacion {
         }
     }
     
-    public void createParagraphCell(XWPFTableCell celda, String texto, int alignment, boolean Bold, String colorCelda, String colorLetra){
+    public void createParagraphCell(XWPFTableCell celda, 
+                                    String texto, 
+                                    int alignment, 
+                                    boolean Bold, 
+                                    String colorCelda, 
+                                    String colorLetra, 
+                                    int tamanoL){
         celda.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
         if(colorCelda.length() == 6){
             celda.setColor(colorCelda);
@@ -386,7 +392,13 @@ public class bConsultarEvaluacion {
         if(colorLetra.length() == 6){
             run.setColor(colorLetra);
         }
-        XWPFRunStyle(run, Bold, 0, texto);
+        XWPFRunStyle(run, Bold, tamanoL, texto);
+    }
+    
+    public String nota(double nota){
+        DecimalFormat df = new DecimalFormat("#.##");
+        double porcentaje = (nota*100) / 20;
+        return df.format(nota)+"  -  "+df.format(porcentaje)+" %";
     }
 
     public void setSessionConsultarEvaluacion(bSessionConsultarEvaluacion sessionConsultarEvaluacion) {

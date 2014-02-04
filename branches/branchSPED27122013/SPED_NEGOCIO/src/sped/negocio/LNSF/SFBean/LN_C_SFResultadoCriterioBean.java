@@ -22,6 +22,7 @@ import sped.negocio.BDL.IL.BDL_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFResultadoCriterioRemote;
 import sped.negocio.entidades.beans.BeanResultadoCriterio;
+import sped.negocio.entidades.eval.FichaCriterio;
 import sped.negocio.entidades.eval.ResultadoCriterio;
 
 @Stateless(name = "LN_C_SFResultadoCriterio", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFResultadoCriterio")
@@ -51,4 +52,16 @@ public class LN_C_SFResultadoCriterioBean implements LN_C_SFResultadoCriterioRem
             return null;
         }
     }
+    
+    public BeanResultadoCriterio getResCriByFichaEvaLN(int nidEvaluacion, 
+                                                       FichaCriterio fichaCriterio){
+        ResultadoCriterio resCri = bdL_C_SFResultadoCriterioLocal.getResCriByFichaEvaBDL(nidEvaluacion, 
+                                                                                         fichaCriterio);
+        BeanResultadoCriterio beanResCri = null;
+        if(resCri != null){
+            beanResCri = (BeanResultadoCriterio) mapper.map(resCri, BeanResultadoCriterio.class);
+        }
+        return beanResCri;
+    } 
+    
 }

@@ -10,7 +10,7 @@ public class BeanFichaCriterio implements Serializable {
 
     private BeanCriterio criterio;
     private BeanFicha ficha;
-    private List<BeanResultadoCriterio> LstresultadoCriterio;
+    private BeanResultadoCriterio resultadoCriterio;
     private List<BeanCriterioIndicador> LstcriterioIndicador;
 
     public void setCriterio(BeanCriterio criterio) {
@@ -29,12 +29,12 @@ public class BeanFichaCriterio implements Serializable {
         return ficha;
     }
 
-    public void setLstresultadoCriterio(List<BeanResultadoCriterio> LstresultadoCriterio) {
-        this.LstresultadoCriterio = LstresultadoCriterio;
+    public void setResultadoCriterio(BeanResultadoCriterio resultadoCriterio) {
+        this.resultadoCriterio = resultadoCriterio;
     }
 
-    public List<BeanResultadoCriterio> getLstresultadoCriterio() {
-        return LstresultadoCriterio;
+    public BeanResultadoCriterio getResultadoCriterio() {
+        return resultadoCriterio;
     }
 
     public void setLstcriterioIndicador(List<BeanCriterioIndicador> LstcriterioIndicador) {

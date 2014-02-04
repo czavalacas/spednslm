@@ -25,8 +25,8 @@ public class FichaCriterio implements Serializable {
     private static final long serialVersionUID = 4361889253980138020L;
     @OneToMany(mappedBy = "fichaCriterio",fetch = FetchType.EAGER ,cascade = CascadeType.ALL)
     private List<CriterioIndicador> criterioIndicadorLista;
-    @OneToMany(mappedBy = "fichaCriterio", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    private List<ResultadoCriterio> resultadoCriterioList;
+    /* @OneToMany(mappedBy = "fichaCriterio", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<ResultadoCriterio> resultadoCriterioList; */
     @ManyToOne
     @Id
     @JoinColumn(name = "nidCriterio")
@@ -60,14 +60,6 @@ public class FichaCriterio implements Serializable {
 
     public void setCriterioIndicadorLista(List<CriterioIndicador> criterioIndicadorLista) {
         this.criterioIndicadorLista = criterioIndicadorLista;
-    }
-
-    public void setResultadoCriterioList(List<ResultadoCriterio> resultadoCriterioList) {
-        this.resultadoCriterioList = resultadoCriterioList;
-    }
-
-    public List<ResultadoCriterio> getResultadoCriterioList() {
-        return resultadoCriterioList;
     }
 
     public CriterioIndicador addCriterioIndicador(CriterioIndicador criterioIndicador) {
