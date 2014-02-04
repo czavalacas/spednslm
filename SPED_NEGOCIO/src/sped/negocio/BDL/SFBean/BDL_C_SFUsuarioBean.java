@@ -70,9 +70,9 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     public List<Usuario> getEvaluadores(String nidAreaAcademica){
         try{
             String ejbQl = "SELECT ma FROM Usuario ma" +
-                           " WHERE ma.rol.nidRol=1 OR " +
-                           " ma.rol.nidRol=3 OR "+
-                           " ma.rol.nidRol=4 ";
+                           " WHERE ma.rol.nidRol=2 OR " +
+                           " ma.rol.nidRol=4 OR "+
+                           " ma.rol.nidRol=5 ";
             System.out.println(" ::::: ");
             if (nidAreaAcademica!= null) {               
                     ejbQl =
