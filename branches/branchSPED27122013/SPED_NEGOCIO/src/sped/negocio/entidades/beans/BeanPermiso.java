@@ -24,7 +24,16 @@ public class BeanPermiso implements Serializable {
     private String indMostrar;
     private List<BeanPermiso> listaHijos;
     private char accessKey;
+    private String shortURL_WS;
     private String accelerator;
+
+    public void setShortURL_WS(String shortURL_WS) {
+        this.shortURL_WS = shortURL_WS;
+    }
+
+    public String getShortURL_WS() {
+        return shortURL_WS;
+    }
 
     public void setIndMostrar(String indMostrar) {
         this.indMostrar = indMostrar;

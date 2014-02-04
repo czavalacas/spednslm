@@ -70,4 +70,25 @@ public class BDL_C_SFPermisoBean implements BDL_C_SFPermisoRemote,
                     .setParameter("nidPadre", nidPadre)
                     .getResultList();
     }
+    
+    public List<Permiso> getHijosByPadre_WS(int nidUsuario,
+                                             int nidRol){
+        String  ejbQL = "SELECT per " +
+                        "FROM Permiso per, " +
+                        "     RolPermiso up," +
+                        "     UsuarioPermiso uspe "+
+                        "WHERE up.permiso.nidPermiso = per.nidPermiso "+
+                        "AND uspe.usuario.nidUsuario = :nidUsuario "+
+                        "AND up.rol.nidRol = :nidRol "+
+                        "AND uspe.isWS = '1' "+
+                        "AND up.isWS = '1' "+
+                        "AND uspe.rolPermiso.permiso.nidPermiso = per.nidPermiso " +
+                        "AND uspe.rolPermiso.rol.nidRol = :nidRol " +
+                        "AND uspe.estado = '1' "+
+                        "AND up.permiso.estadoRegistro = 1";
+        return em.createQuery(ejbQL)
+                    .setParameter("nidRol", nidRol)
+                    .setParameter("nidUsuario", nidUsuario)
+                    .getResultList();
+    }
 }

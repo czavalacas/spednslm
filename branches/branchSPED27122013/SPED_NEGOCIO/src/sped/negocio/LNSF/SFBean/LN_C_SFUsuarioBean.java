@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.commons.codec.binary.Base64;
 import javax.annotation.Resource;
 
 import javax.ejb.EJB;
@@ -25,6 +25,7 @@ import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.Utils.MyBase64;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanError;
@@ -32,7 +33,7 @@ import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "LN_C_SFUsuario", mappedName = "mapLN_C_SFUsuario")
 public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote, 
-                                           LN_C_SFUsuarioLocal {
+                                              LN_C_SFUsuarioLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -40,9 +41,9 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
     @EJB
     private BDL_C_SFUsuarioLocal bdL_C_SFUsuarioLocal;
     @EJB
-    private LN_C_SFErrorLocal ln_C_SFErrorLocal;
-    @EJB
     private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
+    @EJB
+    private LN_C_SFErrorLocal ln_C_SFErrorLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFUsuarioBean() {
@@ -59,6 +60,11 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             if(user != null){
                 if(msj.equals("000")){
                     beanUsuario = (BeanUsuario)mapper.map(user, BeanUsuario.class);
+                    if(beanUsuario.getFoto() != null){
+                        String encoded = Base64.encodeBase64String(beanUsuario.getFoto());
+                        //String encoded = MyBase64.encode(beanUsuario.getFoto());
+                        beanUsuario.setImg(encoded);
+                    }
                 }
             }
         }catch(Exception e){
