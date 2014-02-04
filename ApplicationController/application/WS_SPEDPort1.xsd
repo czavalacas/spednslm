@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:schema xmlns:ns0="http://servicios.webservice.sped/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://servicios.webservice.sped/">
+  <xsd:complexType name="beanRol">
+    <xsd:sequence>
+      <xsd:element name="descripcionRol" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="nidRol" type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="beanUsuario">
+    <xsd:sequence>
+      <xsd:element name="areaAcYProf" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="areaAcademica" type="ns0:beanAreaAcademica" minOccurs="0"/>
+      <xsd:element name="clave" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="descripcionEstadoUsuario" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="dni" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="error" type="ns0:beanError" minOccurs="0"/>
+      <xsd:element name="estadoUsuario" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="foto" type="xsd:base64Binary" minOccurs="0"/>
+      <xsd:element name="lstPermisos" type="xsd:int" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      <xsd:element name="nidAreaAcademica" type="xsd:int"/>
+      <xsd:element name="nidNivel" type="xsd:int"/>
+      <xsd:element name="nidRol" type="xsd:int"/>
+      <xsd:element name="nidSede" type="xsd:int"/>
+      <xsd:element name="nidUsuario" type="xsd:int" minOccurs="0"/>
+      <xsd:element name="nombres" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="rol" type="ns0:beanRol" minOccurs="0"/>
+      <xsd:element name="sedeNivel" type="ns0:beanSedeNivel" minOccurs="0"/>
+      <xsd:element name="usuario" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="beanPermiso">
+    <xsd:sequence>
+      <xsd:element name="accelerator" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="accessKey" type="xsd:string"/>
+      <xsd:element name="descripcionPermiso" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="estadoRegistro" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="habilidad" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="indMostrar" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="isNodo" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="listaHijos" type="ns0:beanPermiso" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      <xsd:element name="lstPermisos" type="xsd:int" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      <xsd:element name="nidPadre" type="xsd:int"/>
+      <xsd:element name="nidPermiso" type="xsd:int"/>
+      <xsd:element name="nivel" type="xsd:int"/>
+      <xsd:element name="url" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="urlIcono" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="beanSede">
+    <xsd:sequence>
+      <xsd:element name="descripcionSede" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="nidSede" type="xsd:int" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="autenticarUsuarioLNResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="ns0:beanUsuario" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getPermisosByUsuarioRol_WSResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="ns0:beanPermiso" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="beanAreaAcademica">
+    <xsd:sequence>
+      <xsd:element name="descripcionAreaAcademica" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="nidAreaAcademica" type="xsd:int" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getPermisosByUsuarioRol_WS">
+    <xsd:sequence>
+      <xsd:element name="arg0" type="xsd:int"/>
+      <xsd:element name="arg1" type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="beanSedeNivel">
+    <xsd:sequence>
+      <xsd:element name="nivel" type="ns0:beanNivel" minOccurs="0"/>
+      <xsd:element name="sede" type="ns0:beanSede" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="autenticarUsuarioLN">
+    <xsd:sequence>
+      <xsd:element name="arg0" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="arg1" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="beanNivel">
+    <xsd:sequence>
+      <xsd:element name="descripcionNivel" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="nidNivel" type="xsd:int" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="beanError">
+    <xsd:sequence>
+      <xsd:element name="cidError" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="descripcionError" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="tituloError" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="autenticarUsuarioLNResponse" type="ns0:autenticarUsuarioLNResponse"/>
+  <xsd:element name="getPermisosByUsuarioRol_WSResponse" type="ns0:getPermisosByUsuarioRol_WSResponse"/>
+  <xsd:element name="getPermisosByUsuarioRol_WS" type="ns0:getPermisosByUsuarioRol_WS"/>
+  <xsd:element name="autenticarUsuarioLN" type="ns0:autenticarUsuarioLN"/>
+</xsd:schema>

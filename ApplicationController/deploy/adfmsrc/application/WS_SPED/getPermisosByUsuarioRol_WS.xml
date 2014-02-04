@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="11.1.2.64.36" id="getPermisosByUsuarioRol_WS"
+          Package="application.WS_SPED" BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS" isJavaBased="false">
+  <AccessorAttribute id="Return" IsCollection="true" BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS.Return"
+                     CollectionBeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS_Operations"/>
+</JavaBean>

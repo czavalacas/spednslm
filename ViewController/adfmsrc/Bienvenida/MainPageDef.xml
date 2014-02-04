@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="11.1.2.64.36" id="MainPageDef"
+                Package="Bienvenida">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <methodIterator Binds="getPermisosByUsuarioRol_WS.result" DataControl="WS_SPED" RangeSize="25"
+                    BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS" id="getPermisosByUsuarioRol_WSIterator"/>
+    <accessorIterator MasterBinding="getPermisosByUsuarioRol_WSIterator" Binds="Return" RangeSize="25"
+                      DataControl="WS_SPED" BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS.Return"
+                      id="ReturnIterator"/>
+  </executables>
+  <bindings>
+    <methodAction id="getPermisosByUsuarioRol_WS" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="getPermisosByUsuarioRol_WS" IsViewObjectMethod="false" DataControl="WS_SPED"
+                  InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.getPermisosByUsuarioRol_WS_WS_SPED_getPermisosByUsuarioRol_WS_result">
+      <NamedData NDName="arg0" NDValue="#{pageFlowScope.usuario.rol.nidRol}" NDType="java.lang.Integer" NDOption="3"/>
+      <NamedData NDName="arg1" NDValue="#{pageFlowScope.usuario.nidUsuario}" NDType="java.lang.Integer" NDOption="3"/>
+    </methodAction>
+    <tree IterBinding="ReturnIterator" id="Return">
+      <nodeDefinition DefName="application.WS_SPED.getPermisosByUsuarioRol_WS.Return" Name="Return0">
+        <AttrNames>
+          <Item Value="descripcionPermiso"/>
+          <Item Value="url"/>
+          <Item Value="urlIcono"/>
+          <Item Value="shortURL_WS"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+  </bindings>
+</pageDefinition>

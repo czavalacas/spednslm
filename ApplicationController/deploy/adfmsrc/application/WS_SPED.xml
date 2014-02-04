@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<JavaBean xmlns="http://xmlns.oracle.com/adfm/beanmodel" version="11.1.2.64.36" id="WS_SPED" Package="application"
+          BeanClass="application.WS_SPED" isJavaBased="false">
+  <MethodAccessor IsCollection="false" Type="application.WS_SPED.autenticarUsuarioLN"
+                  BeanClass="application.WS_SPED.autenticarUsuarioLN" id="autenticarUsuarioLN" ReturnNodeName="Return">
+    <ParameterInfo id="arg0" Type="java.lang.String" isStructured="false"/>
+    <ParameterInfo id="arg1" Type="java.lang.String" isStructured="false"/>
+  </MethodAccessor>
+  <MethodAccessor IsCollection="true" Type="application.WS_SPED.getPermisosByUsuarioRol_WS"
+                  BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS" id="getPermisosByUsuarioRol_WS"
+                  ReturnNodeName="Return"
+                  CollectionBeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS_Operations">
+    <ParameterInfo id="arg0" Type="java.lang.Integer" isStructured="false"/>
+    <ParameterInfo id="arg1" Type="java.lang.Integer" isStructured="false"/>
+  </MethodAccessor>
+</JavaBean>
