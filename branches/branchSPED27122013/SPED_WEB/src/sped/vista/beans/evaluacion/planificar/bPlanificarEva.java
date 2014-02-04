@@ -171,7 +171,8 @@ public class bPlanificarEva {
         beanUsuario = (BeanUsuario) Utils.getSession("USER");
         sessionPlanificarEva.setNidPlanificador(beanUsuario.getNidUsuario());
         sessionPlanificarEva.setNidRol(beanUsuario.getRol().getNidRol());
-        if (beanUsuario.getRol().getNidRol() == 2) {
+        //rol=1 Director // rol=6 Administrador // Podran Asignar Evaluaciones
+        if (beanUsuario.getRol().getNidRol() == 1 || beanUsuario.getRol().getNidRol() == 6) {
             sessionPlanificarEva.setEstadoChoiceEvaluadores(true);           
         } 
        else {
@@ -418,10 +419,7 @@ public class bPlanificarEva {
                             for (int j = 0; j < listaEvaluaciones.size(); j++) {
                                 if (listaEvaluaciones.get(j).getMain().getNidMain() == lis.get(i).getNidMain()) {
                                     lis.remove(i);
-                                }
-                                /*    if(listaEvaluaciones.get(j).getStartDate().getHours()==lis.get(i).getHoraInicio().getHours()){
-                                    lis.remove(i);
-                                }*/
+                                }                           
                             }
                         }
                     }
