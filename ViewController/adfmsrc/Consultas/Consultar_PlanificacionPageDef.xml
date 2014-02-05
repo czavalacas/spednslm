@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="11.1.2.64.36" id="Consultar_PlanificacionPageDef"
+                Package="Consultas">
+  <parameters/>
+  <executables>
+    <methodIterator Binds="getPlanificaciones_WS.result" DataControl="WS_SPED" RangeSize="25"
+                    BeanClass="application.WS_SPED.getPlanificaciones_WS" id="getPlanificaciones_WSIterator"/>
+    <accessorIterator MasterBinding="getPlanificaciones_WSIterator" Binds="Return" RangeSize="25" DataControl="WS_SPED"
+                      BeanClass="application.WS_SPED.getPlanificaciones_WS.Return" id="ReturnIterator"/>
+    <variableIterator id="variables">
+      <variable Type="java.lang.String" Name="getPlanificaciones_WS_arg4" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="getPlanificaciones_WS_arg5" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getPlanificaciones_WS_arg6" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getPlanificaciones_WS_arg7" IsQueriable="false"/>
+    </variableIterator>
+    
+  </executables>
+  <bindings>
+    <methodAction id="getPlanificaciones_WS" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="getPlanificaciones_WS" IsViewObjectMethod="false" DataControl="WS_SPED"
+                  InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.getPlanificaciones_WS_WS_SPED_getPlanificaciones_WS_result">
+      <NamedData NDName="arg0" NDValue="#{pageFlowScope.usuario.rol.nidRol}" NDType="java.lang.Integer" NDOption="3"/>
+      <NamedData NDName="arg1" NDValue="#{pageFlowScope.usuario.sedeNivel.sede.nidSede}" NDType="java.lang.Integer"/>
+      <NamedData NDName="arg2" NDValue="#{pageFlowScope.usuario.areaAcademica.nidAreaAcademica}" NDType="java.lang.Integer"/>
+      <NamedData NDName="arg3" NDValue="#{pageFlowScope.usuario.nidUsuario}" NDType="java.lang.Integer" NDOption="3"/>
+      <NamedData NDName="arg4" NDValue="${bindings.getPlanificaciones_WS_arg4}" NDType="java.lang.String"/>
+      <NamedData NDName="arg5" NDValue="${bindings.getPlanificaciones_WS_arg5}" NDType="java.lang.String"/>
+      <NamedData NDName="arg6" NDValue="${bindings.getPlanificaciones_WS_arg6}" NDType="java.lang.Integer"/>
+      <NamedData NDName="arg7" NDValue="${bindings.getPlanificaciones_WS_arg7}" NDType="java.lang.Integer"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="arg4">
+      <AttrNames>
+        <Item Value="getPlanificaciones_WS_arg4"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg5">
+      <AttrNames>
+        <Item Value="getPlanificaciones_WS_arg5"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg6">
+      <AttrNames>
+        <Item Value="getPlanificaciones_WS_arg6"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg7">
+      <AttrNames>
+        <Item Value="getPlanificaciones_WS_arg7"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="ReturnIterator" id="Return1">
+      <nodeDefinition DefName="application.WS_SPED.getPlanificaciones_WS.Return" Name="Return10">
+        <AttrNames>
+          <Item Value="profesor"/>
+          <Item Value="evaluador"/>
+          <Item Value="planificador"/>
+          <Item Value="curso"/>
+          <Item Value="areaAcademica"/>
+          <Item Value="sede"/>
+          <Item Value="tipoVisita"/>
+          <Item Value="startDate"/>
+          <Item Value="endDate"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    
+  </bindings>
+</pageDefinition>
