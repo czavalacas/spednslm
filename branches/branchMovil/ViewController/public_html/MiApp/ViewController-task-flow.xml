@@ -12,6 +12,11 @@
       <managed-bean-class>mobile.respaldo.Bienvenida.bMain</managed-bean-class>
       <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean id="__14">
+      <managed-bean-name>bConsultaPlanificacion</managed-bean-name>
+      <managed-bean-class>mobile.respaldo.Consultas.bConsultaPlanificacion</managed-bean-class>
+      <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <view id="inicio">
       <page>/inicio.amx</page>
     </view>
@@ -36,7 +41,7 @@
         <to-activity-id>inicio</to-activity-id>
       </control-flow-case>
       <control-flow-case id="__7">
-        <from-outcome>planificar_planificacion</from-outcome>
+        <from-outcome>consultar_planificacion</from-outcome>
         <to-activity-id>Consultar_Planificacion</to-activity-id>
       </control-flow-case>
       <control-flow-case id="__8">
@@ -49,6 +54,10 @@
       <control-flow-case id="__10">
         <from-outcome>BACK_MAIN</from-outcome>
         <to-activity-id>Main</to-activity-id>
+      </control-flow-case>
+      <control-flow-case id="__13">
+        <from-outcome>GO_LOGIN</from-outcome>
+        <to-activity-id>inicio</to-activity-id>
       </control-flow-case>
     </control-flow-rule>
     <control-flow-rule id="__11">
