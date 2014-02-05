@@ -42,7 +42,7 @@
       <property
          name="fromOutcome">000</property>
       <property
-         name="sdm:polyPoints">R46,107.50741,288.09375,351.0,288.60938,L46</property>
+         name="sdm:polyPoints">R46,108.06497,288.09375,351.0,288.60938,L46</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -52,7 +52,7 @@
       <property
          name="fromOutcome">GO_LOGIN</property>
       <property
-         name="sdm:polyPoints">L54,351.0,295.60938,108.05408,298.59375,R58</property>
+         name="sdm:polyPoints">L54,350.99258,295.60938,108.06939,295.09375,R54</property>
    </ControlFlowCase>
    <View
       id="View6">
@@ -78,9 +78,9 @@
       <property
          name="exceptionHandler">false</property>
       <property
-         name="y">403.15625</property>
+         name="y">472.1875</property>
       <property
-         name="x">691.0</property>
+         name="x">679.0</property>
    </View>
    <ControlFlowCase
       islink="true"
@@ -100,7 +100,7 @@
       <property
          name="fromOutcome">consultar_evaluacion</property>
       <property
-         name="sdm:polyPoints">R54,434.59164,295.60938,650.0,399.67188,L46</property>
+         name="sdm:polyPoints">R54,435.5202,295.60938,638.0,465.20312,L42</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -120,7 +120,7 @@
       <property
          name="fromOutcome">BACK_MAIN</property>
       <property
-         name="sdm:polyPoints">L54,648.4031,406.67188,433.0,302.60938,R62</property>
+         name="sdm:polyPoints">L50,635.4678,472.20312,433.0,302.60938,R62</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -131,5 +131,15 @@
          name="fromOutcome">GO_LOGIN</property>
       <property
          name="sdm:polyPoints">L42,641.28284,131.17188,107.5,284.59375,R42</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase13"
+      from="View7"
+      to="View2">
+      <property
+         name="fromOutcome">GO_LOGIN</property>
+      <property
+         name="sdm:polyPoints">L58,633.63885,479.20312,107.5,302.09375,R62</property>
    </ControlFlowCase>
 </SDM>
