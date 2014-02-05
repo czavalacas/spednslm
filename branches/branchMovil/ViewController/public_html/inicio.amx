@@ -11,9 +11,9 @@
         </amx:facet>
         <amx:panelGroupLayout id="panelGroupLayout2">
             <amx:inputText id="it1" hintText="Usuario" value="#{viewScope.bLogin.usuario}" required="true"
-                           maximumLength="10" showRequired="true"/>
+                            showRequired="true"/>
             <amx:inputText hintText="Clave" id="it2" value="#{viewScope.bLogin.clave}" secret="true" required="true"
-                           maximumLength="32" showRequired="true"/>
+                            showRequired="true"/>
             <amx:commandButton text="Ingresar" id="cb2" 
                                action="#{viewScope.bLogin.autenticarUsuario}"/>
         </amx:panelGroupLayout>
