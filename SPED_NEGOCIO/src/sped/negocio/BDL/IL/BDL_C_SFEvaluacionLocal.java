@@ -20,4 +20,12 @@ public interface BDL_C_SFEvaluacionLocal {
     List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion);
     List<Constraint> getTipoVisita();
     Constraint getTipoVisitaByValor(String valor);
+    List<Evaluacion> getPlanificaciones_BDL_WS(int nidRol,
+                                               int nidSede,
+                                               int nidAreaAcademica,
+                                               int nidUsuario,
+                                               String nombreProfesor,
+                                               String curso,
+                                               int nidSedeFiltro,
+                                               int nidAAFiltro);
 }

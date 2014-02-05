@@ -8,7 +8,8 @@ import java.util.List;
 public class BeanEvaluacion implements Serializable {
     @SuppressWarnings("compatibility:-9034418511481595866")
     private static final long serialVersionUID = 1L;
-    private String descripcion;    
+        
+        private String descripcion;    
         private Date endDate;    
         private String estadoEvaluacion; 
         private String nidEstadoEvaluacion;

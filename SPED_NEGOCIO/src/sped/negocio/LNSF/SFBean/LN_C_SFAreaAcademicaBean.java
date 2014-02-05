@@ -24,7 +24,7 @@ import sped.negocio.entidades.beans.BeanAreaAcademica;
 
 @Stateless(name = "LN_C_SFAreaAcademica", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFAreaAcademica")
 public class LN_C_SFAreaAcademicaBean implements LN_C_SFAreaAcademicaRemote, 
-                                                 LN_C_SFAreaAcademicaLocal {
+                                                    LN_C_SFAreaAcademicaLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")

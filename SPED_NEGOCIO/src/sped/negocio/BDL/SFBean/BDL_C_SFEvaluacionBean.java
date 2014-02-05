@@ -2,38 +2,30 @@ package sped.negocio.BDL.SFBean;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-
 import javax.persistence.EntityManager;
-
 import javax.persistence.PersistenceContext;
-
 import javax.persistence.Query;
-
 import javax.persistence.TemporalType;
-
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
-import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.beans.BeanEvaluacion;
-import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
+
 /** Clase SFBDL SFMainBean.java
  * @author czavalacas
  * @since 31.12.2013
  */
 @Stateless(name = "BDL_C_SFEvaluacion", mappedName = "map-BDL_C_SFEvaluacion")
 public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, 
-                                               BDL_C_SFEvaluacionLocal {
+                                                  BDL_C_SFEvaluacionLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -308,4 +300,86 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             return null;
         }   
         }
+    
+    /**
+     * Metodo utilizado para mostrar las planificaciones al aplicativo movil, dependiendo del rol y usuario
+     * @param nidRol
+     * @param nidSede
+     * @param nidAreaAcademica
+     * @param nidUsuario
+     * @author dfloresgonz
+     * @since 04.02.2014
+     * @return
+     */
+    public List<Evaluacion> getPlanificaciones_BDL_WS(int nidRol,
+                                                       int nidSede,
+                                                       int nidAreaAcademica,
+                                                       int nidUsuario,
+                                                       String nombreProfesor,
+                                                       String curso,
+                                                       int nidSedeFiltro,
+                                                       int nidAAFiltro){
+        try{
+            String qlString = "SELECT e " +
+                              "FROM Evaluacion e " +
+                              "WHERE e.estadoEvaluacion = 'PENDIENTE' ";
+            if(nidRol == 4){//Evaluador x Sede
+                qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
+            }else if(nidRol == 2){//Evaluador x Area
+                qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
+            }else if(nidRol == 1 || nidRol == 5){//Director || Evaluador General
+                //TODOS LOS PERMISOS
+            }
+            if(nidSedeFiltro != 0){
+                if(nidRol == 1 || nidRol == 2 || nidRol == 5){
+                    qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSedeFiltro ");
+                }
+            }
+            if(nidAAFiltro != 0){
+                if(nidRol == 1 || nidRol == 4 || nidRol == 5){
+                    qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAAFiltro ");
+                }
+            }
+            if(nombreProfesor != null){
+                qlString = qlString.concat(" AND upper(CONCAT(e.main.profesor.nombres ,' ' ," +
+                                           " e.main.profesor.apellidos)) like upper(:nombreProfesor) ");
+            }
+            if(curso != null){
+                qlString = qlString.concat(" AND upper(e.main.curso.descripcionCurso) like upper(:curso) ");
+            }
+            qlString = qlString.concat(" ORDER BY e.startDate DESC ");Utiles.sysout("query:"+qlString);
+            Query query = em.createQuery(qlString);
+            if(nidRol == 4){//Evaluador x Sede
+                query.setParameter("nidSede",nidSede);
+            }else if(nidRol == 2){//Evaluador x Area
+                query.setParameter("nidAreaAcademica",nidAreaAcademica).setParameter("nidEvaluador",nidUsuario);
+            }
+            if(nidSedeFiltro != 0){
+                if(nidRol == 1 || nidRol == 2 || nidRol == 5){
+                    query.setParameter("nidSedeFiltro",nidSedeFiltro);
+                }
+            }
+            if(nidAAFiltro != 0){
+                if(nidRol == 1 || nidRol == 4 || nidRol == 5){
+                    query.setParameter("nidAAFiltro",nidAAFiltro);
+                }
+            }
+            if(nombreProfesor != null){
+                query.setParameter("nombreProfesor","%"+nombreProfesor+"%");
+            }
+            if(curso != null){
+                query.setParameter("curso","%"+curso+"%");
+            }
+            List<Evaluacion> lstEvas = query.getResultList();
+            int size = lstEvas == null ? 0 : lstEvas.size();
+            if (size > 0) {
+                return lstEvas;
+            } else {
+                return new ArrayList<Evaluacion>();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
