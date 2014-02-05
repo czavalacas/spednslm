@@ -21,19 +21,23 @@ import net.sf.dozer.util.mapping.MappingException;
 
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
+import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanEvaluacionWS;
 import sped.negocio.entidades.beans.BeanResultado;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 
 @Stateless(name = "LN_C_SFEvaluacion", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFEvaluacion")
 public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote, 
-                                              LN_C_SFEvaluacionLocal {
+                                                 LN_C_SFEvaluacionLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -44,6 +48,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     private BDL_C_SFUsuarioLocal bdL_C_SFUsuarioLocal;
     @EJB
     private LN_C_SFResultadoCriterioLocal ln_C_SFResultadoCriterioLocal;
+    //dfloresgonz 04.02.2013
+    @EJB
+    private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFEvaluacionBean() {
@@ -139,5 +146,56 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             resu = (total/tamano);
         }
         return resu;
+    }
+    
+    /**
+     * Metodo de Logica que retorna las planificaciones para el usuario Movil (WS)
+     * @param nidRol
+     * @param nidSede
+     * @param nidAreaAcademica
+     * @param nidUsuario
+     * @param nombresProfesor
+     * @param curso
+     * @param nidSedeFiltro
+     * @param nidAAFiltro
+     * @author dfloresgonz
+     * @since 04.02.2014
+     * @return List<BeanEvaluacion>
+     */
+    public List<BeanEvaluacionWS> getPlanificaciones_LN_WS(int nidRol,
+                                                          int nidSede,
+                                                          int nidAreaAcademica,
+                                                          int nidUsuario,
+                                                          String nombresProfesor,
+                                                          String curso,
+                                                          int nidSedeFiltro,
+                                                          int nidAAFiltro){
+        List<BeanEvaluacionWS> lstBeanEvas = new ArrayList<BeanEvaluacionWS>();
+        List<Evaluacion> lstEvas = bdL_C_SFEvaluacionLocal.getPlanificaciones_BDL_WS(nidRol,
+                                                                                        nidSede, 
+                                                                                        nidAreaAcademica,
+                                                                                        nidUsuario, 
+                                                                                        nombresProfesor, 
+                                                                                        curso, 
+                                                                                        nidSedeFiltro,
+                                                                                        nidAAFiltro);
+        for(Evaluacion eva : lstEvas){
+            BeanEvaluacionWS beanEva = new BeanEvaluacionWS(); //(BeanEvaluacion) mapper.map(eva, BeanEvaluacion.class);
+            beanEva.setNidEvaluacion(eva.getNidEvaluacion());
+            beanEva.setNidEvaluador(eva.getNidEvaluador());
+            beanEva.setEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidEvaluador()));
+            beanEva.setPlanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidPlanificador()));
+            beanEva.setProfesor(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres());
+            beanEva.setCurso(eva.getMain().getCurso().getDescripcionCurso());
+            beanEva.setStartDate(eva.getStartDate());
+            beanEva.setEndDate(eva.getEndDate());
+            beanEva.setSede(eva.getMain().getAula().getSede().getDescripcionSede());
+            beanEva.setAreaAcademica(eva.getMain().getCurso().getAreaAcademica().getDescripcionAreaAcademica());
+            BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
+            beanEva.setTipoVisita(constr.getDescripcionAMostrar());
+           // Utiles.sysout("beanEva:"+beanEva.getNidEvaluacion()+" ape:"+beanEva.getMain().getProfesor().getApellidos()+", "+eva.getMain().getProfesor().getNombres()+" startdate:"+beanEva.getStartDate());
+            lstBeanEvas.add(beanEva);
+        }
+        return lstBeanEvas;
     }
 }
