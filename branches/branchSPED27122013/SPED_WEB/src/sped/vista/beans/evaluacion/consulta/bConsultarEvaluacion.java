@@ -316,7 +316,7 @@ public class bConsultarEvaluacion {
                                                             +fechaHora.format(eva.getEndDate()));
             paragraphthreeRunFive.addBreak();
             
-            int cols[] = {8000,2000};
+            int cols[] = {500,8000,2500};
             double totalCriterios = 0;
             int sizeCri = LstBeanFC.size();
             XWPFTable table = document.createTable();
@@ -325,23 +325,28 @@ public class bConsultarEvaluacion {
             XWPFTableRow rowOne = table.getRow(0);
             rowOne.createCell();
             rowOne.getCell(0).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[0]));
-            createParagraphCell(rowOne.getCell(0), "RESULTADO GLOBAL", 0, true, "000000", "ffffff",12);
+            createParagraphCell(rowOne.getCell(0), "N", 1, true, "000000", "ffffff",12);
             rowOne.createCell();
-            rowOne.getCell(1).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[1]));            
+            rowOne.getCell(1).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[1]));
+            createParagraphCell(rowOne.getCell(1), "RESULTADO GLOBAL", 0, true, "000000", "ffffff",12);
+            rowOne.getCell(2).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[2]));            
             for(int i = 0; i < sizeCri; i++){
                 XWPFTableRow row = table.createRow();
-                createParagraphCell(row.getCell(0), LstBeanFC.get(i).getCriterio().getDescripcionCriterio(), 0, true,"808080","ffffff",11);
-                createParagraphCell(row.getCell(1), nota(LstBeanFC.get(i).getResultadoCriterio().getValor()), 1, true,"808080","ffffff",11);
+                createParagraphCell(row.getCell(0), (i+1)+"", 1, true,"808080","ffffff",11);
+                createParagraphCell(row.getCell(1), LstBeanFC.get(i).getCriterio().getDescripcionCriterio(), 0, true,"808080","ffffff",11);
+                double notaC = LstBeanFC.get(i).getResultadoCriterio().getValor();
+                createParagraphCell(row.getCell(2), Pnota(notaC), 1, true,"808080",colorNota(notaC),11);
                 totalCriterios = totalCriterios + LstBeanFC.get(i).getResultadoCriterio().getValor();
                 for(int j = 0; j < LstBeanFC.get(i).getLstcriterioIndicador().size(); j++){
                     XWPFTableRow subrow = table.createRow();
                     BeanCriterioIndicador crin = LstBeanFC.get(i).getLstcriterioIndicador().get(j);
-                    createParagraphCell(subrow.getCell(0), crin.getIndicador().getDescripcionIndicador(), 0, false,"","",9);  
-                    createParagraphCell(subrow.getCell(1), crin.getResultadoEvaluacion().getValor()+"", 1, false,"","",9);                   
+                    createParagraphCell(subrow.getCell(0), (j+1)+"", 1, false,"","",9);  
+                    createParagraphCell(subrow.getCell(1), crin.getIndicador().getDescripcionIndicador(), 0, false,"","",9);
+                    createParagraphCell(subrow.getCell(2), crin.getResultadoEvaluacion().getValor()+"", 1, false,"","",9);                   
                 }
             }
             totalCriterios = totalCriterios/sizeCri;            
-            createParagraphCell(rowOne.getCell(1), nota(totalCriterios), 1, true, "000000", "ffffff",12);
+            createParagraphCell(rowOne.getCell(2), Pnota(totalCriterios), 1, true, "000000", colorNota(totalCriterios),12);
             try {
                 document.write(outputStream);
                 outputStream.flush();
@@ -395,7 +400,21 @@ public class bConsultarEvaluacion {
         XWPFRunStyle(run, Bold, tamanoL, texto);
     }
     
-    public String nota(double nota){
+    public String colorNota(double nota){
+        String color="";
+        if(nota <= 5){
+            color = "ff0000";
+        }else if(nota <= 10){
+            color = "ff4500";
+        }else if(nota <= 15){
+            color = "ffff00";
+        }else{
+            color = "00ff00";
+        }
+        return color;
+    }
+    
+    public String Pnota(double nota){
         DecimalFormat df = new DecimalFormat("#.##");
         double porcentaje = (nota*100) / 20;
         return df.format(nota)+"  -  "+df.format(porcentaje)+" %";

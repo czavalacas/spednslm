@@ -136,13 +136,13 @@
                 </af:column>
                 <af:column headerText="Opcion" align="left" 
                            id="c12">
-                    <af:panelFormLayout id="pfl8" rows="1">
-                        <af:button id="btnVer" icon="../recursos/img/usuarios/ver.png" visible="#{(row.estadoEvaluacion == 'EVALUADO') == true}"/>
-                        <af:button id="btnComentario" icon="../recursos/img/usuarios/refresh.png" visible="#{(row.comentarioEvaluador != null) == true}">
+                    <af:panelFormLayout id="pfl8" rows="1">                        
+                        <af:button id="btnVer" icon="../recursos/img/usuarios/ver.png" visible="#{(row.comentarioEvaluador != null) == true}">
                             <f:setPropertyActionListener value="#{row}" target="#{sessionConsultarEvaluacion.evaluacion}"/>
                             <af:fileDownloadActionListener filename="Evaluacion.docx" contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                            method="#{bConsultarEvaluacion.exportData}"/>
                         </af:button>
+                        <af:button id="btnComentario" icon="../recursos/img/usuarios/refresh.png" visible="#{(row.estadoEvaluacion == 'EVALUADO') == true}"/>
                     </af:panelFormLayout>                    
                 </af:column>
             </af:table>
