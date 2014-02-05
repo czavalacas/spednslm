@@ -5,10 +5,11 @@
   <executables>
     <variableIterator id="variables"/>
     <methodIterator Binds="getPermisosByUsuarioRol_WS.result" DataControl="WS_SPED" RangeSize="25"
-                    BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS" id="getPermisosByUsuarioRol_WSIterator"/>
+                    BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS" id="getPermisosByUsuarioRol_WSIterator"
+                    Refresh="always"/>
     <accessorIterator MasterBinding="getPermisosByUsuarioRol_WSIterator" Binds="Return" RangeSize="25"
                       DataControl="WS_SPED" BeanClass="application.WS_SPED.getPermisosByUsuarioRol_WS.Return"
-                      id="ReturnIterator"/>
+                      id="ReturnIterator" Refresh="always"/>
   </executables>
   <bindings>
     <methodAction id="getPermisosByUsuarioRol_WS" RequiresUpdateModel="true" Action="invokeMethod"

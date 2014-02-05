@@ -90,7 +90,7 @@
       <property
          name="fromOutcome">consultar_planificacion</property>
       <property
-         name="sdm:polyPoints">R38,433.0,281.60938,642.80194,134.67188,L46</property>
+         name="sdm:polyPoints">R38,433.0,281.60938,642.84534,138.17188,L50</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -130,7 +130,7 @@
       <property
          name="fromOutcome">GO_LOGIN</property>
       <property
-         name="sdm:polyPoints">L42,641.28284,131.17188,107.5,284.59375,R42</property>
+         name="sdm:polyPoints">L42,641.2936,131.17188,107.5,281.09375,R38</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"

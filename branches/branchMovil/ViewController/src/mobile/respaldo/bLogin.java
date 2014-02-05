@@ -1,7 +1,13 @@
 package mobile.respaldo;
 
+import com.sun.util.logging.Level;
+import com.sun.util.logging.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.el.ValueExpression;
+
 import mobile.AdfmUtils;
 import mobile.beans.BeanUsuario;
 import oracle.adfmf.amx.event.ActionEvent;
@@ -10,6 +16,7 @@ import oracle.adfmf.framework.api.GenericTypeBeanSerializationHelper;
 import oracle.adfmf.framework.exception.AdfInvocationException;
 import oracle.adfmf.framework.model.AdfELContext;
 import oracle.adfmf.util.GenericType;
+import oracle.adfmf.util.Utility;
 
 public class bLogin {
     
@@ -24,7 +31,6 @@ public class bLogin {
     private AdfELContext adfELContext = AdfmfJavaUtilities.getAdfELContext();
     
     public bLogin(){
-        
     }
     
     public String autenticarUsuario() {
@@ -51,6 +57,10 @@ public class bLogin {
                                                                                                               row);
                     error = beanUsuario.getError().getCidError();           
                     if(error.equals("000")){
+                        Logger.getLogger(Utility.APP_LOGNAME).logp(Level.INFO, this.getClass().getName(), "Diego","INVOCO AL METODO!!!!:"); 
+                        System.out.println("Diego SYSOUT LOGIN!!!!!");
+                        clearScopeVariables();
+                        AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario}", null);
                         AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario}",beanUsuario);
                         setRedirect(error);
                         return error;
@@ -81,6 +91,7 @@ public class bLogin {
         return error;
     }
     
+    /*
     public void autorizarUsuario(ActionEvent actionEvent) { //ActionListener - se ejecuta primero, ejecuta logica y validaciones
         String error = "";
         if(usuario != null && clave != null){
@@ -105,6 +116,12 @@ public class bLogin {
                                                                                                               row);
                     error = beanUsuario.getError().getCidError();           
                     if(error.equals("000")){
+                        try {
+                            clearScopeVariables();
+                        } catch (Exception e) {
+                            // TODO: Add catch code
+                            e.printStackTrace();
+                        }
                         AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario}",beanUsuario);
                         setRedirect(error);
                         return;
@@ -133,6 +150,25 @@ public class bLogin {
                             new Object[] {"Ingrese usuario y clave"});
         }
     }
+    */
+    
+    public void salirAplicacion(ActionEvent e){
+     //   AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario.rol}",null);
+     //   AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario.sedeNivel}",null);
+     //   AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario.areaAcademica}",null);
+        //AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario}",null);
+        clearScopeVariables();
+        AdfmUtils.alert(FEATURE,
+                        "salirApp",
+                        new Object[] {});
+    }
+    
+    public void clearScopeVariables() {
+        ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario}", BeanUsuario.class);
+        ve1.setValue(AdfmfJavaUtilities.getAdfELContext(),null);
+       // ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.fileNames}", String.class);
+       // ve2.setValue(AdfmfJavaUtilities.getAdfELContext(), "");
+    }
     
     public void setListaRoles(List listaRoles) {
         this.listaRoles = listaRoles;
@@ -148,12 +184,6 @@ public class bLogin {
 
     public String getRedirect() {
         return redirect;
-    }
-    
-    public void salirAplicacion(ActionEvent e){
-        AdfmUtils.alert(FEATURE,
-                        "salirApp",
-                        new Object[] {});
     }
 
     public void setUsuario(String usuario) {

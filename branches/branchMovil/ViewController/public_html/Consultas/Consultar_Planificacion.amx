@@ -9,13 +9,16 @@
       <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"/>
     </amx:facet>
     <amx:facet name="secondary">
-        <amx:commandButton id="cb2" action="GO_LOGIN" icon="/resources/img/lock.png" iconPosition="trailing"/>
+      <amx:commandButton id="cb2" action="GO_LOGIN" icon="/resources/img/lock.png" iconPosition="trailing"/>
     </amx:facet>
-   
-    <amx:commandButton actionListener="#{bindings.getPlanificaciones_WS.execute}" text="Buscar"
-                       disabled="#{!bindings.getPlanificaciones_WS.enabled}" id="cb3"/>
-    <amx:panelFormLayout id="pfl1" labelPosition="topCenter" fieldHalign="start"> 
-      <amx:inputText value="#{bindings.arg4.inputValue}" id="it3"
+    <amx:panelGroupLayout id="pgl2" layout="horizontal">
+      <amx:commandButton actionListener="#{bindings.getPlanificaciones_WS.execute}" text="Buscar"
+                         disabled="#{!bindings.getPlanificaciones_WS.enabled}" id="cb3"/>
+      <amx:commandButton  id="cb4" icon="/resources/img/refresh.png" iconPosition="trailing"
+                         actionListener="#{viewScope.bConsultaPlanificacion.refrescarResultado}"/>
+    </amx:panelGroupLayout>
+    <amx:panelFormLayout id="pfl2" labelPosition="topCenter" fieldHalign="start">
+      <amx:inputText value="#{bindings.arg4.inputValue}" id="it3" 
                      valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioProfesor}" hintText="Profesor"
                      simple="true"/>
       <amx:inputText value="#{bindings.arg5.inputValue}" id="it4" simple="true"
