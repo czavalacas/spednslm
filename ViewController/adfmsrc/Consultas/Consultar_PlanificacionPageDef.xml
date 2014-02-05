@@ -4,9 +4,11 @@
   <parameters/>
   <executables>
     <methodIterator Binds="getPlanificaciones_WS.result" DataControl="WS_SPED" RangeSize="25"
-                    BeanClass="application.WS_SPED.getPlanificaciones_WS" id="getPlanificaciones_WSIterator"/>
+                    BeanClass="application.WS_SPED.getPlanificaciones_WS" id="getPlanificaciones_WSIterator"
+                    Refresh="always"/>
     <accessorIterator MasterBinding="getPlanificaciones_WSIterator" Binds="Return" RangeSize="25" DataControl="WS_SPED"
-                      BeanClass="application.WS_SPED.getPlanificaciones_WS.Return" id="ReturnIterator"/>
+                      BeanClass="application.WS_SPED.getPlanificaciones_WS.Return" id="ReturnIterator"
+                      Refresh="always"/>
     <variableIterator id="variables">
       <variable Type="java.lang.String" Name="getPlanificaciones_WS_arg4" IsQueriable="false"/>
       <variable Type="java.lang.String" Name="getPlanificaciones_WS_arg5" IsQueriable="false"/>
