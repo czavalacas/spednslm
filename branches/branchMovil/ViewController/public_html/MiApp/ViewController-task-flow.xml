@@ -66,6 +66,10 @@
         <from-outcome>BACK_MAIN</from-outcome>
         <to-activity-id>Main</to-activity-id>
       </control-flow-case>
+      <control-flow-case id="__15">
+        <from-outcome>GO_LOGIN</from-outcome>
+        <to-activity-id>inicio</to-activity-id>
+      </control-flow-case>
     </control-flow-rule>
   </task-flow-definition>
 </adfc-mobile-config>
