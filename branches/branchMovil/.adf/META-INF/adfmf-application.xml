@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <adfmf:application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:adfmf="http://xmlns.oracle.com/adf/mf"
-                   version="1.0" name="App" id="com.company.App" appControllerFolder="ApplicationController">
+                   version="1.0" name="SPED Movil" id="com.company.App" appControllerFolder="ApplicationController">
   <adfmf:featureReference id="MiApp"/>
+  <adfmf:navigation>
+    <adfmf:springboard enabled="false"/>
+    <adfmf:navigationBar displayHideShowNavigationBarControl="false" enabled="false"/>
+  </adfmf:navigation>
 </adfmf:application>
