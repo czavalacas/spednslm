@@ -47,6 +47,7 @@ import org.apache.myfaces.trinidad.event.SelectionEvent;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
 
+import sped.negocio.BDL.IR.BDL_C_SFLeyendaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeNivelRemote;

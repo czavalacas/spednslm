@@ -19,6 +19,7 @@ import net.sf.dozer.util.mapping.MapperIF;
 import sped.negocio.LNSF.IL.LN_C_SFCriterioIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCriterioIndicadorRemote;
+import sped.negocio.LNSF.IR.LN_C_SFLeyendaRemote;
 import sped.negocio.entidades.beans.BeanCriterioIndicador;
 import sped.negocio.entidades.eval.CriterioIndicador;
 
@@ -31,6 +32,8 @@ public class LN_C_SFCriterioIndicadorBean implements LN_C_SFCriterioIndicadorRem
     private EntityManager em;
     @EJB
     private LN_C_SFResultadoLocal ln_C_SFResultadoLocal;
+    @EJB
+    private LN_C_SFLeyendaRemote ln_C_SFLeyendaRemote;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFCriterioIndicadorBean() {
@@ -40,10 +43,12 @@ public class LN_C_SFCriterioIndicadorBean implements LN_C_SFCriterioIndicadorRem
                                                                      int nidEvaluacion){
         try {
             List<BeanCriterioIndicador> beanCrIn = new ArrayList();
+            int nidFicha = lstCrIn.get(0).getFichaCriterio().getFicha().getNidFicha();
             for(CriterioIndicador crin : lstCrIn){
                 BeanCriterioIndicador bean = (BeanCriterioIndicador) mapper.map(crin, BeanCriterioIndicador.class);
                 bean.setResultadoEvaluacion(ln_C_SFResultadoLocal.findResultadoByIdLN(bean.getNidCriterioIndicador(), 
                                                                                       nidEvaluacion));
+                bean.setLeyenda(ln_C_SFLeyendaRemote.getLeyendabyEvaluacion(crin, nidFicha));
                 beanCrIn.add(bean);
             }                    
             return beanCrIn;
