@@ -434,8 +434,8 @@ public class bConsultarEvaluacion {
     }
     
     public String rangoFecha(BeanEvaluacion eva){
-        DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy HH:mm a", Locale.US);
-        DateFormat Hora = new SimpleDateFormat("HH:mm a", Locale.US);
+        DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy hh:mm a", Locale.US);
+        DateFormat Hora = new SimpleDateFormat("hh:mm a", Locale.US);
         return fechaHora.format(eva.getStartDate())+" - "+Hora.format(eva.getEndDate());
     }
 
