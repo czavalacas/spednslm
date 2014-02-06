@@ -17,6 +17,7 @@ import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
 import sped.negocio.BDL.IL.BDL_C_SFFichaCriterioLocal;
+import sped.negocio.BDL.IR.BDL_C_SFValorRemote;
 import sped.negocio.LNSF.IL.LN_C_SFCriterioIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
@@ -43,6 +44,8 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
     private LN_C_SFResultadoCriterioLocal ln_C_SFResultadoCriterioLocal;
     @EJB
     private LN_C_SFCriterioIndicadorLocal ln_C_SFCriterioIndicadorLocal;
+    @EJB
+    private BDL_C_SFValorRemote bdL_C_SFValorRemote;
     private MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFFichaCriterioBean() {

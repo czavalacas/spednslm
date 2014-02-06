@@ -54,6 +54,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
 
+import sped.negocio.LNSF.IL.LN_C_SFValorLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
@@ -116,6 +117,8 @@ public class bConsultarEvaluacion {
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     @EJB
     private LN_C_SFFichaCriterioRemote ln_C_SFFichaCriterioRemote;
+    @EJB
+    private LN_C_SFValorLocal ln_C_SFValorLocal;
     private RichPanelFormLayout pfl7;
     private RichShowDetail sd1;
     private RichShowDetail sd2;
@@ -311,11 +314,14 @@ public class bConsultarEvaluacion {
                                                             " - "+eva.getMain().getAula().getDescripcionAula());
             paragraphthreeRunFour.addBreak();
             XWPFRun paragraphthreeRunFive = paragraphthree.createRun();
-            DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             XWPFRunStyle(paragraphthreeRunFive, false, 0, " \t1.5.  Fecha\t"
-                                                            +fechaHora.format(eva.getEndDate()));
+                                                            +rangoFecha(eva));
             paragraphthreeRunFive.addBreak();
-            
+            XWPFRun paragraphthreeRunSix = paragraphthree.createRun();
+            XWPFRunStyle(paragraphthreeRunSix, false, 0, " \t1.6.  Valores\t"
+                                                            +ln_C_SFValorLocal.getRangoValorByFicha(
+                                                                    LstBeanFC.get(0).getFicha().getNidFicha()));
+            paragraphthreeRunSix.addBreak();
             int cols[] = {300,5000,1000,3700};
             double totalCriterios = 0;
             int sizeCri = LstBeanFC.size();
@@ -332,6 +338,7 @@ public class bConsultarEvaluacion {
             rowOne.getCell(2).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[2]));
             rowOne.createCell();
             rowOne.getCell(3).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[3]));
+            createParagraphCell(rowOne.getCell(3), "", 0, false, "000000", "ffffff",12);
             for(int i = 0; i < sizeCri; i++){
                 XWPFTableRow row = table.createRow();
                 createParagraphCell(row.getCell(0), (i+1)+"", 1, true,"808080","ffffff",11);
@@ -346,7 +353,7 @@ public class bConsultarEvaluacion {
                     createParagraphCell(subrow.getCell(0), (j+1)+"", 1, false,"","",9);  
                     createParagraphCell(subrow.getCell(1), crin.getIndicador().getDescripcionIndicador(), 0, false,"","",9);
                     createParagraphCell(subrow.getCell(2), crin.getResultadoEvaluacion().getValor()+"", 1, false,"","",9);
-                    createParagraphCell(subrow.getCell(3),"", 0, false,"","",9); 
+                    createParagraphCell(subrow.getCell(3),crin.getLeyenda().getDescripcionLeyenda(), 0, false,"","",9); 
                 }
             }
             totalCriterios = totalCriterios/sizeCri;            
@@ -422,6 +429,12 @@ public class bConsultarEvaluacion {
         DecimalFormat df = new DecimalFormat("#.##");
         double porcentaje = (nota*100) / 20;
         return df.format(nota)+"  -  "+df.format(porcentaje)+" %";
+    }
+    
+    public String rangoFecha(BeanEvaluacion eva){
+        DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        DateFormat Hora = new SimpleDateFormat("HH:mm:ss");
+        return fechaHora.format(eva.getStartDate())+" - "+Hora.format(eva.getEndDate());
     }
 
     public void setSessionConsultarEvaluacion(bSessionConsultarEvaluacion sessionConsultarEvaluacion) {
