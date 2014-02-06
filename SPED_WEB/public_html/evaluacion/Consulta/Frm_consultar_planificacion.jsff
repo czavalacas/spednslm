@@ -44,7 +44,7 @@
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="33%" id="gc5">
                             <af:selectOneChoice label="Nivel" id="soc3" autoSubmit="true"
-                                                unselectedLabel=";;Seleccionar Nivel::"
+                                                unselectedLabel="::Seleccionar Nivel::"
                                                 value="#{sessionScope.sessionConsultarPlanificacion.nidNivelChoice}"
                                                 binding="#{bConsultaPlanificacion.choiceNivel}">
                                 <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaNvelesChoice}"
@@ -68,7 +68,9 @@
                 <af:button text="Hoy" id="b3"/>
             </af:panelGroupLayout>
             <af:panelGroupLayout id="pgl4">
-                <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs" width="1200"
+            <!--1200-->
+                <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs" columnStretching="column:c2,c1,c3,c4,c5,c6,c7,c8,c9,c10,c11"
+                inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
                           binding="#{bConsultaPlanificacion.tbPlanificacion}"
                           value="#{requestScope.bConsultaPlanificacion.listaEvaluacionesPlanificadas}">
                     <af:column width="20">
@@ -106,11 +108,11 @@
                     </af:column>
                     <af:column sortable="false" headerText="Hora" id="c10" width="50">
                         <af:outputText value="#{row.startDate}" id="ot10">
-                        <af:convertDateTime type="date" pattern="HH:mm"/>
+                        <af:convertDateTime type="date" pattern="HH:mm a"/>
                         </af:outputText>
                     </af:column>
                     <af:column sortable="false" headerText="Estado" id="c11" width="100"
-                    inlineStyle="#{row.nidEstadoEvaluacion == '1' ? 'background-color:green' : (row.nidEstadoEvaluacion == '2'  ? 'background-color:Orange' :(row.nidEstadoEvaluacion == '3' ? 'background-color:Red' : 'background-color:red'))} ">
+                    inlineStyle="color:White; font-weight:bold;text-align:center; #{row.nidEstadoEvaluacion == '1' ? 'background-color:green' : (row.nidEstadoEvaluacion == '2'  ? 'background-color:Orange' :(row.nidEstadoEvaluacion == '3' ? 'background-color:Red' : 'background-color:red'))} ">
                         <af:outputText value="#{row.estadoEvaluacion}" id="ot11"/>
                     </af:column>
                 </af:table>
