@@ -36,4 +36,24 @@ public class BDL_C_SFValorBean implements BDL_C_SFValorRemote,
             throw re;
         }
     }
+    
+    public String getRangoValorByFicha(int nidFicha){
+        try{
+            String strQuery = "SELECT " +
+                              "CONCAT(MIN(v.valor) ,' - ' ,MAX(v.valor))" +
+                              "FROM Valor v, FichaValor fv " +
+                              "WHERE fv.valor = v " +
+                              "AND fv.ficha.nidFicha = :nid_Ficha";
+            Object o = em.createQuery(strQuery).setParameter("nid_Ficha", nidFicha)
+                                               .getSingleResult();
+            String rango = "";
+            if(o != null){
+                rango = o.toString();
+            }
+            return rango;
+        }catch(Exception e){
+            e.printStackTrace();
+            return "";
+        }
+    }
 }

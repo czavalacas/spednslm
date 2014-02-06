@@ -15,6 +15,7 @@ public class BeanCriterioIndicador implements Serializable {
     private int orden;
     private BeanIndicador indicador;
     private BeanResultado resultadoEvaluacion;
+    private BeanLeyenda leyenda;
     
     public void setNidCriterioIndicador(int nidCriterioIndicador) {
         this.nidCriterioIndicador = nidCriterioIndicador;
@@ -54,5 +55,13 @@ public class BeanCriterioIndicador implements Serializable {
 
     public int getOrden() {
         return orden;
+    }
+    
+    public void setLeyenda(BeanLeyenda leyenda) {
+        this.leyenda = leyenda;
+    }
+
+    public BeanLeyenda getLeyenda() {
+        return leyenda;
     }
 }

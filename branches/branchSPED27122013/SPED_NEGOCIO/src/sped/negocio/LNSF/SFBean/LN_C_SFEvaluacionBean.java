@@ -22,6 +22,7 @@ import net.sf.dozer.util.mapping.MappingException;
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
+import sped.negocio.BDL.IL.BDL_C_SFValorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
@@ -51,6 +52,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     //dfloresgonz 04.02.2013
     @EJB
     private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
+    @EJB
+    private BDL_C_SFValorLocal bdL_C_SFValorLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFEvaluacionBean() {
@@ -198,4 +201,5 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         }
         return lstBeanEvas;
     }
+
 }
