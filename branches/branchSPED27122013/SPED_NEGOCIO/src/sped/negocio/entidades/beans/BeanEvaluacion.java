@@ -17,6 +17,7 @@ public class BeanEvaluacion implements Serializable {
         private Integer nidEvaluacion;    
         private Integer nidEvaluador;
         private double resultado;
+        private String colorResultado;
         private String nombreEvaluador;
         private String nombrePLanificador;
         private String apellidosDocentes;
@@ -264,4 +265,11 @@ public class BeanEvaluacion implements Serializable {
         return resultadoCriterioList;
     }
 
+    public void setColorResultado(String colorResultado) {
+        this.colorResultado = colorResultado;
+    }
+
+    public String getColorResultado() {
+        return colorResultado;
+    }
 }

@@ -125,7 +125,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 BeanEvaluacion beanEva = (BeanEvaluacion) mapper.map(eva, BeanEvaluacion.class);
                 beanEva.setNombreEvaluador(bdL_C_SFUsuarioLocal.
                                            getNombresUsuarioByNidUsuario(beanEva.getNidEvaluador()));
-                beanEva.setResultado(resultadoBeanEvaluacion(beanEva, eva));
+                double nota =resultadoBeanEvaluacion(beanEva, eva);
+                beanEva.setResultado(nota);
+                beanEva.setColorResultado(colorNota(nota));
                 lstBean.add(beanEva);
             }
             return lstBean;
@@ -149,6 +151,22 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             resu = (total/tamano);
         }
         return resu;
+    }
+    
+    public String colorNota(double nota){
+        String color="";
+        if(nota == 0){
+            color = "White";
+        }else if(nota <= 5){
+            color = "Red";
+        }else if(nota <= 10){
+            color = "Orange";
+        }else if(nota <= 15){
+            color = "Yellow";
+        }else{
+            color = "Green";
+        }
+        return color;
     }
     
     /**
