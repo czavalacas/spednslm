@@ -5,7 +5,7 @@
         <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
             <af:panelGroupLayout halign="left">
                 <af:spacer height="10"/>
-                <af:outputText value="Consulta Evaluación" id="otTituloU" styleClass="titulos"/>
+                <af:outputText value="Consulta de Evaluaciones" id="otTituloU" styleClass="titulos"/>
                 <af:spacer height="10"/>
             </af:panelGroupLayout>
             <af:subform id="s1" binding="#{bConsultarEvaluacion.s1}" defaultCommand="btnBuscar">
@@ -88,7 +88,7 @@
             </af:subform>
             <af:table value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row" rowBandingInterval="0" id="t1"
                       inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
-                      fetchSize="50" binding="#{bConsultarEvaluacion.t1}" columnStretching="none">
+                      fetchSize="50" binding="#{bConsultarEvaluacion.t1}" columnStretching="column:c1">
                 <af:column sortable="true" sortProperty="main.profesor.apellidos" headerText="Profesor" align="start"
                            id="c1" rendered="#{sessionConsultarEvaluacion.columnProfesor}">
                     <af:outputText value="#{row.main.profesor.nombres} #{row.main.profesor.apellidos}" id="ot1"/>
@@ -130,11 +130,15 @@
                     <af:outputText value="#{row.estadoEvaluacion}" id="ot10"/>
                 </af:column>
                 <af:column sortable="true" sortProperty="resultado" headerText="Resultado" align="center"
-                           inlineStyle="#{(row.resultado > 0 and 10 > row.resultado) ? 'background-color:Red;' : 'background-color:Green;'} color:White; font-weight:bold;text-align:center;"
+                           inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;"
                            id="c11">
                     <af:outputText value="#{row.resultado == 0 ? '-' : row.resultado}" id="ot11"/>
                 </af:column>
-                <af:column headerText="Opcion" align="left" 
+                <af:column sortable="true" sortProperty="resultado" headerText="Mensaje" align="left"
+                           id="c13">
+                    <af:outputText value="#{row.comentarioEvaluador}" id="ot13"/>
+                </af:column>
+                <af:column headerText="Evaluacion" align="left" 
                            id="c12">
                     <af:panelFormLayout id="pfl8" rows="1">                        
                         <af:button id="btnVer" icon="../recursos/img/usuarios/ver.png" visible="#{(row.comentarioEvaluador != null) == true}">
@@ -142,7 +146,6 @@
                             <af:fileDownloadActionListener filename="Evaluacion.docx" contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                            method="#{bConsultarEvaluacion.exportData}"/>
                         </af:button>
-                        <af:button id="btnComentario" icon="../recursos/img/usuarios/refresh.png" visible="#{(row.estadoEvaluacion == 'EVALUADO') == true}"/>
                     </af:panelFormLayout>                    
                 </af:column>
             </af:table>
