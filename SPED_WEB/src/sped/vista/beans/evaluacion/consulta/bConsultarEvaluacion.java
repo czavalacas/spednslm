@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import java.util.Locale;
+
 import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
@@ -322,7 +324,7 @@ public class bConsultarEvaluacion {
                                                             +ln_C_SFValorLocal.getRangoValorByFicha(
                                                                     LstBeanFC.get(0).getFicha().getNidFicha()));
             paragraphthreeRunSix.addBreak();
-            int cols[] = {300,5000,1000,3700};
+            int cols[] = {300,5000,1700,3000};
             double totalCriterios = 0;
             int sizeCri = LstBeanFC.size();
             XWPFTable table = document.createTable();
@@ -331,21 +333,21 @@ public class bConsultarEvaluacion {
             XWPFTableRow rowOne = table.getRow(0);
             rowOne.createCell();
             rowOne.getCell(0).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[0]));
-            createParagraphCell(rowOne.getCell(0), "N", 1, true, "000000", "ffffff",12);
+            createParagraphCell(rowOne.getCell(0), "N", 1, true, "000000", "ffffff",11);
             rowOne.createCell();
             rowOne.getCell(1).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[1]));
-            createParagraphCell(rowOne.getCell(1), "RESULTADO GLOBAL", 0, true, "000000", "ffffff",12);
+            createParagraphCell(rowOne.getCell(1), "RESULTADO GLOBAL", 0, true, "000000", "ffffff",11);
             rowOne.getCell(2).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[2]));
             rowOne.createCell();
             rowOne.getCell(3).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[3]));
-            createParagraphCell(rowOne.getCell(3), "", 0, false, "000000", "ffffff",12);
+            createParagraphCell(rowOne.getCell(3), "Descripci\u00f3n", 1, true, "000000", "ffffff",11);
             for(int i = 0; i < sizeCri; i++){
                 XWPFTableRow row = table.createRow();
                 createParagraphCell(row.getCell(0), (i+1)+"", 1, true,"808080","ffffff",11);
-                createParagraphCell(row.getCell(1), LstBeanFC.get(i).getCriterio().getDescripcionCriterio(), 0, true,"808080","ffffff",11);
+                createParagraphCell(row.getCell(1), LstBeanFC.get(i).getCriterio().getDescripcionCriterio(), 0, true,"808080","ffffff",10);
                 double notaC = LstBeanFC.get(i).getResultadoCriterio().getValor();
-                createParagraphCell(row.getCell(2), Pnota(notaC), 1, true,"808080",colorNota(notaC),11);
-                createParagraphCell(row.getCell(3), "", 1, true,"808080",colorNota(notaC),11);
+                createParagraphCell(row.getCell(2), Pnota(notaC), 1, true,colorNota(notaC),"808080",10);
+                createParagraphCell(row.getCell(3), "", 1, true,"808080","",10);
                 totalCriterios = totalCriterios + LstBeanFC.get(i).getResultadoCriterio().getValor();
                 for(int j = 0; j < LstBeanFC.get(i).getLstcriterioIndicador().size(); j++){
                     XWPFTableRow subrow = table.createRow();
@@ -357,7 +359,7 @@ public class bConsultarEvaluacion {
                 }
             }
             totalCriterios = totalCriterios/sizeCri;            
-            createParagraphCell(rowOne.getCell(2), Pnota(totalCriterios), 1, true, "000000", colorNota(totalCriterios),12);
+            createParagraphCell(rowOne.getCell(2), Pnota(totalCriterios), 1, true, colorNota(totalCriterios), "000000",10);
             try {
                 document.write(outputStream);
                 outputStream.flush();
@@ -428,12 +430,12 @@ public class bConsultarEvaluacion {
     public String Pnota(double nota){
         DecimalFormat df = new DecimalFormat("#.##");
         double porcentaje = (nota*100) / 20;
-        return df.format(nota)+"  -  "+df.format(porcentaje)+" %";
+        return df.format(nota)+" - "+df.format(porcentaje)+" %";
     }
     
     public String rangoFecha(BeanEvaluacion eva){
-        DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        DateFormat Hora = new SimpleDateFormat("HH:mm:ss");
+        DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy HH:mm a", Locale.US);
+        DateFormat Hora = new SimpleDateFormat("HH:mm a", Locale.US);
         return fechaHora.format(eva.getStartDate())+" - "+Hora.format(eva.getEndDate());
     }
 
