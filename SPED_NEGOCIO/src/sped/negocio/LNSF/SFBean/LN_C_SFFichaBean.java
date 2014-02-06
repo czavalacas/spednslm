@@ -125,4 +125,16 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
             return bFicha;
         }
     }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public int getFichaActivaEvaluacion(String tipoFicha,
+                                         String tipoFichaCurso){
+        try{
+            Ficha ficha = bdL_C_SFFichaLocal.getFichaEvaluacion(tipoFicha, tipoFichaCurso);
+            return ficha.getNidFicha();
+        }catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
 }

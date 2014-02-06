@@ -16,4 +16,5 @@ public interface BDL_C_SFFichaLocal {
                                             String tipFicha,
                                             String tipFichaCurso);
     int hayFichasActivas(String tipFicha,String tipCursoFicha);
+    Ficha getFichaEvaluacion(String tipoFicha,String tipoFichaCurso);
 }

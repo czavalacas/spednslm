@@ -19,6 +19,15 @@ public class BeanEvaluacionWS implements Serializable {
     private String areaAcademica;
     private String tipoVisita;
     private Date endDate;
+    private String aula;
+
+    public void setAula(String aula) {
+        this.aula = aula;
+    }
+
+    public String getAula() {
+        return aula;
+    }
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;

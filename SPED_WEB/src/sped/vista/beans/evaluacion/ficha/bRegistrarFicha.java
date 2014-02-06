@@ -1098,8 +1098,8 @@ public class bRegistrarFicha {
             RichColumn col = new RichColumn();
             col.setHeaderText(valor);
             col.setWidth("40");
-            ValueExpression ve = Utils.createValueExpression("#{row.display}");
-            ValueExpression veIcono = Utils.createValueExpression("#{row.lstLeyenda["+c+"].descripcionLeyenda == null || row.lstLeyenda["+c+"].descripcionLeyenda == '' ? '/recursos/img/usuarios/closed_eye.png' : '/recursos/img/usuarios/ver.png' }");
+            ValueExpression ve = Utils.createValueExpression("#{row.display}");//../recursos/img/usuarios/
+            ValueExpression veIcono = Utils.createValueExpression("#{row.lstLeyenda["+c+"].descripcionLeyenda == null || row.lstLeyenda["+c+"].descripcionLeyenda == '' ? '../recursos/img/usuarios/closed_eye.png' : '../recursos/img/usuarios/ver.png' }");
             RichButton buton = new RichButton();
             String name = RichButton.INLINE_STYLE_KEY.getName();
             String nameIcono = RichButton.ICON_KEY.getName();

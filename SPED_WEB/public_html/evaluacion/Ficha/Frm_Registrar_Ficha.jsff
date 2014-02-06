@@ -41,9 +41,9 @@
                 </af:button>
             </af:panelGroupLayout>
             <af:table value="#{bRegistrarFicha.sessionRegistrarFicha.lstFichas}" var="row" rowBandingInterval="0"
-                      id="tbFichas" rowSelection="single" varStatus="vs" emptyText="No hay fichas de evaluacion"
-                      summary="Tabla de Fichas de evaluacion" binding="#{bRegistrarFicha.tbFichas}"
-                      selectionListener="#{bRegistrarFicha.selectFicha}">
+                      id="tbFichas" rowSelection="single" varStatus="vs" emptyText="No hay fichas de evaluacion" width="inherit;"
+                      summary="Tabla de Fichas de evaluacion" binding="#{bRegistrarFicha.tbFichas}" inlineStyle="width:inherit; margin:0px 50px 0px 0px;"
+                      selectionListener="#{bRegistrarFicha.selectFicha}" fetchSize="20">
                 <af:column width="18" frozen="true">
                     <af:outputText value="#{vs.index + 1}"/>
                 </af:column>
@@ -129,7 +129,7 @@
                                                 </af:column>
                                             </f:facet>
                                             <af:column width="30">
-                                                <af:button icon="#{resource['images:consultar.png']}" rendered="#{row.mostrarBoton}" 
+                                                <af:button icon="../recursos/img/usuarios/consultar.png" rendered="#{row.mostrarBoton}" 
                                                             actionListener="#{bRegistrarFicha.alwp}">
                                                     <f:attribute name="consultar" value="consultar"/>
                                                 </af:button>

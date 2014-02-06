@@ -68,6 +68,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             criterio.setMostrarBoton(true);//lupita para agregar indicadores
             criterio.setMostrarUpDown(true);
             criterio.setSelected(true);
+            criterio.setCantidadValoresWS(fichaCriterio.getFicha().getFichaValorLista().size());
             criterio.setOrden(fichaCriterio.getOrden());
             boolean bool = indx == lstFichaCriterio.size();
             if(bool){

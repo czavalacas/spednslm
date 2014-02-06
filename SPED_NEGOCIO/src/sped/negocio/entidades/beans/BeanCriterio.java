@@ -20,6 +20,7 @@ public class BeanCriterio implements Serializable, Cloneable {
     private boolean mostrarUpDown;
     private int esIndicador;
     private boolean noMostrarDown;
+    private int cantidadValoresWS;
 
     public Object clone() {
         Object clone = null;
@@ -51,6 +52,14 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+
+    public void setCantidadValoresWS(int cantidadValoresWS) {
+        this.cantidadValoresWS = cantidadValoresWS;
+    }
+
+    public int getCantidadValoresWS() {
+        return cantidadValoresWS;
     }
 
     public void setNoMostrarDown(boolean noMostrarDown) {
