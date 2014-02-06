@@ -415,8 +415,7 @@ public class bPlanificarEva {
                               if (listaEvaluaciones.get(j).getMain().getNidMain() == lis.get(i).getNidMain()) {
                                 System.out.println("NID MAIN EVALUACION : "+listaEvaluaciones.get(j).getMain().getNidMain()+" = NID MAIN LISTA DE HORARIOS : "
                                                        +lis.get(i).getNidMain());
-                                   lis.remove(i);
-                                  // listaEvaluaciones.remove(j);   
+                                   lis.remove(i);                                  
                                 }                           
                             }
                         }
