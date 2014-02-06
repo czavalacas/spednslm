@@ -224,4 +224,56 @@
     <stateless-session-descriptor/>
     <enable-call-by-reference>true</enable-call-by-reference>
   </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_C_SFLeyenda</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_C_SFLeyenda</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_C_SFValor</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_C_SFRolPermiso</ejb-name>
+    <stateless-session-descriptor>
+      <business-interface-jndi-name-map>
+        <business-remote>sped.negocio.BDL.SFBean.BDL_C_SFRolPermisoRemote</business-remote>
+        <jndi-name>mapBDL_C_SFRolPermiso</jndi-name>
+      </business-interface-jndi-name-map>
+    </stateless-session-descriptor>
+    <enable-call-by-reference>true</enable-call-by-reference>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_T_SFUsuarioPermiso</ejb-name>
+    <stateless-session-descriptor>
+      <business-interface-jndi-name-map>
+        <business-remote>sped.negocio.BDL.SFBean.BDL_T_SFUsuarioPermisoRemote</business-remote>
+        <jndi-name>mapBDL_T_SFUsuarioPermiso</jndi-name>
+      </business-interface-jndi-name-map>
+    </stateless-session-descriptor>
+    <enable-call-by-reference>true</enable-call-by-reference>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_C_SFUsuarioPermiso</ejb-name>
+    <stateless-session-descriptor>
+      <business-interface-jndi-name-map>
+        <business-remote>sped.negocio.LNSF.SFBean.LN_C_SFUsuarioPermisoRemote</business-remote>
+        <jndi-name>mapLN_C_SFUsuarioPermiso</jndi-name>
+      </business-interface-jndi-name-map>
+    </stateless-session-descriptor>
+    <enable-call-by-reference>true</enable-call-by-reference>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_C_SFUsuarioPermiso</ejb-name>
+    <stateless-session-descriptor>
+      <business-interface-jndi-name-map>
+        <business-remote>sped.negocio.BDL.SFBean.BDL_C_SFUsuarioPermisoRemote</business-remote>
+        <jndi-name>SPED_APP-SPED_NEGOCIO-BDL_C_SFUsuarioPermiso</jndi-name>
+      </business-interface-jndi-name-map>
+    </stateless-session-descriptor>
+    <enable-call-by-reference>true</enable-call-by-reference>
+  </weblogic-enterprise-bean>
 </weblogic-ejb-jar>

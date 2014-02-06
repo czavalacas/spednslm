@@ -20,7 +20,7 @@ import sped.vista.Utils.Utils;
 public class DniValidator implements Validator {
     @EJB
     private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
-    private final static String LOOKUP_USUARIO = "mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote";
+    private final static String LOOKUP_USUARIO = "mapLN_C_SFUsuario";
 
     public DniValidator() {
         try {
