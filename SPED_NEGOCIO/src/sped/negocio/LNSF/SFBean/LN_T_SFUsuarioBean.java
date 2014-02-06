@@ -20,6 +20,7 @@ import sped.negocio.BDL.IL.BDL_C_SFRolLocal;
 import sped.negocio.BDL.IL.BDL_C_SFSedeNivelLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
+import sped.negocio.LNSF.IL.LN_C_SFUsuarioPermisoLocal;
 import sped.negocio.LNSF.IL.LN_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
@@ -45,6 +46,8 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
     private BDL_C_SFAreaAcademicaLocal bdL_C_SFAreaAcademicaLocal;
     @EJB
     private BDL_C_SFSedeNivelLocal bdL_C_SFSedeNivelLocal;
+    @EJB
+    private LN_C_SFUsuarioPermisoLocal ln_C_SFUsuarioPermisoLocal;
 
     public LN_T_SFUsuarioBean() {
     }
@@ -60,9 +63,13 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                                  String rutaImg,
                                  int nidSede,
                                  int nidNivel){
-        Usuario u = new Usuario(); 
+        Usuario u = new Usuario();
+        Rol r = new Rol();
         if(tipoEvento > 1){
             u = bdL_C_SFUsuarioLocal.findConstrainById(idUsuario);
+            if(tipoEvento == 2){
+                r = u.getRol();
+            }
         }
         if(tipoEvento == 1 || tipoEvento == 2){
             Rol rol = bdL_C_SFRolLocal.findConstrainById(nidRol);
@@ -81,6 +88,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             if(tipoEvento == 1){
                 u.setEstadoUsuario("1");
                 bdL_T_SFUsuarioLocal.persistUsuario(u);
+                ln_C_SFUsuarioPermisoLocal.insertUsuarioPermisobyUsuario(u, null);
                 return;
             }            
         }
@@ -92,6 +100,9 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         }
         if(tipoEvento > 1){
             bdL_T_SFUsuarioLocal.mergeUsuario(u);
+            if(r != u.getRol()){
+                ln_C_SFUsuarioPermisoLocal.updateUsuarioPermisobyUsuario(u);
+            }            
         }
         
     }

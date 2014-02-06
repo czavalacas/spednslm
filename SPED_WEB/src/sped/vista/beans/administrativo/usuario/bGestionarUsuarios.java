@@ -102,7 +102,6 @@ public class bGestionarUsuarios {
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
     @EJB
     private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
-    private final static String LOOKUP_USUARIO = "mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote";
     @EJB
     private LN_C_SFRolRemote ln_C_SFRolRemote;
     @EJB
@@ -119,13 +118,6 @@ public class bGestionarUsuarios {
     private UISelectItems si9;
 
     public bGestionarUsuarios() {
-        try {
-            final Context ctx;
-            ctx = new InitialContext();
-            ln_C_SFUsuarioRemote = (LN_C_SFUsuarioRemote) ctx.lookup(LOOKUP_USUARIO);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @PostConstruct

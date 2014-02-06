@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
@@ -11,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import javax.persistence.TableGenerator;
 
 import sped.negocio.entidades.admin.Usuario;
 
@@ -23,6 +27,8 @@ public class UsuarioPermiso implements Serializable {
     private String estado;
     @Id
     @Column(name = "nidPermisoUsuario", nullable = false)
+    @TableGenerator( name = "stmcodi_stdusrp", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "stdusrp.nidPermisoUsuario", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi_stdusrp" )
     private int nidPermisoUsuario;
     @ManyToOne
     @JoinColumn(name = "nidUsuario")
