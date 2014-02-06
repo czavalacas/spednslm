@@ -10,12 +10,16 @@ import javax.jws.WebService;
 
 import sped.negocio.LNSF.IL.LN_C_SFAreaAcademicaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
+import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
+import sped.negocio.LNSF.IL.LN_C_SFFichaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
+import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -33,6 +37,10 @@ public class WS_SPED {
     private LN_C_SFAreaAcademicaLocal ln_C_SFAreaAcademicaLocal;
     @EJB
     private LN_C_SFSedeLocal ln_C_SFSedeLocal;
+    @EJB
+    private LN_C_SFFichaLocal ln_C_SFFichaLocal;
+    @EJB
+    private LN_C_SFFichaCriterioLocal ln_C_SFFichaCriterioLocal;
 
     @WebMethod
     public BeanUsuario autenticarUsuarioLN(@WebParam(name = "arg0") String usuario,
@@ -56,6 +64,7 @@ public class WS_SPED {
                                                         @WebParam(name = "arg5") String curso,
                                                         @WebParam(name = "arg6") int nidSedeFiltro,
                                                         @WebParam(name = "arg7") int nidAAFiltro){
+        System.out.println("\n========================================================================================");
         System.out.println("rol:"+nidRol);
         System.out.println("nidSede:"+nidSede);
         System.out.println("nidAreaAcademica:"+nidAreaAcademica);
@@ -69,6 +78,13 @@ public class WS_SPED {
         }else{
             return null;
         }
+    }
+
+    @WebMethod
+    public List<BeanCriterio> getCriteriosEvaluacion_WS(@WebParam(name = "arg0") int nidRol,
+                                                        @WebParam(name = "arg1") String tipoFichaCurso){
+        int ficha = ln_C_SFFichaLocal.getFichaActivaEvaluacion(nidRol == 4 ? "E" : "S", tipoFichaCurso);
+        return ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(ficha);
     }
 
     @WebMethod

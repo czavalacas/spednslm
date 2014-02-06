@@ -28,6 +28,7 @@
    <list n="listOfChildren">
       <hash><url n="URL" path="SPED_NEGOCIO/SPED_NEGOCIO.jpr"/></hash>
       <hash><url n="URL" path="SPED_WEB/SPED_WEB.jpr"/></hash>
+      <hash><url n="URL" path="WEBSERVICE/WEBSERVICE.jpr"/></hash>
    </list>
    <hash n="oracle.jdeveloper.deploy.dt.DeploymentProfiles">
       <hash n="profileDefinitions">

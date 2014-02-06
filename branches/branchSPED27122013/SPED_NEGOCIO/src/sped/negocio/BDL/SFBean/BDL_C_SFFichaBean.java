@@ -58,9 +58,9 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
     }
     
     public Object[] getLastestFichaVersionByAttr_BDL(int year,
-                                                    int mes,
-                                                    String tipFicha,
-                                                    String tipFichaCurso){
+                                                      int mes,
+                                                      String tipFicha,
+                                                      String tipFichaCurso){
         try{
             String qlString = "SELECT max(SUBSTRING(f.descripcionVersion,15,Length(f.descripcionVersion)))," +
                               "       f.descripcionVersion," +
@@ -99,6 +99,21 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
        } catch (Exception e) {
             e.printStackTrace();
             return 0;
+        }
+    }
+    
+    public Ficha getFichaEvaluacion(String tipoFicha,String tipoFichaCurso){
+        try{
+            String qlString = "SELECT f " +
+                              "FROM Ficha f " +
+                              "WHERE f.tipoFicha = :tipFicha " +
+                              "AND   f.tipoFichaCurso = :tipFichaCurso " +
+                              "AND   f.estadoFicha = '1' ";
+            Ficha ficha = (Ficha) em.createQuery(qlString).setParameter("tipFicha",tipoFicha).setParameter("tipFichaCurso",tipoFichaCurso).getSingleResult();
+            return ficha;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

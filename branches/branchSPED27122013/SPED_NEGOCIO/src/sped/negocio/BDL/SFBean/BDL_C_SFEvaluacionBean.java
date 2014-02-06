@@ -346,7 +346,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             }
             if(curso != null){
                 qlString = qlString.concat(" AND upper(e.main.curso.descripcionCurso) like upper(:curso) ");
-            }
+            }//AND CAST(e.startDate AS date) = CURRENT_DATE 
             qlString = qlString.concat(" ORDER BY e.startDate DESC ");Utiles.sysout("query:"+qlString);
             Query query = em.createQuery(qlString);
             if(nidRol == 4){//Evaluador x Sede
