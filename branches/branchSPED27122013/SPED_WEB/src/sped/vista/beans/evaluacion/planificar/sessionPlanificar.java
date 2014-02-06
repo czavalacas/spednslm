@@ -33,12 +33,14 @@ public class sessionPlanificar {
     private String nidSede;
     private String nidGrado;
     private String nidNivel;
+    private String nidAreaAcademicaChoice;
     private List listaProfesores;
     private List listaEvaluadores;
     private List listaCursos;
     private List listaSedes;
     private List listaGrados;
     private List listaNiveles;
+    private List listAreasAcade;
     private List listatipoVisita;
     private String diaDeLaSemana;
     private Date fechaInicioSeleccionada;   
@@ -70,6 +72,9 @@ public class sessionPlanificar {
     private boolean estadoBtnBloq2=false;
     private boolean estadoOut1=false;
     private boolean estadoOut2=false;
+    private boolean estadoDisableChoiceSede=false;
+    private boolean estadoDisableChoiceArea=false;
+    private Integer nidRolUsuarioEnSession;
                                     
                                     
     
@@ -512,5 +517,45 @@ public class sessionPlanificar {
 
     public int getNidSedeEvaluador() {
         return nidSedeEvaluador;
+    }
+
+    public void setEstadoDisableChoiceSede(boolean estadoDisableChoiceSede) {
+        this.estadoDisableChoiceSede = estadoDisableChoiceSede;
+    }
+
+    public boolean isEstadoDisableChoiceSede() {
+        return estadoDisableChoiceSede;
+    }
+
+    public void setNidRolUsuarioEnSession(Integer nidRolUsuarioEnSession) {
+        this.nidRolUsuarioEnSession = nidRolUsuarioEnSession;
+    }
+
+    public Integer getNidRolUsuarioEnSession() {
+        return nidRolUsuarioEnSession;
+    }
+
+    public void setNidAreaAcademicaChoice(String nidAreaAcademicaChoice) {
+        this.nidAreaAcademicaChoice = nidAreaAcademicaChoice;
+    }
+
+    public String getNidAreaAcademicaChoice() {
+        return nidAreaAcademicaChoice;
+    }
+
+    public void setListAreasAcade(List listAreasAcade) {
+        this.listAreasAcade = listAreasAcade;
+    }
+
+    public List getListAreasAcade() {
+        return listAreasAcade;
+    }
+
+    public void setEstadoDisableChoiceArea(boolean estadoDisableChoiceArea) {
+        this.estadoDisableChoiceArea = estadoDisableChoiceArea;
+    }
+
+    public boolean isEstadoDisableChoiceArea() {
+        return estadoDisableChoiceArea;
     }
 }
