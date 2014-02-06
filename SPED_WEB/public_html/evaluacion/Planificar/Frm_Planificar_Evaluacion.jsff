@@ -45,7 +45,8 @@
                             <af:gridCell marginStart="5px" width="34%" id="gc2">
                                 <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidSede}" label="Sede"
                                                     id="choiceSede" unselectedLabel="::Seleccionar Sede::"
-                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceSede}">
+                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceSede}"
+                                                    disabled="#{sessionScope.sessionPlanificarEva.estadoDisableChoiceSede}">
                                     <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaSedes}" id="si7"/>
                                 </af:selectOneChoice>
                             </af:gridCell>
@@ -81,7 +82,15 @@
                                     <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaGrados}" id="si6"/>
                                 </af:selectOneChoice>
                             </af:gridCell>
-                            <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc10"/>
+                            <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc10">
+                              <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidAreaAcademicaChoice}" label="Area"
+                                                    id="choiceAreaAcademica" unselectedLabel="::Seleccionar Area::"
+                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceAreaAcademicas}"
+                                                  disabled="#{sessionScope.sessionPlanificarEva.estadoDisableChoiceArea}">
+                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listAreasAcade}" id="si8"/>
+                                </af:selectOneChoice>
+                            
+                            </af:gridCell>
                         </af:gridRow>
                     </af:panelGridLayout>
                 </af:panelGroupLayout>

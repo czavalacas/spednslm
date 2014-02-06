@@ -153,6 +153,7 @@ public class bPlanificarEva {
     private RichButton btnBloque1;
     private RichButton btnBloque2;
     private RichSelectOneChoice choiceTipoVisita;
+    private RichSelectOneChoice choiceAreaAcademicas;
 
 
     public bPlanificarEva() {
@@ -405,12 +406,17 @@ public class bPlanificarEva {
             if (listaEvaluaciones.size() == lis.size()) {
                 lis.clear();
             } else {             
-                if (lis.size() != 0) {
-                    for (int i = 0; i < lis.size(); i++) {
+                if (lis.size() != 0) {                                       
                         if (listaEvaluaciones.size() != 0) {
                             for (int j = 0; j < listaEvaluaciones.size(); j++) {
-                                if (listaEvaluaciones.get(j).getMain().getNidMain() == lis.get(i).getNidMain()) {
-                                    lis.remove(i);
+                            System.out.println("NID MAIN EVALUACION en posision ( " +j+" ) : "+listaEvaluaciones.get(j).getMain().getNidMain());
+                                for (int i = 0; i < lis.size(); i++) {     
+                                System.out.println("NID MAIN LISTA DE HORARIOS en posision ( "+i+" ) : " +lis.get(i).getNidMain()); 
+                              if (listaEvaluaciones.get(j).getMain().getNidMain() == lis.get(i).getNidMain()) {
+                                System.out.println("NID MAIN EVALUACION : "+listaEvaluaciones.get(j).getMain().getNidMain()+" = NID MAIN LISTA DE HORARIOS : "
+                                                       +lis.get(i).getNidMain());
+                                   lis.remove(i);
+                                  // listaEvaluaciones.remove(j);   
                                 }                           
                             }
                         }
@@ -425,10 +431,19 @@ public class bPlanificarEva {
     public void llenarBean() {
         BeanMain beanMain = new BeanMain();
         BeanAreaAcademica beanAca = new BeanAreaAcademica();
-        System.out.println("Valor de Area Academica " + sessionPlanificarEva.getNidAreaAcademica());
-        beanAca.setNidAreaAcademica(sessionPlanificarEva.getNidAreaAcademica());
         BeanCurso beanCurso = new BeanCurso();
-        beanCurso.setAreaAcademica(beanAca);
+        System.out.println("Valor de Area Academica " + sessionPlanificarEva.getNidAreaAcademica());
+        if (sessionPlanificarEva.getNidAreaAcademica() != 0) {
+            beanAca.setNidAreaAcademica(sessionPlanificarEva.getNidAreaAcademica());
+            beanCurso.setAreaAcademica(beanAca); 
+            System.out.println("Valor sede " + sessionPlanificarEva.getNidSedeEvaluador());
+        }
+            if (sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {
+                beanAca.setNidAreaAcademica(Integer.parseInt(sessionPlanificarEva.getNidAreaAcademicaChoice()));
+                beanCurso.setAreaAcademica(beanAca); 
+                System.out.println("Valor sede " + sessionPlanificarEva.getNidSedeEvaluador());
+            }        
+      
         if (sessionPlanificarEva.getNidCurso() != null) {
             beanCurso.setNidCurso(Integer.parseInt(sessionPlanificarEva.getNidCurso()));
             System.out.println("Valor de Curso " + sessionPlanificarEva.getNidCurso());
@@ -444,6 +459,11 @@ public class bPlanificarEva {
         BeanGradoNivel grani = new BeanGradoNivel();
         if (sessionPlanificarEva.getNidSedeEvaluador() != 0) {
             sede.setNidSede(sessionPlanificarEva.getNidSedeEvaluador());
+            aula.setSede(sede);
+            System.out.println("Valor sede " + sessionPlanificarEva.getNidSedeEvaluador());
+        }
+        if (sessionPlanificarEva.getNidSede() != null) {
+            sede.setNidSede(Integer.parseInt(sessionPlanificarEva.getNidSede()));
             aula.setSede(sede);
             System.out.println("Valor sede " + sessionPlanificarEva.getNidSedeEvaluador());
         }
@@ -469,6 +489,8 @@ public class bPlanificarEva {
     public void abrirNuevoEvento(CalendarEvent calendarEvent) {
         sessionPlanificarEva.setNidAreaAcademica(0);
         sessionPlanificarEva.setNidSedeEvaluador(0);
+        sessionPlanificarEva.setEstadoDisableChoiceSede(false);
+        sessionPlanificarEva.setEstadoDisableChoiceArea(false);
         Date fechaHoy = new Date();
         Date fecha = (Date) fechaHoy.clone();
         fecha.setHours(0);
@@ -488,14 +510,25 @@ public class bPlanificarEva {
                 sessionPlanificarEva.setListaSedes(null);
                 sessionPlanificarEva.setListaNiveles(null);
                 sessionPlanificarEva.setListaGrados(null);
+                sessionPlanificarEva.setListAreasAcade(null);
                 sessionPlanificarEva.setNidSede(null);
                 sessionPlanificarEva.setNidGrado(null);
                 sessionPlanificarEva.setNidNivel(null);
+                sessionPlanificarEva.setNidAreaAcademicaChoice(null);
                 if (tbHorario != null) {
                     tbHorario.setValue(null);
                 }
                 if (sessionPlanificarEva.getNidUsuario() != null) {
                     Usuario evaluador =  bdl_C_SFUsuarioRemote.findConstrainById(Integer.parseInt(sessionPlanificarEva.getNidUsuario()));
+                    sessionPlanificarEva.setNidRolUsuarioEnSession(evaluador.getRol().getNidRol());
+                    if(evaluador.getRol().getNidRol()==4){
+                        sessionPlanificarEva.setNidSede(""+evaluador.getSedeNivel().getSede().getNidSede());
+                        sessionPlanificarEva.setEstadoDisableChoiceSede(true);
+                    }
+                        if(evaluador.getRol().getNidRol()==2){
+                            sessionPlanificarEva.setNidAreaAcademicaChoice(""+evaluador.getAreaAcademica().getNidAreaAcademica());
+                            sessionPlanificarEva.setEstadoDisableChoiceArea(true);
+                        }
                     if(evaluador.getAreaAcademica()!=null){
                         if(evaluador.getAreaAcademica().getNidAreaAcademica()!=0){
                             System.out.println("Valor AREA <<< " + evaluador.getAreaAcademica().getNidAreaAcademica());
@@ -505,7 +538,8 @@ public class bPlanificarEva {
                     if(evaluador.getSedeNivel()!=null){
                         if(evaluador.getSedeNivel().getSede().getNidSede()!=0){
                             System.out.println("Valor SEDE <<< " + evaluador.getSedeNivel().getSede().getNidSede());
-                            sessionPlanificarEva.setNidSedeEvaluador(evaluador.getSedeNivel().getSede().getNidSede());                         }
+                            sessionPlanificarEva.setNidSedeEvaluador(evaluador.getSedeNivel().getSede().getNidSede());                
+                            }
                         }        
                     }
                         
@@ -518,6 +552,7 @@ public class bPlanificarEva {
                 sessionPlanificarEva.setListaSedes(this.llenarSedes());
                 sessionPlanificarEva.setListaGrados(this.llenarGrados());
                 sessionPlanificarEva.setListaNiveles(this.llenarNiveles());
+                sessionPlanificarEva.setListAreasAcade(this.llenarAreasAcademicas());
                 sessionPlanificarEva.setEstadoAsignarEvaluacion(true);
                 Utils.showPopUpMIDDLE(popupEvento);
             }
@@ -597,7 +632,7 @@ public class bPlanificarEva {
     }
 
     public String btnLimpiar() {
-        if (choiceCursos != null) {
+        if (choiceCursos != null) {           
             sessionPlanificarEva.setNidCurso(null);
             choiceCursos.resetValue();
             Utils.addTarget(choiceCursos);
@@ -618,9 +653,24 @@ public class bPlanificarEva {
             Utils.addTarget(choiceNivel);
         }
         if (choiceSede != null) {
-            sessionPlanificarEva.setNidSede(null);
-            choiceSede.resetValue();
-            Utils.addTarget(choiceSede);
+            if(sessionPlanificarEva.getNidRolUsuarioEnSession()==4){
+                choiceSede.setValue(sessionPlanificarEva.getNidSede());
+                Utils.addTarget(choiceSede);  
+            }else{
+                sessionPlanificarEva.setNidSede(null);
+                choiceSede.resetValue();
+                Utils.addTarget(choiceSede);   
+            }          
+        }
+        if (choiceAreaAcademicas != null) {
+            if(sessionPlanificarEva.getNidRolUsuarioEnSession()==2){
+                choiceAreaAcademicas.setValue(sessionPlanificarEva.getNidAreaAcademicaChoice());
+                Utils.addTarget(choiceAreaAcademicas);  
+            }else{
+                sessionPlanificarEva.setNidAreaAcademicaChoice(null);
+                choiceAreaAcademicas.resetValue();
+                Utils.addTarget(choiceAreaAcademicas);   
+            }          
         }
         llenarBean();
         if (tbHorario != null) {
@@ -1256,5 +1306,13 @@ public class bPlanificarEva {
 
     public RichSelectOneChoice getChoiceTipoVisita() {
         return choiceTipoVisita;
+    }
+
+    public void setChoiceAreaAcademicas(RichSelectOneChoice choiceAreaAcademicas) {
+        this.choiceAreaAcademicas = choiceAreaAcademicas;
+    }
+
+    public RichSelectOneChoice getChoiceAreaAcademicas() {
+        return choiceAreaAcademicas;
     }
 }
