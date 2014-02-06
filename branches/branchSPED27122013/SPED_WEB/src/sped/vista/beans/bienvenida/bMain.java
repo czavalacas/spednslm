@@ -67,9 +67,6 @@ public class bMain implements Serializable {
         List<BeanPermiso> lstPerm = ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol());
         sessionMain.setLstPermisos(lstPerm);
         List<Integer> lstPermisos = lstPerm.get(0).getLstPermisos();
-        /*for(Integer per : lstPermisos){
-            Utils.sysout("perm:"+per);
-        }*/
         beanUsuario.setLstPermisos(lstPermisos);
         for (int i = 0; i < sessionMain.getLstPermisos().size(); i++) {
             int hijoDeMBar = 0;

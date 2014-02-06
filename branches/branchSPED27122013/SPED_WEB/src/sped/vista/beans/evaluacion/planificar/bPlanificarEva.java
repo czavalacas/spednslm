@@ -109,7 +109,7 @@ public class bPlanificarEva {
     @EJB
     private BDL_C_SFEvaluacionRemoto bdl_C_SFEvaluacionRemoto;
     private final static String LOOKUP_NAME_SFEVALUADORES_REMOTO =
-        "mapLN_C_SFUsuario#sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote";
+        "mapLN_C_SFUsuario";
     @EJB
     private BDL_C_SFMainRemote bdl_C_SFMainRemote;
     @EJB
