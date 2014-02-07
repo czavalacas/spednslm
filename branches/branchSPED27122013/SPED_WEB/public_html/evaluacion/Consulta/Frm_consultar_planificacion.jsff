@@ -16,7 +16,8 @@
                             <af:selectOneChoice label="Evaluador" id="soc1" unselectedLabel="::Seleccionar Evaluador::"
                                                 binding="#{bConsultaPlanificacion.choiceEvaluadores}"
                                                 value="#{sessionScope.sessionConsultarPlanificacion.nidEvaluadorChoice}"
-                                                autoSubmit="true">
+                                                autoSubmit="true"
+                                                disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceEvaluador}">
                                 <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaEvaludaoresChoice}"
                                                id="si1"/>
                             </af:selectOneChoice>
@@ -25,15 +26,26 @@
                             <af:selectOneChoice label="Sede" id="soc2" unselectedLabel="::Seleccionar Sede::"
                                                 binding="#{bConsultaPlanificacion.choiceSedes}"
                                                 value="#{sessionScope.sessionConsultarPlanificacion.nidSedeChoice}"
-                                                autoSubmit="true">
+                                                autoSubmit="true"
+                                                disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceSede}">
                                 <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaSedesChoice}"
                                                id="si2"/>
                             </af:selectOneChoice>
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc3">
                             <af:inputDate label="Fecha Min" id="id1"
-                                          value="#{requestScope.bConsultaPlanificacion.sessionConsultarPlanificacion.fechaMinPlanificacion}"
+                                          value="#{sessionScope.sessionConsultarPlanificacion.fechaMinPlanificacion}"
                                           binding="#{bConsultaPlanificacion.inputFechaMin}"/>
+                        </af:gridCell>
+                          <af:gridCell marginStart="5px" width="33%" id="gc9">
+                            <af:selectOneChoice label="Area" id="soc6" unselectedLabel="::Seleccionar Area::"
+                                                binding="#{bConsultaPlanificacion.choiceAreaAcademica}"
+                                                value="#{sessionScope.sessionConsultarPlanificacion.nidAreaAcademicaChoice}"
+                                                autoSubmit="true"
+                                                disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceArea}">
+                                <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaAreasChoice}"
+                                               id="si6"/>
+                            </af:selectOneChoice>
                         </af:gridCell>
                     </af:gridRow>
                     <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr2">
@@ -56,12 +68,22 @@
                                           value="#{sessionScope.sessionConsultarPlanificacion.fechaMaxPlanificacion}"
                                           binding="#{bConsultaPlanificacion.inputFechaMax}"/>
                         </af:gridCell>
+                          <af:gridCell marginStart="5px" width="33%" id="gc8">
+                            <af:selectOneChoice label="Estado" id="soc5" unselectedLabel="::Seleccionar Estado::"
+                                                binding="#{bConsultaPlanificacion.choiceEstado}"
+                                                value="#{sessionScope.sessionConsultarPlanificacion.nidEstadoPlanificacion}"
+                                                autoSubmit="true" >
+                                <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaEstadosChoice}"
+                                               id="si5"/>
+                            </af:selectOneChoice>
+                        </af:gridCell>
                     </af:gridRow>
                 </af:panelGridLayout>
             </af:panelGroupLayout>
             <af:panelGroupLayout id="pgl1">
-                <af:button text="Buscar" id="btnBuscar" actionListener="#{bConsultaPlanificacion.buscarPlanificacion}"
-                           binding="#{bConsultaPlanificacion.btnBuscar}"/>
+                <af:button text="Buscar" id="btnBuscar" 
+                           binding="#{bConsultaPlanificacion.btnBuscar}"
+                           action="#{bConsultaPlanificacion.buscarPlani}"/>
                 <af:spacer width="10" height="10" id="s1"/>
                 <af:button text="Limpiar" id="b2" actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
                 <af:spacer width="10" height="10" id="s2"/>
@@ -72,7 +94,7 @@
                 <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs" columnStretching="column:c2,c1,c3,c4,c5,c6,c7,c8,c9,c10,c11"
                 inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
                           binding="#{bConsultaPlanificacion.tbPlanificacion}"
-                          value="#{requestScope.bConsultaPlanificacion.listaEvaluacionesPlanificadas}">
+                          value="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones}">
                     <af:column width="20">
                         <af:outputText value="#{vs.index + 1}"/>
                     </af:column>
