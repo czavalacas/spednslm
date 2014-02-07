@@ -3,10 +3,14 @@ package mobile.respaldo.Consultas;
 import com.sun.util.logging.Level;
 import com.sun.util.logging.Logger;
 import javax.el.ValueExpression;
+
+import mobile.beans.BeanPlanificacion;
+
 import oracle.adfmf.amx.event.ActionEvent;
 import oracle.adfmf.amx.event.ValueChangeEvent;
 import oracle.adfmf.bindings.OperationBinding;
 import oracle.adfmf.bindings.dbf.AmxIteratorBinding;
+import oracle.adfmf.dc.bean.ConcreteJavaBeanObject;
 import oracle.adfmf.framework.api.AdfmfJavaUtilities;
 import oracle.adfmf.framework.model.AdfELContext;
 import oracle.adfmf.util.Utility;
@@ -29,10 +33,19 @@ public class bConsultaPlanificacion {
         actualizarSegunSOC("arg7", vce);
     }
     
-    public String accionRefresh(){
-        Logger.getLogger(Utility.APP_LOGNAME).logp(Level.INFO, this.getClass().getName(), "Diego","INVOCO AL METODO!!!!:"); 
-        System.out.println("Diego SYSOUT INVOCO AL METODO refrescarResultado!!!!");
-        return "HI"; 
+    public String goToEvaluar(){
+        //Logger.getLogger(Utility.APP_LOGNAME).logp(Level.INFO, this.getClass().getName(), "Diego","INVOCO AL METODO!!!!:"); 
+        //System.out.println("Diego SYSOUT INVOCO AL METODO refrescarResultado!!!!");
+        ValueExpression ve = AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator.currentRow.dataProvider}", Object.class);
+        Object obj = ve.getValue(AdfmfJavaUtilities.getAdfELContext());
+        BeanPlanificacion beanPlanificacion = new BeanPlanificacion();
+        if (obj instanceof ConcreteJavaBeanObject) {
+            ConcreteJavaBeanObject cjbo = (ConcreteJavaBeanObject)obj; 
+            beanPlanificacion = (BeanPlanificacion)cjbo.getInstance(); 
+            AdfmfJavaUtilities.setELValue("#{pageFlowScope.beanPlanificacion}", null);
+            AdfmfJavaUtilities.setELValue("#{pageFlowScope.beanPlanificacion}",beanPlanificacion);
+        }
+        return "evaluar"; 
     }
 
     public void actualizarSegunSOC(String argumento, ValueChangeEvent vce) {

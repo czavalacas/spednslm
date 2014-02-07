@@ -43,12 +43,22 @@
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getPermisosByUsuarioRol_WS">
+                           <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
+                              <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+                              <input name=""/>
+                              <output name=""/>
+                           </operation>
+                           <operation name="getCriteriosEvaluacion_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
                            </operation>
                            <operation name="getPlanificaciones_WS">
+                              <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+                              <input name=""/>
+                              <output name=""/>
+                           </operation>
+                           <operation name="getPermisosByUsuarioRol_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
