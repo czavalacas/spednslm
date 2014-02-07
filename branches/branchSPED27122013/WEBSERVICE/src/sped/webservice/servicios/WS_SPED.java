@@ -9,14 +9,18 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import sped.negocio.LNSF.IL.LN_C_SFAreaAcademicaLocal;
+import sped.negocio.LNSF.IL.LN_C_SFCriterioIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCriterio;
+import sped.negocio.entidades.beans.BeanCriterioIndicadorWS;
+import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
 import sped.negocio.entidades.beans.BeanFicha;
@@ -41,6 +45,8 @@ public class WS_SPED {
     private LN_C_SFFichaLocal ln_C_SFFichaLocal;
     @EJB
     private LN_C_SFFichaCriterioLocal ln_C_SFFichaCriterioLocal;
+    @EJB
+    private LN_C_SFCriterioIndicadorLocal ln_C_SFCriterioIndicadorLocal;
 
     @WebMethod
     public BeanUsuario autenticarUsuarioLN(@WebParam(name = "arg0") String usuario,
@@ -81,10 +87,17 @@ public class WS_SPED {
     }
 
     @WebMethod
-    public List<BeanCriterio> getCriteriosEvaluacion_WS(@WebParam(name = "arg0") int nidRol,
-                                                        @WebParam(name = "arg1") String tipoFichaCurso){
+    public List<BeanCriterioWS> getCriteriosEvaluacion_WS(@WebParam(name = "arg0") int nidRol,
+                                                          @WebParam(name = "arg1") String tipoFichaCurso){
         int ficha = ln_C_SFFichaLocal.getFichaActivaEvaluacion(nidRol == 4 ? "E" : "S", tipoFichaCurso);
-        return ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(ficha);
+        return ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha_WS(ficha);
+    }
+
+    @WebMethod
+    public List<BeanCriterioIndicadorWS> getLstIndicadoresByFichaCriterio_LN_WS(@WebParam(name = "arg0") int nidFicha,
+                                                                                @WebParam(name = "arg1")  int nidCriterio){
+        Utiles.sysout("invico a los indicadores! nidFicha>"+nidFicha+" nidCriterio:"+nidCriterio);
+        return ln_C_SFCriterioIndicadorLocal.getLstIndicadoresByFichaCriterio_LN_WS(nidFicha, nidCriterio);
     }
 
     @WebMethod
