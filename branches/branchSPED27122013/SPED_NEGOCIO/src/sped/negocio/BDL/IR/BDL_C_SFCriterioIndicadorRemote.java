@@ -1,13 +1,13 @@
-package sped.negocio.BDL.IL;
+package sped.negocio.BDL.IR;
 
 import java.util.List;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import sped.negocio.entidades.eval.CriterioIndicador;
 
-@Local
-public interface BDL_C_SFCriterioIndicadorLocal {
+@Remote
+public interface BDL_C_SFCriterioIndicadorRemote {
     List<CriterioIndicador> getCriterioIndicadorFindAll();
     List<CriterioIndicador> getLstIndicadoresByFichaCriterio_BDL_WS(int nidFicha, int nidCriterio);
 }
