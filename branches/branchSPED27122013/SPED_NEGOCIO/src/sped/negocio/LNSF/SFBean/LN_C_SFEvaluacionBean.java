@@ -66,18 +66,18 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             BeanEvaluacion bean = (BeanEvaluacion) mapper.map(a, BeanEvaluacion.class);
             bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidEvaluador()));
             bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidPlanificador()));
-            System.out.println("ESTADO EVALUACION " +bean.getEstadoEvaluacion() );
+        //    System.out.println("ESTADO EVALUACION " +bean.getEstadoEvaluacion() );
             if(bean.getEstadoEvaluacion().equals("EJECUTADO")){
                 bean.setNidEstadoEvaluacion("1");
-                System.out.println(" 1 ");
+             //   System.out.println(" 1 ");
             }
             if(bean.getEstadoEvaluacion().equals("PENDIENTE")){
                 bean.setNidEstadoEvaluacion("2");
-                System.out.println(" 2 ");
+           //     System.out.println(" 2 ");
             }
             if(bean.getEstadoEvaluacion().equals("NO REALIZADO")){
                 bean.setNidEstadoEvaluacion("3");
-                System.out.println(" 3 ");
+               // System.out.println(" 3 ");
             }
             lstBean.add(bean);
         }
