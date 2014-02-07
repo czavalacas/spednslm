@@ -33,7 +33,9 @@ public class LN_C_SFLeyendaBean implements LN_C_SFLeyendaRemote,
     public LN_C_SFLeyendaBean() {
     }
     
-    public BeanLeyenda getLeyendabyEvaluacion(CriterioIndicador cri,int nidFicha){
-        return (BeanLeyenda) mapper.map(bdL_C_SFLeyendaLocal.getLeyendabyEvaluacion(cri, nidFicha), BeanLeyenda.class);
+    public BeanLeyenda getLeyendabyEvaluacion(CriterioIndicador cri,
+                                              int nidFicha, 
+                                              int valor){
+        return (BeanLeyenda) mapper.map(bdL_C_SFLeyendaLocal.getLeyendabyEvaluacion(cri, nidFicha, valor), BeanLeyenda.class);
     }
 }

@@ -7,5 +7,7 @@ import sped.negocio.entidades.eval.CriterioIndicador;
 
 @Local
 public interface LN_C_SFLeyendaLocal {
-    BeanLeyenda getLeyendabyEvaluacion(CriterioIndicador cri,int nidFicha);
+    BeanLeyenda getLeyendabyEvaluacion(CriterioIndicador cri,
+                                       int nidFicha, 
+                                       int valor);
 }

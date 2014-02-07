@@ -7,6 +7,7 @@ import sped.negocio.entidades.eval.Leyenda;
 
 @Remote
 public interface BDL_C_SFLeyendaRemote {
-    Leyenda getLeyendabyEvaluacion(CriterioIndicador ci,
-                                   int nidFicha);
+    Leyenda getLeyendabyEvaluacion(CriterioIndicador cri,
+                                   int nidFicha,
+                                   int valorValoracion);
 }
