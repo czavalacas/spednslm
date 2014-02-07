@@ -63,6 +63,7 @@
           <Item Value="tipoVisita"/>
           <Item Value="startDate"/>
           <Item Value="endDate"/>
+          <Item Value="aula"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

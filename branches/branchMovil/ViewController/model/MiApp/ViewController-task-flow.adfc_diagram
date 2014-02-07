@@ -42,7 +42,7 @@
       <property
          name="fromOutcome">000</property>
       <property
-         name="sdm:polyPoints">R46,108.06497,288.09375,351.0,288.60938,L46</property>
+         name="sdm:polyPoints">R46,108.07993,288.09375,351.0,288.60938,L46</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -52,7 +52,7 @@
       <property
          name="fromOutcome">GO_LOGIN</property>
       <property
-         name="sdm:polyPoints">L54,350.99258,295.60938,108.06939,295.09375,R54</property>
+         name="sdm:polyPoints">L54,350.99258,295.60938,108.07252,295.09375,R54</property>
    </ControlFlowCase>
    <View
       id="View6">
@@ -110,7 +110,7 @@
       <property
          name="fromOutcome">BACK_MAIN</property>
       <property
-         name="sdm:polyPoints">L54,645.0,141.67188,435.1887,288.60938,R46</property>
+         name="sdm:polyPoints">L58,645.0,145.17188,435.1456,288.60938,R46</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -141,5 +141,40 @@
          name="fromOutcome">GO_LOGIN</property>
       <property
          name="sdm:polyPoints">L58,633.63885,479.20312,107.5,302.09375,R62</property>
+   </ControlFlowCase>
+   <View
+      id="View14">
+      <property
+         name="activityId">Evaluar</property>
+      <property
+         name="page">/Evaluacion/Evaluar.amx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Evaluar&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">139.125</property>
+      <property
+         name="x">943.0</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase15"
+      from="View6"
+      to="View14">
+      <property
+         name="fromOutcome">evaluar</property>
+      <property
+         name="sdm:polyPoints">R46,727.01935,134.67188,902.0,135.64062,L46</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase16"
+      from="View14"
+      to="View6">
+      <property
+         name="fromOutcome">BACK_CONSULTAR</property>
+      <property
+         name="sdm:polyPoints">L54,901.98065,142.64062,727.0,141.67188,R54</property>
    </ControlFlowCase>
 </SDM>

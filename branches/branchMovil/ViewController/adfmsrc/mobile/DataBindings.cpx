@@ -5,11 +5,13 @@
     <page path="/inicio.amx" usageId="mobile_inicioPageDef"/>
     <page path="/Bienvenida/Main.amx" usageId="mobile_MainPageDef"/>
     <page path="/Consultas/Consultar_Planificacion.amx" usageId="mobile_Consultar_PlanificacionPageDef"/>
+    <page path="/Evaluacion/Evaluar.amx" usageId="mobile_EvaluarPageDef"/>
   </pageMap>
   <pageDefinitionUsages>
     <page id="mobile_inicioPageDef" path="mobile.pageDefs.inicioPageDef"/>
     <page id="mobile_MainPageDef" path="Bienvenida.MainPageDef"/>
     <page id="mobile_Consultar_PlanificacionPageDef" path="Consultas.Consultar_PlanificacionPageDef"/>
+    <page id="mobile_EvaluarPageDef" path="Evaluacion.EvaluarPageDef"/>
   </pageDefinitionUsages>
   <dataControlUsages>
     <dc id="WS_SPED" path="application.WS_SPED"/>

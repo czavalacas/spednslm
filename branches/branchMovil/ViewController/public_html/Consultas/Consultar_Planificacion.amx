@@ -39,7 +39,17 @@
    
     <amx:listView var="row" value="#{bindings.Return1.collectionModel}" fetchSize="#{bindings.Return1.rangeSize}"
                   dividerAttribute="profesor" dividerMode="firstLetter" styleClass="adfmf-listView-insetList" id="lv1">
-      <amx:listItem id="li1">
+      <amx:listItem id="li1" action="evaluar">
+        <amx:setPropertyListener from="#{row.evaluador}" to="#{pageFlowScope.evaluador}" type="action"/>
+        <amx:setPropertyListener from="#{row.planificador}" to="#{pageFlowScope.planificador}" type="action"/>
+        <amx:setPropertyListener from="#{row.areaAcademica}" to="#{pageFlowScope.areaAcademica}" type="action"/>
+        <amx:setPropertyListener from="#{row.tipoVisita}" to="#{pageFlowScope.tipoVisita}" type="action"/>
+        <amx:setPropertyListener from="#{row.startDate}" to="#{pageFlowScope.startDate}" type="action"/>
+        <amx:setPropertyListener from="#{row.endDate}" to="#{pageFlowScope.endDate}" type="action"/>
+        <amx:setPropertyListener from="#{row.sede}" to="#{pageFlowScope.sede}" type="action"/>
+        <amx:setPropertyListener from="#{row.aula}" to="#{pageFlowScope.aula}" type="action"/>
+        <amx:setPropertyListener from="pi1" to="#{pageFlowScope.panel}" type="action"/>
+        
         <amx:tableLayout width="100%" id="tl1">
           <amx:rowLayout id="rl1">
             <amx:cellFormat width="10px" rowSpan="2" id="cf2"/>
@@ -51,7 +61,7 @@
             <amx:cellFormat width="100%" height="40px" id="cf3">
                  <amx:outputText value="Evaluador: #{row.evaluador}, Planificador: #{row.planificador}" styleClass="adfmf-listItem-captionText" id="ot3"
                                  inlineStyle="margin:0px 1px 0px 0px;"/>
-                 <amx:outputText value="Area: #{row.areaAcademica}" id="ot4" styleClass="adfmf-listItem-captionText"
+                 <amx:outputText value="Area: #{row.areaAcademica}, Visita: #{row.tipoVisita}" id="ot4" styleClass="adfmf-listItem-captionText"
                                  inlineStyle="margin:0px 1px 0px 0px;"/>
               <amx:panelGroupLayout id="pgl1" layout="horizontal">
                     <amx:outputText value="#{row.startDate}" id="ot5" styleClass="adfmf-listItem-captionText"
@@ -64,10 +74,8 @@
                              <amx:convertDateTime pattern="h:mm a" id="cdt2"/>
                     </amx:outputText>
               </amx:panelGroupLayout>
-             
-                 <amx:outputText value="Sede: #{row.sede}, Visita: #{row.tipoVisita}" id="ot7" 
+                 <amx:outputText value="Sede: #{row.sede}, Aula: #{row.aula}" id="ot7" 
                                  inlineStyle="margin:0px 1px 0px 0px;" styleClass="adfmf-listItem-captionText"/>
-
             </amx:cellFormat>
           </amx:rowLayout>
         </amx:tableLayout>
