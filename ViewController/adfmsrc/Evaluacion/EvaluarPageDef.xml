@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="11.1.2.64.36" id="EvaluarPageDef"
+                Package="Evaluacion">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <methodIterator Binds="getCriteriosEvaluacion_WS.result" DataControl="WS_SPED" RangeSize="25"
+                    BeanClass="application.WS_SPED.getCriteriosEvaluacion_WS" id="getCriteriosEvaluacion_WSIterator"/>
+    <accessorIterator MasterBinding="getCriteriosEvaluacion_WSIterator" Binds="Return" RangeSize="25"
+                      DataControl="WS_SPED" BeanClass="application.WS_SPED.getCriteriosEvaluacion_WS.Return"
+                      id="ReturnIterator"/>
+    <methodIterator Binds="getLstIndicadoresByFichaCriterio_LN_WS.result" DataControl="WS_SPED" RangeSize="25"
+                    BeanClass="application.WS_SPED.getLstIndicadoresByFichaCriterio_LN_WS"
+                    id="getLstIndicadoresByFichaCriterio_LN_WSIterator" Refresh="always"/>
+    <accessorIterator MasterBinding="getLstIndicadoresByFichaCriterio_LN_WSIterator" Binds="Return" RangeSize="25"
+                      DataControl="WS_SPED"
+                      BeanClass="application.WS_SPED.getLstIndicadoresByFichaCriterio_LN_WS.Return"
+                      id="ReturnIterator1" Refresh="always"/>
+  </executables>
+  <bindings>
+    <methodAction id="getCriteriosEvaluacion_WS" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="getCriteriosEvaluacion_WS" IsViewObjectMethod="false" DataControl="WS_SPED"
+                  InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.getCriteriosEvaluacion_WS_WS_SPED_getCriteriosEvaluacion_WS_result">
+      <NamedData NDName="arg0" NDValue="#{pageFlowScope.usuario.rol.nidRol}" NDType="java.lang.Integer" NDOption="3"/>
+      <NamedData NDName="arg1" NDValue="O" NDType="java.lang.String" NDOption="3"/>
+    </methodAction>
+    <tree IterBinding="ReturnIterator" id="Return">
+      <nodeDefinition DefName="application.WS_SPED.getCriteriosEvaluacion_WS.Return" Name="Return0">
+        <AttrNames>
+          <Item Value="nidFicha"/>
+          <Item Value="nidCriterio"/>
+          <Item Value="descripcionCriterio"/>
+          <Item Value="orden"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <methodAction id="getLstIndicadoresByFichaCriterio_LN_WS" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="getLstIndicadoresByFichaCriterio_LN_WS" IsViewObjectMethod="false" DataControl="WS_SPED"
+                  InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.getLstIndicadoresByFichaCriterio_LN_WS_WS_SPED_getLstIndicadoresByFichaCriterio_LN_WS_result">
+      <NamedData NDName="arg0" NDValue="#{pageFlowScope.nidFicha}" NDType="java.lang.Integer" NDOption="3"/>
+      <NamedData NDName="arg1" NDValue="#{pageFlowScope.nidCriterio}" NDType="java.lang.Integer" NDOption="3"/>
+    </methodAction>
+    <tree IterBinding="ReturnIterator1" id="Return1">
+      <nodeDefinition DefName="application.WS_SPED.getLstIndicadoresByFichaCriterio_LN_WS.Return" Name="Return10">
+        <AttrNames>
+          <Item Value="descripcionIndicador"/>
+          <Item Value="orden"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+  </bindings>
+</pageDefinition>
