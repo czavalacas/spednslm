@@ -24,6 +24,7 @@ import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFFichaCriterioRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCriterio;
+import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanFichaCriterio;
 import sped.negocio.entidades.beans.BeanLeyenda;
 import sped.negocio.entidades.eval.Criterio;
@@ -53,6 +54,22 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
     
     public List<BeanCriterio> getListaCriteriosByFicha(int nidFicha){
         return this.transformLista(bdL_C_SFFichaCriterioLocal.getFichaCriteriosByFicha(nidFicha));
+    }
+    
+    public List<BeanCriterioWS> getListaCriteriosByFicha_WS(int nidFicha){
+        List<BeanCriterioWS> lstBeanCriterio = new ArrayList<BeanCriterioWS>();
+        for(FichaCriterio fichaCriterio : bdL_C_SFFichaCriterioLocal.getFichaCriteriosByFicha(nidFicha)){
+            BeanCriterioWS criterio = new BeanCriterioWS();
+            Criterio crit = fichaCriterio.getCriterio();
+            criterio.setCantidadValoresWS(fichaCriterio.getFicha().getFichaValorLista().size());
+            criterio.setOrden(fichaCriterio.getOrden());
+            criterio.setDescripcionCriterio(crit.getDescripcionCriterio());
+            criterio.setNidCriterio(crit.getNidCriterio());
+            criterio.setNidFicha(fichaCriterio.getFicha().getNidFicha());
+            lstBeanCriterio.add(criterio);
+            Utiles.sysout("crit.getDescripcionCriterio():"+criterio.getDescripcionCriterio()+" orden: "+criterio.getOrden()+" ficha: "+criterio.getNidFicha());
+        }
+        return lstBeanCriterio;
     }
     
     public List<BeanCriterio> transformLista(List<FichaCriterio> lstFichaCriterio){

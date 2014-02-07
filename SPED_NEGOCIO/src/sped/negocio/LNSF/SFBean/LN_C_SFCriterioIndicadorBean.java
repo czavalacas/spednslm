@@ -16,16 +16,19 @@ import javax.persistence.PersistenceContext;
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
+import sped.negocio.BDL.IL.BDL_C_SFCriterioIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFCriterioIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCriterioIndicadorRemote;
 import sped.negocio.LNSF.IR.LN_C_SFLeyendaRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCriterioIndicador;
+import sped.negocio.entidades.beans.BeanCriterioIndicadorWS;
 import sped.negocio.entidades.eval.CriterioIndicador;
 
 @Stateless(name = "LN_C_SFCriterioIndicador", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFCriterioIndicador")
 public class LN_C_SFCriterioIndicadorBean implements LN_C_SFCriterioIndicadorRemote, 
-                                                     LN_C_SFCriterioIndicadorLocal {
+                                                        LN_C_SFCriterioIndicadorLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -34,6 +37,8 @@ public class LN_C_SFCriterioIndicadorBean implements LN_C_SFCriterioIndicadorRem
     private LN_C_SFResultadoLocal ln_C_SFResultadoLocal;
     @EJB
     private LN_C_SFLeyendaRemote ln_C_SFLeyendaRemote;
+    @EJB
+    private BDL_C_SFCriterioIndicadorLocal bdL_C_SFCriterioIndicadorLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFCriterioIndicadorBean() {
@@ -56,5 +61,26 @@ public class LN_C_SFCriterioIndicadorBean implements LN_C_SFCriterioIndicadorRem
             e.printStackTrace();
             return new ArrayList();
         }
+    }
+    
+    /**
+     * Metodo que retorna la lista de indicadores cuando se seleccione un criterio para el MOVIL
+     * @param nidFicha
+     * @param nidCriterio
+     * @author dfloresgonz
+     * @since 06.02.2014
+     * @return
+     */
+    public List<BeanCriterioIndicadorWS> getLstIndicadoresByFichaCriterio_LN_WS(int nidFicha, int nidCriterio){
+        List<BeanCriterioIndicadorWS> lst = new ArrayList<BeanCriterioIndicadorWS>();
+        for(CriterioIndicador ci : bdL_C_SFCriterioIndicadorLocal.getLstIndicadoresByFichaCriterio_BDL_WS(nidFicha, nidCriterio)){
+            BeanCriterioIndicadorWS bean = new BeanCriterioIndicadorWS();Utiles.sysout("ci.getIndicador().getDescripcionIndicador():"+ci.getIndicador().getDescripcionIndicador());
+            bean.setDescripcionIndicador(ci.getIndicador().getDescripcionIndicador());
+            bean.setNidCriterioIndicador(ci.getNidCriterioIndicador());
+            bean.setNidIndicador(ci.getIndicador().getNidIndicador());
+            bean.setOrden(ci.getOrden());
+            lst.add(bean);
+        }
+        return lst;
     }
 }
