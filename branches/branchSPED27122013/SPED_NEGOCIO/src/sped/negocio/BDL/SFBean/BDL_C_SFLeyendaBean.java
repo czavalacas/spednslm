@@ -25,14 +25,18 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
     public BDL_C_SFLeyendaBean() {
     }
     
-    public Leyenda getLeyendabyEvaluacion(CriterioIndicador cri,int nidFicha){        
+    public Leyenda getLeyendabyEvaluacion(CriterioIndicador cri,
+                                          int nidFicha,
+                                          int valorValoracion){        
         try{
             String strQuery = "SELECT o " +
                               "FROM Leyenda o " +
                               "WHERE o.criterioIndicador = :crInd " +
-                              "AND o.fichaValor.ficha.nidFicha = :nid_Ficha";
+                              "AND o.fichaValor.ficha.nidFicha = :nid_Ficha " +
+                              "AND o.fichaValor.valor.valor = :valor";
             return (Leyenda) em.createQuery(strQuery).setParameter("crInd", cri)
                                                      .setParameter("nid_Ficha", nidFicha)
+                                                     .setParameter("valor", valorValoracion)
                                                      .getSingleResult();
         }catch(Exception e){
             e.printStackTrace();

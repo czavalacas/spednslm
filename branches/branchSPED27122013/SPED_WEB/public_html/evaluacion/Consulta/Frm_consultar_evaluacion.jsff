@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core">
-    <f:view>
-        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
-            <af:panelGroupLayout halign="left">
-                <af:spacer height="10"/>
+    <f:view>    
+        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;" id="pgl3">
+            <af:panelGroupLayout halign="left" id="pgl4">
+                <af:spacer height="10" id="s3"/>
                 <af:outputText value="Consulta de Evaluaciones" id="otTituloU" styleClass="titulos"/>
-                <af:spacer height="10"/>
+                <af:spacer height="10" id="s2"/>
             </af:panelGroupLayout>
             <af:subform id="s1" binding="#{bConsultarEvaluacion.s1}" defaultCommand="btnBuscar">
                 <af:panelFormLayout id="pfl7" rows="1" maxColumns="5" binding="#{bConsultarEvaluacion.pfl7}">                
@@ -63,7 +64,9 @@
                             <af:inputDate label="Fin" id="idfechaIniciofin" columns="8"
                                           value="#{sessionConsultarEvaluacion.fechaPf}"
                                           labelStyle="text-align: left;"
-                                          binding="#{bConsultarEvaluacion.idfechaIniciofin}"/>
+                                          binding="#{bConsultarEvaluacion.idfechaIniciofin}">
+                            </af:inputDate>
+                            
                         </af:panelFormLayout>
                     </af:showDetail>
                     <af:showDetail disclosed="false" id="sd2" disclosedText="Fecha Evaluación"
@@ -84,10 +87,16 @@
                     <af:button text="Buscar" id="btnBuscar" actionListener="#{bConsultarEvaluacion.buscarByFiltro}"/>
                     <af:button id="btnRefreshFiltro" actionListener="#{bConsultarEvaluacion.resetFiltro}"
                                icon="../recursos/img/usuarios/refresh.png"/>
+                   
                 </af:panelGroupLayout>
-            </af:subform>
-            <af:table value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row" rowBandingInterval="0" id="t1"
-                      inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
+            </af:subform>      
+             <af:button id="b1" immediate="true" text="Export to Excel">
+                        <af:exportCollectionActionListener type="excelHTML" exportedId="t1"
+                                                            filename="export.xls" title="ADF Faces Export"
+                                                           exportedRows="all"/>
+            </af:button>
+            <af:table id="t1" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row" rowBandingInterval="0" 
+                      inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" summary="Tabla de Evaluaciones"
                       fetchSize="50" binding="#{bConsultarEvaluacion.t1}" columnStretching="column:c1">
                 <af:column sortable="true" sortProperty="main.profesor.apellidos" headerText="Profesor" align="start"
                            id="c1" rendered="#{sessionConsultarEvaluacion.columnProfesor}">
@@ -117,9 +126,12 @@
                            id="c7">
                     <af:outputText value="#{row.main.aula.descripcionAula}" id="ot7"/>
                 </af:column>
-                <af:column sortable="true" sortProperty="startDate" headerText="Fecha" align="start" id="c8">
-                    <af:outputText value="#{row.startDate}" id="ot8"/>
+                <af:column sortable="true" sortProperty="startDate" headerText="Fecha Planifiación" align="start" id="c12">
+                    <af:outputText value="#{row.fechaPlanificacion}" id="ot12"/>                 
                 </af:column>
+                <af:column sortable="true" sortProperty="startDate" headerText="Fecha Evaluación" align="start" id="c8">
+                    <af:outputText value="#{row.startDate}" id="ot8"/>                 
+                </af:column>                
                 <af:column sortable="true" sortProperty="nombreEvaluador" headerText="Evaluador" align="start" id="c9"
                            rendered="#{sessionConsultarEvaluacion.columnEvaluador}">
                     <af:outputText value="#{row.nombreEvaluador}" id="ot9"/>
@@ -138,14 +150,13 @@
                            id="c13">
                     <af:outputText value="#{row.comentarioEvaluador}" id="ot13"/>
                 </af:column>
-                <af:column headerText="Evaluacion" align="left" 
-                           id="c12">
+                <af:column headerText="Evaluacion" align="left" id="c14">
                     <af:panelFormLayout id="pfl8" rows="1">                        
                         <af:button id="btnVer" icon="../recursos/img/usuarios/ver.png" visible="#{(row.comentarioEvaluador != null) == true}">
                             <f:setPropertyActionListener value="#{row}" target="#{sessionConsultarEvaluacion.evaluacion}"/>
                             <af:fileDownloadActionListener filename="Evaluacion.docx" contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                            method="#{bConsultarEvaluacion.exportData}"/>
-                        </af:button>
+                        </af:button>                        
                     </af:panelFormLayout>                    
                 </af:column>
             </af:table>
