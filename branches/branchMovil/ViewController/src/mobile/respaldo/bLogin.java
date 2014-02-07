@@ -57,8 +57,6 @@ public class bLogin {
                                                                                                               row);
                     error = beanUsuario.getError().getCidError();           
                     if(error.equals("000")){
-                        Logger.getLogger(Utility.APP_LOGNAME).logp(Level.INFO, this.getClass().getName(), "Diego","INVOCO AL METODO!!!!:"); 
-                        System.out.println("Diego SYSOUT LOGIN!!!!!");
                         clearScopeVariables();
                         AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario}", null);
                         AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario}",beanUsuario);
