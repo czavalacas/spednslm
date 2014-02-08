@@ -6,6 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import java.io.OutputStreamWriter;
+
+import java.lang.reflect.Method;
+
 import java.math.BigInteger;
 
 import java.text.DateFormat;
@@ -19,11 +23,21 @@ import java.util.List;
 
 import java.util.Locale;
 
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.el.ELContext;
+
+import javax.el.ExpressionFactory;
+import java.lang.reflect.*;
+import javax.el.ValueExpression;
+
+import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItems;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -32,7 +46,12 @@ import javax.faces.model.SelectItem;
 
 import jxl.write.WriteException;
 
+import oracle.adf.model.BindingContainer;
+import oracle.adf.model.BindingContext;
+import oracle.adf.model.binding.DCBindingContainer;
+import oracle.adf.share.ADFContext;
 import oracle.adf.view.rich.component.rich.RichSubform;
+import oracle.adf.view.rich.component.rich.data.RichColumn;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
@@ -43,6 +62,16 @@ import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 
 import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
 
+import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
+import oracle.adf.view.rich.component.rich.nav.RichGoLink;
+
+import oracle.dms.table.Row;
+
+import oracle.jbo.uicli.binding.JUCtrlHierNodeBinding;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.myfaces.trinidad.component.UIXIterator;
+import org.apache.myfaces.trinidad.model.CollectionModel;
 import org.apache.poi.xwpf.usermodel.Borders;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.VerticalAlign;
@@ -85,8 +114,7 @@ import utils.system;
 public class bConsultarEvaluacion {
     
     private bSessionConsultarEvaluacion sessionConsultarEvaluacion;
-    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");    
-    private RichTable t1;
+    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private RichSelectOneChoice choiceFSede;
     private UISelectItems si1;
     private RichSelectOneChoice choiceFNivel;
@@ -124,6 +152,7 @@ public class bConsultarEvaluacion {
     private RichPanelFormLayout pfl7;
     private RichShowDetail sd1;
     private RichShowDetail sd2;
+    private RichTable tbEval;
 
     public bConsultarEvaluacion() {
         
@@ -262,8 +291,8 @@ public class bConsultarEvaluacion {
                                                                 sessionConsultarEvaluacion.getFechaPf(),
                                                                 sessionConsultarEvaluacion.getFechaF(),
                                                                 sessionConsultarEvaluacion.getFechaFf()));
-        if(t1 != null){
-            Utils.addTarget(t1);
+        if(tbEval != null){
+            Utils.addTarget(tbEval);
         }        
     }
     
@@ -438,21 +467,13 @@ public class bConsultarEvaluacion {
         DateFormat Hora = new SimpleDateFormat("hh:mm a", Locale.US);
         return fechaHora.format(eva.getStartDate())+" - "+Hora.format(eva.getEndDate());
     }
-
+    
     public void setSessionConsultarEvaluacion(bSessionConsultarEvaluacion sessionConsultarEvaluacion) {
         this.sessionConsultarEvaluacion = sessionConsultarEvaluacion;
     }
 
     public bSessionConsultarEvaluacion getSessionConsultarEvaluacion() {
         return sessionConsultarEvaluacion;
-    }
-
-    public void setT1(RichTable t1) {
-        this.t1 = t1;
-    }
-
-    public RichTable getT1() {
-        return t1;
     }
 
     public void setChoiceFSede(RichSelectOneChoice choiceFSede) {
@@ -611,4 +632,12 @@ public class bConsultarEvaluacion {
     public RichShowDetail getSd2() {
         return sd2;
     }
+
+    public void setTbEval(RichTable tbEval) {
+        this.tbEval = tbEval;
+    }
+
+    public RichTable getTbEval() {
+        return tbEval;
+    }    
 }
