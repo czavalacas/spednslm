@@ -304,6 +304,24 @@ public class bEvaluar {
             this.setSumaByCriterio(sumaTotalXCriterio);
             double notaEscala20 = (sumaTotalXCriterio * 20) / this.getMaxValByCriterio();
             this.setNotaEscala20(notaEscala20);
+            
+            ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator}",Object.class);
+            AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
+            iteratorBinding.getIterator().refresh();
+            GenericType rowCrit = null;
+            iteratorBinding.getIterator().first();
+            for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++){
+                rowCrit = (GenericType)iteratorBinding.getCurrentRow();
+                Integer nidCrit = (Integer) rowCrit.getAttribute("nidCriterio");
+                iteratorBinding.getIterator().previous();
+                iteratorBinding.getIterator().next();
+                if (nidCriterio.intValue() == nidCrit.intValue()){
+                    iteratorBinding.getIterator().previous(); 
+                    propertyChangeSupport.firePropertyChange("nota",rowCrit.getAttribute("nota"),new Double(notaEscala20));
+                    rowCrit.setAttribute("nota",new Double(notaEscala20));
+                }
+                iteratorBinding.getIterator().next();
+            }
         } catch (NumberFormatException nfe) {
             nfe.printStackTrace();
         }

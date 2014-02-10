@@ -5,18 +5,6 @@
       <xsd:import namespace="http://servicios.webservice.sped/" schemaLocation="WS_SPEDPort1.xsd"/>
     </xsd:schema>
   </types>
-  <message name="getLstIndicadoresByFichaCriterio_LN_WS">
-    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WS"/>
-  </message>
-  <message name="getLstIndicadoresByFichaCriterio_LN_WSResponse">
-    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
-  </message>
-  <message name="autenticarUsuarioLN">
-    <part name="parameters" element="tns:autenticarUsuarioLN"/>
-  </message>
-  <message name="autenticarUsuarioLNResponse">
-    <part name="parameters" element="tns:autenticarUsuarioLNResponse"/>
-  </message>
   <message name="getSedes_WS">
     <part name="parameters" element="tns:getSedes_WS"/>
   </message>
@@ -53,19 +41,19 @@
   <message name="getAreasAcademicas_WSResponse">
     <part name="parameters" element="tns:getAreasAcademicas_WSResponse"/>
   </message>
+  <message name="getLstIndicadoresByFichaCriterio_LN_WS">
+    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WS"/>
+  </message>
+  <message name="getLstIndicadoresByFichaCriterio_LN_WSResponse">
+    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
+  </message>
+  <message name="autenticarUsuarioLN">
+    <part name="parameters" element="tns:autenticarUsuarioLN"/>
+  </message>
+  <message name="autenticarUsuarioLNResponse">
+    <part name="parameters" element="tns:autenticarUsuarioLNResponse"/>
+  </message>
   <portType name="WS_SPED">
-    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
-      <input message="tns:getLstIndicadoresByFichaCriterio_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSRequest"/>
-      <output message="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
-    </operation>
-    <operation name="autenticarUsuarioLN">
-      <input message="tns:autenticarUsuarioLN"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNRequest"/>
-      <output message="tns:autenticarUsuarioLNResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNResponse"/>
-    </operation>
     <operation name="getSedes_WS">
       <input message="tns:getSedes_WS" wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSRequest"/>
       <output message="tns:getSedes_WSResponse"
@@ -101,27 +89,21 @@
       <output message="tns:getAreasAcademicas_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getAreasAcademicas_WSResponse"/>
     </operation>
+    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
+      <input message="tns:getLstIndicadoresByFichaCriterio_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSRequest"/>
+      <output message="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
+    </operation>
+    <operation name="autenticarUsuarioLN">
+      <input message="tns:autenticarUsuarioLN"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNRequest"/>
+      <output message="tns:autenticarUsuarioLNResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNResponse"/>
+    </operation>
   </portType>
   <binding name="WS_SPEDPortBinding" type="tns:WS_SPED">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="autenticarUsuarioLN">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
     <operation name="getSedes_WS">
       <soap:operation soapAction=""/>
       <input>
@@ -168,6 +150,24 @@
       </output>
     </operation>
     <operation name="getAreasAcademicas_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="autenticarUsuarioLN">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
