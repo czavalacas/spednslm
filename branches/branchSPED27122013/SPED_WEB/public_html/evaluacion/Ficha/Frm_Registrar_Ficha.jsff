@@ -39,6 +39,10 @@
                     <af:fileDownloadActionListener filename="tabla.docx" contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                                method="#{bRegistrarFicha.exportData}"/>
                 </af:button>
+                <af:button text="Excel" id="b8">
+                    <af:exportCollectionActionListener type="excelHTML" exportedId="tbFichas" filename="exportar.xls"
+                                                       title="archivo"/>
+                </af:button>
             </af:panelGroupLayout>
             <af:table value="#{bRegistrarFicha.sessionRegistrarFicha.lstFichas}" var="row" rowBandingInterval="0"
                       id="tbFichas" rowSelection="single" varStatus="vs" emptyText="No hay fichas de evaluacion" width="inherit;"
