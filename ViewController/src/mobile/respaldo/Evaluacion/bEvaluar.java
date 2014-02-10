@@ -206,7 +206,7 @@ public class bEvaluar {
                 return (Integer) mapaIndis.get("VALOR");
             }
         }
-        return null;
+        return new Integer(0);
     }
     
     public String consultarIndicadores() {
