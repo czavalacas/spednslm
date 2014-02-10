@@ -44,8 +44,12 @@ public class bEvaluar {
     private final static String WS_SERVICE = "WS_SPED";
     private String titulo = "Evaluar";
     
+    private int maxValByCriterio;
+    private int  sumaByCriterio;
+    private double  notaEscala20;
+    
     protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-      protected transient ProviderChangeSupport providerChangeSupport = new ProviderChangeSupport(this);
+    protected transient ProviderChangeSupport providerChangeSupport = new ProviderChangeSupport(this);
     
     List lstCriterios = new ArrayList();
 
@@ -131,9 +135,11 @@ public class bEvaluar {
         OperationBinding method = (OperationBinding)ve.getValue(AdfmfJavaUtilities.getAdfELContext());
         ValueExpression veNidFicha    = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidFicha}",Integer.class);
         ValueExpression veNidCriterio = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidCriterio}", Integer.class);
+        ValueExpression veMaxVals = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.maxVals}", Integer.class);
         
         Integer nidFicha =    (Integer)veNidFicha.getValue(adfELContext);
         Integer nidCriterio = (Integer)veNidCriterio.getValue(adfELContext);
+        Integer maxVals = (Integer)veMaxVals.getValue(adfELContext);
         
         method.getParamsMap().put("arg0",nidFicha);
         method.getParamsMap().put("arg1",nidCriterio);
@@ -147,6 +153,8 @@ public class bEvaluar {
         GenericType row = null;
         List lstIndis = new ArrayList();
         iteratorBinding.getIterator().first();
+        this.setMaxValByCriterio(maxVals.intValue() * iteratorBinding.getIterator().getTotalRowCount());
+        int sumaTotalXCriterio = 0;
         for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++) {
             row = (GenericType)iteratorBinding.getCurrentRow();
             Integer nidCriterioIndicador = new Integer(row.getAttribute("nidCriterioIndicador").toString());
@@ -156,6 +164,7 @@ public class bEvaluar {
                 iteratorBinding.getIterator().next();
                 iteratorBinding.getIterator().previous();
                 Integer val = this.getValorFromMapIndisByNidCriterioIndicador(nidCriterioIndicador, lstIndis);
+                sumaTotalXCriterio = sumaTotalXCriterio + val.intValue();
                 row.setAttribute("valor",val);
                 actualizarLstCrit(nidCriterio,lstIndis,index,null,null,null,false);
             } else { //Primera vez que se ejecuta este metodo(se selecciono un criterio)
@@ -167,6 +176,9 @@ public class bEvaluar {
             }
             iteratorBinding.getIterator().next();
         }
+        this.setSumaByCriterio(sumaTotalXCriterio);
+        double notaEscala20 = (sumaTotalXCriterio * 20) / this.getMaxValByCriterio();
+        this.setNotaEscala20(notaEscala20);
         if (mapa.get("INDIS") == null){
             actualizarLstCrit(nidCriterio,lstIndis,index,null,null,null,false);
         }
@@ -265,9 +277,11 @@ public class bEvaluar {
             Map mapa = this.getMapaByNidCriterio(nidCriterio);
             List listaIndis = (List) mapa.get("INDIS");
             Integer index = (Integer) mapa.get("INDEX");
+            int sumaTotalXCriterio = 0;
             for (int i = 0; i < iter.getIterator().getTotalRowCount(); i++) {
                 row = (GenericType)iter.getCurrentRow();
                 int critIndiCurrent = Integer.parseInt(row.getAttribute("nidCriterioIndicador").toString());
+                Integer val = (Integer) row.getAttribute("valor");
                 iter.getIterator().previous();
                 iter.getIterator().next();
                 if (critIndiCurrent == nidCritIndi.intValue()) {
@@ -278,12 +292,18 @@ public class bEvaluar {
                     }
                     propertyChangeSupport.firePropertyChange("valor",row.getAttribute("valor"),newVal);
                     row.setAttribute("valor", newVal);
+                    sumaTotalXCriterio = sumaTotalXCriterio + newVal.intValue();
                     actualizarLstCrit(nidCriterio, listaIndis, index,new Integer(i),newVal,nidCritIndi,true);
+                }else{
+                    sumaTotalXCriterio = sumaTotalXCriterio + val.intValue();
                 }
                 if(iter.getIterator().getTotalRowCount() > 1){
                     iter.getIterator().next();
                 }
             }
+            this.setSumaByCriterio(sumaTotalXCriterio);
+            double notaEscala20 = (sumaTotalXCriterio * 20) / this.getMaxValByCriterio();
+            this.setNotaEscala20(notaEscala20);
         } catch (NumberFormatException nfe) {
             nfe.printStackTrace();
         }
@@ -327,5 +347,50 @@ public class bEvaluar {
 
     public String getTitulo() {
         return titulo;
+    }
+
+    public void setMaxValByCriterio(int maxValByCriterio) {
+        int oldMaxValByCriterio = this.maxValByCriterio;
+        this.maxValByCriterio = maxValByCriterio;
+        propertyChangeSupport.firePropertyChange("maxValByCriterio",oldMaxValByCriterio,maxValByCriterio);
+    }
+
+    public int getMaxValByCriterio() {
+        return maxValByCriterio;
+    }
+    public void setNotaEscala20(double notaEscala20) {
+        double oldNotaEscala20 = this.notaEscala20;
+        this.notaEscala20 = notaEscala20;
+        propertyChangeSupport.firePropertyChange("notaEscala20",oldNotaEscala20,notaEscala20);
+    }
+
+    public double getNotaEscala20() {
+        return notaEscala20;
+    }
+
+    public void setSumaByCriterio(int sumaByCriterio) {
+        int oldSumaByCriterio = this.sumaByCriterio;
+        this.sumaByCriterio = sumaByCriterio;
+        propertyChangeSupport.firePropertyChange("sumaByCriterio",oldSumaByCriterio,sumaByCriterio);
+    }
+
+    public int getSumaByCriterio() {
+        return sumaByCriterio;
+    }
+
+    public void setPropertyChangeSupport(PropertyChangeSupport propertyChangeSupport) {
+        this.propertyChangeSupport = propertyChangeSupport;
+    }
+
+    public PropertyChangeSupport getPropertyChangeSupport() {
+        return propertyChangeSupport;
+    }
+
+    public void setProviderChangeSupport(ProviderChangeSupport providerChangeSupport) {
+        this.providerChangeSupport = providerChangeSupport;
+    }
+
+    public ProviderChangeSupport getProviderChangeSupport() {
+        return providerChangeSupport;
     }
 }
