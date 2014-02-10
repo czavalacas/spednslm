@@ -64,6 +64,7 @@
           <Item Value="startDate"/>
           <Item Value="endDate"/>
           <Item Value="aula"/>
+          <Item Value="nidEvaluacion"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

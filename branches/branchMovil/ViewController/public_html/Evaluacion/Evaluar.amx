@@ -3,7 +3,7 @@
           xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
     <amx:panelPage id="pp1">
         <amx:facet name="header">
-            <amx:outputText value="Evaluar" id="ot1"/>
+            <amx:outputText value="#{viewScope.bEvaluar.titulo}" id="ot1"/>
         </amx:facet>
         <amx:facet name="primary">
             <amx:commandButton text="Info" id="cb2">
@@ -13,7 +13,7 @@
         <amx:facet name="secondary">
               <amx:commandButton id="cb1" action="BACK_CONSULTAR" icon="/resources/img/back.png" iconPosition="trailing"/>
         </amx:facet>
-        <amx:panelSplitter id="ps1" animation="none" selectedItem="#{pageFlowScope.panel}">
+        <amx:panelSplitter id="ps1" animation="none" selectedItem="pi2">
             <amx:facet name="navigator">
                 <amx:panelGroupLayout id="pfl1">
                     <amx:outputText value="Criterios" id="ot2" styleClass="adfmf-listItem-captionText"
@@ -27,7 +27,8 @@
                                                                      type="action"/>
                             <amx:setPropertyListener id="spl3" from="#{row.nidCriterio}" to="#{pageFlowScope.nidCriterio}"
                                                                      type="action"/>
-                                <amx:setPropertyListener from="pi2" to="#{pageFlowScope.panel}" type="action"/>
+                            <amx:setPropertyListener from="pi2" to="#{pageFlowScope.panel}" type="action"/>
+                            <amx:setPropertyListener from="#{row.cantidadValoresWS}" to="#{pageFlowScope.maxVals}" type="action"/>
                             <amx:tableLayout id="tl3" inlineStyle="width:100%;" width="100%">
                                 <amx:rowLayout id="rl3">
                                     <amx:cellFormat id="cf6" inlineStyle="width:100%;">
@@ -66,6 +67,14 @@
                             </amx:cellFormat>
                             <amx:cellFormat>
                                 <amx:outputText value="#{pageFlowScope.areaAcademica}" styleClass="adfmf-listItem-captionText"/>
+                            </amx:cellFormat>
+                        </amx:rowLayout>
+                        <amx:rowLayout >
+                            <amx:cellFormat  header="true">
+                                <amx:outputText value="Cruso" styleClass="adfmf-listItem-captionText"/>
+                            </amx:cellFormat>
+                            <amx:cellFormat>
+                                <amx:outputText value="#{pageFlowScope.curso}" styleClass="adfmf-listItem-captionText"/>
                             </amx:cellFormat>
                         </amx:rowLayout>
                         <amx:rowLayout >
@@ -128,51 +137,43 @@
             </amx:panelItem>
             
             <amx:panelItem id="pi2">
-              <!--  <amx:tableLayout id="tl4" width="100%" inlineStyle="width:100%;">
-                    <amx:rowLayout>
-                        <amx:cellFormat width="90%" height="12px" header="true">
-                            <amx:outputText value="Indicador" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
-                        </amx:cellFormat>
-                        <amx:cellFormat width="10%" height="12px" header="true">
-                            <amx:outputText value="Leyenda" id="ot6" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
+                <amx:tableLayout id="tl4" halign="center" width="100%" inlineStyle="width:100%;">
+                    <amx:rowLayout id="rl4">
+                        <amx:cellFormat id="cf2" halign="center" valign="middle">
+                                <amx:outputText value="Indicadores" styleClass="adfmf-listItem-captionText"
+                                                inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:99%;"/>     
                         </amx:cellFormat>
                     </amx:rowLayout>
-                    <amx:iterator id="i1" value="#{bindings.Return1.collectionModel}" var="row" styleClass="adfmf-listView-insetList">
-                            <amx:rowLayout id="rl2">
-                                <amx:cellFormat width="90%" id="cf2">
-                                    <amx:outputText value="#{row.orden}. #{row.descripcionIndicador}" id="ot4" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
-                                </amx:cellFormat>
-                                <amx:cellFormat width="10%" height="30px" id="cf3">
-                                     <amx:commandLink text="Ver" id="cl1" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;">
-                                        <amx:setPropertyListener id="spl4" from="#{row.descripcionIndicador}"
-                                                                 to="#{pageFlowScope.descIndi}" type="action"/>
-                                     <amx:showPopupBehavior id="spb1" popupId="p1" type="action" alignId="ot2"/>
-                                </amx:commandLink>
-                                </amx:cellFormat>
-                            </amx:rowLayout>
-                    </amx:iterator>
-                </amx:tableLayout>-->
+                </amx:tableLayout>
+                
                 <amx:listView var="row" value="#{bindings.Return1.collectionModel}"  inlineStyle="width:100%;" 
                               fetchSize="#{bindings.Return1.rangeSize}" styleClass="adfmf-listView-insetList" id="lv2">
-                    <amx:listItem id="li2" inlineStyle="background-color:Window;">
+                    <amx:listItem id="li2" inlineStyle="background-color:Window;"
+                                  actionListener="#{viewScope.bEvaluar.consultarLeyendas}">
                         <amx:setPropertyListener id="spl4" from="#{row.descripcionIndicador}"
-                                                                 to="#{pageFlowScope.descIndi}" type="action"/>
-                        <amx:showPopupBehavior id="spb1" popupId="p1" type="action" alignId="ot2"/>                                                                 
+                                                           to="#{pageFlowScope.descIndi}" type="action"/>
+                       <amx:setPropertyListener from="#{row.nidCriterioIndicador}"
+                                                to="#{pageFlowScope.nidCritIndicador}" type="action"/>
+                     <!--   <amx:setPropertyListener from="#{row.valor}"
+                                                 to="#{pageFlowScope.pfcvalor}" type="action"/>-->
+                        <amx:showPopupBehavior id="spb1" popupId="p1" type="action" alignId="cb1"
+                                               align="overlapTop"/>                                                                 
                         <amx:tableLayout width="100%" id="tl2" inlineStyle="width:100%;">
                             <amx:rowLayout id="rl2">
-                                <amx:cellFormat width="80%" height="10px" id="cf3">
-                                    <amx:outputText value="#{row.orden}. #{row.descripcionIndicador}" id="ot4" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
+                                <amx:cellFormat width="80%" height="30px" id="cf3">
+                                    <amx:outputText value="#{row.orden}. #{row.descripcionIndicador}" id="ot4" 
+                                                    inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
                                 </amx:cellFormat>
-                                <amx:cellFormat width="20%" id="cf4">
-                                    <dvtm:statusMeterGauge id="statusMeterGauge1" animationOnDataChange="slideToLeft"
-                                                           animationOnDisplay="auto" minValue="0" maxValue="6"
-                                                           value="3" animationDuration="1400"
+                                <amx:cellFormat width="20%" id="cf4" height="30px">
+                                  <!--  <amx:outputText value="#{viewScope.bEvaluar.lstVals}" id="ot8"/>-->
+                                    <dvtm:statusMeterGauge id="statusMeterGauge1"
+                                                           animationOnDisplay="auto" minValue="0" maxValue="#{pageFlowScope.maxVals}"
+                                                           value="#{row.valor}" animationDuration="1400"
                                                            thresholdDisplay="all" indicatorSize="0.4"
-                                                           color="black" borderColor="white" labelDisplay="on"
-                                                           plotArea="on">
-                                        <dvtm:threshold maxValue="2" color="red" text="b"/>
-                                        <dvtm:threshold maxValue="4" color="yellow" text="a"/>
-                                        <dvtm:threshold maxValue="6" color="green" text="c"/>
+                                                           color="black" borderColor="white" labelDisplay="on">
+                                        <dvtm:threshold maxValue="#{pageFlowScope.maxVals / 3}" color="red"/>
+                                        <dvtm:threshold maxValue="#{pageFlowScope.maxVals / 3 * 2}" color="yellow"/>
+                                        <dvtm:threshold maxValue="#{pageFlowScope.maxVals}" color="green"/>
                                     </dvtm:statusMeterGauge>
                                 </amx:cellFormat>
                             </amx:rowLayout>
@@ -181,10 +182,40 @@
                 </amx:listView>
             </amx:panelItem>
         </amx:panelSplitter>
+        
     </amx:panelPage>
-    <amx:popup id="p1" autoDismiss="true" animation="slideDown">
-        <amx:outputText value="I am legend: #{pageFlowScope.descIndi}" id="ot7"/>
-        <dvtm:ratingGauge id="ratingGauge1" maxValue="5" minValue="0" value="3" unselectedShape="star"/>
-        <amx:inputNumberSlider id="ins1" minimum="0" maximum="5" stepSize="1" simple="true" inlineStyle="width:10px;"/>
+    <amx:popup id="p1" autoDismiss="false" animation="slideDown">
+        <amx:outputText value="Indicador: #{pageFlowScope.descIndi}" id="ot7"/>
+        <amx:tableLayout id="tl5" width="100%" inlineStyle="width:100%;">
+            <amx:rowLayout id="rl5">
+                <amx:cellFormat id="cf9" header="true" width="90%" height="12px">
+                    <amx:outputText value="Leyendas" id="ot9" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
+                </amx:cellFormat>
+                <amx:cellFormat header="true" width="10%" height="12px">
+                    <amx:outputText value="Valor" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
+                </amx:cellFormat>
+            </amx:rowLayout>
+            <amx:iterator id="i1" var="row" value="#{bindings.Return2.collectionModel}">
+                <amx:rowLayout id="rl6">
+                    <amx:cellFormat id="cf10" width="90%" height="25px" valign="middle">
+                        <amx:outputText value="#{row.descripcionLeyenda}" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
+                    </amx:cellFormat>
+                    <amx:cellFormat id="cf11" width="10%" height="25px" halign="center" valign="middle">
+                        <amx:outputText value="#{row.valor + 1}" styleClass="adfmf-listItem-highlightText">
+                                <amx:convertNumber groupingUsed="false"/>
+                        </amx:outputText>
+                    </amx:cellFormat>
+                </amx:rowLayout>
+            </amx:iterator>
+        </amx:tableLayout>
+        <amx:panelGroupLayout id="pgl1" layout="horizontal">
+            <amx:inputNumberSlider id="ins1" minimum="1" maximum="#{pageFlowScope.maxVals}"
+                                   value="#{pageFlowScope.pfcvalor}" label="Valor" stepSize="1"/>
+            <amx:outputText value="#{pageFlowScope.pfcvalor}" id="ot6"/>
+            <amx:commandButton text="Ok" id="cb3" actionListener="#{viewScope.bEvaluar.aplicarCambioValor}">
+                <amx:closePopupBehavior id="cpb1" popupId="p1"/>
+            </amx:commandButton>
+        </amx:panelGroupLayout>
+         
     </amx:popup>
 </amx:view>
