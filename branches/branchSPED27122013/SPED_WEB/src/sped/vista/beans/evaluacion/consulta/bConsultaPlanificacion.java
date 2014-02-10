@@ -21,12 +21,15 @@ import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
+import sped.negocio.BDL.IR.BDL_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanNivel;
@@ -47,6 +50,9 @@ public class bConsultaPlanificacion {
     private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
     @EJB
     private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
+    @EJB
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
+    
     private bSessionConsultarPlanificacion sessionConsultarPlanificacion;
     
     private List listaEvaludaoresChoice;
@@ -78,31 +84,8 @@ public class bConsultaPlanificacion {
         }
     }
     @PostConstruct
-    public void methodInvokeOncedOnPageLoad() {
-        usuarioEnSesion = (BeanUsuario) Utils.getSession("USER");
-        this.setListaEvaludaoresChoice(llenarEvaluadores());
-        this.setListaSedesChoice(llenarSedes());
-        this.setListaNvelesChoice(llenarNiveles());    
-        this.setListaAreasChoice(llenarAreasAcademicas());
-        if(usuarioEnSesion.getRol().getNidRol()==5){
-            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
-            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
-        }
-        if(usuarioEnSesion.getRol().getNidRol()==4){
-            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
-            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
-            sessionConsultarPlanificacion.setNidSedeChoice(""+usuarioEnSesion.getSedeNivel().getSede().getNidSede());
-            sessionConsultarPlanificacion.setEstadoChoiceSede(true);
-        }
-        if(usuarioEnSesion.getRol().getNidRol()==2){
-            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
-            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
-            System.out.println("NID AREA ACADEMICA USUARIO"+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
-            sessionConsultarPlanificacion.setNidAreaAcademicaChoice(""+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
-            sessionConsultarPlanificacion.setEstadoChoiceArea(true);
-        }
-        
-        
+    public void methodInvokeOncedOnPageLoad() {   
+        llenarCombos();        
         if(sessionConsultarPlanificacion.getExec()==0){
            sessionConsultarPlanificacion.setExec(1); 
             buscarPlani();
@@ -116,6 +99,15 @@ public class bConsultaPlanificacion {
         System.out.println("TAMAÑO AREAS " + roles.size());
         for (BeanAreaAcademica r : roles) {          
             unItems.add(new SelectItem(r.getNidAreaAcademica().toString(), r.getDescripcionAreaAcademica().toString()));
+        }
+        return unItems;
+    }
+    public ArrayList llenarEstadosEvalu() {
+        ArrayList unItems = new ArrayList();
+        List<BeanConstraint> roles = ln_C_SFUtilsRemote.getListaConstraintsLN("estado_evaluacion", "evmeval");
+        
+        for (BeanConstraint r : roles) {          
+            unItems.add(new SelectItem(r.getDescripcionAMostrar().toString(), r.getDescripcionAMostrar().toString()));
         }
         return unItems;
     }
@@ -243,6 +235,12 @@ public class bConsultaPlanificacion {
         if(sessionConsultarPlanificacion.getApellidosDocente()!=null){
             beanEvaluacion.setApellidosDocentes(sessionConsultarPlanificacion.getApellidosDocente());
         }
+        if(sessionConsultarPlanificacion.getNidAreaAcademicaChoice()!=null){
+            beanEvaluacion.setNidArea(Integer.parseInt(sessionConsultarPlanificacion.getNidAreaAcademicaChoice()));
+        }
+        if(sessionConsultarPlanificacion.getNidEstadoPlanificacion()!=null){
+            beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());
+        }
       
         sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
         if(tbPlanificacion!=null){
@@ -269,6 +267,34 @@ public class bConsultaPlanificacion {
         return btnBuscar;
     }
 
+    public String llenarCombos(){
+        
+        usuarioEnSesion = (BeanUsuario) Utils.getSession("USER");
+        this.setListaEvaludaoresChoice(llenarEvaluadores());
+        this.setListaSedesChoice(llenarSedes());
+        this.setListaNvelesChoice(llenarNiveles());    
+        this.setListaAreasChoice(llenarAreasAcademicas());
+        this.setListaEstadosChoice(llenarEstadosEvalu());
+        if(usuarioEnSesion.getRol().getNidRol()==5){
+            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
+            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
+        }
+        if(usuarioEnSesion.getRol().getNidRol()==4){
+            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
+            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
+            sessionConsultarPlanificacion.setNidSedeChoice(""+usuarioEnSesion.getSedeNivel().getSede().getNidSede());
+            sessionConsultarPlanificacion.setEstadoChoiceSede(true);
+        }
+        if(usuarioEnSesion.getRol().getNidRol()==2){
+            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
+            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
+            System.out.println("NID AREA ACADEMICA USUARIO"+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
+            sessionConsultarPlanificacion.setNidAreaAcademicaChoice(""+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
+            sessionConsultarPlanificacion.setEstadoChoiceArea(true);
+        }
+     return null;   
+    }
+    
     public void limpiarPlanificacion(ActionEvent actionEvent) {
       sessionConsultarPlanificacion.setApellidosDocente(null);
       sessionConsultarPlanificacion.setFechaMaxPlanificacion(null);
@@ -276,14 +302,11 @@ public class bConsultaPlanificacion {
       sessionConsultarPlanificacion.setNidEvaluadorChoice(null);
       sessionConsultarPlanificacion.setNidNivelChoice(null);
       sessionConsultarPlanificacion.setNidSedeChoice(null);
-      choiceEvaluadores.resetValue();
-      choiceNivel.resetValue();
-      choiceSedes.resetValue();
-      inputFechaMax.resetValue();
-      inputFechaMin.resetValue();
-      inputProfesor.resetValue();
-      tbPlanificacion.setValue(null);      
-      Utils.addTargetMany(choiceEvaluadores,choiceNivel,choiceSedes,inputFechaMax,inputFechaMin,inputProfesor,tbPlanificacion);
+      sessionConsultarPlanificacion.setNidAreaAcademicaChoice(null);
+      sessionConsultarPlanificacion.setNidEstadoPlanificacion(null);       
+      llenarCombos();
+      Utils.addTargetMany(choiceEvaluadores, choiceAreaAcademica,choiceEstado,choiceNivel,choiceSedes,inputFechaMax,inputFechaMin,inputProfesor);
+      buscarPlani();
     }
 
     public void setInputFechaMin(RichInputDate inputFechaMin) {
