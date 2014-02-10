@@ -38,6 +38,7 @@
           <Item Value="descripcionCriterio"/>
           <Item Value="orden"/>
           <Item Value="cantidadValoresWS"/>
+          <Item Value="nota"/>
         </AttrNames>
       </nodeDefinition>
     </tree>
