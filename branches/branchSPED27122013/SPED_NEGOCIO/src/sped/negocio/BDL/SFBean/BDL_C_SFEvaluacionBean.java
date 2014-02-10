@@ -19,6 +19,8 @@ import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 
+import utils.system;
+
 /** Clase SFBDL SFMainBean.java
  * @author czavalacas
  * @since 31.12.2013
@@ -58,6 +60,16 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     ejbQl = ejbQl.concat(" AND ev.main.aula.gradoNivel.nivel.nidNivel ="+beanEvaluacion.getNidNivel());
                     }
                 }
+            if(beanEvaluacion.getNidArea()!=null){
+                if(beanEvaluacion.getNidArea()!=0){
+                ejbQl = ejbQl.concat(" AND ev.main.curso.areaAcademica.nidAreaAcademica="+beanEvaluacion.getNidArea()); 
+            }}
+            
+            if(beanEvaluacion.getNidEstadoEvaluacion()!=null){                
+                System.out.println("ENTRO ...::::::::::::::::::::::::::::::");
+                ejbQl = ejbQl.concat(" AND ev.estadoEvaluacion='"+beanEvaluacion.getNidEstadoEvaluacion()+"'"); 
+           }
+              
               
                 if(beanEvaluacion.getNidSede() != null){
                     if(beanEvaluacion.getNidSede() != 0){
@@ -67,7 +79,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
           
                 if(beanEvaluacion.getApellidosDocentes() != null){
                         ejbQl = ejbQl.concat(" AND upper(ev.main.profesor.apellidos) like '%"+beanEvaluacion.getApellidosDocentes().toUpperCase()+"%' ");
-                }   
+                }  
+          
             if(beanEvaluacion.getFechaMaxPlanificacion() != null && beanEvaluacion.getFechaMinPlanificacion() != null){
                 List<Evaluacion> lstEvaluaciones = em.createQuery(ejbQl)
                                              .setParameter("min", beanEvaluacion.getFechaMinPlanificacion(), TemporalType.DATE)
