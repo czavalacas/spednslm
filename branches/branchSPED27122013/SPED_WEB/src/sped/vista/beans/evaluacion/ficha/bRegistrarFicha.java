@@ -628,9 +628,9 @@ public class bRegistrarFicha {
                 Utils.mostrarMensaje(ctx,"Genere el numero de version de la ficha",detalle, severidad);
             }
         }
-        if(sessionRegistrarFicha.getNumValores() == 0){
+        if(sessionRegistrarFicha.getNumValores() < 3){
             isOk = false;
-            Utils.mostrarMensaje(ctx,"El numero de Valores tiene que ser mayor a 0",detalle,severidad);
+            Utils.mostrarMensaje(ctx,"El numero de Valores tiene que ser mayor a 2",detalle,severidad);
         }
         if(this.arbolIsOk() != null){
             isOk = false;

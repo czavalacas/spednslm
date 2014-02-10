@@ -11,8 +11,16 @@ public class BeanCriterioWS implements Serializable {
     private Integer orden;
     private Integer cantidadValoresWS;
     private Integer nidFicha;
+    private double nota;
 
+    public void setNota(double nota) {
+        this.nota = nota;
+    }
 
+    public double getNota() {
+        return nota;
+    }
+    
     public void setDescripcionCriterio(String descripcionCriterio) {
         this.descripcionCriterio = descripcionCriterio;
     }

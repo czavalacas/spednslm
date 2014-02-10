@@ -99,6 +99,9 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
         try{
             ficha.setDescripcionVersion(version);
             ficha.setEstadoFicha("0");
+            if(evento == 2){
+                ficha.setEstadoFicha(ficha.getEstadoFicha().equals("1") ? "1" : "0");
+            }
             ficha.setFechaFicha(new Timestamp(new Date().getTime()));
             ficha.setTipoFicha(tipFicha);
             ficha.setTipoFichaCurso(tipFichaCurso);
