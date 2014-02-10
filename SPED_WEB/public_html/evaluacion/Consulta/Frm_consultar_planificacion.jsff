@@ -87,7 +87,9 @@
                 <af:spacer width="10" height="10" id="s1"/>
                 <af:button text="Limpiar" id="b2" actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
                 <af:spacer width="10" height="10" id="s2"/>
-                <af:button text="Hoy" id="b3"/>
+                <af:button text="Exportar Excel" id="b3">
+                        <af:exportCollectionActionListener type="excelHTML" exportedId="t1"/>
+                    </af:button>
             </af:panelGroupLayout>
             <af:panelGroupLayout id="pgl4">
             <!--1200-->
