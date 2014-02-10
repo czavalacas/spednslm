@@ -47,6 +47,7 @@ public class bEvaluar {
     private int maxValByCriterio;
     private int  sumaByCriterio;
     private double  notaEscala20;
+    private double notaFinalEscala20;
     
     protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     protected transient ProviderChangeSupport providerChangeSupport = new ProviderChangeSupport(this);
@@ -310,18 +311,24 @@ public class bEvaluar {
             iteratorBinding.getIterator().refresh();
             GenericType rowCrit = null;
             iteratorBinding.getIterator().first();
+            double notaFinal = 0.0;
             for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++){
                 rowCrit = (GenericType)iteratorBinding.getCurrentRow();
                 Integer nidCrit = (Integer) rowCrit.getAttribute("nidCriterio");
+                Double notaFinalCrit = (Double) rowCrit.getAttribute("nota");
                 iteratorBinding.getIterator().previous();
                 iteratorBinding.getIterator().next();
                 if (nidCriterio.intValue() == nidCrit.intValue()){
                     iteratorBinding.getIterator().previous(); 
                     propertyChangeSupport.firePropertyChange("nota",rowCrit.getAttribute("nota"),new Double(notaEscala20));
                     rowCrit.setAttribute("nota",new Double(notaEscala20));
+                    notaFinal = notaFinal + notaEscala20;
+                }else{
+                    notaFinal = notaFinal + notaFinalCrit.doubleValue();
                 }
                 iteratorBinding.getIterator().next();
             }
+            this.setNotaFinalEscala20(notaFinal / iteratorBinding.getIterator().getTotalRowCount()); 
         } catch (NumberFormatException nfe) {
             nfe.printStackTrace();
         }
@@ -410,5 +417,15 @@ public class bEvaluar {
 
     public ProviderChangeSupport getProviderChangeSupport() {
         return providerChangeSupport;
+    }
+
+    public void setNotaFinalEscala20(double notaFinalEscala20) {
+        double oldNotaFinalEscala20 = this.notaFinalEscala20;
+        this.notaFinalEscala20 = notaFinalEscala20;
+        propertyChangeSupport.firePropertyChange("notaFinalEscala20",oldNotaFinalEscala20,notaFinalEscala20);
+    }
+
+    public double getNotaFinalEscala20() {
+        return notaFinalEscala20;
     }
 }
