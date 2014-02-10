@@ -3,7 +3,6 @@
                 Package="Evaluacion">
   <parameters/>
   <executables>
-    <variableIterator id="variables"/>
     <methodIterator Binds="getCriteriosEvaluacion_WS.result" DataControl="WS_SPED" RangeSize="25"
                     BeanClass="application.WS_SPED.getCriteriosEvaluacion_WS" id="getCriteriosEvaluacion_WSIterator"/>
     <accessorIterator MasterBinding="getCriteriosEvaluacion_WSIterator" Binds="Return" RangeSize="25"
@@ -16,6 +15,12 @@
                       DataControl="WS_SPED"
                       BeanClass="application.WS_SPED.getLstIndicadoresByFichaCriterio_LN_WS.Return"
                       id="ReturnIterator1" Refresh="always"/>
+    <methodIterator Binds="getLeyendasByCritIndicador_WS.result" DataControl="WS_SPED" RangeSize="25"
+                    BeanClass="application.WS_SPED.getLeyendasByCritIndicador_WS"
+                    id="getLeyendasByCritIndicador_WSIterator" Refresh="always"/>
+    <accessorIterator MasterBinding="getLeyendasByCritIndicador_WSIterator" Binds="Return" RangeSize="25"
+                      DataControl="WS_SPED" BeanClass="application.WS_SPED.getLeyendasByCritIndicador_WS.Return"
+                      id="ReturnIterator2" Refresh="always"/>
   </executables>
   <bindings>
     <methodAction id="getCriteriosEvaluacion_WS" RequiresUpdateModel="true" Action="invokeMethod"
@@ -32,6 +37,7 @@
           <Item Value="nidCriterio"/>
           <Item Value="descripcionCriterio"/>
           <Item Value="orden"/>
+          <Item Value="cantidadValoresWS"/>
         </AttrNames>
       </nodeDefinition>
     </tree>
@@ -45,10 +51,31 @@
     <tree IterBinding="ReturnIterator1" id="Return1">
       <nodeDefinition DefName="application.WS_SPED.getLstIndicadoresByFichaCriterio_LN_WS.Return" Name="Return10">
         <AttrNames>
+          <Item Value="nidCriterioIndicador"/>
           <Item Value="descripcionIndicador"/>
           <Item Value="orden"/>
+          <Item Value="valor"/>
         </AttrNames>
       </nodeDefinition>
     </tree>
+    <methodAction id="getLeyendasByCritIndicador_WS" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="getLeyendasByCritIndicador_WS" IsViewObjectMethod="false" DataControl="WS_SPED"
+                  InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.getLeyendasByCritIndicador_WS_WS_SPED_getLeyendasByCritIndicador_WS_result">
+      <NamedData NDName="arg0" NDValue="#{pageFlowScope.nidCritIndicador}" NDType="java.lang.Integer" NDOption="3"/>
+    </methodAction>
+    <tree IterBinding="ReturnIterator2" id="Return2">
+      <nodeDefinition DefName="application.WS_SPED.getLeyendasByCritIndicador_WS.Return" Name="Return20">
+        <AttrNames>
+          <Item Value="descripcionLeyenda"/>
+          <Item Value="valor"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <methodAction id="getValor" RequiresUpdateModel="true" Action="invokeMethod" MethodName="getValor"
+                  IsViewObjectMethod="false" DataControl="bEvaluar" InstanceName="data.bEvaluar.dataProvider"
+                  ReturnName="data.bEvaluar.methodResults.getValor_bEvaluar_dataProvider_getValor_result">
+      <NamedData NDName="orden" NDValue="#{pageFlowScope.pfcvalor}" NDType="int"/>
+    </methodAction>
   </bindings>
 </pageDefinition>

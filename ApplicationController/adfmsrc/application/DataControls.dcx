@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <DataControlConfigs xmlns="http://xmlns.oracle.com/adfm/configuration" version="11.1.2.64.36" id="DataControls"
                     Package="application">
+                    
     <AdapterDataControl id="DeviceFeatures" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
                         ImplDef="oracle.adf.model.adapter.bean.BeanDCDefinition" SupportsTransactions="false"
                         SupportsSortCollection="true" SupportsResetState="false" SupportsRangesize="false"
@@ -40,6 +41,7 @@
             <operation name="getLstIndicadoresByFichaCriterio_LN_WS"/>
             <operation name="getCriteriosEvaluacion_WS"/>
             <operation name="getPermisosByUsuarioRol_WS"/>
+            <operation name="getLeyendasByCritIndicador_WS"/>
             <operation name="getPlanificaciones_WS"/>
             <operation name="getAreasAcademicas_WS"/>
             <operation name="autenticarUsuarioLN"/>
