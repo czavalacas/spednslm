@@ -11,6 +11,15 @@ public class BeanCriterioIndicadorWS implements Serializable {
     private String descripcionIndicador;
     private Integer nidIndicador;
 
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
+
+    public int getValor() {
+        return valor;
+    }
+    private int valor;
+
     public void setNidCriterioIndicador(int nidCriterioIndicador) {
         this.nidCriterioIndicador = nidCriterioIndicador;
     }
