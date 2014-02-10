@@ -648,13 +648,17 @@ public class bRegistrarFicha {
         if(sessionRegistrarFicha.getLstCriteriosMultiples() != null){
             if(sessionRegistrarFicha.getLstCriteriosMultiples().size() == 0){
                 return "Agregue los Criterios";
-            }else{
+            }else if(sessionRegistrarFicha.getLstCriteriosMultiples().size() == 1){
+                return "Agregue al menos 2 Criterios";
+            } else{
                 Iterator it = sessionRegistrarFicha.getLstCriteriosMultiples().iterator();
                 while(it.hasNext()){
                     BeanCriterio crit = (BeanCriterio) it.next();
                     if(crit.getLstIndicadores() != null){
                         if(crit.getLstIndicadores().size() == 0){
                             return "Agregue los indicadores";
+                        } else if(crit.getLstIndicadores().size() == 1){
+                            return "Agregue al menos 2 indicadores";
                         }else{
                             //chequear leyendas
                             Iterator tit = crit.getLstIndicadores().iterator();
