@@ -34,7 +34,10 @@
                                     <amx:cellFormat id="cf6" inlineStyle="width:100%;">
                                         <amx:outputText value="#{row.orden}. #{row.descripcionCriterio}" id="ot3" 
                                                         inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;width:99%;"/>
-                                        <amx:outputText value="prueba" id="ot12" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;width:99%;"/>
+                                        <amx:outputText value="Nota: #{row.nota}" id="ot12"
+                                                        inlineStyle="#{row.nota le 10 ? 'background-color:red;color:white;' : 
+                                                                     (row.nota ge 11 and row.nota le 16 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
+                                                                     font-size:xx-small;white-space:pre-wrap;text-align:left;width:99%;"/>
                                     </amx:cellFormat>
                                 </amx:rowLayout>
                             </amx:tableLayout>
