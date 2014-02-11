@@ -55,9 +55,11 @@ public class bEvaluar {
     List lstCriterios = new ArrayList();
 
     public bEvaluar() {
+        this.setNotaEscala20(0.0);
+        this.setNotaFinalEscala20(0.0);
         ValueExpression veNidRol    = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.rol.nidRol}",Integer.class);
         Integer nidRol =    (Integer)veNidRol.getValue(adfELContext);
-
+        AdfmUtils.log(" constructor");
         List pnames = new ArrayList();//aqui van los nombres en el metodo WS are01,arg02, etc si son 5 hasta arg5
         List params = new ArrayList();//en esta seteas todos los valores si son 5 la lista tendra list.size = 5
         List ptypes = new ArrayList();
@@ -71,25 +73,44 @@ public class bEvaluar {
         ptypes.add(String.class);
         
         try {
-            GenericType result = (GenericType)AdfmfJavaUtilities.invokeDataControlMethod(WS_SERVICE, //Nombre del WS (definido cuando se creo el datacontrol
-                                                                                        null, 
-                                                                                        "getCriteriosEvaluacion_WS", //nombre del metodo ver el datacontrol MethodName
-                                                                                        pnames, params, ptypes);
             Map mapa = null;
-            for (int i = 0; i < result.getAttributeCount(); i++) {
-                GenericType row = (GenericType)result.getAttribute(i);
-                Integer critIndiCurrent = (Integer) row.getAttribute("nidCriterio");
+            ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator}",Object.class);
+            AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
+            iteratorBinding.getIterator().refresh();
+            GenericType rowCrit = null;
+            iteratorBinding.getIterator().first();
+            for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++){
+                rowCrit = (GenericType)iteratorBinding.getCurrentRow();
+                Integer critIndiCurrent = (Integer) rowCrit.getAttribute("nidCriterio");
                 mapa = new HashMap();
                 mapa.put("NID_CRIT",critIndiCurrent);
                 mapa.put("INDIS",null);
                 mapa.put("INDEX",new Integer(i));
                 lstCriterios.add(i,mapa);
+                iteratorBinding.getIterator().next();
             }
-        } catch (AdfInvocationException aie) {
+         /*   
+            GenericType result = (GenericType)AdfmfJavaUtilities.invokeDataControlMethod(WS_SERVICE, //Nombre del WS (definido cuando se creo el datacontrol
+                                                                                        null, 
+                                                                                        "getCriteriosEvaluacion_WS", //nombre del metodo ver el datacontrol MethodName
+                                                                                        pnames, params, ptypes);
+            */
+           /* for (int i = 0; i < result.getAttributeCount(); i++) {
+                GenericType row = (GenericType)result.getAttribute(i);
+                Integer critIndiCurrent = (Integer) row.getAttribute("nidCriterio");
+                //propertyChangeSupport.firePropertyChange("nota",row.getAttribute("nota"),new Double(0.0));
+                //row.setAttribute("nota",new Double(0.0));
+                mapa = new HashMap();
+                mapa.put("NID_CRIT",critIndiCurrent);
+                mapa.put("INDIS",null);
+                mapa.put("INDEX",new Integer(i));
+                lstCriterios.add(i,mapa);
+            }*/
+        }/* catch (AdfInvocationException aie) {
             aie.printStackTrace();
-            System.out.println("Diego ---------- AdfInvocationException");
-        } catch(Exception e){
-            System.out.println("Diego ---------- Exception");
+            AdfmUtils.log(" AdfInvocationException");
+        } */catch(Exception e){
+            AdfmUtils.log(" Exception");
         }
     }
 
@@ -163,7 +184,10 @@ public class bEvaluar {
                 lstIndis = (List)mapa.get("INDIS");
                 iteratorBinding.getIterator().previous();
                 iteratorBinding.getIterator().next();
-                iteratorBinding.getIterator().previous();
+                if(i == 0){
+                    iteratorBinding.getIterator().previous();
+                }
+               // iteratorBinding.getIterator().previous();
                 Integer val = this.getValorFromMapIndisByNidCriterioIndicador(nidCriterioIndicador, lstIndis);
                 sumaTotalXCriterio = sumaTotalXCriterio + val.intValue();
                 row.setAttribute("valor",val);
@@ -203,7 +227,7 @@ public class bEvaluar {
             mapaIndis = (Map) lstIndis.get(i);
             Integer nid = (Integer) mapaIndis.get("NID_CI");
             if(nid.intValue() == nidCritIndicador.intValue()){
-                return (Integer) mapaIndis.get("VALOR");
+                return ((Integer) mapaIndis.get("VALOR") == null) ? new Integer(0) : (Integer) mapaIndis.get("VALOR");
             }
         }
         return new Integer(0);
@@ -247,10 +271,10 @@ public class bEvaluar {
         iteIndis.getIterator().first();
         for (int i = 0; i < iteIndis.getIterator().getTotalRowCount(); i++){
             GenericType row = (GenericType) iteIndis.getCurrentRow();
-            int critIndiCurrent = Integer.parseInt(row.getAttribute("nidCriterioIndicador").toString());
-            if (critIndiCurrent == niCritIndi.intValue()){
+            Integer critIndiCurrent = (Integer) row.getAttribute("nidCriterioIndicador");
+            if (critIndiCurrent.intValue() == niCritIndi.intValue()){
                 if(row.getAttribute("valor") != null){
-                    Integer valor = (Integer) row.getAttribute("valor");AdfmUtils.log("valor: "+valor);
+                    Integer valor = (Integer) row.getAttribute("valor");
                     AdfmfJavaUtilities.setELValue("#{pageFlowScope.pfcvalor}",valor.intValue() == 0 ? new Integer(1) : valor);
                 }else{
                     AdfmfJavaUtilities.setELValue("#{pageFlowScope.pfcvalor}",new Integer(1));
@@ -273,23 +297,25 @@ public class bEvaluar {
 
             ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator1}", AmxIteratorBinding.class);
             AmxIteratorBinding iter = (AmxIteratorBinding)ve1.getValue(AdfmfJavaUtilities.getAdfELContext());
-            GenericType row = null;
+            iter.getIterator().refresh();
             iter.getIterator().first();
             Map mapa = this.getMapaByNidCriterio(nidCriterio);
             List listaIndis = (List) mapa.get("INDIS");
             Integer index = (Integer) mapa.get("INDEX");
             int sumaTotalXCriterio = 0;
             for (int i = 0; i < iter.getIterator().getTotalRowCount(); i++) {
-                row = (GenericType)iter.getCurrentRow();
-                int critIndiCurrent = Integer.parseInt(row.getAttribute("nidCriterioIndicador").toString());
+                GenericType row = (GenericType)iter.getCurrentRow();
+                Integer critIndiCurrent = (Integer) row.getAttribute("nidCriterioIndicador");
                 Integer val = (Integer) row.getAttribute("valor");
                 iter.getIterator().previous();
                 iter.getIterator().next();
-                if (critIndiCurrent == nidCritIndi.intValue()) {
-                    iter.getIterator().previous(); 
-                    if(iter.getIterator().getTotalRowCount() == 1){
-                        iter.getIterator().last();
-                        iter.getIterator().first();
+                if(i == 0){
+                    iter.getIterator().previous();
+                }
+                if (critIndiCurrent.intValue() == nidCritIndi.intValue()) {
+                    if((i+1) == iter.getIterator().getTotalRowCount()){
+                        iter.getIterator().previous();
+                       // iter.getIterator().next();
                     }
                     propertyChangeSupport.firePropertyChange("valor",row.getAttribute("valor"),newVal);
                     row.setAttribute("valor", newVal);
@@ -298,9 +324,7 @@ public class bEvaluar {
                 }else{
                     sumaTotalXCriterio = sumaTotalXCriterio + val.intValue();
                 }
-                if(iter.getIterator().getTotalRowCount() > 1){
-                    iter.getIterator().next();
-                }
+                iter.getIterator().next();
             }
             this.setSumaByCriterio(sumaTotalXCriterio);
             double notaEscala20 = (sumaTotalXCriterio * 20) / this.getMaxValByCriterio();
@@ -309,31 +333,63 @@ public class bEvaluar {
             ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator}",Object.class);
             AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
             iteratorBinding.getIterator().refresh();
-            GenericType rowCrit = null;
             iteratorBinding.getIterator().first();
             double notaFinal = 0.0;
             for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++){
-                rowCrit = (GenericType)iteratorBinding.getCurrentRow();
+                GenericType rowCrit = (GenericType)iteratorBinding.getCurrentRow();
                 Integer nidCrit = (Integer) rowCrit.getAttribute("nidCriterio");
                 Double notaFinalCrit = (Double) rowCrit.getAttribute("nota");
                 iteratorBinding.getIterator().previous();
                 iteratorBinding.getIterator().next();
-                if (nidCriterio.intValue() == nidCrit.intValue()){
-                    iteratorBinding.getIterator().previous(); 
+                if(i == 0){
+                    iteratorBinding.getIterator().previous();
+                }
+                if(nidCriterio.intValue() == nidCrit.intValue()){
+                    if((i+1) == iteratorBinding.getIterator().getTotalRowCount()){
+                        iteratorBinding.getIterator().previous();
+                       // iter.getIterator().next();
+                    }
                     propertyChangeSupport.firePropertyChange("nota",rowCrit.getAttribute("nota"),new Double(notaEscala20));
                     rowCrit.setAttribute("nota",new Double(notaEscala20));
-                    notaFinal = notaFinal + notaEscala20;
+                    notaFinal = notaFinal + notaEscala20;AdfmUtils.log("notaEscala20:"+notaEscala20+ " notaFinal:"+notaFinal);
                 }else{
                     notaFinal = notaFinal + notaFinalCrit.doubleValue();
                 }
                 iteratorBinding.getIterator().next();
-            }
-            this.setNotaFinalEscala20(notaFinal / iteratorBinding.getIterator().getTotalRowCount()); 
+            }AdfmUtils.log("notaFinal:"+notaFinal);
+            this.setNotaFinalEscala20((notaFinal / iteratorBinding.getIterator().getTotalRowCount())); 
         } catch (NumberFormatException nfe) {
             nfe.printStackTrace();
         }
     }
 
+    public void resetearValoresCriterios(ActionEvent actionEvent) {
+        this.setNotaEscala20(0.0);
+        this.setNotaFinalEscala20(0.0);
+        Map mapa = null;
+        ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator}",Object.class);
+        AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
+        iteratorBinding.getIterator().refresh();
+        iteratorBinding.getIterator().first();
+        for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++){
+            GenericType rowCrit = (GenericType)iteratorBinding.getCurrentRow();
+            Integer critIndiCurrent = (Integer) rowCrit.getAttribute("nidCriterio");
+            iteratorBinding.getIterator().previous();
+            iteratorBinding.getIterator().next();
+            if(i == 0){
+                iteratorBinding.getIterator().previous();
+            }
+            mapa = new HashMap();
+            mapa.put("NID_CRIT",critIndiCurrent);
+            mapa.put("INDIS",null);
+            mapa.put("INDEX",new Integer(i));
+            lstCriterios.add(i,mapa);
+            propertyChangeSupport.firePropertyChange("nota",rowCrit.getAttribute("nota"),new Double(0.0));
+            rowCrit.setAttribute("nota",new Double(0.0));
+            iteratorBinding.getIterator().next();
+        }
+    }
+    
     public void addProviderChangeListener(ProviderChangeListener l) {
         providerChangeSupport.addProviderChangeListener(l);
     }
