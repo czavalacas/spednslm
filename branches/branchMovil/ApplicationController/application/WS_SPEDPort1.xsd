@@ -70,6 +70,11 @@
       <xsd:element name="nidAreaAcademica" type="xsd:int" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
+  <xsd:complexType name="getLeyendasByCritIndicador_WS">
+    <xsd:sequence>
+      <xsd:element name="arg0" type="xsd:int"/>
+    </xsd:sequence>
+  </xsd:complexType>
   <xsd:complexType name="getPlanificaciones_WS">
     <xsd:sequence>
       <xsd:element name="arg0" type="xsd:int"/>
@@ -80,11 +85,6 @@
       <xsd:element name="arg5" type="xsd:string" minOccurs="0"/>
       <xsd:element name="arg6" type="xsd:int"/>
       <xsd:element name="arg7" type="xsd:int"/>
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="getLeyendasByCritIndicador_WS">
-    <xsd:sequence>
-      <xsd:element name="arg0" type="xsd:int"/>
     </xsd:sequence>
   </xsd:complexType>
   <xsd:complexType name="getCriteriosEvaluacion_WSResponse">
@@ -170,6 +170,7 @@
       <xsd:element name="descripcionCriterio" type="xsd:string" minOccurs="0"/>
       <xsd:element name="nidCriterio" type="xsd:int" minOccurs="0"/>
       <xsd:element name="nidFicha" type="xsd:int" minOccurs="0"/>
+      <xsd:element name="nota" type="xsd:double"/>
       <xsd:element name="orden" type="xsd:int" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
@@ -202,8 +203,8 @@
       <xsd:element name="tituloError" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
-  <xsd:element name="getCriteriosEvaluacion_WSResponse" type="ns0:getCriteriosEvaluacion_WSResponse"/>
   <xsd:element name="getSedes_WSResponse" type="ns0:getSedes_WSResponse"/>
+  <xsd:element name="getCriteriosEvaluacion_WSResponse" type="ns0:getCriteriosEvaluacion_WSResponse"/>
   <xsd:element name="getPlanificaciones_WSResponse" type="ns0:getPlanificaciones_WSResponse"/>
   <xsd:element name="getPermisosByUsuarioRol_WS" type="ns0:getPermisosByUsuarioRol_WS"/>
   <xsd:element name="getLstIndicadoresByFichaCriterio_LN_WSResponse" type="ns0:getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
@@ -211,11 +212,11 @@
   <xsd:element name="getAreasAcademicas_WSResponse" type="ns0:getAreasAcademicas_WSResponse"/>
   <xsd:element name="autenticarUsuarioLN" type="ns0:autenticarUsuarioLN"/>
   <xsd:element name="getSedes_WS" type="ns0:getSedes_WS"/>
-  <xsd:element name="getLstIndicadoresByFichaCriterio_LN_WS" type="ns0:getLstIndicadoresByFichaCriterio_LN_WS"/>
   <xsd:element name="autenticarUsuarioLNResponse" type="ns0:autenticarUsuarioLNResponse"/>
+  <xsd:element name="getLstIndicadoresByFichaCriterio_LN_WS" type="ns0:getLstIndicadoresByFichaCriterio_LN_WS"/>
   <xsd:element name="getCriteriosEvaluacion_WS" type="ns0:getCriteriosEvaluacion_WS"/>
   <xsd:element name="getPermisosByUsuarioRol_WSResponse" type="ns0:getPermisosByUsuarioRol_WSResponse"/>
-  <xsd:element name="getLeyendasByCritIndicador_WS" type="ns0:getLeyendasByCritIndicador_WS"/>
   <xsd:element name="getPlanificaciones_WS" type="ns0:getPlanificaciones_WS"/>
+  <xsd:element name="getLeyendasByCritIndicador_WS" type="ns0:getLeyendasByCritIndicador_WS"/>
   <xsd:element name="getLeyendasByCritIndicador_WSResponse" type="ns0:getLeyendasByCritIndicador_WSResponse"/>
 </xsd:schema>
