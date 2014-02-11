@@ -28,7 +28,7 @@
       <RefAddresses>
          <XmlRefAddr addrType="WebServiceConnection">
             <Contents>
-               <wsconnection description="http://10.1.1.108:7101/WS_SPED/WS_SPEDPort?wsdl" service="{http://servicios.webservice.sped/}WS_SPEDService">
+               <wsconnection description="http://10.1.1.106:7101/WS_SPED/WS_SPEDPort?wsdl" service="{http://servicios.webservice.sped/}WS_SPEDService">
                   <model name="{http://servicios.webservice.sped/}WS_SPEDService" xmlns="http://oracle.com/ws/model">
                      <service name="{http://servicios.webservice.sped/}WS_SPEDService">
                         <port name="WS_SPEDPort" binding="{http://servicios.webservice.sped/}WS_SPEDPortBinding">
@@ -53,12 +53,12 @@
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getPermisosByUsuarioRol_WS">
+                           <operation name="getPlanificaciones_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getPlanificaciones_WS">
+                           <operation name="getPermisosByUsuarioRol_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
