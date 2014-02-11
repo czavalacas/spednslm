@@ -101,7 +101,6 @@ public class WS_SPED {
     public List<BeanCriterioIndicadorWS> getLstIndicadoresByFichaCriterio_LN_WS(@WebParam(name = "arg0") int nidFicha,
                                                                                 @WebParam(name = "arg1")
                                                                                 int nidCriterio){
-        Utiles.sysout("invico a los indicadores! nidFicha>"+nidFicha+" nidCriterio:"+nidCriterio);
         return ln_C_SFCriterioIndicadorLocal.getLstIndicadoresByFichaCriterio_LN_WS(nidFicha, nidCriterio);
     }
 
