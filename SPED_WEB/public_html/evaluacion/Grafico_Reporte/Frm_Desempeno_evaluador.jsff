@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <f:view>
+        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 30px;" id="pgl1">
+            <af:panelSplitter orientation="horizontal" splitterPosition="300" id="ps1">
+                <f:facet name="first">
+                    <af:subform id="s2">
+                        <af:panelFormLayout id="pfl1" maxColumns="1">
+                            
+                            <af:selectManyChoice label="Sede" id="choiceFSede" labelStyle="text-align: left;"
+                                                 binding="#{bDesempenoEvaluador.choiceFSede}" autoSubmit="true"
+                                                 value="#{sessionDesempenoProfesor.selectedSede}">
+                                <f:selectItems value="#{sessionDesempenoProfesor.lstSede}" id="si1"/>
+                            </af:selectManyChoice>
+                            <af:selectManyChoice label="Area" id="choiceFArea" labelStyle="text-align: left;"                                                 
+                                                 binding="#{bDesempenoEvaluador.choiceFArea}" autoSubmit="true"
+                                                 value="#{sessionDesempenoProfesor.selectedArea}">
+                                <f:selectItems value="#{sessionScope.sessionDesempenoProfesor.lstArea}" id="si2"/>
+                            </af:selectManyChoice>
+                        </af:panelFormLayout>
+                    </af:subform>
+                </f:facet>
+                <f:facet name="second">
+                    <af:panelDashboard id="pd1">
+                        <af:panelBox text="PanelBox1" id="pb1">
+                            <f:facet name="toolbar"/>
+                        </af:panelBox>
+                    </af:panelDashboard>
+                </f:facet>
+            </af:panelSplitter>
+        </af:panelGroupLayout>
+    </f:view>
+</ui:composition>

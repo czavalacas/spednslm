@@ -14,7 +14,7 @@ import sped.negocio.entidades.eval.Leyenda;
 
 @Stateless(name = "BDL_C_SFLeyenda", mappedName = "mapBDL_C_SFLeyenda")
 public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote, 
-                                               BDL_C_SFLeyendaLocal {
+                                            BDL_C_SFLeyendaLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
