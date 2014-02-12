@@ -126,4 +126,19 @@
     <managed-bean-class>sped.vista.beans.evaluacion.consulta.bSessionConsultarPlanificacion</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bDesempenoEvaluador</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.grafico_reporte.bDesempenoEvaluador</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionDesempenoProfesor</property-name>
+      <property-class>sped.vista.beans.evaluacion.grafico_reporte.bSessionDesempenoProfesor</property-class>
+      <value>#{sessionDesempenoProfesor}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionDesempenoProfesor</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.grafico_reporte.bSessionDesempenoProfesor</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>
