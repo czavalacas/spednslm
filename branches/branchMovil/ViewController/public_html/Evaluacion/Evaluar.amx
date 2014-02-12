@@ -54,15 +54,24 @@
                                     <amx:cellFormat id="cf6" inlineStyle="width:95%;">
                                         <amx:outputText value="#{row.orden}. #{row.descripcionCriterio}" id="ot3" 
                                                         inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;width:95%;"/>
-                                     <!--   <amx:outputText value="Nota: " id="ot14" inlineStyle="#{row.nota le 10 ? 'background-color:red;color:white;' : 
+                                        <amx:tableLayout id="tl7" inlineStyle="width:100%;" width="95%">
+                                            <amx:rowLayout id="rl8">
+                                                <amx:cellFormat id="cf12" inlineStyle="width:95%;">
+                                                        <amx:outputText value="Nota: " id="ot14" inlineStyle="#{row.nota le 10 ? 'background-color:red;color:white;' : 
                                                                      (row.nota ge 11 and row.nota le 15 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
-                                                                     font-size:xx-small;white-space:pre-wrap;text-align:left;width:95%;"/>-->
-                                        <amx:outputText value="#{row.nota}" id="ot12"
+                                                                     font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;"/>
+                                                </amx:cellFormat>
+                                                <amx:cellFormat id="cf13" inlineStyle="width:95%;">
+                                                          <amx:outputText value="#{row.nota}" id="ot12"
                                                         inlineStyle="#{row.nota le 10 ? 'background-color:red;color:white;' : 
                                                                      (row.nota ge 11 and row.nota le 15 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
-                                                                     font-size:xx-small;white-space:pre-wrap;text-align:left;width:95%;">
+                                                                     font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;">
                                             <amx:convertNumber id="cn2" maxFractionDigits="2"/>
                                         </amx:outputText>
+                                                </amx:cellFormat>
+                                            </amx:rowLayout>
+                                        </amx:tableLayout>
+                                        
                                     </amx:cellFormat>
                                 </amx:rowLayout>
                             </amx:tableLayout>
@@ -73,7 +82,7 @@
                     
             </amx:facet>
             <amx:panelItem id="pi1">
-                <amx:tableLayout id="tl1">
+                <amx:tableLayout id="tl1" halign="center" width="97%" inlineStyle="width:97%;">
                         <amx:rowLayout >
                             <amx:cellFormat  header="true">
                                 <amx:outputText value="Evaluador" styleClass="adfmf-listItem-captionText"/>
@@ -100,7 +109,7 @@
                         </amx:rowLayout>
                         <amx:rowLayout >
                             <amx:cellFormat  header="true">
-                                <amx:outputText value="Cruso" styleClass="adfmf-listItem-captionText"/>
+                                <amx:outputText value="Curso" styleClass="adfmf-listItem-captionText"/>
                             </amx:cellFormat>
                             <amx:cellFormat>
                                 <amx:outputText value="#{pageFlowScope.curso}" styleClass="adfmf-listItem-captionText"/>
@@ -183,17 +192,15 @@
                                                            to="#{pageFlowScope.descIndi}" type="action"/>
                        <amx:setPropertyListener from="#{row.nidCriterioIndicador}"
                                                 to="#{pageFlowScope.nidCritIndicador}" type="action"/>
-                     <!--   <amx:setPropertyListener from="#{row.valor}"
-                                                 to="#{pageFlowScope.pfcvalor}" type="action"/>-->
                         <amx:showPopupBehavior id="spb1" popupId="p1" type="action" alignId="cb1"
                                                align="overlapTop"/>                                                                 
                         <amx:tableLayout width="100%" id="tl2" inlineStyle="width:100%;">
                             <amx:rowLayout id="rl2">
-                                <amx:cellFormat width="80%" height="10px" id="cf3">
+                                <amx:cellFormat width="80%" height="10px" id="cf3" valign="top">
                                     <amx:outputText value="#{row.orden}. #{row.descripcionIndicador}" id="ot4" 
                                                     inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
                                 </amx:cellFormat>
-                                <amx:cellFormat width="20%" id="cf4" height="10px" halign="center">
+                                <amx:cellFormat width="20%" id="cf4" height="10px" halign="center" valign="top">
                                     <amx:outputText value="#{row.valor == null ? 0 : row.valor}" id="ot8" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
                                     <dvtm:statusMeterGauge id="statusMeterGauge1"
                                                            animationOnDisplay="auto" minValue="0" maxValue="#{pageFlowScope.maxVals}"

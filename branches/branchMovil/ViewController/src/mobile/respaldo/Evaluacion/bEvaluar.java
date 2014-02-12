@@ -155,6 +155,7 @@ public class bEvaluar {
     public void getIndicadoresByCriterio(ActionEvent actionEvent) {
         ValueExpression ve = (ValueExpression)AdfmfJavaUtilities.getValueExpression(METODO, Object.class);
         OperationBinding method = (OperationBinding)ve.getValue(AdfmfJavaUtilities.getAdfELContext());
+        
         ValueExpression veNidFicha    = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidFicha}",Integer.class);
         ValueExpression veNidCriterio = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidCriterio}", Integer.class);
         ValueExpression veMaxVals = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.maxVals}", Integer.class);
@@ -165,7 +166,8 @@ public class bEvaluar {
         
         method.getParamsMap().put("arg0",nidFicha);
         method.getParamsMap().put("arg1",nidCriterio);
-        method.execute();//METODO_ITERATOR
+        method.execute();
+        
         ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator1}",Object.class);
         AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
         iteratorBinding.getIterator().refresh();
@@ -187,7 +189,9 @@ public class bEvaluar {
                 if(i == 0){
                     iteratorBinding.getIterator().previous();
                 }
-               // iteratorBinding.getIterator().previous();
+                if((i+1) == iteratorBinding.getIterator().getTotalRowCount()){
+                    iteratorBinding.getIterator().previous();
+                }
                 Integer val = this.getValorFromMapIndisByNidCriterioIndicador(nidCriterioIndicador, lstIndis);
                 sumaTotalXCriterio = sumaTotalXCriterio + val.intValue();
                 row.setAttribute("valor",val);
@@ -236,15 +240,17 @@ public class bEvaluar {
     public String consultarIndicadores() {
         ValueExpression ve = (ValueExpression)AdfmfJavaUtilities.getValueExpression(METODO, Object.class);
         OperationBinding method = (OperationBinding)ve.getValue(AdfmfJavaUtilities.getAdfELContext());
-        ValueExpression veNidFicha    = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidFicha}",Integer.class);
+        
+        ValueExpression veNidFicha = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidFicha}",Integer.class);
         ValueExpression veNidCriterio = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidCriterio}", Integer.class);
         
-        Integer nidFicha =    (Integer)veNidFicha.getValue(adfELContext);
+        Integer nidFicha = (Integer)veNidFicha.getValue(adfELContext);
         Integer nidCriterio = (Integer)veNidCriterio.getValue(adfELContext);
         
         method.getParamsMap().put("arg0",nidFicha);
         method.getParamsMap().put("arg1",nidCriterio);
         method.execute();
+        
         ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression(METODO_ITERATOR,Object.class);
         AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
         iteratorBinding.getIterator().refresh();
@@ -255,12 +261,12 @@ public class bEvaluar {
         
         ValueExpression ve = (ValueExpression)AdfmfJavaUtilities.getValueExpression(METODO_LEYENDAS, Object.class);
         OperationBinding method = (OperationBinding)ve.getValue(AdfmfJavaUtilities.getAdfELContext());
-        ValueExpression veNiCritIndi    = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidCritIndicador}",Integer.class);
+        ValueExpression veNiCritIndi = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidCritIndicador}",Integer.class);
         
-        Integer niCritIndi =    (Integer)veNiCritIndi.getValue(adfELContext);
+        Integer niCritIndi = (Integer)veNiCritIndi.getValue(adfELContext);
         
         method.getParamsMap().put("arg0",niCritIndi);
-        method.execute();//METODO_ITERATOR_LEYENDAS 
+        method.execute();
         ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator2}",Object.class);
         AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
         iteratorBinding.getIterator().refresh();
@@ -303,8 +309,9 @@ public class bEvaluar {
             List listaIndis = (List) mapa.get("INDIS");
             Integer index = (Integer) mapa.get("INDEX");
             int sumaTotalXCriterio = 0;
+            GenericType row = null;
             for (int i = 0; i < iter.getIterator().getTotalRowCount(); i++) {
-                GenericType row = (GenericType)iter.getCurrentRow();
+                row = (GenericType)iter.getCurrentRow();
                 Integer critIndiCurrent = (Integer) row.getAttribute("nidCriterioIndicador");
                 Integer val = (Integer) row.getAttribute("valor");
                 iter.getIterator().previous();
@@ -335,8 +342,9 @@ public class bEvaluar {
             iteratorBinding.getIterator().refresh();
             iteratorBinding.getIterator().first();
             double notaFinal = 0.0;
+            GenericType rowCrit = null;
             for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++){
-                GenericType rowCrit = (GenericType)iteratorBinding.getCurrentRow();
+                rowCrit = (GenericType)iteratorBinding.getCurrentRow();
                 Integer nidCrit = (Integer) rowCrit.getAttribute("nidCriterio");
                 Double notaFinalCrit = (Double) rowCrit.getAttribute("nota");
                 iteratorBinding.getIterator().previous();
@@ -347,16 +355,15 @@ public class bEvaluar {
                 if(nidCriterio.intValue() == nidCrit.intValue()){
                     if((i+1) == iteratorBinding.getIterator().getTotalRowCount()){
                         iteratorBinding.getIterator().previous();
-                       // iter.getIterator().next();
                     }
                     propertyChangeSupport.firePropertyChange("nota",rowCrit.getAttribute("nota"),new Double(notaEscala20));
                     rowCrit.setAttribute("nota",new Double(notaEscala20));
-                    notaFinal = notaFinal + notaEscala20;AdfmUtils.log("notaEscala20:"+notaEscala20+ " notaFinal:"+notaFinal);
+                    notaFinal = notaFinal + notaEscala20;
                 }else{
                     notaFinal = notaFinal + notaFinalCrit.doubleValue();
                 }
                 iteratorBinding.getIterator().next();
-            }AdfmUtils.log("notaFinal:"+notaFinal);
+            }
             this.setNotaFinalEscala20((notaFinal / iteratorBinding.getIterator().getTotalRowCount())); 
         } catch (NumberFormatException nfe) {
             nfe.printStackTrace();
@@ -371,8 +378,9 @@ public class bEvaluar {
         AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
         iteratorBinding.getIterator().refresh();
         iteratorBinding.getIterator().first();
+        GenericType rowCrit = null;
         for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++){
-            GenericType rowCrit = (GenericType)iteratorBinding.getCurrentRow();
+            rowCrit = (GenericType)iteratorBinding.getCurrentRow();
             Integer critIndiCurrent = (Integer) rowCrit.getAttribute("nidCriterio");
             iteratorBinding.getIterator().previous();
             iteratorBinding.getIterator().next();
