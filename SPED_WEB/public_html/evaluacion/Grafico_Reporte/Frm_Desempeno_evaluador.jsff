@@ -5,20 +5,59 @@
         <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 30px;" id="pgl1">
             <af:panelSplitter orientation="horizontal" splitterPosition="300" id="ps1">
                 <f:facet name="first">
-                    <af:subform id="s2">
-                        <af:panelFormLayout id="pfl1" maxColumns="1">
-                            
+                    <af:subform id="s2" binding="#{bDesempenoEvaluador.s2}">
+                        <af:panelFormLayout id="pfl1" maxColumns="1" binding="#{bDesempenoEvaluador.pfl1}">
+                            <af:selectManyChoice label="Rol" id="choiceFRol" labelStyle="text-align: left;"
+                                                 binding="#{bDesempenoEvaluador.choiceFRol}" autoSubmit="true"
+                                                 value="#{sessionDesempenoEvaluador.selectedRol}">
+                                <f:selectItems value="#{sessionDesempenoEvaluador.lstRol}" id="si3"/>
+                            </af:selectManyChoice>
+                            <af:selectManyChoice label="Evaluador" id="choiceFEva" labelStyle="text-align: left;"
+                                                 binding="#{bDesempenoEvaluador.choiceFEva}" autoSubmit="true"
+                                                 value="#{sessionDesempenoEvaluador.selectedEvaluador}">
+                                <f:selectItems value="#{sessionDesempenoEvaluador.lstEvaArea}" id="si4"/>
+                                <af:separator id="s7"/>
+                                <f:selectItems value="#{sessionDesempenoEvaluador.lstEvaSede}" id="si5"/>
+                                <af:separator id="s8"/>
+                                <f:selectItems value="#{sessionDesempenoEvaluador.lstEvaGeneral}" id="si6"/>
+                            </af:selectManyChoice>
                             <af:selectManyChoice label="Sede" id="choiceFSede" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFSede}" autoSubmit="true"
-                                                 value="#{sessionDesempenoProfesor.selectedSede}">
-                                <f:selectItems value="#{sessionDesempenoProfesor.lstSede}" id="si1"/>
+                                                 value="#{sessionDesempenoEvaluador.selectedSede}">
+                                <f:selectItems value="#{sessionDesempenoEvaluador.lstSede}" id="si1"/>
                             </af:selectManyChoice>
-                            <af:selectManyChoice label="Area" id="choiceFArea" labelStyle="text-align: left;"                                                 
+                            <af:selectManyChoice label="Area" id="choiceFArea" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFArea}" autoSubmit="true"
-                                                 value="#{sessionDesempenoProfesor.selectedArea}">
-                                <f:selectItems value="#{sessionScope.sessionDesempenoProfesor.lstArea}" id="si2"/>
+                                                 value="#{sessionDesempenoEvaluador.selectedArea}" valuePassThru="true">
+                                <f:selectItems value="#{sessionDesempenoEvaluador.lstArea}" id="si2"/>
                             </af:selectManyChoice>
                         </af:panelFormLayout>
+                        <af:showDetail disclosed="false" id="sd1" disclosedText="Fecha Planifiacion"
+                                       undisclosedText="Fecha Planifiacion" binding="#{bDesempenoEvaluador.sd1}">
+                            <af:panelFormLayout id="pfl5" labelAlignment="start">
+                                <af:inputDate label="Inicio" id="idfechaPI" columns="8" autoSubmit="true"
+                                              value="#{sessionDesempenoEvaluador.fechaPI}"
+                                              labelStyle="text-align: left;"/>
+                                <af:inputDate label="Fin" id="idfechaPF" columns="8" autoSubmit="true"
+                                              value="#{sessionDesempenoEvaluador.fechaPF}"
+                                              labelStyle="text-align: left;"/>
+                            </af:panelFormLayout>
+                        </af:showDetail>
+                        <af:showDetail disclosed="false" id="sd2" disclosedText="Fecha Evaluación"
+                                       undisclosedText="Fecha Evaluación" binding="#{bDesempenoEvaluador.sd2}">
+                            <af:panelFormLayout id="pfl6" labelAlignment="start">
+                                <af:inputDate label="Inicio" id="idfechaEvaluacion" columns="8" autoSubmit="true"
+                                              labelStyle="text-align: left;"
+                                              value="#{sessionDesempenoEvaluador.fechaEI}"/>
+                                <af:inputDate label="Fin" id="idfechaEvaluacionf" columns="8" autoSubmit="true"
+                                              labelStyle="text-align: left;"
+                                              value="#{sessionDesempenoEvaluador.fechaEF}"/>
+                            </af:panelFormLayout>
+                        </af:showDetail>
+                        <af:spacer width="10" height="25" id="s1"/>
+                        <af:button text="Buscar" id="bBuscar"/>
+                        <af:button id="b2" icon="../recursos/img/usuarios/refresh.png"
+                                   actionListener="#{bDesempenoEvaluador.limpiarFiltro}"/>
                     </af:subform>
                 </f:facet>
                 <f:facet name="second">
