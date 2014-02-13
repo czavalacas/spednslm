@@ -17,7 +17,7 @@ import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanSede;
 
 public class bDesempenoEvaluador {
-    private bSessionDesempenoProfesor sessionDesempenoProfesor;
+    private bSessionDesempenoEvaluador sessionDesempenoEvaluador;
     private RichSelectManyChoice choiceFSede;
     @EJB
     private LN_C_SFSedeRemote ln_C_SFSedeRemote;
@@ -30,10 +30,10 @@ public class bDesempenoEvaluador {
     
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
-        if(sessionDesempenoProfesor.getExec() == 0) {
-            sessionDesempenoProfesor.setLstSede(llenarComboSede());
-            sessionDesempenoProfesor.setLstArea(llenarComboAreaA());
-            sessionDesempenoProfesor.setExec(1);
+        if(sessionDesempenoEvaluador.getExec() == 0) {
+            sessionDesempenoEvaluador.setLstSede(llenarComboSede());
+            sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());
+            sessionDesempenoEvaluador.setExec(1);
         }        
     }
     
@@ -57,13 +57,14 @@ public class bDesempenoEvaluador {
         }
         return unItems;
     }
-    
-    public void setSessionDesempenoProfesor(bSessionDesempenoProfesor sessionDesempenoProfesor) {
-        this.sessionDesempenoProfesor = sessionDesempenoProfesor;
+
+
+    public void setSessionDesempenoEvaluador(bSessionDesempenoEvaluador sessionDesempenoEvaluador) {
+        this.sessionDesempenoEvaluador = sessionDesempenoEvaluador;
     }
 
-    public bSessionDesempenoProfesor getSessionDesempenoProfesor() {
-        return sessionDesempenoProfesor;
+    public bSessionDesempenoEvaluador getSessionDesempenoEvaluador() {
+        return sessionDesempenoEvaluador;
     }
 
     public void setChoiceFSede(RichSelectManyChoice choiceFSede) {
