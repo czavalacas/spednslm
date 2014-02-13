@@ -143,6 +143,14 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
         }    
     }
     
+    public List<BeanUsuario> getUsuariobyNidRolLN(int nidRol){
+        try{
+            return transformLstUsuario(bdL_C_SFUsuarioLocal.getUsuariobyNidRolBDL(nidRol));
+        }catch(Exception e){
+            return new ArrayList<BeanUsuario>();
+        }
+    }
+    
     public List<BeanUsuario> transformLstUsuario(List<Usuario> lstUsurio){
         try{
             List<BeanUsuario> lstBean = new ArrayList();
@@ -157,6 +165,5 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             me.printStackTrace();
             return null;
         }        
-    } 
-    
+    }    
 }

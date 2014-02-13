@@ -1,5 +1,6 @@
 package sped.negocio.BDL.SFBean;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
                               "FROM Usuario o " +
                               "WHERE o.usuario = :usuario " +
                               "AND o.clave = :clave " +
-                              "AND o.estadoUsuario = '1' ";
+                              "AND o.estadoUsuario = 1 ";
             Usuario usuario = (Usuario) em.createQuery(strQuery).setParameter("usuario",user).
                                                                  setParameter("clave",clave).
                                                                  getSingleResult();
@@ -210,6 +211,20 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
             return query.getResultList();
         } catch (Exception e) {
             return null;
+        }
+    }
+    
+    public List<Usuario> getUsuariobyNidRolBDL(int nidRol){
+        try{
+            String ejbQL = "SELECT  u FROM Usuario u " +
+                           "WHERE u.rol.nidRol = :nid_rol " +
+                           "AND u.estadoUsuario = '1' " +
+                           "ORDER BY u.nombres ASC";
+            return (List<Usuario>)em.createQuery(ejbQL).setParameter("nid_rol", nidRol)
+                                                       .getResultList();
+        } catch(Exception e){
+            e.printStackTrace();
+            return new ArrayList();
         }
     }
 }

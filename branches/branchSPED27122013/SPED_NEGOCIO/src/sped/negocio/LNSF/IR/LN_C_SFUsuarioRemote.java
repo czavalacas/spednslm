@@ -22,4 +22,5 @@ public interface LN_C_SFUsuarioRemote {
                                            int estadoUsuario,
                                            int nidSede,
                                            int nidNivel);
+    List<BeanUsuario> getUsuariobyNidRolLN(int nidRol);
 }

@@ -10,4 +10,5 @@ import sped.negocio.entidades.beans.BeanRol;
 public interface LN_C_SFRolLocal {
     List<BeanRol> getRolLN();
     boolean validaRolbyDescripcion(int nidRol, String descripcion);
+    List<BeanRol> getListRolbyNombreLN(String descripcion);
 }

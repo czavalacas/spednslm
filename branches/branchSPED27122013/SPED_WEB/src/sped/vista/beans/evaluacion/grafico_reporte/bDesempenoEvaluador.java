@@ -7,14 +7,25 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
+import oracle.adf.view.rich.component.rich.RichSubform;
 import oracle.adf.view.rich.component.rich.input.RichSelectManyChoice;
 
+import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
+import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
+
+import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
+import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanRol;
 import sped.negocio.entidades.beans.BeanSede;
+import sped.negocio.entidades.beans.BeanUsuario;
+
+import sped.vista.Utils.Utils;
 
 public class bDesempenoEvaluador {
     private bSessionDesempenoEvaluador sessionDesempenoEvaluador;
@@ -23,7 +34,17 @@ public class bDesempenoEvaluador {
     private LN_C_SFSedeRemote ln_C_SFSedeRemote;
     @EJB
     private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
+    @EJB
+    private LN_C_SFRolRemote ln_C_SFRolRemote;
+    @EJB
+    private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
     private RichSelectManyChoice choiceFArea;
+    private RichSelectManyChoice choiceFRol;
+    private RichSelectManyChoice choiceFEva;
+    private RichShowDetail sd1;
+    private RichShowDetail sd2;
+    private RichSubform s2;
+    private RichPanelFormLayout pfl1;
 
     public bDesempenoEvaluador() {
     }
@@ -31,10 +52,54 @@ public class bDesempenoEvaluador {
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
         if(sessionDesempenoEvaluador.getExec() == 0) {
+            sessionDesempenoEvaluador.setLstRol(llenarComboRol());
+            sessionDesempenoEvaluador.setLstEvaArea(llenarComboEvaArea());
+            sessionDesempenoEvaluador.setLstEvaSede(llenarComboEvaSede());
+            sessionDesempenoEvaluador.setLstEvaGeneral(llenarComboEvaGeneral());
             sessionDesempenoEvaluador.setLstSede(llenarComboSede());
             sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());
             sessionDesempenoEvaluador.setExec(1);
         }        
+    }
+    
+    private ArrayList llenarComboRol(){
+        ArrayList unItems = new ArrayList();
+        List<BeanRol> lstbean = ln_C_SFRolRemote.getListRolbyNombreLN("Evaluador");
+        for(BeanRol r : lstbean){
+            unItems.add(new SelectItem(r.getNidRol(),
+                                       r.getDescripcionRol().toString()));
+        }
+        return unItems;
+    }
+    
+    private ArrayList llenarComboEvaArea(){
+        ArrayList unItems = new ArrayList();
+        List<BeanUsuario> lstbean = ln_C_SFUsuarioLocal.getUsuariobyNidRolLN(2);
+        for(BeanUsuario u : lstbean){
+            unItems.add(new SelectItem(u.getNidUsuario(),
+                                       u.getNombres().toString()));
+        }
+        return unItems;
+    }
+    
+    private ArrayList llenarComboEvaSede(){
+        ArrayList unItems = new ArrayList();
+        List<BeanUsuario> lstbean = ln_C_SFUsuarioLocal.getUsuariobyNidRolLN(4);
+        for(BeanUsuario u : lstbean){
+            unItems.add(new SelectItem(u.getNidUsuario(),
+                                       u.getNombres().toString()));
+        }
+        return unItems;
+    }
+    
+    private ArrayList llenarComboEvaGeneral(){
+        ArrayList unItems = new ArrayList();
+        List<BeanUsuario> lstbean = ln_C_SFUsuarioLocal.getUsuariobyNidRolLN(5);
+        for(BeanUsuario u : lstbean){
+            unItems.add(new SelectItem(u.getNidUsuario(),
+                                       u.getNombres().toString()));
+        }
+        return unItems;
     }
     
     private ArrayList llenarComboSede(){
@@ -57,7 +122,18 @@ public class bDesempenoEvaluador {
         }
         return unItems;
     }
-
+    
+    public void limpiarFiltro(ActionEvent actionEvent) {
+        sessionDesempenoEvaluador.setFechaEF(null);
+        sessionDesempenoEvaluador.setFechaEI(null);
+        sessionDesempenoEvaluador.setFechaPF(null);
+        sessionDesempenoEvaluador.setFechaPI(null);
+        sessionDesempenoEvaluador.setSelectedArea(null);
+        sessionDesempenoEvaluador.setSelectedEvaluador(null);
+        sessionDesempenoEvaluador.setSelectedRol(null);
+        sessionDesempenoEvaluador.setSelectedSede(null);
+        Utils.addTargetMany(pfl1,s2);
+    }
 
     public void setSessionDesempenoEvaluador(bSessionDesempenoEvaluador sessionDesempenoEvaluador) {
         this.sessionDesempenoEvaluador = sessionDesempenoEvaluador;
@@ -81,5 +157,53 @@ public class bDesempenoEvaluador {
 
     public RichSelectManyChoice getChoiceFArea() {
         return choiceFArea;
+    }
+
+    public void setChoiceFRol(RichSelectManyChoice choiceFRol) {
+        this.choiceFRol = choiceFRol;
+    }
+
+    public RichSelectManyChoice getChoiceFRol() {
+        return choiceFRol;
+    }
+
+    public void setChoiceFEva(RichSelectManyChoice choiceFEva) {
+        this.choiceFEva = choiceFEva;
+    }
+
+    public RichSelectManyChoice getChoiceFEva() {
+        return choiceFEva;
+    }
+
+    public void setSd1(RichShowDetail sd1) {
+        this.sd1 = sd1;
+    }
+
+    public RichShowDetail getSd1() {
+        return sd1;
+    }
+
+    public void setSd2(RichShowDetail sd2) {
+        this.sd2 = sd2;
+    }
+
+    public RichShowDetail getSd2() {
+        return sd2;
+    }
+
+    public void setS2(RichSubform s2) {
+        this.s2 = s2;
+    }
+
+    public RichSubform getS2() {
+        return s2;
+    }
+
+    public void setPfl1(RichPanelFormLayout pfl1) {
+        this.pfl1 = pfl1;
+    }
+
+    public RichPanelFormLayout getPfl1() {
+        return pfl1;
     }
 }
