@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class bSessionDesempenoProfesor implements Serializable {
+public class bSessionDesempenoEvaluador implements Serializable {
     @SuppressWarnings("compatibility:-8661660304648975906")
     private static final long serialVersionUID = 1L;
     private int exec;
@@ -14,7 +14,7 @@ public class bSessionDesempenoProfesor implements Serializable {
     private List selectedSede;
     private List selectedArea;    
 
-    public bSessionDesempenoProfesor() {
+    public bSessionDesempenoEvaluador() {
     }
 
     public void setExec(int exec) {

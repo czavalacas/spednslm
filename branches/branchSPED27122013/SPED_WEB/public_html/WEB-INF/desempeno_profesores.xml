@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="desempeno_profesores">
+    <default-activity>Frm_Desempeno_Profesores</default-activity>
+    <view id="Frm_Desempeno_Profesores">
+      <page>/evaluacion/Grafico_Reporte/Frm_Desempeno_Profesores.jsff</page>
+    </view>
+    <use-page-fragments/>
+  </task-flow-definition>
+</adfc-config>
