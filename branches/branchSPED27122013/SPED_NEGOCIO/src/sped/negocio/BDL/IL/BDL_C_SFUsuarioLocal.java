@@ -20,4 +20,5 @@ public interface BDL_C_SFUsuarioLocal {
     int countUsuarioByNomUsuarioBDL(String usuario);
     String getNombresUsuarioByNidUsuario(int nidUsuario);
     List<Usuario> getUsuariobyByAttrBDL(BeanUsuario beanUsuario);
+    List<Usuario> getUsuariobyNidRolBDL(int nidRol);
 }

@@ -16,6 +16,8 @@ import javax.persistence.PersistenceContext;
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
+import net.sf.dozer.util.mapping.MappingException;
+
 import sped.negocio.BDL.IL.BDL_C_SFRolLocal;
 import sped.negocio.LNSF.IL.LN_C_SFRolLocal;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
@@ -38,17 +40,11 @@ public class LN_C_SFRolBean implements LN_C_SFRolRemote,
     }
     
     public List<BeanRol> getRolLN(){
-        List<BeanRol> lstBean = new ArrayList();
         try{
-            List<Rol> lstRol = bdL_C_SFRolLocal.getRolFindAll();        
-            for(Rol r : lstRol){
-                BeanRol bean = (BeanRol) mapper.map(r, BeanRol.class);
-                lstBean.add(bean);
-            }
-            return lstBean;
+            return transformLstRol(bdL_C_SFRolLocal.getRolFindAll());
         }catch(Exception e){
             e.printStackTrace();
-            return lstBean;
+            return new ArrayList();
         }
     }
     
@@ -58,5 +54,28 @@ public class LN_C_SFRolBean implements LN_C_SFRolRemote,
             valida = true;
         }
         return valida;        
+    }
+    
+    public List<BeanRol> getListRolbyNombreLN(String descripcion){
+        try{
+            return transformLstRol(bdL_C_SFRolLocal.getListRolbyNombreBDL(descripcion));
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ArrayList();
+        }
+    }
+    
+    public List<BeanRol> transformLstRol(List<Rol> lstRol){
+        try{
+            List<BeanRol> lstBean = new ArrayList();
+            for(Rol r : lstRol){
+                BeanRol bean = (BeanRol) mapper.map(r, BeanRol.class);
+                lstBean.add(bean);
+            }
+            return lstBean;
+        }catch(MappingException me){
+            me.printStackTrace();
+            return null;
+        }  
     }
 }

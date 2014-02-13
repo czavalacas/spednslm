@@ -11,4 +11,5 @@ public interface BDL_C_SFRolLocal {
     List<Rol> getRolFindAll();
     Rol findConstrainById(int id);
     int getIdbyDescripcion(String descripcion);
+    List<Rol> getListRolbyNombreBDL(String descripcion);
 }

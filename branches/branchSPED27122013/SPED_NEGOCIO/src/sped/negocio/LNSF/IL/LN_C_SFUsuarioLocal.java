@@ -21,4 +21,5 @@ public interface LN_C_SFUsuarioLocal {
                                            int estadoUsuario,
                                            int nidSede,
                                            int nidNivel);
+    List<BeanUsuario> getUsuariobyNidRolLN(int nidRol);
 }
