@@ -89,6 +89,10 @@
         <from-outcome>BACK_CONSULTAR</from-outcome>
         <to-activity-id>Consultar_Planificacion</to-activity-id>
       </control-flow-case>
+      <control-flow-case id="__20">
+        <from-outcome>000</from-outcome>
+        <to-activity-id>Main</to-activity-id>
+      </control-flow-case>
     </control-flow-rule>
   </task-flow-definition>
 </adfc-mobile-config>

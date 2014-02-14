@@ -16,6 +16,10 @@ import mobile.AdfmUtils;
 
 import mobile.beans.BeanTipoXRol;
 
+import oracle.adf.model.datacontrols.device.DeviceManager;
+
+import oracle.adf.model.datacontrols.device.DeviceManagerFactory;
+
 import oracle.adfmf.amx.event.ValueChangeEvent;
 import oracle.adfmf.framework.exception.AdfInvocationException;
 import oracle.adfmf.java.beans.PropertyChangeListener;
@@ -25,6 +29,7 @@ import oracle.adfmf.java.beans.ProviderChangeSupport;
 import oracle.adfmf.amx.event.ActionEvent;
 import oracle.adfmf.bindings.OperationBinding;
 import oracle.adfmf.bindings.dbf.AmxIteratorBinding;
+import oracle.adfmf.framework.api.AdfmfContainerUtilities;
 import oracle.adfmf.framework.api.AdfmfJavaUtilities;
 import oracle.adfmf.framework.api.GenericTypeBeanSerializationHelper;
 import oracle.adfmf.framework.model.AdfELContext;
@@ -42,6 +47,8 @@ public class bEvaluar {
     private final static String METODO_ITERATOR_CRITERIOS = "#{bindings.getCriteriosEvaluacion_WSIterator}";
     
     private final static String WS_SERVICE = "WS_SPED";
+    private final static String FEATURE = "MiApp";
+    private final static String ALERTA = "mostrarMensaje";
     private String titulo = "Evaluar";
     
     private int maxValByCriterio;
@@ -53,13 +60,16 @@ public class bEvaluar {
     protected transient ProviderChangeSupport providerChangeSupport = new ProviderChangeSupport(this);
     
     List lstCriterios = new ArrayList();
+    
+    private String redireccionar;
+    private boolean isOkRedireccionar = false;
 
     public bEvaluar() {
         this.setNotaEscala20(0.0);
         this.setNotaFinalEscala20(0.0);
         ValueExpression veNidRol    = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.rol.nidRol}",Integer.class);
         Integer nidRol =    (Integer)veNidRol.getValue(adfELContext);
-        AdfmUtils.log(" constructor");
+       
         List pnames = new ArrayList();//aqui van los nombres en el metodo WS are01,arg02, etc si son 5 hasta arg5
         List params = new ArrayList();//en esta seteas todos los valores si son 5 la lista tendra list.size = 5
         List ptypes = new ArrayList();
@@ -398,6 +408,84 @@ public class bEvaluar {
         }
     }
     
+    public Map isValid(){
+        Map resultado = new HashMap();
+        resultado.put("BOOL","TRUE");
+        String strParam = "";
+        for (int i = 0; i < lstCriterios.size(); i++) {
+            Map mapaCrit = (HashMap)lstCriterios.get(i);
+            List lstIndis = (List) mapaCrit.get("INDIS");
+            if(lstIndis != null){
+                for(int j = 0; j < lstIndis.size(); j++){
+                    Map mapaIndis = (Map) lstIndis.get(j);
+                    if(mapaIndis == null){
+                        resultado.put("BOOL","FALSE");
+                        return resultado;
+                    }else{
+                        Integer val = (Integer) mapaIndis.get("VALOR");
+                        if(val == null){
+                            resultado.put("BOOL","FALSE");
+                            return resultado;
+                        }else{
+                            strParam = strParam.concat((Integer)mapaIndis.get("NID_CI")+","+(Integer)mapaIndis.get("VALOR")+";");
+                        }
+                    }
+                }
+            }else{
+                resultado.put("BOOL","FALSE");
+                return resultado;
+            }
+        }
+        resultado.put("PARAM",strParam);
+        return resultado;
+    }
+    
+    public void evaluarDocente(ActionEvent actionEvent) {
+        try{
+            Map res = isValid();
+            String valid = (String) res.get("BOOL");
+            if (valid.equals("FALSE")) {
+                AdfmUtils.alert(FEATURE, ALERTA, new Object[] { "m_0005" });
+                return;
+            }
+            ValueExpression veNidUsu = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.nidUsuario}",Integer.class);
+            ValueExpression veNidEva = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidEvaluacion}",Integer.class);
+            
+            Integer nidUsu = (Integer)veNidUsu.getValue(adfELContext);
+            Integer nidEva = (Integer)veNidEva.getValue(adfELContext);
+            String cadenaIndisXValor = (String) res.get("PARAM");
+           
+            List pnames = new ArrayList();
+            List params = new ArrayList();
+            List ptypes = new ArrayList();
+            
+            pnames.add("arg0");       pnames.add("arg1");                   pnames.add("arg2");        
+            params.add(nidEva);       params.add(cadenaIndisXValor);        params.add(nidUsu);
+            ptypes.add(Integer.class);ptypes.add(String.class);             ptypes.add(Integer.class);
+            
+            String resultado = (String)AdfmfJavaUtilities.invokeDataControlMethod(WS_SERVICE,
+                                                                                 null, 
+                                                                                 "evaluarDocente_WS",
+                                                                                 pnames, 
+                                                                                 params, 
+                                                                                 ptypes);  
+            if(!resultado.equals("000")){//      DeviceManagerFactory.getDeviceManager().get                                                                     
+                AdfmUtils.alert(FEATURE, ALERTA, new Object[] {resultado});
+            } else {
+                AdfmfContainerUtilities.invokeContainerJavaScriptFunction(FEATURE,
+                                                                         "showPopup",
+                                                                         new Object[] {} );
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            AdfmUtils.alert(FEATURE, ALERTA, new Object[] { "Hubo un error al insertar. Intentelo nuevamente."});
+        }
+    }
+    
+    public String redirectEvaluadoPopUp() {
+        return "000";
+    }
+    
     public void addProviderChangeListener(ProviderChangeListener l) {
         providerChangeSupport.addProviderChangeListener(l);
     }
@@ -491,5 +579,29 @@ public class bEvaluar {
 
     public double getNotaFinalEscala20() {
         return notaFinalEscala20;
+    }
+
+    public String redireccionarGuardar() {
+        if(isOkRedireccionar == true){
+            return getRedireccionar();
+        }else{
+            return null;
+        }
+    }
+    
+    public void setRedireccionar(String redireccionar) {
+        this.redireccionar = redireccionar;
+    }
+
+    public String getRedireccionar() {
+        return redireccionar;
+    }
+
+    public void setIsOkRedireccionar(boolean isOkRedireccionar) {
+        this.isOkRedireccionar = isOkRedireccionar;
+    }
+
+    public boolean isIsOkRedireccionar() {
+        return isOkRedireccionar;
     }
 }

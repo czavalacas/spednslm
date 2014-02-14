@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <adfmf:features xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:adfmf="http://xmlns.oracle.com/adf/mf">
-  <adfmf:feature id="MiApp" name="MiApp">
+  <adfmf:feature id="MiApp" name="MiApp" credentials="none">
     <adfmf:content id="MiApp.2">
       <adfmf:amx file="MiApp/ViewController-task-flow.xml#ViewController-task-flow">
         <adfmf:includes>
@@ -19,6 +19,13 @@
       <adfmf:amx file="Bienvenida/Main.amx">
         <adfmf:includes>
           <adfmf:include type="JavaScript" file="resources/js/ScriptUtiles.js" id="i3"/>
+        </adfmf:includes>
+      </adfmf:amx>
+    </adfmf:content>
+    <adfmf:content id="MiApp_EvaluarAMX.4">
+      <adfmf:amx file="Evaluacion/Evaluar.amx">
+        <adfmf:includes>
+          <adfmf:include type="JavaScript" file="resources/js/ScriptUtiles.js" id="i4"/>
         </adfmf:includes>
       </adfmf:amx>
     </adfmf:content>
