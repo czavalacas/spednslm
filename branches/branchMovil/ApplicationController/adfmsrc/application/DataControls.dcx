@@ -2,7 +2,7 @@
 <DataControlConfigs xmlns="http://xmlns.oracle.com/adfm/configuration" version="11.1.2.64.36" id="DataControls"
                     Package="application">
                     
-    <AdapterDataControl id="DeviceFeatures" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
+   <AdapterDataControl id="DeviceFeatures" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
                         ImplDef="oracle.adf.model.adapter.bean.BeanDCDefinition" SupportsTransactions="false"
                         SupportsSortCollection="true" SupportsResetState="false" SupportsRangesize="false"
                         SupportsFindMode="false" SupportsUpdates="true"
@@ -25,8 +25,8 @@
             <bean-definition BeanClass="oracle.adf.model.datacontrols.application.ApplicationFeatures"
                              xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
         </Source>
-    </AdapterDataControl>
-    
+    </AdapterDataControl>                 
+                    
   <AdapterDataControl id="WS_SPED" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
                       ImplDef="oracle.adfinternal.model.adapter.webservice.WSDefinition" SupportsTransactions="false"
                       SupportsSortCollection="false" SupportsResetState="false" SupportsRangesize="false"
@@ -38,6 +38,7 @@
                   wsdl="application/WS_SPEDService.wsdl" ensureKeyAttribute="true" UsePersistedStructure="false">
         <service name="WS_SPEDService" namespace="http://servicios.webservice.sped/" connection="WS_SPED">
           <port name="WS_SPEDPort">
+            <operation name="evaluarDocente_WS"/>
             <operation name="getLstIndicadoresByFichaCriterio_LN_WS"/>
             <operation name="getCriteriosEvaluacion_WS"/>
             <operation name="getPermisosByUsuarioRol_WS"/>
