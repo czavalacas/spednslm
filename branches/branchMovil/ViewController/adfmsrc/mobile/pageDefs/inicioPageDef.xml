@@ -3,13 +3,14 @@
                 Package="mobile.pageDefs">
   <parameters/>
   <executables>
+    <methodIterator Binds="autenticarUsuarioLN.result" DataControl="WS_SPED" RangeSize="25"
+                    BeanClass="application.WS_SPED.autenticarUsuarioLN" id="autenticarUsuarioLNIterator"/>
     <variableIterator id="variables">
       <variable Type="java.lang.String" Name="autenticarUsuarioLN_arg0" IsQueriable="false"/>
       <variable Type="java.lang.String" Name="autenticarUsuarioLN_arg1" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="autenticarUsuarioLN_arg2" IsQueriable="false"/>
     </variableIterator>
-    <methodIterator Binds="autenticarUsuarioLN.result" DataControl="WS_SPED" RangeSize="25"
-                    BeanClass="application.WS_SPED.autenticarUsuarioLN" id="autenticarUsuarioLNIterator"/>
-  </executables>
+   </executables>
   <bindings>
     <methodAction id="autenticarUsuarioLN" RequiresUpdateModel="true" Action="invokeMethod"
                   MethodName="autenticarUsuarioLN" IsViewObjectMethod="false" DataControl="WS_SPED"
@@ -17,6 +18,7 @@
                   ReturnName="data.WS_SPED.methodResults.autenticarUsuarioLN_WS_SPED_autenticarUsuarioLN_result">
       <NamedData NDName="arg0" NDType="java.lang.String" NDValue="${bindings.autenticarUsuarioLN_arg0}"/>
       <NamedData NDName="arg1" NDType="java.lang.String" NDValue="${bindings.autenticarUsuarioLN_arg1}"/>
+      <NamedData NDName="arg2" NDType="java.lang.String" NDValue="${bindings.autenticarUsuarioLN_arg2}"/>
     </methodAction>
     <attributeValues IterBinding="variables" id="arg0">
       <AttrNames>
@@ -26,6 +28,11 @@
     <attributeValues IterBinding="variables" id="arg1">
       <AttrNames>
         <Item Value="autenticarUsuarioLN_arg1"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg2">
+      <AttrNames>
+        <Item Value="autenticarUsuarioLN_arg2"/>
       </AttrNames>
     </attributeValues>
   </bindings>
