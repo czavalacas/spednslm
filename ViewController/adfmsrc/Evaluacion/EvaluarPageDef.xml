@@ -21,6 +21,13 @@
     <accessorIterator MasterBinding="getLeyendasByCritIndicador_WSIterator" Binds="Return" RangeSize="25"
                       DataControl="WS_SPED" BeanClass="application.WS_SPED.getLeyendasByCritIndicador_WS.Return"
                       id="ReturnIterator2" Refresh="always"/>
+    <variableIterator id="variables">
+      <variable Type="java.lang.String" Name="evaluarDocente_WS_Return" IsQueriable="false" IsUpdateable="0"
+                DefaultValue="${bindings.evaluarDocente_WS.result}"/>
+      <variable Type="java.lang.Integer" Name="evaluarDocente_WS_arg0" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="evaluarDocente_WS_arg1" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="evaluarDocente_WS_arg2" IsQueriable="false"/>
+    </variableIterator>
   </executables>
   <bindings>
     <methodAction id="getCriteriosEvaluacion_WS" RequiresUpdateModel="true" Action="invokeMethod"
@@ -78,5 +85,27 @@
                   ReturnName="data.bEvaluar.methodResults.getValor_bEvaluar_dataProvider_getValor_result">
       <NamedData NDName="orden" NDValue="#{pageFlowScope.pfcvalor}" NDType="int"/>
     </methodAction>
+    <methodAction id="evaluarDocente_WS" RequiresUpdateModel="true" Action="invokeMethod" MethodName="evaluarDocente_WS"
+                  IsViewObjectMethod="false" DataControl="WS_SPED" InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.evaluarDocente_WS_WS_SPED_evaluarDocente_WS_result">
+      <NamedData NDName="arg0" NDType="java.lang.Integer" NDValue="${bindings.evaluarDocente_WS_arg0}"/>
+      <NamedData NDName="arg1" NDType="java.lang.String" NDValue="${bindings.evaluarDocente_WS_arg1}"/>
+      <NamedData NDName="arg2" NDType="java.lang.Integer" NDValue="${bindings.evaluarDocente_WS_arg2}"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="arg0">
+      <AttrNames>
+        <Item Value="evaluarDocente_WS_arg0"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg1">
+      <AttrNames>
+        <Item Value="evaluarDocente_WS_arg1"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg2">
+      <AttrNames>
+        <Item Value="evaluarDocente_WS_arg2"/>
+      </AttrNames>
+    </attributeValues>
   </bindings>
 </pageDefinition>

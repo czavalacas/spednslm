@@ -130,7 +130,7 @@
       <property
          name="fromOutcome">GO_LOGIN</property>
       <property
-         name="sdm:polyPoints">L42,641.2936,131.17188,107.5,281.09375,R38</property>
+         name="sdm:polyPoints">L42,641.3593,131.17188,107.5,281.09375,R38</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -176,5 +176,15 @@
          name="fromOutcome">BACK_CONSULTAR</property>
       <property
          name="sdm:polyPoints">L54,901.98065,142.64062,727.0,141.67188,R54</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase17"
+      from="View14"
+      to="View3">
+      <property
+         name="fromOutcome">000</property>
+      <property
+         name="sdm:polyPoints">L58,902.0,146.14062,436.68503,292.10938,R50</property>
    </ControlFlowCase>
 </SDM>

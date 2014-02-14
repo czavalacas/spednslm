@@ -6,8 +6,12 @@
             <amx:outputText value="#{viewScope.bEvaluar.titulo}" id="ot1"/>
         </amx:facet>
         <amx:facet name="primary">
+            <amx:commandButton text="Registrar" id="cb4" actionListener="#{viewScope.bEvaluar.evaluarDocente}"/>
             <amx:commandButton text="Info" id="cb2">
                 <amx:setPropertyListener id="spl1" from="pi1" to="#{pageFlowScope.panel}"/>
+            </amx:commandButton>
+            <amx:commandButton text="" id="btnShowPop" inlineStyle="display:none">
+                <amx:showPopupBehavior id="popMsjBeha" popupId="popMsj" align="after" alignId="cb4"/>
             </amx:commandButton>
         </amx:facet>
         <amx:facet name="secondary">
@@ -79,7 +83,6 @@
                     </amx:listView>
                     
                 </amx:panelGroupLayout>
-                    
             </amx:facet>
             <amx:panelItem id="pi1">
                 <amx:tableLayout id="tl1" halign="center" width="97%" inlineStyle="width:97%;">
@@ -292,5 +295,14 @@
             </amx:commandButton>
         </amx:panelGroupLayout>
          
+    </amx:popup>
+    <amx:popup id="popMsj">
+        <amx:panelGroupLayout layout="vertical">
+            <amx:outputText value="Se registro la evaluacion :)" id="ot15"/>
+        </amx:panelGroupLayout>
+        <amx:commandButton text="OK" id="btnClose" action="#{viewScope.bEvaluar.redirectEvaluadoPopUp}">
+            <amx:closePopupBehavior id="cpbOK" popupId="popMsj" type="action"/>
+        </amx:commandButton>
+        
     </amx:popup>
 </amx:view>
