@@ -10,6 +10,9 @@ import javax.el.ValueExpression;
 
 import mobile.AdfmUtils;
 import mobile.beans.BeanUsuario;
+
+import oracle.adf.model.datacontrols.device.DeviceManagerFactory;
+
 import oracle.adfmf.amx.event.ActionEvent;
 import oracle.adfmf.framework.api.AdfmfJavaUtilities;
 import oracle.adfmf.framework.api.GenericTypeBeanSerializationHelper;
@@ -43,9 +46,14 @@ public class bLogin {
                 pnames.add("arg0");
                 ptypes.add(String.class);
                 params.add(usuario);
+                
                 pnames.add("arg1");
                 ptypes.add(String.class);
-                params.add(clave);//este es el valor amandar
+                params.add(clave);
+                
+                pnames.add("arg2");
+                ptypes.add(String.class);
+                params.add(this.getAllPhoneData());
                 try {
                     GenericType result = (GenericType) AdfmfJavaUtilities.invokeDataControlMethod(WEBSERVICE_NAME, //Nombre del WS (definido cuando se creo el datacontrol
                                                                                                   null, "autenticarUsuarioLN", //nombre del metodo ver el datacontrol MethodName
@@ -166,6 +174,25 @@ public class bLogin {
         ve1.setValue(AdfmfJavaUtilities.getAdfELContext(),null);
        // ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.fileNames}", String.class);
        // ve2.setValue(AdfmfJavaUtilities.getAdfELContext(), "");
+    }
+    
+    private String getAllPhoneData(){
+        String returno = "";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getName()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getPlatform()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getVersion()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getOs()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getModel()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().hasGeolocation()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getNetworkStatus()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getScreenWidth()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getScreenHeight()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getAvailableScreenWidth()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getAvailableScreenHeight()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getScreenDpi()+"|";
+        returno = returno + DeviceManagerFactory.getDeviceManager().getScreenDiagonalSize();
+     //   AdfmUtils.log("Log: "+returno);
+        return returno;
     }
     
     public void setListaRoles(List listaRoles) {

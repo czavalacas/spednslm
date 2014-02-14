@@ -25,6 +25,7 @@ public class BeanUsuario implements Serializable {
     private String areaAcYProf;
     private String descripcionEstadoUsuario;//Auxiliares tabla:admcons
     //private List<Integer> lstPermisos;
+    private Integer nidLog;
 
     public void setClave(String clave) {
         this.clave = clave;
@@ -168,5 +169,13 @@ public class BeanUsuario implements Serializable {
 
     public String getImg() {
         return img;
+    }
+
+    public void setNidLog(Integer nidLog) {
+        this.nidLog = nidLog;
+    }
+
+    public Integer getNidLog() {
+        return nidLog;
     }
 }

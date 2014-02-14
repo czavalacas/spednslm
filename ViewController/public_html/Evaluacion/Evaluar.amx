@@ -303,6 +303,5 @@
         <amx:commandButton text="OK" id="btnClose" action="#{viewScope.bEvaluar.redirectEvaluadoPopUp}">
             <amx:closePopupBehavior id="cpbOK" popupId="popMsj" type="action"/>
         </amx:commandButton>
-        
     </amx:popup>
 </amx:view>
