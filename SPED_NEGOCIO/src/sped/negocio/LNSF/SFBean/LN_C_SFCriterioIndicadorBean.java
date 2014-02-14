@@ -76,7 +76,7 @@ public class LN_C_SFCriterioIndicadorBean implements LN_C_SFCriterioIndicadorRem
     public List<BeanCriterioIndicadorWS> getLstIndicadoresByFichaCriterio_LN_WS(int nidFicha, int nidCriterio){
         List<BeanCriterioIndicadorWS> lst = new ArrayList<BeanCriterioIndicadorWS>();
         for(CriterioIndicador ci : bdL_C_SFCriterioIndicadorLocal.getLstIndicadoresByFichaCriterio_BDL_WS(nidFicha, nidCriterio)){
-            BeanCriterioIndicadorWS bean = new BeanCriterioIndicadorWS();Utiles.sysout("ci.getIndicador().getDescripcionIndicador():"+ci.getIndicador().getDescripcionIndicador());
+            BeanCriterioIndicadorWS bean = new BeanCriterioIndicadorWS();
             bean.setDescripcionIndicador(ci.getIndicador().getDescripcionIndicador());
             bean.setNidCriterioIndicador(ci.getNidCriterioIndicador());
             bean.setNidIndicador(ci.getIndicador().getNidIndicador());
