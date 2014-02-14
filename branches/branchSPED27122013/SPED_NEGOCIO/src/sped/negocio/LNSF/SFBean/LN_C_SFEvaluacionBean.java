@@ -220,5 +220,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         }
         return lstBeanEvas;
     }
+    
+    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(List lstnidRol){
+        return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(lstnidRol));
+    }
 
 }

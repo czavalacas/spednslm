@@ -28,4 +28,5 @@ public interface BDL_C_SFEvaluacionRemoto {
                                                String curso,
                                                int nidSedeFiltro,
                                                int nidAAFiltro);
+    List<Evaluacion> getDesempenoEvaluacionbyFiltroBDL(List lstnidRol);
 }

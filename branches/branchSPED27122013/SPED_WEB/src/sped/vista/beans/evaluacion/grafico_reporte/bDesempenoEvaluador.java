@@ -16,11 +16,15 @@ import oracle.adf.view.rich.component.rich.input.RichSelectManyChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
 
+import oracle.adf.view.rich.component.rich.nav.RichButton;
+
+import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanRol;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -38,6 +42,8 @@ public class bDesempenoEvaluador {
     private LN_C_SFRolRemote ln_C_SFRolRemote;
     @EJB
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
+    @EJB
+    private LN_C_SFEvaluacionLocal ln_C_SFEvaluacionLocal;
     private RichSelectManyChoice choiceFArea;
     private RichSelectManyChoice choiceFRol;
     private RichSelectManyChoice choiceFEva;
@@ -134,6 +140,13 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setSelectedSede(null);
         Utils.addTargetMany(pfl1,s2);
     }
+    
+    public void buscarByFiltro(ActionEvent actionEvent) {
+        List <BeanEvaluacion> lst = ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(sessionDesempenoEvaluador.getSelectedRol());
+        for(int i=0; i<lst.size(); i++){
+            System.out.println(lst.get(i).toString());
+        }
+    }
 
     public void setSessionDesempenoEvaluador(bSessionDesempenoEvaluador sessionDesempenoEvaluador) {
         this.sessionDesempenoEvaluador = sessionDesempenoEvaluador;
@@ -205,5 +218,5 @@ public class bDesempenoEvaluador {
 
     public RichPanelFormLayout getPfl1() {
         return pfl1;
-    }
+    }    
 }
