@@ -293,4 +293,20 @@
     <ejb-name>BDL_T_SFResultado</ejb-name>
     <stateless-session-descriptor/>
   </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_T_SFLog</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_T_SFLog</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_T_SFResultadoCriterio</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_T_SFResultadoCriterio</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
 </weblogic-ejb-jar>

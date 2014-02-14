@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFLeyendaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFLeyendaRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.eval.CriterioIndicador;
 import sped.negocio.entidades.eval.Leyenda;
 
@@ -26,7 +27,7 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
     public Leyenda getLeyendabyEvaluacion(CriterioIndicador cri,
                                           int nidFicha,
                                           int valorValoracion){        
-        try{
+        try{Utiles.sysout("cri:"+cri+" nidFicha:"+nidFicha+" valorValoracion:"+valorValoracion);
             String strQuery = "SELECT o " +
                               "FROM Leyenda o " +
                               "WHERE o.criterioIndicador = :crInd " +
