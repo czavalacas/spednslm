@@ -22,4 +22,5 @@ public interface LN_C_SFUsuarioLocal {
                                            int nidSede,
                                            int nidNivel);
     List<BeanUsuario> getUsuariobyNidRolLN(int nidRol);
+    BeanUsuario autenticarUsuarioLN_WS(String usuario,String clave,String cadenaPhoneData);
 }

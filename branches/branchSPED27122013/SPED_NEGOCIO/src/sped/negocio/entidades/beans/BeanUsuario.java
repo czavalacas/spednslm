@@ -25,8 +25,17 @@ public class BeanUsuario implements java.io.Serializable{
     private String areaAcYProf;
     private String descripcionEstadoUsuario;//Auxiliares tabla:admcons
     private List<Integer> lstPermisos;
+    private Integer nidLog;
 
     public BeanUsuario(){}
+
+    public void setNidLog(Integer nidLog) {
+        this.nidLog = nidLog;
+    }
+
+    public Integer getNidLog() {
+        return nidLog;
+    }
 
     public void setImg(String img) {
         this.img = img;
