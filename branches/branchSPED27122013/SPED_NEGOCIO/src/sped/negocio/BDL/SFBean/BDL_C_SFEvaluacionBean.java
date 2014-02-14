@@ -400,4 +400,40 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             return null;
         }
     }
+    
+    public List<Evaluacion> getDesempenoEvaluacionbyFiltroBDL(List lstnidRol){
+        String or = " OR ";
+        String and = " AND ";
+        try{
+            String strQuery = "SELECT eva " +
+                              "FROM Evaluacion eva, Usuario usu " +
+                              "WHERE eva.nidEvaluador=usu.nidUsuario ";
+            if(lstnidRol != null){
+                for(int i=0 ; i < lstnidRol.size(); i++){
+                    if(i == 0){
+                        strQuery = strQuery.concat(and);
+                    }else{
+                        strQuery = strQuery.concat(or);
+                    }
+                    strQuery = strQuery.concat(" usu.rol.nidRol = :nid_Rol"+i+" ");                    
+                }
+            }
+            Query query = em.createQuery(strQuery);
+            if(lstnidRol != null){
+                for(int i=0 ; i < lstnidRol.size(); i++){
+                    query.setParameter("nid_Rol"+i, lstnidRol.get(i));                  
+                }
+            }
+            List<Evaluacion> lstEvas = query.getResultList();
+            int size = lstEvas == null ? 0 : lstEvas.size();
+            if (size > 0) {
+                return lstEvas;
+            } else {
+                return new ArrayList<Evaluacion>();
+            }           
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

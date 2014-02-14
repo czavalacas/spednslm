@@ -48,4 +48,5 @@ public interface LN_C_SFEvaluacionRemote {
                                                   String curso,
                                                   int nidSedeFiltro,
                                                   int nidAAFiltro);
+    List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(List lstnidRol);
 }
