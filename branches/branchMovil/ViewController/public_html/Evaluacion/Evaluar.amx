@@ -298,7 +298,7 @@
     </amx:popup>
     <amx:popup id="popMsj">
         <amx:panelGroupLayout layout="vertical">
-            <amx:outputText value="Se registro la evaluacion :)" id="ot15"/>
+            <amx:outputText value="Se registro la evaluacion" id="ot15"/>
         </amx:panelGroupLayout>
         <amx:commandButton text="OK" id="btnClose" action="#{viewScope.bEvaluar.redirectEvaluadoPopUp}">
             <amx:closePopupBehavior id="cpbOK" popupId="popMsj" type="action"/>
