@@ -154,10 +154,11 @@ public class bRegistrarFicha {
             }
             boolean fichaEvaluada = ln_C_SFResultadoLocal.fichaUsadaEnEvaluacion_LN(beanFicha.getNidFicha());
             Utils.sysout("usada:"+fichaEvaluada);
+            BeanFicha clon = (BeanFicha) beanFicha.clone();Utils.sysout("clon.:"+clon);
+            Utils.sysout("22clon.getTipoFicha():"+clon.getTipoFicha());
+            sessionRegistrarFicha.setFichaEditarClon(clon);
             if(!fichaEvaluada){
                 btnEditFicha.setDisabled(false);
-                BeanFicha clon = (BeanFicha) beanFicha.clone();
-                sessionRegistrarFicha.setFichaEditarClon(clon);
                 Utils.addTargetMany(btnEditFicha);
             }
             btnActDesact.setText(sessionRegistrarFicha.getActDesact());
@@ -1094,7 +1095,7 @@ public class bRegistrarFicha {
     private void crearColumnas(int val,List<UIComponent> children){
         for(int c = 0; c < val; c++) {
             BeanLeyenda leyenda = new BeanLeyenda();
-            String valor = "Valor "+c;
+            String valor = "Valor "+(c + 1);
             leyenda.setHeader(valor);
             if(!this.contieneLeyenda(valor)){
                 sessionRegistrarFicha.getLstLeyendas().add(leyenda);

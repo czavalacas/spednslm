@@ -2,26 +2,37 @@ package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
 
-import java.util.List;
-
-import sped.negocio.entidades.eval.Resultado;
+import sped.negocio.entidades.eval.FichaCriterio;
 
 public class BeanCriterioIndicador implements Serializable {
     @SuppressWarnings("compatibility:4617439608295435702")
     private static final long serialVersionUID = 1L;
-    private int nidCriterioIndicador;
+    private Integer nidCriterioIndicador;
     private BeanFichaCriterio fichaCriterio;
     //private List<Leyenda> leyendaLista;
     private int orden;
     private BeanIndicador indicador;
     private BeanResultado resultadoEvaluacion;
     private BeanLeyenda leyenda;
-    
-    public void setNidCriterioIndicador(int nidCriterioIndicador) {
+
+   /* @Override
+    public boolean equals(Object obj){
+        if(obj == null){
+            return false;
+        }
+        if(obj instanceof BeanCriterioIndicador){
+            BeanCriterioIndicador crit = (BeanCriterioIndicador) obj;
+            return this.getNidCriterioIndicador().equals(crit.getNidCriterioIndicador());
+        }else{
+            return false;
+        }
+    }
+*/
+    public void setNidCriterioIndicador(Integer nidCriterioIndicador) {
         this.nidCriterioIndicador = nidCriterioIndicador;
     }
 
-    public int getNidCriterioIndicador() {
+    public Integer getNidCriterioIndicador() {
         return nidCriterioIndicador;
     }
 

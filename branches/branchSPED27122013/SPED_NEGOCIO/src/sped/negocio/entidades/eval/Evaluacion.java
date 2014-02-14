@@ -62,7 +62,9 @@ public class Evaluacion implements Serializable {
     private String tipoVisita;
     @Column(name = "nid_usuario_ws")    
     private Integer nid_usuario_ws;
-
+    @Column(name = "nidLog")    
+    private Integer nidLog;
+    
     public Evaluacion() {
     }
 
@@ -82,6 +84,14 @@ public class Evaluacion implements Serializable {
         this.fechaPlanificacion = fechaPlanificacion;
         this.tipoVisita=tipoVisita;
         this.comentarioEvaluador = comentarioEvaluador;
+    }
+
+    public void setNidLog(Integer nidLog) {
+        this.nidLog = nidLog;
+    }
+
+    public Integer getNidLog() {
+        return nidLog;
     }
 
     public void setNid_usuario_ws(Integer nid_usuario_ws) {

@@ -8,5 +8,5 @@ import sped.negocio.entidades.beans.BeanIndicadorValorWS;
 
 @Local
 public interface LN_T_SFEvaluacionLocal {
-    String registrarEvaluacion_LN_WS(List<BeanIndicadorValorWS> lstBeanIndiVal, Integer nidEvaluacion,Integer nidUsuario);
+    String registrarEvaluacion_LN_WS(List<BeanIndicadorValorWS> lstBeanIndiVal, Integer nidEvaluacion,Integer nidUsuario,Integer nidLog);
 }

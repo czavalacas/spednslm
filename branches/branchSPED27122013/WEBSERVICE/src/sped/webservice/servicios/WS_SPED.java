@@ -60,10 +60,12 @@ public class WS_SPED {
     @EJB
     private LN_T_SFEvaluacionLocal ln_T_SFEvaluacionLocal;
 
+
     @WebMethod
     public BeanUsuario autenticarUsuarioLN(@WebParam(name = "arg0") String usuario,
-                                           @WebParam(name = "arg1") String clave){
-        BeanUsuario bu = ln_C_SFUsuarioLocal.autenticarUsuarioLN(usuario, clave);
+                                           @WebParam(name = "arg1") String clave,
+                                           @WebParam(name = "arg2") String cadenaPhoneData){
+        BeanUsuario bu = ln_C_SFUsuarioLocal.autenticarUsuarioLN_WS(usuario, clave,cadenaPhoneData);
         return bu;
     }
 
@@ -131,8 +133,9 @@ public class WS_SPED {
     @WebMethod
     public String evaluarDocente_WS(@WebParam(name = "arg0") Integer nidEvaluacion,
                                     @WebParam(name = "arg1") String cadenaIndisXValor,
-                                    @WebParam(name = "arg2") Integer nidUsuario){
-        return ln_T_SFEvaluacionLocal.registrarEvaluacion_LN_WS(this.prepararListStringParametro(cadenaIndisXValor),nidEvaluacion,nidUsuario);
+                                    @WebParam(name = "arg2") Integer nidUsuario,
+                                    @WebParam(name = "arg3") Integer nidLog){
+        return ln_T_SFEvaluacionLocal.registrarEvaluacion_LN_WS(this.prepararListStringParametro(cadenaIndisXValor),nidEvaluacion,nidUsuario,nidLog);
     }
 
     @WebMethod(exclude = true)

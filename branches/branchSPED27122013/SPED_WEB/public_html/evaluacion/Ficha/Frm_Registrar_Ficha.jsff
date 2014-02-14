@@ -27,7 +27,7 @@
                 <af:button text="Editar Ficha" id="btnEditFicha" disabled="true" 
                             binding="#{bRegistrarFicha.btnEditFicha}" actionListener="#{bRegistrarFicha.editarFicha}"/>
                 <af:button text="Usar como Base" id="btnBase" disabled="true" binding="#{bRegistrarFicha.btnBase}"
-                           actionListener="#{bRegistrarFicha.usarComoBase}"/>
+                            actionListener="#{bRegistrarFicha.usarComoBase}"/>
                 <af:button id="btnRefresh" icon="../recursos/img/usuarios/refresh.png" immediate="true"
                             actionListener="#{bRegistrarFicha.refrescarTablaFichas}" />
                 <af:button text="Resetear" id="b7" actionListener="#{bRegistrarFicha.resetar}" immediate="true"/>

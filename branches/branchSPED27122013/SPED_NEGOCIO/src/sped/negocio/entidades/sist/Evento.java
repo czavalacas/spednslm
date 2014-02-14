@@ -23,8 +23,8 @@ public class Evento implements Serializable {
     @Id
     @Column(name = "nid_evento", nullable = false)
     private short nidEvento;
-    @OneToMany(mappedBy = "evento", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    private List<Log> logLista;
+    /*@OneToMany(mappedBy = "evento", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<Log> logLista;*/
 
     public Evento() {
     }
@@ -50,7 +50,7 @@ public class Evento implements Serializable {
     public void setNidEvento(short nidEvento) {
         this.nidEvento = nidEvento;
     }
-
+/*
     public List<Log> getLogLista() {
         return logLista;
     }
@@ -58,8 +58,8 @@ public class Evento implements Serializable {
     public void setLogLista(List<Log> logLista) {
         this.logLista = logLista;
     }
-
-    public Log addLog(Log log) {
+*/
+   /* public Log addLog(Log log) {
         getLogLista().add(log);
         log.setEvento(this);
         return log;
@@ -69,7 +69,7 @@ public class Evento implements Serializable {
         getLogLista().remove(log);
         log.setEvento(null);
         return log;
-    }
+    }*/
 
     @Override
     public String toString() {

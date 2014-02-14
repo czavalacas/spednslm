@@ -24,12 +24,15 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLogLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.Utils.MyBase64;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanUsuario;
+import sped.negocio.entidades.sist.Log;
 
 @Stateless(name = "LN_C_SFUsuario", mappedName = "mapLN_C_SFUsuario")
 public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote, 
@@ -44,6 +47,8 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
     private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
     @EJB
     private LN_C_SFErrorLocal ln_C_SFErrorLocal;
+    @EJB
+    private LN_T_SFLogLocal ln_T_SFLogLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFUsuarioBean() {
@@ -65,6 +70,34 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                         //String encoded = MyBase64.encode(beanUsuario.getFoto());
                         beanUsuario.setImg(encoded);
                     }
+                }
+            }
+        }catch(Exception e){
+            msj = "SPED-00001";
+        }finally{
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(msj);
+            beanUsuario.setError(beanError);
+            return beanUsuario;
+        }
+    }
+    
+    public BeanUsuario autenticarUsuarioLN_WS(String usuario,String clave,String cadenaPhoneData){
+        BeanUsuario beanUsuario = new BeanUsuario();
+        BeanError beanError = new BeanError();
+        String msj = "";
+        try{
+            Map mapa = bdL_C_SFUsuarioLocal.autenticarUsuarioBDL(usuario, clave);
+            Usuario user = (Usuario) mapa.get("USUARIO");
+            msj   = (String) mapa.get("MSJ");
+            if(user != null){
+                if(msj.equals("000")){
+                    beanUsuario = (BeanUsuario)mapper.map(user,BeanUsuario.class);
+                    if(beanUsuario.getFoto() != null){
+                        String encoded = Base64.encodeBase64String(beanUsuario.getFoto());
+                        //String encoded = MyBase64.encode(beanUsuario.getFoto());
+                        beanUsuario.setImg(encoded);
+                    }
+                    beanUsuario.setNidLog(ln_T_SFLogLocal.grabarLogLogInWS_LN(cadenaPhoneData,user.getNidUsuario()));
                 }
             }
         }catch(Exception e){

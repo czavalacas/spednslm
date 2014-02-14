@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
@@ -11,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "ResultadoCriterio.findAll", query = "select o from ResultadoCriterio o") })
@@ -18,6 +21,8 @@ import javax.persistence.Table;
 public class ResultadoCriterio implements Serializable {
     private static final long serialVersionUID = 3723001327582742186L;
     @Id
+    @TableGenerator( name = "stmcodi.evdrefc", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evdrefc.nidResultadoCriterio", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi.evdrefc" )
     @Column(name = "nidResultadoCriterio", nullable = false)
     private int nidResultadoCriterio;
     @Column(name = "valor")

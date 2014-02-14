@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import sped.negocio.entidades.eval.FichaCriterio;
+
 public class BeanCriterio implements Serializable, Cloneable {
     @SuppressWarnings("compatibility:-4334476189667862718")
     private static final long serialVersionUID = 1L;
@@ -21,7 +23,11 @@ public class BeanCriterio implements Serializable, Cloneable {
     private int esIndicador;
     private boolean noMostrarDown;
     private int cantidadValoresWS;
-
+    //AUXILIAR
+    private double sumaNota;
+    private int cantidadIndicadores;
+    private FichaCriterio fichaCriterioAUX;
+    
     public Object clone() {
         Object clone = null;
         try {
@@ -52,6 +58,30 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+
+    public void setSumaNota(double sumaNota) {
+        this.sumaNota = sumaNota;
+    }
+
+    public double getSumaNota() {
+        return sumaNota;
+    }
+
+    public void setCantidadIndicadores(int cantidadIndicadores) {
+        this.cantidadIndicadores = cantidadIndicadores;
+    }
+
+    public int getCantidadIndicadores() {
+        return cantidadIndicadores;
+    }
+
+    public void setFichaCriterioAUX(FichaCriterio fichaCriterioAUX) {
+        this.fichaCriterioAUX = fichaCriterioAUX;
+    }
+
+    public FichaCriterio getFichaCriterioAUX() {
+        return fichaCriterioAUX;
     }
 
     public void setCantidadValoresWS(int cantidadValoresWS) {
