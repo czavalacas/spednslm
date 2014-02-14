@@ -55,7 +55,7 @@
                             </af:panelFormLayout>
                         </af:showDetail>
                         <af:spacer width="10" height="25" id="s1"/>
-                        <af:button text="Buscar" id="bBuscar"/>
+                        <af:button text="Buscar" id="bBuscar" actionListener="#{bDesempenoEvaluador.buscarByFiltro}"/>
                         <af:button id="b2" icon="../recursos/img/usuarios/refresh.png"
                                    actionListener="#{bDesempenoEvaluador.limpiarFiltro}"/>
                     </af:subform>
