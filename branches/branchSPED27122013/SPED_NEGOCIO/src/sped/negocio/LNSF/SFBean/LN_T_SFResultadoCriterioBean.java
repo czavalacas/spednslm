@@ -43,7 +43,6 @@ public class LN_T_SFResultadoCriterioBean implements LN_T_SFResultadoCriterioRem
                 int cantMax = bcrit.getCantidadValoresWS() * bcrit.getCantidadIndicadores();
                 double notaCrit = (20 * bcrit.getSumaNota() ) / cantMax;
                 rc.setValor(notaCrit);
-                Utiles.sysout("bcrit:"+bcrit.getNidCriterio()+" bcrit.getSumaNota():"+bcrit.getSumaNota()+" bcrit.getCantidadIndicadores():"+bcrit.getCantidadIndicadores()+" valor:"+rc.getValor());
                 bdL_T_SFResultadoCriterioLocal.persistResultadoCriterio(rc);
             }
        } catch (Exception e) {
