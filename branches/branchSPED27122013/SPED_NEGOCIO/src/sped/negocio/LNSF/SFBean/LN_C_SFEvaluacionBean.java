@@ -221,8 +221,29 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBeanEvas;
     }
     
-    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(List lstnidRol){
-        return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(lstnidRol));
+    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(List lstnidRol,
+                                                                 List lstnidEva,
+                                                                 List lstnidSede,
+                                                                 List lstnidArea,                                                                 
+                                                                 Date fechaPlanifiacion,
+                                                                 Date fechaPlanifiacionF,
+                                                                 Date fechaEvaluacion,
+                                                                 Date fachaEvaluacionF){
+        try{
+            BeanEvaluacion beanEva = new BeanEvaluacion();
+            beanEva.setFechaMinPlanificacion(fechaPlanifiacion);
+            beanEva.setFechaMaxPlanificacion(fechaPlanifiacionF);
+            beanEva.setFechaMinEvaluacion(fechaEvaluacion);
+            beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
+            return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(lstnidRol,
+                                                                                                    lstnidEva,
+                                                                                                    lstnidSede,
+                                                                                                    lstnidArea,
+                                                                                                    beanEva));
+        } catch(Exception e){
+            e.printStackTrace();
+            return new ArrayList();
+        }        
     }
 
 }

@@ -142,9 +142,16 @@ public class bDesempenoEvaluador {
     }
     
     public void buscarByFiltro(ActionEvent actionEvent) {
-        List <BeanEvaluacion> lst = ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(sessionDesempenoEvaluador.getSelectedRol());
+        List <BeanEvaluacion> lst = ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(sessionDesempenoEvaluador.getSelectedRol(),
+                                                                                            sessionDesempenoEvaluador.getSelectedEvaluador(),
+                                                                                            sessionDesempenoEvaluador.getSelectedSede(),
+                                                                                            sessionDesempenoEvaluador.getSelectedArea(),
+                                                                                            sessionDesempenoEvaluador.getFechaPI(),
+                                                                                            sessionDesempenoEvaluador.getFechaPF(),
+                                                                                            sessionDesempenoEvaluador.getFechaEI(),
+                                                                                            sessionDesempenoEvaluador.getFechaEF());
         for(int i=0; i<lst.size(); i++){
-            System.out.println(lst.get(i).toString());
+            System.out.println(lst.get(i).getNombreEvaluador()+" "+lst.get(i).getNidEvaluacion()+" "+lst.get(i).getNidEvaluador());
         }
     }
 

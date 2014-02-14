@@ -142,6 +142,10 @@
             <value n="id" v="Dozer-4.4.1.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="Commons-codec-1.9.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
       <hash n="internalDefinitions">
          <list n="libraryDefinitions">
@@ -170,6 +174,15 @@
                <value n="deployedByDefault" v="true"/>
                <value n="description" v="Dozer-4.4.1.jar"/>
                <value n="id" v="Dozer-4.4.1.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="src/META-INF/commons-codec-1.9.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Commons-codec-1.9.jar"/>
+               <value n="id" v="Commons-codec-1.9.jar"/>
                <value n="locked" v="true"/>
             </hash>
          </list>
@@ -201,6 +214,10 @@
          </hash>
          <hash>
             <value n="id" v="Dozer-4.4.1.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Commons-codec-1.9.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
