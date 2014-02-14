@@ -272,12 +272,12 @@
             <amx:iterator id="i1" var="row" value="#{bindings.Return2.collectionModel}">
                 <amx:rowLayout id="rl6">
                     <amx:cellFormat id="cf10" width="90%" height="25px" valign="middle" 
-                                inlineStyle="#{pageFlowScope.pfcvalor == row.valor + 1 ? 'background-color:Orange;' : '' }">
+                                inlineStyle="#{pageFlowScope.pfcvalor == row.valor ? 'background-color:Orange;' : '' }">
                         <amx:outputText value="#{row.descripcionLeyenda}" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
                     </amx:cellFormat>
                     <amx:cellFormat id="cf11" width="10%" height="25px" halign="center" valign="middle" 
-                                inlineStyle="#{pageFlowScope.pfcvalor == row.valor + 1 ? 'background-color:Orange;' : '' }">
-                        <amx:outputText value="#{row.valor + 1}" styleClass="adfmf-listItem-highlightText">
+                                inlineStyle="#{pageFlowScope.pfcvalor == row.valor ? 'background-color:Orange;' : '' }">
+                        <amx:outputText value="#{row.valor}" styleClass="adfmf-listItem-highlightText">
                                 <amx:convertNumber groupingUsed="false"/>
                         </amx:outputText>
                     </amx:cellFormat>
