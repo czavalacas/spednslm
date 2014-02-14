@@ -27,6 +27,12 @@
       <variable Type="java.lang.Integer" Name="evaluarDocente_WS_arg0" IsQueriable="false"/>
       <variable Type="java.lang.String" Name="evaluarDocente_WS_arg1" IsQueriable="false"/>
       <variable Type="java.lang.Integer" Name="evaluarDocente_WS_arg2" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="evaluarDocente_WS1_Return" IsQueriable="false" IsUpdateable="0"
+                DefaultValue="${bindings.evaluarDocente_WS1.result}"/>
+      <variable Type="java.lang.Integer" Name="evaluarDocente_WS1_arg0" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="evaluarDocente_WS1_arg1" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="evaluarDocente_WS1_arg2" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="evaluarDocente_WS1_arg3" IsQueriable="false"/>
     </variableIterator>
   </executables>
   <bindings>
@@ -91,6 +97,7 @@
       <NamedData NDName="arg0" NDType="java.lang.Integer" NDValue="${bindings.evaluarDocente_WS_arg0}"/>
       <NamedData NDName="arg1" NDType="java.lang.String" NDValue="${bindings.evaluarDocente_WS_arg1}"/>
       <NamedData NDName="arg2" NDType="java.lang.Integer" NDValue="${bindings.evaluarDocente_WS_arg2}"/>
+      <NamedData NDName="arg3" NDType="java.lang.Integer" NDValue="${bindings.evaluarDocente_WS1_arg3}"/>
     </methodAction>
     <attributeValues IterBinding="variables" id="arg0">
       <AttrNames>
@@ -105,6 +112,11 @@
     <attributeValues IterBinding="variables" id="arg2">
       <AttrNames>
         <Item Value="evaluarDocente_WS_arg2"/>
+      </AttrNames>
+    </attributeValues>
+     <attributeValues IterBinding="variables" id="arg3">
+      <AttrNames>
+        <Item Value="evaluarDocente_WS1_arg3"/>
       </AttrNames>
     </attributeValues>
   </bindings>

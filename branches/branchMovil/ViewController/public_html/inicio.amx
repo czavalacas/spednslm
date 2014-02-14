@@ -17,5 +17,6 @@
             <amx:commandButton text="Ingresar" id="cb2" 
                                action="#{viewScope.bLogin.autenticarUsuario}"/>
         </amx:panelGroupLayout>
+      
     </amx:panelPage>
 </amx:view>

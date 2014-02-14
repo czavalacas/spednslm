@@ -450,18 +450,21 @@ public class bEvaluar {
             }
             ValueExpression veNidUsu = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.nidUsuario}",Integer.class);
             ValueExpression veNidEva = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.nidEvaluacion}",Integer.class);
+            ValueExpression veNidLog = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.nidLog}",Integer.class);
             
             Integer nidUsu = (Integer)veNidUsu.getValue(adfELContext);
             Integer nidEva = (Integer)veNidEva.getValue(adfELContext);
+            Integer nidLog = (Integer)veNidLog.getValue(adfELContext);
+            
             String cadenaIndisXValor = (String) res.get("PARAM");
            
             List pnames = new ArrayList();
             List params = new ArrayList();
             List ptypes = new ArrayList();
             
-            pnames.add("arg0");       pnames.add("arg1");                   pnames.add("arg2");        
-            params.add(nidEva);       params.add(cadenaIndisXValor);        params.add(nidUsu);
-            ptypes.add(Integer.class);ptypes.add(String.class);             ptypes.add(Integer.class);
+            pnames.add("arg0");       pnames.add("arg1");                   pnames.add("arg2");       pnames.add("arg3");        
+            params.add(nidEva);       params.add(cadenaIndisXValor);        params.add(nidUsu);       params.add(nidLog);
+            ptypes.add(Integer.class);ptypes.add(String.class);             ptypes.add(Integer.class);ptypes.add(Integer.class);
             
             String resultado = (String)AdfmfJavaUtilities.invokeDataControlMethod(WS_SERVICE,
                                                                                  null, 
