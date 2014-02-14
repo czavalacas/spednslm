@@ -83,15 +83,12 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                 ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCI());
                 bCrit = new BeanCriterio();
                 bCrit.setNidCriterio(ci.getFichaCriterio().getCriterio().getNidCriterio());
-                Utiles.sysout("contiene? "+lstBCrit.contains(bCrit)+" :ci.getNidCriterio():"+ci.getFichaCriterio().getCriterio().getNidCriterio());
                 if(!lstBCrit.contains(bCrit)){
                     bCrit.setSumaNota(beanIV.getValor().intValue());
                     bCrit.setCantidadIndicadores(1);
                     bCrit.setCantidadValoresWS(ci.getFichaCriterio().getFicha().getFichaValorLista().size());
                     bCrit.setFichaCriterioAUX(ci.getFichaCriterio());
                     bCrit.setNidCriterio(ci.getFichaCriterio().getCriterio().getNidCriterio());
-                   // bCI.setNidFicha(ci.getFichaCriterio().getFicha().getNidFicha());
-                   // bCI.setNidCriterio(ci.getFichaCriterio().getCriterio().getNidCriterio());
                     lstBCrit.add(bCrit);
                 }else{
                     bCrit = this.getCriterioFromList(bCrit.getNidCriterio(),lstBCrit);
