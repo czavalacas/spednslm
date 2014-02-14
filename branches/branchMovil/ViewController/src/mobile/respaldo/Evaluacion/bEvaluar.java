@@ -344,7 +344,7 @@ public class bEvaluar {
                 iter.getIterator().next();
             }
             this.setSumaByCriterio(sumaTotalXCriterio);
-            double notaEscala20 = (sumaTotalXCriterio * 20) / this.getMaxValByCriterio();
+            double notaEscala20 = (double) (sumaTotalXCriterio * 20) / this.getMaxValByCriterio();
             this.setNotaEscala20(notaEscala20);
             
             ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator}",Object.class);
