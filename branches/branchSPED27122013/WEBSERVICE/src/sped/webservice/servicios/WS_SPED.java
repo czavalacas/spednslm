@@ -1,6 +1,10 @@
 package sped.webservice.servicios;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import java.util.Map;
 
 import javax.ejb.EJB;
 
@@ -17,6 +21,7 @@ import sped.negocio.LNSF.IL.LN_C_SFLeyendaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
+import sped.negocio.LNSF.IL.LN_T_SFEvaluacionLocal;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCriterio;
@@ -25,6 +30,7 @@ import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
 import sped.negocio.entidades.beans.BeanFicha;
+import sped.negocio.entidades.beans.BeanIndicadorValorWS;
 import sped.negocio.entidades.beans.BeanLeyendaWS;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanSede;
@@ -51,6 +57,8 @@ public class WS_SPED {
     private LN_C_SFCriterioIndicadorLocal ln_C_SFCriterioIndicadorLocal;
     @EJB
     private LN_C_SFLeyendaLocal ln_C_SFLeyendaLocal;
+    @EJB
+    private LN_T_SFEvaluacionLocal ln_T_SFEvaluacionLocal;
 
     @WebMethod
     public BeanUsuario autenticarUsuarioLN(@WebParam(name = "arg0") String usuario,
@@ -117,5 +125,26 @@ public class WS_SPED {
     @WebMethod
     public List<BeanSede> getSedes_WS(){
         return ln_C_SFSedeLocal.getSedeLN();
+    }
+
+
+    @WebMethod
+    public String evaluarDocente_WS(@WebParam(name = "arg0") Integer nidEvaluacion,
+                                    @WebParam(name = "arg1") String cadenaIndisXValor,
+                                    @WebParam(name = "arg2") Integer nidUsuario){
+        return ln_T_SFEvaluacionLocal.registrarEvaluacion_LN_WS(this.prepararListStringParametro(cadenaIndisXValor),nidEvaluacion,nidUsuario);
+    }
+
+    @WebMethod(exclude = true)
+    public List<BeanIndicadorValorWS> prepararListStringParametro(String parametro){
+        String array1[] = parametro.split(";");
+        List<BeanIndicadorValorWS> lstBeanIndiVal = new ArrayList<BeanIndicadorValorWS>();
+        BeanIndicadorValorWS bean = null;
+        for(int i = 0; i < array1.length; i++){
+            String array2[] = array1[i].split(",");
+            bean = new BeanIndicadorValorWS(new Integer(array2[0]),new Integer(array2[1]));
+            lstBeanIndiVal.add(bean);
+        }
+        return lstBeanIndiVal;
     }
 }

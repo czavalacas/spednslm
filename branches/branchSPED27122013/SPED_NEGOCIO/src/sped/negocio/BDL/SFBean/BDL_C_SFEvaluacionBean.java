@@ -42,6 +42,15 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         return em.createNamedQuery("Evaluacion.findAll", Evaluacion.class).getResultList();
     }
     
+    public Evaluacion findEvaluacionById(int id) {
+        try {
+            Evaluacion instance = em.find(Evaluacion.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
+        }
+    }
+    
     public List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion){
         try{
             String ejbQl = "SELECT ev FROM Evaluacion ev WHERE 1=1";

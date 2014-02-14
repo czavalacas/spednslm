@@ -60,6 +60,8 @@ public class Evaluacion implements Serializable {
     private List<ResultadoCriterio> resultadoCriterioList;
     @Column(name = "tipo_visita", nullable = false)    
     private String tipoVisita;
+    @Column(name = "nid_usuario_ws")    
+    private Integer nid_usuario_ws;
 
     public Evaluacion() {
     }
@@ -82,6 +84,13 @@ public class Evaluacion implements Serializable {
         this.comentarioEvaluador = comentarioEvaluador;
     }
 
+    public void setNid_usuario_ws(Integer nid_usuario_ws) {
+        this.nid_usuario_ws = nid_usuario_ws;
+    }
+
+    public Integer getNid_usuario_ws() {
+        return nid_usuario_ws;
+    }
 
     public String getDescripcion() {
         return descripcion;

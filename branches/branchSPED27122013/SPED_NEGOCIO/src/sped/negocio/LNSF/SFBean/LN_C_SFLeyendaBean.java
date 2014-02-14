@@ -56,7 +56,7 @@ public class LN_C_SFLeyendaBean implements LN_C_SFLeyendaRemote,
         List<BeanLeyendaWS> lstLeys = new ArrayList<BeanLeyendaWS>();
         for(Leyenda ley : bdL_C_SFLeyendaLocal.getLeyendasByCriterioIndicador_BDL_WS(nidCriterioIndicador)){
             BeanLeyendaWS beanLey = new BeanLeyendaWS();
-            beanLey.setDescripcionLeyenda(ley.getDescripcionLeyenda());Utiles.sysout("leyenda: "+beanLey.getDescripcionLeyenda()+ " nidCI: "+nidCriterioIndicador);
+            beanLey.setDescripcionLeyenda(ley.getDescripcionLeyenda());
             beanLey.setValor(ley.getFichaValor().getValor().getValor());
             lstLeys.add(beanLey);
         }

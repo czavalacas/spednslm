@@ -30,6 +30,15 @@ public class BDL_C_SFCriterioIndicadorBean implements BDL_C_SFCriterioIndicadorR
         return em.createNamedQuery("CriterioIndicador.findAll", CriterioIndicador.class).getResultList();
     }
     
+    public CriterioIndicador findCriterioIndicadorById(int id) {
+        try {
+            CriterioIndicador instance = em.find(CriterioIndicador.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
+        }
+    }
+    
     public List<CriterioIndicador> getLstIndicadoresByFichaCriterio_BDL_WS(int nidFicha, int nidCriterio){
         try{
             String qlString = "SELECT ci " +
