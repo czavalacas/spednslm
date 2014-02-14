@@ -332,7 +332,6 @@ public class bEvaluar {
                 if (critIndiCurrent.intValue() == nidCritIndi.intValue()) {
                     if((i+1) == iter.getIterator().getTotalRowCount()){
                         iter.getIterator().previous();
-                       // iter.getIterator().next();
                     }
                     propertyChangeSupport.firePropertyChange("valor",row.getAttribute("valor"),newVal);
                     row.setAttribute("valor", newVal);
@@ -472,7 +471,7 @@ public class bEvaluar {
                                                                                  pnames, 
                                                                                  params, 
                                                                                  ptypes);  
-            if(!resultado.equals("000")){//      DeviceManagerFactory.getDeviceManager().get                                                                     
+            if(!resultado.equals("000")){                                                                  
                 AdfmUtils.alert(FEATURE, ALERTA, new Object[] {resultado});
             } else {
                 AdfmfContainerUtilities.invokeContainerJavaScriptFunction(FEATURE,
@@ -582,14 +581,6 @@ public class bEvaluar {
 
     public double getNotaFinalEscala20() {
         return notaFinalEscala20;
-    }
-
-    public String redireccionarGuardar() {
-        if(isOkRedireccionar == true){
-            return getRedireccionar();
-        }else{
-            return null;
-        }
     }
     
     public void setRedireccionar(String redireccionar) {
