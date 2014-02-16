@@ -380,6 +380,10 @@ public class bEvaluar {
     }
 
     public void resetearValoresCriterios(ActionEvent actionEvent) {
+        resetearValores();
+    }
+    
+    public void resetearValores(){
         this.setNotaEscala20(0.0);
         this.setNotaFinalEscala20(0.0);
         Map mapa = null;
@@ -406,7 +410,7 @@ public class bEvaluar {
             iteratorBinding.getIterator().next();
         }
     }
-    
+        
     public Map isValid(){
         Map resultado = new HashMap();
         resultado.put("BOOL","TRUE");
@@ -485,6 +489,7 @@ public class bEvaluar {
     }
     
     public String redirectEvaluadoPopUp() {
+        resetearValores();
         return "000";
     }
     
