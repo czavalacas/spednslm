@@ -13,10 +13,9 @@ import javax.faces.model.SelectItem;
 import oracle.adf.view.rich.component.rich.RichSubform;
 import oracle.adf.view.rich.component.rich.input.RichSelectManyChoice;
 
+import oracle.adf.view.rich.component.rich.layout.RichPanelDashboard;
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
-
-import oracle.adf.view.rich.component.rich.nav.RichButton;
 
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
@@ -51,6 +50,7 @@ public class bDesempenoEvaluador {
     private RichShowDetail sd2;
     private RichSubform s2;
     private RichPanelFormLayout pfl1;
+    private RichPanelDashboard pdash1;
 
     public bDesempenoEvaluador() {
     }
@@ -64,6 +64,7 @@ public class bDesempenoEvaluador {
             sessionDesempenoEvaluador.setLstEvaGeneral(llenarComboEvaGeneral());
             sessionDesempenoEvaluador.setLstSede(llenarComboSede());
             sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());
+            setListEvaFiltro_aux();
             sessionDesempenoEvaluador.setExec(1);
         }        
     }
@@ -142,6 +143,10 @@ public class bDesempenoEvaluador {
     }
     
     public void buscarByFiltro(ActionEvent actionEvent) {
+        setListEvaFiltro_aux();
+    }
+    
+    public void setListEvaFiltro_aux(){
         List <BeanEvaluacion> lst = ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(sessionDesempenoEvaluador.getSelectedRol(),
                                                                                             sessionDesempenoEvaluador.getSelectedEvaluador(),
                                                                                             sessionDesempenoEvaluador.getSelectedSede(),
@@ -149,10 +154,35 @@ public class bDesempenoEvaluador {
                                                                                             sessionDesempenoEvaluador.getFechaPI(),
                                                                                             sessionDesempenoEvaluador.getFechaPF(),
                                                                                             sessionDesempenoEvaluador.getFechaEI(),
-                                                                                            sessionDesempenoEvaluador.getFechaEF());
-        for(int i=0; i<lst.size(); i++){
-            System.out.println(lst.get(i).getNombreEvaluador()+" "+lst.get(i).getNidEvaluacion()+" "+lst.get(i).getNidEvaluador());
+                                                                                            sessionDesempenoEvaluador.getFechaEF());        
+        sessionDesempenoEvaluador.setLstEvaTable(lst);
+        setListEvabarChart(lst);
+        if(pdash1 != null){
+            Utils.addTargetMany(pdash1);
         }
+    }
+    
+    public void setListEvabarChart(List <BeanEvaluacion> lst){
+        List<Object[]> lstEva = new ArrayList();
+        String nombreEvaluador;
+        int contEjecutados, contPendiente, contNoEje, contNoEjeJ;
+        for(int i=0; i<lst.size(); i++){            
+            nombreEvaluador = lst.get(i).getNombreEvaluador();
+            contEjecutados = lst.get(i).getCantEjecutado();
+            contPendiente = lst.get(i).getCantPendiente();
+            contNoEje = lst.get(i).getCantNoEjecutado();
+            contNoEjeJ = lst.get(i).getCantNoJEjecutado();
+            Object[] obj1 = { nombreEvaluador, "EJECUTADOS", contEjecutados};
+            Object[] obj2 = { nombreEvaluador, "PENDIENTES", contPendiente};
+            Object[] obj3 = { nombreEvaluador, "NO EJECUTADOS", contNoEje};
+            Object[] obj4 = { nombreEvaluador, "SIN JUSTIFICACION", contNoEjeJ};
+            lstEva.add(obj1);
+            lstEva.add(obj2);
+            lstEva.add(obj3);
+            lstEva.add(obj3);
+            lstEva.add(obj4);
+        }
+        sessionDesempenoEvaluador.setLstEvaBarChart(lstEva);
     }
 
     public void setSessionDesempenoEvaluador(bSessionDesempenoEvaluador sessionDesempenoEvaluador) {
@@ -225,5 +255,13 @@ public class bDesempenoEvaluador {
 
     public RichPanelFormLayout getPfl1() {
         return pfl1;
-    }    
+    }
+
+    public void setPdash1(RichPanelDashboard pdash1) {
+        this.pdash1 = pdash1;
+    }
+
+    public RichPanelDashboard getPdash1() {
+        return pdash1;
+    }
 }

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import sped.negocio.entidades.beans.BeanEvaluacion;
+
 public class bSessionDesempenoEvaluador implements Serializable {
     @SuppressWarnings("compatibility:-8661660304648975906")
     private static final long serialVersionUID = 1L;
@@ -24,6 +26,8 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private Date fechaPF;
     private Date fechaEI;
     private Date fechaEF;
+    private List<BeanEvaluacion> lstEvaTable;
+    private List<Object[]> lstEvaBarChart;
 
     public bSessionDesempenoEvaluador() {
     }
@@ -146,5 +150,21 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public Date getFechaEF() {
         return fechaEF;
+    }
+
+    public void setLstEvaTable(List<BeanEvaluacion> lstEvaTable) {
+        this.lstEvaTable = lstEvaTable;
+    }
+
+    public List<BeanEvaluacion> getLstEvaTable() {
+        return lstEvaTable;
+    }
+    
+    public void setLstEvaBarChart(List<Object[]> lstEvaBarChart) {
+        this.lstEvaBarChart = lstEvaBarChart;
+    }
+
+    public List<Object[]> getLstEvaBarChart() {
+        return lstEvaBarChart;
     }
 }

@@ -410,57 +410,53 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }
     }
     
-    public List<Evaluacion> getDesempenoEvaluacionbyFiltroBDL(List lstnidRol,
-                                                              List lstnidEvaluador,
-                                                              List lstnidSede,
-                                                              List lstnidArea,
-                                                              BeanEvaluacion beanFEva){
-        String or = " OR ";
-        String and = " OR ";
+    public List getDesempenoEvaluacionbyFiltroBDL(List lstnidRol,
+                                                  List lstnidEvaluador,
+                                                  List lstnidSede,
+                                                  List lstnidArea,
+                                                  BeanEvaluacion beanFEva){
         try{
-            String strQuery = "SELECT DISTINCT eva " +
-                              "FROM Evaluacion eva, Usuario usu " +
-                              "WHERE eva.nidEvaluador=usu.nidUsuario ";
+            String strQuery = " FROM Evaluacion eva, Usuario usu " +
+                              " WHERE eva.nidEvaluador=usu.nidUsuario ";                      
             if(lstnidRol != null){
+                strQuery = strQuery.concat(" AND ( ");
                 for(int i=0 ; i < lstnidRol.size(); i++){
-                    if(i == 0){
-                        strQuery = strQuery.concat(and);
-                    }else{
-                        strQuery = strQuery.concat(or);
+                    if(i != 0){
+                        strQuery = strQuery.concat(" OR ");
                     }
                     strQuery = strQuery.concat(" usu.rol.nidRol = :nid_Rol"+i+" ");                    
                 }
+                strQuery = strQuery.concat(" ) ");
             }
             if(lstnidEvaluador != null){
+                strQuery = strQuery.concat(" AND ( ");
                 for(int i=0 ; i < lstnidEvaluador.size(); i++){
-                    if(i == 0){
-                        strQuery = strQuery.concat(and);
-                    }else{
-                        strQuery = strQuery.concat(or);
+                    if(i != 0){
+                        strQuery = strQuery.concat(" OR ");
                     }
                     strQuery = strQuery.concat(" eva.nidEvaluador = :nid_evaluador"+i+" ");                 
                 }
+                strQuery = strQuery.concat(" ) ");
             }           
             if(lstnidSede != null){
+                strQuery = strQuery.concat(" AND ( ");
                 for(int i=0 ; i < lstnidSede.size(); i++){
-                    if(i == 0){
-                        strQuery = strQuery.concat(and);
-                    }else{
-                        strQuery = strQuery.concat(or);
+                    if(i != 0){
+                        strQuery = strQuery.concat(" OR ");
                     }
                     strQuery = strQuery.concat(" eva.main.aula.sede.nidSede = :nid_Sede"+i+" ");                    
                 }
+                strQuery = strQuery.concat(" ) ");
             }            
             if(lstnidArea != null){
-                System.out.println(lstnidArea);
+                strQuery = strQuery.concat(" AND ( ");
                 for(int i=0 ; i < lstnidArea.size(); i++){
-                    if(i == 0){
-                        strQuery = strQuery.concat(and);
-                    }else{
-                        strQuery = strQuery.concat(or);
+                    if(i != 0){
+                        strQuery = strQuery.concat(" OR ");
                     }
                     strQuery = strQuery.concat(" eva.main.curso.areaAcademica.nidAreaAcademica = :nid_Area"+i+" ");                    
                 }
+                strQuery = strQuery.concat(" ) ");
             }
             if(beanFEva != null){
                 if(beanFEva.getFechaMinEvaluacion() != null && beanFEva.getFechaMaxEvaluacion() != null){
@@ -478,8 +474,16 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                 }
             }
-            Query query = em.createQuery(strQuery);
-            System.out.println(strQuery);
+            String group = " GROUP BY eva.nidEvaluador ";
+            String strQuery2 = "SELECT eva.nidEvaluador AS id, usu, " +
+                               "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'EJECUTADO' ) , " +
+                               "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'PENDIENTE' ) , " +
+                               "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EVALUO' AND eva.comentarioEvaluador = NULL),  " +
+                               "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EVALUO' AND eva.comentarioEvaluador != NULL )  " +
+                               "  "+strQuery; 
+            strQuery2 = strQuery2.concat(group+" ORDER BY usu.rol.nidRol ASC , eva.nidEvaluador ASC, eva.nidEvaluacion ASC " +
+                                         " ");
+            Query query = em.createQuery(strQuery2);
             if(lstnidRol != null){
                 for(int i=0 ; i < lstnidRol.size(); i++){
                     query.setParameter("nid_Rol"+i, Integer.parseInt(lstnidRol.get(i).toString()));                  
@@ -524,12 +528,13 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                 }
             }
-            List<Evaluacion> lstEvas = query.getResultList();
-            int size = lstEvas == null ? 0 : lstEvas.size();
+            List primitiva = query.getResultList();
+            // 0 - nidEvaluador , 1 - Usuario, 2 - Ejecutado, 3 - PENDIENTE, 4 -  NO EVALUO, 5 - NO EVALUO 
+            int size = primitiva == null ? 0 : primitiva.size();
             if (size > 0) {
-                return lstEvas;
+                return primitiva;
             } else {
-                return new ArrayList<Evaluacion>();
+                return new ArrayList();
             }           
         } catch(Exception e){
             e.printStackTrace();

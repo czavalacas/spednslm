@@ -336,21 +336,25 @@ public class bConsultarEvaluacion {
             paragraphthreeRunTwo.addBreak();
             XWPFRun paragraphthreeRunThree = paragraphthree.createRun();
             XWPFRunStyle(paragraphthreeRunThree, false, 0, " \t1.3.  Curso\t"
-                                                             +eva.getMain().getCurso().getDescripcionCurso());
+                                                             +eva.getMain().getCurso().getDescripcionCurso());            
             paragraphthreeRunThree.addBreak();
+            XWPFRun paragraphthreeRunThree2 = paragraphthree.createRun();
+            XWPFRunStyle(paragraphthreeRunThree2, false, 0, " \t1.4.  Sede\t"
+                                                             +eva.getMain().getAula().getSede().getDescripcionSede());            
+            paragraphthreeRunThree2.addBreak();
             XWPFRun paragraphthreeRunFour = paragraphthree.createRun();
-            XWPFRunStyle(paragraphthreeRunFour, false, 0, " \t1.4.  Nivel\t"
+            XWPFRunStyle(paragraphthreeRunFour, false, 0, " \t1.5.  Nivel\t"
                                                             +eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel()+
                                                             ".  Grado y Aula  "+
                                                             eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+
                                                             " - "+eva.getMain().getAula().getDescripcionAula());
             paragraphthreeRunFour.addBreak();
             XWPFRun paragraphthreeRunFive = paragraphthree.createRun();
-            XWPFRunStyle(paragraphthreeRunFive, false, 0, " \t1.5.  Fecha\t"
+            XWPFRunStyle(paragraphthreeRunFive, false, 0, " \t1.6.  Fecha\t"
                                                             +rangoFecha(eva));
             paragraphthreeRunFive.addBreak();
             XWPFRun paragraphthreeRunSix = paragraphthree.createRun();
-            XWPFRunStyle(paragraphthreeRunSix, false, 0, " \t1.6.  Valores\t"
+            XWPFRunStyle(paragraphthreeRunSix, false, 0, " \t1.7.  Valores\t"
                                                             +ln_C_SFValorLocal.getRangoValorByFicha(
                                                                     LstBeanFC.get(0).getFicha().getNidFicha()));
             paragraphthreeRunSix.addBreak();
