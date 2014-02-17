@@ -28,6 +28,7 @@ import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanEvaluacion;
@@ -230,20 +231,34 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                                  Date fechaEvaluacion,
                                                                  Date fachaEvaluacionF){
         try{
-            BeanEvaluacion beanEva = new BeanEvaluacion();
+            List<BeanEvaluacion> lstBeanEva = new ArrayList();
+            BeanEvaluacion beanEva = new BeanEvaluacion();            
             beanEva.setFechaMinPlanificacion(fechaPlanifiacion);
             beanEva.setFechaMaxPlanificacion(fechaPlanifiacionF);
             beanEva.setFechaMinEvaluacion(fechaEvaluacion);
             beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
-            return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(lstnidRol,
-                                                                                                    lstnidEva,
-                                                                                                    lstnidSede,
-                                                                                                    lstnidArea,
-                                                                                                    beanEva));
+            List listaBD = bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(lstnidRol,
+                                                                                   lstnidEva,
+                                                                                   lstnidSede,
+                                                                                   lstnidArea,
+                                                                                   beanEva);
+            for(Object dato : listaBD){
+                BeanEvaluacion bean = new BeanEvaluacion();
+                Object[] datos = (Object[]) dato;                
+                Usuario usu = (Usuario)datos[1];
+                bean.setNidEvaluador(usu.getNidUsuario());
+                bean.setNombreEvaluador(usu.getNombres());
+                bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
+                bean.setCantPendiente(Integer.parseInt(""+datos[3]));
+                bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
+                bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5]));
+                lstBeanEva.add(bean);
+            }
+            return lstBeanEva;
         } catch(Exception e){
             e.printStackTrace();
             return new ArrayList();
         }        
     }
-
+   
 }

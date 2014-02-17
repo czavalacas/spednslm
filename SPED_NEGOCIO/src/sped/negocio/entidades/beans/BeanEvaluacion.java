@@ -39,6 +39,11 @@ public class BeanEvaluacion implements Serializable {
         private Date fechaMinPlanificacion;
         private Date fechaMaxPlanificacion;
         private List<BeanResultadoCriterio> resultadoCriterioList;
+        //valores para el desempeño evaluador
+        private Integer cantEjecutado;
+        private Integer cantPendiente;
+        private Integer cantNoEjecutado;
+        private Integer cantNoJEjecutado;        
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
@@ -271,5 +276,37 @@ public class BeanEvaluacion implements Serializable {
 
     public String getColorResultado() {
         return colorResultado;
+    }
+
+    public void setCantEjecutado(Integer cantEjecutado) {
+        this.cantEjecutado = cantEjecutado;
+    }
+
+    public Integer getCantEjecutado() {
+        return cantEjecutado;
+    }
+
+    public void setCantPendiente(Integer cantPendiente) {
+        this.cantPendiente = cantPendiente;
+    }
+
+    public Integer getCantPendiente() {
+        return cantPendiente;
+    }
+
+    public void setCantNoEjecutado(Integer cantNoEjecutado) {
+        this.cantNoEjecutado = cantNoEjecutado;
+    }
+
+    public Integer getCantNoEjecutado() {
+        return cantNoEjecutado;
+    }
+
+    public void setCantNoJEjecutado(Integer cantNoJEjecutado) {
+        this.cantNoJEjecutado = cantNoJEjecutado;
+    }
+
+    public Integer getCantNoJEjecutado() {
+        return cantNoJEjecutado;
     }
 }
