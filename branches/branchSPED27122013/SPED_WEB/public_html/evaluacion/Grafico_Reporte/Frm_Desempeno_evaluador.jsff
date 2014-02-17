@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
-                xmlns:f="http://java.sun.com/jsf/core" xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces">
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces"
+                xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
         <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 30px;" id="pgl1">
             <af:panelSplitter orientation="horizontal" splitterPosition="300" id="ps1">
@@ -61,10 +62,48 @@
                     </af:subform>
                 </f:facet>
                 <f:facet name="second">
-                    <af:panelDashboard id="pd1">
-                        <af:panelBox text="PanelBox1" id="pb1">
-                        </af:panelBox>
-                    </af:panelDashboard>
+                    <af:panelGroupLayout id="pgl2">
+                        <af:panelDashboard id="pdash1" columns="2" rowHeight="350px" dimensionsFrom="auto"
+                                           binding="#{bDesempenoEvaluador.pdash1}">
+                            <af:panelBox text="PanelBox1" id="pb1" showDisclosure="false">
+                                <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST"
+                                              tabularData="#{sessionDesempenoEvaluador.lstEvaBarChart}">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPlotArea/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:o1Axis/>
+                                    <dvt:y1Axis/>
+                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                </dvt:barGraph>
+                            </af:panelBox>
+                            <af:panelBox text="PanelBox2" id="pb2" showDisclosure="false">
+                                <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row"
+                                          rowBandingInterval="0" id="t1">
+                                    <af:column sortable="false" headerText="Nombre Evaluador" align="start" id="c1">
+                                        <af:outputText value="#{row.nombreEvaluador}" id="ot1"/>
+                                    </af:column>
+                                    <af:column sortable="false" headerText="Cant Ejecutado" align="start" id="c2">
+                                        <af:outputText value="#{row.cantEjecutado}" id="ot2"/>
+                                    </af:column>
+                                    <af:column sortable="false" headerText="Cant Pendiente" align="start" id="c3">
+                                        <af:outputText value="#{row.cantPendiente}" id="ot3"/>
+                                    </af:column>
+                                    <af:column sortable="false" headerText="Cant No Ejecutado" align="start" id="c4">
+                                        <af:outputText value="#{row.cantNoEjecutado}" id="ot4"/>
+                                    </af:column>
+                                    <af:column sortable="false" headerText="Cant No J Ejecutado" align="start" id="c5">
+                                        <af:outputText value="#{row.cantNoJEjecutado}" id="ot5"/>
+                                    </af:column>
+                                </af:table>
+                            </af:panelBox>
+                            <af:panelBox text="PanelBox3" id="pb3" showDisclosure="false"></af:panelBox>
+                            <af:panelBox text="PanelBox4" id="pb4" showDisclosure="false"></af:panelBox>
+                        </af:panelDashboard>
+                    </af:panelGroupLayout>
                 </f:facet>
             </af:panelSplitter>
         </af:panelGroupLayout>
