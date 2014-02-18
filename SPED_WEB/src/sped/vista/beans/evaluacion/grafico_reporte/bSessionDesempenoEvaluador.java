@@ -38,6 +38,7 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private List<BeanEvaluacion> lstEvaTable;
     private List<BeanEvaluacion> lstEvaDetalle;
     private transient List<Object[]> lstEvaBarChart;
+    private transient List<Object[]> lstEvaLineG;
     private BeanUsuario evaluador;
     private String estado;
     private boolean renderSede;
@@ -293,5 +294,13 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public String getEstado() {
         return estado;
+    }
+
+    public void setLstEvaLineG(List<Object[]> lstEvaLineG) {
+        this.lstEvaLineG = lstEvaLineG;
+    }
+
+    public List<Object[]> getLstEvaLineG() {
+        return lstEvaLineG;
     }
 }
