@@ -29,11 +29,16 @@ import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.Utils.MyBase64;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.sist.Log;
 
+/**
+ * C;ase de Logica de Negocio que implementa los metodos relacionados con la Entidad Usuario: admusua
+ * @author dfloresgonz
+ */
 @Stateless(name = "LN_C_SFUsuario", mappedName = "mapLN_C_SFUsuario")
 public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote, 
                                               LN_C_SFUsuarioLocal {
@@ -112,19 +117,16 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
     /**Metodo LN 
      * creador: czavalacas**/
     public List<BeanUsuario> getEvaluadores(String nidAreaAcademica){      
-        List<Usuario>listaEvaluadores=bdL_C_SFUsuarioLocal.getEvaluadores(nidAreaAcademica); 
-    //    System.out.println("ENTRO A GET EVALUADORES TAMA�O DE LA ENTIDA : "+listaEvaluadores.size() );
-        List<BeanUsuario> listaBean=new ArrayList<BeanUsuario>();
-        MapperIF mapper = new DozerBeanMapper();
-        Iterator it=listaEvaluadores.iterator();
+        List<Usuario>listaEvaluadores = bdL_C_SFUsuarioLocal.getEvaluadores(nidAreaAcademica); 
+        List<BeanUsuario> listaBean = new ArrayList<BeanUsuario>();
+        Iterator it = listaEvaluadores.iterator();
         while(it.hasNext()){
-            Usuario entida= (Usuario)it.next();
+            Usuario entida = (Usuario) it.next();
             BeanUsuario bean = (BeanUsuario)mapper.map(entida,BeanUsuario.class);
             listaBean.add(bean);
         }
-   //       System.out.println("TAMA�O DEL BEAN: "+listaBean.size() );
         return listaBean;
-      }
+    }
 
     @Override
     public List<BeanUsuario> getUsuarioByEstadoLN(String estado) {
