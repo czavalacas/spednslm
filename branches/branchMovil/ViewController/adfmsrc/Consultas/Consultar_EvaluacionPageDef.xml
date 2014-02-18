@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="11.1.2.64.36" id="Consultar_EvaluacionPageDef"
+                Package="Consultas">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables">
+      <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg0" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg1" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg2" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg3" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="getEvaluaciones_WS_arg4" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="getEvaluaciones_WS_arg5" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg6" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg7" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="getEvaluaciones_WS_arg8" IsQueriable="false"/>
+      <variable Type="java.sql.Date" Name="getEvaluaciones_WS_arg9" IsQueriable="false"/>
+      <variable Type="java.sql.Date" Name="getEvaluaciones_WS_arg10" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="getEvaluaciones_WS_arg11" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg12" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg13" IsQueriable="false"/>
+    </variableIterator>
+    <methodIterator Binds="getEvaluaciones_WS.result" DataControl="WS_SPED" RangeSize="25"
+                    BeanClass="application.WS_SPED.getEvaluaciones_WS" id="getEvaluaciones_WSIterator"/>
+  </executables>
+  <bindings>
+    <methodAction id="getEvaluaciones_WS" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="getEvaluaciones_WS" IsViewObjectMethod="false" DataControl="WS_SPED"
+                  InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.getEvaluaciones_WS_WS_SPED_getEvaluaciones_WS_result">
+      <NamedData NDName="arg0" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg0}"/>
+      <NamedData NDName="arg1" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg1}"/>
+      <NamedData NDName="arg2" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg2}"/>
+      <NamedData NDName="arg3" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg3}"/>
+      <NamedData NDName="arg4" NDType="java.lang.String" NDValue="${bindings.getEvaluaciones_WS_arg4}"/>
+      <NamedData NDName="arg5" NDType="java.lang.String" NDValue="${bindings.getEvaluaciones_WS_arg5}"/>
+      <NamedData NDName="arg6" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg6}"/>
+      <NamedData NDName="arg7" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg7}"/>
+      <NamedData NDName="arg8" NDType="java.lang.String" NDValue="${bindings.getEvaluaciones_WS_arg8}"/>
+      <NamedData NDName="arg9" NDType="java.sql.Date" NDValue="${bindings.getEvaluaciones_WS_arg9}"/>
+      <NamedData NDName="arg10" NDType="java.sql.Date" NDValue="${bindings.getEvaluaciones_WS_arg10}"/>
+      <NamedData NDName="arg11" NDType="java.lang.String" NDValue="${bindings.getEvaluaciones_WS_arg11}"/>
+      <NamedData NDName="arg12" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg12}"/>
+      <NamedData NDName="arg13" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg13}"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="arg0">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg0"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg1">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg1"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg2">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg2"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg3">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg3"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg4">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg4"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg5">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg5"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg6">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg6"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg7">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg7"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg8">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg8"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg9">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg9"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg10">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg10"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg11">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg11"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg12">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg12"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg13">
+      <AttrNames>
+        <Item Value="getEvaluaciones_WS_arg13"/>
+      </AttrNames>
+    </attributeValues>
+  </bindings>
+</pageDefinition>

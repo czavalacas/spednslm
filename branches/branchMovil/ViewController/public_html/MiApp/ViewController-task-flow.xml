@@ -31,7 +31,9 @@
     <view id="Consultar_Planificacion">
       <page>/Consultas/Consultar_Planificacion.amx</page>
     </view>
-    <view id="Consultar_Evaluacion"></view>
+    <view id="Consultar_Evaluacion">
+      <page>/Consultas/Consultar_Evaluacion.amx</page>
+    </view>
     <view id="Evaluar">
       <page>/Evaluacion/Evaluar.amx</page>
     </view>
