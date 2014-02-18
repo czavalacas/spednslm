@@ -3,19 +3,15 @@ package sped.negocio.BDL.SFBean;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
-
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.Utils.Utiles;
@@ -31,7 +27,8 @@ import utils.system;
  * @since 31.12.2013
  */
 @Stateless(name = "BDL_C_SFEvaluacion", mappedName = "map-BDL_C_SFEvaluacion")
-public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_SFEvaluacionLocal {
+public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, 
+                                                  BDL_C_SFEvaluacionLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -57,57 +54,45 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
 
     public List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion) {
         try {
-            String ejbQl = "SELECT ev FROM Evaluacion ev WHERE 1=1";
+            String ejbQl = "SELECT ev " +
+                           "FROM Evaluacion ev " +
+                           "WHERE 1 = 1 ";
 
-            if (beanEvaluacion.getFechaMaxPlanificacion() != null &&
-                beanEvaluacion.getFechaMinPlanificacion() != null) {
+            if (beanEvaluacion.getFechaMaxPlanificacion() != null && beanEvaluacion.getFechaMinPlanificacion() != null) {
                 ejbQl = ejbQl.concat(" AND ev.fechaPlanificacion BETWEEN :min AND :max ");
             }
 
             if (beanEvaluacion.getNidEvaluador() != null) {
                 if (beanEvaluacion.getNidEvaluador() != 0) {
-                    ejbQl = ejbQl.concat(" AND ev.nidEvaluador =" + beanEvaluacion.getNidEvaluador());
+                    ejbQl = ejbQl.concat(" AND ev.nidEvaluador = "+beanEvaluacion.getNidEvaluador());
                 }
             }
             if (beanEvaluacion.getNidNivel() != null) {
                 if (beanEvaluacion.getNidNivel() != 0) {
-                    ejbQl =
-                        ejbQl.concat(" AND ev.main.aula.gradoNivel.nivel.nidNivel =" + beanEvaluacion.getNidNivel());
+                    ejbQl = ejbQl.concat(" AND ev.main.aula.gradoNivel.nivel.nidNivel = "+beanEvaluacion.getNidNivel());
                 }
             }
             if (beanEvaluacion.getNidArea() != null) {
                 if (beanEvaluacion.getNidArea() != 0) {
-                    ejbQl =
-                        ejbQl.concat(" AND ev.main.curso.areaAcademica.nidAreaAcademica=" +
-                                     beanEvaluacion.getNidArea());
+                    ejbQl = ejbQl.concat(" AND ev.main.curso.areaAcademica.nidAreaAcademica = "+beanEvaluacion.getNidArea());
                 }
             }
-
             if (beanEvaluacion.getNidEstadoEvaluacion() != null) {
-                System.out.println("ENTRO ...::::::::::::::::::::::::::::::");
-                ejbQl = ejbQl.concat(" AND ev.estadoEvaluacion='" + beanEvaluacion.getNidEstadoEvaluacion() + "'");
+                ejbQl = ejbQl.concat(" AND ev.estadoEvaluacion = '" + beanEvaluacion.getNidEstadoEvaluacion() + "' ");
             }
-
-
             if (beanEvaluacion.getNidSede() != null) {
                 if (beanEvaluacion.getNidSede() != 0) {
-                    ejbQl = ejbQl.concat(" AND ev.main.aula.sede.nidSede=" + beanEvaluacion.getNidSede());
+                    ejbQl = ejbQl.concat(" AND ev.main.aula.sede.nidSede=" +beanEvaluacion.getNidSede());
                 }
             }
-
             if (beanEvaluacion.getApellidosDocentes() != null) {
-                ejbQl =
-                    ejbQl.concat(" AND upper(ev.main.profesor.apellidos) like '%" +
-                                 beanEvaluacion.getApellidosDocentes().toUpperCase() + "%' ");
+                ejbQl = ejbQl.concat(" AND upper(ev.main.profesor.apellidos) like '%" +beanEvaluacion.getApellidosDocentes().toUpperCase() + "%' ");
             }
-
             if (beanEvaluacion.getFechaMaxPlanificacion() != null &&
                 beanEvaluacion.getFechaMinPlanificacion() != null) {
-                List<Evaluacion> lstEvaluaciones =
-                    em.createQuery(ejbQl).setParameter("min", beanEvaluacion.getFechaMinPlanificacion(),
-                                                       TemporalType.DATE).setParameter("max",
-                                                                                       beanEvaluacion.getFechaMaxPlanificacion(),
-                                                                                       TemporalType.DATE).getResultList();
+                List<Evaluacion> lstEvaluaciones = em.createQuery(ejbQl).setParameter("min", beanEvaluacion.getFechaMinPlanificacion(),
+                                                   TemporalType.DATE).setParameter("max",beanEvaluacion.getFechaMaxPlanificacion(),
+                                                                                    TemporalType.DATE).getResultList();
                 return lstEvaluaciones;
             } else {
             }
@@ -121,7 +106,9 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
 
     public Evaluacion getEvaluacionById(String nidDate) {
         try {
-            String ejbQl = "SELECT ma FROM Evaluacion ma" + " WHERE ma.nidDate='" + nidDate + "'";
+            String ejbQl = " SELECT ma " +
+                           " FROM Evaluacion ma " +
+                           " WHERE ma.nidDate = '" + nidDate + "'";
             Evaluacion eva = (Evaluacion) em.createQuery(ejbQl).getSingleResult();
             return eva;
         } catch (Exception e) {
@@ -130,39 +117,39 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
         }
     }
 
-    public List<Evaluacion> getEvaluaciones(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
-                                            String dniProfesor, String nidCurso, Integer nidSede) {
+    public List<Evaluacion> getEvaluaciones(String fechaHoy, 
+                                            Integer nidAreaAcademica, 
+                                            Integer nidEvaluador,
+                                            String dniProfesor, 
+                                            String nidCurso, 
+                                            Integer nidSede) {
         try {
-            String ejbQl =
-                "SELECT ev FROM Evaluacion ev, Main ma, Curso cu, AreaAcademica ac" + " WHERE ev.startDate like '%" +
-                fechaHoy + "%'" + " AND ma.nidMain=ev.main.nidMain" + " AND ma.curso.nidCurso=cu.nidCurso" +
-                " AND cu.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica" + " AND ev.nidEvaluador=" + nidEvaluador;
-
-
+            String ejbQl = "SELECT ev " +
+                          " FROM Evaluacion ev, " +
+                          "     Main ma, " +
+                          "     Curso cu," +
+                          "     AreaAcademica ac " +
+                          " WHERE ev.startDate like '%" + fechaHoy + "%' " +
+                          " AND ma.nidMain=ev.main.nidMain " +
+                          " AND ma.curso.nidCurso=cu.nidCurso " +
+                          " AND cu.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica " + 
+                          " AND ev.nidEvaluador = " + nidEvaluador;
             if (nidAreaAcademica != null) {
                 if (nidAreaAcademica != 0) {
-                    ejbQl = ejbQl.concat(" AND ac.nidAreaAcademica=" + nidAreaAcademica);
-                    System.out.println("REPO nidAreaAcademica : " + nidAreaAcademica);
+                    ejbQl = ejbQl.concat(" AND ac.nidAreaAcademica = " + nidAreaAcademica);
                 }
             }
             if (nidSede != null) {
                 if (nidSede != 0) {
-                    ejbQl = ejbQl.concat(" AND ma.aula.sede.nidSede=" + nidSede);
-                    System.out.println("REPO nidSede : " + nidSede);
+                    ejbQl = ejbQl.concat(" AND ma.aula.sede.nidSede = " + nidSede);
                 }
             }
             if (dniProfesor != null) {
-                ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor='" + dniProfesor + "'");
-                System.out.println("REPO DNI PROFE : " + dniProfesor);
-
+                ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor = '" + dniProfesor + "'");
             }
             if (nidCurso != null) {
-                ejbQl = ejbQl.concat(" and ma.curso.nidCurso=" + nidCurso);
-                System.out.println("REPO nidCurso: " + nidCurso);
-
+                ejbQl = ejbQl.concat(" and ma.curso.nidCurso = " + nidCurso);
             }
-
-
             List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();
             return eva;
         } catch (Exception e) {
@@ -175,16 +162,17 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
         List<Evaluacion> listEvaluacion = new ArrayList();
         try {
             if (beanUsuario != null) {
-                String strQuery =
-                    "SELECT eva " + "FROM Evaluacion eva, Usuario usu " + "WHERE eva.nidEvaluador=usu.nidUsuario ";
+                String strQuery = "SELECT eva " + 
+                                  "FROM Evaluacion eva, " +
+                                  "     Usuario usu " + 
+                                  "WHERE eva.nidEvaluador = usu.nidUsuario ";
                 int nidRol = beanUsuario.getRol().getNidRol();
                 if (nidRol == 2 || nidRol == 4 || nidRol == 5) {
                     strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
                 }
                 if (nidRol == 4) {
-                    strQuery =
-                        strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede " +
-                                        " AND eva.main.aula.gradoNivel.nivel.nidNivel = :nid_nivel ");
+                    strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede " +
+                                               " AND eva.main.aula.gradoNivel.nivel.nidNivel = :nid_nivel ");
                     beanFiltroEva.setNidSede(0);
                     beanFiltroEva.setNidNivel(0);
                 }
@@ -324,7 +312,9 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
 
     public List<Constraint> getTipoVisita() {
         try {
-            String ejbQl = "SELECT ma FROM Constraint ma" + " WHERE ma.nombreCampo='tipo_visita'";
+            String ejbQl = "SELECT ma " +
+                           "FROM Constraint ma " +
+                           "WHERE ma.nombreCampo = 'tipo_visita'";
             List<Constraint> cons = em.createQuery(ejbQl).getResultList();
             return cons;
         } catch (Exception e) {
@@ -335,7 +325,9 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
 
     public Constraint getTipoVisitaByValor(String valor) {
         try {
-            String ejbQl = "SELECT ma FROM Constraint ma" + " WHERE ma.valorCampo='" + valor + "'";
+            String ejbQl = "SELECT ma " +
+                           "FROM Constraint ma " + 
+                           " WHERE ma.valorCampo = '" + valor + "'";
             Constraint cons = (Constraint) em.createQuery(ejbQl).getSingleResult();
             return cons;
         } catch (Exception e) {
@@ -354,20 +346,24 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
      * @since 04.02.2014
      * @return
      */
-    public List<Evaluacion> getPlanificaciones_BDL_WS(int nidRol, int nidSede, int nidAreaAcademica, int nidUsuario,
-                                                      String nombreProfesor, String curso, int nidSedeFiltro,
+    public List<Evaluacion> getPlanificaciones_BDL_WS(int nidRol,
+                                                      int nidSede, 
+                                                      int nidAreaAcademica,
+                                                      int nidUsuario,
+                                                      String nombreProfesor,
+                                                      String curso,
+                                                      int nidSedeFiltro,
                                                       int nidAAFiltro) {
         try {
-            String qlString = "SELECT e " + "FROM Evaluacion e " + "WHERE e.estadoEvaluacion = 'PENDIENTE' ";
+            String qlString = "SELECT e " +
+                              "FROM Evaluacion e " + 
+                              "WHERE e.estadoEvaluacion = 'PENDIENTE' ";
             if (nidRol == 4) { //Evaluador x Sede
                 qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
-            } else if (nidRol ==
-                       2) { //Evaluador x Area
-                qlString =
-          qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
+            } else if (nidRol == 2) { //Evaluador x Area
+                qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
             } else if (nidRol == 1 || nidRol == 5) { //Director || Evaluador General
                 //TODOS LOS PERMISOS
-
             }
             if (nidSedeFiltro != 0) {
                 if (nidRol == 1 || nidRol == 2 || nidRol == 5) {
@@ -380,9 +376,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
                 }
             }
             if (nombreProfesor != null) {
-                qlString =
-                    qlString.concat(" AND upper(CONCAT(e.main.profesor.nombres ,' ' ," +
-                                    " e.main.profesor.apellidos)) like upper(:nombreProfesor) ");
+                qlString = qlString.concat(" AND upper(CONCAT(e.main.profesor.nombres ,' ' ," +
+                                           " e.main.profesor.apellidos)) like upper(:nombreProfesor) ");
             }
             if (curso != null) {
                 qlString = qlString.concat(" AND upper(e.main.curso.descripcionCurso) like upper(:curso) ");
@@ -425,21 +420,30 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
         }
     }
 
-    public List<Evaluacion> getEvaluaciones_BDL_WS(int nidRol, int nidSede, int nidAreaAcademica, int nidUsuario,
-                                                   String nombreProfesor, String curso, int nidSedeFiltro,
-                                                   int nidAAFiltro, String estado, Date fechaMin, Date fechaMax,
-                                                   String tipoVisita, Integer nidPlanificador, Integer nidEvaluador) {
+    public List<Evaluacion> getEvaluaciones_BDL_WS(int nidRol, 
+                                                   int nidSede, 
+                                                   int nidAreaAcademica,
+                                                   int nidUsuario,
+                                                   String nombreProfesor, 
+                                                   String curso, 
+                                                   int nidSedeFiltro,
+                                                   int nidAAFiltro, 
+                                                   String estado, 
+                                                   Date fechaMin, 
+                                                   Date fechaMax,
+                                                   String tipoVisita, 
+                                                   Integer nidPlanificador, 
+                                                   Integer nidEvaluador) {
         try {
-            String qlString = "SELECT e " + "FROM Evaluacion e " + "WHERE e.estadoEvaluacion = '" + estado + "' ";
+            String qlString = "SELECT e " + 
+                              "FROM Evaluacion e " +
+                              "WHERE e.estadoEvaluacion = '" + estado + "' ";
             if (nidRol == 4) { //Evaluador x Sede
                 qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
-            } else if (nidRol ==
-                       2) { //Evaluador x Area
-                qlString =
-          qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
+            } else if (nidRol == 2) { //Evaluador x Area
+                qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
             } else if (nidRol == 1 || nidRol == 5) { //Director || Evaluador General
                 //TODOS LOS PERMISOS
-
             }
             if (nidSedeFiltro != 0) {
                 if (nidRol == 1 || nidRol == 2 || nidRol == 5) {
@@ -452,9 +456,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
                 }
             }
             if (nombreProfesor != null) {
-                qlString =
-                    qlString.concat(" AND upper(CONCAT(e.main.profesor.nombres ,' ' ," +
-                                    " e.main.profesor.apellidos)) like upper(:nombreProfesor) ");
+                qlString = qlString.concat(" AND upper(CONCAT(e.main.profesor.nombres ,' ' ," +
+                                           " e.main.profesor.apellidos)) like upper(:nombreProfesor) ");
             }
             if (curso != null) {
                 qlString = qlString.concat(" AND upper(e.main.curso.descripcionCurso) like upper(:curso) ");
@@ -528,11 +531,16 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto, BDL_C_S
         }
     }
 
-    public List getDesempenoEvaluacionbyFiltroBDL(int tipoBusqueda, List lstnidRol, List lstnidEvaluador,
-                                                  List lstnidSede, List lstnidArea, BeanEvaluacion beanFEva) {
+    public List getDesempenoEvaluacionbyFiltroBDL(int tipoBusqueda, 
+                                                  List lstnidRol, 
+                                                  List lstnidEvaluador,
+                                                  List lstnidSede, 
+                                                  List lstnidArea, 
+                                                  BeanEvaluacion beanFEva) {
         try {
             String strQuery2 = " ";
-            String strQuery = " FROM Evaluacion eva, Usuario usu " + " WHERE eva.nidEvaluador=usu.nidUsuario ";
+            String strQuery = " FROM Evaluacion eva, Usuario usu " +
+                              " WHERE eva.nidEvaluador=usu.nidUsuario ";
             if (lstnidRol != null) {
                 strQuery = strQuery.concat(" AND ( ");
                 for (int i = 0; i < lstnidRol.size(); i++) {
