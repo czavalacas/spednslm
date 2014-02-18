@@ -615,6 +615,14 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                 }
             }
+<<<<<<< .mine
+            if(tipoBusqueda == 1 || tipoBusqueda == 3){
+                strQuery2 = "SELECT eva.nidEvaluador AS id, usu, " +
+                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'EJECUTADO' ) , " +
+                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'PENDIENTE' ) , " +
+                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EJECUTADO' AND eva.comentarioEvaluador != NULL),  " +
+                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EJECUTADO' AND eva.comentarioEvaluador = NULL ) ";                
+=======
             if (tipoBusqueda == 1) {
                 strQuery2 =
                     "SELECT eva.nidEvaluador AS id, usu, " + "(SELECT COUNT(DISTINCT eva) " + strQuery +
@@ -627,11 +635,30 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     " AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EJECUTADO' AND eva.comentarioEvaluador = NULL )  " +
                     "  " + strQuery;
                 strQuery2 = strQuery2.concat(" GROUP BY eva.nidEvaluador ");
+>>>>>>> .r180
             }
+<<<<<<< .mine
+            if(tipoBusqueda == 1){
+                strQuery2 = strQuery2.concat(strQuery+" GROUP BY eva.nidEvaluador ");
+            }            
+            if(tipoBusqueda == 2){
+                strQuery2 = strQuery2.concat("SELECT eva " +strQuery);
+=======
             if (tipoBusqueda == 2) {
                 strQuery2 = "SELECT eva " + strQuery;
+>>>>>>> .r180
             }
+<<<<<<< .mine
+            if(tipoBusqueda == 1 || tipoBusqueda == 2){
+                strQuery2 = strQuery2.concat(" ORDER BY usu.rol.nidRol ASC , eva.nidEvaluador ASC, eva.nidEvaluacion ASC ");
+            } 
+            if(tipoBusqueda == 3){
+                strQuery2 = strQuery2.concat(",eva "+strQuery+" GROUP BY CAST(eva.endDate AS date) ");
+                strQuery2 = strQuery2.concat(" ORDER BY eva.endDate ASC ");
+            }                       
+=======
             strQuery2 = strQuery2.concat(" ORDER BY usu.rol.nidRol ASC , eva.nidEvaluador ASC, eva.nidEvaluacion ASC ");
+>>>>>>> .r180
             Query query = em.createQuery(strQuery2);
             if (lstnidRol != null) {
                 for (int i = 0; i < lstnidRol.size(); i++) {
@@ -686,14 +713,21 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             if (tipoBusqueda == 1) {
                 List primitiva = query.getResultList();
                 // 0 - nidEvaluador , 1 - Usuario, 2 - Ejecutado, 3 - PENDIENTE, 4 -  NO EVALUO, 5 - NO EVALUO
+                // tipo 3 --> 6 evaluacion
                 int size = primitiva == null ? 0 : primitiva.size();
                 if (size > 0) {
                     return primitiva;
                 } else {
                     return new ArrayList();
                 }
+<<<<<<< .mine
+            }
+            else if(tipoBusqueda == 2 || tipoBusqueda == 3){
+                List<Evaluacion> lstEvas = query.getResultList();                
+=======
             } else if (tipoBusqueda == 2) {
                 List<Evaluacion> lstEvas = query.getResultList();
+>>>>>>> .r180
                 int size = lstEvas == null ? 0 : lstEvas.size();
                 if (size > 0) {
                     return lstEvas;
