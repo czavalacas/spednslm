@@ -34,8 +34,6 @@ public class bConsultaPlanificacion {
     }
     
     public String goToEvaluar(){
-        //Logger.getLogger(Utility.APP_LOGNAME).logp(Level.INFO, this.getClass().getName(), "Diego","INVOCO AL METODO!!!!:"); 
-        //System.out.println("Diego SYSOUT INVOCO AL METODO refrescarResultado!!!!");
         ValueExpression ve = AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator.currentRow.dataProvider}", Object.class);
         Object obj = ve.getValue(AdfmfJavaUtilities.getAdfELContext());
         BeanPlanificacion beanPlanificacion = new BeanPlanificacion();

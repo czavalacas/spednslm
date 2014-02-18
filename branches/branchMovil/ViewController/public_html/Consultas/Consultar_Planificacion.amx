@@ -18,20 +18,20 @@
                          actionListener="#{viewScope.bConsultaPlanificacion.refrescarResultado}"/>
     </amx:panelGroupLayout>
     <amx:panelFormLayout id="pfl2" labelPosition="topCenter" fieldHalign="start">
-      <amx:inputText value="#{bindings.arg4.inputValue}" id="it3" 
+      <amx:inputText value="#{bindings.arg4.inputValue}" id="it3"  rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"
                      valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioProfesor}" hintText="Profesor"
                      simple="true"/>
       <amx:inputText value="#{bindings.arg5.inputValue}" id="it4" simple="true"
                      valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioCurso}" hintText="Curso"/>
-      <amx:selectOneChoice  label="Sede" id="soc1" rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
-                            value="#{bindings.arg6.inputValue}"
+      <amx:selectOneChoice  label="Sede" id="soc1" value="#{bindings.arg6.inputValue}"
+                            rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
                             valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioEnSede}" simple="true">
         <amx:selectItem value="0" label="Seleccionar Sede"/>
         <amx:selectItems value="#{viewScope.bMain.listaSedes}"/>
       </amx:selectOneChoice> 
-      <amx:selectOneChoice  label="Area" id="soc2" rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 4 || pageFlowScope.usuario.rol.nidRol == 5}"
-                            value="#{bindings.arg7.inputValue}"
-                           valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioEnArea}" simple="true">
+      <amx:selectOneChoice  label="Area" id="soc2" value="#{bindings.arg7.inputValue}"
+                            rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 4 || pageFlowScope.usuario.rol.nidRol == 5}"
+                            valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioEnArea}" simple="true">
         <amx:selectItem value="0" label="Seleccionar Area"/>
         <amx:selectItems value="#{viewScope.bMain.listaAreas}"/>
       </amx:selectOneChoice>
