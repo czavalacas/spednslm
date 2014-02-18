@@ -6,12 +6,14 @@
     <page path="/Bienvenida/Main.amx" usageId="mobile_MainPageDef"/>
     <page path="/Consultas/Consultar_Planificacion.amx" usageId="mobile_Consultar_PlanificacionPageDef"/>
     <page path="/Evaluacion/Evaluar.amx" usageId="mobile_EvaluarPageDef"/>
+    <page path="/Consultas/Consultar_Evaluacion.amx" usageId="mobile_Consultar_EvaluacionPageDef"/>
   </pageMap>
   <pageDefinitionUsages>
     <page id="mobile_inicioPageDef" path="mobile.pageDefs.inicioPageDef"/>
     <page id="mobile_MainPageDef" path="Bienvenida.MainPageDef"/>
     <page id="mobile_Consultar_PlanificacionPageDef" path="Consultas.Consultar_PlanificacionPageDef"/>
     <page id="mobile_EvaluarPageDef" path="Evaluacion.EvaluarPageDef"/>
+    <page id="mobile_Consultar_EvaluacionPageDef" path="Consultas.Consultar_EvaluacionPageDef"/>
   </pageDefinitionUsages>
   <dataControlUsages>
     <dc id="bEvaluar" path="mobile.bEvaluar"/>
