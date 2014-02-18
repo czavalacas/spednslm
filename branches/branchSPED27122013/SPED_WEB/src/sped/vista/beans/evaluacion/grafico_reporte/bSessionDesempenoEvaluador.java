@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bSessionDesempenoEvaluador implements Serializable {
     @SuppressWarnings("compatibility:-8661660304648975906")
@@ -22,13 +23,27 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private List selectedEvaluador;
     private List selectedSede;
     private List selectedArea;
+    private List selectedRol_aux;
+    private List selectedEvaluador_aux;
+    private List selectedSede_aux;
+    private List selectedArea_aux;
     private Date fechaPI;
     private Date fechaPF;
     private Date fechaEI;
     private Date fechaEF;
+    private Date fechaPI_axu;
+    private Date fechaPF_aux;
+    private Date fechaEI_aux;
+    private Date fechaEF_aux;
     private List<BeanEvaluacion> lstEvaTable;
-    private List<Object[]> lstEvaBarChart;
-
+    private List<BeanEvaluacion> lstEvaDetalle;
+    private transient List<Object[]> lstEvaBarChart;
+    private BeanUsuario evaluador;
+    private String estado;
+    private boolean renderSede;
+    private boolean renderNivel;
+    private boolean renderArea;
+    
     public bSessionDesempenoEvaluador() {
     }
 
@@ -159,12 +174,124 @@ public class bSessionDesempenoEvaluador implements Serializable {
     public List<BeanEvaluacion> getLstEvaTable() {
         return lstEvaTable;
     }
-    
+
+    public void setSelectedRol_aux(List selectedRol_aux) {
+        this.selectedRol_aux = selectedRol_aux;
+    }
+
+    public List getSelectedRol_aux() {
+        return selectedRol_aux;
+    }
+
+    public void setSelectedEvaluador_aux(List selectedEvaluador_aux) {
+        this.selectedEvaluador_aux = selectedEvaluador_aux;
+    }
+
+    public List getSelectedEvaluador_aux() {
+        return selectedEvaluador_aux;
+    }
+
+    public void setSelectedSede_aux(List selectedSede_aux) {
+        this.selectedSede_aux = selectedSede_aux;
+    }
+
+    public List getSelectedSede_aux() {
+        return selectedSede_aux;
+    }
+
+    public void setSelectedArea_aux(List selectedArea_aux) {
+        this.selectedArea_aux = selectedArea_aux;
+    }
+
+    public List getSelectedArea_aux() {
+        return selectedArea_aux;
+    }
+
+    public void setFechaPI_axu(Date fechaPI_axu) {
+        this.fechaPI_axu = fechaPI_axu;
+    }
+
+    public Date getFechaPI_axu() {
+        return fechaPI_axu;
+    }
+
+    public void setFechaPF_aux(Date fechaPF_aux) {
+        this.fechaPF_aux = fechaPF_aux;
+    }
+
+    public Date getFechaPF_aux() {
+        return fechaPF_aux;
+    }
+
+    public void setFechaEI_aux(Date fechaEI_aux) {
+        this.fechaEI_aux = fechaEI_aux;
+    }
+
+    public Date getFechaEI_aux() {
+        return fechaEI_aux;
+    }
+
+    public void setFechaEF_aux(Date fechaEF_aux) {
+        this.fechaEF_aux = fechaEF_aux;
+    }
+
+    public Date getFechaEF_aux() {
+        return fechaEF_aux;
+    }
+
+    public void setLstEvaDetalle(List<BeanEvaluacion> lstEvaDetalle) {
+        this.lstEvaDetalle = lstEvaDetalle;
+    }
+
+    public List<BeanEvaluacion> getLstEvaDetalle() {
+        return lstEvaDetalle;
+    }
+
     public void setLstEvaBarChart(List<Object[]> lstEvaBarChart) {
         this.lstEvaBarChart = lstEvaBarChart;
     }
 
     public List<Object[]> getLstEvaBarChart() {
         return lstEvaBarChart;
+    }
+
+    public void setEvaluador(BeanUsuario evaluador) {
+        this.evaluador = evaluador;
+    }
+
+    public BeanUsuario getEvaluador() {
+        return evaluador;
+    }
+
+    public void setRenderSede(boolean renderSede) {
+        this.renderSede = renderSede;
+    }
+
+    public boolean isRenderSede() {
+        return renderSede;
+    }
+
+    public void setRenderNivel(boolean renderNivel) {
+        this.renderNivel = renderNivel;
+    }
+
+    public boolean isRenderNivel() {
+        return renderNivel;
+    }
+
+    public void setRenderArea(boolean renderArea) {
+        this.renderArea = renderArea;
+    }
+
+    public boolean isRenderArea() {
+        return renderArea;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getEstado() {
+        return estado;
     }
 }

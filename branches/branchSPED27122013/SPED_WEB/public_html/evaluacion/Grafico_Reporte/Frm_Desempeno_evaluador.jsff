@@ -67,7 +67,8 @@
                                            binding="#{bDesempenoEvaluador.pdash1}">
                             <af:panelBox text="PanelBox1" id="pb1" showDisclosure="false">
                                 <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST"
-                                              tabularData="#{sessionDesempenoEvaluador.lstEvaBarChart}">
+                                              tabularData="#{sessionDesempenoEvaluador.lstEvaBarChart}"
+                                              clickListener="#{bDesempenoEvaluador.clickListenerGraph1}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -77,7 +78,7 @@
                                     </dvt:seriesSet>
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
-                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                    <dvt:legendArea automaticPlacement="AP_NEVER" position="LAP_TOP"/>
                                 </dvt:barGraph>
                             </af:panelBox>
                             <af:panelBox text="PanelBox2" id="pb2" showDisclosure="false">
@@ -107,5 +108,52 @@
                 </f:facet>
             </af:panelSplitter>
         </af:panelGroupLayout>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popDetalle"
+                  binding="#{bDesempenoEvaluador.popDetalle}">
+            <af:dialog id="d1" title="Detalle de Evaluaciones">
+                <af:panelGridLayout id="pgl3">
+                    <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                        <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc2">
+                            <af:image id="i1" inlineStyle="height:113px; width:100px;"
+                                      source="/imageservlet?nomusuario=#{sessionDesempenoEvaluador.evaluador.usuario}"/>
+                        </af:gridCell>
+                        <af:gridCell marginStart="5px" width="50%" id="gc1">
+                            <af:panelFormLayout id="pfl2">
+                                <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;" disabled="true"
+                                              value="#{sessionDesempenoEvaluador.evaluador.nombres}"/>
+                                <af:inputText label="Rol " id="it2" labelStyle="text-align: left;" disabled="true"
+                                              value="#{sessionDesempenoEvaluador.evaluador.rol.descripcionRol}"/>
+                                <af:inputText label="Sede " id="it3" labelStyle="text-align: left;" disabled="true"
+                                              value="#{sessionDesempenoEvaluador.evaluador.sedeNivel.sede.descripcionSede}"
+                                              rendered="#{sessionDesempenoEvaluador.renderSede}"/>
+                                <af:inputText label="Nivel " id="it4" labelStyle="text-align: left;" disabled="true"
+                                              value="#{sessionDesempenoEvaluador.evaluador.sedeNivel.nivel.descripcionNivel}"
+                                              rendered="#{sessionDesempenoEvaluador.renderNivel}"/>
+                                <af:inputText label="Area " id="it5" labelStyle="text-align: left;" disabled="true"
+                                              value="#{sessionDesempenoEvaluador.evaluador.areaAcademica.descripcionAreaAcademica}"
+                                              rendered="#{sessionDesempenoEvaluador.renderArea}"/>
+                                <af:inputText label="Evaluacion(s) " id="it6" labelStyle="text-align: left;" disabled="true"
+                                              value="#{sessionDesempenoEvaluador.estado}"/>
+                                              
+                            </af:panelFormLayout>
+                        </af:gridCell>                        
+                    </af:gridRow>
+                </af:panelGridLayout>
+                <af:table value="#{sessionDesempenoEvaluador.lstEvaDetalle}" var="row" rowBandingInterval="0" id="t2">
+                    <af:column sortable="false" headerText="Profesor" align="start" id="c7">
+                        <af:outputText value="#{row.main.profesor.apellidos}" id="ot7"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Fecha Planificacion" align="start" id="c6">
+                        <af:outputText value="#{row.fechaPlanificacion}" id="ot6"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Fecha Evaluacion" align="start" id="c9">
+                        <af:outputText value="#{row.endDate}" id="ot9"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Comentario Evaluador" align="start" id="c8">
+                        <af:outputText value="#{row.comentarioEvaluador}" id="ot8"/>
+                    </af:column>
+                </af:table>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>

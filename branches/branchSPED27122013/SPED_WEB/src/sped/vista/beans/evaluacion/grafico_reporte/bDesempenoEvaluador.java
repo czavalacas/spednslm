@@ -7,9 +7,14 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.FacesEvent;
 import javax.faces.model.SelectItem;
 
+import oracle.adf.view.faces.bi.event.ClickEvent;
+import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.RichSubform;
 import oracle.adf.view.rich.component.rich.input.RichSelectManyChoice;
 
@@ -17,11 +22,17 @@ import oracle.adf.view.rich.component.rich.layout.RichPanelDashboard;
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
 
+import oracle.dss.dataView.Attributes;
+import oracle.dss.dataView.ComponentHandle;
+
+import oracle.dss.dataView.DataComponentHandle;
+
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
+import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanRol;
@@ -51,6 +62,7 @@ public class bDesempenoEvaluador {
     private RichSubform s2;
     private RichPanelFormLayout pfl1;
     private RichPanelDashboard pdash1;
+    private RichPopup popDetalle;
 
     public bDesempenoEvaluador() {
     }
@@ -139,15 +151,33 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setSelectedEvaluador(null);
         sessionDesempenoEvaluador.setSelectedRol(null);
         sessionDesempenoEvaluador.setSelectedSede(null);
+        //valores auxiliares//
+        sessionDesempenoEvaluador.setSelectedRol_aux(null);
+        sessionDesempenoEvaluador.setSelectedEvaluador_aux(null);
+        sessionDesempenoEvaluador.setSelectedSede_aux(null);
+        sessionDesempenoEvaluador.setSelectedArea_aux(null);
+        sessionDesempenoEvaluador.setFechaPI_axu(null);
+        sessionDesempenoEvaluador.setFechaPF_aux(null);
+        sessionDesempenoEvaluador.setFechaEI_aux(null);
+        sessionDesempenoEvaluador.setFechaEF_aux(null);
         Utils.addTargetMany(pfl1,s2);
     }
     
     public void buscarByFiltro(ActionEvent actionEvent) {
         setListEvaFiltro_aux();
+        sessionDesempenoEvaluador.setSelectedRol_aux(sessionDesempenoEvaluador.getSelectedRol());
+        sessionDesempenoEvaluador.setSelectedEvaluador_aux(sessionDesempenoEvaluador.getSelectedEvaluador());
+        sessionDesempenoEvaluador.setSelectedSede_aux(sessionDesempenoEvaluador.getSelectedSede());
+        sessionDesempenoEvaluador.setSelectedArea_aux(sessionDesempenoEvaluador.getSelectedArea());
+        sessionDesempenoEvaluador.setFechaPI_axu(sessionDesempenoEvaluador.getFechaPI());
+        sessionDesempenoEvaluador.setFechaPF_aux(sessionDesempenoEvaluador.getFechaPF());
+        sessionDesempenoEvaluador.setFechaEI_aux(sessionDesempenoEvaluador.getFechaEI());
+        sessionDesempenoEvaluador.setFechaEF_aux(sessionDesempenoEvaluador.getFechaEF());
     }
     
     public void setListEvaFiltro_aux(){
-        List <BeanEvaluacion> lst = ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(sessionDesempenoEvaluador.getSelectedRol(),
+        List <BeanEvaluacion> lst = ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(1,null,null,
+                                                                                            sessionDesempenoEvaluador.getSelectedRol(),
                                                                                             sessionDesempenoEvaluador.getSelectedEvaluador(),
                                                                                             sessionDesempenoEvaluador.getSelectedSede(),
                                                                                             sessionDesempenoEvaluador.getSelectedArea(),
@@ -172,17 +202,75 @@ public class bDesempenoEvaluador {
             contPendiente = lst.get(i).getCantPendiente();
             contNoEje = lst.get(i).getCantNoEjecutado();
             contNoEjeJ = lst.get(i).getCantNoJEjecutado();
-            Object[] obj1 = { nombreEvaluador, "EJECUTADOS", contEjecutados};
-            Object[] obj2 = { nombreEvaluador, "PENDIENTES", contPendiente};
-            Object[] obj3 = { nombreEvaluador, "NO EJECUTADOS", contNoEje};
-            Object[] obj4 = { nombreEvaluador, "SIN JUSTIFICACION", contNoEjeJ};
+            Object[] obj1 = { nombreEvaluador, "Ejecutado", contEjecutados};
+            Object[] obj2 = { nombreEvaluador, "Pendiente", contPendiente};
+            Object[] obj3 = { nombreEvaluador, "No ejecutado", contNoEje};
+            Object[] obj4 = { nombreEvaluador, "No Justifico", contNoEjeJ};
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
             lstEva.add(obj3);
             lstEva.add(obj4);
         }
-        sessionDesempenoEvaluador.setLstEvaBarChart(lstEva);
+        sessionDesempenoEvaluador.setLstEvaBarChart(lstEva);        
+    }
+    
+    public void clickListenerGraph1(ClickEvent clickEvent) {
+        sessionDesempenoEvaluador.setRenderNivel(true);
+        sessionDesempenoEvaluador.setRenderSede(true);
+        sessionDesempenoEvaluador.setRenderArea(true);  
+        ComponentHandle handle = clickEvent.getComponentHandle();
+        String nombre = null;
+        String estado = null;
+        if (handle instanceof DataComponentHandle) {
+            DataComponentHandle dhandle = (DataComponentHandle)handle;
+            Attributes[] groupInfo = dhandle.getGroupAttributes();
+            Attributes[] seriesInfo = dhandle.getSeriesAttributes();
+            if (groupInfo != null) {
+              for (Attributes attrs : groupInfo) {
+                nombre = (String)attrs.getValue(Attributes.LABEL_VALUE);
+              }
+              for (Attributes attrs : seriesInfo) {
+                  estado = (String)attrs.getValue(Attributes.LABEL_VALUE);
+              }
+            }
+          }        
+        List <BeanEvaluacion> lst = ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(2,
+                                                                                            nombre,
+                                                                                            estado,
+                                                                                            sessionDesempenoEvaluador.getSelectedRol(),
+                                                                                            sessionDesempenoEvaluador.getSelectedEvaluador(),
+                                                                                            sessionDesempenoEvaluador.getSelectedSede(),
+                                                                                            sessionDesempenoEvaluador.getSelectedArea(),
+                                                                                            sessionDesempenoEvaluador.getFechaPI(),
+                                                                                            sessionDesempenoEvaluador.getFechaPF(),
+                                                                                            sessionDesempenoEvaluador.getFechaEI(),
+                                                                                            sessionDesempenoEvaluador.getFechaEF());
+        sessionDesempenoEvaluador.setLstEvaDetalle(lst);
+        BeanUsuario beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());
+        if(beanUsu.getRol().getNidRol() == 4){
+            sessionDesempenoEvaluador.setRenderArea(false);            
+        }
+        if(beanUsu.getRol().getNidRol() == 2){
+            sessionDesempenoEvaluador.setRenderNivel(false);
+            sessionDesempenoEvaluador.setRenderSede(false);
+        }
+        sessionDesempenoEvaluador.setEvaluador(beanUsu);
+        sessionDesempenoEvaluador.setEstado(estado);
+        //Utils.showPopUpMIDDLE(popDetalle);
+        showPopup(clickEvent, popDetalle);
+    }
+    
+    public void showPopup(FacesEvent event, RichPopup pop) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        UIComponent source = (UIComponent)event.getSource();
+        String alignId = source.getClientId(context);
+        RichPopup popup = pop;
+        RichPopup.PopupHints hints = new RichPopup.PopupHints();
+        hints.add(RichPopup.PopupHints.HintTypes.HINT_LAUNCH_ID, source);
+        hints.add(RichPopup.PopupHints.HintTypes.HINT_ALIGN,
+                  RichPopup.PopupHints.AlignTypes.ALIGN_AFTER_END);
+        popup.show(hints);
     }
 
     public void setSessionDesempenoEvaluador(bSessionDesempenoEvaluador sessionDesempenoEvaluador) {
@@ -263,5 +351,13 @@ public class bDesempenoEvaluador {
 
     public RichPanelDashboard getPdash1() {
         return pdash1;
+    }
+
+    public void setPopDetalle(RichPopup popDetalle) {
+        this.popDetalle = popDetalle;
+    }
+
+    public RichPopup getPopDetalle() {
+        return popDetalle;
     }
 }
