@@ -20,6 +20,7 @@ public class BeanEvaluacionWS implements Serializable {
     private String tipoVisita;
     private Date endDate;
     private String aula;
+    private Double notaFinal;
 
     public void setAula(String aula) {
         this.aula = aula;
@@ -115,5 +116,13 @@ public class BeanEvaluacionWS implements Serializable {
 
     public Integer getNidEvaluador() {
         return nidEvaluador;
+    }
+
+    public void setNotaFinal(Double notaFinal) {
+        this.notaFinal = notaFinal;
+    }
+
+    public Double getNotaFinal() {
+        return notaFinal;
     }
 }

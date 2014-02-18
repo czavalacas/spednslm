@@ -59,4 +59,18 @@ public interface LN_C_SFEvaluacionLocal {
                                                           Date fechaPlanifiacionF,
                                                           Date fechaEvaluacion,
                                                           Date fachaEvaluacionF);
+    List<BeanEvaluacionWS> getEvaluaciones_LN_WS(int nidRol,
+                                                int nidSede,
+                                                int nidAreaAcademica,
+                                                int nidUsuario,
+                                                String nombresProfesor,
+                                                String curso,
+                                                int nidSedeFiltro,
+                                                int nidAAFiltro,
+                                                String estado,
+                                                Date fechaMin,
+                                                Date fechaMax,
+                                                String tipoVisita,
+                                                Integer nidPlanificador,
+                                                Integer nidEvaluador);
 }

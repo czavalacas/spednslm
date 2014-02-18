@@ -24,11 +24,12 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "BDL_C_SFUsuario", mappedName = "mapBDL_C_SFUsuario")
 public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote, 
-                                            BDL_C_SFUsuarioLocal {
+                                               BDL_C_SFUsuarioLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -74,16 +75,11 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
                            " WHERE ma.rol.nidRol=2 OR " +
                            " ma.rol.nidRol=4 OR "+
                            " ma.rol.nidRol=5 ";
-            System.out.println(" ::::: ");
             if (nidAreaAcademica!= null) {               
-                    ejbQl =
-                        ejbQl.concat(" and ma.areaAcademica.nidAreaAcademica= " +
-                                     nidAreaAcademica);  
-                System.out.println(" ENTRO ");
+                ejbQl = ejbQl.concat(" and ma.areaAcademica.nidAreaAcademica= "+nidAreaAcademica);  
             }
-                List<Usuario> lstEval = em.createQuery(ejbQl).getResultList();        
-            System.out.println(" SIZE ::: " +lstEval.size());
-                return lstEval;       
+            List<Usuario> lstEval = em.createQuery(ejbQl).getResultList();        
+            return lstEval;       
         }catch(Exception e){
             e.printStackTrace();  
             return null;

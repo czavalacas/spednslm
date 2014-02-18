@@ -6,6 +6,7 @@ import javax.ejb.Remote;
 
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.ConstraintPK;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanConstraint;
 
 @Remote
@@ -21,5 +22,7 @@ public interface BDL_C_SFUtilsRemote {
                             String entidad, 
                             boolean changeCase,
                             boolean isUpdate);
+    List<BeanCombo> getPlanificadores_WS(String id, String desc);
+    List<BeanCombo> getEvaluadores_WS(String id, String desc);
 }
 

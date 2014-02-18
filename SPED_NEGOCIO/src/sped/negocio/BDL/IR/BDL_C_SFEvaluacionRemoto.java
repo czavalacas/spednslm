@@ -35,4 +35,18 @@ public interface BDL_C_SFEvaluacionRemoto {
                                            List lstnidSede,
                                            List lstnidArea,
                                            BeanEvaluacion beanFEva);
+    List<Evaluacion> getEvaluaciones_BDL_WS(int nidRol,
+                                            int nidSede,
+                                            int nidAreaAcademica,
+                                            int nidUsuario,
+                                            String nombreProfesor,
+                                            String curso,
+                                            int nidSedeFiltro,
+                                            int nidAAFiltro,
+                                            String estado,
+                                            Date fechaMin,
+                                            Date fechaMax,
+                                            String tipoVisita,
+                                            Integer nidPlanificador,
+                                            Integer nidEvaluador);
 }
