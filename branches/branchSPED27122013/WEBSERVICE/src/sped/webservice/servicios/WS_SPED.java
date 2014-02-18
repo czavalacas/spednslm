@@ -1,6 +1,7 @@
 package sped.webservice.servicios;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,9 +22,11 @@ import sped.negocio.LNSF.IL.LN_C_SFLeyendaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
+import sped.negocio.LNSF.IL.LN_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_T_SFEvaluacionLocal;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanCriterioIndicadorWS;
 import sped.negocio.entidades.beans.BeanCriterioWS;
@@ -59,6 +62,8 @@ public class WS_SPED {
     private LN_C_SFLeyendaLocal ln_C_SFLeyendaLocal;
     @EJB
     private LN_T_SFEvaluacionLocal ln_T_SFEvaluacionLocal;
+    @EJB
+    private LN_C_SFUtilsLocal ln_C_SFUtilsLocal;
 
 
     @WebMethod
@@ -84,17 +89,50 @@ public class WS_SPED {
                                                         @WebParam(name = "arg5") String curso,
                                                         @WebParam(name = "arg6") int nidSedeFiltro,
                                                         @WebParam(name = "arg7") int nidAAFiltro){
-        System.out.println("\n========================================================================================");
-        System.out.println("rol:"+nidRol);
-        System.out.println("nidSede:"+nidSede);
-        System.out.println("nidAreaAcademica:"+nidAreaAcademica);
-        System.out.println("nidUsuario:"+nidUsuario);
-        System.out.println("nombresProfesor:"+nombresProfesor);
-        System.out.println("curso:"+curso);
-        System.out.println("nidSedeFiltro:"+nidSedeFiltro);
-        System.out.println("nidAAFiltro:"+nidAAFiltro);
         if(nidRol == 1 || nidRol == 2 || nidRol == 4 || nidRol == 5){//Solo Director,EvaXArea,EvaXSede y EvaGeneral pueden consultar
-            return ln_C_SFEvaluacionLocal.getPlanificaciones_LN_WS(nidRol, nidSede, nidAreaAcademica, nidUsuario, nombresProfesor, curso, nidSedeFiltro, nidAAFiltro);
+            return ln_C_SFEvaluacionLocal.getPlanificaciones_LN_WS(nidRol, 
+                                                                       nidSede, 
+                                                                       nidAreaAcademica,
+                                                                       nidUsuario, 
+                                                                       nombresProfesor, 
+                                                                       curso, 
+                                                                       nidSedeFiltro, 
+                                                                       nidAAFiltro);
+        }else{
+            return null;
+        }
+    }
+
+    @WebMethod
+    public List<BeanEvaluacionWS> getEvaluaciones_WS(@WebParam(name = "arg0") int nidRol,
+                                                     @WebParam(name = "arg1") int nidSede,
+                                                     @WebParam(name = "arg2") int nidAreaAcademica,
+                                                     @WebParam(name = "arg3") int nidUsuario,
+                                                     @WebParam(name = "arg4") String nombresProfesor,
+                                                     @WebParam(name = "arg5") String curso,
+                                                     @WebParam(name = "arg6") int nidSedeFiltro,
+                                                     @WebParam(name = "arg7") int nidAAFiltro,
+                                                     @WebParam(name = "arg8") String estado,
+                                                     @WebParam(name = "arg9") Date fechaMin,
+                                                     @WebParam(name = "arg10") Date fechaMax,
+                                                     @WebParam(name = "arg11") String tipoVisita,
+                                                     @WebParam(name = "arg12") Integer nidPlanificador,
+                                                     @WebParam(name = "arg13") Integer nidEvaluador){
+        if(nidRol == 1 || nidRol == 2 || nidRol == 4 || nidRol == 5 || nidRol == 3){//Solo Director,EvaXArea,EvaXSede,Profesor y EvaGeneral pueden consultar
+            return ln_C_SFEvaluacionLocal.getEvaluaciones_LN_WS(nidRol, 
+                                                                    nidSede, 
+                                                                    nidAreaAcademica,
+                                                                    nidUsuario, 
+                                                                    nombresProfesor, 
+                                                                    curso, 
+                                                                    nidSedeFiltro, 
+                                                                    nidAAFiltro,
+                                                                    estado,
+                                                                    fechaMin,
+                                                                    fechaMax,
+                                                                    tipoVisita,
+                                                                    nidPlanificador,
+                                                                    nidEvaluador);
         }else{
             return null;
         }
@@ -149,5 +187,15 @@ public class WS_SPED {
             lstBeanIndiVal.add(bean);
         }
         return lstBeanIndiVal;
+    }
+
+    @WebMethod
+    public List<BeanCombo> getPlanificadores_LN_WS(){
+        return ln_C_SFUtilsLocal.getPlanificadores_LN_WS();
+    }
+
+    @WebMethod
+    public List<BeanCombo> getEvaluadores_LN_WS(){
+        return ln_C_SFUtilsLocal.getEvaluadores_LN_WS();
     }
 }

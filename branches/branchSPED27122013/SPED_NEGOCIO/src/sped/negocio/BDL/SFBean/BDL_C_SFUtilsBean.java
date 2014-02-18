@@ -22,6 +22,8 @@ import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.ConstraintPK;
+import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanConstraint;
 
 @Stateless(name = "BDL_C_SFUtils", mappedName = "mapBDL_C_SFUtils")
@@ -113,4 +115,45 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
              return 0;
          }
      }
+    
+    /**
+     * Metodo que retorna los usuarios planificadores
+     * @author dfloresgonz
+     * @since 17.02.2014
+     * @return
+     */
+    public List<BeanCombo> getPlanificadores_WS(String id, String desc){
+        try{
+            String qlString =  " SELECT NEW sped.negocio.entidades.beans.BeanCombo("+id+","+desc+") FROM " +
+                               " Usuario u " +
+                               " WHERE u.rol.nidRol = 4 OR " +
+                               " u.rol.nidRol = 5 ";
+            List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
+            return lstUsuarios;       
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
+    }
+    
+    /**
+     * Metodo que retorna los usuarios evaluadores
+     * @author dfloresgonz
+     * @since 17.02.2014
+     * @return
+     */
+    public List<BeanCombo> getEvaluadores_WS(String id, String desc){
+        try{
+            String qlString =  " SELECT sped.negocio.entidades.beans.BeanCombo("+id+","+desc+") FROM " +
+                               " Usuario u " +
+                               " WHERE u.rol.nidRol = 2 OR " +
+                               " u.rol.nidRol = 4 OR "+
+                               " u.rol.nidRol = 5 ";
+            List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
+            return lstUsuarios;       
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
+    }
 }
