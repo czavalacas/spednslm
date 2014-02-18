@@ -29,7 +29,8 @@ public interface BDL_C_SFEvaluacionLocal {
                                                String curso,
                                                int nidSedeFiltro,
                                                int nidAAFiltro);
-    List getDesempenoEvaluacionbyFiltroBDL(List lstnidRol,
+    List getDesempenoEvaluacionbyFiltroBDL(int tipoBusqueda,
+                                           List lstnidRol,
                                            List lstnidEvaluador,
                                            List lstnidSede,
                                            List lstnidArea,

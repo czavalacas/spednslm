@@ -48,7 +48,10 @@ public interface LN_C_SFEvaluacionLocal {
                                                   String curso,
                                                   int nidSedeFiltro,
                                                   int nidAAFiltro);
-    List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(List lstnidRol,
+    List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,
+                                                          String parametro,
+                                                          String parametro2,
+                                                          List lstnidRol,
                                                           List lstnidEva,
                                                           List lstnidSede,
                                                           List lstnidArea,
