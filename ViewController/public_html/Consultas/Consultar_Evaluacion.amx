@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<amx:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amx="http://xmlns.oracle.com/adf/mf/amx"
+          xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
+  <amx:panelPage id="pp1">
+    <amx:facet name="header">
+      <amx:outputText value="Evaluaciones" id="ot1"/>
+    </amx:facet>
+    <amx:facet name="primary">
+      <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"/>
+    </amx:facet>
+    <amx:facet name="secondary">
+      <amx:commandButton id="cb2" action="GO_LOGIN" icon="/resources/img/lock.png" iconPosition="trailing"/>
+    </amx:facet>
+    <amx:panelFormLayout id="pfl1" labelPosition="topCenter" fieldHalign="start">
+      <amx:inputText value="#{bindings.arg4.inputValue}" id="it3" hintText="Profesor" rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"/>
+      <amx:inputText value="#{bindings.arg5.inputValue}" id="it9" hintText="Curso"/>
+      <amx:inputText value="#{bindings.arg6.inputValue}" id="it11">
+        <amx:convertNumber groupingUsed="false" id="cn7"/>
+      </amx:inputText>
+      <amx:inputText value="#{bindings.arg7.inputValue}" id="it2">
+        <amx:convertNumber groupingUsed="false" id="cn2"/>
+      </amx:inputText>
+      <amx:inputText value="#{bindings.arg8.inputValue}" id="it6"/>
+      <amx:inputDate value="#{bindings.arg9.inputValue}" id="id2"/>
+      <amx:inputDate value="#{bindings.arg10.inputValue}" id="id1"/>
+      <amx:inputText value="#{bindings.arg11.inputValue}" id="it10"/>
+      <amx:inputText value="#{bindings.arg12.inputValue}" id="it12">
+        <amx:convertNumber groupingUsed="false" id="cn8"/>
+      </amx:inputText>
+      <amx:inputText value="#{bindings.arg13.inputValue}" id="it4">
+        <amx:convertNumber groupingUsed="false" id="cn3"/>
+      </amx:inputText>
+    </amx:panelFormLayout>
+    <amx:commandButton actionListener="#{bindings.getEvaluaciones_WS.execute}" text="Buscar"
+                       disabled="#{!bindings.getEvaluaciones_WS.enabled}" id="cb3"/>
+  </amx:panelPage>
+</amx:view>
