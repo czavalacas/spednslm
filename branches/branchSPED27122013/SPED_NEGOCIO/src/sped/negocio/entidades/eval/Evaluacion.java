@@ -64,6 +64,9 @@ public class Evaluacion implements Serializable {
     private Integer nid_usuario_ws;
     @Column(name = "nidLog")    
     private Integer nidLog;
+    @Column(name = "nidProblema")
+    private int nidProblema;
+
     
     public Evaluacion() {
     }
@@ -226,6 +229,14 @@ public class Evaluacion implements Serializable {
         getResultadoLista().remove(resultado);
         resultado.setEvaluacion(null);
         return resultado;
+    }
+
+    public void setNidProblema(int nidProblema) {
+        this.nidProblema = nidProblema;
+    }
+
+    public int getNidProblema() {
+        return nidProblema;
     }
 
     @Override

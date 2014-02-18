@@ -16,7 +16,6 @@ public class BeanNivel implements Serializable {
         return descripcionNivel;
     }
 
-
     public void setNidNivel(Integer nidNivel) {
         this.nidNivel = nidNivel;
     }
