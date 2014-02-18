@@ -222,7 +222,10 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBeanEvas;
     }
     
-    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(List lstnidRol,
+    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,
+                                                                 String parametro,
+                                                                 String parametro2,
+                                                                 List lstnidRol,
                                                                  List lstnidEva,
                                                                  List lstnidSede,
                                                                  List lstnidArea,                                                                 
@@ -232,27 +235,35 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                                  Date fachaEvaluacionF){
         try{
             List<BeanEvaluacion> lstBeanEva = new ArrayList();
-            BeanEvaluacion beanEva = new BeanEvaluacion();            
+            BeanEvaluacion beanEva = new BeanEvaluacion();
+            beanEva.setNombreEvaluador(parametro);
+            beanEva.setEstadoEvaluacion(parametro2);
             beanEva.setFechaMinPlanificacion(fechaPlanifiacion);
             beanEva.setFechaMaxPlanificacion(fechaPlanifiacionF);
             beanEva.setFechaMinEvaluacion(fechaEvaluacion);
             beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
-            List listaBD = bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(lstnidRol,
-                                                                                   lstnidEva,
-                                                                                   lstnidSede,
-                                                                                   lstnidArea,
-                                                                                   beanEva);
-            for(Object dato : listaBD){
-                BeanEvaluacion bean = new BeanEvaluacion();
-                Object[] datos = (Object[]) dato;                
-                Usuario usu = (Usuario)datos[1];
-                bean.setNidEvaluador(usu.getNidUsuario());
-                bean.setNombreEvaluador(usu.getNombres());
-                bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
-                bean.setCantPendiente(Integer.parseInt(""+datos[3]));
-                bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
-                bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5]));
-                lstBeanEva.add(bean);
+            List listaBD = bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(tipoBusqueda,
+                                                                                     lstnidRol,
+                                                                                     lstnidEva,
+                                                                                     lstnidSede,
+                                                                                     lstnidArea,
+                                                                                     beanEva);
+            if(tipoBusqueda == 1){
+                for(Object dato : listaBD){
+                    BeanEvaluacion bean = new BeanEvaluacion();
+                    Object[] datos = (Object[]) dato;                
+                    Usuario usu = (Usuario)datos[1];
+                    bean.setNidEvaluador(usu.getNidUsuario());
+                    bean.setNombreEvaluador(usu.getNombres());
+                    bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
+                    bean.setCantPendiente(Integer.parseInt(""+datos[3]));
+                    bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
+                    bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5]));
+                    lstBeanEva.add(bean);
+                }
+            }
+            if(tipoBusqueda == 2){
+                lstBeanEva = transformLstEvaluacion(listaBD);
             }
             return lstBeanEva;
         } catch(Exception e){

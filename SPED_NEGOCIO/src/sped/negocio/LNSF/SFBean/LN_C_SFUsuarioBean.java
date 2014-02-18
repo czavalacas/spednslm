@@ -198,5 +198,15 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             me.printStackTrace();
             return null;
         }        
-    }    
+    }
+    
+    public BeanUsuario findConstrainByIdLN(int id){
+        try{
+            BeanUsuario bean = (BeanUsuario)mapper.map(bdL_C_SFUsuarioLocal.findConstrainById(id),BeanUsuario.class);
+            return bean;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }        
+    }
 }
