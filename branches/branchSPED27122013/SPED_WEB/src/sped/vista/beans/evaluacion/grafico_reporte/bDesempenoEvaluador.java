@@ -1,6 +1,7 @@
 package sped.vista.beans.evaluacion.grafico_reporte;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +13,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.FacesEvent;
 import javax.faces.model.SelectItem;
+
+import jxl.write.DateTime;
 
 import oracle.adf.view.faces.bi.event.ClickEvent;
 import oracle.adf.view.rich.component.rich.RichPopup;
@@ -176,20 +179,28 @@ public class bDesempenoEvaluador {
     }
     
     public void setListEvaFiltro_aux(){
-        List <BeanEvaluacion> lst = ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(1,null,null,
-                                                                                            sessionDesempenoEvaluador.getSelectedRol(),
-                                                                                            sessionDesempenoEvaluador.getSelectedEvaluador(),
-                                                                                            sessionDesempenoEvaluador.getSelectedSede(),
-                                                                                            sessionDesempenoEvaluador.getSelectedArea(),
-                                                                                            sessionDesempenoEvaluador.getFechaPI(),
-                                                                                            sessionDesempenoEvaluador.getFechaPF(),
-                                                                                            sessionDesempenoEvaluador.getFechaEI(),
-                                                                                            sessionDesempenoEvaluador.getFechaEF());        
+        List <BeanEvaluacion> lst = desempenoFiltro(1, null, null);
+        List <BeanEvaluacion> lstDate = desempenoFiltro(3, null, null);
         sessionDesempenoEvaluador.setLstEvaTable(lst);
         setListEvabarChart(lst);
+        setListLinegraph(lstDate);
         if(pdash1 != null){
             Utils.addTargetMany(pdash1);
         }
+    }
+    
+    public List<BeanEvaluacion> desempenoFiltro(int tipoEvento,
+                                                String param1,
+                                                String param2){
+       return ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(tipoEvento,param1,param2,
+                                                                      sessionDesempenoEvaluador.getSelectedRol(),
+                                                                      sessionDesempenoEvaluador.getSelectedEvaluador(),
+                                                                      sessionDesempenoEvaluador.getSelectedSede(),
+                                                                      sessionDesempenoEvaluador.getSelectedArea(),
+                                                                      sessionDesempenoEvaluador.getFechaPI(),
+                                                                      sessionDesempenoEvaluador.getFechaPF(),
+                                                                      sessionDesempenoEvaluador.getFechaEI(),
+                                                                      sessionDesempenoEvaluador.getFechaEF());     
     }
     
     public void setListEvabarChart(List <BeanEvaluacion> lst){
@@ -215,6 +226,28 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setLstEvaBarChart(lstEva);        
     }
     
+    public void setListLinegraph(List <BeanEvaluacion> lst){
+        List<Object[]> lstEva = new ArrayList();
+        int contEjecutados, contPendiente, contNoEje, contNoEjeJ;
+        for(int i=0; i<lst.size(); i++){
+            Date date = lst.get(i).getEndDate();
+            contEjecutados = lst.get(i).getCantEjecutado();
+            contPendiente = lst.get(i).getCantPendiente();
+            contNoEje = lst.get(i).getCantNoEjecutado();
+            contNoEjeJ = lst.get(i).getCantNoJEjecutado();
+            Object[] obj1 = { date, "Ejecutado", contEjecutados};
+            Object[] obj2 = { date, "Pendiente", contPendiente};
+            Object[] obj3 = { date, "No ejecutado", contNoEje};
+            Object[] obj4 = { date, "No Justifico", contNoEjeJ};
+            lstEva.add(obj1);
+            lstEva.add(obj2);
+            lstEva.add(obj3);
+            lstEva.add(obj3);
+            lstEva.add(obj4);
+        }
+        sessionDesempenoEvaluador.setLstEvaLineG(lstEva);
+    }
+    
     public void clickListenerGraph1(ClickEvent clickEvent) {
         sessionDesempenoEvaluador.setRenderNivel(true);
         sessionDesempenoEvaluador.setRenderSede(true);
@@ -238,14 +271,14 @@ public class bDesempenoEvaluador {
         List <BeanEvaluacion> lst = ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(2,
                                                                                             nombre,
                                                                                             estado,
-                                                                                            sessionDesempenoEvaluador.getSelectedRol(),
-                                                                                            sessionDesempenoEvaluador.getSelectedEvaluador(),
-                                                                                            sessionDesempenoEvaluador.getSelectedSede(),
-                                                                                            sessionDesempenoEvaluador.getSelectedArea(),
-                                                                                            sessionDesempenoEvaluador.getFechaPI(),
-                                                                                            sessionDesempenoEvaluador.getFechaPF(),
-                                                                                            sessionDesempenoEvaluador.getFechaEI(),
-                                                                                            sessionDesempenoEvaluador.getFechaEF());
+                                                                                            sessionDesempenoEvaluador.getSelectedRol_aux(),
+                                                                                            sessionDesempenoEvaluador.getSelectedEvaluador_aux(),
+                                                                                            sessionDesempenoEvaluador.getSelectedSede_aux(),
+                                                                                            sessionDesempenoEvaluador.getSelectedArea_aux(),
+                                                                                            sessionDesempenoEvaluador.getFechaPI_axu(),
+                                                                                            sessionDesempenoEvaluador.getFechaPF_aux(),
+                                                                                            sessionDesempenoEvaluador.getFechaEI_aux(),
+                                                                                            sessionDesempenoEvaluador.getFechaEF_aux());
         sessionDesempenoEvaluador.setLstEvaDetalle(lst);
         BeanUsuario beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());
         if(beanUsu.getRol().getNidRol() == 4){

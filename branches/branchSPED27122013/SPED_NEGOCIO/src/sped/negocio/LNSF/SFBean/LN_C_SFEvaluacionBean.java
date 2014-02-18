@@ -316,17 +316,20 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                                                      lstnidSede,
                                                                                      lstnidArea,
                                                                                      beanEva);
-            if(tipoBusqueda == 1){
+            if(tipoBusqueda == 1 || tipoBusqueda == 3){
                 for(Object dato : listaBD){
                     BeanEvaluacion bean = new BeanEvaluacion();
                     Object[] datos = (Object[]) dato;                
                     Usuario usu = (Usuario)datos[1];
+                    if(tipoBusqueda == 3){
+                        bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[6], BeanEvaluacion.class);
+                    }
                     bean.setNidEvaluador(usu.getNidUsuario());
                     bean.setNombreEvaluador(usu.getNombres());
                     bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
                     bean.setCantPendiente(Integer.parseInt(""+datos[3]));
                     bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
-                    bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5]));
+                    bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5]));                    
                     lstBeanEva.add(bean);
                 }
             }
