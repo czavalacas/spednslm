@@ -20,6 +20,7 @@ import net.sf.dozer.util.mapping.MapperIF;
 import net.sf.dozer.util.mapping.MappingException;
 
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
+import sped.negocio.BDL.IL.BDL_C_SFProblemaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.BDL.IL.BDL_C_SFValorLocal;
@@ -55,6 +56,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
     @EJB
     private BDL_C_SFValorLocal bdL_C_SFValorLocal;
+    @EJB
+    private BDL_C_SFProblemaLocal bdL_C_SFProblemaLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFEvaluacionBean() {
@@ -316,20 +319,28 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                                                      lstnidSede,
                                                                                      lstnidArea,
                                                                                      beanEva);
-            if(tipoBusqueda == 1 || tipoBusqueda == 3){
+            if(tipoBusqueda != 2){
                 for(Object dato : listaBD){
                     BeanEvaluacion bean = new BeanEvaluacion();
-                    Object[] datos = (Object[]) dato;                
-                    Usuario usu = (Usuario)datos[1];
+                    Object[] datos = (Object[]) dato;                     
                     if(tipoBusqueda == 3){
                         bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[6], BeanEvaluacion.class);
                     }
-                    bean.setNidEvaluador(usu.getNidUsuario());
-                    bean.setNombreEvaluador(usu.getNombres());
-                    bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
-                    bean.setCantPendiente(Integer.parseInt(""+datos[3]));
-                    bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
-                    bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5]));                    
+                    if(tipoBusqueda == 1 || tipoBusqueda == 3){
+                        Usuario usu = (Usuario)datos[1];
+                        bean.setNidEvaluador(usu.getNidUsuario());
+                        bean.setNombreEvaluador(usu.getNombres());
+                        bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
+                        bean.setCantPendiente(Integer.parseInt(""+datos[3]));
+                        bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
+                        bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5])); 
+                    }
+                    if(tipoBusqueda == 4){                       
+                        int id = Integer.parseInt(""+datos[1]);
+                        bean.setCantProblema(Integer.parseInt(""+datos[0]));
+                        bean.setNidProblema(id);
+                        bean.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(id));
+                    }
                     lstBeanEva.add(bean);
                 }
             }

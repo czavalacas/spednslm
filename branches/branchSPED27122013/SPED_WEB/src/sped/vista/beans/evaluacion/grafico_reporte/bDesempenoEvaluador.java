@@ -181,9 +181,11 @@ public class bDesempenoEvaluador {
     public void setListEvaFiltro_aux(){
         List <BeanEvaluacion> lst = desempenoFiltro(1, null, null);
         List <BeanEvaluacion> lstDate = desempenoFiltro(3, null, null);
+        List <BeanEvaluacion> lstPie = desempenoFiltro(4, null, null);
         sessionDesempenoEvaluador.setLstEvaTable(lst);
         setListEvabarChart(lst);
         setListLinegraph(lstDate);
+        setListPiegraph(lstPie);
         if(pdash1 != null){
             Utils.addTargetMany(pdash1);
         }
@@ -246,6 +248,16 @@ public class bDesempenoEvaluador {
             lstEva.add(obj4);
         }
         sessionDesempenoEvaluador.setLstEvaLineG(lstEva);
+    }
+    
+    public void setListPiegraph(List <BeanEvaluacion> lst){
+        List<Object[]> lstEva = new ArrayList();
+        for(int i=0; i<lst.size(); i++){
+            BeanEvaluacion eva = lst.get(i);
+            Object[] obj1 = { "Problemas frecuentes", eva.getDescProblema(), eva.getCantProblema()};
+            lstEva.add(obj1);
+        }
+        sessionDesempenoEvaluador.setLstEvaPieG(lstEva);
     }
     
     public void clickListenerGraph1(ClickEvent clickEvent) {

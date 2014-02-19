@@ -309,4 +309,14 @@
     <ejb-name>BDL_T_SFResultadoCriterio</ejb-name>
     <stateless-session-descriptor/>
   </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_C_SFProblema</ejb-name>
+    <stateless-session-descriptor>
+      <business-interface-jndi-name-map>
+        <business-remote>sped.negocio.BDL.SFBean.BDL_C_SFProblemaRemote</business-remote>
+        <jndi-name>mapBDL_C_SFProblema</jndi-name>
+      </business-interface-jndi-name-map>
+    </stateless-session-descriptor>
+    <enable-call-by-reference>true</enable-call-by-reference>
+  </weblogic-enterprise-bean>
 </weblogic-ejb-jar>
