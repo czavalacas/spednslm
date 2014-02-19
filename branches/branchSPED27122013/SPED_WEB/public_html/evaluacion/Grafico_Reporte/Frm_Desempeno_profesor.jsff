@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces"
+          xmlns:h="http://java.sun.com/jsf/html">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:panelStretchLayout id="psl1">
+            <f:facet name="center">            
+                <af:panelSplitter id="ps1" orientation="vertical" splitterPosition="250">
+                   <f:facet name="first">
+                   <af:panelSplitter >
+                   <f:facet name="first">
+                      <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST" shortDesc="Desempeno Global"
+                                      dynamicResize="DYNAMIC_SIZE" binding="#{bDesempenoProfesor.barGraph}"
+                                      value="#{requestScope.bDesempenoProfesor.graphDataBar}">
+                            <dvt:background>
+                                <dvt:specialEffects/>
+                            </dvt:background>
+                            <dvt:graphPlotArea/>
+                            <dvt:seriesSet>
+                                <dvt:series/>
+                            </dvt:seriesSet>
+                            <dvt:o1Axis/>
+                            <dvt:y1Axis/>
+                            <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                        </dvt:barGraph>
+                   </f:facet>
+                   
+                   </af:panelSplitter>
+                   </f:facet>
+                    <f:facet name="second">                   
+                 <af:panelSplitter >               
+                 <f:facet name="first">                               
+                                <af:panelFormLayout id="pfl1">                                
+                                    <af:spacer width="10" height="10" id="s7"/>
+                                    <h:outputText value="Filtros de Busqueda" id="ot1" styleClass="titulos"/>
+                                    <af:spacer width="10" height="10" id="s5"/>
+                                <af:spacer width="10" height="10" id="s6"/>
+                                    <af:selectManyCheckbox label="Sedes" id="smc1"
+                                                           value="#{sessionDesempenoProfesor.nidSedes}"
+                                                           autoSubmit="true"
+                                                           valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
+                                                           binding="#{bDesempenoProfesor.checkBoxSedes}">
+                                        <f:selectItems value="#{bDesempenoProfesor.listaSedesFiltro}" id="si1"/>
+                                    </af:selectManyCheckbox>
+                                    <af:spacer width="10" height="10" id="s1"/>
+                                    <af:spacer width="10" height="10" id="s2"/>
+                                        <af:selectManyCheckbox label="Nivel" id="smc2"
+                                                           value="#{sessionDesempenoProfesor.nidNiveles}"
+                                                           autoSubmit="true"
+                                                           valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
+                                                               binding="#{bDesempenoProfesor.checkBoxNiveles}">
+                                        <f:selectItems value="#{bDesempenoProfesor.listaNivelesFiltro}" id="si2"/>
+                                    </af:selectManyCheckbox>
+                                    <af:spacer width="10" height="10" id="s3"/>
+                                    <af:spacer width="10" height="10" id="s4"/>
+                                     <af:selectManyCheckbox label="Areas" id="smc3"
+                                                           value="#{sessionDesempenoProfesor.nidAreas}"
+                                                           autoSubmit="true"
+                                                           valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
+                                                            binding="#{bDesempenoProfesor.checkBoxAreas}">
+                                        <f:selectItems value="#{bDesempenoProfesor.listaAreasFiltro}" id="si3"/>
+                                    </af:selectManyCheckbox>
+                                    
+                                   
+                                
+                                </af:panelFormLayout>
+                                
+                                
+                                
+                                
+                                <!--FILTROS DE BUSQUEDA-->
+                    </f:facet>
+                <f:facet name="second">
+                        <af:panelDashboard id="pd1" columns="2" rowHeight="350px" >
+                            <af:panelBox text="PanelBox1" id="pb1">
+                                <af:componentDragSource/>
+                                <dvt:lineGraph id="graph3" subType="LINE_VERT_ABS" shortDesc="line"
+                                               dynamicResize="DYNAMIC_SIZE"
+                                               value="#{requestScope.bDesempenoProfesor.graphDataLine}">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPlotArea/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:o1Axis/>
+                                    <dvt:y1Axis/>
+                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                </dvt:lineGraph>
+                            </af:panelBox>
+                            <af:panelBox text="PanelBox2" id="pb2" showDisclosure="false" type="stretch">
+                                <f:facet name="toolbar"/>
+                                <af:componentDragSource/>
+                                <dvt:pieGraph id="graph2" subType="PIE" shortDesc="Pie" dynamicResize="DYNAMIC_SIZE"
+                                              binding="#{bDesempenoProfesor.pieGraph}"
+                                              value="#{requestScope.bDesempenoProfesor.graphDataPie}">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPieFrame/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:sliceLabel/>
+                                    <dvt:pieLabel rendered="true"/>
+                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                </dvt:pieGraph>
+                            </af:panelBox>
+                            <af:panelBox text="PanelBox3" id="pb3" showDisclosure="false" type="stretch">
+                                <f:facet name="toolbar"/>
+                                <af:componentDragSource/>
+                                <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_CLUST" shortDesc="lin"
+                                                        dynamicResize="DYNAMIC_SIZE"
+                                                        value="#{requestScope.bDesempenoProfesor.graphDataBarHorizontal}">
+                                    
+                                    <dvt:background>
+                                    <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPlotArea/>
+                                    <dvt:seriesSet>
+                                    <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:o1Axis/>
+                                    <dvt:y1Axis/>
+                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                </dvt:horizontalBarGraph>
+                            </af:panelBox>
+                            <af:panelBox text="PanelBox4" id="pb4" showDisclosure="false" type="stretch">
+                                <f:facet name="toolbar"/>
+                                <af:componentDragSource/>
+                               
+                                                    <dvt:gauge id="gauge1" gaugeType="DIAL" shortDesc="c"  dynamicResize="DYNAMIC_SIZE">
+                                            <dvt:gaugeBackground>
+                                                <dvt:specialEffects/>
+                                            </dvt:gaugeBackground>
+                                            <dvt:gaugeFrame/>
+                                            <dvt:indicator/>
+                                            <dvt:indicatorBase/>
+                                            <dvt:gaugePlotArea/>
+                                            <dvt:tickLabel/>
+                                            <dvt:tickMark/>
+                                            <dvt:topLabel/>
+                                            <dvt:bottomLabel/>
+                                            <dvt:metricLabel position="LP_WITH_BOTTOM_LABEL"/>
+                                        </dvt:gauge>
+                                       
+                                    </af:panelBox>
+                            <af:panelBox text="PanelBox5" id="pb5" type="stretch">
+                                <f:facet name="toolbar"/>
+                                <af:componentDragSource/>
+                                <dvt:barGraph id="graph5" subType="BAR_VERT_CLUST" shortDesc="r"
+                                              dynamicResize="DYNAMIC_SIZE"
+                                              value="#{requestScope.bDesempenoProfesor.graphDataBarNiveles}">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPlotArea/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:o1Axis/>
+                                    <dvt:y1Axis/>
+                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                </dvt:barGraph>
+                            </af:panelBox>
+                        </af:panelDashboard>
+                </f:facet>
+                   </af:panelSplitter>
+                        
+                   </f:facet> 
+                </af:panelSplitter>
+            </f:facet>
+        </af:panelStretchLayout>
+    </f:view>
+</jsp:root>
