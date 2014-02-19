@@ -27,6 +27,7 @@ public class BeanEvaluacion implements Serializable {
         private Integer nidPlanificador;       
         private List<BeanResultado> resultadoLista;
         private String comentarioEvaluador;
+        private int nidProblema;
         ///atributos para la busqueda filtro///
         private Integer nidSede;
         private Integer nidNivel;
@@ -43,7 +44,9 @@ public class BeanEvaluacion implements Serializable {
         private Integer cantEjecutado;
         private Integer cantPendiente;
         private Integer cantNoEjecutado;
-        private Integer cantNoJEjecutado;        
+        private Integer cantNoJEjecutado;
+        private Integer cantProblema;
+        private String descProblema;
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
@@ -308,5 +311,29 @@ public class BeanEvaluacion implements Serializable {
 
     public Integer getCantNoJEjecutado() {
         return cantNoJEjecutado;
+    }
+
+    public void setNidProblema(int nidProblema) {
+        this.nidProblema = nidProblema;
+    }
+
+    public int getNidProblema() {
+        return nidProblema;
+    }
+
+    public void setCantProblema(Integer cantProblema) {
+        this.cantProblema = cantProblema;
+    }
+
+    public Integer getCantProblema() {
+        return cantProblema;
+    }
+
+    public void setDescProblema(String descProblema) {
+        this.descProblema = descProblema;
+    }
+
+    public String getDescProblema() {
+        return descProblema;
     }
 }
