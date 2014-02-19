@@ -3,22 +3,22 @@
    <OverallProperties
       id="OverallProperties1"/>
    <View
-      id="View2">
+      id="View3">
       <property
-         name="activityId">Frm_Desempeno_Profesores</property>
+         name="activityId">Frm_Desempeno_profesor</property>
       <property
-         name="page">/evaluacion/Grafico_Reporte/Frm_Desempeno_Profesores.jsff</property>
+         name="page">/evaluacion/Grafico_Reporte/Frm_Desempeno_profesor.jsff</property>
       <property
          name="start">true</property>
       <property
-         name="description">&lt;html>&lt;p>&lt;b>Frm_Desempeno_Profesores&lt;/b> (Default Activity)&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+         name="description">&lt;html>&lt;p>&lt;b>Frm_Desempeno_profesor&lt;/b> (Default Activity)&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
       <property
          name="exceptionHandler">false</property>
       <property
-         name="y">122.5625</property>
+         name="y">218.53125</property>
       <property
          name="pageFragment">true</property>
       <property
-         name="x">235.35059</property>
+         name="x">281.7256</property>
    </View>
 </SDM>

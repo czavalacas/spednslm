@@ -9,7 +9,7 @@
                 <af:spacer height="10"/>
             </af:panelGroupLayout>
             <af:panelFormLayout id="pfl2">
-                <af:button text="Seleccionar Evaluador" id="b1" action="#{bPlanificarEva.popupEvaluadores}"
+                <af:button text="Seleccionar Evaluador"  id="b1" action="#{bPlanificarEva.popupEvaluadores}"
                            visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}"/>
                 <h:outputText value="#{sessionScope.sessionPlanificarEva.nombreEvaluador} #{sessionScope.sessionPlanificarEva.areaEvaluador}"
                               id="ot4" binding="#{bPlanificarEva.outDatosEva}"/>
@@ -24,7 +24,9 @@
                     <af:calendar value="#{bindings.EvmevalView1.calendarModel}" id="c1"
                                  binding="#{bPlanificarEva.calendar}"
                                  calendarActivityListener="#{bPlanificarEva.abrirPopupEvaluar}"
-                                 calendarListener="#{bPlanificarEva.abrirNuevoEvento}"/>
+                                 calendarListener="#{bPlanificarEva.abrirNuevoEvento}"
+                                 inlineStyle="height:550px ;width: inherit">                               
+                                  </af:calendar>
                 </f:facet>
                 <f:facet name="start">
                     <af:spacer width="10" height="10" id="s3"/>
