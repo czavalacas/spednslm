@@ -123,7 +123,23 @@
                                     <dvt:y1MajorTick tickStyle="GS_NONE"/>
                                 </dvt:lineGraph>
                             </af:panelBox>
-                            <af:panelBox text="PanelBox4" id="pb4" showDisclosure="false"></af:panelBox>
+                            <af:panelBox text="PanelBox4" id="pb4" showDisclosure="false">
+                                <dvt:pieGraph id="graph3" subType="RING"
+                                              tabularData="#{sessionDesempenoEvaluador.lstEvaPieG}"
+                                              animationOnDataChange="auto" animationIndicators="ALL"
+                                              animationOnDisplay="auto" animationDuration="2500">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPieFrame/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:sliceLabel/>
+                                    <dvt:pieLabel rendered="true"/>
+                                    />
+                                </dvt:pieGraph>
+                            </af:panelBox>
                         </af:panelDashboard>
                     </af:panelGroupLayout>
                 </f:facet>

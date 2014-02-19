@@ -630,11 +630,16 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             }
             if(tipoBusqueda == 1 || tipoBusqueda == 2){
             strQuery2 = strQuery2.concat(" ORDER BY usu.rol.nidRol ASC , eva.nidEvaluador ASC, eva.nidEvaluacion ASC ");                        
-            } 
+            }            
             if(tipoBusqueda == 3){
                 strQuery2 = strQuery2.concat(",eva "+strQuery+" GROUP BY CAST(eva.endDate AS date) ");
                 strQuery2 = strQuery2.concat(" ORDER BY eva.endDate ASC ");
-            }                       
+            }
+            if(tipoBusqueda == 4){
+                strQuery2 = strQuery2.concat("SELECT COUNT(DISTINCT eva) AS cont , eva.nidProblema" +strQuery);
+                strQuery2 = strQuery2.concat(" AND eva.nidProblema != NULL GROUP BY eva.nidProblema ORDER BY cont ASC ");
+                System.out.println(strQuery2);
+            }
             Query query = em.createQuery(strQuery2);
             if(lstnidRol != null){
                 for(int i=0 ; i < lstnidRol.size(); i++){
@@ -686,10 +691,12 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                 }
             }            
-            if(tipoBusqueda == 1){
+            if(tipoBusqueda == 1  || tipoBusqueda == 3 || tipoBusqueda == 4){
                 List primitiva = query.getResultList();
-                // 0 - nidEvaluador , 1 - Usuario, 2 - Ejecutado, 3 - PENDIENTE, 4 -  NO EVALUO, 5 - NO EVALUO 
+                // tipo 1 --> 0 - nidEvaluador , 1 - Usuario, 2 - Ejecutado, 
+                //            3 - PENDIENTE, 4 -  NO EVALUO, 5 - NO EVALUO                 
                 // tipo 3 --> 6 evaluacion
+                // tipo 4 --> 0 - countProblema, 1 - idProblema
                 int size = primitiva == null ? 0 : primitiva.size();
                 if (size > 0) {
                     return primitiva;
@@ -697,7 +704,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     return new ArrayList();
                 }
             }
-            else if(tipoBusqueda == 2 || tipoBusqueda == 3){
+            else if(tipoBusqueda == 2){
                 List<Evaluacion> lstEvas = query.getResultList();                
                 int size = lstEvas == null ? 0 : lstEvas.size();
                 if (size > 0) {
