@@ -55,7 +55,7 @@
                            title="Confirmar" dialogListener="#{bMain.dialogLogoutListener}">
                     <af:outputText value="Desea Cerrar Sesion?" id="ot2"/>
                 </af:dialog>
-            </af:popup>
+            </af:popup>       
         </af:form>
     </af:document>
 </f:view>
