@@ -1,8 +1,13 @@
 package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
+
+import java.util.List;
+
+import sped.negocio.entidades.admin.Curso;
+
 /** Clase BeanAreaAcademica.java
- * @author czavalacas 
+ * @author czavalacas
  * @since 29.12.2013
  */
 public class BeanAreaAcademica implements Serializable {
@@ -11,6 +16,7 @@ public class BeanAreaAcademica implements Serializable {
     
     private String descripcionAreaAcademica;
     private Integer nidAreaAcademica;
+    private List<Curso> cursosLista;
 
     public void setDescripcionAreaAcademica(String descripcionAreaAcademica) {
         this.descripcionAreaAcademica = descripcionAreaAcademica;
@@ -27,5 +33,13 @@ public class BeanAreaAcademica implements Serializable {
 
     public Integer getNidAreaAcademica() {
         return nidAreaAcademica;
+    }
+
+    public void setCursosLista(List<Curso> cursosLista) {
+        this.cursosLista = cursosLista;
+    }
+
+    public List<Curso> getCursosLista() {
+        return cursosLista;
     }
 }

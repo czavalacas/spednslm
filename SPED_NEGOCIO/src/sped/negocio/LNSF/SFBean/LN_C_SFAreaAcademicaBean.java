@@ -40,6 +40,7 @@ public class LN_C_SFAreaAcademicaBean implements LN_C_SFAreaAcademicaRemote,
     public List<BeanAreaAcademica> getAreaAcademicaLN(){        
         List<BeanAreaAcademica> lstBean = new ArrayList();
         List<AreaAcademica> lstAreaAcd = bdL_C_SFAreaAcademicaLocal.getAreaAcademicaFindAll();
+        System.out.println("SIZE AREAS  "+lstAreaAcd.size());
         for(AreaAcademica a : lstAreaAcd){
             BeanAreaAcademica bean = (BeanAreaAcademica) mapper.map(a, BeanAreaAcademica.class);
             lstBean.add(bean);
