@@ -24,6 +24,7 @@ import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.ConstraintPK;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 
 @Stateless(name = "BDL_C_SFUtils", mappedName = "mapBDL_C_SFUtils")
@@ -125,8 +126,8 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     public List<BeanCombo> getPlanificadores_WS(String id, String desc){
         try{
             String qlString =  this.getSelectBasicoBeanCombo(id, desc, "Usuario")+
-                               " WHERE u.rol.nidRol = 4 OR " +
-                               " u.rol.nidRol = 5 ";
+                               " WHERE e.rol.nidRol = 4 OR " +
+                               " e.rol.nidRol = 5 ";
             List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
             return lstUsuarios;       
         }catch(Exception e){
@@ -156,8 +157,25 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         }
     }
     
+    public List<BeanComboString> getTipoVisita(String id,String desc){
+        try{
+            String qlString =  this.getSelectBasicoBeanComboString(id, desc, "Constraint")+
+                               " WHERE e.nombreCampo = 'tipo_visita' ";
+            List<BeanComboString> lstConst = em.createQuery(qlString).getResultList();        
+            return lstConst;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     private String getSelectBasicoBeanCombo(String id,String desc, String entidad){
         return "SELECT NEW sped.negocio.entidades.beans.BeanCombo("+id+","+desc+") " +
+                "FROM "+entidad+" e ";
+    }
+    
+    private String getSelectBasicoBeanComboString(String id,String desc, String entidad){
+        return "SELECT NEW sped.negocio.entidades.beans.BeanComboString("+id+","+desc+") " +
                 "FROM "+entidad+" e ";
     }
 }

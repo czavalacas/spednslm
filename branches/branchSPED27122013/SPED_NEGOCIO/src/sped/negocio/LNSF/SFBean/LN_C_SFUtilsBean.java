@@ -21,6 +21,7 @@ import sped.negocio.LNSF.IL.LN_C_SFUtilsLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 
 @Stateless(name = "LN_C_SFUtils", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFUtils")
@@ -55,5 +56,9 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     
     public List<BeanCombo> getEvaluadores_LN_WS(){
         return bdL_C_SFUtilsLocal.getPlanificadores_WS("u.nidUsuario", "u.nombres");
+    }
+    
+    public List<BeanComboString> getTipoVisitaFromConstraint(){
+        return bdL_C_SFUtilsLocal.getTipoVisita("e.valorCampo", "e.descripcionAMostrar");
     }
 }
