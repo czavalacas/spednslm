@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.ConstraintPK;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 
 @Local
@@ -24,4 +25,5 @@ public interface BDL_C_SFUtilsLocal {
                             boolean isUpdate);
     List<BeanCombo> getPlanificadores_WS(String id, String desc);
     List<BeanCombo> getEvaluadores_WS(String id, String desc);
+    List<BeanComboString> getTipoVisita(String id,String desc);
 }
