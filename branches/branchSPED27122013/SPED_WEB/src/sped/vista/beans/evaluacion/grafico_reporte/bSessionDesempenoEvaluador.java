@@ -38,6 +38,7 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private List<BeanEvaluacion> lstEvaTable;
     private List<BeanEvaluacion> lstEvaDetalle;
     private transient List<Object[]> lstEvaBarChart;
+    private transient List<Object[]> lstEvaBarChartRol;
     private transient List<Object[]> lstEvaLineG;
     private transient List<Object[]> lstEvaPieG;
     private BeanUsuario evaluador;
@@ -311,5 +312,13 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public List<Object[]> getLstEvaPieG() {
         return lstEvaPieG;
+    }
+
+    public void setLstEvaBarChartRol(List<Object[]> lstEvaBarChartRol) {
+        this.lstEvaBarChartRol = lstEvaBarChartRol;
+    }
+
+    public List<Object[]> getLstEvaBarChartRol() {
+        return lstEvaBarChartRol;
     }
 }

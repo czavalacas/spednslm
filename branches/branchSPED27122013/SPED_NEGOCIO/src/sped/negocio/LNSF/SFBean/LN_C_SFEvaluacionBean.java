@@ -325,8 +325,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                     Object[] datos = (Object[]) dato;                     
                     if(tipoBusqueda == 3){
                         bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[6], BeanEvaluacion.class);
-                    }
-                    if(tipoBusqueda == 1 || tipoBusqueda == 3){
+                    }                    
+                    if(tipoBusqueda != 4){
                         Usuario usu = (Usuario)datos[1];
                         bean.setNidEvaluador(usu.getNidUsuario());
                         bean.setNombreEvaluador(usu.getNombres());
@@ -334,6 +334,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                         bean.setCantPendiente(Integer.parseInt(""+datos[3]));
                         bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
                         bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5])); 
+                        if(tipoBusqueda == 5){
+                            bean.setDescripcion(usu.getRol().getDescripcionRol());
+                        }
                     }
                     if(tipoBusqueda == 4){                       
                         int id = Integer.parseInt(""+datos[1]);
