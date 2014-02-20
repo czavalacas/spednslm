@@ -4,10 +4,11 @@
                 xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
         <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 30px;" id="pgl1">
-            <af:panelSplitter orientation="horizontal" splitterPosition="300" id="ps1">
+            <af:panelSplitter orientation="horizontal" splitterPosition="250" id="ps1">
                 <f:facet name="first">
                     <af:subform id="s2" binding="#{bDesempenoEvaluador.s2}">
                         <af:panelFormLayout id="pfl1" maxColumns="1" binding="#{bDesempenoEvaluador.pfl1}">
+                            <h:outputText value="Filtros de Busqueda" id="ot10" styleClass="titulos"/>
                             <af:selectManyChoice label="Rol" id="choiceFRol" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFRol}" autoSubmit="true"
                                                  value="#{sessionDesempenoEvaluador.selectedRol}">
@@ -63,53 +64,16 @@
                 </f:facet>
                 <f:facet name="second">
                     <af:panelGroupLayout id="pgl2">
-                        <af:panelDashboard id="pdash1" columns="2" rowHeight="350px" dimensionsFrom="auto"
+                        <af:panelDashboard id="pdash1" columns="2" rowHeight="350px"
                                            binding="#{bDesempenoEvaluador.pdash1}">
                             <af:panelBox text="PanelBox1" id="pb1" showDisclosure="false">
-                                <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST"
+                                <af:componentDragSource/>
+                                <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST" dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaBarChart}"
                                               clickListener="#{bDesempenoEvaluador.clickListenerGraph1}"
-                                              animationOnDataChange="auto" animationIndicators="ALL"
-                                              animationOnDisplay="auto" animationDuration="2500">
-                                    <dvt:background>
-                                        <dvt:specialEffects/>
-                                    </dvt:background>
-                                    <dvt:graphPlotArea/>
-                                    <dvt:seriesSet>
-                                        <dvt:series/>
-                                    </dvt:seriesSet>
-                                    <dvt:o1Axis/>
-                                    <dvt:y1Axis/>
-                                    <dvt:legendArea automaticPlacement="AP_NEVER" position="LAP_TOP"/>
-                                </dvt:barGraph>
-                            </af:panelBox>
-                            <af:panelBox text="PanelBox2" id="pb2" showDisclosure="false">
-                                <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row"
-                                          rowBandingInterval="0" id="t1">
-                                    <af:column sortable="false" headerText="Nombre Evaluador" align="start" id="c1">
-                                        <af:outputText value="#{row.nombreEvaluador}" id="ot1"/>
-                                    </af:column>
-                                    <af:column sortable="false" headerText="Ejecutados" align="start" id="c2">
-                                        <af:outputText value="#{row.cantEjecutado}" id="ot2"/>
-                                    </af:column>
-                                    <af:column sortable="false" headerText="Pendientes" align="start" id="c3">
-                                        <af:outputText value="#{row.cantPendiente}" id="ot3"/>
-                                    </af:column>
-                                    <af:column sortable="false" headerText="No Ejecutados" align="start" id="c4">
-                                        <af:outputText value="#{row.cantNoEjecutado}" id="ot4"/>
-                                    </af:column>
-                                    <af:column sortable="false" headerText="No Justifico" align="start" id="c5">
-                                        <af:outputText value="#{row.cantNoJEjecutado}" id="ot5"/>
-                                    </af:column>
-                                </af:table>
-                            </af:panelBox>
-                            <af:panelBox text="PanelBox3" id="pb3" showDisclosure="false">
-                                <dvt:lineGraph id="graph2" subType="LINE_VERT_ABS"
-                                               tabularData="#{sessionDesempenoEvaluador.lstEvaLineG}"
-                                               shortDesc="test" hideAndShowBehavior="withRescale"
-                                               timeAxisType="TAT_IRREGULAR" contentDelivery="immediate"
-                                               animationOnDataChange="auto" animationIndicators="ALL"
-                                               animationOnDisplay="auto" animationDuration="2500">
+                                              hideAndShowBehavior="withRescale" contentDelivery="immediate"
+                                              timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
+                                              animationIndicators="ALL" animationOnDisplay="auto">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -120,14 +84,52 @@
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
                                     <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
-                                    <dvt:y1MajorTick tickStyle="GS_NONE"/>
+                                </dvt:barGraph>
+                            </af:panelBox>
+                            <af:panelBox text="PanelBox2" id="pb2" showDisclosure="false">
+                                <af:componentDragSource/>
+                                <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_CLUST" dynamicResize="DYNAMIC_SIZE"
+                                                        tabularData="#{sessionDesempenoEvaluador.lstEvaBarChartRol}"
+                                                        hideAndShowBehavior="withRescale" contentDelivery="immediate"
+                                                        timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
+                                                        animationIndicators="ALL" animationOnDisplay="auto">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPlotArea/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:o1Axis/>
+                                    <dvt:y1Axis/>
+                                    <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
+                                </dvt:horizontalBarGraph>
+                            </af:panelBox>
+                            <af:panelBox text="PanelBox3" id="pb3" showDisclosure="false">
+                                <af:componentDragSource/>
+                                <dvt:lineGraph id="graph2" subType="LINE_VERT_ABS" dynamicResize="DYNAMIC_SIZE"
+                                               tabularData="#{sessionDesempenoEvaluador.lstEvaLineG}"
+                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
+                                               timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
+                                               animationIndicators="ALL" animationOnDisplay="auto"
+                                               animationDuration="1500">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPlotArea/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:o1Axis/>
+                                    <dvt:y1Axis/>
+                                    <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
                                 </dvt:lineGraph>
                             </af:panelBox>
                             <af:panelBox text="PanelBox4" id="pb4" showDisclosure="false">
-                                <dvt:pieGraph id="graph3" subType="RING"
+                                <af:componentDragSource/>
+                                <dvt:pieGraph id="graph3" subType="RING" dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaPieG}"
-                                              animationOnDataChange="auto" animationIndicators="ALL"
-                                              animationOnDisplay="auto" animationDuration="2500">
+                                              hideAndShowBehavior="withRescale" contentDelivery="immediate">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -136,11 +138,29 @@
                                         <dvt:series/>
                                     </dvt:seriesSet>
                                     <dvt:sliceLabel/>
+                                    <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
                                     <dvt:pieLabel rendered="true"/>
-                                    />
                                 </dvt:pieGraph>
                             </af:panelBox>
                         </af:panelDashboard>
+                        <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row" rowBandingInterval="0"
+                                  id="t1">
+                            <af:column sortable="false" headerText="Nombre Evaluador" align="start" id="c1">
+                                <af:outputText value="#{row.nombreEvaluador}" id="ot1"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Ejecutados" align="start" id="c2">
+                                <af:outputText value="#{row.cantEjecutado}" id="ot2"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Pendientes" align="start" id="c3">
+                                <af:outputText value="#{row.cantPendiente}" id="ot3"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="No Ejecutados" align="start" id="c4">
+                                <af:outputText value="#{row.cantNoEjecutado}" id="ot4"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="No Justifico" align="start" id="c5">
+                                <af:outputText value="#{row.cantNoJEjecutado}" id="ot5"/>
+                            </af:column>
+                        </af:table>
                     </af:panelGroupLayout>
                 </f:facet>
             </af:panelSplitter>

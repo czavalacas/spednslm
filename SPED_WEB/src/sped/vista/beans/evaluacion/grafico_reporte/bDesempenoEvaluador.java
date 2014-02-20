@@ -182,10 +182,12 @@ public class bDesempenoEvaluador {
         List <BeanEvaluacion> lst = desempenoFiltro(1, null, null);
         List <BeanEvaluacion> lstDate = desempenoFiltro(3, null, null);
         List <BeanEvaluacion> lstPie = desempenoFiltro(4, null, null);
+        List <BeanEvaluacion> lstBarRol = desempenoFiltro(5, null, null);
         sessionDesempenoEvaluador.setLstEvaTable(lst);
         setListEvabarChart(lst);
         setListLinegraph(lstDate);
         setListPiegraph(lstPie);
+        setListEvabarChartRol(lstBarRol);
         if(pdash1 != null){
             Utils.addTargetMany(pdash1);
         }
@@ -241,6 +243,9 @@ public class bDesempenoEvaluador {
             Object[] obj2 = { date, "Pendiente", contPendiente};
             Object[] obj3 = { date, "No ejecutado", contNoEje};
             Object[] obj4 = { date, "No Justifico", contNoEjeJ};
+            System.out.println(lst.get(i).getNidEvaluador());
+            System.out.println("NO EJECUTTADO      "+contNoEje);
+            System.out.println("NO JUSTIFO  EJECUTTADO   "+contNoEjeJ);
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
@@ -248,6 +253,29 @@ public class bDesempenoEvaluador {
             lstEva.add(obj4);
         }
         sessionDesempenoEvaluador.setLstEvaLineG(lstEva);
+    }
+    
+    public void setListEvabarChartRol(List <BeanEvaluacion> lst){
+        List<Object[]> lstEva = new ArrayList();
+        String descripcionRol;
+        int contEjecutados, contPendiente, contNoEje, contNoEjeJ;
+        for(int i=0; i<lst.size(); i++){            
+            descripcionRol = lst.get(i).getDescripcion();
+            contEjecutados = lst.get(i).getCantEjecutado();
+            contPendiente = lst.get(i).getCantPendiente();
+            contNoEje = lst.get(i).getCantNoEjecutado();
+            contNoEjeJ = lst.get(i).getCantNoJEjecutado();
+            Object[] obj1 = { descripcionRol, "Ejecutado", contEjecutados};
+            Object[] obj2 = { descripcionRol, "Pendiente", contPendiente};
+            Object[] obj3 = { descripcionRol, "No ejecutado", contNoEje};
+            Object[] obj4 = { descripcionRol, "No Justifico", contNoEjeJ};
+            lstEva.add(obj1);
+            lstEva.add(obj2);
+            lstEva.add(obj3);
+            lstEva.add(obj3);
+            lstEva.add(obj4);
+        }
+        sessionDesempenoEvaluador.setLstEvaBarChartRol(lstEva);        
     }
     
     public void setListPiegraph(List <BeanEvaluacion> lst){
@@ -302,20 +330,7 @@ public class bDesempenoEvaluador {
         }
         sessionDesempenoEvaluador.setEvaluador(beanUsu);
         sessionDesempenoEvaluador.setEstado(estado);
-        //Utils.showPopUpMIDDLE(popDetalle);
-        showPopup(clickEvent, popDetalle);
-    }
-    
-    public void showPopup(FacesEvent event, RichPopup pop) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        UIComponent source = (UIComponent)event.getSource();
-        String alignId = source.getClientId(context);
-        RichPopup popup = pop;
-        RichPopup.PopupHints hints = new RichPopup.PopupHints();
-        hints.add(RichPopup.PopupHints.HintTypes.HINT_LAUNCH_ID, source);
-        hints.add(RichPopup.PopupHints.HintTypes.HINT_ALIGN,
-                  RichPopup.PopupHints.AlignTypes.ALIGN_AFTER_END);
-        popup.show(hints);
+        Utils.showPopUpMIDDLE(popDetalle);
     }
 
     public void setSessionDesempenoEvaluador(bSessionDesempenoEvaluador sessionDesempenoEvaluador) {

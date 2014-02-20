@@ -595,7 +595,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }else{
                         beanFEva.setEstadoEvaluacion("NO EJECUTADO");
                         strQuery =
-                            strQuery.concat(" AND (upper(eva.estadoEvaluacion) = :estado AND eva.comentarioEvaluador = NULL) ");
+                            strQuery.concat(" AND (upper(eva.estadoEvaluacion) = :estado AND eva.nidProblema = NULL) ");
                     }
                 }
                 if(beanFEva.getFechaMinEvaluacion() != null && beanFEva.getFechaMaxEvaluacion() != null){
@@ -615,12 +615,12 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                 }
             }
-            if(tipoBusqueda == 1 || tipoBusqueda == 3){
+            if(tipoBusqueda == 1 || tipoBusqueda == 3 || tipoBusqueda == 5){
                 strQuery2 = "SELECT eva.nidEvaluador AS id, usu, " +
                             "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'EJECUTADO' ) , " +
                             "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'PENDIENTE' ) , " +
-                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EJECUTADO' AND eva.comentarioEvaluador != NULL),  " +
-                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EJECUTADO' AND eva.comentarioEvaluador = NULL ) ";                
+                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EJECUTADO' AND eva.nidProblema != NULL),  " +
+                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EJECUTADO' AND eva.nidProblema = NULL ) ";                
             }
             if(tipoBusqueda == 1){
                 strQuery2 = strQuery2.concat(strQuery+" GROUP BY eva.nidEvaluador ");
@@ -638,7 +638,9 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             if(tipoBusqueda == 4){
                 strQuery2 = strQuery2.concat("SELECT COUNT(DISTINCT eva) AS cont , eva.nidProblema" +strQuery);
                 strQuery2 = strQuery2.concat(" AND eva.nidProblema != NULL GROUP BY eva.nidProblema ORDER BY cont ASC ");
-                System.out.println(strQuery2);
+            }
+            if(tipoBusqueda == 5){
+                strQuery2 = strQuery2.concat(strQuery+" GROUP BY usu.rol ");
             }
             Query query = em.createQuery(strQuery2);
             if(lstnidRol != null){
@@ -691,7 +693,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                 }
             }            
-            if(tipoBusqueda == 1  || tipoBusqueda == 3 || tipoBusqueda == 4){
+            if(tipoBusqueda != 2 ){
                 List primitiva = query.getResultList();
                 // tipo 1 --> 0 - nidEvaluador , 1 - Usuario, 2 - Ejecutado, 
                 //            3 - PENDIENTE, 4 -  NO EVALUO, 5 - NO EVALUO                 
