@@ -21,6 +21,88 @@ public class BeanEvaluacionWS implements Serializable {
     private Date endDate;
     private String aula;
     private Double notaFinal;
+    //AUXILIARES PARA LOS GRAFICOS EN EL MOVIL
+    private double notaMin;
+    private double notaProm;
+    private double notaMax;
+    private String ceroDiez;
+    private String onceQuince;
+    private String resto;
+    private int ceroDiezCant;
+    private int onceQuinceCant;
+    private int restoCant;
+
+    public void setNotaMin(double notaMin) {
+        this.notaMin = notaMin;
+    }
+
+    public double getNotaMin() {
+        return notaMin;
+    }
+
+    public void setNotaProm(double notaProm) {
+        this.notaProm = notaProm;
+    }
+
+    public double getNotaProm() {
+        return notaProm;
+    }
+
+    public void setNotaMax(double notaMax) {
+        this.notaMax = notaMax;
+    }
+
+    public double getNotaMax() {
+        return notaMax;
+    }
+
+    public void setCeroDiez(String ceroDiez) {
+        this.ceroDiez = ceroDiez;
+    }
+
+    public String getCeroDiez() {
+        return ceroDiez;
+    }
+
+    public void setOnceQuince(String onceQuince) {
+        this.onceQuince = onceQuince;
+    }
+
+    public String getOnceQuince() {
+        return onceQuince;
+    }
+
+    public void setResto(String resto) {
+        this.resto = resto;
+    }
+
+    public String getResto() {
+        return resto;
+    }
+
+    public void setCeroDiezCant(int ceroDiezCant) {
+        this.ceroDiezCant = ceroDiezCant;
+    }
+
+    public int getCeroDiezCant() {
+        return ceroDiezCant;
+    }
+
+    public void setOnceQuinceCant(int onceQuinceCant) {
+        this.onceQuinceCant = onceQuinceCant;
+    }
+
+    public int getOnceQuinceCant() {
+        return onceQuinceCant;
+    }
+
+    public void setRestoCant(int restoCant) {
+        this.restoCant = restoCant;
+    }
+
+    public int getRestoCant() {
+        return restoCant;
+    }
 
     public void setAula(String aula) {
         this.aula = aula;

@@ -16,8 +16,13 @@ public class LN_C_SFUtilsRemoteClient {
             final Context context = getInitialContext();
             LN_C_SFUtilsRemote lN_C_SFUtilsRemote = (LN_C_SFUtilsRemote) context.lookup("SPED_APP-SPED_NEGOCIO-LN_C_SFUtils#sped.negocio.LNSF.IR.LN_C_SFUtilsRemote");
             for(int i = 0; i < lN_C_SFUtilsRemote.getEvaluadores_LN_WS().size(); i++){
-                System.out.println(" id: "+lN_C_SFUtilsRemote.getEvaluadores_LN_WS().get(i).getId());
-                System.out.println(" desc: "+lN_C_SFUtilsRemote.getEvaluadores_LN_WS().get(i).getDescripcion());
+                System.out.println(" id: "+lN_C_SFUtilsRemote.getEvaluadores_LN_WS().get(i).getId()+ " desc: "+lN_C_SFUtilsRemote.getEvaluadores_LN_WS().get(i).getDescripcion());
+            }
+            for(int i = 0; i < lN_C_SFUtilsRemote.getPlanificadores_LN_WS().size(); i++){
+                System.out.println(" ---id: "+lN_C_SFUtilsRemote.getPlanificadores_LN_WS().get(i).getId()+" ---desc: "+lN_C_SFUtilsRemote.getPlanificadores_LN_WS().get(i).getDescripcion());
+            }
+            for(int i = 0; i < lN_C_SFUtilsRemote.getTipoVisitaFromConstraint().size(); i++){
+                System.out.println(" ---id: "+lN_C_SFUtilsRemote.getTipoVisitaFromConstraint().get(i).getId()+" ---desc: "+lN_C_SFUtilsRemote.getTipoVisitaFromConstraint().get(i).getDescripcion());
             }
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
