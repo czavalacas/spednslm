@@ -71,8 +71,7 @@ public class WS_SPED {
     public BeanUsuario autenticarUsuarioLN(@WebParam(name = "arg0") String usuario,
                                            @WebParam(name = "arg1") String clave,
                                            @WebParam(name = "arg2") String cadenaPhoneData){
-        BeanUsuario bu = ln_C_SFUsuarioLocal.autenticarUsuarioLN_WS(usuario, clave,cadenaPhoneData);
-        return bu;
+        return ln_C_SFUsuarioLocal.autenticarUsuarioLN_WS(usuario, clave,cadenaPhoneData);
     }
 
     @WebMethod
