@@ -30,6 +30,7 @@ import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanConstraint;
@@ -89,19 +90,11 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBean;
     }
     
-    public List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario,
-                                                           int nidSede,
-                                                           int nidNivel,
-                                                           int nidArea,
-                                                           int nidCurso,
-                                                           int nidGrado,
-                                                           String estado,
-                                                           String nomProfesor,
-                                                           String nomEvaluador,
-                                                           Date fechaPlanifiacion,
-                                                           Date fechaPlanifiacionF,
-                                                           Date fechaEvaluacion,
-                                                           Date fachaEvaluacionF){
+    public List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario, int nidSede, int nidNivel,
+                                                           int nidArea, int nidCurso, int nidGrado, String estado,
+                                                           String nomProfesor, String nomEvaluador,
+                                                           Date fechaPlanifiacion, Date fechaPlanifiacionF,
+                                                           Date fechaEvaluacion, Date fachaEvaluacionF) {
         try{
             BeanEvaluacion beanEva = new BeanEvaluacion();
             beanEva.setNidSede(nidSede);
@@ -116,8 +109,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setFechaMaxPlanificacion(fechaPlanifiacionF);
             beanEva.setFechaMinEvaluacion(fechaEvaluacion);
             beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
-            return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getEvaluacionesByUsuarioBDL(beanUsuario,
-                                                                                              beanEva));
+            return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getEvaluacionesByUsuarioBDL(beanUsuario, beanEva));
         }catch(Exception e){
             System.out.println(e.getMessage());
             return new ArrayList<BeanEvaluacion>();
@@ -129,8 +121,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             List<BeanEvaluacion> lstBean = new ArrayList();
             for(Evaluacion eva : lstEvaluacion){
                 BeanEvaluacion beanEva = (BeanEvaluacion) mapper.map(eva, BeanEvaluacion.class);
-                beanEva.setNombreEvaluador(bdL_C_SFUsuarioLocal.
-                                           getNombresUsuarioByNidUsuario(beanEva.getNidEvaluador()));
+                beanEva.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(beanEva.getNidEvaluador()));
                 double nota = resultadoBeanEvaluacion(beanEva, eva);
                 beanEva.setResultado(nota);
                 beanEva.setColorResultado(colorNota(nota));
@@ -148,8 +139,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         double resu = 0;
         int tamano = beanEva.getResultadoCriterioList().size();
         if(tamano != 0){
-            beanEva.setResultadoCriterioList(ln_C_SFResultadoCriterioLocal.transformLstResultadoCriterio
-                                             (eva.getResultadoCriterioList()));
+            beanEva.setResultadoCriterioList(ln_C_SFResultadoCriterioLocal.transformLstResultadoCriterio(eva.getResultadoCriterioList()));
             double total = 0;
             for(int i = 0; i < tamano; i++){
                 total = total + beanEva.getResultadoCriterioList().get(i).getValor();
@@ -205,36 +195,28 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
      * @since 04.02.2014
      * @return List<BeanEvaluacion>
      */
-    public List<BeanEvaluacionWS> getPlanificaciones_LN_WS(int nidRol,
-                                                          int nidSede,
-                                                          int nidAreaAcademica,
-                                                          int nidUsuario,
-                                                          String nombresProfesor,
-                                                          String curso,
-                                                          int nidSedeFiltro,
-                                                          int nidAAFiltro){
+    public List<BeanEvaluacionWS> getPlanificaciones_LN_WS(int nidRol, int nidSede, int nidAreaAcademica,
+                                                           int nidUsuario, String nombresProfesor, String curso,
+                                                           int nidSedeFiltro, int nidAAFiltro) {
         List<BeanEvaluacionWS> lstBeanEvas = new ArrayList<BeanEvaluacionWS>();
-        List<Evaluacion> lstEvas = bdL_C_SFEvaluacionLocal.getPlanificaciones_BDL_WS(nidRol,
-                                                                                        nidSede, 
-                                                                                        nidAreaAcademica,
-                                                                                        nidUsuario, 
-                                                                                        nombresProfesor, 
-                                                                                        curso, 
-                                                                                        nidSedeFiltro,
-                                                                                        nidAAFiltro);
+        List<Evaluacion> lstEvas =
+            bdL_C_SFEvaluacionLocal.getPlanificaciones_BDL_WS(nidRol, nidSede, nidAreaAcademica, nidUsuario,
+                                                              nombresProfesor, curso, nidSedeFiltro, nidAAFiltro);
         for(Evaluacion eva : lstEvas){
             BeanEvaluacionWS beanEva = new BeanEvaluacionWS(); //(BeanEvaluacion) mapper.map(eva, BeanEvaluacion.class);
             beanEva.setNidEvaluacion(eva.getNidEvaluacion());
             beanEva.setNidEvaluador(eva.getNidEvaluador());
             beanEva.setEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidEvaluador()));
             beanEva.setPlanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidPlanificador()));
-            beanEva.setProfesor(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres());
+            beanEva.setProfesor(eva.getMain().getProfesor().getApellidos() + " " +
+                                eva.getMain().getProfesor().getNombres());
             beanEva.setCurso(eva.getMain().getCurso().getDescripcionCurso());
             beanEva.setStartDate(eva.getStartDate());
             beanEva.setEndDate(eva.getEndDate());
             beanEva.setSede(eva.getMain().getAula().getSede().getDescripcionSede());
             beanEva.setAreaAcademica(eva.getMain().getCurso().getAreaAcademica().getDescripcionAreaAcademica());
-            BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
+            BeanConstraint constr =
+                bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
             beanEva.setTipoVisita(constr.getDescripcionAMostrar());
             beanEva.setAula(eva.getMain().getAula().getDescripcionAula());
            // Utiles.sysout("beanEva:"+beanEva.getNidEvaluacion()+" ape:"+beanEva.getMain().getProfesor().getApellidos()+", "+eva.getMain().getProfesor().getNombres()+" startdate:"+beanEva.getStartDate());
@@ -243,34 +225,16 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBeanEvas;
     }
     
-    public List<BeanEvaluacionWS> getEvaluaciones_LN_WS(int nidRol,
-                                                          int nidSede,
-                                                          int nidAreaAcademica,
-                                                          int nidUsuario,
-                                                          String nombresProfesor,
-                                                          String curso,
-                                                          int nidSedeFiltro,
-                                                          int nidAAFiltro,
-                                                          String estado,
-                                                          Date fechaMin,
-                                                          Date fechaMax,
-                                                          String tipoVisita,
-                                                          Integer nidPlanificador,
+    public List<BeanEvaluacionWS> getEvaluaciones_LN_WS(int nidRol, int nidSede, int nidAreaAcademica, int nidUsuario,
+                                                        String nombresProfesor, String curso, int nidSedeFiltro,
+                                                        int nidAAFiltro, String estado, Date fechaMin, Date fechaMax,
+                                                        String tipoVisita, Integer nidPlanificador,
                                                           Integer nidEvaluador){
         List<BeanEvaluacionWS> lstBeanEvas = new ArrayList<BeanEvaluacionWS>();
-        List<Evaluacion> lstEvas = bdL_C_SFEvaluacionLocal.getEvaluaciones_BDL_WS(nidRol,
-                                                                                     nidSede, 
-                                                                                     nidAreaAcademica,
-                                                                                     nidUsuario, 
-                                                                                     nombresProfesor, 
-                                                                                     curso, 
-                                                                                     nidSedeFiltro,
-                                                                                     nidAAFiltro,
-                                                                                     estado,
-                                                                                     fechaMin,
-                                                                                     fechaMax,
-                                                                                     tipoVisita,
-                                                                                     nidPlanificador,
+        List<Evaluacion> lstEvas =
+            bdL_C_SFEvaluacionLocal.getEvaluaciones_BDL_WS(nidRol, nidSede, nidAreaAcademica, nidUsuario,
+                                                           nombresProfesor, curso, nidSedeFiltro, nidAAFiltro, estado,
+                                                           fechaMin, fechaMax, tipoVisita, nidPlanificador,
                                                                                      nidEvaluador);
         List<Double> lst = new ArrayList<Double>();
         double suma = 0.0;
@@ -283,13 +247,15 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setNidEvaluador(eva.getNidEvaluador());
             beanEva.setEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidEvaluador()));
             beanEva.setPlanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidPlanificador()));
-            beanEva.setProfesor(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres());
+            beanEva.setProfesor(eva.getMain().getProfesor().getApellidos() + " " +
+                                eva.getMain().getProfesor().getNombres());
             beanEva.setCurso(eva.getMain().getCurso().getDescripcionCurso());
             beanEva.setStartDate(eva.getStartDate());
             beanEva.setEndDate(eva.getEndDate());
             beanEva.setSede(eva.getMain().getAula().getSede().getDescripcionSede());
             beanEva.setAreaAcademica(eva.getMain().getCurso().getAreaAcademica().getDescripcionAreaAcademica());
-            BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
+            BeanConstraint constr =
+                bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
             beanEva.setTipoVisita(constr.getDescripcionAMostrar());
             beanEva.setAula(eva.getMain().getAula().getDescripcionAula());
             double nota = resultadoBeanEvaluacionAux_WS(eva);Utiles.sysout("nota:"+nota);
@@ -331,16 +297,10 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBeanEvas.get(lstBeanEvas.size() - 1);
     }
     
-    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,
-                                                                 String parametro,
-                                                                 String parametro2,
-                                                                 List lstnidRol,
-                                                                 List lstnidEva,
-                                                                 List lstnidSede,
-                                                                 List lstnidArea,                                                                 
-                                                                 Date fechaPlanifiacion,
-                                                                 Date fechaPlanifiacionF,
-                                                                 Date fechaEvaluacion,
+    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda, String parametro, String parametro2,
+                                                                 List lstnidRol, List lstnidEva, List lstnidSede,
+                                                                 List lstnidArea, Date fechaPlanifiacion,
+                                                                 Date fechaPlanifiacionF, Date fechaEvaluacion,
                                                                  Date fachaEvaluacionF){
         try{
             List<BeanEvaluacion> lstBeanEva = new ArrayList();
@@ -351,19 +311,16 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setFechaMaxPlanificacion(fechaPlanifiacionF);
             beanEva.setFechaMinEvaluacion(fechaEvaluacion);
             beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
-            List listaBD = bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(tipoBusqueda,
-                                                                                     lstnidRol,
-                                                                                     lstnidEva,
-                                                                                     lstnidSede,
-                                                                                     lstnidArea,
-                                                                                     beanEva);
+            List listaBD =
+                bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(tipoBusqueda, lstnidRol, lstnidEva,
+                                                                          lstnidSede, lstnidArea, beanEva);
             if(tipoBusqueda != 2){
                 for(Object dato : listaBD){
                     BeanEvaluacion bean = new BeanEvaluacion();
                     Object[] datos = (Object[]) dato;                     
                     if(tipoBusqueda == 3){
                         bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[6], BeanEvaluacion.class);
-                    }                    
+                    }
                     if(tipoBusqueda != 4){
                         Usuario usu = (Usuario)datos[1];
                         bean.setNidEvaluador(usu.getNidUsuario());
@@ -374,7 +331,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                         bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5])); 
                         if(tipoBusqueda == 5){
                             bean.setDescripcion(usu.getRol().getDescripcionRol());
-                        }
+                    }
                     }
                     if(tipoBusqueda == 4){                       
                         int id = Integer.parseInt(""+datos[1]);
@@ -395,4 +352,36 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         }        
     }
    
+    public List<BeanConstraint> getTipoVisitaLN() {
+        List<BeanConstraint> lstBean = new ArrayList();
+        List<Constraint> lstConstr = bdL_C_SFEvaluacionLocal.getTipoVisita();
+        for (Constraint a : lstConstr) {
+            BeanConstraint bean = (BeanConstraint) mapper.map(a, BeanConstraint.class);
+            lstBean.add(bean);
+}
+        return lstBean;
+    }
+
+    public BeanConstraint getTipoVisita_ByValorLN(String valor) {
+        Constraint entida = bdL_C_SFEvaluacionLocal.getTipoVisitaByValor(valor);
+        BeanConstraint bean = (BeanConstraint) mapper.map(entida, BeanConstraint.class);
+        return bean;
+    }
+
+    public BeanEvaluacion getEvaluacionById_LN(String nidDate) {
+        Evaluacion entida = bdL_C_SFEvaluacionLocal.getEvaluacionById(nidDate);
+        BeanEvaluacion bean = (BeanEvaluacion) mapper.map(entida, BeanEvaluacion.class);
+        return bean;
+    }
+
+    public List<BeanEvaluacion> getEvaluaciones_LN(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
+                                                   String dniProfesor, String nidCurso, Integer nidSede) {
+        List<BeanEvaluacion> lstBean = new ArrayList();
+        List<Evaluacion> lstEva = bdL_C_SFEvaluacionLocal.getEvaluaciones(fechaHoy,nidAreaAcademica,nidEvaluador,dniProfesor,nidCurso,nidSede);
+        for (Evaluacion a : lstEva) {
+            BeanEvaluacion bean = (BeanEvaluacion) mapper.map(a, BeanEvaluacion.class);
+            lstBean.add(bean);
+        }
+        return lstBean;
+    }
 }
