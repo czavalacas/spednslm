@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import mobile.AdfmUtils;
 import mobile.beans.BeanAreaAcademica;
+import mobile.beans.BeanCombo;
 import mobile.beans.BeanSede;
 import oracle.adfmf.framework.api.AdfmfJavaUtilities;
 import oracle.adfmf.framework.api.GenericTypeBeanSerializationHelper;
@@ -43,9 +44,9 @@ public class bMain {
         List areas = getAreas_WEBSERVICE();
         if(areas != null){
             for (int i = 0; i < areas.size(); i++) {//en el 1.4 no se permite usar el foreach
-                BeanAreaAcademica r = (BeanAreaAcademica) areas.get(i);
-                areasItems.add(new SelectItem(r.getNidAreaAcademica().toString(), 
-                                              r.getDescripcionAreaAcademica().toString()));
+                BeanCombo r = (BeanCombo) areas.get(i);
+                areasItems.add(new SelectItem(r.getId().toString(), 
+                                              r.getDescripcion().toString()));
             }
         }
         return areasItems;
@@ -87,7 +88,7 @@ public class bMain {
     
     public List getAreas_WEBSERVICE(){
         GenericType result;
-        List rolesWS = new ArrayList();//en el 1.4 no se permite usar List<Objecto>
+        List areasWS = new ArrayList();//en el 1.4 no se permite usar List<Objecto>
         List nullParams = new ArrayList();
         try {
             result = (GenericType)AdfmfJavaUtilities.invokeDataControlMethod(WEBSERVICE_NAME, //Nombre del WS (definido cuando se creo el datacontrol
@@ -98,9 +99,8 @@ public class bMain {
                                                                              nullParams);
             for (int i = 0; i < result.getAttributeCount(); i++) {
                 GenericType row = (GenericType)result.getAttribute(i);
-                BeanAreaAcademica beanAreaAcademica = (BeanAreaAcademica)GenericTypeBeanSerializationHelper.fromGenericType(BeanAreaAcademica.class, 
-                                                                                                                            row);
-                rolesWS.add(beanAreaAcademica);
+                BeanCombo beanAreaAcademica = (BeanCombo)GenericTypeBeanSerializationHelper.fromGenericType(BeanCombo.class,row);
+                areasWS.add(beanAreaAcademica);
             }
         } catch (AdfInvocationException ex) {
             if (AdfInvocationException.CATEGORY_WEBSERVICE.compareTo(ex.getErrorCategory()) == 0) {
@@ -116,7 +116,7 @@ public class bMain {
                             ALERTA,
                             new Object[] {"m_0001"});
         }
-        return rolesWS;
+        return areasWS;
     }
     
     public void setUrlIcon(String urlIcon) {

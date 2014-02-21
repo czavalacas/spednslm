@@ -61,14 +61,14 @@
                                         <amx:tableLayout id="tl7" inlineStyle="width:100%;" width="95%">
                                             <amx:rowLayout id="rl8">
                                                 <amx:cellFormat id="cf12" inlineStyle="width:95%;">
-                                                        <amx:outputText value="Nota: " id="ot14" inlineStyle="#{row.nota le 10 ? 'background-color:red;color:white;' : 
-                                                                     (row.nota ge 11 and row.nota le 15 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
+                                                        <amx:outputText value="Nota: " id="ot14" inlineStyle="#{row.nota le 10.49 ? 'background-color:red;color:white;' : 
+                                                                     (row.nota ge 10.50 and row.nota le 15.49 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
                                                                      font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;"/>
                                                 </amx:cellFormat>
                                                 <amx:cellFormat id="cf13" inlineStyle="width:95%;">
                                                           <amx:outputText value="#{row.nota}" id="ot12"
-                                                        inlineStyle="#{row.nota le 10 ? 'background-color:red;color:white;' : 
-                                                                     (row.nota ge 11 and row.nota le 15 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
+                                                        inlineStyle="#{row.nota le 10.49 ? 'background-color:red;color:white;' : 
+                                                                     (row.nota ge 10.50 and row.nota le 15.49 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
                                                                      font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;">
                                             <amx:convertNumber id="cn2" maxFractionDigits="2"/>
                                         </amx:outputText>

@@ -67,8 +67,8 @@ public class bEvaluar {
     public bEvaluar() {
         this.setNotaEscala20(0.0);
         this.setNotaFinalEscala20(0.0);
-        ValueExpression veNidRol    = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.rol.nidRol}",Integer.class);
-        Integer nidRol =    (Integer)veNidRol.getValue(adfELContext);
+        ValueExpression veNidRol = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.rol.nidRol}",Integer.class);
+        Integer nidRol = (Integer) veNidRol.getValue(adfELContext);
        
         List pnames = new ArrayList();//aqui van los nombres en el metodo WS are01,arg02, etc si son 5 hasta arg5
         List params = new ArrayList();//en esta seteas todos los valores si son 5 la lista tendra list.size = 5
@@ -184,8 +184,8 @@ public class bEvaluar {
         Map mapa = this.getMapaByNidCriterio(nidCriterio);
         Integer index = (Integer) mapa.get("INDEX");
         Map mapaIndis = null;
-        GenericType row = null;
         List lstIndis = new ArrayList();
+        GenericType row = null;
         iteratorBinding.getIterator().first();
         this.setMaxValByCriterio(maxVals.intValue() * iteratorBinding.getIterator().getTotalRowCount());
         int sumaTotalXCriterio = 0;
