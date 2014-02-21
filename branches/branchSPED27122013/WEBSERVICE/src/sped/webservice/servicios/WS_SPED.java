@@ -27,6 +27,7 @@ import sped.negocio.LNSF.IL.LN_T_SFEvaluacionLocal;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanCriterioIndicadorWS;
 import sped.negocio.entidades.beans.BeanCriterioWS;
@@ -118,7 +119,39 @@ public class WS_SPED {
                                                      @WebParam(name = "arg11") String tipoVisita,
                                                      @WebParam(name = "arg12") Integer nidPlanificador,
                                                      @WebParam(name = "arg13") Integer nidEvaluador){
+        System.out.println("invocando al WS getEvaluaciones_WS nidRol: "+nidRol);
+        System.out.println("nidSede: "+nidSede);
+        System.out.println("nidAreaAcademica: "+nidAreaAcademica);
+        System.out.println("nidUsuario: "+nidUsuario);
+        System.out.println("nombresProfesor: "+nombresProfesor);
+        System.out.println("curso: "+curso);
+        System.out.println("nidSedeFiltro: "+nidSedeFiltro);
+        System.out.println("nidAAFiltro: "+nidAAFiltro);
+        System.out.println("estado: "+estado);
+        System.out.println("fechaMin: "+fechaMin);
+        System.out.println("fechaMax: "+fechaMax);
+        System.out.println("tipoVisita: "+tipoVisita);
+        System.out.println("nidPlanificador: "+nidPlanificador);
+        System.out.println("nidEvaluador: "+nidEvaluador);
         if(nidRol == 1 || nidRol == 2 || nidRol == 4 || nidRol == 5 || nidRol == 3){//Solo Director,EvaXArea,EvaXSede,Profesor y EvaGeneral pueden consultar
+            if(estado == null){
+                estado = "EJECUTADO";
+            }else{
+                if(estado.equals("0")){
+                    estado = "EJECUTADO";
+                }
+            }
+            if(fechaMin == null){
+                fechaMin = new Date();
+            }
+            if(fechaMax == null){
+                fechaMax = new Date();
+            }
+            if(tipoVisita != null){
+                if(tipoVisita.equals("0")){
+                    tipoVisita = null;
+                }
+            }
             return ln_C_SFEvaluacionLocal.getEvaluaciones_LN_WS(nidRol, 
                                                                     nidSede, 
                                                                     nidAreaAcademica,
@@ -134,7 +167,7 @@ public class WS_SPED {
                                                                     nidPlanificador,
                                                                     nidEvaluador);
         }else{
-            return null;
+            return new ArrayList<BeanEvaluacionWS>();
         }
     }
 
@@ -197,5 +230,10 @@ public class WS_SPED {
     @WebMethod
     public List<BeanCombo> getEvaluadores_LN_WS(){
         return ln_C_SFUtilsLocal.getEvaluadores_LN_WS();
+    }
+
+    @WebMethod
+    public List<BeanComboString> getTipoVisita_LN_WS(){
+        return ln_C_SFUtilsLocal.getTipoVisitaFromConstraint();
     }
 }
