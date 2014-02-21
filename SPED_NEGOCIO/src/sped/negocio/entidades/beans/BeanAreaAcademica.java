@@ -15,8 +15,7 @@ public class BeanAreaAcademica implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String descripcionAreaAcademica;
-    private Integer nidAreaAcademica;
-    private List<Curso> cursosLista;
+    private Integer nidAreaAcademica; 
 
     public void setDescripcionAreaAcademica(String descripcionAreaAcademica) {
         this.descripcionAreaAcademica = descripcionAreaAcademica;
@@ -35,11 +34,4 @@ public class BeanAreaAcademica implements Serializable {
         return nidAreaAcademica;
     }
 
-    public void setCursosLista(List<Curso> cursosLista) {
-        this.cursosLista = cursosLista;
-    }
-
-    public List<Curso> getCursosLista() {
-        return cursosLista;
-    }
 }
