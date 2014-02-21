@@ -60,7 +60,7 @@ public class sessionPlanificar {
     private String docenteEvaluacion;
     private String dniDocenteEvaluacion;
     private boolean estadoChoiceEvaluadores;
-    private boolean estadoBotonEliminarEvaluacion;
+    private boolean estadoBotonEliminarEvaluacion=true;
     private String styleClass;
     private boolean estadoAsignarEvaluacion=true;
     private Date horaPartidaInicio;  
