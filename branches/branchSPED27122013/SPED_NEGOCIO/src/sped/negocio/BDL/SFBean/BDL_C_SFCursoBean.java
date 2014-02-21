@@ -17,6 +17,8 @@ import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
 import sped.negocio.BDL.IR.BDL_C_SFCursoRemoto;
 import sped.negocio.entidades.admin.Curso;
+import sped.negocio.entidades.eval.Criterio;
+
 /** Clase SFBDL SFMainBean.java
  * @author czavalacas
  * @since 30.12.2013
@@ -64,4 +66,13 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
             e.printStackTrace();
             return null;
         }}
+    
+    public Curso findCursoById(int id) {
+        try {
+            Curso instance = em.find(Curso.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
+        }
+    }
 }

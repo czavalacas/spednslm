@@ -22,6 +22,7 @@ import sped.negocio.LNSF.IL.LN_C_SFCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCriterioRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCriterio;
+import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.eval.Criterio;
 
 @Stateless(name = "LN_C_SFCriterio", mappedName = "mapLN_C_SFCriterio")
@@ -63,5 +64,15 @@ public class LN_C_SFCriterioBean implements LN_C_SFCriterioRemote,
             me.printStackTrace();
             return null;
         }
+    }
+    
+    public BeanCriterio findConstrainByIdLN(int id){
+        try{
+            BeanCriterio bean = (BeanCriterio)mapper.map(bdL_C_SFCriterioLocal.findCriterioById(id),BeanCriterio.class);
+            return bean;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }        
     }
 }

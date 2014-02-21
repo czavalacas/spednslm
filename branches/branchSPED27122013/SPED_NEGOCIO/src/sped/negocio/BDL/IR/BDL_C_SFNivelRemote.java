@@ -10,4 +10,5 @@ import sped.negocio.entidades.admin.Nivel;
 public interface BDL_C_SFNivelRemote {
     List<Nivel> getNivelFindAll();
     List<Nivel> findGradpPorAreaAcademica(Integer nidAreaAcademica, String dia);
+    Nivel findNivelById(int id);
 }

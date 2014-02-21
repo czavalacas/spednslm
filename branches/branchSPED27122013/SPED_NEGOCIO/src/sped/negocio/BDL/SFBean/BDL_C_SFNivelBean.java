@@ -65,4 +65,13 @@ public class BDL_C_SFNivelBean implements BDL_C_SFNivelRemote,
             e.printStackTrace();
             return null;
         }}
+    
+    public Nivel findNivelById(int id) {
+         try {
+             Nivel instance = em.find(Nivel.class, id);
+             return instance;
+         } catch (RuntimeException re) {
+             throw re;
+         }
+     }  
 }

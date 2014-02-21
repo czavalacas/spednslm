@@ -41,6 +41,7 @@ public class BDL_C_SFCriterioBean implements BDL_C_SFCriterioRemote,
                     strQuery = strQuery.concat(" AND c.nidCriterio = :nidCriterio ");
                 }
             }
+                    strQuery = strQuery.concat(" ORDER by c.descripcionCriterio");            
             Query query = em.createQuery(strQuery);
             if(beanCriterio.getDescripcionCriterio() != null){
                 query.setParameter("desc_criterio","%"+beanCriterio.getDescripcionCriterio().toUpperCase()+"%");
@@ -53,8 +54,8 @@ public class BDL_C_SFCriterioBean implements BDL_C_SFCriterioRemote,
             e.printStackTrace();
             return null;
         }
-    }
-    
+    }    
+
     public Criterio findCriterioById(int id) {
         try {
             Criterio instance = em.find(Criterio.class, id);
