@@ -20,11 +20,16 @@ import net.sf.dozer.util.mapping.MapperIF;
 import sped.negocio.BDL.IL.BDL_C_SFMainLocal;
 import sped.negocio.LNSF.IL.LN_C_SFMainLocal;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
+import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Main;
+import sped.negocio.entidades.admin.Profesor;
+import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanMain;
+import sped.negocio.entidades.beans.BeanProfesor;
+
 /** Clase SFLN SFMainBean.java
- * @author czavalacas 
+ * @author czavalacas
  * @since 29.12.2013
  */
 @Stateless(name = "LN_C_SFMain", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFMain")
@@ -36,15 +41,14 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
     private EntityManager em;
     @EJB
     BDL_C_SFMainLocal bdl_C_SFMainLocal;
-        
+    private MapperIF mapper = new DozerBeanMapper();
+    
     public LN_C_SFMainBean() {
     }
     
-    public List<BeanMain> llenarHorario(BeanMain beanMain){
-  //      System.out.println("Entro a llenarhorario");
+    public List<BeanMain> llenarHorario(BeanMain beanMain){ 
         List<Main>listaMain=bdl_C_SFMainLocal.findHorariosByAttributes(beanMain);        
-        List<BeanMain> listaBean=new ArrayList<BeanMain>();
-        MapperIF mapper = new DozerBeanMapper();
+        List<BeanMain> listaBean=new ArrayList<BeanMain>();       
         Iterator it=listaMain.iterator();
         while(it.hasNext()){
             Main entida= (Main)it.next();
@@ -53,4 +57,14 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
         }
         return listaBean;
       }
+    
+    public List<BeanProfesor> findProfesoresPorAreaAcademica_LN(Integer nidAreaAcademica, String dia){
+        List<BeanProfesor> lstBean = new ArrayList();
+        List<Profesor> lstAreaAcd = bdl_C_SFMainLocal.findProfesoresPorAreaAcademica(nidAreaAcademica,dia);       
+        for(Profesor a : lstAreaAcd){
+            BeanProfesor bean = (BeanProfesor) mapper.map(a, BeanProfesor.class);
+            lstBean.add(bean);
+        }
+        return lstBean; 
+    }
 }

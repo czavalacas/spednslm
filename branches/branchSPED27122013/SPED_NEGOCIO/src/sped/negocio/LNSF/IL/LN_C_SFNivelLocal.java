@@ -10,4 +10,5 @@ import sped.negocio.entidades.beans.BeanNivel;
 public interface LN_C_SFNivelLocal {
     List<BeanNivel> getNivelLN();
     List<BeanNivel> findNivelPorAreaAcademica(Integer nidAreaAcademica, String dia);
+    BeanNivel findConstrainByIdLN(int id);
 }

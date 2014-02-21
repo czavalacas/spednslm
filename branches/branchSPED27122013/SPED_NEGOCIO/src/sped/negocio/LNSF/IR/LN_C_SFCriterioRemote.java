@@ -11,4 +11,5 @@ public interface LN_C_SFCriterioRemote {
     
     List<BeanCriterio> getCriteriosByAttr_LN(int nidCriterio,
                                              String descCriterio);
+    BeanCriterio findConstrainByIdLN(int id);
 }

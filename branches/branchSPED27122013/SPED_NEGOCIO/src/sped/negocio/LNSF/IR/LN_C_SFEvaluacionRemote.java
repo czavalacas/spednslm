@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -73,4 +74,9 @@ public interface LN_C_SFEvaluacionRemote {
                                                 String tipoVisita,
                                                 Integer nidPlanificador,
                                                 Integer nidEvaluador);
+    List<BeanConstraint> getTipoVisitaLN();
+    BeanConstraint getTipoVisita_ByValorLN(String valor);
+    BeanEvaluacion getEvaluacionById_LN(String nidDate);
+    List<BeanEvaluacion> getEvaluaciones_LN(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
+                                                       String dniProfesor, String nidCurso, Integer nidSede);
 }

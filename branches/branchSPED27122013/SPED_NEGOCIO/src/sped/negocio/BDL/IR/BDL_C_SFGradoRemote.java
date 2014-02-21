@@ -10,4 +10,5 @@ import sped.negocio.entidades.admin.Grado;
 public interface BDL_C_SFGradoRemote {
     List<Grado> getGradoFindAll();
     List<Grado> findGradpPorAreaAcademica(Integer nidAreaAcademica, String dia);
+    Grado findGradoById(int id);
 }

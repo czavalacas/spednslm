@@ -24,6 +24,7 @@ import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Grado;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanGrado;
+import sped.negocio.entidades.beans.BeanSede;
 
 @Stateless(name = "LN_C_SFGrado", mappedName = "map-LN_C_SFGrado")
 public class LN_C_SFGradoBean implements LN_C_SFGradoRemote, 
@@ -34,6 +35,7 @@ public class LN_C_SFGradoBean implements LN_C_SFGradoRemote,
     private EntityManager em;
     @EJB
     BDL_C_SFGradoLocal bdl_C_SFGradoLocal;
+    private MapperIF mapper = new DozerBeanMapper();
     public LN_C_SFGradoBean() {
     }
     
@@ -61,5 +63,15 @@ public class LN_C_SFGradoBean implements LN_C_SFGradoRemote,
             list.add(bean);
         }
         return list;
+    }
+    
+    public BeanGrado findConstrainByIdLN(int id){
+        try{
+            BeanGrado bean = (BeanGrado)mapper.map(bdl_C_SFGradoLocal.findGradoById(id),BeanGrado.class);
+            return bean;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }        
     }
 }

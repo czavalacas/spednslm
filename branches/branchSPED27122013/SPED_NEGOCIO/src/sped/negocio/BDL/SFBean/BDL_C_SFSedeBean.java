@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFSedeLocal;
 import sped.negocio.BDL.IR.BDL_C_SFSedeRemote;
+import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Sede;
 
@@ -64,4 +65,13 @@ public class BDL_C_SFSedeBean implements BDL_C_SFSedeRemote,
             e.printStackTrace();
             return null;
         }}
+    
+    public Sede findSedeById(int id) {
+         try {
+             Sede instance = em.find(Sede.class, id);
+             return instance;
+         } catch (RuntimeException re) {
+             throw re;
+         }
+     }  
 }
