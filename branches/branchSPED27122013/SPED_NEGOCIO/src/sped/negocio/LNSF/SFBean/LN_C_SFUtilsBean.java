@@ -33,7 +33,7 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     private EntityManager em;
     
     @EJB
-    BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
+    private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
     MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFUtilsBean() {
@@ -60,5 +60,9 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     
     public List<BeanComboString> getTipoVisitaFromConstraint(){
         return bdL_C_SFUtilsLocal.getTipoVisita("e.valorCampo", "e.descripcionAMostrar");
+    }
+    
+    public List<BeanCombo> getAreas_LN_WS(){
+        return bdL_C_SFUtilsLocal.getAreas_WS("e.nidAreaAcademica", "e.descripcionAreaAcademica");
     }
 }
