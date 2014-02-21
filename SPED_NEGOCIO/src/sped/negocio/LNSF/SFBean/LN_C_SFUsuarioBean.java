@@ -211,4 +211,13 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             return null;
         }        
     }
+    
+    public String getNombresUsuarioByNidUsuario_LN(int nidUsuario){
+        try{
+            return bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(nidUsuario);
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }      
+    }
 }

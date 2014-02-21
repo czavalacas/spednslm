@@ -24,4 +24,5 @@ public interface LN_C_SFUsuarioLocal {
     List<BeanUsuario> getUsuariobyNidRolLN(int nidRol);
     BeanUsuario autenticarUsuarioLN_WS(String usuario,String clave,String cadenaPhoneData);
     BeanUsuario findConstrainByIdLN(int id);
+    String getNombresUsuarioByNidUsuario_LN(int nidUsuario);
 }
