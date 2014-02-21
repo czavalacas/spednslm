@@ -23,6 +23,7 @@ import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Sede;
+import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -68,6 +69,16 @@ public class LN_C_SFSedeBean implements LN_C_SFSedeRemote,
             me.printStackTrace();
             return null;
         }
+    }
+    
+    public BeanSede findConstrainByIdLN(int id){
+        try{
+            BeanSede bean = (BeanSede)mapper.map(bdL_C_SFSedeLocal.findSedeById(id),BeanSede.class);
+            return bean;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }        
     }
     
     

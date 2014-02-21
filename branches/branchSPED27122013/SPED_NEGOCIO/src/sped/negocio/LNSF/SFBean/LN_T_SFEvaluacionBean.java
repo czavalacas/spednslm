@@ -70,6 +70,38 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public String registrarEvaluacion_LN(Evaluacion eva){    
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            bdL_T_SFEvaluacionLocal.persistEvaluacion(eva);                
+        }catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+        }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public String removerEvaluacion_LN(Evaluacion eva){
+       
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            bdL_T_SFEvaluacionLocal.removeEvaluacion(eva);      
+        }catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+        }
+    
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public String registrarEvaluacion_LN_WS(List<BeanIndicadorValorWS> lstBeanIndiVal, Integer nidEvaluacion,Integer nidUsuario,Integer nidLog){
         BeanError beanError = new BeanError();
         String error = "000";
