@@ -1,37 +1,221 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <amx:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amx="http://xmlns.oracle.com/adf/mf/amx"
           xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
-  <amx:panelPage id="pp1">
-    <amx:facet name="header">
-      <amx:outputText value="Evaluaciones" id="ot1"/>
-    </amx:facet>
-    <amx:facet name="primary">
-      <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"/>
-    </amx:facet>
-    <amx:facet name="secondary">
-      <amx:commandButton id="cb2" action="GO_LOGIN" icon="/resources/img/lock.png" iconPosition="trailing"/>
-    </amx:facet>
-    <amx:panelFormLayout id="pfl1" labelPosition="topCenter" fieldHalign="start">
-      <amx:inputText value="#{bindings.arg4.inputValue}" id="it3" hintText="Profesor" rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"/>
-      <amx:inputText value="#{bindings.arg5.inputValue}" id="it9" hintText="Curso"/>
-      <amx:inputText value="#{bindings.arg6.inputValue}" id="it11">
-        <amx:convertNumber groupingUsed="false" id="cn7"/>
-      </amx:inputText>
-      <amx:inputText value="#{bindings.arg7.inputValue}" id="it2">
-        <amx:convertNumber groupingUsed="false" id="cn2"/>
-      </amx:inputText>
-      <amx:inputText value="#{bindings.arg8.inputValue}" id="it6"/>
-      <amx:inputDate value="#{bindings.arg9.inputValue}" id="id2"/>
-      <amx:inputDate value="#{bindings.arg10.inputValue}" id="id1"/>
-      <amx:inputText value="#{bindings.arg11.inputValue}" id="it10"/>
-      <amx:inputText value="#{bindings.arg12.inputValue}" id="it12">
-        <amx:convertNumber groupingUsed="false" id="cn8"/>
-      </amx:inputText>
-      <amx:inputText value="#{bindings.arg13.inputValue}" id="it4">
-        <amx:convertNumber groupingUsed="false" id="cn3"/>
-      </amx:inputText>
-    </amx:panelFormLayout>
-    <amx:commandButton actionListener="#{bindings.getEvaluaciones_WS.execute}" text="Buscar"
-                       disabled="#{!bindings.getEvaluaciones_WS.enabled}" id="cb3"/>
-  </amx:panelPage>
+    <amx:panelPage id="pp1">
+        <amx:facet name="header">
+            <amx:outputText value="#{viewScope.bConsultarEvaluacion.titulo}" id="ot1"/>
+        </amx:facet>
+        <amx:facet name="primary">
+            <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"/>
+        </amx:facet>
+        <amx:facet name="secondary">
+            <amx:commandButton id="cb2" action="GO_LOGIN" icon="/resources/img/lock.png" iconPosition="trailing"/>
+        </amx:facet>
+        <amx:panelSplitter id="ps1" selectedItem="#{pageFlowScope.panel}">
+            <amx:facet name="navigator">
+                <amx:panelFormLayout id="pfl1" labelPosition="topCenter" fieldHalign="start">
+                    <amx:inputText value="#{bindings.arg4.inputValue}" id="it3" hintText="Profesor"
+                                   rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"/>
+                    <amx:inputText value="#{bindings.arg5.inputValue}" id="it9" hintText="Curso"/>
+                    <amx:selectOneChoice label="Sede" id="soc1" value="#{bindings.arg6.inputValue}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnSede}"
+                                         simple="true">
+                        <amx:selectItem value="0" label="Seleccionar Sede"/>
+                        <amx:selectItems value="#{viewScope.bMain.listaSedes}"/>
+                    </amx:selectOneChoice>
+                    <amx:selectOneChoice label="Area" id="soc2" value="#{bindings.arg7.inputValue}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 4 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnArea}"
+                                         simple="true">
+                        <amx:selectItem value="0" label="Seleccionar Area"/>
+                        <amx:selectItems value="#{viewScope.bMain.listaAreas}"/>
+                    </amx:selectOneChoice>
+                    <amx:selectOneChoice id="socEstado" value="#{bindings.arg8.inputValue}"
+                                         valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnEstado}">
+                        <amx:selectItem id="si1" value="0" label="Seleccionar Estado"/>
+                        <amx:selectItem id="si2" value="EJECUTADO" label="Ejecutada"/>
+                        <amx:selectItem id="si3" value="NO REALIZADO" label="No realizada"/>
+                    </amx:selectOneChoice>
+                    <amx:inputDate id="id3" value="#{bindings.arg9.inputValue}"/>
+                    <amx:inputDate id="id4" value="#{bindings.arg10.inputValue}"/>
+                    <amx:selectOneChoice label="Tipo Visita" id="socTipVisita" value="#{bindings.arg11.inputValue}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"
+                                         valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnTipoVisita}"
+                                         simple="true">
+                        <amx:selectItem value="0" label="Seleccionar Tipo Visita"/>
+                        <amx:selectItems value="#{viewScope.bConsultarEvaluacion.listTipoVisita}"/>
+                    </amx:selectOneChoice>
+                    <amx:selectOneChoice id="socPlani" value="#{bindings.arg12.inputValue}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnPlanificador}"
+                                         simple="true">
+                        <amx:selectItem value="0" label="Seleccionar Planificador"/>
+                        <amx:selectItems value="#{viewScope.bConsultarEvaluacion.listPlanificadores}"/>
+                    </amx:selectOneChoice>
+                    <amx:selectOneChoice id="socEva" value="#{bindings.arg13.inputValue}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnEvaluador}"
+                                         simple="true">
+                        <amx:selectItem value="0" label="Seleccionar Evaluador"/>
+                        <amx:selectItems value="#{viewScope.bConsultarEvaluacion.listEvaluadores}"/>
+                    </amx:selectOneChoice>
+                </amx:panelFormLayout>
+                <amx:commandButton actionListener="#{bindings.getEvaluaciones_WS.execute}" text="Buscar"
+                                   disabled="#{!bindings.getEvaluaciones_WS.enabled}" id="cb3">
+                    <amx:setPropertyListener from="pi1" to="#{pageFlowScope.panel}" type="action"/>
+                </amx:commandButton>
+                <amx:commandButton text="Graficos" id="cb4"
+                                   actionListener="#{viewScope.bConsultarEvaluacion.verGraficosInit}">
+                    <amx:setPropertyListener from="pi2" to="#{pageFlowScope.panel}" type="action"/>
+                </amx:commandButton>
+            </amx:facet>
+            <amx:panelItem id="pi1">
+                    <amx:listView var="row" value="#{bindings.Return.collectionModel}"
+                                  fetchSize="#{bindings.Return.rangeSize}" styleClass="adfmf-listView-insetList"
+                                  id="lv1">
+                                <amx:listItem id="li1">
+                                    <amx:tableLayout width="100%" id="tl1">
+                                        <amx:rowLayout id="rl1">
+                                            <!-- <amx:cellFormat width="10px" id="cf2"/>-->
+                                            <amx:cellFormat width="70%" height="43px" id="cf1">
+                                                <amx:outputText value="Curso: #{row.curso}" id="ot2"
+                                                                styleClass="adfmf-listItem-captionText"
+                                                                inlineStyle="margin:0px 1px 0px 0px;"/>
+                                                <amx:outputText value="Profesor: #{row.profesor}"
+                                                                styleClass="adfmf-listItem-captionText"
+                                                                inlineStyle="margin:0px 1px 0px 0px;"/>
+                                                <amx:outputText value="Sede: #{row.sede}"
+                                                                styleClass="adfmf-listItem-captionText"
+                                                                inlineStyle="margin:0px 1px 0px 0px;"/>
+                                                <amx:outputText value="Evaluador: #{row.evaluador}"
+                                                                styleClass="adfmf-listItem-captionText"
+                                                                inlineStyle="margin:0px 1px 0px 0px;"/>
+                                                <amx:outputText value="Tipo Visita: #{row.tipoVisita}"
+                                                                rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"
+                                                                styleClass="adfmf-listItem-captionText"
+                                                                inlineStyle="margin:0px 1px 0px 0px;"/>
+                                                <amx:outputText value="Area: #{row.areaAcademica}"
+                                                                styleClass="adfmf-listItem-captionText"
+                                                                inlineStyle="margin:0px 1px 0px 0px;"/>
+                                                <amx:panelGroupLayout id="pgl1" layout="horizontal">
+                                                    <amx:outputText value="#{row.startDate}" id="ot5"
+                                                                    styleClass="adfmf-listItem-captionText"
+                                                                    inlineStyle="margin:0px 1px 0px 0px;">
+                                                        <amx:convertDateTime pattern="dd/MM/yyyy h:mm a" id="cdt1"/>
+                                                    </amx:outputText>
+                                                    <amx:spacer id="s1" width="4"/>
+                                                    <amx:outputText value="#{row.endDate}" id="ot6"
+                                                                    styleClass="adfmf-listItem-captionText"
+                                                                    inlineStyle="margin:0px 1px 0px 0px;">
+                                                        <amx:convertDateTime pattern="h:mm a" id="cdt2"/>
+                                                    </amx:outputText>
+                                                </amx:panelGroupLayout>
+                                            </amx:cellFormat>
+                                            <!-- <amx:cellFormat width="10px" id="cf4"/>-->
+                                            <amx:cellFormat width="30%" halign="end" id="cf3" height="43px">
+                                                <amx:outputText value="#{row.notaFinal}" id="ot8"
+                                                                inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;">
+                                                    <amx:convertNumber id="cn1" maxFractionDigits="2"/>
+                                                </amx:outputText>
+                                                <dvtm:statusMeterGauge id="statusMeterGauge1" animationOnDisplay="auto"
+                                                                       minValue="0" maxValue="20"
+                                                                       value="#{row.notaFinal}" animationDuration="1400"
+                                                                       thresholdDisplay="all" indicatorSize="0.4"
+                                                                       color="black" borderColor="white"
+                                                                       labelDisplay="off" inlineStyle="height:15px;">
+                                                    <dvtm:threshold maxValue="10" color="red"/>
+                                                    <dvtm:threshold maxValue="15" color="yellow"/>
+                                                    <dvtm:threshold maxValue="20" color="green"/>
+                                                </dvtm:statusMeterGauge>
+                                            </amx:cellFormat>
+                                        </amx:rowLayout>
+                                    </amx:tableLayout>
+                                </amx:listItem>
+                            </amx:listView>
+            </amx:panelItem>
+            <amx:panelItem id="pi2">
+                <amx:tableLayout id="tl2" width="100%">
+                    <amx:rowLayout id="rl2">
+                        <amx:cellFormat id="cf6" width="100%" valign="top">
+                            <amx:tableLayout id="tl3" width="100%">
+                                <amx:rowLayout id="rl3">
+                                    <amx:cellFormat id="cf7" width="70%" valign="top">
+                                        <amx:tableLayout width="100%">
+                                            <amx:rowLayout>
+                                                <amx:cellFormat valign="top" halign="center">
+                                                    <amx:outputText value="Nota Minima" inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:99%;margin:0px 1px 0px 0px;"
+                                                                styleClass="adfmf-listItem-captionText"/>
+                                                </amx:cellFormat>
+                                                <amx:cellFormat valign="top" halign="center">
+                                                    <amx:outputText value="Nota Promedio" inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:99%;margin:0px 1px 0px 0px;"
+                                                                styleClass="adfmf-listItem-captionText"/>
+                                                </amx:cellFormat>
+                                                <amx:cellFormat valign="top" halign="center">
+                                                    <amx:outputText value="Nota Maxima" inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:99%;margin:0px 1px 0px 0px;"
+                                                                styleClass="adfmf-listItem-captionText"/>
+                                                </amx:cellFormat>
+                                            </amx:rowLayout>
+                                            <amx:rowLayout>
+                                                <amx:cellFormat valign="top">
+                                                    <dvtm:dialGauge value="#{viewScope.bConsultarEvaluacion.minNota}" animationOnDisplay="auto"
+                                                                    inlineStyle="margin:0px 20px 0px 0px;"
+                                                                    animationOnDataChange="auto"
+                                                                    indicator="needleAntique" minValue="0" maxValue="20"
+                                                                    labelDisplay="on" background="circleAntiqueCustom"
+                                                                    emptyText="No hay Datos"/>
+                                                </amx:cellFormat>
+                                                <amx:cellFormat valign="top">
+                                                    <dvtm:dialGauge value="#{viewScope.bConsultarEvaluacion.promedioNota}" animationOnDisplay="auto"
+                                                                    inlineStyle="margin:0px 20px 0px 0px;" emptyText="No hay Datos"
+                                                                    animationOnDataChange="auto" indicator="needleLight"
+                                                                    minValue="0" maxValue="20" labelDisplay="on"
+                                                                    background="circleAntiqueCustom"/>
+                                                </amx:cellFormat>
+                                                <amx:cellFormat valign="top">
+                                                    <dvtm:dialGauge value="#{viewScope.bConsultarEvaluacion.maxNota}" animationOnDisplay="auto"
+                                                                    inlineStyle="margin:0px 20px 0px 0px;" emptyText="No hay Datos"
+                                                                    animationOnDataChange="auto" indicator="needleDark"
+                                                                    minValue="0" maxValue="20" labelDisplay="on"
+                                                                    background="circleAntiqueCustom"/>
+                                                </amx:cellFormat>
+                                            </amx:rowLayout>
+                                        </amx:tableLayout>
+                                    </amx:cellFormat>
+                                </amx:rowLayout>
+                                <amx:rowLayout id="rl4">
+                                    <amx:cellFormat id="cf9" width="100%">
+                                        <dvtm:horizontalBarChart id="graph1" var="row"
+                                                                 value="#{bindings.Return.collectionModel}">
+                                            <amx:facet name="dataStamp">
+                                                <dvtm:chartDataItem id="cdi1" series="#{row.profesor}"
+                                                                    value="#{row.notaFinal}" group="#{row.profesor}"
+                                                                    markerSize="1"/>
+                                            </amx:facet>
+                                            <dvtm:legend position="bottom" id="l1"/>
+                                            <dvtm:yAxis axisMaxValue="20" axisMinValue="0" title="Notas"/>
+                                        </dvtm:horizontalBarChart>
+                                    </amx:cellFormat>
+                                </amx:rowLayout>
+                                <amx:rowLayout>
+                                    <amx:cellFormat width="100%">
+                                        <dvtm:pieChart id="graph2" var="row"
+                                                       value="#{bindings.beanRangoNota.collectionModel}"
+                                                       emptyText="No hay datos" title="Grafico de Rango de Notas">
+                                            <amx:facet name="dataStamp">
+                                                <dvtm:pieDataItem label="#{row.descRangoNota}" value="#{row.cantEvas}"
+                                                                  id="pdi1" color="#{row.colorRGB}"/>
+                                            </amx:facet>
+                                            <dvtm:legend position="bottom" id="l2"/>
+                                        </dvtm:pieChart>
+                                    </amx:cellFormat>
+                                </amx:rowLayout>
+                            </amx:tableLayout>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                </amx:tableLayout>
+            </amx:panelItem>
+            
+        </amx:panelSplitter>
+    </amx:panelPage>
 </amx:view>
