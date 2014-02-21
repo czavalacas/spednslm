@@ -51,11 +51,11 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     }
     
     public List<BeanCombo> getPlanificadores_LN_WS(){
-        return bdL_C_SFUtilsLocal.getPlanificadores_WS("u.nidUsuario", "u.nombres");
+        return bdL_C_SFUtilsLocal.getPlanificadores_WS("e.nidUsuario", "e.nombres");
     }
     
     public List<BeanCombo> getEvaluadores_LN_WS(){
-        return bdL_C_SFUtilsLocal.getPlanificadores_WS("u.nidUsuario", "u.nombres");
+        return bdL_C_SFUtilsLocal.getEvaluadores_WS("e.nidUsuario", "e.nombres");
     }
     
     public List<BeanComboString> getTipoVisitaFromConstraint(){

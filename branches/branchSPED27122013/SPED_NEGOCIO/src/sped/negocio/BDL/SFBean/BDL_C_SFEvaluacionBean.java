@@ -437,7 +437,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         try {
             String qlString = "SELECT e " + 
                               "FROM Evaluacion e " +
-                              "WHERE e.estadoEvaluacion = '" + estado + "' ";
+                              "WHERE e.estadoEvaluacion = '" + estado + "' ";Utiles.sysout("entro al query: "+qlString);
             if (nidRol == 4) { //Evaluador x Sede
                 qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
             } else if (nidRol == 2) { //Evaluador x Area
@@ -473,10 +473,14 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 qlString = qlString.concat(" AND e.tipoVisita = :tipoVisita ");
             }
             if (nidPlanificador != null) {
-                qlString = qlString.concat(" AND e.nidPlanificador = :nidPlanificador ");
+                if(nidPlanificador != 0){
+                    qlString = qlString.concat(" AND e.nidPlanificador = :nidPlanificador ");
+                }
             }
             if (nidEvaluador != null) {
-                qlString = qlString.concat(" AND e.nidEvaluador = :nidEvaluador ");
+                if(nidEvaluador != 0){
+                    qlString = qlString.concat(" AND e.nidEvaluador = :nidEvaluador ");
+                }
             }
             qlString = qlString.concat(" ORDER BY e.startDate DESC ");
             Utiles.sysout("query:" + qlString);
@@ -513,10 +517,14 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 query.setParameter("tipoVisita", tipoVisita);
             }
             if (nidPlanificador != null) {
-                query.setParameter("nidPlanificador", nidPlanificador);
+                if(nidPlanificador != 0){
+                    query.setParameter("nidPlanificador", nidPlanificador);
+                }
             }
             if (nidEvaluador != null) {
-                query.setParameter("nidEvaluador", nidEvaluador);
+                if (nidEvaluador != 0){
+                    query.setParameter("nidEvaluador", nidEvaluador);
+                }
             }
             List<Evaluacion> lstEvas = query.getResultList();
             int size = lstEvas == null ? 0 : lstEvas.size();

@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -168,7 +169,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             for(int i = 0; i < tamano; i++){
                 total = total + eva.getResultadoCriterioList().get(i).getValor();
             }
-            resu = (total/tamano);
+            int r = (int) Math.round( (total/tamano) * 100);
+            resu = r / 100.0;
         }
         return resu;
     }
@@ -235,8 +237,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
             beanEva.setTipoVisita(constr.getDescripcionAMostrar());
             beanEva.setAula(eva.getMain().getAula().getDescripcionAula());
-            double nota = resultadoBeanEvaluacionAux_WS(eva);
-            beanEva.setNotaFinal(nota);
            // Utiles.sysout("beanEva:"+beanEva.getNidEvaluacion()+" ape:"+beanEva.getMain().getProfesor().getApellidos()+", "+eva.getMain().getProfesor().getNombres()+" startdate:"+beanEva.getStartDate());
             lstBeanEvas.add(beanEva);
         }
@@ -272,6 +272,11 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                                                      tipoVisita,
                                                                                      nidPlanificador,
                                                                                      nidEvaluador);
+        List<Double> lst = new ArrayList<Double>();
+        double suma = 0.0;
+        int cant1 = 0;
+        int cant2 = 0;
+        int cant3 = 0;
         for(Evaluacion eva : lstEvas){
             BeanEvaluacionWS beanEva = new BeanEvaluacionWS(); //(BeanEvaluacion) mapper.map(eva, BeanEvaluacion.class);
             beanEva.setNidEvaluacion(eva.getNidEvaluacion());
@@ -287,10 +292,43 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
             beanEva.setTipoVisita(constr.getDescripcionAMostrar());
             beanEva.setAula(eva.getMain().getAula().getDescripcionAula());
+            double nota = resultadoBeanEvaluacionAux_WS(eva);Utiles.sysout("nota:"+nota);
+            lst.add(nota);
+            if(nota < 11.00){
+                cant1++;
+            }
+            if(nota >= 11.00 && nota < 16.00){
+                cant2++;
+            }
+            if(nota >= 16.00){
+                cant3++;
+            }
+            suma = suma + nota;
+            beanEva.setNotaFinal(nota);
            // Utiles.sysout("beanEva:"+beanEva.getNidEvaluacion()+" ape:"+beanEva.getMain().getProfesor().getApellidos()+", "+eva.getMain().getProfesor().getNombres()+" startdate:"+beanEva.getStartDate());
             lstBeanEvas.add(beanEva);
         }
+        if(lst.size() > 0){
+            BeanEvaluacionWS beanEvaGraficos = this.getLast(lstBeanEvas);
+            double max = Collections.max(lst);
+            double min = Collections.min(lst);
+            double promedio = suma / lst.size();
+            beanEvaGraficos.setNotaMin(min);
+            beanEvaGraficos.setNotaMax(max);
+            beanEvaGraficos.setNotaProm(promedio);
+            beanEvaGraficos.setCeroDiez("0-10");
+            beanEvaGraficos.setOnceQuince("11-15");
+            beanEvaGraficos.setResto("16-20");
+            beanEvaGraficos.setCeroDiezCant(cant1);
+            beanEvaGraficos.setOnceQuinceCant(cant2);
+            beanEvaGraficos.setRestoCant(cant3);
+            
+        }
         return lstBeanEvas;
+    }
+    
+    private BeanEvaluacionWS getLast(List<BeanEvaluacionWS> lstBeanEvas){
+        return lstBeanEvas.get(lstBeanEvas.size() - 1);
     }
     
     public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,

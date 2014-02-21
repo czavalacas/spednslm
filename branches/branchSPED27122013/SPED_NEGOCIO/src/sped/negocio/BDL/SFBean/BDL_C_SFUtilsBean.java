@@ -144,11 +144,10 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
      */
     public List<BeanCombo> getEvaluadores_WS(String id, String desc){
         try{
-            String qlString =  " SELECT sped.negocio.entidades.beans.BeanCombo("+id+","+desc+") FROM " +
-                               " Usuario u " +
-                               " WHERE u.rol.nidRol = 2 OR " +
-                               " u.rol.nidRol = 4 OR "+
-                               " u.rol.nidRol = 5 ";
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Usuario") +
+                               " WHERE e.rol.nidRol = 2 OR " +
+                               " e.rol.nidRol = 4 OR "+
+                               " e.rol.nidRol = 5 ";
             List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
             return lstUsuarios;       
         }catch(Exception e){
