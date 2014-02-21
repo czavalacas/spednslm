@@ -60,9 +60,8 @@ public class bLogin {
                                                                                                   params,
                                                                                                   ptypes);
                     GenericType row = (GenericType)result.getAttribute(0);
-                    BeanUsuario beanUsuario = (BeanUsuario)GenericTypeBeanSerializationHelper.fromGenericType(BeanUsuario.class, 
-                                                                                                              row);
-                    error = beanUsuario.getError().getCidError();           
+                    BeanUsuario beanUsuario = (BeanUsuario)GenericTypeBeanSerializationHelper.fromGenericType(BeanUsuario.class,row);
+                    error = beanUsuario.getError().getCidError();
                     if(error.equals("000")){
                         clearScopeVariables();
                         AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario}", null);
@@ -76,6 +75,7 @@ public class bLogin {
                     error = "m_0002";
                 } catch (Exception e) {
                     e.printStackTrace();
+                    //AdfmUtils.log("error!: "+e.getMessage());
                     error = "m_0003";
                 }
                 if(!error.equals("000")){

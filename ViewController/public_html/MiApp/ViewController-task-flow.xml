@@ -22,6 +22,11 @@
       <managed-bean-class>mobile.respaldo.Evaluacion.bEvaluar</managed-bean-class>
       <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean id="__21">
+      <managed-bean-name>bConsultarEvaluacion</managed-bean-name>
+      <managed-bean-class>mobile.respaldo.Consultas.bConsultarEvaluacion</managed-bean-class>
+      <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <view id="inicio">
       <page>/inicio.amx</page>
     </view>

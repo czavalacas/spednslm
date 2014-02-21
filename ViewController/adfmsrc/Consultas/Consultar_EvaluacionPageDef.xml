@@ -3,6 +3,10 @@
                 Package="Consultas">
   <parameters/>
   <executables>
+    <methodIterator Binds="getEvaluaciones_WS.result" DataControl="WS_SPED" RangeSize="25" Refresh="always"
+                    BeanClass="application.WS_SPED.getEvaluaciones_WS" id="getEvaluaciones_WSIterator"/>
+    <accessorIterator MasterBinding="getEvaluaciones_WSIterator" Binds="Return" RangeSize="-1" DataControl="WS_SPED"
+                      BeanClass="application.WS_SPED.getEvaluaciones_WS.Return" id="ReturnIterator" Refresh="always"/>
     <variableIterator id="variables">
       <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg0" IsQueriable="false"/>
       <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg1" IsQueriable="false"/>
@@ -19,19 +23,21 @@
       <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg12" IsQueriable="false"/>
       <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg13" IsQueriable="false"/>
     </variableIterator>
-    <methodIterator Binds="getEvaluaciones_WS.result" DataControl="WS_SPED" RangeSize="25"
-                    BeanClass="application.WS_SPED.getEvaluaciones_WS" id="getEvaluaciones_WSIterator"/>
+    <iterator Binds="root" RangeSize="25" DataControl="bConsultarEvaluacion" id="bConsultarEvaluacionIterator"/>
+    <accessorIterator MasterBinding="bConsultarEvaluacionIterator" Binds="beanRangoNota" RangeSize="-1"
+                      DataControl="bConsultarEvaluacion" BeanClass="mobile.beans.BeanRangoNota"
+                      id="beanRangoNotaIterator"/>
   </executables>
   <bindings>
     <methodAction id="getEvaluaciones_WS" RequiresUpdateModel="true" Action="invokeMethod"
                   MethodName="getEvaluaciones_WS" IsViewObjectMethod="false" DataControl="WS_SPED"
                   InstanceName="data.WS_SPED"
                   ReturnName="data.WS_SPED.methodResults.getEvaluaciones_WS_WS_SPED_getEvaluaciones_WS_result">
-      <NamedData NDName="arg0" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg0}"/>
-      <NamedData NDName="arg1" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg1}"/>
-      <NamedData NDName="arg2" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg2}"/>
-      <NamedData NDName="arg3" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg3}"/>
-      <NamedData NDName="arg4" NDType="java.lang.String" NDValue="${bindings.getEvaluaciones_WS_arg4}"/>
+      <NamedData NDName="arg0" NDValue="#{pageFlowScope.usuario.rol.nidRol}" NDType="java.lang.Integer"/>
+      <NamedData NDName="arg1" NDValue="#{pageFlowScope.usuario.sedeNivel.sede.nidSede}" NDType="java.lang.Integer"/>
+      <NamedData NDName="arg2" NDValue="#{pageFlowScope.usuario.areaAcademica.nidAreaAcademica}" NDType="java.lang.Integer"/>
+      <NamedData NDName="arg3" NDValue="#{pageFlowScope.usuario.nidUsuario}" NDType="java.lang.Integer"/>
+      <NamedData NDName="arg4" NDValue="${bindings.getEvaluaciones_WS_arg4}" NDType="java.lang.String"/>
       <NamedData NDName="arg5" NDType="java.lang.String" NDValue="${bindings.getEvaluaciones_WS_arg5}"/>
       <NamedData NDName="arg6" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg6}"/>
       <NamedData NDName="arg7" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg7}"/>
@@ -42,6 +48,24 @@
       <NamedData NDName="arg12" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg12}"/>
       <NamedData NDName="arg13" NDType="java.lang.Integer" NDValue="${bindings.getEvaluaciones_WS_arg13}"/>
     </methodAction>
+    <tree IterBinding="ReturnIterator" id="Return">
+      <nodeDefinition DefName="application.WS_SPED.getEvaluaciones_WS.Return" Name="Return0">
+        <AttrNames>
+          <Item Value="curso"/>
+          <Item Value="profesor"/>
+          <Item Value="notaFinal"/>
+          <Item Value="areaAcademica"/>
+          <Item Value="aula"/>
+          <Item Value="curso"/>
+          <Item Value="endDate"/>
+          <Item Value="evaluador"/>
+          <Item Value="planificador"/>
+          <Item Value="sede"/>
+          <Item Value="startDate"/>
+          <Item Value="tipoVisita"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
     <attributeValues IterBinding="variables" id="arg0">
       <AttrNames>
         <Item Value="getEvaluaciones_WS_arg0"/>
@@ -112,5 +136,22 @@
         <Item Value="getEvaluaciones_WS_arg13"/>
       </AttrNames>
     </attributeValues>
+    <tree IterBinding="ReturnIterator" id="Return1">
+      <nodeDefinition DefName="application.WS_SPED.getEvaluaciones_WS.Return" Name="Return10">
+        <AttrNames>
+          <Item Value="profesor"/>
+          <Item Value="notaFinal"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="beanRangoNotaIterator" id="beanRangoNota">
+      <nodeDefinition DefName="mobile.beans.BeanRangoNota" Name="beanRangoNota0">
+        <AttrNames>
+          <Item Value="descRangoNota"/>
+          <Item Value="cantEvas"/>
+          <Item Value="colorRGB"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
   </bindings>
 </pageDefinition>

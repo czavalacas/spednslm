@@ -58,7 +58,7 @@ public class bConsultaPlanificacion {
 
     public void refrescarResultado(ActionEvent actionEvent) {
         ValueExpression ve = (ValueExpression)AdfmfJavaUtilities.getValueExpression(METODO, Object.class);
-        OperationBinding method = (OperationBinding)ve.getValue(AdfmfJavaUtilities.getAdfELContext());System.out.println("Diego 52");
+        OperationBinding method = (OperationBinding)ve.getValue(AdfmfJavaUtilities.getAdfELContext());
         ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.rol.nidRol}", Integer.class);
         Integer rol = (Integer)ve1.getValue(adfELContext);
 

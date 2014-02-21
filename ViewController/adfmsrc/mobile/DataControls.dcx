@@ -14,4 +14,20 @@
                        xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
     </Source>
   </AdapterDataControl>
+  <AdapterDataControl id="bConsultarEvaluacion" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
+                      ImplDef="oracle.adf.model.adapter.bean.BeanDCDefinition" SupportsTransactions="false"
+                      SupportsSortCollection="true" SupportsResetState="false" SupportsRangesize="false"
+                      SupportsFindMode="false" SupportsUpdates="true"
+                      Definition="mobile.respaldo.Consultas.bConsultarEvaluacion"
+                      BeanClass="mobile.respaldo.Consultas.bConsultarEvaluacion"
+                      xmlns="http://xmlns.oracle.com/adfm/datacontrol">
+    <CreatableTypes>
+      <TypeInfo FullName="mobile.beans.BeanRangoNota"/>
+      <TypeInfo FullName="mobile.respaldo.Consultas.bConsultarEvaluacion"/>
+    </CreatableTypes>
+    <Source>
+      <bean-definition BeanClass="mobile.respaldo.Consultas.bConsultarEvaluacion"
+                       xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
+    </Source>
+  </AdapterDataControl>
 </DataControlConfigs>

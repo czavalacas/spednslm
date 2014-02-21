@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Application xmlns="http://xmlns.oracle.com/adfm/application" version="11.1.2.64.36" id="DataBindings"
              SeparateXMLFiles="false" Package="mobile" ClientType="Generic">
+  <definitionFactories>
+    <factory nameSpace="http://xmlns.oracle.com/adfm/dvt"
+             className="oracle.adfinternal.view.faces.dvt.model.binding.FacesBindingFactory"/>
+  </definitionFactories>
   <pageMap>
     <page path="/inicio.amx" usageId="mobile_inicioPageDef"/>
     <page path="/Bienvenida/Main.amx" usageId="mobile_MainPageDef"/>
@@ -16,6 +20,7 @@
     <page id="mobile_Consultar_EvaluacionPageDef" path="Consultas.Consultar_EvaluacionPageDef"/>
   </pageDefinitionUsages>
   <dataControlUsages>
+    <dc id="bConsultarEvaluacion" path="mobile.bConsultarEvaluacion"/>
     <dc id="bEvaluar" path="mobile.bEvaluar"/>
     <dc id="WS_SPED" path="application.WS_SPED"/>
   </dataControlUsages>
