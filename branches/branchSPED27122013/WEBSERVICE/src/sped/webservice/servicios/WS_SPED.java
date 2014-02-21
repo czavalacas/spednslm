@@ -191,8 +191,8 @@ public class WS_SPED {
     }
 
     @WebMethod
-    public List<BeanAreaAcademica> getAreasAcademicas_WS(){
-        return ln_C_SFAreaAcademicaLocal.getAreaAcademicaLN();
+    public List<BeanCombo> getAreasAcademicas_WS(){
+        return ln_C_SFUtilsLocal.getAreas_LN_WS();
     }
 
     @WebMethod

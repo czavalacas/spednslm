@@ -26,5 +26,6 @@ public interface BDL_C_SFUtilsRemote {
     List<BeanCombo> getPlanificadores_WS(String id, String desc);
     List<BeanCombo> getEvaluadores_WS(String id, String desc);
     List<BeanComboString> getTipoVisita(String id,String desc);
+    List<BeanCombo> getAreas_WS(String id, String desc);
 }
 
