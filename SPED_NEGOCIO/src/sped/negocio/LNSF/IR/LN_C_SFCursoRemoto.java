@@ -11,4 +11,5 @@ import sped.negocio.entidades.beans.BeanCurso;
 public interface LN_C_SFCursoRemoto {   
     List<BeanCurso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia);
     List<BeanCurso>  getlistaCursos();
+    BeanCurso findConstrainByIdLN(int id);
 }

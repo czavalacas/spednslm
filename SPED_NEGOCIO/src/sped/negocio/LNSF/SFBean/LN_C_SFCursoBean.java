@@ -22,6 +22,7 @@ import sped.negocio.LNSF.IL.LN_C_SFCursoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Main;
+import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanMain;
 /** Clase SFBDL SFMainBean.java
@@ -37,6 +38,7 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
     private EntityManager em;
     @EJB
     BDL_C_SFCursoLocal bdl_C_SFCursoLocal;
+    MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFCursoBean() {
     }
@@ -65,5 +67,14 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
         }
         return list;
     }
-    
+        
+    public BeanCurso findConstrainByIdLN(int id){
+        try{
+            BeanCurso bean = (BeanCurso)mapper.map(bdl_C_SFCursoLocal.findCursoById(id),BeanCurso.class);
+            return bean;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }        
+    }
 }

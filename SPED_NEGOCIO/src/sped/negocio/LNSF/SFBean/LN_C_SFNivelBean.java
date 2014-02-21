@@ -32,10 +32,10 @@ public class LN_C_SFNivelBean implements LN_C_SFNivelRemote,
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
     private EntityManager em;
+    private MapperIF mapper = new DozerBeanMapper();
     
     @EJB
     private BDL_C_SFNivelLocal bdL_C_SFNivelLocal;
-    private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFNivelBean() {
     }
@@ -61,5 +61,15 @@ public class LN_C_SFNivelBean implements LN_C_SFNivelRemote,
             list.add(bean);
         }
         return list;
+    }
+    
+    public BeanNivel findConstrainByIdLN(int id){
+        try{
+            BeanNivel bean = (BeanNivel)mapper.map(bdL_C_SFNivelLocal.findNivelById(id),BeanNivel.class);
+            return bean;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }        
     }
 }

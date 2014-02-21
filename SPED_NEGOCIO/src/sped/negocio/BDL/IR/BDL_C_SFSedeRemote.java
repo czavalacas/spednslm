@@ -11,4 +11,5 @@ import sped.negocio.entidades.admin.Sede;
 public interface BDL_C_SFSedeRemote {
     List<Sede> getSedeFindAll();
     List<Sede> findSedePorAreaAcademica(Integer nidAreaAcademica, String dia);
+    Sede findSedeById(int id);
 }

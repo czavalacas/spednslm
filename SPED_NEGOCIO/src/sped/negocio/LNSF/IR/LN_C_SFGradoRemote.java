@@ -10,4 +10,5 @@ import sped.negocio.entidades.beans.BeanGrado;
 public interface LN_C_SFGradoRemote {
     List<BeanGrado> findGradoPorAreaAcademica(Integer nidAreaAcademica, String dia);
     List<BeanGrado> getGradoLN();
+    BeanGrado findConstrainByIdLN(int id);
 }

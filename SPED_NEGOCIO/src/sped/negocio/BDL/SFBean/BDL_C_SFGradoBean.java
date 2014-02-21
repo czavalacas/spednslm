@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFGradoLocal;
 import sped.negocio.BDL.IR.BDL_C_SFGradoRemote;
+import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Grado;
 import sped.negocio.entidades.admin.Sede;
 
@@ -65,4 +66,13 @@ public class BDL_C_SFGradoBean implements BDL_C_SFGradoRemote,
             e.printStackTrace();
             return null;
         }}
+    
+    public Grado findGradoById(int id) {
+         try {
+             Grado instance = em.find(Grado.class, id);
+             return instance;
+         } catch (RuntimeException re) {
+             throw re;
+         }
+     }  
 }
