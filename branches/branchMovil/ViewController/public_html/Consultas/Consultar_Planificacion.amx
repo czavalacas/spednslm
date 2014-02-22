@@ -18,7 +18,7 @@
                          actionListener="#{viewScope.bConsultaPlanificacion.refrescarResultado}"/>
     </amx:panelGroupLayout>
     <amx:panelFormLayout id="pfl2" labelPosition="topCenter" fieldHalign="start">
-      <amx:inputText value="#{bindings.arg4.inputValue}" id="it3"  rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"
+      <amx:inputText value="#{bindings.arg4.inputValue}" id="it3" rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"
                      valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioProfesor}" hintText="Profesor"
                      simple="true"/>
       <amx:inputText value="#{bindings.arg5.inputValue}" id="it4" simple="true"

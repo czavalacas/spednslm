@@ -70,12 +70,12 @@
                     <amx:setPropertyListener from="pi2" to="#{pageFlowScope.panel}" type="action"/>
                 </amx:commandButton>
             </amx:facet>
-            <amx:panelItem id="pi1">
+            <amx:panelItem id="pi1" inlineStyle="width:98%;">
                     <amx:listView var="row" value="#{bindings.Return.collectionModel}"
                                   fetchSize="#{bindings.Return.rangeSize}" styleClass="adfmf-listView-insetList"
                                   id="lv1">
                                 <amx:listItem id="li1">
-                                    <amx:tableLayout width="100%" id="tl1">
+                                    <amx:tableLayout width="98%" id="tl1">
                                         <amx:rowLayout id="rl1">
                                             <!-- <amx:cellFormat width="10px" id="cf2"/>-->
                                             <amx:cellFormat width="70%" height="43px" id="cf1">
@@ -134,14 +134,14 @@
                                 </amx:listItem>
                             </amx:listView>
             </amx:panelItem>
-            <amx:panelItem id="pi2">
-                <amx:tableLayout id="tl2" width="100%">
+            <amx:panelItem id="pi2" inlineStyle="width:98%;">
+                <amx:tableLayout id="tl2" width="98%">
                     <amx:rowLayout id="rl2">
                         <amx:cellFormat id="cf6" width="100%" valign="top">
                             <amx:tableLayout id="tl3" width="100%">
                                 <amx:rowLayout id="rl3">
                                     <amx:cellFormat id="cf7" width="70%" valign="top">
-                                        <amx:tableLayout width="100%">
+                                        <amx:tableLayout width="98%">
                                             <amx:rowLayout>
                                                 <amx:cellFormat valign="top" halign="center">
                                                     <amx:outputText value="Nota Minima" inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:99%;margin:0px 1px 0px 0px;"
