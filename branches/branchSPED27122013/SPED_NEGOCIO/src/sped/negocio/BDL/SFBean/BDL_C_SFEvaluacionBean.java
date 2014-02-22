@@ -622,6 +622,9 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         strQuery = strQuery.concat(" AND CAST(eva.fechaPlanificacion AS date) = :eva_datePla1 ");
                     }
                 }
+                if(beanFEva.getNidProblema() != 0){
+                    strQuery = strQuery.concat(" AND  eva.nidProblema = :id_Prob ");
+                }
             }
             if(tipoBusqueda == 1 || tipoBusqueda == 3 || tipoBusqueda == 5){
                 strQuery2 = "SELECT eva.nidEvaluador AS id, usu, " +
@@ -633,7 +636,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             if(tipoBusqueda == 1){
                 strQuery2 = strQuery2.concat(strQuery+" GROUP BY eva.nidEvaluador ");
             }            
-            if(tipoBusqueda == 2){
+            if(tipoBusqueda == 2 || tipoBusqueda == 6){
                 strQuery2 = strQuery2.concat("SELECT eva " +strQuery);
             }
             if(tipoBusqueda == 1 || tipoBusqueda == 2){
@@ -700,8 +703,11 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         query.setParameter("eva_datePla1",beanFEva.getFechaMaxPlanificacion());
                     }
                 }
+                if(beanFEva.getNidProblema() != 0){
+                    query.setParameter("id_Prob",beanFEva.getNidProblema());
+                }
             }            
-            if(tipoBusqueda != 2 ){
+            if(tipoBusqueda != 2 || tipoBusqueda !=6){
                 List primitiva = query.getResultList();
                 // tipo 1 --> 0 - nidEvaluador , 1 - Usuario, 2 - Ejecutado, 
                 //            3 - PENDIENTE, 4 -  NO EVALUO, 5 - NO EVALUO                 
@@ -714,7 +720,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     return new ArrayList();
                 }
             }
-            else if(tipoBusqueda == 2){
+            else if(tipoBusqueda == 2 || tipoBusqueda == 6){
                 List<Evaluacion> lstEvas = query.getResultList();                
                 int size = lstEvas == null ? 0 : lstEvas.size();
                 if (size > 0) {

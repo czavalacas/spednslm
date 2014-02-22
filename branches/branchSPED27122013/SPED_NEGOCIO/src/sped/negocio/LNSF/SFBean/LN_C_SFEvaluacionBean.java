@@ -314,13 +314,16 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             List listaBD =
                 bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(tipoBusqueda, lstnidRol, lstnidEva,
                                                                           lstnidSede, lstnidArea, beanEva);
+            if(tipoBusqueda == 6 && parametro !=null){
+                beanEva.setNidProblema(bdL_C_SFProblemaLocal.getNidProblemaByDescripcion(parametro));
+            }
             if(tipoBusqueda != 2){
                 for(Object dato : listaBD){
                     BeanEvaluacion bean = new BeanEvaluacion();
                     Object[] datos = (Object[]) dato;                     
                     if(tipoBusqueda == 3){
                         bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[6], BeanEvaluacion.class);
-                    }
+                    }                    
                     if(tipoBusqueda != 4){
                         Usuario usu = (Usuario)datos[1];
                         bean.setNidEvaluador(usu.getNidUsuario());
@@ -331,7 +334,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                         bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5])); 
                         if(tipoBusqueda == 5){
                             bean.setDescripcion(usu.getRol().getDescripcionRol());
-                    }
+                        }
                     }
                     if(tipoBusqueda == 4){                       
                         int id = Integer.parseInt(""+datos[1]);

@@ -46,4 +46,16 @@ public class BDL_C_SFProblemaBean implements BDL_C_SFProblemaRemote,
         }
         return descripcion;
     }
+    
+    public int getNidProblemaByDescripcion(String descripcion){
+        String ejbQL = "SELECT  p.nidProblema FROM Problema p " 
+                       + "WHERE p.desc_problema = :descripcion ";
+        Object object = em.createQuery(ejbQL).setParameter("descripcion", descripcion)
+                          .getSingleResult();
+        int nidProblema = 0;
+        if(object != null){
+            nidProblema = Integer.parseInt(object.toString());
+        }
+        return nidProblema;
+    }
 }
