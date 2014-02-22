@@ -106,7 +106,7 @@ public class bConsultarEvaluacion {
                 
                 Integer cant1 = (Integer) row.getAttribute("ceroDiezCant");
                 Integer cant2 = (Integer) row.getAttribute("onceQuinceCant");
-                Integer cant3 = (Integer) row.getAttribute("restoCant");
+                Integer cant3 = (Integer) row.getAttribute("restoCant");AdfmUtils.log("cants:"+cant1+" cant2:"+cant2+" cant3:"+cant3);
                 if(listBeanRangoNota == null){
                     listBeanRangoNota = new ArrayList();
                     listBeanRangoNota.add(new BeanRangoNota("0-10",cant1.intValue(),"rgb(255,0,0)"));

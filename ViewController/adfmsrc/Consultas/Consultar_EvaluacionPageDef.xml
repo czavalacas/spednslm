@@ -5,7 +5,7 @@
   <executables>
     <methodIterator Binds="getEvaluaciones_WS.result" DataControl="WS_SPED" RangeSize="25" Refresh="always"
                     BeanClass="application.WS_SPED.getEvaluaciones_WS" id="getEvaluaciones_WSIterator"/>
-    <accessorIterator MasterBinding="getEvaluaciones_WSIterator" Binds="Return" RangeSize="-1" DataControl="WS_SPED"
+    <accessorIterator MasterBinding="getEvaluaciones_WSIterator" Binds="Return" RangeSize="25" DataControl="WS_SPED"
                       BeanClass="application.WS_SPED.getEvaluaciones_WS.Return" id="ReturnIterator" Refresh="always"/>
     <variableIterator id="variables">
       <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg0" IsQueriable="false"/>
@@ -24,7 +24,7 @@
       <variable Type="java.lang.Integer" Name="getEvaluaciones_WS_arg13" IsQueriable="false"/>
     </variableIterator>
     <iterator Binds="root" RangeSize="25" DataControl="bConsultarEvaluacion" id="bConsultarEvaluacionIterator"/>
-    <accessorIterator MasterBinding="bConsultarEvaluacionIterator" Binds="beanRangoNota" RangeSize="-1"
+    <accessorIterator MasterBinding="bConsultarEvaluacionIterator" Binds="beanRangoNota" RangeSize="25"
                       DataControl="bConsultarEvaluacion" BeanClass="mobile.beans.BeanRangoNota"
                       id="beanRangoNotaIterator"/>
   </executables>
