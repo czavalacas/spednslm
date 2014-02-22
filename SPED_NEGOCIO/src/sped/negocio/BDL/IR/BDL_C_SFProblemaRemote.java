@@ -10,4 +10,5 @@ import sped.negocio.entidades.admin.Problema;
 public interface BDL_C_SFProblemaRemote {
     List<Problema> getProblemaFindAll();
     String getDescripcionProblemaById(int idProblema);
+    int getNidProblemaByDescripcion(String descripcion);
 }
