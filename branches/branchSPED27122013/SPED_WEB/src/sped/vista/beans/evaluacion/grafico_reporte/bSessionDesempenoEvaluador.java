@@ -37,15 +37,18 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private Date fechaEF_aux;
     private List<BeanEvaluacion> lstEvaTable;
     private List<BeanEvaluacion> lstEvaDetalle;
+    private List<BeanEvaluacion> lstEvaDetallePie;
     private transient List<Object[]> lstEvaBarChart;
     private transient List<Object[]> lstEvaBarChartRol;
     private transient List<Object[]> lstEvaLineG;
     private transient List<Object[]> lstEvaPieG;
     private BeanUsuario evaluador;
+    private String titleDialog;
     private String estado;
     private boolean renderSede;
     private boolean renderNivel;
     private boolean renderArea;
+    private boolean renderMensaje;
     
     public bSessionDesempenoEvaluador() {
     }
@@ -320,5 +323,29 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public List<Object[]> getLstEvaBarChartRol() {
         return lstEvaBarChartRol;
+    }
+
+    public void setLstEvaDetallePie(List<BeanEvaluacion> lstEvaDetallePie) {
+        this.lstEvaDetallePie = lstEvaDetallePie;
+    }
+
+    public List<BeanEvaluacion> getLstEvaDetallePie() {
+        return lstEvaDetallePie;
+    }
+
+    public void setTitleDialog(String titleDialog) {
+        this.titleDialog = titleDialog;
+    }
+
+    public String getTitleDialog() {
+        return titleDialog;
+    }
+
+    public void setRenderMensaje(boolean renderMensaje) {
+        this.renderMensaje = renderMensaje;
+    }
+
+    public boolean isRenderMensaje() {
+        return renderMensaje;
     }
 }

@@ -47,6 +47,8 @@ public class BeanEvaluacion implements Serializable {
         private Integer cantNoJEjecutado;
         private Integer cantProblema;
         private String descProblema;
+        private String descRol;
+        private BeanUsuario usuario;
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
@@ -335,5 +337,21 @@ public class BeanEvaluacion implements Serializable {
 
     public String getDescProblema() {
         return descProblema;
+    }
+
+    public void setUsuario(BeanUsuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public BeanUsuario getUsuario() {
+        return usuario;
+    }
+
+    public void setDescRol(String descRol) {
+        this.descRol = descRol;
+    }
+
+    public String getDescRol() {
+        return descRol;
     }
 }

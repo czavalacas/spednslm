@@ -42,7 +42,7 @@ import sped.negocio.entidades.eval.Evaluacion;
 
 @Stateless(name = "LN_C_SFEvaluacion", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFEvaluacion")
 public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote, 
-                                                 LN_C_SFEvaluacionLocal {
+                                              LN_C_SFEvaluacionLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -297,57 +297,75 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBeanEvas.get(lstBeanEvas.size() - 1);
     }
     
-    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda, String parametro, String parametro2,
-                                                                 List lstnidRol, List lstnidEva, List lstnidSede,
-                                                                 List lstnidArea, Date fechaPlanifiacion,
-                                                                 Date fechaPlanifiacionF, Date fechaEvaluacion,
+    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,
+                                                                 String nombre,
+                                                                 String estado,                                                                 
+                                                                 String desProblema,
+                                                                 String desRol,
+                                                                 List lstnidRol,
+                                                                 List lstnidEva,
+                                                                 List lstnidSede,
+                                                                 List lstnidArea,                                                                 
+                                                                 Date fechaPlanifiacion,
+                                                                 Date fechaPlanifiacionF,
+                                                                 Date fechaEvaluacion,
                                                                  Date fachaEvaluacionF){
         try{
             List<BeanEvaluacion> lstBeanEva = new ArrayList();
-            BeanEvaluacion beanEva = new BeanEvaluacion();
-            beanEva.setNombreEvaluador(parametro);
-            beanEva.setEstadoEvaluacion(parametro2);
+            BeanEvaluacion beanEva = new BeanEvaluacion();            
             beanEva.setFechaMinPlanificacion(fechaPlanifiacion);
             beanEva.setFechaMaxPlanificacion(fechaPlanifiacionF);
             beanEva.setFechaMinEvaluacion(fechaEvaluacion);
             beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
-            List listaBD =
-                bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(tipoBusqueda, lstnidRol, lstnidEva,
-                                                                          lstnidSede, lstnidArea, beanEva);
-            if(tipoBusqueda == 6 && parametro !=null){
-                beanEva.setNidProblema(bdL_C_SFProblemaLocal.getNidProblemaByDescripcion(parametro));
+            beanEva.setNombreEvaluador(nombre);
+            beanEva.setEstadoEvaluacion(estado);
+            beanEva.setDescRol(desRol);
+            if(desProblema !=null){
+                int idProb = bdL_C_SFProblemaLocal.getNidProblemaByDescripcion(desProblema);
+                if(idProb != 0){
+                    beanEva.setNidProblema(idProb);
+                }                
             }
-            if(tipoBusqueda != 2){
-                for(Object dato : listaBD){
-                    BeanEvaluacion bean = new BeanEvaluacion();
-                    Object[] datos = (Object[]) dato;                     
-                    if(tipoBusqueda == 3){
-                        bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[6], BeanEvaluacion.class);
-                    }                    
-                    if(tipoBusqueda != 4){
-                        Usuario usu = (Usuario)datos[1];
-                        bean.setNidEvaluador(usu.getNidUsuario());
-                        bean.setNombreEvaluador(usu.getNombres());
-                        bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
-                        bean.setCantPendiente(Integer.parseInt(""+datos[3]));
-                        bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
-                        bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5])); 
-                        if(tipoBusqueda == 5){
-                            bean.setDescripcion(usu.getRol().getDescripcionRol());
-                        }
-                    }
-                    if(tipoBusqueda == 4){                       
-                        int id = Integer.parseInt(""+datos[1]);
-                        bean.setCantProblema(Integer.parseInt(""+datos[0]));
-                        bean.setNidProblema(id);
-                        bean.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(id));
-                    }
-                    lstBeanEva.add(bean);
+            List listaBD = bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(tipoBusqueda,
+                                                                                     lstnidRol,
+                                                                                     lstnidEva,
+                                                                                     lstnidSede,
+                                                                                     lstnidArea,
+                                                                                     beanEva);
+            for(Object dato : listaBD){
+                BeanEvaluacion bean = new BeanEvaluacion();
+                Object[] datos = (Object[]) dato;
+                if(tipoBusqueda >= 6){
+                    bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[0], BeanEvaluacion.class);
+                    BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[1], BeanUsuario.class);
+                    bean.setUsuario(usu);
                 }
-            }
-            if(tipoBusqueda == 2){
-                lstBeanEva = transformLstEvaluacion(listaBD);
-            }
+                if(tipoBusqueda == 2){
+                    bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[0], BeanEvaluacion.class);
+                }
+                if(tipoBusqueda == 3){
+                    bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[6], BeanEvaluacion.class);
+                }                    
+                if(tipoBusqueda != 4 && tipoBusqueda!= 2 && tipoBusqueda<6){
+                    Usuario usu = (Usuario)datos[1];
+                    bean.setNidEvaluador(usu.getNidUsuario());
+                    bean.setNombreEvaluador(usu.getNombres());
+                    bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
+                    bean.setCantPendiente(Integer.parseInt(""+datos[3]));
+                    bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
+                    bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5])); 
+                    if(tipoBusqueda == 5){
+                        bean.setDescripcion(usu.getRol().getDescripcionRol());
+                    }
+                }
+                if(tipoBusqueda == 4){                       
+                    int id = Integer.parseInt(""+datos[1]);
+                    bean.setCantProblema(Integer.parseInt(""+datos[0]));
+                    bean.setNidProblema(id);
+                    bean.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(id));
+                }
+                lstBeanEva.add(bean);
+            }                         
             return lstBeanEva;
         } catch(Exception e){
             e.printStackTrace();
