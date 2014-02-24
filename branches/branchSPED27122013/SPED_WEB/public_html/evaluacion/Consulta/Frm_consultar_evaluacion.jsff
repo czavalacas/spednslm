@@ -92,9 +92,10 @@
                 </af:panelGroupLayout>
             </af:subform>
             <af:spacer width="10" height="10" id="s5"/>
-            <af:button id="b1" immediate="true" text="Export to Excel">
+            <af:button id="b1" immediate="true" text="Exportar a Excel">
                 <af:exportCollectionActionListener type="excelHTML" exportedId="tbEval"
-                                                   filename="export.xls" title="ADF Faces Export"/>
+                                                   filename="Consulata_Evaluacion.xls" 
+                                                   title="Evaluaciones"/>
             </af:button>
             <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row" rowBandingInterval="0" 
                       inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" summary="Tabla de Evaluaciones"
@@ -149,7 +150,11 @@
                         <af:convertNumber maxFractionDigits="2"/>
                     </af:outputText>
                 </af:column>
-                <af:column sortable="true" sortProperty="resultado" headerText="Mensaje" align="left"
+                <af:column sortable="true" sortProperty="descProblema" headerText="Problema" align="left"
+                           id="c15">
+                    <af:outputText value="#{row.descProblema}" id="ot15"/>
+                </af:column>
+                <af:column sortable="true" sortProperty="comentarioEvaluador" headerText="Mensaje" align="left"
                            id="c13">
                     <af:outputText value="#{row.comentarioEvaluador}" id="ot13"/>
                 </af:column>
