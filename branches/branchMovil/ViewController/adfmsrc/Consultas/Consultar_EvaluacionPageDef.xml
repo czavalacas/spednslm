@@ -63,6 +63,7 @@
           <Item Value="sede"/>
           <Item Value="startDate"/>
           <Item Value="tipoVisita"/>
+          <Item Value="nidEvaluacion"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

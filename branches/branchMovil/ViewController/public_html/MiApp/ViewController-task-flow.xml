@@ -27,6 +27,11 @@
       <managed-bean-class>mobile.respaldo.Consultas.bConsultarEvaluacion</managed-bean-class>
       <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean id="__25">
+      <managed-bean-name>bVerEvaluacion</managed-bean-name>
+      <managed-bean-class>mobile.respaldo.Consultas.bVerEvaluacion</managed-bean-class>
+      <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <view id="inicio">
       <page>/inicio.amx</page>
     </view>
@@ -41,6 +46,9 @@
     </view>
     <view id="Evaluar">
       <page>/Evaluacion/Evaluar.amx</page>
+    </view>
+    <view id="Ver_Evaluacion">
+      <page>/Consultas/Ver_Evaluacion.amx</page>
     </view>
     <control-flow-rule id="__2">
       <from-activity-id>inicio</from-activity-id>
@@ -89,6 +97,10 @@
         <from-outcome>GO_LOGIN</from-outcome>
         <to-activity-id>inicio</to-activity-id>
       </control-flow-case>
+      <control-flow-case id="__22">
+        <from-outcome>ver</from-outcome>
+        <to-activity-id>Ver_Evaluacion</to-activity-id>
+      </control-flow-case>
     </control-flow-rule>
     <control-flow-rule id="__17">
       <from-activity-id>Evaluar</from-activity-id>
@@ -99,6 +111,13 @@
       <control-flow-case id="__20">
         <from-outcome>000</from-outcome>
         <to-activity-id>Main</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__23">
+      <from-activity-id>Ver_Evaluacion</from-activity-id>
+      <control-flow-case id="__24">
+        <from-outcome>_BACK</from-outcome>
+        <to-activity-id>Consultar_Evaluacion</to-activity-id>
       </control-flow-case>
     </control-flow-rule>
   </task-flow-definition>
