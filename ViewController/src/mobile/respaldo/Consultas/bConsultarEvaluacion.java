@@ -237,6 +237,20 @@ public class bConsultarEvaluacion {
         return planifWS;
     }
     
+    public void goBack(ActionEvent actionEvent) {
+        AdfmfJavaUtilities.setELValue("#{pageFlowScope.panel}","pi1");
+        if(listBeanRangoNota != null){
+            listBeanRangoNota.removeAll(listBeanRangoNota);
+        }
+    }
+    
+    public void goLogin(ActionEvent actionEvent) {
+        AdfmfJavaUtilities.setELValue("#{pageFlowScope.panel}","pi1");
+        if(listBeanRangoNota != null){
+            listBeanRangoNota.removeAll(listBeanRangoNota);
+        }
+    }
+    
     public void setListTipoVisita(List listTipoVisita) {
         this.listTipoVisita = listTipoVisita;
     }

@@ -6,10 +6,12 @@
             <amx:outputText value="#{viewScope.bConsultarEvaluacion.titulo}" id="ot1"/>
         </amx:facet>
         <amx:facet name="primary">
-            <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"/>
+            <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"
+                               actionListener="#{viewScope.bConsultarEvaluacion.goBack}"/>
         </amx:facet>
         <amx:facet name="secondary">
-            <amx:commandButton id="cb2" action="GO_LOGIN" icon="/resources/img/lock.png" iconPosition="trailing"/>
+            <amx:commandButton id="cb2" action="GO_LOGIN" icon="/resources/img/lock.png" iconPosition="trailing"
+                               actionListener="#{viewScope.bConsultarEvaluacion.goLogin}"/>
         </amx:facet>
         <amx:panelSplitter id="ps1" selectedItem="#{pageFlowScope.panel}">
             <amx:facet name="navigator">
