@@ -50,6 +50,7 @@ public class bEvaluar {
     private final static String FEATURE = "MiApp";
     private final static String ALERTA = "mostrarMensaje";
     private String titulo = "Evaluar";
+    private String comentario;
     
     private int maxValByCriterio;
     private int  sumaByCriterio;
@@ -465,16 +466,16 @@ public class bEvaluar {
             List params = new ArrayList();
             List ptypes = new ArrayList();
             
-            pnames.add("arg0");       pnames.add("arg1");                   pnames.add("arg2");       pnames.add("arg3");        
-            params.add(nidEva);       params.add(cadenaIndisXValor);        params.add(nidUsu);       params.add(nidLog);
-            ptypes.add(Integer.class);ptypes.add(String.class);             ptypes.add(Integer.class);ptypes.add(Integer.class);
+            pnames.add("arg0");       pnames.add("arg1");                   pnames.add("arg2");       pnames.add("arg3");       pnames.add("arg4");  
+            params.add(nidEva);       params.add(cadenaIndisXValor);        params.add(nidUsu);       params.add(nidLog);       params.add(this.getComentario());
+            ptypes.add(Integer.class);ptypes.add(String.class);             ptypes.add(Integer.class);ptypes.add(Integer.class);ptypes.add(String.class);
             
             String resultado = (String)AdfmfJavaUtilities.invokeDataControlMethod(WS_SERVICE,
                                                                                  null, 
                                                                                  "evaluarDocente_WS",
                                                                                  pnames, 
                                                                                  params, 
-                                                                                 ptypes);  
+                                                                                 ptypes);
             if(!resultado.equals("000")){                                                                  
                 AdfmUtils.alert(FEATURE, ALERTA, new Object[] {resultado});
             } else {
@@ -602,5 +603,13 @@ public class bEvaluar {
 
     public boolean isIsOkRedireccionar() {
         return isOkRedireccionar;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public String getComentario() {
+        return comentario;
     }
 }

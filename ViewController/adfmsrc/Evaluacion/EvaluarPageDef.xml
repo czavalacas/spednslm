@@ -33,6 +33,8 @@
       <variable Type="java.lang.String" Name="evaluarDocente_WS1_arg1" IsQueriable="false"/>
       <variable Type="java.lang.Integer" Name="evaluarDocente_WS1_arg2" IsQueriable="false"/>
       <variable Type="java.lang.Integer" Name="evaluarDocente_WS1_arg3" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="evaluarDocente_WS_arg3" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="evaluarDocente_WS_arg4" IsQueriable="false"/>
     </variableIterator>
   </executables>
   <bindings>
@@ -97,7 +99,8 @@
       <NamedData NDName="arg0" NDType="java.lang.Integer" NDValue="${bindings.evaluarDocente_WS_arg0}"/>
       <NamedData NDName="arg1" NDType="java.lang.String" NDValue="${bindings.evaluarDocente_WS_arg1}"/>
       <NamedData NDName="arg2" NDType="java.lang.Integer" NDValue="${bindings.evaluarDocente_WS_arg2}"/>
-      <NamedData NDName="arg3" NDType="java.lang.Integer" NDValue="${bindings.evaluarDocente_WS1_arg3}"/>
+      <NamedData NDName="arg3" NDType="java.lang.Integer" NDValue="${bindings.evaluarDocente_WS_arg3}"/>
+      <NamedData NDName="arg4" NDType="java.lang.String" NDValue="${bindings.evaluarDocente_WS_arg4}"/>
     </methodAction>
     <attributeValues IterBinding="variables" id="arg0">
       <AttrNames>
@@ -114,9 +117,14 @@
         <Item Value="evaluarDocente_WS_arg2"/>
       </AttrNames>
     </attributeValues>
-     <attributeValues IterBinding="variables" id="arg3">
+    <attributeValues IterBinding="variables" id="arg3">
       <AttrNames>
-        <Item Value="evaluarDocente_WS1_arg3"/>
+        <Item Value="evaluarDocente_WS_arg3"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg4">
+      <AttrNames>
+        <Item Value="evaluarDocente_WS_arg4"/>
       </AttrNames>
     </attributeValues>
   </bindings>

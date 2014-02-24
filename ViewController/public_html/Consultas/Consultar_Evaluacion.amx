@@ -74,10 +74,11 @@
                     <amx:listView var="row" value="#{bindings.Return.collectionModel}"
                                   fetchSize="#{bindings.Return.rangeSize}" styleClass="adfmf-listView-insetList"
                                   id="lv1">
-                                <amx:listItem id="li1">
+                                <amx:listItem id="li1" action="ver">
+                                    <amx:setPropertyListener from="#{row.nidEvaluacion}" to="#{pageFlowScope._nidEvaluacion}" type="action"/>
+                                    <amx:setPropertyListener from="#{row.notaFinal}" to="#{pageFlowScope._notaFinal}" type="action"/>
                                     <amx:tableLayout width="98%" id="tl1">
                                         <amx:rowLayout id="rl1">
-                                            <!-- <amx:cellFormat width="10px" id="cf2"/>-->
                                             <amx:cellFormat width="70%" height="43px" id="cf1">
                                                 <amx:outputText value="Curso: #{row.curso}" id="ot2"
                                                                 styleClass="adfmf-listItem-captionText"

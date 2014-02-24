@@ -37,13 +37,14 @@
                   wsdl="application/WS_SPEDService.wsdl" ensureKeyAttribute="true" UsePersistedStructure="false">
         <service name="WS_SPEDService" namespace="http://servicios.webservice.sped/" connection="WS_SPED">
           <port name="WS_SPEDPort">
+            <operation name="getDetalleEvaluacionById_WS"/>
             <operation name="getPermisosByUsuarioRol_WS"/>
             <operation name="getEvaluaciones_WS"/>
             <operation name="getTipoVisita_LN_WS"/>
             <operation name="getAreasAcademicas_WS"/>
             <operation name="autenticarUsuarioLN"/>
-            <operation name="getPlanificadores_LN_WS"/>
             <operation name="getSedes_WS"/>
+            <operation name="getPlanificadores_LN_WS"/>
             <operation name="evaluarDocente_WS"/>
             <operation name="getLstIndicadoresByFichaCriterio_LN_WS"/>
             <operation name="getEvaluadores_LN_WS"/>

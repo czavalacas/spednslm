@@ -81,7 +81,9 @@
                             </amx:tableLayout>
                         </amx:listItem>
                     </amx:listView>
-                    
+                    <amx:commandButton text="Agregar Comentario" id="cb5">
+                        <amx:setPropertyListener from="pi3" to="#{pageFlowScope.panel}" type="action"/>
+                    </amx:commandButton>
                 </amx:panelGroupLayout>
             </amx:facet>
             <amx:panelItem id="pi1">
@@ -255,6 +257,16 @@
                     </amx:rowLayout>
                 </amx:tableLayout>
             </amx:panelItem>
+            <amx:panelItem id="pi3">
+                <amx:tableLayout inlineStyle="width:100%;" width="95%">
+                    <amx:rowLayout>
+                        <amx:cellFormat inlineStyle="width:95%;">
+                            <amx:inputText label="Comentario" id="it1" rows="10" hintText="Comentario del Evaluador"
+                                           value="#{viewScope.bEvaluar.comentario}"/>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                </amx:tableLayout>
+            </amx:panelItem>
         </amx:panelSplitter>
         
     </amx:panelPage>
@@ -294,7 +306,7 @@
                 <amx:closePopupBehavior id="cpb1" popupId="p1"/>
             </amx:commandButton>
         </amx:panelGroupLayout>
-         
+       
     </amx:popup>
     <amx:popup id="popMsj">
         <amx:panelGroupLayout layout="vertical">
