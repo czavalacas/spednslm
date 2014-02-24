@@ -30,4 +30,20 @@
                        xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
     </Source>
   </AdapterDataControl>
+  <AdapterDataControl id="bVerEvaluacion" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
+                      ImplDef="oracle.adf.model.adapter.bean.BeanDCDefinition" SupportsTransactions="false"
+                      SupportsSortCollection="true" SupportsResetState="false" SupportsRangesize="false"
+                      SupportsFindMode="false" SupportsUpdates="true"
+                      Definition="mobile.respaldo.Consultas.bVerEvaluacion"
+                      BeanClass="mobile.respaldo.Consultas.bVerEvaluacion"
+                      xmlns="http://xmlns.oracle.com/adfm/datacontrol">
+    <CreatableTypes>
+      <TypeInfo FullName="mobile.beans.BeanCriterio"/>
+      <TypeInfo FullName="mobile.respaldo.Consultas.bVerEvaluacion"/>
+    </CreatableTypes>
+    <Source>
+      <bean-definition BeanClass="mobile.respaldo.Consultas.bVerEvaluacion"
+                       xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
+    </Source>
+  </AdapterDataControl>
 </DataControlConfigs>
