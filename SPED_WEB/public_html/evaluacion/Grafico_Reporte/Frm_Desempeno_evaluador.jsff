@@ -7,8 +7,8 @@
             <af:panelSplitter orientation="horizontal" splitterPosition="250" id="ps1">
                 <f:facet name="first">
                     <af:subform id="s2" binding="#{bDesempenoEvaluador.s2}">
+                        <h:outputText value="Filtros de Busqueda" id="ot10" styleClass="titulos"/>
                         <af:panelFormLayout id="pfl1" maxColumns="1" binding="#{bDesempenoEvaluador.pfl1}">
-                            <h:outputText value="Filtros de Busqueda" id="ot10" styleClass="titulos"/>
                             <af:selectManyChoice label="Rol" id="choiceFRol" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFRol}" autoSubmit="true"
                                                  value="#{sessionDesempenoEvaluador.selectedRol}">
@@ -63,12 +63,13 @@
                     </af:subform>
                 </f:facet>
                 <f:facet name="second">
-                    <af:panelGroupLayout id="pgl2">
+                    <af:panelGroupLayout id="pgl2" binding="#{bDesempenoEvaluador.pgl2}">
                         <af:panelDashboard id="pdash1" columns="2" rowHeight="350px"
                                            binding="#{bDesempenoEvaluador.pdash1}">
-                            <af:panelBox text="PanelBox1" id="pb1" showDisclosure="false">
+                            <af:panelBox text="Rol(s)" id="pb1" showDisclosure="false">
                                 <af:componentDragSource/>
-                                <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_PERCENT" dynamicResize="DYNAMIC_SIZE"
+                                <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_PERCENT"
+                                                        dynamicResize="DYNAMIC_SIZE"
                                                         tabularData="#{sessionDesempenoEvaluador.lstEvaBarChartRol}"
                                                         hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                                         animationOnDataChange="auto" animationOnDisplay="auto"
@@ -83,11 +84,11 @@
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
                                     <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
-                                </dvt:horizontalBarGraph>                              
+                                </dvt:horizontalBarGraph>
                             </af:panelBox>
-                            <af:panelBox text="PanelBox2" id="pb2" showDisclosure="false">
+                            <af:panelBox text="Evaluador(s)" id="pb2" showDisclosure="false">
                                 <af:componentDragSource/>
-                                 <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST" dynamicResize="DYNAMIC_SIZE"
+                                <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST" dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaBarChart}"
                                               clickListener="#{bDesempenoEvaluador.clickListenerGraph1}"
                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
@@ -103,16 +104,16 @@
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
                                     <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
-                                </dvt:barGraph>                               
+                                </dvt:barGraph>
                             </af:panelBox>
-                            <af:panelBox text="PanelBox3" id="pb3" showDisclosure="false">
+                            <af:panelBox text="Linea de Tiempo" id="pb3" showDisclosure="false">
                                 <af:componentDragSource/>
                                 <dvt:lineGraph id="graph2" subType="LINE_VERT_ABS" dynamicResize="DYNAMIC_SIZE"
                                                tabularData="#{sessionDesempenoEvaluador.lstEvaLineG}"
                                                hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                                timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
                                                animationIndicators="ALL" animationOnDisplay="auto"
-                                               animationDuration="1500" 
+                                               animationDuration="1500"
                                                clickListener="#{bDesempenoEvaluador.clickListenerGraphLine}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
@@ -127,10 +128,10 @@
                                     <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
                                 </dvt:lineGraph>
                             </af:panelBox>
-                            <af:panelBox text="PanelBox4" id="pb4" showDisclosure="false">
+                            <af:panelBox text="Evaluaciones no justificadas" id="pb4" showDisclosure="false">
                                 <af:componentDragSource/>
                                 <dvt:pieGraph id="graph3" subType="RING" dynamicResize="DYNAMIC_SIZE"
-                                              tabularData="#{sessionDesempenoEvaluador.lstEvaPieG}"                                              
+                                              tabularData="#{sessionDesempenoEvaluador.lstEvaPieG}"
                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                               clickListener="#{bDesempenoEvaluador.clickListenerGraphPie}">
                                     <dvt:background>
@@ -146,10 +147,26 @@
                                 </dvt:pieGraph>
                             </af:panelBox>
                         </af:panelDashboard>
+                        <af:button id="b1" immediate="true" text="Exportar a Excel">
+                            <af:exportCollectionActionListener type="excelHTML" exportedId="tEva"
+                                                               filename="Desempeño_Evaluador.xls" title="Desempeño"/>
+                        </af:button>
                         <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row" rowBandingInterval="0"
-                                  id="t1">
+                                  id="tEva" width="inherit;" fetchSize="50" columnStretching="column:c23">
                             <af:column sortable="false" headerText="Nombre Evaluador" align="start" id="c1">
                                 <af:outputText value="#{row.nombreEvaluador}" id="ot1"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Rol" align="start" id="c24">
+                                <af:outputText value="#{row.usuario.rol.descripcionRol}" id="ot24"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Sede" align="start" id="c25">
+                                <af:outputText value="#{row.usuario.sedeNivel.sede.descripcionSede}" id="ot25"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Nivel" align="start" id="c27">
+                                <af:outputText value="#{row.usuario.sedeNivel.nivel.descripcionNivel}" id="ot27"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Area" align="start" id="c26">
+                                <af:outputText value="#{row.usuario.areaAcademica.descripcionAreaAcademica}" id="ot26"/>
                             </af:column>
                             <af:column sortable="false" headerText="Ejecutados" align="start" id="c2">
                                 <af:outputText value="#{row.cantEjecutado}" id="ot2"/>
@@ -162,6 +179,12 @@
                             </af:column>
                             <af:column sortable="false" headerText="No Justifico" align="start" id="c5">
                                 <af:outputText value="#{row.cantNoJEjecutado}" id="ot5"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Desempeño" align="center" id="c23"
+                                       inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;">
+                                <af:outputText value="#{row.porcentajeDesempeno}" id="ot23">
+                                    <af:convertNumber maxFractionDigits="2"/>
+                                </af:outputText>
                             </af:column>
                         </af:table>
                     </af:panelGroupLayout>
@@ -210,21 +233,25 @@
                                sortProperty="main.aula.sede.descripcionSede">
                         <af:outputText value="#{row.main.aula.sede.descripcionSede}" id="ot6"/>
                     </af:column>
-                    <af:column sortable="true" headerText="Nivel" align="start" id="c20"
+                    <af:column sortable="true" headerText="Nivel" align="start" id="c22"
                                sortProperty="main.aula.gradoNivel.nivel.descripcionNivel">
-                        <af:outputText value="#{row.main.aula.gradoNivel.nivel.descripcionNivel}" id="ot20"/>
+                        <af:outputText value="#{row.main.aula.gradoNivel.nivel.descripcionNivel}" id="ot22"/>
                     </af:column>
                     <af:column sortable="true" headerText="Area" align="start" id="c21"
                                sortProperty="main.curso.areaAcademica.descripcionAreaAcademica">
                         <af:outputText value="#{row.main.curso.areaAcademica.descripcionAreaAcademica}" id="ot21"/>
                     </af:column>
+                    <af:column sortable="false" headerText="Problema" align="start" id="c30"
+                               rendered="#{sessionDesempenoEvaluador.renderProblema}">
+                        <af:outputText value="#{row.descProblema}" id="ot30"/>
+                    </af:column>
+                    <af:column sortable="false" headerText="Comentario Evaluador" align="start" id="c8"
+                               rendered="#{sessionDesempenoEvaluador.renderProblema}">
+                        <af:outputText value="#{row.comentarioEvaluador}" id="ot8"/>
+                    </af:column>
                     <af:column sortable="true" headerText="Profesor" align="start" id="c7"
                                sortProperty="main.profesor.apellidos">
                         <af:outputText value="#{row.main.profesor.apellidos}" id="ot7"/>
-                    </af:column>
-                    <af:column sortable="false" headerText="Comentario Evaluador" align="start" id="c8"
-                               rendered="#{sessionDesempenoEvaluador.renderMensaje}">
-                        <af:outputText value="#{row.comentarioEvaluador}" id="ot8"/>
                     </af:column>
                 </af:table>
             </af:dialog>
@@ -232,9 +259,17 @@
         <af:popup childCreation="deferred" autoCancel="disabled" id="popDetPie"
                   binding="#{bDesempenoEvaluador.popDetPie}">
             <af:dialog id="d2" type="none" title="#{sessionDesempenoEvaluador.titleDialog}">
+                <af:button id="b3" immediate="true" text="Exportar a Excel">
+                    <af:exportCollectionActionListener type="excelHTML" exportedId="tDetal"
+                                                       filename="Desempeño_Evaluador.xls" title="Desempeño"/>
+                </af:button>
                 <af:table value="#{sessionDesempenoEvaluador.lstEvaDetallePie}" var="row" rowBandingInterval="0"
-                          id="t3">
-                    <af:column sortable="true" headerText="Evaluador" align="start" id="c15" 
+                          id="tDetal">
+                    <af:column sortable="true" headerText="Fecha Evaluacion" align="start" id="c10"
+                               sortProperty="endDate">
+                        <af:outputText value="#{row.endDate}" id="ot11"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Evaluador" align="start" id="c15"
                                sortProperty="usuario.nombres">
                         <af:outputText value="#{row.usuario.nombres}" id="ot16"/>
                     </af:column>
@@ -243,30 +278,40 @@
                         <af:outputText value="#{row.usuario.rol.descripcionRol}" id="ot17"/>
                     </af:column>
                     <af:column sortable="true" headerText="Sede" align="start" id="c17"
-                               sortProperty="usuario.sedeNivel.sede.descripcionSede">
+                               sortProperty="usuario.sedeNivel.sede.descripcionSede"
+                               rendered="#{sessionDesempenoEvaluador.renderSede}">
                         <af:outputText value="#{row.usuario.sedeNivel.sede.descripcionSede}" id="ot18"/>
                     </af:column>
                     <af:column sortable="true" headerText="Nivel" align="start" id="c18"
-                               sortProperty="usuario.sedeNivel.nivel.descripcionNivel">
+                               sortProperty="usuario.sedeNivel.nivel.descripcionNivel"
+                               rendered="#{sessionDesempenoEvaluador.renderNivel}">
                         <af:outputText value="#{row.usuario.sedeNivel.nivel.descripcionNivel}" id="ot19"/>
                     </af:column>
-                    <af:column sortable="true" headerText="Area" align="start" id="c19" 
-                               sortProperty="usuario.areaAcademica.descripcionAreaAcademica">
+                    <af:column sortable="true" headerText="Area" align="start" id="c19"
+                               sortProperty="usuario.areaAcademica.descripcionAreaAcademica"
+                               rendered="#{sessionDesempenoEvaluador.renderArea}">
                         <af:outputText value="#{row.usuario.areaAcademica.descripcionAreaAcademica}" id="ot20"/>
                     </af:column>
-                    <af:column sortable="true" headerText="Fecha Evaluacion" align="start" id="c10"
-                               sortProperty="endDate">
-                        <af:outputText value="#{row.endDate}" id="ot11"/>
+                    <af:column sortable="true" headerText="Problema" align="start" id="c14" sortProperty="descProblema"
+                               rendered="#{sessionDesempenoEvaluador.renderProblema}">
+                        <af:outputText value="#{row.descProblema}" id="ot15"/>
                     </af:column>
-                    <af:column sortable="true" headerText="Comentario Evaluador" align="start" id="c14"
-                               sortProperty="comentarioEvaluador">
-                        <af:outputText value="#{row.comentarioEvaluador}" id="ot15"/>
+                    <af:column sortable="true" headerText="Comentario Evaluador" align="start" id="c31"
+                               sortProperty="comentarioEvaluador"
+                               rendered="#{sessionDesempenoEvaluador.renderComentario}">
+                        <af:outputText value="#{row.comentarioEvaluador}" id="ot31"/>
                     </af:column>
-                    <af:column sortable="true" headerText="Lugar Evaluacion" align="start" id="c12"
+                    <af:column sortable="true" headerText="Evaluación Sede" align="start" id="c12"
+                               sortProperty="main.aula.sede.descripcionSede">
+                        <af:outputText value="#{row.main.aula.sede.descripcionSede}" id="ot13"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Evaluación Nivel" align="start" id="c28"
+                               sortProperty="main.aula.gradoNivel.nivel.descripcionNivel">
+                        <af:outputText value="#{row.main.aula.gradoNivel.nivel.descripcionNivel}" id="ot28"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Evaluación Aula" align="start" id="c29"
                                sortProperty="main.aula.descripcionAula">
-                        <af:outputText value="#{row.main.aula.sede.descripcionSede} -
-                                              #{row.main.aula.gradoNivel.nivel.descripcionNivel} -
-                                              #{row.main.aula.descripcionAula}" id="ot13"/>
+                        <af:outputText value="#{row.main.aula.descripcionAula}" id="ot29"/>
                     </af:column>
                     <af:column sortable="true" headerText="Profesor" align="start" id="c13"
                                sortProperty="main.profesor.apellidos">
@@ -275,10 +320,9 @@
                 </af:table>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popCorreo" 
-                  binding="#{bDesempenoEvaluador.popCorreo}" >
-            <af:dialog id="d3" dialogListener="#{bDesempenoEvaluador.confirmarCorreo}" 
-                       title="Mensaje">
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popCorreo"
+                  binding="#{bDesempenoEvaluador.popCorreo}">
+            <af:dialog id="d3" dialogListener="#{bDesempenoEvaluador.confirmarCorreo}" title="Mensaje">
                 <af:panelFormLayout id="pfl3">
                     <af:inputText label="Para" id="it7" labelStyle="text-align: left;" disabled="true"
                                   value="#{sessionDesempenoEvaluador.evaluador.nombres}"/>

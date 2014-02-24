@@ -638,17 +638,14 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             }
             if(tipoBusqueda == 1){
                 strQuery2 = strQuery2.concat(strQuery+" GROUP BY eva.nidEvaluador ");
+                strQuery2 = strQuery2.concat(" ORDER BY usu.rol ASC "); 
             }            
             if(tipoBusqueda == 2 ){
                 strQuery2 = strQuery2.concat("SELECT eva, usu " +strQuery);
                 strQuery2 = strQuery2.concat(" ORDER BY eva.endDate DESC ");
-                System.out.println(strQuery2);
-            }
-            if(tipoBusqueda == 1 ){
-                strQuery2 = strQuery2.concat(" ORDER BY usu.rol ASC ");                        
-            }            
+            }          
             if(tipoBusqueda == 3){
-                strQuery2 = strQuery2.concat(",eva "+strQuery+" GROUP BY CAST(eva.endDate AS date) ");
+                strQuery2 = strQuery2.concat(",eva.endDate "+strQuery+" GROUP BY CAST(eva.endDate AS date) ");
                 strQuery2 = strQuery2.concat(" ORDER BY eva.endDate DESC ");
             }
             if(tipoBusqueda == 4){
@@ -657,10 +654,6 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             }
             if(tipoBusqueda == 5){
                 strQuery2 = strQuery2.concat(strQuery+" GROUP BY usu.rol ");
-            }
-            if(tipoBusqueda >= 6){
-                strQuery2 = strQuery2.concat("SELECT eva , usu " +strQuery);
-                strQuery2 = strQuery2.concat(" ORDER BY eva.endDate DESC ");
             }
             Query query = em.createQuery(strQuery2);
             if(lstnidRol != null){

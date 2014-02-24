@@ -35,6 +35,8 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private Date fechaPF_aux;
     private Date fechaEI_aux;
     private Date fechaEF_aux;
+    private Date fechaActual;
+    private Date fechaAnterior;
     private List<BeanEvaluacion> lstEvaTable;
     private List<BeanEvaluacion> lstEvaDetalle;
     private List<BeanEvaluacion> lstEvaDetallePie;
@@ -49,6 +51,8 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private boolean renderNivel;
     private boolean renderArea;
     private boolean renderMensaje;
+    private boolean renderComentario;
+    private boolean renderProblema;
     
     public bSessionDesempenoEvaluador() {
     }
@@ -347,5 +351,37 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public boolean isRenderMensaje() {
         return renderMensaje;
+    }
+
+    public void setRenderProblema(boolean renderProblema) {
+        this.renderProblema = renderProblema;
+    }
+
+    public boolean isRenderProblema() {
+        return renderProblema;
+    }
+
+    public void setRenderComentario(boolean renderComentario) {
+        this.renderComentario = renderComentario;
+    }
+
+    public boolean isRenderComentario() {
+        return renderComentario;
+    }
+
+    public void setFechaActual(Date fechaActual) {
+        this.fechaActual = fechaActual;
+    }
+
+    public Date getFechaActual() {
+        return fechaActual;
+    }
+
+    public void setFechaAnterior(Date fechaAnterior) {
+        this.fechaAnterior = fechaAnterior;
+    }
+
+    public Date getFechaAnterior() {
+        return fechaAnterior;
     }
 }

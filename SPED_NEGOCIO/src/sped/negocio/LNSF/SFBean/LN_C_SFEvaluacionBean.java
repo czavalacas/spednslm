@@ -125,6 +125,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 double nota = resultadoBeanEvaluacion(beanEva, eva);
                 beanEva.setResultado(nota);
                 beanEva.setColorResultado(colorNota(nota));
+                if(beanEva.getNidProblema() != 0){
+                    beanEva.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(beanEva.getNidProblema()));
+                }
                 lstBean.add(beanEva);
             }
             return lstBean;
@@ -335,25 +338,27 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             for(Object dato : listaBD){
                 BeanEvaluacion bean = new BeanEvaluacion();
                 Object[] datos = (Object[]) dato;
-                if(tipoBusqueda >= 6){
-                    bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[0], BeanEvaluacion.class);
-                    BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[1], BeanUsuario.class);
-                    bean.setUsuario(usu);
-                }
                 if(tipoBusqueda == 2){
                     bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[0], BeanEvaluacion.class);
+                    BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[1], BeanUsuario.class);
+                    if(bean.getNidProblema() != 0){
+                        bean.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(bean.getNidProblema()));
+                    }
+                    bean.setUsuario(usu);
                 }
                 if(tipoBusqueda == 3){
-                    bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[6], BeanEvaluacion.class);
+                    bean.setEndDate((Date)datos[6]);
                 }                    
-                if(tipoBusqueda != 4 && tipoBusqueda!= 2 && tipoBusqueda<6){
-                    Usuario usu = (Usuario)datos[1];
+                if(tipoBusqueda == 1 || tipoBusqueda == 3 || tipoBusqueda == 5){
+                    BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[1], BeanUsuario.class);
                     bean.setNidEvaluador(usu.getNidUsuario());
                     bean.setNombreEvaluador(usu.getNombres());
+                    bean.setUsuario(usu);
                     bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
                     bean.setCantPendiente(Integer.parseInt(""+datos[3]));
                     bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
-                    bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5])); 
+                    bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5]));
+                    desempenoEvaluador(bean);
                     if(tipoBusqueda == 5){
                         bean.setDescripcion(usu.getRol().getDescripcionRol());
                     }
@@ -371,6 +376,14 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             e.printStackTrace();
             return new ArrayList();
         }        
+    }
+    
+    public void desempenoEvaluador(BeanEvaluacion eva){
+        double cant = eva.getCantEjecutado() + 
+                      eva.getCantNoEjecutado() + eva.getCantNoJEjecutado();  
+        double porcentaje = eva.getCantEjecutado()/cant;
+        eva.setPorcentajeDesempeno(porcentaje*100);
+        eva.setColorResultado(colorNota(porcentaje*20));
     }
    
     public List<BeanConstraint> getTipoVisitaLN() {

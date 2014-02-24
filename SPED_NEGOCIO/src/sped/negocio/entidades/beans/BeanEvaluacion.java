@@ -48,6 +48,7 @@ public class BeanEvaluacion implements Serializable {
         private Integer cantProblema;
         private String descProblema;
         private String descRol;
+        private double porcentajeDesempeno;
         private BeanUsuario usuario;
 
     public void setDescripcion(String descripcion) {
@@ -354,4 +355,13 @@ public class BeanEvaluacion implements Serializable {
     public String getDescRol() {
         return descRol;
     }
+
+    public void setPorcentajeDesempeno(double porcentajeDesempeno) {
+        this.porcentajeDesempeno = porcentajeDesempeno;
+    }
+
+    public double getPorcentajeDesempeno() {
+        return porcentajeDesempeno;
+    }
+
 }
