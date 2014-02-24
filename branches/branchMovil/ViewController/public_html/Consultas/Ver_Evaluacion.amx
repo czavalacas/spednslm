@@ -3,7 +3,7 @@
           xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
     <amx:panelPage id="pp1">
         <amx:facet name="header">
-            <amx:outputText value="Evaluacion" id="ot1"/>
+            <amx:outputText value="#{viewScope.bVerEvaluacion.titulo}" id="ot1"/>
         </amx:facet>
         <amx:facet name="primary">
             <amx:commandButton id="cb1" action="_BACK" icon="/resources/img/back.png" iconPosition="trailing"/>
@@ -17,7 +17,7 @@
                                 font-size:small;white-space:pre-wrap;text-align:left;width:20%;"/>
                 </amx:cellFormat>
                  <amx:cellFormat header="true" halign="center">
-                    <amx:outputText value="#{viewScope.bVerEvaluacion.vals}" id="ot2" inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:20%;"/>
+                    <amx:outputText value="Escala Valores: #{pageFlowScope.vals}" id="ot2" inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:20%;"/>
                 </amx:cellFormat>
             </amx:rowLayout>
         </amx:tableLayout>
@@ -42,33 +42,33 @@
                         </amx:cellFormat>
                     </amx:rowLayout>
                 </amx:tableLayout>
-                <amx:tableLayout width="100%" id="tl2" inlineStyle="margin:0px 0px 0px 15px;">
-                    <amx:iterator id="i1" var="row" value="#{bindings.indicadoresVec1.collectionModel}">
-                        <amx:rowLayout id="rl2">
+                <amx:tableLayout width="100%" id="tl2" inlineStyle="margin:0px 0px 0px 15px;" borderWidth="1">
+                    <amx:iterator id="i1" var="row2" value="#{row.indicadoresVec}">
+                        <amx:rowLayout id="rl2"> 
                             <amx:cellFormat width="50%" height="15px" id="cf7">
-                                <amx:outputText value="#{row.index+1}. #{row.descripcionIndicador}" id="ot7"
+                                <amx:outputText value="#{row2.indice}. #{row2.descripcionIndicador}" id="ot7"
                                                 inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;width:95%;"/>
                             </amx:cellFormat>
-                            <amx:cellFormat width="40%" height="15px" >
-                                <amx:outputText value=" #{row.leyenda}" 
+                            <amx:cellFormat width="45%" height="15px" >
+                                <amx:outputText value=" #{row2.leyenda}" 
                                                 inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;width:95%;"/>
                             </amx:cellFormat>
                             <amx:cellFormat width="5%" id="cf8" halign="center">
-                                <amx:outputText value="#{row.valor}" styleClass="adfmf-listItem-highlightText"
+                                <amx:outputText value="#{row2.valor}" styleClass="adfmf-listItem-highlightText"
                                                 inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;width:95%;"/>
                             </amx:cellFormat>
-                            <amx:cellFormat width="5%" halign="center" id="cf5">
-                                <amx:outputText value="#{row.nota}" styleClass="adfmf-listItem-highlightText" id="ot6"
-                                                inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;
-                                                #{row.nota le 10.49 ? 'background-color:red;color:white;' : 
-                                                (row.nota ge 10.50 and row.nota le 15.49 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}                                 font-size:small;white-space:pre-wrap;text-align:left;width:20%;">
-                                    <amx:convertNumber groupingUsed="false" id="cn2"/>
-                                </amx:outputText>
-                            </amx:cellFormat>
                         </amx:rowLayout>
+                       
                     </amx:iterator>
                 </amx:tableLayout>
             </amx:listItem>
         </amx:listView>
+        <amx:panelFormLayout id="pfl1" labelPosition="topCenter" fieldHalign="start">
+            <amx:inputText label="Comentarios del Evaluador" id="it1" readOnly="true"/>
+            <amx:inputText id="itCmtEva" rows="10" value="#{pageFlowScope.cometEva}"/>
+            <amx:inputText label="Comentarios del Profesor" readOnly="true"/>
+            <amx:inputText id="itCmtProf" rows="10" value="#{pageFlowScope.cometProf}"/>
+        </amx:panelFormLayout>
+        
     </amx:panelPage>
 </amx:view>
