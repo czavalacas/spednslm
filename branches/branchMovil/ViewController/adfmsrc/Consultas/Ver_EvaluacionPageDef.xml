@@ -12,7 +12,8 @@
                       DataControl="WS_SPED" BeanClass="application.WS_SPED.getDetalleEvaluacionById_WS.Return"
                       id="ReturnIterator"/>
     <accessorIterator MasterBinding="bVerEvaluacionIterator" Binds="beanCriterio" RangeSize="25"
-                      DataControl="bVerEvaluacion" BeanClass="mobile.beans.BeanCriterio" id="beanCriterioIterator"/>
+                      DataControl="bVerEvaluacion" BeanClass="mobile.beans.BeanCriterio" id="beanCriterioIterator"
+                      />
     <accessorIterator MasterBinding="beanCriterioIterator" Binds="indicadoresVec" RangeSize="25"
                       DataControl="bVerEvaluacion" BeanClass="mobile.beans.BeanIndicador" id="indicadoresVecIterator"/>
   </executables>
@@ -36,14 +37,19 @@
         <AttrNames>
           <Item Value="descripcionCriterio"/>
           <Item Value="nota"/>
+          <Item Value="indicadoresVec"/>
         </AttrNames>
+        <Accessors>
+            <Item Value="indicadoresVec"/>
+        </Accessors>
       </nodeDefinition>
     </tree>
-    <tree IterBinding="indicadoresVecIterator" id="indicadoresVec1">
-      <nodeDefinition DefName="mobile.beans.BeanIndicador" Name="indicadoresVec10">
+    <tree IterBinding="indicadoresVecIterator" id="indicadoresVec">
+      <nodeDefinition DefName="mobile.beans.BeanIndicador" Name="indicadoresVec0">
         <AttrNames>
           <Item Value="descripcionIndicador"/>
-          <Item Value="nota"/>
+          <Item Value="nidIndicador"/>
+          <Item Value="indice"/>
           <Item Value="leyenda"/>
           <Item Value="valor"/>
         </AttrNames>

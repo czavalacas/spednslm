@@ -261,7 +261,7 @@
                 <amx:tableLayout inlineStyle="width:100%;" width="95%">
                     <amx:rowLayout>
                         <amx:cellFormat inlineStyle="width:95%;">
-                            <amx:inputText label="Comentario" id="it1" rows="10" hintText="Comentario del Evaluador"
+                            <amx:inputText id="it1" rows="10" hintText="Comentario del Evaluador"
                                            value="#{viewScope.bEvaluar.comentario}"/>
                         </amx:cellFormat>
                     </amx:rowLayout>
