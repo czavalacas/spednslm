@@ -6,17 +6,17 @@ public class BeanIndicador implements Serializable {
     
     private String descripcionIndicador;
     private Integer nidIndicador;
-    private Double nota;
+    private Integer indice;
     private String leyenda;
     private Integer valor;
 
     public BeanIndicador(){
         
     }
-    public BeanIndicador(String descripcionIndicador,Integer nidIndicador,Double nota,String leyenda,Integer valor){
+    public BeanIndicador(String descripcionIndicador,Integer nidIndicador,Integer indice,String leyenda,Integer valor){
         this.descripcionIndicador = descripcionIndicador;
         this.nidIndicador = nidIndicador;
-        this.nota = nota;
+        this.indice = indice;
         this.leyenda = leyenda;
         this.valor = valor;
     }
@@ -42,14 +42,6 @@ public class BeanIndicador implements Serializable {
         return nidIndicador;
     }
 
-    public void setNota(Double nota) {
-        this.nota = nota;
-    }
-
-    public Double getNota() {
-        return nota;
-    }
-
     public void setLeyenda(String leyenda) {
         this.leyenda = leyenda;
     }
@@ -64,5 +56,13 @@ public class BeanIndicador implements Serializable {
 
     public Integer getValor() {
         return valor;
+    }
+
+    public void setIndice(Integer indice) {
+        this.indice = indice;
+    }
+
+    public Integer getIndice() {
+        return indice;
     }
 }
