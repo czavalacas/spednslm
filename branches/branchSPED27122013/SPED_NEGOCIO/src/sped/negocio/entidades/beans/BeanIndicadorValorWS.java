@@ -8,11 +8,39 @@ public class BeanIndicadorValorWS implements Serializable {
     
     private Integer nidCI;
     private Integer valor;
+    //AUXILIARES PARA CONSULTAR EVALUACION - MOVIL
+    private String descripcionIndicador;
+    private String leyenda;
+    private int indice;
     
     public BeanIndicadorValorWS(){
         
     }
-    
+
+    public void setIndice(int indice) {
+        this.indice = indice;
+    }
+
+    public int getIndice() {
+        return indice;
+    }
+
+    public void setDescripcionIndicador(String descripcionIndicador) {
+        this.descripcionIndicador = descripcionIndicador;
+    }
+
+    public String getDescripcionIndicador() {
+        return descripcionIndicador;
+    }
+
+    public void setLeyenda(String leyenda) {
+        this.leyenda = leyenda;
+    }
+
+    public String getLeyenda() {
+        return leyenda;
+    }
+
     public BeanIndicadorValorWS(Integer nidCI,Integer valor){
         this.nidCI = nidCI;
         this.valor = valor;

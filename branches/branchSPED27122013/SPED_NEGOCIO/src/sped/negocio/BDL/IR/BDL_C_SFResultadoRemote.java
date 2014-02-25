@@ -12,4 +12,5 @@ public interface BDL_C_SFResultadoRemote {
     boolean fichaUsadaEnEvaluacion(int nidFicha);
     Resultado findResultadoById(int criterioIndicador,
                                 int evaluacion);
+    List<Resultado> getResultadoByEvaluacionCriterio_BDL(int nidEvaluacion,int nidCriterio);
 }

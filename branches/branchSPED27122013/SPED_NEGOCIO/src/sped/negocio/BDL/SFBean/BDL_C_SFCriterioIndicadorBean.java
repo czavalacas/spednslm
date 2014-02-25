@@ -58,4 +58,21 @@ public class BDL_C_SFCriterioIndicadorBean implements BDL_C_SFCriterioIndicadorR
             return null;
         }
     }
+    
+    public int cantidadIndicadoresByCriterio_BDL(int nidCriterio,int nidFicha){
+        try{
+            String qlString = "SELECT COUNT(ci.nidCriterioIndicador) " +
+                              "FROM CriterioIndicador ci " +
+                              "WHERE ci.fichaCriterio.criterio.nidCriterio = :nidCriterio "+
+                              "AND ci.fichaCriterio.ficha.nidFicha = :nidFicha ";
+            List lst = em.createQuery(qlString).setParameter("nidCriterio",nidCriterio).setParameter("nidFicha",nidFicha).getResultList();
+            if(lst.isEmpty()){
+                return 0;
+            }else{
+                return Integer.parseInt(lst.get(0).toString());
+            }
+        }catch(Exception e){
+            return 0;
+        }
+    }
 }

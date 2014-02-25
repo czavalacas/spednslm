@@ -437,7 +437,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         try {
             String qlString = "SELECT e " + 
                               "FROM Evaluacion e " +
-                              "WHERE e.estadoEvaluacion = '" + estado + "' ";Utiles.sysout("entro al query: "+qlString);
+                              "WHERE e.estadoEvaluacion = '" + estado + "' ";
             if (nidRol == 4) { //Evaluador x Sede
                 qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
             } else if (nidRol == 2) { //Evaluador x Area
@@ -483,7 +483,6 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 }
             }
             qlString = qlString.concat(" ORDER BY e.startDate DESC ");
-            Utiles.sysout("query:" + qlString);
             Query query = em.createQuery(qlString);
             if (nidRol == 4) { //Evaluador x Sede
                 query.setParameter("nidSede", nidSede);

@@ -81,5 +81,13 @@ public interface LN_C_SFEvaluacionLocal {
     BeanEvaluacion getEvaluacionById_LN(String nidDate);
     List<BeanEvaluacion> getEvaluaciones_LN(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
                                                        String dniProfesor, String nidCurso, Integer nidSede);
+    /**
+      * Metodo que trae la evaluacion consultada en el Movil - WS
+      * @author dfloresgonz
+      * @since 23.02.2014
+      * @param nidEvaluacion
+      * @return BeanEvaluacionWS
+      */
+     BeanEvaluacionWS getEvaluacionById_LN_WS(Integer nidEvaluacion);
     
 }
