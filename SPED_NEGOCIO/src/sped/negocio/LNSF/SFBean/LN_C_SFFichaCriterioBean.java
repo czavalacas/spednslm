@@ -67,7 +67,6 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             criterio.setNidCriterio(crit.getNidCriterio());
             criterio.setNidFicha(fichaCriterio.getFicha().getNidFicha());
             lstBeanCriterio.add(criterio);
-            Utiles.sysout("crit.getDescripcionCriterio():"+criterio.getDescripcionCriterio()+" orden: "+criterio.getOrden()+" ficha: "+criterio.getNidFicha());
         }
         return lstBeanCriterio;
     }

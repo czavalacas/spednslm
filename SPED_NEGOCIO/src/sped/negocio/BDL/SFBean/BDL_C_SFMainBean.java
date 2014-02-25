@@ -1,5 +1,6 @@
 package sped.negocio.BDL.SFBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
 import sped.negocio.BDL.IL.BDL_C_SFMainLocal;
@@ -23,6 +25,9 @@ import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanMain;
 
+import sped.negocio.entidades.beans.BeanMainWS;
+import sped.negocio.entidades.eval.Evaluacion;
+
 import utils.system;
 
 /** Clase SFBDL SFMainBean.java
@@ -31,7 +36,7 @@ import utils.system;
  */
 @Stateless(name = "BDL_C_SFMain", mappedName = "map-BDL_C_SFMain")
 public class BDL_C_SFMainBean implements BDL_C_SFMainRemote, 
-                                         BDL_C_SFMainLocal {
+                                            BDL_C_SFMainLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -141,4 +146,76 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         return em.createNamedQuery("Main.findAll", Main.class).getResultList();
     }    
    
+   /**
+     * Metodo que no utiliza mapper sino mapea defrente al bean desde el mismo query, este metodo busca en la entidad 
+     * Main, se usa para el WS, movil, para poder buscar profesores y registrarles un PARTE DE OCURRENCIA
+     * @author dfloresgonz
+     * @since 24.02.2014
+     * @param nidSede
+     * @param profesor
+     * @param curso
+     * @param aula
+     * @return List<BeanMainWS>
+     */
+    public List<BeanMainWS> getMainByAttr_BDL_WS(Integer nidSede,
+                                                  String profesor,
+                                                  String curso,
+                                                  String aula){
+        try {
+            String qlString = "SELECT NEW sped.negocio.entidades.beans.BeanMainWS(m.nidMain," +
+                                                                                 "m.profesor.apellidos," +
+                                                                                 "m.profesor.nombres," +
+                                                                                 "m.curso.descripcionCurso," +
+                                                                                 "m.aula.sede.descripcionSede," +
+                                                                                 "m.aula.descripcionAula," +
+                                                                                 "m.horaFin," +
+                                                                                 "m.horaInicio," +
+                                                                                 "m.dia," +
+                                                                                 "m.aula.gradoNivel.grado.descripcionGrado," +
+                                                                                 "m.aula.gradoNivel.nivel.descripcionNivel," +
+                                                                                 "m.curso.areaAcademica.descripcionAreaAcademica) " +
+                              "FROM Main m " +
+                              "WHERE 1 = 1 ";
+            if(nidSede != null){
+                if(nidSede != 0){
+                    qlString = qlString.concat(" AND m.aula.sede.nidSede = :nidSede ");
+                }
+            }
+            if(profesor != null){
+                qlString = qlString.concat(" AND UPPER(CONCAT(m.profesor.apellidos,' ',m.profesor.nombres)) like UPPER(:profesor) ");
+            }
+            if(curso != null){
+                qlString = qlString.concat(" AND UPPER(m.curso.descripcionCurso) like UPPER(:curso) ");
+            }
+            if(aula != null){
+                qlString = qlString.concat(" AND UPPER(m.aula.descripcionAula) like UPPER(:aula) ");
+            }
+           qlString = qlString.concat(" ORDER BY m.profesor.apellidos ASC ");
+            Query query = em.createQuery(qlString);
+           if(nidSede != null){
+               if(nidSede != 0){
+                   query.setParameter("nidSede", nidSede);
+               }
+           }
+           if(profesor != null){
+               query.setParameter("profesor","%"+profesor+"%");
+           }
+           if(curso != null){
+               query.setParameter("curso","%"+curso+"%");
+           }
+           if(aula != null){
+               query.setParameter("aula","%"+aula+"%");
+           }
+           List<BeanMainWS> lstBeanMainWS = query.getResultList();
+           int size = lstBeanMainWS == null ? 0 : lstBeanMainWS.size();
+           if (size > 0) {
+               return lstBeanMainWS;
+           } else {
+               return new ArrayList<BeanMainWS>();
+           }
+       } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

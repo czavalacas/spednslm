@@ -12,7 +12,17 @@ public class BeanCriterioWS implements Serializable {
     private Integer cantidadValoresWS;
     private Integer nidFicha;
     private double nota;
+    //auxiliares para consultar evaluacion movil
+    private BeanIndicadorValorWS[] indicadoresVec;
 
+    public void setIndicadoresVec(BeanIndicadorValorWS[] indicadoresVec) {
+        this.indicadoresVec = indicadoresVec;
+    }
+
+    public BeanIndicadorValorWS[] getIndicadoresVec() {
+        return indicadoresVec;
+    }
+    
     public void setNota(double nota) {
         this.nota = nota;
     }

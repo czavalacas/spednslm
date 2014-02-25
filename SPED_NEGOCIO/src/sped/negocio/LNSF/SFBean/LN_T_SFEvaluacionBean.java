@@ -102,7 +102,11 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public String registrarEvaluacion_LN_WS(List<BeanIndicadorValorWS> lstBeanIndiVal, Integer nidEvaluacion,Integer nidUsuario,Integer nidLog){
+    public String registrarEvaluacion_LN_WS(List<BeanIndicadorValorWS> lstBeanIndiVal,
+                                            Integer nidEvaluacion,
+                                            Integer nidUsuario,
+                                            Integer nidLog,
+                                            String comentarioEvaluador){
         BeanError beanError = new BeanError();
         String error = "000";
         try {
@@ -117,15 +121,15 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                 bCrit.setNidCriterio(ci.getFichaCriterio().getCriterio().getNidCriterio());
                 if(!lstBCrit.contains(bCrit)){
                     bCrit.setSumaNota(beanIV.getValor().intValue());
-                    bCrit.setCantidadIndicadores(1);
                     bCrit.setCantidadValoresWS(ci.getFichaCriterio().getFicha().getFichaValorLista().size());
                     bCrit.setFichaCriterioAUX(ci.getFichaCriterio());
                     bCrit.setNidCriterio(ci.getFichaCriterio().getCriterio().getNidCriterio());
+                    int cantIndis = bdL_C_SFCriterioIndicadorLocal.cantidadIndicadoresByCriterio_BDL(bCrit.getNidCriterio(),ci.getFichaCriterio().getFicha().getNidFicha());
+                    bCrit.setCantidadIndicadores(cantIndis);
                     lstBCrit.add(bCrit);
                 }else{
                     bCrit = this.getCriterioFromList(bCrit.getNidCriterio(),lstBCrit);
                     bCrit.setSumaNota((bCrit.getSumaNota() + beanIV.getValor().intValue()));
-                    bCrit.setCantidadIndicadores((bCrit.getCantidadIndicadores() + 1));
                 }
                 resultado = new Resultado();
                 resultado.setCriterioIndicador(ci);
@@ -137,6 +141,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setEstadoEvaluacion("EJECUTADO");
             eva.setNid_usuario_ws(nidUsuario);
             eva.setNidLog(nidLog);
+            eva.setComentario_evaluador(comentarioEvaluador);
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
         }catch (Exception e) {
             e.printStackTrace();
