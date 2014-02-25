@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<amx:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amx="http://xmlns.oracle.com/adf/mf/amx"
+          xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
+  <amx:panelPage id="pp1">
+    <amx:facet name="header">
+      <amx:outputText value="Registrar Parte de Ocurrencia" id="ot1"/>
+    </amx:facet>
+    <amx:facet name="primary">
+      <amx:commandButton id="cb1" action="_BACK" icon="/resources/img/back.png" iconPosition="trailing"/>
+    </amx:facet>
+    
+    <amx:panelFormLayout id="pfl2" labelPosition="topCenter" fieldHalign="start">
+             <amx:selectOneChoice  label="Problemas" id="soc1"
+                                   simple="true">
+                <amx:selectItem value="0" label="Seleccionar Problema"/>
+                <amx:selectItems value="#{viewScope.bRegistrarPO.listProblemas}"/>
+              </amx:selectOneChoice>
+      <amx:inputText id="it1" hintText="Comentario" value="#{viewScope.bRegistrarPO.comentario}" rows="8"/>
+    </amx:panelFormLayout>
+  </amx:panelPage>
+</amx:view>

@@ -92,7 +92,7 @@
       <property
          name="fromOutcome">consultar_planificacion</property>
       <property
-         name="sdm:polyPoints">R38,433.0,281.60938,642.84534,138.17188,L50</property>
+         name="sdm:polyPoints">R26,433.0,271.10938,642.97864,138.17188,L50</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -132,7 +132,7 @@
       <property
          name="fromOutcome">GO_LOGIN</property>
       <property
-         name="sdm:polyPoints">L42,641.3593,131.17188,107.5,281.09375,R38</property>
+         name="sdm:polyPoints">L42,641.4931,131.17188,107.5,281.09375,R38</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -177,7 +177,7 @@
       <property
          name="fromOutcome">BACK_CONSULTAR</property>
       <property
-         name="sdm:polyPoints">L54,901.98065,142.64062,727.0,141.67188,R54</property>
+         name="sdm:polyPoints">L50,901.4634,139.14062,727.0506,141.67188,R54</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -223,5 +223,75 @@
          name="fromOutcome">_BACK</property>
       <property
          name="sdm:polyPoints">L54,905.9259,479.64062,720.0,475.70312,R54</property>
+   </ControlFlowCase>
+   <View
+      id="View21">
+      <property
+         name="activityId">Buscar_Main</property>
+      <property
+         name="page">/ParteOcurrencia/Buscar_Main.amx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Buscar_Main&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">294.09375</property>
+      <property
+         name="x">748.0</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase22"
+      from="View3"
+      to="View21">
+      <property
+         name="fromOutcome">registrar_parteocurr</property>
+      <property
+         name="sdm:polyPoints">R54,437.13608,295.60938,707.0,294.10938,L50</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase23"
+      from="View21"
+      to="View3">
+      <property
+         name="fromOutcome">BACK_MAIN</property>
+      <property
+         name="sdm:polyPoints">L54,707.0,297.60938,437.06378,299.10938,R58</property>
+   </ControlFlowCase>
+   <View
+      id="View24">
+      <property
+         name="activityId">Registrar_PO</property>
+      <property
+         name="page">/ParteOcurrencia/Registrar_PO.amx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Registrar_PO&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">295.09375</property>
+      <property
+         name="x">1015.0</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase25"
+      from="View21"
+      to="View24">
+      <property
+         name="fromOutcome">registrar_parte</property>
+      <property
+         name="sdm:polyPoints">R50,789.0,294.10938,974.0,295.10938,L50</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase26"
+      from="View24"
+      to="View21">
+      <property
+         name="fromOutcome">_BACK</property>
+      <property
+         name="sdm:polyPoints">L54,973.9811,298.60938,789.0,297.60938,R54</property>
    </ControlFlowCase>
 </SDM>

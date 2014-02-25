@@ -115,7 +115,6 @@
                                                     </amx:outputText>
                                                 </amx:panelGroupLayout>
                                             </amx:cellFormat>
-                                            <!-- <amx:cellFormat width="10px" id="cf4"/>-->
                                             <amx:cellFormat width="30%" halign="end" id="cf3" height="43px">
                                                 <amx:outputText value="#{row.notaFinal}" id="ot8"
                                                                 inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;">
