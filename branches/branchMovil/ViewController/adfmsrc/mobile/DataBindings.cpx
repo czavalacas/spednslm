@@ -12,6 +12,7 @@
     <page path="/Evaluacion/Evaluar.amx" usageId="mobile_EvaluarPageDef"/>
     <page path="/Consultas/Consultar_Evaluacion.amx" usageId="mobile_Consultar_EvaluacionPageDef"/>
     <page path="/Consultas/Ver_Evaluacion.amx" usageId="mobile_Ver_EvaluacionPageDef"/>
+    <page path="/ParteOcurrencia/Buscar_Main.amx" usageId="mobile_Buscar_MainPageDef"/>
   </pageMap>
   <pageDefinitionUsages>
     <page id="mobile_inicioPageDef" path="mobile.pageDefs.inicioPageDef"/>
@@ -20,6 +21,7 @@
     <page id="mobile_EvaluarPageDef" path="Evaluacion.EvaluarPageDef"/>
     <page id="mobile_Consultar_EvaluacionPageDef" path="Consultas.Consultar_EvaluacionPageDef"/>
     <page id="mobile_Ver_EvaluacionPageDef" path="Consultas.Ver_EvaluacionPageDef"/>
+    <page id="mobile_Buscar_MainPageDef" path="ParteOcurrencia.Buscar_MainPageDef"/>
   </pageDefinitionUsages>
   <dataControlUsages>
     <dc id="bVerEvaluacion" path="mobile.bVerEvaluacion"/>
