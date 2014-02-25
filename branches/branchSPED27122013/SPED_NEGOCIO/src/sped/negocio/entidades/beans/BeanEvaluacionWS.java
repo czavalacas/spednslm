@@ -31,6 +31,43 @@ public class BeanEvaluacionWS implements Serializable {
     private int ceroDiezCant;
     private int onceQuinceCant;
     private int restoCant;
+    //AUXILIARES PARA CONSULTAR EVALUACION INDIVIDUAL
+    private String valores;
+    private String comentarioEvaluador;
+    private String comentarioProfesor;
+    private BeanCriterioWS[] criterios;
+
+    public void setCriterios(BeanCriterioWS[] criterios) {
+        this.criterios = criterios;
+    }
+
+    public BeanCriterioWS[] getCriterios() {
+        return criterios;
+    }
+
+    public void setValores(String valores) {
+        this.valores = valores;
+    }
+
+    public String getValores() {
+        return valores;
+    }
+
+    public void setComentarioEvaluador(String comentarioEvaluador) {
+        this.comentarioEvaluador = comentarioEvaluador;
+    }
+
+    public String getComentarioEvaluador() {
+        return comentarioEvaluador;
+    }
+
+    public void setComentarioProfesor(String comentarioProfesor) {
+        this.comentarioProfesor = comentarioProfesor;
+    }
+
+    public String getComentarioProfesor() {
+        return comentarioProfesor;
+    }
 
     public void setNotaMin(double notaMin) {
         this.notaMin = notaMin;

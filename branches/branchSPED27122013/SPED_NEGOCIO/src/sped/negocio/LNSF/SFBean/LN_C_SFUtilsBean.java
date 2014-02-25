@@ -65,4 +65,8 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     public List<BeanCombo> getAreas_LN_WS(){
         return bdL_C_SFUtilsLocal.getAreas_WS("e.nidAreaAcademica", "e.descripcionAreaAcademica");
     }
+    
+    public List<BeanCombo> getProblemas_LN_WS(){
+        return bdL_C_SFUtilsLocal.getProblemas_WS("e.nidProblema", "e.desc_problema");
+    }
 }

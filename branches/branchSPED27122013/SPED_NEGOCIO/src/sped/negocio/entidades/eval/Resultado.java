@@ -38,7 +38,6 @@ public class Resultado implements Serializable {
         this.valor = valor;
     }
 
-
     public short getValor() {
         return valor;
     }

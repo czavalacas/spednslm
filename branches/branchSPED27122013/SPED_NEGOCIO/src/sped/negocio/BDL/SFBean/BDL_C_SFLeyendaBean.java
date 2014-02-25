@@ -15,7 +15,7 @@ import sped.negocio.entidades.eval.Leyenda;
 
 @Stateless(name = "BDL_C_SFLeyenda", mappedName = "mapBDL_C_SFLeyenda")
 public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote, 
-                                            BDL_C_SFLeyendaLocal {
+                                               BDL_C_SFLeyendaLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -27,7 +27,7 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
     public Leyenda getLeyendabyEvaluacion(CriterioIndicador cri,
                                           int nidFicha,
                                           int valorValoracion){        
-        try{Utiles.sysout("cri:"+cri+" nidFicha:"+nidFicha+" valorValoracion:"+valorValoracion);
+        try{
             String strQuery = "SELECT o " +
                               "FROM Leyenda o " +
                               "WHERE o.criterioIndicador = :crInd " +
@@ -62,6 +62,40 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
             } else {
                 return new ArrayList<Leyenda>();
             }
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /**
+     * Metodo que retorna solo la descripcion de la leyenda segun el criterio,indicador y ficha
+     * @author dfloresgonz
+     * @since 23.02.2014
+     * @param nidCriterio
+     * @param nidIndicador
+     * @param nidFicha
+     * @param valorValoracion
+     * @return
+     */
+    public String getLeyendabyEvaluacion_BDL(int nidCriterio,
+                                             int nidIndicador,
+                                             int nidFicha,
+                                             int valorValoracion){        
+        try{
+            String strQuery = "SELECT o.descripcionLeyenda " +
+                              "FROM Leyenda o " +
+                              "WHERE o.criterioIndicador.indicador.nidIndicador = :nidIndicador " +
+                              "AND o.criterioIndicador.fichaCriterio.criterio.nidCriterio = :nidCriterio "+
+                              "AND o.fichaValor.ficha.nidFicha = :nid_Ficha " +
+                              "AND o.fichaValor.valor.valor = :valor";
+            String obj = (String)em.createQuery(strQuery).setParameter("nidIndicador",nidIndicador)
+                                                             .setParameter("nid_Ficha", nidFicha)
+                                                             .setParameter("nidCriterio",nidCriterio)
+                                                             .setParameter("valor", valorValoracion)
+                                                             .getSingleResult();
+            String desc = obj;
+            return desc;
         }catch(Exception e){
             e.printStackTrace();
             return null;
