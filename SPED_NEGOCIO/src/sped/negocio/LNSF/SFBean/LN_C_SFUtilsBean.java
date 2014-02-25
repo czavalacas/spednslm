@@ -24,6 +24,10 @@ import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 
+/**
+ * SESSION FACADE DE METODOS UTILITARIOS
+ * @author dfloresgonz
+ */
 @Stateless(name = "LN_C_SFUtils", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFUtils")
 public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote, 
                                             LN_C_SFUtilsLocal {
