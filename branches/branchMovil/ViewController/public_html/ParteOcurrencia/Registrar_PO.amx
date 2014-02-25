@@ -8,7 +8,66 @@
     <amx:facet name="primary">
       <amx:commandButton id="cb1" action="_BACK" icon="/resources/img/back.png" iconPosition="trailing"/>
     </amx:facet>
-    
+    <amx:tableLayout id="tl1">
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+          <amx:outputText value="Profesor" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+        <amx:outputText value="#{pageFlowScope._profesor}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      
+       <amx:rowLayout>
+        <amx:cellFormat header="true">
+          <amx:outputText value="Curso - Area" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+        <amx:outputText value="#{pageFlowScope._curso} - #{pageFlowScope._areaAcademica}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+         </amx:rowLayout>
+      
+        <amx:rowLayout>
+        <amx:cellFormat header="true">
+          <amx:outputText value="Aula - Sede" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+        <amx:outputText value="#{pageFlowScope._aula} - #{pageFlowScope._sede}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+         </amx:rowLayout>
+      
+        <amx:rowLayout>
+        <amx:cellFormat header="true">
+          <amx:outputText value="Dia" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+        <amx:outputText value="#{pageFlowScope._dia}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+          <amx:outputText value="Hora Inicio" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+        <amx:outputText value="#{pageFlowScope._horaInicio}" styleClass="adfmf-listItem-captionText">
+            <amx:convertDateTime pattern="h:mm a"/>
+        </amx:outputText>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+          <amx:outputText value="Hora Fin" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+        <amx:outputText value="#{pageFlowScope._horaFin}" styleClass="adfmf-listItem-captionText">
+            <amx:convertDateTime pattern="h:mm a"/>
+        </amx:outputText>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      
+    </amx:tableLayout>
     <amx:panelFormLayout id="pfl2" labelPosition="topCenter" fieldHalign="start">
              <amx:selectOneChoice  label="Problemas" id="soc1"
                                    simple="true">

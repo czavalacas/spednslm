@@ -6,6 +6,8 @@ import mobile.AdfmUtils;
 import mobile.beans.BeanAreaAcademica;
 import mobile.beans.BeanCombo;
 import mobile.beans.BeanSede;
+
+import oracle.adfmf.amx.event.ValueChangeEvent;
 import oracle.adfmf.framework.api.AdfmfJavaUtilities;
 import oracle.adfmf.framework.api.GenericTypeBeanSerializationHelper;
 import oracle.adfmf.framework.exception.AdfInvocationException;
