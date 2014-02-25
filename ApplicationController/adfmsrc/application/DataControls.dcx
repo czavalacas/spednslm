@@ -51,6 +51,8 @@
             <operation name="getCriteriosEvaluacion_WS"/>
             <operation name="getPlanificaciones_WS"/>
             <operation name="getLeyendasByCritIndicador_WS"/>
+            <operation name="getMainByAttr_WS"/>
+            <operation name="getProblemas_LN_WS"/>
           </port>
         </service>
       </definition>
