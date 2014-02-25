@@ -12,7 +12,7 @@
         <amx:panelFormLayout labelPosition="topCenter" fieldHalign="start">
             <amx:selectOneChoice label="Sede" id="soc1" value="#{bindings.arg0.inputValue}"
                                  rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
-                                 simple="true">
+                                 simple="true" valueChangeListener="#{viewScope.bBuscarMain.cambioEnSede}">
                 <amx:selectItem value="0" label="Seleccionar Sede"/>
                 <amx:selectItems value="#{viewScope.bMain.listaSedes}"/>
             </amx:selectOneChoice>
@@ -22,14 +22,26 @@
         </amx:panelFormLayout>
         <amx:panelGroupLayout layout="horizontal">
               <amx:commandButton actionListener="#{bindings.getMainByAttr_WS.execute}" text="Buscar"
-                           disabled="#{!bindings.getMainByAttr_WS.enabled}" id="cb2"/>
+                                 disabled="#{!bindings.getMainByAttr_WS.enabled}" id="cb2"/>
+            <amx:commandButton id="cb3" icon="/resources/img/refresh.png" iconPosition="trailing"
+                               actionListener="#{viewScope.bBuscarMain.refrescarBusqueda}"/>
         </amx:panelGroupLayout>
       
         <amx:listView var="row" value="#{bindings.Return.collectionModel}" fetchSize="#{bindings.Return.rangeSize}"
                       dividerAttribute="profesor" dividerMode="firstLetter" styleClass="adfmf-listView-insetList"
                       id="lv1">
             <amx:listItem id="li1" action="registrar_parte">
+            
                 <amx:setPropertyListener from="#{row.nidMain}" to="#{pageFlowScope._nidMain}" type="action"/>
+                <amx:setPropertyListener from="#{row.areaAcademica}" to="#{pageFlowScope._areaAcademica}" type="action"/>
+                <amx:setPropertyListener from="#{row.aula}" to="#{pageFlowScope._aula}" type="action"/>
+                <amx:setPropertyListener from="#{row.curso}" to="#{pageFlowScope._curso}" type="action"/>
+                <amx:setPropertyListener from="#{row.dia}" to="#{pageFlowScope._dia}" type="action"/>
+                <amx:setPropertyListener from="#{row.horaInicio}" to="#{pageFlowScope._horaInicio}" type="action"/>
+                <amx:setPropertyListener from="#{row.horaFin}" to="#{pageFlowScope._horaFin}" type="action"/>
+                <amx:setPropertyListener from="#{row.profesor}" to="#{pageFlowScope._profesor}" type="action"/>
+                <amx:setPropertyListener from="#{row.sede}" to="#{pageFlowScope._sede}" type="action"/>
+                
                 <amx:tableLayout width="100%" id="tl1">
                     <amx:rowLayout id="rl1">
                         <amx:cellFormat width="100%" height="30px" id="cf1">

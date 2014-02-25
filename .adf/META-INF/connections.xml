@@ -48,6 +48,11 @@
                               <input name=""/>
                               <output name=""/>
                            </operation>
+                           <operation name="getProblemas_LN_WS">
+                              <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+                              <input name=""/>
+                              <output name=""/>
+                           </operation>
                            <operation name="getCriteriosEvaluacion_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
@@ -69,6 +74,11 @@
                               <output name=""/>
                            </operation>
                            <operation name="getLeyendasByCritIndicador_WS">
+                              <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+                              <input name=""/>
+                              <output name=""/>
+                           </operation>
+                           <operation name="getMainByAttr_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>

@@ -24,6 +24,20 @@
       <xsd:element name="usuario" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
+  <xsd:complexType name="beanMainWS">
+    <xsd:sequence>
+      <xsd:element name="areaAcademica" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="aula" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="curso" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="dia" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="gradoNivel" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="horaFin" type="xsd:dateTime" minOccurs="0"/>
+      <xsd:element name="horaInicio" type="xsd:dateTime" minOccurs="0"/>
+      <xsd:element name="nidMain" type="xsd:int"/>
+      <xsd:element name="profesor" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="sede" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
   <xsd:complexType name="getSedes_WSResponse">
     <xsd:sequence>
       <xsd:element name="return" type="ns0:beanSede" minOccurs="0" maxOccurs="unbounded"/>
@@ -96,6 +110,11 @@
       <xsd:element name="return" type="ns0:beanUsuario" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
+  <xsd:complexType name="getProblemas_LN_WSResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="ns0:beanCombo" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
   <xsd:complexType name="getTipoVisita_LN_WSResponse">
     <xsd:sequence>
       <xsd:element name="return" type="ns0:beanComboString" minOccurs="0" maxOccurs="unbounded"/>
@@ -105,6 +124,11 @@
     <xsd:sequence>
       <xsd:element name="descripcionAreaAcademica" type="xsd:string" minOccurs="0"/>
       <xsd:element name="nidAreaAcademica" type="xsd:int" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getLeyendasByCritIndicador_WS">
+    <xsd:sequence>
+      <xsd:element name="arg0" type="xsd:int"/>
     </xsd:sequence>
   </xsd:complexType>
   <xsd:complexType name="getPlanificaciones_WS">
@@ -119,9 +143,12 @@
       <xsd:element name="arg7" type="xsd:int"/>
     </xsd:sequence>
   </xsd:complexType>
-  <xsd:complexType name="getLeyendasByCritIndicador_WS">
+  <xsd:complexType name="getMainByAttr_WS">
     <xsd:sequence>
-      <xsd:element name="arg0" type="xsd:int"/>
+      <xsd:element name="arg0" type="xsd:int" minOccurs="0"/>
+      <xsd:element name="arg1" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="arg2" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="arg3" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
   <xsd:complexType name="beanComboString">
@@ -220,16 +247,16 @@
       <xsd:element name="valor" type="xsd:int"/>
     </xsd:sequence>
   </xsd:complexType>
+  <xsd:complexType name="getAreasAcademicas_WSResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="ns0:beanCombo" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
   <xsd:complexType name="autenticarUsuarioLN">
     <xsd:sequence>
       <xsd:element name="arg0" type="xsd:string" minOccurs="0"/>
       <xsd:element name="arg1" type="xsd:string" minOccurs="0"/>
       <xsd:element name="arg2" type="xsd:string" minOccurs="0"/>
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="getAreasAcademicas_WSResponse">
-    <xsd:sequence>
-      <xsd:element name="return" type="ns0:beanCombo" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
   </xsd:complexType>
   <xsd:complexType name="getSedes_WS"/>
@@ -278,9 +305,9 @@
       <xsd:element name="arg1" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
-  <xsd:complexType name="getPermisosByUsuarioRol_WSResponse">
+  <xsd:complexType name="getMainByAttr_WSResponse">
     <xsd:sequence>
-      <xsd:element name="return" type="ns0:beanPermiso" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="return" type="ns0:beanMainWS" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
   </xsd:complexType>
   <xsd:complexType name="getPlanificadores_LN_WSResponse">
@@ -288,6 +315,12 @@
       <xsd:element name="return" type="ns0:beanCombo" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
   </xsd:complexType>
+  <xsd:complexType name="getPermisosByUsuarioRol_WSResponse">
+    <xsd:sequence>
+      <xsd:element name="return" type="ns0:beanPermiso" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="getProblemas_LN_WS"/>
   <xsd:complexType name="beanNivel">
     <xsd:sequence>
       <xsd:element name="descripcionNivel" type="xsd:string" minOccurs="0"/>
@@ -315,23 +348,27 @@
   <xsd:element name="getAreasAcademicas_WS" type="ns0:getAreasAcademicas_WS"/>
   <xsd:element name="getPlanificadores_LN_WS" type="ns0:getPlanificadores_LN_WS"/>
   <xsd:element name="autenticarUsuarioLNResponse" type="ns0:autenticarUsuarioLNResponse"/>
+  <xsd:element name="getProblemas_LN_WSResponse" type="ns0:getProblemas_LN_WSResponse"/>
   <xsd:element name="getTipoVisita_LN_WSResponse" type="ns0:getTipoVisita_LN_WSResponse"/>
-  <xsd:element name="getPlanificaciones_WS" type="ns0:getPlanificaciones_WS"/>
   <xsd:element name="getLeyendasByCritIndicador_WS" type="ns0:getLeyendasByCritIndicador_WS"/>
+  <xsd:element name="getPlanificaciones_WS" type="ns0:getPlanificaciones_WS"/>
+  <xsd:element name="getMainByAttr_WS" type="ns0:getMainByAttr_WS"/>
   <xsd:element name="getEvaluadores_LN_WSResponse" type="ns0:getEvaluadores_LN_WSResponse"/>
   <xsd:element name="getCriteriosEvaluacion_WSResponse" type="ns0:getCriteriosEvaluacion_WSResponse"/>
   <xsd:element name="evaluarDocente_WSResponse" type="ns0:evaluarDocente_WSResponse"/>
   <xsd:element name="getLstIndicadoresByFichaCriterio_LN_WSResponse" type="ns0:getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
   <xsd:element name="getEvaluaciones_WS" type="ns0:getEvaluaciones_WS"/>
   <xsd:element name="getTipoVisita_LN_WS" type="ns0:getTipoVisita_LN_WS"/>
-  <xsd:element name="autenticarUsuarioLN" type="ns0:autenticarUsuarioLN"/>
   <xsd:element name="getAreasAcademicas_WSResponse" type="ns0:getAreasAcademicas_WSResponse"/>
+  <xsd:element name="autenticarUsuarioLN" type="ns0:autenticarUsuarioLN"/>
   <xsd:element name="getSedes_WS" type="ns0:getSedes_WS"/>
   <xsd:element name="evaluarDocente_WS" type="ns0:evaluarDocente_WS"/>
   <xsd:element name="getEvaluadores_LN_WS" type="ns0:getEvaluadores_LN_WS"/>
   <xsd:element name="getLstIndicadoresByFichaCriterio_LN_WS" type="ns0:getLstIndicadoresByFichaCriterio_LN_WS"/>
   <xsd:element name="getCriteriosEvaluacion_WS" type="ns0:getCriteriosEvaluacion_WS"/>
-  <xsd:element name="getPermisosByUsuarioRol_WSResponse" type="ns0:getPermisosByUsuarioRol_WSResponse"/>
+  <xsd:element name="getMainByAttr_WSResponse" type="ns0:getMainByAttr_WSResponse"/>
   <xsd:element name="getPlanificadores_LN_WSResponse" type="ns0:getPlanificadores_LN_WSResponse"/>
+  <xsd:element name="getPermisosByUsuarioRol_WSResponse" type="ns0:getPermisosByUsuarioRol_WSResponse"/>
+  <xsd:element name="getProblemas_LN_WS" type="ns0:getProblemas_LN_WS"/>
   <xsd:element name="getLeyendasByCritIndicador_WSResponse" type="ns0:getLeyendasByCritIndicador_WSResponse"/>
 </xsd:schema>

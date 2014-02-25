@@ -37,6 +37,11 @@
       <managed-bean-class>mobile.respaldo.parteocu.bRegistrarPO</managed-bean-class>
       <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean id="__33">
+      <managed-bean-name>bBuscarMain</managed-bean-name>
+      <managed-bean-class>mobile.respaldo.parteocu.bBuscarMain</managed-bean-class>
+      <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <view id="inicio">
       <page>/inicio.amx</page>
     </view>
