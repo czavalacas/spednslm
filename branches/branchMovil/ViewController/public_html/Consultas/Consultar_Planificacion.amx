@@ -15,7 +15,7 @@
       <amx:commandButton actionListener="#{bindings.getPlanificaciones_WS.execute}" text="Buscar"
                          disabled="#{!bindings.getPlanificaciones_WS.enabled}" id="cb3"/>
       <amx:commandButton  id="cb4" icon="/resources/img/refresh.png" iconPosition="trailing"
-                         actionListener="#{viewScope.bConsultaPlanificacion.refrescarResultado}"/>
+                          actionListener="#{viewScope.bConsultaPlanificacion.refrescarResultado}"/>
     </amx:panelGroupLayout>
     <amx:panelFormLayout id="pfl2" labelPosition="topCenter" fieldHalign="start">
       <amx:inputText value="#{bindings.arg4.inputValue}" id="it3" rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"
