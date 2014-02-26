@@ -59,6 +59,8 @@ public class Usuario implements Serializable {
     private AreaAcademica areaAcademica;
     @OneToMany(mappedBy = "usuario", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<UsuarioPermiso> usuarioPermisosLista;
+    @Column(name = "correo")
+    private String correo;
 
     public Usuario() {
     }
@@ -163,6 +165,14 @@ public class Usuario implements Serializable {
 
     public void setAreaAcademica(AreaAcademica areaAcademica) {
         this.areaAcademica = areaAcademica;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCorreo() {
+        return correo;
     }
 
     @Override

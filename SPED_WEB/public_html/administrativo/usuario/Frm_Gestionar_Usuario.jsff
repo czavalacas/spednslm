@@ -95,15 +95,26 @@
                 <af:column sortable="true" headerText="Nombre y Apellidos" align="start" id="c1" sortProperty="nombres">
                     <af:outputText value="#{row.nombres}" id="ot1"/>
                 </af:column>
+                <af:column sortable="true" headerText="Rol" align="start" id="c5" sortProperty="rol.descripcionRol">
+                    <af:outputText value="#{row.rol.descripcionRol}" id="ot5"/>
+                </af:column>
+                <af:column sortable="true" headerText="Sede" align="start" id="c7" 
+                           sortProperty="sedeNivel.sede.descripcionSede">
+                    <af:outputText value="#{row.sedeNivel.sede.descripcionSede}" id="ot7"/>
+                </af:column>
+                <af:column sortable="true" headerText="Nivel" align="start" id="c9" 
+                           sortProperty="sedeNivel.nivel.descripcionNivel">
+                    <af:outputText value="#{row.sedeNivel.nivel.descripcionNivel}" id="ot9"/>
+                </af:column>
                 <af:column sortable="true" headerText="Area Academica" align="start" id="c3"
                            sortProperty="areaAcademica.descripcionAreaAcademica">
                     <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot3"/>
                 </af:column>
                 <af:column sortable="true" headerText="Usuario" align="start" id="c4" sortProperty="usuario">
                     <af:outputText value="#{row.usuario}" id="ot4"/>
-                </af:column>
-                <af:column sortable="true" headerText="Rol" align="start" id="c5" sortProperty="rol.descripcionRol">
-                    <af:outputText value="#{row.rol.descripcionRol}" id="ot5"/>
+                </af:column>                
+                <af:column sortable="true" headerText="Correo" align="start" id="c10" sortProperty="correo">
+                    <af:outputText value="#{row.correo}" id="ot10"/>
                 </af:column>
                 <af:column sortable="true" headerText="Estado" align="start" id="c6"
                            sortProperty="rol.descripcionEstadoUsuario"
@@ -127,6 +138,11 @@
                                   disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
                                   binding="#{bGestionarUsuarios.itDni}">
                         <f:validator validatorId="DniValidator"/>
+                    </af:inputText>
+                    <af:inputText label="Correo" id="itCor" labelStyle="text-align: left;" 
+                                  value="#{sessionGestionarUsuarios.correo}" maximumLength="150" autoSubmit="true"
+                                  binding="#{bGestionarUsuarios.itCor}">
+                        <f:validator validatorId="EmailValidator"/>
                     </af:inputText>
                     <af:selectOneChoice label="Tipo Rol" unselectedLabel="::Selecionar Rol::"
                                         value="#{sessionGestionarUsuarios.nidRol}" required="true" id="choiceTipoRol"

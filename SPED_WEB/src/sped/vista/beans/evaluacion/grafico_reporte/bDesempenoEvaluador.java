@@ -26,6 +26,7 @@ import oracle.adf.view.rich.component.rich.RichSubform;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichSelectManyChoice;
 
+import oracle.adf.view.rich.component.rich.input.RichTextEditor;
 import oracle.adf.view.rich.component.rich.layout.RichPanelDashboard;
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
@@ -43,9 +44,11 @@ import oracle.dss.dataView.SeriesComponentHandle;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
+import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanRol;
@@ -67,7 +70,11 @@ public class bDesempenoEvaluador {
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
     @EJB
     private LN_C_SFEvaluacionLocal ln_C_SFEvaluacionLocal;
+    @EJB
+    private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
+    FacesContext ctx = FacesContext.getCurrentInstance();
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
+    BeanUsuario beanUsu;
     private String nombreUsuario;
     private RichSelectManyChoice choiceFArea;
     private RichSelectManyChoice choiceFRol;
@@ -82,6 +89,8 @@ public class bDesempenoEvaluador {
     private RichPopup popCorreo;
     private RichPanelGroupLayout pgl2;
     Calendar cal= new GregorianCalendar();
+    private RichTextEditor rte1;
+    private String mensaje;
 
     public bDesempenoEvaluador() {
         nombreUsuario = beanUsuario.getNombres();
@@ -95,14 +104,16 @@ public class bDesempenoEvaluador {
             sessionDesempenoEvaluador.setLstEvaSede(llenarComboEvaSede());
             sessionDesempenoEvaluador.setLstEvaGeneral(llenarComboEvaGeneral());
             sessionDesempenoEvaluador.setLstSede(llenarComboSede());
-            sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());            
-            sessionDesempenoEvaluador.setExec(1);
+            sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());  
             sessionDesempenoEvaluador.setFechaActual(cal.getTime());
-            sessionDesempenoEvaluador.setFechaEF(cal.getTime());
             cal.add(Calendar.MONTH, -1);
-            sessionDesempenoEvaluador.setFechaAnterior(cal.getTime());
-            sessionDesempenoEvaluador.setFechaEI(cal.getTime());
-            setListEvaFiltro_aux();
+            sessionDesempenoEvaluador.setFechaAnterior(cal.getTime());            
+            sessionDesempenoEvaluador.setFechaEI(sessionDesempenoEvaluador.getFechaAnterior());
+            sessionDesempenoEvaluador.setFechaEI_aux(sessionDesempenoEvaluador.getFechaAnterior());
+            sessionDesempenoEvaluador.setFechaEF(sessionDesempenoEvaluador.getFechaActual());
+            sessionDesempenoEvaluador.setFechaEF_aux(sessionDesempenoEvaluador.getFechaActual());
+            setListEvaFiltro_aux();            
+            sessionDesempenoEvaluador.setExec(1);
         }        
     }
     
@@ -221,6 +232,9 @@ public class bDesempenoEvaluador {
                                                 String estado,
                                                 String desProb,
                                                 String desRol){
+        if(tipoEvento == 3){
+            System.out.println("evento3"+sessionDesempenoEvaluador.getFechaEI()+" "+sessionDesempenoEvaluador.getFechaEF());
+        }       
        return ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(tipoEvento,nombre,estado,desProb, desRol,
                                                                       sessionDesempenoEvaluador.getSelectedRol(),
                                                                       sessionDesempenoEvaluador.getSelectedEvaluador(),
@@ -259,9 +273,13 @@ public class bDesempenoEvaluador {
             contNoEje = lst.get(i).getCantNoEjecutado();
             contNoEjeJ = lst.get(i).getCantNoJEjecutado();
             Object[] obj1 = { nombreEvaluador, "Ejecutado", contEjecutados};
+            System.out.println(nombreEvaluador+"   "+contEjecutados+"  Ejecutado");
             Object[] obj2 = { nombreEvaluador, "Pendiente", contPendiente};
+            System.out.println(nombreEvaluador+"   "+contPendiente+"  Pendiente");
             Object[] obj3 = { nombreEvaluador, "No ejecutado", contNoEje};
+            System.out.println(nombreEvaluador+"   "+contNoEje+"  No ejecutado");
             Object[] obj4 = { nombreEvaluador, "No Justifico", contNoEjeJ};
+            System.out.println(nombreEvaluador+"   "+contNoEjeJ+"  No Justifico");
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
@@ -281,9 +299,13 @@ public class bDesempenoEvaluador {
             contNoEje = lst.get(i).getCantNoEjecutado();
             contNoEjeJ = lst.get(i).getCantNoJEjecutado();
             Object[] obj1 = { date, "Ejecutado", contEjecutados};
+            System.out.println(date+"   "+contEjecutados+"  Ejecutado");
             Object[] obj2 = { date, "Pendiente", contPendiente};
+            System.out.println(date+"   "+contPendiente+"  Pendiente");
             Object[] obj3 = { date, "No ejecutado", contNoEje};
+            System.out.println(date+"   "+contNoEje+"  No ejecutado");
             Object[] obj4 = { date, "No Justifico", contNoEjeJ};
+            System.out.println(date+"   "+contNoEjeJ+"  No Justifico");
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
@@ -346,11 +368,12 @@ public class bDesempenoEvaluador {
         if(nombre != null && estado != null){
             List <BeanEvaluacion> lst = desempenoFiltro_Aux(2, nombre, estado, null, null);
             sessionDesempenoEvaluador.setLstEvaDetalle(lst);
-            BeanUsuario beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());
-            renderRol(beanUsu.getRol().getNidRol());
+            beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());            
             sessionDesempenoEvaluador.setEvaluador(beanUsu);
             sessionDesempenoEvaluador.setEstado(estado);
-            estadoEvaluacion(estado);
+            estadoEvaluacion(estado);            
+            renderRol(beanUsu.getRol().getNidRol());
+            renderMensaje(estado);
             Utils.showPopUpMIDDLE(popDetalle); 
         }        
     }
@@ -391,7 +414,17 @@ public class bDesempenoEvaluador {
     public void confirmarCorreo(DialogEvent dialogEvent) {
         DialogEvent.Outcome outcome = dialogEvent.getOutcome();
         if(outcome == DialogEvent.Outcome.ok){
-            System.out.println("ENVIAR AL CORREO");
+            //String root = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+            //String fpath = root+"/recursos/reportes/"+getSessionBeanConsultarPregrado().getTiempoFile()+"_reporte.pdf";
+            //Utiles.sysout("fpath: "+fpath);
+            String[] data = new String[4];
+            data[0] = "kaka";
+            data[1] = "C:/Users/David/Desktop/Scan.jpg";
+            data[2] = mensaje;
+            data[3] = "davidangeleshuaman@gmail.com";
+            String msj = ln_C_SFCorreoRemote.enviarCorreo(data);
+            //throwError(ctx,msj);
+            popCorreo.hide();
         }
     }
     
@@ -459,8 +492,15 @@ public class bDesempenoEvaluador {
         if(nidRol == 2){
             sessionDesempenoEvaluador.setRenderNivel(false);
             sessionDesempenoEvaluador.setRenderSede(false);
+        }        
+    }
+    
+    public void renderMensaje(String estado){
+        if(beanUsuario.getCorreo() != null &&  beanUsu.getCorreo() != null && estado.compareTo("No Justifico") == 0){
+            sessionDesempenoEvaluador.setRenderMensaje(true);
+        }else{
+            sessionDesempenoEvaluador.setRenderMensaje(false);
         }
-        
     }
     
     public void setSessionDesempenoEvaluador(bSessionDesempenoEvaluador sessionDesempenoEvaluador) {
@@ -581,5 +621,29 @@ public class bDesempenoEvaluador {
 
     public RichPanelGroupLayout getPgl2() {
         return pgl2;
+    }
+
+    public void setBeanUsu(BeanUsuario beanUsu) {
+        this.beanUsu = beanUsu;
+    }
+
+    public BeanUsuario getBeanUsu() {
+        return beanUsu;
+    }
+
+    public void setRte1(RichTextEditor rte1) {
+        this.rte1 = rte1;
+    }
+
+    public RichTextEditor getRte1() {
+        return rte1;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public String getMensaje() {
+        return mensaje;
     }
 }

@@ -7,6 +7,7 @@ public interface LN_T_SFUsuarioLocal {
     void gestionUsuarioLN(int tipoEvento,
                           String nombres,
                           String dni,
+                          String correo,
                           int nidRol,
                           int nidAreaA,
                           String usuario,

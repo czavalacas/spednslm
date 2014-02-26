@@ -55,6 +55,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
     public void gestionUsuarioLN(int tipoEvento,
                                  String nombres,
                                  String dni,
+                                 String correo,
                                  int nidRol,
                                  int nidAreaA,
                                  String usuario,
@@ -78,6 +79,10 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setSedeNivel(seni);
             u.setNombres(nombres);            
             u.setDni(dni);
+            if(correo != null && correo.length() == 0){
+                correo = null;
+            }
+            u.setCorreo(correo);
             u.setRol(rol);
             u.setAreaAcademica(area);
             u.setUsuario(usuario);
