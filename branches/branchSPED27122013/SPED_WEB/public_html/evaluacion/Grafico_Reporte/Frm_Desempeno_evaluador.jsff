@@ -34,7 +34,7 @@
                                 <f:selectItems value="#{sessionDesempenoEvaluador.lstArea}" id="si2"/>
                             </af:selectManyChoice>
                         </af:panelFormLayout>
-                        <af:showDetail disclosed="false" id="sd1" disclosedText="Fecha Planifiacion"
+                        <af:showDetail disclosed="true" id="sd1" disclosedText="Fecha Planifiacion"
                                        undisclosedText="Fecha Planifiacion" binding="#{bDesempenoEvaluador.sd1}">
                             <af:panelFormLayout id="pfl5" labelAlignment="start">
                                 <af:inputDate label="Inicio" id="idfechaPI" columns="8" autoSubmit="true"
@@ -45,7 +45,7 @@
                                               labelStyle="text-align: left;"/>
                             </af:panelFormLayout>
                         </af:showDetail>
-                        <af:showDetail disclosed="false" id="sd2" disclosedText="Fecha Evaluación"
+                        <af:showDetail disclosed="true" id="sd2" disclosedText="Fecha Evaluación"
                                        undisclosedText="Fecha Evaluación" binding="#{bDesempenoEvaluador.sd2}">
                             <af:panelFormLayout id="pfl6" labelAlignment="start">
                                 <af:inputDate label="Inicio" id="idfechaEvaluacion" columns="8" autoSubmit="true"
@@ -153,34 +153,44 @@
                         </af:button>
                         <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row" rowBandingInterval="0"
                                   id="tEva" width="inherit;" fetchSize="50" columnStretching="column:c23">
-                            <af:column sortable="false" headerText="Nombre Evaluador" align="start" id="c1">
+                            <af:column sortable="true" headerText="Nombre Evaluador" align="start" id="c1"
+                                       sortProperty="nombreEvaluador">
                                 <af:outputText value="#{row.nombreEvaluador}" id="ot1"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Rol" align="start" id="c24">
+                            <af:column sortable="true" headerText="Rol" align="start" id="c24"
+                                       sortProperty="usuario.rol.descripcionRol">
                                 <af:outputText value="#{row.usuario.rol.descripcionRol}" id="ot24"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Sede" align="start" id="c25">
+                            <af:column sortable="true" headerText="Sede" align="start" id="c25"
+                                       sortProperty="usuario.sedeNivel.sede.descripcionSede">
                                 <af:outputText value="#{row.usuario.sedeNivel.sede.descripcionSede}" id="ot25"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Nivel" align="start" id="c27">
+                            <af:column sortable="true" headerText="Nivel" align="start" id="c27"
+                                       sortProperty="usuario.sedeNivel.nivel.descripcionNivel">
                                 <af:outputText value="#{row.usuario.sedeNivel.nivel.descripcionNivel}" id="ot27"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Area" align="start" id="c26">
+                            <af:column sortable="true" headerText="Area" align="start" id="c26"
+                                       sortProperty="usuario.areaAcademica.descripcionAreaAcademica">
                                 <af:outputText value="#{row.usuario.areaAcademica.descripcionAreaAcademica}" id="ot26"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Ejecutados" align="start" id="c2">
+                            <af:column sortable="true" headerText="Ejecutados" align="start" id="c2"
+                                       sortProperty="cantEjecutado">
                                 <af:outputText value="#{row.cantEjecutado}" id="ot2"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Pendientes" align="start" id="c3">
+                            <af:column sortable="true" headerText="Pendientes" align="start" id="c3"
+                                       sortProperty="cantPendiente">
                                 <af:outputText value="#{row.cantPendiente}" id="ot3"/>
                             </af:column>
-                            <af:column sortable="false" headerText="No Ejecutados" align="start" id="c4">
+                            <af:column sortable="true" headerText="No Ejecutados" align="start" id="c4"
+                                       sortProperty="cantNoEjecutado">
                                 <af:outputText value="#{row.cantNoEjecutado}" id="ot4"/>
                             </af:column>
-                            <af:column sortable="false" headerText="No Justifico" align="start" id="c5">
+                            <af:column sortable="true" headerText="No Justifico" align="start" id="c5"
+                                       sortProperty="cantNoJEjecutado">
                                 <af:outputText value="#{row.cantNoJEjecutado}" id="ot5"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Desempeño" align="center" id="c23"
+                            <af:column sortable="true" headerText="Desempeño" align="center" id="c23"
+                                       sortProperty="porcentajeDesempeno"
                                        inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;">
                                 <af:outputText value="#{row.porcentajeDesempeno}" id="ot23">
                                     <af:convertNumber maxFractionDigits="2"/>
@@ -241,12 +251,14 @@
                                sortProperty="main.curso.areaAcademica.descripcionAreaAcademica">
                         <af:outputText value="#{row.main.curso.areaAcademica.descripcionAreaAcademica}" id="ot21"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Problema" align="start" id="c30"
-                               rendered="#{sessionDesempenoEvaluador.renderProblema}">
+                    <af:column sortable="true" headerText="Problema" align="start" id="c30"
+                               rendered="#{sessionDesempenoEvaluador.renderProblema}"
+                               sortProperty="descProblema">
                         <af:outputText value="#{row.descProblema}" id="ot30"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Comentario Evaluador" align="start" id="c8"
-                               rendered="#{sessionDesempenoEvaluador.renderProblema}">
+                    <af:column sortable="true" headerText="Comentario Evaluador" align="start" id="c8"
+                               rendered="#{sessionDesempenoEvaluador.renderProblema}"
+                               sortProperty="comentarioEvaluador">
                         <af:outputText value="#{row.comentarioEvaluador}" id="ot8"/>
                     </af:column>
                     <af:column sortable="true" headerText="Profesor" align="start" id="c7"
@@ -328,7 +340,8 @@
                                   value="#{sessionDesempenoEvaluador.evaluador.nombres}"/>
                     <af:inputText label="De" id="it8" labelStyle="text-align: left;" disabled="true"
                                   value="#{bDesempenoEvaluador.nombreUsuario}"/>
-                    <h:inputTextarea id="it9"/>
+                    <af:richTextEditor id="rte1" binding="#{bDesempenoEvaluador.rte1}"
+                                       value="#{bDesempenoEvaluador.mensaje}"/>
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>

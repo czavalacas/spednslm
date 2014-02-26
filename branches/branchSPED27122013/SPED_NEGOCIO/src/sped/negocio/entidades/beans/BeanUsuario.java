@@ -26,6 +26,7 @@ public class BeanUsuario implements java.io.Serializable{
     private String descripcionEstadoUsuario;//Auxiliares tabla:admcons
     private List<Integer> lstPermisos;
     private Integer nidLog;
+    private String correo;
 
     public BeanUsuario(){}
 
@@ -188,5 +189,13 @@ public class BeanUsuario implements java.io.Serializable{
 
     public int getNidNivel() {
         return nidNivel;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCorreo() {
+        return correo;
     }
 }

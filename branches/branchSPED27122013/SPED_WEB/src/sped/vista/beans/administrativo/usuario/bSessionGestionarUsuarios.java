@@ -26,6 +26,7 @@ public class bSessionGestionarUsuarios implements Serializable {
     private String titleDialogGestion;
     private String nomBtnGestion;
     private String nombres;
+    private String correo;
     private String dni;
     private String usuario;
     private String clave;
@@ -360,5 +361,13 @@ public class bSessionGestionarUsuarios implements Serializable {
 
     public boolean isDisableRol() {
         return disableRol;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCorreo() {
+        return correo;
     }
 }

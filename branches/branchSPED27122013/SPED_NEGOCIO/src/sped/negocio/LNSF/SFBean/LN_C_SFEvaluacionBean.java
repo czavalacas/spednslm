@@ -413,9 +413,12 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }
     
     public void desempenoEvaluador(BeanEvaluacion eva){
+        double porcentaje = 0;
         double cant = eva.getCantEjecutado() + 
-                      eva.getCantNoEjecutado() + eva.getCantNoJEjecutado();  
-        double porcentaje = eva.getCantEjecutado()/cant;
+                      eva.getCantNoEjecutado() + eva.getCantNoJEjecutado();
+        if(cant != 0){
+            porcentaje = eva.getCantEjecutado()/cant;
+        }
         eva.setPorcentajeDesempeno(porcentaje*100);
         eva.setColorResultado(colorNota(porcentaje*20));
     }
