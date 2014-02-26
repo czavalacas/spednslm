@@ -21,6 +21,8 @@ import net.sf.dozer.util.mapping.MappingException;
 import sped.negocio.BDL.IL.BDL_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFResultadoCriterioRemote;
+import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanResultadoCriterio;
 import sped.negocio.entidades.eval.FichaCriterio;
 import sped.negocio.entidades.eval.ResultadoCriterio;
@@ -63,5 +65,16 @@ public class LN_C_SFResultadoCriterioBean implements LN_C_SFResultadoCriterioRem
         }
         return beanResCri;
     } 
+    
+    public List<BeanResultadoCriterio> getResultadoCriterio_ByEvaluacion(Integer nidEvaluacion){        
+        List<BeanResultadoCriterio> lstBean = new ArrayList();
+        List<ResultadoCriterio> lstAreaAcd = bdL_C_SFResultadoCriterioLocal.getResultadoCriterio_ByEvaluacion(nidEvaluacion);       
+        for(ResultadoCriterio a : lstAreaAcd){
+            BeanResultadoCriterio bean = (BeanResultadoCriterio) mapper.map(a, BeanResultadoCriterio.class);
+            lstBean.add(bean);
+        }
+        return lstBean;
+    }
+ 
     
 }

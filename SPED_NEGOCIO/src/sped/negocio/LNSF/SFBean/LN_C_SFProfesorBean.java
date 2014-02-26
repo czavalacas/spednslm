@@ -44,9 +44,34 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
     public List<BeanProfesor> getProfesoresLN(){        
         List<BeanProfesor> lstBean = new ArrayList();
         List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.getProfesorFindAll();
-        System.out.println("SIZE AREAS  "+lstProfesores.size());
         for(Profesor a : lstProfesores){
             BeanProfesor bean = (BeanProfesor) mapper.map(a, BeanProfesor.class);
+            lstBean.add(bean);
+        }
+        return lstBean;
+    }
+    
+    public List<BeanProfesor> getProfesoresLN_PorSede_ByOrden(Object nidSede, Object nidArea, Object nidCurso, Object nidNivel, Object nidGrado){        
+        List<BeanProfesor> lstBean = new ArrayList();
+        String a=null; String b=null; String c=null; String d=null; String e=null;
+        if(nidSede!=null){
+            a=nidSede.toString();
+        }
+        if(nidArea!=null){
+            b=nidArea.toString();
+        }
+        if(nidCurso!=null){
+            c=nidCurso.toString();
+        }
+        if(nidNivel!=null){
+            d=nidNivel.toString();
+        }
+        if(nidGrado!=null){
+            e=nidGrado.toString();
+        }
+        List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.findProfesorPorSede_ByOrden(a,b,c,d,e);
+        for(Profesor pro : lstProfesores){
+            BeanProfesor bean = (BeanProfesor) mapper.map(pro, BeanProfesor.class);
             lstBean.add(bean);
         }
         return lstBean;

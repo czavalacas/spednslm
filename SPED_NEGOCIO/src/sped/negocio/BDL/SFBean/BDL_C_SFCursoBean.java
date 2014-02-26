@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
 import sped.negocio.BDL.IR.BDL_C_SFCursoRemoto;
+import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.eval.Criterio;
 
@@ -39,6 +40,7 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
     public List<Curso> getCursoFindAll() {
         return em.createNamedQuery("Curso.findAll", Curso.class).getResultList();
     }
+     
     public List<Curso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia) {
         try {
             String ejbQl =    "SELECT distinct cur FROM Main ma, " +
@@ -67,6 +69,30 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
             return null;
         }}
     
+    public List<Curso> findCursosPorAreaAcademica_ByOrden(String nidAreaAcademica, String nidSede) {
+        try {
+            String ejbQl =    " SELECT distinct cur from Curso cur, Main ma, Aula au, Sede sed" +
+                              " where 1=1 ";
+            if (nidAreaAcademica != null) {               
+                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica="+nidAreaAcademica);
+               
+            }
+            
+            if (nidSede != null) {               
+                    ejbQl = ejbQl.concat(" and cur.nidCurso=ma.curso.nidCurso and ma.aula.nidAula=au.nidAula" +
+                                         " and au.sede.nidSede=sed.nidSede and sed.nidSede="+nidSede);
+               
+            }            
+            
+            ejbQl = ejbQl.concat(" ORDER by cur.descripcionCurso");
+            
+            List<Curso> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }}
     public Curso findCursoById(int id) {
         try {
             Curso instance = em.find(Curso.class, id);

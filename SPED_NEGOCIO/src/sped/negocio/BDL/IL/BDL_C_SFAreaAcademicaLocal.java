@@ -11,4 +11,5 @@ import sped.negocio.entidades.admin.Usuario;
 public interface BDL_C_SFAreaAcademicaLocal {
     List<AreaAcademica> getAreaAcademicaFindAll();
     AreaAcademica findEvaluadorById(int id);
+    List<AreaAcademica> findAreasPorSede_ByOrden(String nidSede);
 }

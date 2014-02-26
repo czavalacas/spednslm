@@ -22,8 +22,10 @@ import sped.negocio.LNSF.IL.LN_C_SFGradoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Grado;
+import sped.negocio.entidades.admin.Nivel;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanGrado;
+import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanSede;
 
 @Stateless(name = "LN_C_SFGrado", mappedName = "map-LN_C_SFGrado")
@@ -73,5 +75,15 @@ public class LN_C_SFGradoBean implements LN_C_SFGradoRemote,
             e.printStackTrace();
             return null;
         }        
+    }
+    
+    public List<BeanGrado> getGradoLN_PorNivelByOrden(String nidNivel){
+        List<BeanGrado> lstBean = new ArrayList();
+        List<Grado> lstNivel = bdl_C_SFGradoLocal.findGradosPorNivel_ByOrden(nidNivel);
+        for(Grado n : lstNivel){
+            BeanGrado bean = (BeanGrado) mapper.map(n, BeanGrado.class);
+            lstBean.add(bean);
+        }
+        return lstBean;
     }
 }

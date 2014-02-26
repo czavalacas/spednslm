@@ -48,6 +48,16 @@ public class LN_C_SFAreaAcademicaBean implements LN_C_SFAreaAcademicaRemote,
         return lstBean;
     }
     
+    public List<BeanAreaAcademica> getAreaAcademicaLNPorSede_byOrden(String nidSede){        
+        List<BeanAreaAcademica> lstBean = new ArrayList();
+        List<AreaAcademica> lstAreaAcd = bdL_C_SFAreaAcademicaLocal.findAreasPorSede_ByOrden(nidSede);       
+        for(AreaAcademica a : lstAreaAcd){
+            BeanAreaAcademica bean = (BeanAreaAcademica) mapper.map(a, BeanAreaAcademica.class);
+            lstBean.add(bean);
+        }
+        return lstBean;
+    }
+    
     public BeanAreaAcademica findConstrainByIdLN(int id){
         try{
             BeanAreaAcademica bean = (BeanAreaAcademica)mapper.map(bdL_C_SFAreaAcademicaLocal.findEvaluadorById(id),BeanAreaAcademica.class);

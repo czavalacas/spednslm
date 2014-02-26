@@ -13,4 +13,5 @@ public interface LN_C_SFResultadoCriterioRemote {
     List<BeanResultadoCriterio> transformLstResultadoCriterio(List<ResultadoCriterio> lstResultado);
     BeanResultadoCriterio getResCriByFichaEvaLN(int nidEvaluacion, 
                                                        FichaCriterio fichaCriterio);
+    List<BeanResultadoCriterio> getResultadoCriterio_ByEvaluacion(Integer nidEvaluacion);
 }

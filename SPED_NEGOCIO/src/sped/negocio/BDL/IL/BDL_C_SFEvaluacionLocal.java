@@ -7,6 +7,7 @@ import javax.ejb.Local;
 
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 
@@ -49,4 +50,5 @@ public interface BDL_C_SFEvaluacionLocal {
                                             String tipoVisita,
                                             Integer nidPlanificador,
                                             Integer nidEvaluador);
+    List<Evaluacion> getEvaluaciones_DesempenoDocentes(BeanFiltrosGraficos beanFiltros);
 }

@@ -10,4 +10,5 @@ import sped.negocio.entidades.beans.BeanAreaAcademica;
 public interface LN_C_SFAreaAcademicaLocal {
     List<BeanAreaAcademica> getAreaAcademicaLN();
     BeanAreaAcademica findConstrainByIdLN(int id);
+    List<BeanAreaAcademica> getAreaAcademicaLNPorSede_byOrden(String nidSede);
 }

@@ -41,79 +41,101 @@
                                                            value="#{sessionDesempenoProfesor.nidSede}"
                                                            autoSubmit="true"
                                                            valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
-                                                           binding="#{bDesempenoProfesor.choiceSedes}">
-                                        <f:selectItems value="#{bDesempenoProfesor.listaSedesFiltro}" id="si1"/>
+                                                           binding="#{bDesempenoProfesor.choiceSedes}"
+                                                         unselectedLabel="::Seleccionar Sede::">
+                                        <f:selectItems value="#{sessionDesempenoProfesor.listaSedesFiltro}" id="si1"/>
                                     </af:selectOneChoice>                                  
                                     <af:spacer width="10" height="10" id="s3"/>
                                     <af:spacer width="10" height="10" id="s4"/>
                                      <af:selectOneChoice label="Area" id="smc3"
                                                            value="#{sessionDesempenoProfesor.nidArea}"
                                                            autoSubmit="true"
-                                                           valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
-                                                            binding="#{bDesempenoProfesor.choiceAreas}">
-                                        <f:selectItems value="#{bDesempenoProfesor.listaAreasFiltro}" id="si3"/>
+                                                         valueChangeListener="#{bDesempenoProfesor.valoresChoiceArea}"
+                                                            binding="#{bDesempenoProfesor.choiceAreas}"
+                                                         unselectedLabel="::Seleccionar Area::">
+                                        <f:selectItems value="#{sessionDesempenoProfesor.listaAreasFiltro}" id="si3"/>
                                     </af:selectOneChoice>
                                       <af:spacer width="10" height="10" id="s9"/>
                                     <af:spacer width="10" height="10" id="s8"/>
                                      <af:selectOneChoice  label="Curso" id="smc4"
                                                            value="#{sessionDesempenoProfesor.nidCurso}"
-                                                           autoSubmit="true"
-                                                           valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
-                                                            binding="#{bDesempenoProfesor.choiceCursos}">
-                                        <f:selectItems value="#{bDesempenoProfesor.listaCursosFiltro}" id="si4"/>
+                                                           autoSubmit="true"                                                          
+                                                            binding="#{bDesempenoProfesor.choiceCursos}"
+                                                         unselectedLabel="::Seleccionar Curso::"
+                                                         valueChangeListener="#{bDesempenoProfesor.valoresChoiceCursos}">
+                                        <f:selectItems value="#{sessionDesempenoProfesor.listaCursosFiltro}" id="si4"/>
                                     </af:selectOneChoice>
                                       <af:spacer width="10" height="10" id="s1"/>
                                     <af:spacer width="10" height="10" id="s2"/>
                                         <af:selectOneChoice  label="Nivel" id="smc2"
                                                            value="#{sessionDesempenoProfesor.nidNivele}"
                                                            autoSubmit="true"
-                                                           valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
-                                                               binding="#{bDesempenoProfesor.choiceNiveles}">
-                                        <f:selectItems value="#{bDesempenoProfesor.listaNivelesFiltro}" id="si2"/>
+                                                          
+                                                               binding="#{bDesempenoProfesor.choiceNiveles}"
+                                                            unselectedLabel="::Seleccionar Nivel::"
+                                                            valueChangeListener="#{bDesempenoProfesor.valoresChoiceNivel}">
+                                        <f:selectItems value="#{sessionDesempenoProfesor.listaNivelesFiltro}" id="si2"/>
                                    </af:selectOneChoice>
                                     <af:spacer width="10" height="10" id="s10"/>
                                      <af:spacer width="10" height="10" id="s11"/>
                                         <af:selectOneChoice  label="Grado" id="smc10"
                                                            value="#{sessionDesempenoProfesor.nidGrado}"
                                                            autoSubmit="true"
-                                                           valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
-                                                               binding="#{bDesempenoProfesor.choiceGrados}">
-                                        <f:selectItems value="#{bDesempenoProfesor.listaGradosFiltro}" id="si10"/>
+                                                           
+                                                               binding="#{bDesempenoProfesor.choiceGrados}"
+                                                            unselectedLabel="::Seleccionar Grado::"
+                                                            valueChangeListener="#{bDesempenoProfesor.valoresChoiceGrado}">
+                                        <f:selectItems value="#{sessionDesempenoProfesor.listaGradosFiltro}" id="si10"/>
                                    </af:selectOneChoice>
                                       <af:spacer width="10" height="10" id="s15"/>
                                      <af:spacer width="10" height="10" id="s13"/>
                                         <af:selectOneChoice  label="Docente" id="smc13"
                                                            value="#{sessionDesempenoProfesor.dniDocente}"
                                                            autoSubmit="true"
-                                                           valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
-                                                            binding="#{bDesempenoProfesor.choiceDocente}">
-                                        <f:selectItems value="#{bDesempenoProfesor.listaProfesoresFiltro}" id="si13"/>
+                                                          
+                                                            binding="#{bDesempenoProfesor.choiceDocente}"
+                                                            unselectedLabel="::Seleccionar Docente::">
+                                        <f:selectItems value="#{sessionDesempenoProfesor.listaProfesoresFiltro}" id="si13"/>
                                    </af:selectOneChoice>
                                        <af:spacer width="10" height="10" id="s16"/>
                                      <af:spacer width="10" height="10" id="s14"/>
                                         <af:selectOneChoice label="Criterio" id="smc14"
                                                             value="#{sessionDesempenoProfesor.nidCriterio}"
                                                             autoSubmit="true"
-                                                            valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
-                                                            binding="#{bDesempenoProfesor.choiceCriterios}">
-                                        <f:selectItems value="#{bDesempenoProfesor.listaCriteriosFiltro}" id="si14"/>
+                                                           
+                                                            binding="#{bDesempenoProfesor.choiceCriterios}"
+                                                            unselectedLabel="::Seleccionar Criterio::">
+                                        <f:selectItems value="#{sessionDesempenoProfesor.listaCriteriosFiltro}" id="si14"/>
                                    </af:selectOneChoice>
                                    <af:spacer width="10" height="10" id="s12"/>
-                                    <af:inputDate label="Inicio" id="id1"/>
+                                    <af:inputDate label="Inicio" id="id1"
+                                                  binding="#{bDesempenoProfesor.inputFechaInicio}"/>
                                     <af:spacer width="10" height="10" id="s17"/>
-                                    <af:inputDate label="Fin" id="id2"/>
+                                    <af:inputDate label="Fin" id="id2" binding="#{bDesempenoProfesor.inputFechaFin}"/>
                                     
-                                  <af:spacer width="10" height="10" id="s18"/>
-                                    <af:button text="Agregar" id="b1" action="#{bDesempenoProfesor.addFiltros}"
-                                               binding="#{bDesempenoProfesor.btnAgregarFiltro}"/>
-                                               <af:spacer width="10" height="10" id="s19"/>
-                               
-                    </af:panelFormLayout> 
-                         <af:table var="row" rowBandingInterval="0" id="t1"  width="inherit" inlineStyle="height: 100px" emptyText="Seleccione Fitros de Busqueda"
+                                  <af:spacer width="10" height="10" id="s18"/>                                              
+                                        
+                                    </af:panelFormLayout> 
+                                     <af:panelGridLayout id="pgl2">
+                                            <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                                                <af:gridCell marginStart="5px" width="60px" id="gc1">
+                                                <af:button text="Agregar" id="b1" action="#{bDesempenoProfesor.addFiltros}"
+                                                binding="#{bDesempenoProfesor.btnAgregarFiltro}"/></af:gridCell>
+                                                <af:gridCell marginStart="5px" width="60px" id="gc2">                                               
+                                                 <af:button text="Eliminar" id="b2"
+                                                            action="#{bDesempenoProfesor.deleteFiltros}"/></af:gridCell>                                                 
+                                                <af:gridCell marginStart="5px" width="1px" marginEnd="5px" id="gc3">
+                                                <af:button text="Limpiar" id="b3"
+                                                           action="#{bDesempenoProfesor.btnLimpiarFiltros}"/>
+                                                </af:gridCell>
+                                            </af:gridRow>
+                                        </af:panelGridLayout>
+                         <af:table var="row" rowBandingInterval="0" id="t1"  width="inherit" inlineStyle="height: 150px" emptyText="Seleccione Fitros de Busqueda"
                                    value="#{sessionScope.sessionDesempenoProfesor.listaFiltros}"
-                                   binding="#{bDesempenoProfesor.tbFiltrosBusqueda}"> 
-                                        <af:column sortable="false" headerText="Filtro de Busqueda" id="c1" width="inherit">
-                                            <af:outputText value="#{row.nombreArea.descripcionAreaAcademica}" id="ot2"/>
+                                   binding="#{bDesempenoProfesor.tbFiltrosBusqueda}" rowSelection="single"
+                                   selectionListener="#{bDesempenoProfesor.seleccionarFiltro}"> 
+                                        <af:column sortable="false" headerText="Filtro de Busqueda" id="c1" width="600px">
+                                            <af:outputText value="#{row.campoFiltroTrabla}" id="ot2"/>
                                         </af:column>
                                     </af:table>
                     </af:panelGroupLayout>

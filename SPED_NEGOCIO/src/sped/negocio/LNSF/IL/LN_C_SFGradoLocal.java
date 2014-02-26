@@ -11,4 +11,5 @@ public interface LN_C_SFGradoLocal {
     List<BeanGrado> findGradoPorAreaAcademica(Integer nidAreaAcademica, String dia);
     List<BeanGrado> getGradoLN();
     BeanGrado findConstrainByIdLN(int id);
+    List<BeanGrado> getGradoLN_PorNivelByOrden(String nidNivel);
 }

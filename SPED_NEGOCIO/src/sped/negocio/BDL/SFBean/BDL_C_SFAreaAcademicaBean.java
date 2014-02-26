@@ -17,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFAreaAcademicaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFAreaAcademicaRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Usuario;
 /** Clase SFBDL SFMainBean.java
  * @author czavalacas
@@ -48,4 +49,35 @@ public class BDL_C_SFAreaAcademicaBean implements BDL_C_SFAreaAcademicaRemote,
              throw re;
          }
      }  
+    
+    
+    public List<AreaAcademica> findAreasPorSede_ByOrden(String nidSede) {
+        try {
+            String ejbQl =    " SELECT distinct area from AreaAcademica area, Sede sed, Aula au, Curso cur, Main ma" +
+                              " where 1=1 ";
+            if (nidSede != null) {               
+                    ejbQl = ejbQl.concat(" and area.nidAreaAcademica=cur.areaAcademica.nidAreaAcademica " +
+                        " and ma.curso.nidCurso=cur.nidCurso " +
+                        " and ma.aula.nidAula=au.nidAula " +
+                        " and au.sede.nidSede=sed.nidSede" +
+                        " and sed.nidSede="+nidSede);               
+            }
+            
+            ejbQl = ejbQl.concat(" ORDER by area.descripcionAreaAcademica");
+            
+            List<AreaAcademica> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }}
+    public Curso findCursoById(int id) {
+        try {
+            Curso instance = em.find(Curso.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
+        }
+    }
 }

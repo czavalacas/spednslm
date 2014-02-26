@@ -11,4 +11,5 @@ public interface BDL_C_SFNivelRemote {
     List<Nivel> getNivelFindAll();
     List<Nivel> findGradpPorAreaAcademica(Integer nidAreaAcademica, String dia);
     Nivel findNivelById(int id);
+    List<Nivel> findNivelesPorSede_ByOrden(String nidSede, String nidArea, String nidCurso);
 }
