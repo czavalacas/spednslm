@@ -42,7 +42,7 @@ public class BDL_C_SFNivelBean implements BDL_C_SFNivelRemote,
             String ejbQl =    "SELECT distinct niv FROM Main ma, " +
                               " Curso cur , " +
                               " Profesor prof," +
-                              " Niel niv," +
+                              " Nivel niv," +
                               " AreaAcademica ac" +
                               " WHERE ma.curso.nidCurso=cur.nidCurso " +
                               " and cur.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica " +
