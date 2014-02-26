@@ -36,6 +36,7 @@
     <class>sped.negocio.entidades.eval.ResultadoCriterio</class>
     <class>sped.negocio.entidades.sist.UsuarioPermiso</class>
     <class>sped.negocio.entidades.admin.Problema</class>
+    <class>sped.negocio.entidades.admin.ParteOcurrencia</class>
     <properties>
       <property name="eclipselink.target-server" value="WebLogic_10"/>
       <property name="javax.persistence.jtaDataSource" value="java:/app/jdbc/jdbc/SPED_RemotoDS"/>
