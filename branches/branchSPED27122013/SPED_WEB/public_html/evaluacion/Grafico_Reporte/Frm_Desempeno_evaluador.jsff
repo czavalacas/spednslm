@@ -39,10 +39,14 @@
                             <af:panelFormLayout id="pfl5" labelAlignment="start">
                                 <af:inputDate label="Inicio" id="idfechaPI" columns="8" autoSubmit="true"
                                               value="#{sessionDesempenoEvaluador.fechaPI}"
-                                              labelStyle="text-align: left;"/>
+                                              labelStyle="text-align: left;">
+                                              <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                </af:inputDate>
                                 <af:inputDate label="Fin" id="idfechaPF" columns="8" autoSubmit="true"
                                               value="#{sessionDesempenoEvaluador.fechaPF}"
-                                              labelStyle="text-align: left;"/>
+                                              labelStyle="text-align: left;">
+                                              <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                </af:inputDate>
                             </af:panelFormLayout>
                         </af:showDetail>
                         <af:showDetail disclosed="true" id="sd2" disclosedText="Fecha Evaluación"
@@ -50,10 +54,14 @@
                             <af:panelFormLayout id="pfl6" labelAlignment="start">
                                 <af:inputDate label="Inicio" id="idfechaEvaluacion" columns="8" autoSubmit="true"
                                               labelStyle="text-align: left;"
-                                              value="#{sessionDesempenoEvaluador.fechaEI}"/>
+                                              value="#{sessionDesempenoEvaluador.fechaEI}">
+                                              <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                </af:inputDate>
                                 <af:inputDate label="Fin" id="idfechaEvaluacionf" columns="8" autoSubmit="true"
                                               labelStyle="text-align: left;"
-                                              value="#{sessionDesempenoEvaluador.fechaEF}"/>
+                                              value="#{sessionDesempenoEvaluador.fechaEF}">
+                                              <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                </af:inputDate>
                             </af:panelFormLayout>
                         </af:showDetail>
                         <af:spacer width="10" height="25" id="s1"/>
@@ -128,7 +136,7 @@
                                     <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
                                 </dvt:lineGraph>
                             </af:panelBox>
-                            <af:panelBox text="Evaluaciones no justificadas" id="pb4" showDisclosure="false">
+                            <af:panelBox text="Evaluaciones justificadas" id="pb4" showDisclosure="false">
                                 <af:componentDragSource/>
                                 <dvt:pieGraph id="graph3" subType="RING" dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaPieG}"
@@ -237,7 +245,9 @@
                 <af:table value="#{sessionDesempenoEvaluador.lstEvaDetalle}" var="row" rowBandingInterval="0" id="t2">
                     <af:column sortable="true" headerText="Fecha Evaluacion" align="start" id="c9"
                                sortProperty="endDate">
-                        <af:outputText value="#{row.endDate}" id="ot9"/>
+                        <af:outputText value="#{row.endDate}" id="ot9">
+                            <af:convertDateTime pattern="dd/MM/yyyy"/>
+                        </af:outputText>
                     </af:column>
                     <af:column sortable="true" headerText="Sede" align="start" id="c6"
                                sortProperty="main.aula.sede.descripcionSede">
@@ -279,7 +289,9 @@
                           id="tDetal">
                     <af:column sortable="true" headerText="Fecha Evaluacion" align="start" id="c10"
                                sortProperty="endDate">
-                        <af:outputText value="#{row.endDate}" id="ot11"/>
+                        <af:outputText value="#{row.endDate}" id="ot11">
+                            <af:convertDateTime pattern="dd/MM/yyyy"/>
+                        </af:outputText>
                     </af:column>
                     <af:column sortable="true" headerText="Evaluador" align="start" id="c15"
                                sortProperty="usuario.nombres">
