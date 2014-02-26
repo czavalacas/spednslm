@@ -12,4 +12,5 @@ public interface BDL_C_SFResultadoCriterioRemote {
     List<ResultadoCriterio> getResultadoCriterioFindAll();
     ResultadoCriterio getResCriByFichaEvaBDL(int nidEvaluacion, 
                                              FichaCriterio fichaCriterio);
+    List<ResultadoCriterio> getResultadoCriterio_ByEvaluacion(Integer nidEvaluacion);
 }

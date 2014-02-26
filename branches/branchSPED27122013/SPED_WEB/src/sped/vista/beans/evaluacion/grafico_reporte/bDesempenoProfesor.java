@@ -15,6 +15,7 @@ import oracle.adf.view.faces.bi.component.graph.UIGraph;
 import oracle.adf.view.faces.bi.model.GraphDataModel;
 
 import oracle.adf.view.rich.component.rich.data.RichTable;
+import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichSelectManyCheckbox;
 
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
@@ -23,6 +24,7 @@ import oracle.adf.view.rich.component.rich.nav.RichButton;
 
 import oracle.dss.graph.GraphModel;
 
+import org.apache.myfaces.trinidad.event.SelectionEvent;
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import org.apache.poi.xslf.usermodel.PieChartDemo;
 
@@ -44,36 +46,15 @@ import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.beans.BeanSede;
 
+import sped.negocio.entidades.beans.BeanUsuario;
+
 import sped.vista.Utils.Utils;
 
 import utils.system;
 
 public class bDesempenoProfesor {
     
-    bSessionDesempenoProfesor sessionDesempenoProfesor;
     
-   
-    private List listaBarPrueba;
-    private UIGraph pieGraph;
-    private UIGraph barGraph;
-    private GraphDataModel graphDataPie;
-    private GraphDataModel graphDataBar;
-    private GraphDataModel graphDataBarHorizontal;
-    private GraphDataModel graphDataLine;
-    private GraphDataModel graphDataBarNiveles;
-    
-
-    
-    private List listaSedesFiltro;
-    private List listaAreasFiltro;
-    private List listaNivelesFiltro;
-    private List listaCursosFiltro;
-    private List listaGradosFiltro;
-    private List listaProfesoresFiltro;
-    private List listaCriteriosFiltro;
-    
-    private List<BeanFiltrosGraficos> listBean=new ArrayList();    
-  
     @EJB
     private LN_C_SFSedeRemote ln_C_SFSedeRemote;
     @EJB
@@ -89,7 +70,24 @@ public class bDesempenoProfesor {
     @EJB
     private LN_C_SFCriterioRemote ln_C_SFCriterioRemote;
     
+    private bSessionDesempenoProfesor sessionDesempenoProfesor;   
+   
+    private List listaBarPrueba;
+    private UIGraph pieGraph;
+    private UIGraph barGraph;
+    private GraphDataModel graphDataPie;
+    private GraphDataModel graphDataBar;
+    private GraphDataModel graphDataBarHorizontal;
+    private GraphDataModel graphDataLine;
+    private GraphDataModel graphDataBarNiveles;
     
+
+    
+  
+    
+    private List<BeanFiltrosGraficos> listBean=new ArrayList();    
+  
+  
     private RichSelectOneChoice choiceSedes;
     private RichSelectOneChoice choiceNiveles;
     private RichSelectOneChoice choiceAreas;
@@ -99,6 +97,9 @@ public class bDesempenoProfesor {
     private RichSelectOneChoice choiceCriterios;
     private RichButton btnAgregarFiltro;
     private RichTable tbFiltrosBusqueda;
+    private RichInputDate inputFechaInicio;
+    private RichInputDate inputFechaFin;
+   
 
 
     public bDesempenoProfesor() {
@@ -112,22 +113,80 @@ public class bDesempenoProfesor {
             e.printStackTrace();
         }
     }
+    
     @PostConstruct
-    public void methodInvokeOncedOnPageLoad() { 
-    this.setListaSedesFiltro(llenarSedesFiltro());
-    this.setListaAreasFiltro(llenarAreasFiltro());
-    this.setListaNivelesFiltro(llenarNivelesFiltro());
-    this.setListaCursosFiltro(llenarCursosFiltro());
-    this.setListaGradosFiltro(llenarGradosFiltro());
-    this.setListaProfesoresFiltro(llenarProfesoresFiltro());
-    this.setListaCriteriosFiltro(llenarCriteriosFiltro());
-        System.out.println("SE EJECUTO");           
-         
+    public void methodInvokeOncedOnPageLoad() {           
+        if(sessionDesempenoProfesor.getExec()==0){                  
+            Utils.sysout("1 POST::>> "+sessionDesempenoProfesor.getExec()); 
+            llenarChoices();  
+            sessionDesempenoProfesor.setExec(1);            
+            }
+  
     }  
     
-    public ArrayList llenarProfesoresFiltro() {
+    public String llenarChoices(){
+        sessionDesempenoProfesor.setListaSedesFiltro(llenarSedesFiltro());
+        sessionDesempenoProfesor.setListaAreasFiltro(llenarAreasFiltro(ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN()));
+        sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLN()));
+        sessionDesempenoProfesor.setListaCursosFiltro(llenarCursosFiltro(ln_C_SFCursoRemoto.getlistaCursos()));
+        sessionDesempenoProfesor.setListaGradosFiltro(null);
+        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN()));
+        sessionDesempenoProfesor.setListaCriteriosFiltro(llenarCriteriosFiltro());
+        return null;
+    }
+    
+    public void valoresChoiceGrado(ValueChangeEvent valueChangeEvent) {
+        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue(),choiceNiveles.getValue(),choiceGrados.getValue())));
+        Utils.addTargetMany(choiceDocente);
+    }
+    
+    public void valoresChoiceCursos(ValueChangeEvent valueChangeEvent) {
+        sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue())));
+        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue(),choiceNiveles.getValue(),choiceGrados.getValue())));
+        Utils.addTargetMany(choiceNiveles,choiceDocente);
+    }
+    public void valoresChoiceSede(ValueChangeEvent valueChangeEvent) {  
+        sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(choiceSedes.getValue().toString(),null,null)));
+        sessionDesempenoProfesor.setListaAreasFiltro(llenarAreasFiltro(ln_C_SFAreaAcademicaRemote.getAreaAcademicaLNPorSede_byOrden(choiceSedes.getValue().toString())));
+        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue().toString(),null,null,null,null)));
+        sessionDesempenoProfesor.setListaCursosFiltro(llenarCursosFiltro(ln_C_SFCursoRemoto.findCursosPorAreaAcademica_ByOrden(null,choiceSedes.getValue().toString())));  
+       
+        Utils.addTargetMany(choiceAreas,choiceNiveles,choiceCursos,choiceDocente);
+        
+    }
+    public void valoresChoiceArea(ValueChangeEvent valueChangeEvent) {
+        if(choiceSedes.getValue()==null){      
+            sessionDesempenoProfesor.setListaCursosFiltro(llenarCursosFiltro(ln_C_SFCursoRemoto.findCursosPorAreaAcademica_ByOrden(choiceAreas.getValue().toString(),null)));
+            sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(null, choiceAreas.getValue().toString(),null)));
+            sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(null, choiceAreas.getValue().toString(),null,null,null)));
+        }else{
+            sessionDesempenoProfesor.setListaCursosFiltro(llenarCursosFiltro(ln_C_SFCursoRemoto.findCursosPorAreaAcademica_ByOrden(choiceAreas.getValue().toString(),choiceSedes.getValue().toString())));  
+            sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue().toString(), choiceAreas.getValue().toString(),null,null,null)));
+            sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(choiceSedes.getValue().toString(), choiceAreas.getValue().toString(),null)));
+        }
+        Utils.addTargetMany(choiceCursos,choiceNiveles,choiceDocente);
+    }
+    
+    public void valoresChoiceNivel(ValueChangeEvent valueChangeEvent) {        
+        sessionDesempenoProfesor.setListaGradosFiltro(llenarGradosFiltro(ln_C_SFGradoRemote.getGradoLN_PorNivelByOrden(choiceNiveles.getValue().toString())));
+        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue(),choiceNiveles.getValue(),choiceGrados.getValue())));
+        Utils.addTargetMany(choiceGrados,choiceDocente);
+    }
+    
+    
+    public ArrayList llenarCursosFiltro(List<BeanCurso> listaCursos) {
+        ArrayList unItems = new ArrayList();       
+        List<BeanCurso> roles= listaCursos;;    
+        for (BeanCurso r : roles) {          
+            unItems.add(new SelectItem(r.getNidCurso().toString(), r.getDescripcionCurso().toString()));
+        }
+        return unItems;
+    }
+    
+    
+    public ArrayList llenarProfesoresFiltro(List<BeanProfesor> listProf) {
         ArrayList unItems = new ArrayList();
-        List<BeanProfesor> roles = ln_C_SFProfesorRemote.getProfesoresLN();       
+        List<BeanProfesor> roles = listProf;            
         for (BeanProfesor r : roles) {                
         String nombreCompleto=r.getApellidos()+" "+r.getNombres();
             unItems.add(new SelectItem(r.getDniProfesor().toString(), nombreCompleto.toString()));
@@ -152,49 +211,38 @@ public class bDesempenoProfesor {
         return unItems;
     }
     
-    public ArrayList llenarGradosFiltro() {
+    public ArrayList llenarGradosFiltro(List<BeanGrado> listaGrados) {
         ArrayList unItems = new ArrayList();
-        List<BeanGrado> roles = ln_C_SFGradoRemote.getGradoLN();
+        List<BeanGrado> roles = listaGrados;
         for (BeanGrado r : roles) {          
             unItems.add(new SelectItem(r.getNidGrado().toString(), r.getDescripcionGrado().toString()));
         }
         return unItems;
     }
-    
-    public ArrayList llenarCursosFiltro() {
+ 
+    public ArrayList llenarAreasFiltro(List<BeanAreaAcademica> listaAreas) {
         ArrayList unItems = new ArrayList();
-        List<BeanCurso> roles = ln_C_SFCursoRemoto.getlistaCursos();
-        for (BeanCurso r : roles) {          
-            unItems.add(new SelectItem(r.getNidCurso().toString(), r.getDescripcionCurso().toString()));
-        }
-        return unItems;
-    }
-    
-    public ArrayList llenarAreasFiltro() {
-        ArrayList unItems = new ArrayList();
-        List<BeanAreaAcademica> roles = ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
+        List<BeanAreaAcademica> roles = listaAreas;
+                        //ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
         for (BeanAreaAcademica r : roles) {          
             unItems.add(new SelectItem(r.getNidAreaAcademica().toString(), r.getDescripcionAreaAcademica().toString()));
         }
         return unItems;
     }
     
-    public ArrayList llenarNivelesFiltro() {
+    public ArrayList llenarNivelesFiltro(List<BeanNivel> listaNiveles) {
         ArrayList unItems = new ArrayList();
-        List<BeanNivel> roles = ln_C_SFNivelRemote.getNivelLN();
+        List<BeanNivel> roles = listaNiveles;
         for (BeanNivel r : roles) {          
             unItems.add(new SelectItem(r.getNidNivel().toString(), r.getDescripcionNivel().toString()));
         }
         return unItems;
     }
-    int index=0;
+
     public String addFiltros(){    
-      
-      
         BeanFiltrosGraficos bean=new BeanFiltrosGraficos();  
         bean.setFechaFin(sessionDesempenoProfesor.getFechaFin());
         bean.setFechaInicio(sessionDesempenoProfesor.getFechaInicio());
-        
         
         bean.setNidArea(sessionDesempenoProfesor.getNidArea());
         bean.setNidSede(sessionDesempenoProfesor.getNidSede()); 
@@ -203,29 +251,98 @@ public class bDesempenoProfesor {
         bean.setNidCurso(sessionDesempenoProfesor.getNidCurso());        
         bean.setNidNivele(sessionDesempenoProfesor.getNidNivele());
         bean.setDniDocente(sessionDesempenoProfesor.getDniDocente());
-   
-        bean.setNombreArea(ln_C_SFAreaAcademicaRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidArea())));
-        bean.setNombreSede(ln_C_SFSedeRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidSede())));
-        bean.setNombreGrado(ln_C_SFGradoRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidGrado())));
-        bean.setNombreCriterio(ln_C_SFCriterioRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidCriterio())));
-        bean.setNombreCurso(ln_C_SFCursoRemoto.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidCurso())));
-        bean.setNombreNivel(ln_C_SFNivelRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidNivele())));
-        bean.setNombreProfesor(ln_C_SFProfesorRemote.findConstrainByDni(sessionDesempenoProfesor.getDniDocente()));
-                
-        sessionDesempenoProfesor.getListaFiltros().add(bean);
-     //   index++;
-        if(sessionDesempenoProfesor.getListaFiltros()!=null){
-            System.out.println("TAMAÑO LISTA"+sessionDesempenoProfesor.getListaFiltros().size());
+        bean.setFechaInicio(sessionDesempenoProfesor.getFechaInicio());
+        bean.setFechaFin(sessionDesempenoProfesor.getFechaFin());
+        
+        String mensaje=""; String mensaje2=""; String mensaje3=""; String mensaje4=""; String mensaje5=""; String mensaje6=""; String mensaje7="";
+        
+        if(bean.getNidSede()!=null){
+            bean.setNombreSede(ln_C_SFSedeRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidSede())));
+            mensaje=bean.getNombreSede().getDescripcionSede()+" -";
         }
+        if(bean.getNidArea()!=null){
+            bean.setNombreArea(ln_C_SFAreaAcademicaRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidArea())));
+            mensaje2=bean.getNombreArea().getDescripcionAreaAcademica()+" -";
+        }
+        if(bean.getNidCurso()!=null){
+            bean.setNombreCurso(ln_C_SFCursoRemoto.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidCurso())));
+            mensaje3=bean.getNombreCurso().getDescripcionCurso()+" -";
+        }
+        if(bean.getNidNivele()!=null){
+            bean.setNombreNivel(ln_C_SFNivelRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidNivele())));
+            mensaje4=bean.getNombreNivel().getDescripcionNivel()+" -";
+        }
+        if(bean.getNidGrado()!=null){
+            bean.setNombreGrado(ln_C_SFGradoRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidGrado())));
+            mensaje5=bean.getNombreGrado().getDescripcionGrado()+" -";
+        }
+        if(bean.getDniDocente()!=null){
+            bean.setNombreProfesor(ln_C_SFProfesorRemote.findConstrainByDni(sessionDesempenoProfesor.getDniDocente()));
+            mensaje6=bean.getNombreProfesor().getApellidos()+" "+bean.getNombreProfesor().getNombres()+" -";
+        }
+        if(bean.getNidCriterio()!=null){
+            bean.setNombreCriterio(ln_C_SFCriterioRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidCriterio())));
+            mensaje7=bean.getNombreCriterio().getDescripcionCriterio()+" -";
+        }  
+        
+        bean.setCampoFiltroTrabla(mensaje+mensaje2+mensaje3+mensaje4+mensaje5+mensaje6+mensaje7);                 
+        sessionDesempenoProfesor.getListaFiltros().add(bean);   
+        limpiarComboBoxs(); 
+        if (tbFiltrosBusqueda != null) {
+            Utils.unselectFilas(tbFiltrosBusqueda);
+            tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
+            Utils.addTarget(tbFiltrosBusqueda);
+        }      
+        return null;
+    }
+    
+    public String limpiarComboBoxs(){
+        sessionDesempenoProfesor.setNidSede(null);
+        sessionDesempenoProfesor.setNidArea(null);
+        sessionDesempenoProfesor.setNidCriterio(null);
+        sessionDesempenoProfesor.setNidCurso(null);
+        sessionDesempenoProfesor.setNidGrado(null);
+        sessionDesempenoProfesor.setNidNivele(null);
+        sessionDesempenoProfesor.setDniDocente(null);
+        sessionDesempenoProfesor.setFechaInicio(null);
+        sessionDesempenoProfesor.setFechaFin(null);  
+        llenarChoices();
+        Utils.addTargetMany(choiceAreas,choiceCriterios,choiceCursos,choiceDocente,choiceGrados,choiceNiveles,choiceSedes,inputFechaInicio,inputFechaFin);
+        return null;
+    }
+    
+    public String btnLimpiarFiltros() {
+         limpiarComboBoxs();
+        sessionDesempenoProfesor.getListaFiltros().clear();
         if (tbFiltrosBusqueda != null) {
             Utils.unselectFilas(tbFiltrosBusqueda);
             tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
             Utils.addTarget(tbFiltrosBusqueda);
         }
-      
         return null;
     }
- 
+    
+    public String deleteFiltros() {
+        if(sessionDesempenoProfesor.getBeanFiltros()!=null){
+        sessionDesempenoProfesor.getListaFiltros().remove(sessionDesempenoProfesor.getBeanFiltros());
+           if (tbFiltrosBusqueda != null) {
+               Utils.unselectFilas(tbFiltrosBusqueda);
+               tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
+               Utils.addTarget(tbFiltrosBusqueda);
+           }
+       }
+        return null;
+    }
+    public void seleccionarFiltro(SelectionEvent selectionEvent) {
+         
+        RichTable t = (RichTable) selectionEvent.getSource(); 
+        Object _selectedRowData = t.getSelectedRowData();
+        BeanFiltrosGraficos filtro = (BeanFiltrosGraficos) _selectedRowData;
+        if (filtro != null) {
+           sessionDesempenoProfesor.setBeanFiltros(filtro);
+           
+        }
+    }
     public void initGraphDataModelPie() {
         String[] columnLabels = { "Porcentajes de Desempeño" };
 
@@ -533,50 +650,7 @@ public class bDesempenoProfesor {
         return graphDataBarNiveles;
     }
 
-    public void setListaSedesFiltro(List listaSedesFiltro) {
-        this.listaSedesFiltro = listaSedesFiltro;
-    }
-
-    public List getListaSedesFiltro() {
-        return listaSedesFiltro;
-    }
-
-    public void setListaAreasFiltro(List listaAreasFiltro) {
-        this.listaAreasFiltro = listaAreasFiltro;
-    }
-
-    public List getListaAreasFiltro() {
-        return listaAreasFiltro;
-    }
-
-    public void valoresChoiceSede(ValueChangeEvent valueChangeEvent) {
-       
-    }
-
-    public void setListaNivelesFiltro(List listaNivelesFiltro) {
-        this.listaNivelesFiltro = listaNivelesFiltro;
-    }
-
-    public List getListaNivelesFiltro() {
-        return listaNivelesFiltro;
-    }
-
-    public void setListaCursosFiltro(List listaCursosFiltro) {
-        this.listaCursosFiltro = listaCursosFiltro;
-    }
-
-    public List getListaCursosFiltro() {
-        return listaCursosFiltro;
-    }
-
-
-    public void setListaGradosFiltro(List listaGradosFiltro) {
-        this.listaGradosFiltro = listaGradosFiltro;
-    }
-
-    public List getListaGradosFiltro() {
-        return listaGradosFiltro;
-    }
+  
 
     public void setChoiceSedes(RichSelectOneChoice choiceSedes) {
         this.choiceSedes = choiceSedes;
@@ -618,21 +692,6 @@ public class bDesempenoProfesor {
         return choiceGrados;
     }
 
-    public void setListaProfesoresFiltro(List listaProfesoresFiltro) {
-        this.listaProfesoresFiltro = listaProfesoresFiltro;
-    }
-
-    public List getListaProfesoresFiltro() {
-        return listaProfesoresFiltro;
-    }
-
-    public void setListaCriteriosFiltro(List listaCriteriosFiltro) {
-        this.listaCriteriosFiltro = listaCriteriosFiltro;
-    }
-
-    public List getListaCriteriosFiltro() {
-        return listaCriteriosFiltro;
-    }
 
     public void setChoiceDocente(RichSelectOneChoice choiceDocente) {
         this.choiceDocente = choiceDocente;
@@ -665,4 +724,24 @@ public class bDesempenoProfesor {
     public RichTable getTbFiltrosBusqueda() {
         return tbFiltrosBusqueda;
     }
+
+
+    public void setInputFechaInicio(RichInputDate inputFechaInicio) {
+        this.inputFechaInicio = inputFechaInicio;
+    }
+
+    public RichInputDate getInputFechaInicio() {
+        return inputFechaInicio;
+    }
+
+    public void setInputFechaFin(RichInputDate inputFechaFin) {
+        this.inputFechaFin = inputFechaFin;
+    }
+
+    public RichInputDate getInputFechaFin() {
+        return inputFechaFin;
+    }
+
+
+    
 }

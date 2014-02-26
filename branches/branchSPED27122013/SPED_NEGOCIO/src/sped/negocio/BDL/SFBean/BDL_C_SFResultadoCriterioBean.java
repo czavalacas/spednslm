@@ -16,6 +16,8 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFResultadoCriterioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFResultadoCriterioRemote;
+import sped.negocio.entidades.beans.BeanFiltrosGraficos;
+import sped.negocio.entidades.eval.Evaluacion;
 import sped.negocio.entidades.eval.FichaCriterio;
 import sped.negocio.entidades.eval.ResultadoCriterio;
 
@@ -51,4 +53,19 @@ public class BDL_C_SFResultadoCriterioBean implements BDL_C_SFResultadoCriterioR
             return null;
         }
     }
+    
+    public List<ResultadoCriterio> getResultadoCriterio_ByEvaluacion(Integer nidEvaluacion) {
+        try{
+            String ejbQl = " SELECT r " +
+                           " FROM ResultadoCriterio r " +
+                           " WHERE r.evaluacion.nidEvaluacion ="+nidEvaluacion;             
+           
+                List<ResultadoCriterio> eva = em.createQuery(ejbQl).getResultList();           
+                return eva;         
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }   
+        }
+    
 }

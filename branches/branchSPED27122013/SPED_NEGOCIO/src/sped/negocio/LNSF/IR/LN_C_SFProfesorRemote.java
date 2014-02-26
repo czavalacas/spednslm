@@ -10,4 +10,5 @@ import sped.negocio.entidades.beans.BeanProfesor;
 public interface LN_C_SFProfesorRemote {
     public List<BeanProfesor> getProfesoresLN();
     BeanProfesor findConstrainByDni(String dni);
+    List<BeanProfesor> getProfesoresLN_PorSede_ByOrden(Object nidSede, Object nidArea, Object nidCurso, Object nidNivel, Object nidGrado);
 }

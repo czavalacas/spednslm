@@ -21,6 +21,16 @@ public class bSessionDesempenoProfesor implements Serializable {
     public Date fechaInicio;
     public Date fechaFin;
     public List<BeanFiltrosGraficos> listaFiltros=new ArrayList<BeanFiltrosGraficos>();
+    public BeanFiltrosGraficos beanFiltros=new BeanFiltrosGraficos();
+    public int exec=0;
+    
+    private List listaSedesFiltro;
+    private List listaAreasFiltro;
+    private List listaNivelesFiltro;
+    private List listaCursosFiltro;
+    private List listaGradosFiltro;
+    private List listaProfesoresFiltro;
+    private List listaCriteriosFiltro;
     
     public bSessionDesempenoProfesor() {
     }
@@ -105,5 +115,77 @@ public class bSessionDesempenoProfesor implements Serializable {
 
     public List<BeanFiltrosGraficos> getListaFiltros() {
         return listaFiltros;
+    }
+
+    public void setBeanFiltros(BeanFiltrosGraficos beanFiltros) {
+        this.beanFiltros = beanFiltros;
+    }
+
+    public BeanFiltrosGraficos getBeanFiltros() {
+        return beanFiltros;
+    }
+
+    public void setExec(int exec) {
+        this.exec = exec;
+    }
+
+    public int getExec() {
+        return exec;
+    }
+
+    public void setListaSedesFiltro(List listaSedesFiltro) {
+        this.listaSedesFiltro = listaSedesFiltro;
+    }
+
+    public List getListaSedesFiltro() {
+        return listaSedesFiltro;
+    }
+
+    public void setListaAreasFiltro(List listaAreasFiltro) {
+        this.listaAreasFiltro = listaAreasFiltro;
+    }
+
+    public List getListaAreasFiltro() {
+        return listaAreasFiltro;
+    }
+
+    public void setListaNivelesFiltro(List listaNivelesFiltro) {
+        this.listaNivelesFiltro = listaNivelesFiltro;
+    }
+
+    public List getListaNivelesFiltro() {
+        return listaNivelesFiltro;
+    }
+
+    public void setListaCursosFiltro(List listaCursosFiltro) {
+        this.listaCursosFiltro = listaCursosFiltro;
+    }
+
+    public List getListaCursosFiltro() {
+        return listaCursosFiltro;
+    }
+
+    public void setListaGradosFiltro(List listaGradosFiltro) {
+        this.listaGradosFiltro = listaGradosFiltro;
+    }
+
+    public List getListaGradosFiltro() {
+        return listaGradosFiltro;
+    }
+
+    public void setListaProfesoresFiltro(List listaProfesoresFiltro) {
+        this.listaProfesoresFiltro = listaProfesoresFiltro;
+    }
+
+    public List getListaProfesoresFiltro() {
+        return listaProfesoresFiltro;
+    }
+
+    public void setListaCriteriosFiltro(List listaCriteriosFiltro) {
+        this.listaCriteriosFiltro = listaCriteriosFiltro;
+    }
+
+    public List getListaCriteriosFiltro() {
+        return listaCriteriosFiltro;
     }
 }

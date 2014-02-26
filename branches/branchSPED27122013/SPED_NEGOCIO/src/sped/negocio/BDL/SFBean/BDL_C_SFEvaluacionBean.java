@@ -17,6 +17,7 @@ import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 
@@ -729,5 +730,24 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             return null;
         }
     }
-
+    
+    public List<Evaluacion> getEvaluaciones_DesempenoDocentes(BeanFiltrosGraficos beanFiltros) {
+        try{
+            String ejbQl = " SELECT eva " +
+                           " FROM Evaluacion eva, Main ma, Aula au, Sede sed " +
+                           " WHERE eva.main.nidMain=ma.nidMain " +
+                           " and ma.aula.nidAula=au.nidAula " +
+                           " and au.sede.nidSede=sed.nidSede and eva.estadoEvaluacion='EJECUTADO'";
+              
+              if(beanFiltros.getNidSede() != null){ System.out.println("Hay nidSede");                
+                    ejbQl = ejbQl.concat(" and sed.nidSede="+beanFiltros.getNidSede());
+                }
+                
+                List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();           
+                return eva;         
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }   
+        }
 }

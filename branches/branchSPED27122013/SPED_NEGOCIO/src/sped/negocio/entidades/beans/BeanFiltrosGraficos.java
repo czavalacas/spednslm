@@ -29,8 +29,13 @@ public class BeanFiltrosGraficos implements Serializable {
     public BeanGrado nombreGrado;
     public BeanProfesor nombreProfesor;
     public BeanCriterio nombreCriterio;
-
-
+        
+    //Campo a Mostrar en tabla
+    public String campoFiltroTrabla;
+    
+    //index
+    public int index;
+    
     public void setNidSede(String nidSede) {
         this.nidSede = nidSede;
     }
@@ -157,5 +162,21 @@ public class BeanFiltrosGraficos implements Serializable {
 
     public BeanCriterio getNombreCriterio() {
         return nombreCriterio;
+    }
+
+    public void setCampoFiltroTrabla(String campoFiltroTrabla) {
+        this.campoFiltroTrabla = campoFiltroTrabla;
+    }
+
+    public String getCampoFiltroTrabla() {
+        return campoFiltroTrabla;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

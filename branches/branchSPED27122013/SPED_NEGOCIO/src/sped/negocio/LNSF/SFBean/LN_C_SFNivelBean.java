@@ -27,7 +27,7 @@ import sped.negocio.entidades.beans.BeanNivel;
 
 @Stateless(name = "LN_C_SFNivel", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFNivel")
 public class LN_C_SFNivelBean implements LN_C_SFNivelRemote, 
-                                            LN_C_SFNivelLocal {
+                                         LN_C_SFNivelLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -71,5 +71,25 @@ public class LN_C_SFNivelBean implements LN_C_SFNivelRemote,
             e.printStackTrace();
             return null;
         }        
+    }
+    
+    public List<BeanNivel> getNivelLNPorSede_ByOrden(Object nidSede, Object nidArea, Object nidCurso){
+        List<BeanNivel> lstBean = new ArrayList();
+        String a=null;String b=null;String c=null;
+        if(nidSede!=null){
+            a=nidSede.toString();;
+        }
+        if(nidArea!=null){
+            b=nidArea.toString();;
+        }
+        if(nidCurso!=null){
+            c=nidCurso.toString();;
+        }
+        List<Nivel> lstNivel = bdL_C_SFNivelLocal.findNivelesPorSede_ByOrden(a, b, c);
+        for(Nivel n : lstNivel){
+            BeanNivel bean = (BeanNivel) mapper.map(n, BeanNivel.class);
+            lstBean.add(bean);
+        }
+        return lstBean;
     }
 }
