@@ -104,10 +104,17 @@ public class bDesempenoEvaluador {
             sessionDesempenoEvaluador.setLstEvaSede(llenarComboEvaSede());
             sessionDesempenoEvaluador.setLstEvaGeneral(llenarComboEvaGeneral());
             sessionDesempenoEvaluador.setLstSede(llenarComboSede());
-            sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());  
-            sessionDesempenoEvaluador.setFechaActual(cal.getTime());
-            cal.add(Calendar.MONTH, -1);
-            sessionDesempenoEvaluador.setFechaAnterior(cal.getTime());            
+            sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());                        
+            try{                
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                String resultado = formato.format(cal.getTime()); 
+                sessionDesempenoEvaluador.setFechaActual(formato.parse(resultado));
+                cal.add(Calendar.MONTH, -1);
+                resultado = formato.format(cal.getTime()); 
+                sessionDesempenoEvaluador.setFechaAnterior(formato.parse(resultado));  
+            }catch(Exception e){
+                e.printStackTrace();
+            }                      
             sessionDesempenoEvaluador.setFechaEI(sessionDesempenoEvaluador.getFechaAnterior());
             sessionDesempenoEvaluador.setFechaEI_aux(sessionDesempenoEvaluador.getFechaAnterior());
             sessionDesempenoEvaluador.setFechaEF(sessionDesempenoEvaluador.getFechaActual());

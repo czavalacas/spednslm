@@ -28,6 +28,8 @@ public class BeanEvaluacion implements Serializable {
         private List<BeanResultado> resultadoLista;
         private String comentarioEvaluador;
         private int nidProblema;
+        private String comentario_evaluador; 
+        private String comentario_profesor;
         ///atributos para la busqueda filtro///
         private Integer nidSede;
         private Integer nidNivel;
@@ -362,6 +364,22 @@ public class BeanEvaluacion implements Serializable {
 
     public double getPorcentajeDesempeno() {
         return porcentajeDesempeno;
+    }
+
+    public void setComentario_evaluador(String comentario_evaluador) {
+        this.comentario_evaluador = comentario_evaluador;
+    }
+
+    public String getComentario_evaluador() {
+        return comentario_evaluador;
+    }
+
+    public void setComentario_profesor(String comentario_profesor) {
+        this.comentario_profesor = comentario_profesor;
+    }
+
+    public String getComentario_profesor() {
+        return comentario_profesor;
     }
 
 }
