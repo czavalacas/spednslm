@@ -10,4 +10,5 @@ import sped.negocio.entidades.admin.Profesor;
 public interface BDL_C_SFProfesorRemote {
     List<Profesor> getProfesorFindAll();
     Profesor getProfesorBydni(String dni);
+    List<Profesor> findProfesorPorSede_ByOrden(String nidSede, String nidArea, String nidCurso, String nidNivel, String nidGrado);    
 }

@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFNivelLocal;
 import sped.negocio.BDL.IR.BDL_C_SFNivelRemote;
+import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Grado;
 import sped.negocio.entidades.admin.Nivel;
 
@@ -41,7 +42,7 @@ public class BDL_C_SFNivelBean implements BDL_C_SFNivelRemote,
             String ejbQl =    "SELECT distinct niv FROM Main ma, " +
                               " Curso cur , " +
                               " Profesor prof," +
-                              " Nivel niv," +
+                              " Niel niv," +
                               " AreaAcademica ac" +
                               " WHERE ma.curso.nidCurso=cur.nidCurso " +
                               " and cur.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica " +
@@ -74,4 +75,39 @@ public class BDL_C_SFNivelBean implements BDL_C_SFNivelRemote,
              throw re;
          }
      }  
+    
+    public List<Nivel> findNivelesPorSede_ByOrden(String nidSede, String nidArea, String nidCurso) {
+        try {
+            String  ejbQl =   " SELECT distinct niv from Nivel niv," +
+                              " Sede sed, SedeNivel seni " +
+             /**nuevo */      " ,Main ma, Aula au, Curso cu, AreaAcademica aca "+
+                              " where  niv.nidNivel=seni.nivel.nidNivel and seni.sede.nidSede=sed.nidSede " +
+                              " and au.sede.nidSede=sed.nidSede and ma.aula.nidAula=au.nidAula" +
+                              " and ma.curso.nidCurso=cu.nidCurso and cu.areaAcademica.nidAreaAcademica=aca.nidAreaAcademica ";
+            
+            if (nidSede != null) {               
+                
+                    ejbQl = ejbQl.concat(" and sed.nidSede="+nidSede);               
+            }
+            
+            if (nidArea != null) {               
+                
+                    ejbQl = ejbQl.concat(" and aca.nidAreaAcademica="+nidArea);               
+            }
+            
+            if (nidCurso != null) {               
+                
+                    ejbQl = ejbQl.concat(" and cu.nidCurso="+nidCurso);               
+            }
+                
+                    ejbQl = ejbQl.concat(" ORDER by niv.descripcionNivel");
+            
+            List<Nivel> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+            }
 }

@@ -18,6 +18,7 @@ import sped.negocio.BDL.IL.BDL_C_SFGradoLocal;
 import sped.negocio.BDL.IR.BDL_C_SFGradoRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Grado;
+import sped.negocio.entidades.admin.Nivel;
 import sped.negocio.entidades.admin.Sede;
 
 @Stateless(name = "BDL_C_SFGrado", mappedName = "SPED_APP-SPED_NEGOCIO-BDL_C_SFGrado")
@@ -75,4 +76,26 @@ public class BDL_C_SFGradoBean implements BDL_C_SFGradoRemote,
              throw re;
          }
      }  
+    
+    public List<Grado> findGradosPorNivel_ByOrden(String nidNivel) {
+        try {
+            String ejbQl =    " SELECT distinct grad from Grado grad," +
+                              " GradoNivel grani, Nivel niv " +
+                              " where 1=1 ";
+            if (nidNivel != null) {               
+                
+                    ejbQl = ejbQl.concat(" and grad.nidGrado=grani.grado.nidGrado " +
+                                         " and grani.nivel.nidNivel=niv.nidNivel "+
+                                         " and niv.nidNivel="+nidNivel);               
+            }
+            
+            ejbQl = ejbQl.concat(" ORDER by grad.descripcionGrado");
+            
+            List<Grado> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }}
 }

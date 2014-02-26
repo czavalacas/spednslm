@@ -55,6 +55,20 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
         }
         return list;
     }
+    
+    public List<BeanCurso> findCursosPorAreaAcademica_ByOrden(String nidAreaAcademica, String nidSede){
+        List<Curso> listaCursos=bdl_C_SFCursoLocal.findCursosPorAreaAcademica_ByOrden(nidAreaAcademica, nidSede);
+        List<BeanCurso> list=new ArrayList<BeanCurso>();
+        MapperIF mapper = new DozerBeanMapper();      
+        Iterator it=listaCursos.iterator();
+        while(it.hasNext()){
+            Curso entida= (Curso)it.next();
+            BeanCurso bean = (BeanCurso)mapper.map(entida,BeanCurso.class);
+            list.add(bean);
+        }
+        return list;
+    }
+    
     public List<BeanCurso>  getlistaCursos(){
         List<Curso> listaCursos=bdl_C_SFCursoLocal.getCursoFindAll();
         List<BeanCurso> list=new ArrayList<BeanCurso>();
@@ -67,6 +81,7 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
         }
         return list;
     }
+
         
     public BeanCurso findConstrainByIdLN(int id){
         try{
