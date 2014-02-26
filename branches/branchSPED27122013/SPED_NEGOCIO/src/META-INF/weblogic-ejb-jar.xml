@@ -319,4 +319,8 @@
     </stateless-session-descriptor>
     <enable-call-by-reference>true</enable-call-by-reference>
   </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_C_SFCorreo</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
 </weblogic-ejb-jar>

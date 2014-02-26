@@ -163,9 +163,9 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             try{                 
                 if(beanUsuario != null){
                     String strQuery = "SELECT eva " +
-                                  "FROM Evaluacion eva, " +
-                                  "     Usuario usu " + 
-                                      "WHERE eva.nidEvaluador=usu.nidUsuario ";
+                                      " FROM Evaluacion eva, " +
+                                      " Usuario usu " + 
+                                      " WHERE eva.nidEvaluador=usu.nidUsuario ";
                     int nidRol = beanUsuario.getRol().getNidRol();
                     if(nidRol == 2 || nidRol == 4 || nidRol == 5){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
@@ -644,8 +644,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 strQuery2 = strQuery2.concat(" ORDER BY eva.endDate DESC ");
             }          
             if(tipoBusqueda == 3){
-                strQuery2 = strQuery2.concat(",eva.endDate "+strQuery+" GROUP BY CAST(eva.endDate AS date) ");
-                strQuery2 = strQuery2.concat(" ORDER BY eva.endDate DESC ");
+                strQuery2 = strQuery2.concat(",CAST(eva.endDate AS date) "+strQuery+" GROUP BY CAST(eva.endDate AS date) ");
+                strQuery2 = strQuery2.concat(" ORDER BY eva.endDate ASC ");
             }
             if(tipoBusqueda == 4){
                 strQuery2 = strQuery2.concat("SELECT COUNT(DISTINCT eva) AS cont , eva.nidProblema" +strQuery);

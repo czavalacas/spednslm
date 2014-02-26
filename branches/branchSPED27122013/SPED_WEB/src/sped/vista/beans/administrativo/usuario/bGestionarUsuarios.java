@@ -116,6 +116,7 @@ public class bGestionarUsuarios {
     private UISelectItems si8;
     private RichSelectOneChoice choiceTipoNivel;
     private UISelectItems si9;
+    private RichInputText itCor;
 
     public bGestionarUsuarios() {
     }
@@ -286,7 +287,8 @@ public class bGestionarUsuarios {
     public void btnGestionarUsuario_aux(){
         ln_T_SFUsuarioRemote.gestionUsuarioLN(sessionGestionarUsuarios.getTipoEvento(), 
                                               sessionGestionarUsuarios.getNombres(),
-                                              sessionGestionarUsuarios.getDni(), 
+                                              sessionGestionarUsuarios.getDni(),
+                                              sessionGestionarUsuarios.getCorreo(),
                                               sessionGestionarUsuarios.getNidRol(), 
                                               sessionGestionarUsuarios.getNidAreaAcademica(), 
                                               sessionGestionarUsuarios.getUsuario(), 
@@ -434,6 +436,7 @@ public class bGestionarUsuarios {
         if(itNombres!=null){
             itNombres.resetValue();
             itDni.resetValue();
+            itCor.resetValue();
             choiceTipoArea.resetValue();
             choiceTipoRol.resetValue();
             itUsuario.resetValue();
@@ -771,5 +774,13 @@ public class bGestionarUsuarios {
 
     public UISelectItems getSi9() {
         return si9;
+    }
+
+    public void setItCor(RichInputText itCor) {
+        this.itCor = itCor;
+    }
+
+    public RichInputText getItCor() {
+        return itCor;
     }
 }
