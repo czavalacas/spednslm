@@ -166,7 +166,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     String strQuery = "SELECT eva " +
                                       " FROM Evaluacion eva, " +
                                       " Usuario usu " + 
-                                      " WHERE eva.nidEvaluador=usu.nidUsuario ";
+                                      " WHERE eva.nidEvaluador=usu.nidUsuario " +
+                                      " AND upper(eva.estadoEvaluacion) != 'PENDIENTE' ";
                     int nidRol = beanUsuario.getRol().getNidRol();
                     if(nidRol == 2 || nidRol == 4 || nidRol == 5){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
