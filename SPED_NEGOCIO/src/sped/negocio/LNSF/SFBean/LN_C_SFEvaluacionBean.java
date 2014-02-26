@@ -39,8 +39,13 @@ import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
+
+import sped.negocio.entidades.beans.BeanFiltrosGraficos;
+
 import sped.negocio.entidades.beans.BeanIndicadorValorWS;
+
 import sped.negocio.entidades.beans.BeanResultado;
+import sped.negocio.entidades.beans.BeanResultadoCriterio;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 import sped.negocio.entidades.eval.Resultado;
@@ -455,7 +460,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         }
         return lstBean;
     }
-    
     /**
      * Metodo que trae la evaluacion consultada en el Movil - WS
      * @author dfloresgonz
@@ -502,4 +506,24 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         beanEvaluacion.setValores("1-"+size);
         return beanEvaluacion;
     }
+    //terminarrrrrr
+    public double promedioTotalDeEvaluacion(BeanFiltrosGraficos beanFiltros){
+      double total=0.0;       
+        List<Evaluacion> lstEva = bdL_C_SFEvaluacionLocal.getEvaluaciones_DesempenoDocentes(beanFiltros);        
+        for (Evaluacion a : lstEva) {
+            double promedioTotalCriterio=0.0;
+            List<BeanResultadoCriterio> beanResultadoCrite=ln_C_SFResultadoCriterioLocal.getResultadoCriterio_ByEvaluacion(a.getNidEvaluacion());
+            for (BeanResultadoCriterio b : beanResultadoCrite) {
+                promedioTotalCriterio=b.getValor();
+                promedioTotalCriterio++;
+                }
+            total=promedioTotalCriterio/beanResultadoCrite.size();
+            total++;
+        }
+      
+      
+      
+        return total;
+    }
+    
 }
