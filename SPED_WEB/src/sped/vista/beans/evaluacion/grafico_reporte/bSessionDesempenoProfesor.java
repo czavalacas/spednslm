@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import sped.negocio.entidades.beans.BeanFiltrosGraficos;
+import sped.negocio.entidades.beans.BeanIndicador;
 
 public class bSessionDesempenoProfesor implements Serializable {
     
@@ -18,10 +19,12 @@ public class bSessionDesempenoProfesor implements Serializable {
     public String nidGrado;
     public String dniDocente;
     public String nidCriterio;
+    public String nidIndicador;
     public Date fechaInicio;
     public Date fechaFin;
     public List<BeanFiltrosGraficos> listaFiltros=new ArrayList<BeanFiltrosGraficos>();
     public BeanFiltrosGraficos beanFiltros=new BeanFiltrosGraficos();
+    public BeanIndicador beanIndicador=new BeanIndicador();
     public int exec=0;
     
     private List listaSedesFiltro;
@@ -31,6 +34,11 @@ public class bSessionDesempenoProfesor implements Serializable {
     private List listaGradosFiltro;
     private List listaProfesoresFiltro;
     private List listaCriteriosFiltro;
+    
+    private List<BeanIndicador> listaIndicadoresFiltro=new ArrayList<BeanIndicador>();
+    private boolean estadoTablaIndicadores=false;
+    
+    private transient List<Object[]> lstEvaBarChart;
     
     public bSessionDesempenoProfesor() {
     }
@@ -187,5 +195,45 @@ public class bSessionDesempenoProfesor implements Serializable {
 
     public List getListaCriteriosFiltro() {
         return listaCriteriosFiltro;
+    }
+
+    public void setListaIndicadoresFiltro(List<BeanIndicador> listaIndicadoresFiltro) {
+        this.listaIndicadoresFiltro = listaIndicadoresFiltro;
+    }
+
+    public List<BeanIndicador> getListaIndicadoresFiltro() {
+        return listaIndicadoresFiltro;
+    }
+
+    public void setEstadoTablaIndicadores(boolean estadoTablaIndicadores) {
+        this.estadoTablaIndicadores = estadoTablaIndicadores;
+    }
+
+    public boolean isEstadoTablaIndicadores() {
+        return estadoTablaIndicadores;
+    }
+
+    public void setNidIndicador(String nidIndicador) {
+        this.nidIndicador = nidIndicador;
+    }
+
+    public String getNidIndicador() {
+        return nidIndicador;
+    }
+
+    public void setBeanIndicador(BeanIndicador beanIndicador) {
+        this.beanIndicador = beanIndicador;
+    }
+
+    public BeanIndicador getBeanIndicador() {
+        return beanIndicador;
+    }
+
+    public void setLstEvaBarChart(List<Object[]> lstEvaBarChart) {
+        this.lstEvaBarChart = lstEvaBarChart;
+    }
+
+    public List<Object[]> getLstEvaBarChart() {
+        return lstEvaBarChart;
     }
 }

@@ -40,6 +40,7 @@ import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
 
+import sped.negocio.entidades.beans.BeanEvaluacion_DP;
 import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 
 import sped.negocio.entidades.beans.BeanIndicadorValorWS;
@@ -171,6 +172,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
      * @param eva entidad evaluacion 
      * @return
      */
+    
     public double resultadoBeanEvaluacionAux_WS(Evaluacion eva){
         double resu = 0;
         int tamano = eva.getResultadoCriterioList().size();
@@ -323,8 +325,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEvaGraficos.setResto("16-20");
             beanEvaGraficos.setCeroDiezCant(cant1);
             beanEvaGraficos.setOnceQuinceCant(cant2);
-            beanEvaGraficos.setRestoCant(cant3);
-            
+            beanEvaGraficos.setRestoCant(cant3);            
         }
         return lstBeanEvas;
     }
@@ -506,23 +507,82 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return beanEvaluacion;
     }
     //terminarrrrrr
-    public double promedioTotalDeEvaluacion(BeanFiltrosGraficos beanFiltros){
-      double total=0.0;       
-        List<Evaluacion> lstEva = bdL_C_SFEvaluacionLocal.getEvaluaciones_DesempenoDocentes(beanFiltros);        
-        for (Evaluacion a : lstEva) {
-            double promedioTotalCriterio=0.0;
-            List<BeanResultadoCriterio> beanResultadoCrite=ln_C_SFResultadoCriterioLocal.getResultadoCriterio_ByEvaluacion(a.getNidEvaluacion());
-            for (BeanResultadoCriterio b : beanResultadoCrite) {
-                promedioTotalCriterio=b.getValor();
-                promedioTotalCriterio++;
-                }
-            total=promedioTotalCriterio/beanResultadoCrite.size();
-            total++;
+    public List<BeanEvaluacion_DP> desempeñoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros){
+    List<BeanEvaluacion_DP> lstBeanEvas = new ArrayList<BeanEvaluacion_DP>();
+    List<Evaluacion> lstEvas =
+        bdL_C_SFEvaluacionLocal.getEvaluaciones_DesempenoDocentes(beanFiltros); 
+        for(Evaluacion eva : lstEvas){
+            BeanEvaluacion_DP beanEva = new BeanEvaluacion_DP();
+            beanEva.setNidEvaluacion(eva.getNidEvaluacion());
+            beanEva.setNidEvaluador(eva.getNidEvaluador());
+            beanEva.setEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidEvaluador()));
+            beanEva.setPlanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidPlanificador()));
+            beanEva.setProfesor(eva.getMain().getProfesor().getApellidos() + " " +
+                                eva.getMain().getProfesor().getNombres());
+            beanEva.setCurso(eva.getMain().getCurso().getDescripcionCurso());
+            beanEva.setStartDate(eva.getStartDate());
+            beanEva.setEndDate(eva.getEndDate());
+            beanEva.setSede(eva.getMain().getAula().getSede().getDescripcionSede());
+            beanEva.setAreaAcademica(eva.getMain().getCurso().getAreaAcademica().getDescripcionAreaAcademica());
+            BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
+            beanEva.setTipoVisita(constr.getDescripcionAMostrar());
+            beanEva.setAula(eva.getMain().getAula().getDescripcionAula());     
+            double nota = resultadoBeanEvaluacionAux_WS(eva);  
+            beanEva.setNotaFinal(nota);
+            lstBeanEvas.add(beanEva);
         }
+          //traer el peso de cada valor de indicador por evaluacion.
       
-      
-      
-        return total;
-    }
-    
+       // System.out.println("RESULTADO DE LOS INDICADORES "+resu);
+        return lstBeanEvas;
 }
+        /**
+         * Metodo que trae el promedio de las notas finales de una lista de evaluaciones
+         * @author czavalacas
+         * @since 27.02.2014
+         * @param list<BeanEvaluacionWS>
+         * @return resultado
+         */
+        
+    public double promedioGeneralPorFiltroDesempeñoDocente(List<BeanEvaluacion_DP> listaEva_WS){
+        double suma=0;
+        double resu=0;
+        List<BeanEvaluacion_DP> listEvaWS=new ArrayList<BeanEvaluacion_DP>();
+        listEvaWS=listaEva_WS;
+        for(BeanEvaluacion_DP a: listEvaWS){
+            System.out.println("nota final "+a.getNotaFinal()+" - "+a.getAreaAcademica()+" "+a.getCurso());
+            suma=suma+a.getNotaFinal();
+        }
+        if(listEvaWS!=null){
+        if(listEvaWS.size()!=0){
+            resu=suma/listEvaWS.size(); 
+        }
+        }       
+        return resu;        
+    }
+        
+        /**Si beanFiltros.nidIndicador!= null  : Trae el promedio del Indicador elejido */
+        public double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, int nidIndicador){
+            List<Evaluacion> listaEvaluaciones =
+                bdL_C_SFEvaluacionLocal.getEvaluaciones_DesempenoDocentes(beanFiltros); 
+            double resu = 0;
+            int tamano = listaEvaluaciones.size();
+            int size=0;
+            if(tamano != 0){
+                double total = 0;
+                for(int i = 0; i < tamano; i++){
+                    for(int j=0; j<listaEvaluaciones.get(i).getResultadoLista().size(); j++){
+                        if(listaEvaluaciones.get(i).getResultadoLista().get(j).getCriterioIndicador().getIndicador().getNidIndicador()==nidIndicador){
+                        total = total + listaEvaluaciones.get(i).getResultadoLista().get(j).getValor();System.out.println("Valor del indicador "+listaEvaluaciones.get(i).getResultadoLista().get(j).getValor());
+                   size++;
+                    }
+                   
+                    }
+                }
+                int r = (int) Math.round( (total/size) * 100);
+                resu = r / 100.0;
+            }
+            return resu;
+        }
+    
+    }
