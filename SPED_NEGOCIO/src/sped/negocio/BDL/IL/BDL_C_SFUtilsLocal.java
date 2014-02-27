@@ -28,4 +28,5 @@ public interface BDL_C_SFUtilsLocal {
     List<BeanComboString> getTipoVisita(String id,String desc);
     List<BeanCombo> getAreas_WS(String id, String desc);
     List<BeanCombo> getProblemas_WS(String id, String desc);
+    List<BeanCombo> getUsuarios_WS(String id, String desc);
 }
