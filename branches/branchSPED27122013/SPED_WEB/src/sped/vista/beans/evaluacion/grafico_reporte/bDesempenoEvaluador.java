@@ -238,10 +238,7 @@ public class bDesempenoEvaluador {
                                                 String nombre,
                                                 String estado,
                                                 String desProb,
-                                                String desRol){
-        if(tipoEvento == 3){
-            System.out.println("evento3"+sessionDesempenoEvaluador.getFechaEI()+" "+sessionDesempenoEvaluador.getFechaEF());
-        }       
+                                                String desRol){      
        return ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(tipoEvento,nombre,estado,desProb, desRol,
                                                                       sessionDesempenoEvaluador.getSelectedRol(),
                                                                       sessionDesempenoEvaluador.getSelectedEvaluador(),
@@ -280,13 +277,9 @@ public class bDesempenoEvaluador {
             contNoEje = lst.get(i).getCantNoEjecutado();
             contNoEjeJ = lst.get(i).getCantNoJEjecutado();
             Object[] obj1 = { nombreEvaluador, "Ejecutado", contEjecutados};
-            System.out.println(nombreEvaluador+"   "+contEjecutados+"  Ejecutado");
             Object[] obj2 = { nombreEvaluador, "Pendiente", contPendiente};
-            System.out.println(nombreEvaluador+"   "+contPendiente+"  Pendiente");
             Object[] obj3 = { nombreEvaluador, "No ejecutado", contNoEje};
-            System.out.println(nombreEvaluador+"   "+contNoEje+"  No ejecutado");
             Object[] obj4 = { nombreEvaluador, "No Justifico", contNoEjeJ};
-            System.out.println(nombreEvaluador+"   "+contNoEjeJ+"  No Justifico");
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
@@ -306,13 +299,9 @@ public class bDesempenoEvaluador {
             contNoEje = lst.get(i).getCantNoEjecutado();
             contNoEjeJ = lst.get(i).getCantNoJEjecutado();
             Object[] obj1 = { date, "Ejecutado", contEjecutados};
-            System.out.println(date+"   "+contEjecutados+"  Ejecutado");
             Object[] obj2 = { date, "Pendiente", contPendiente};
-            System.out.println(date+"   "+contPendiente+"  Pendiente");
             Object[] obj3 = { date, "No ejecutado", contNoEje};
-            System.out.println(date+"   "+contNoEje+"  No ejecutado");
             Object[] obj4 = { date, "No Justifico", contNoEjeJ};
-            System.out.println(date+"   "+contNoEjeJ+"  No Justifico");
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
