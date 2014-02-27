@@ -304,4 +304,74 @@
       <property
          name="sdm:polyPoints">L58,902.3379,387.17188,436.84387,302.60938,R62</property>
    </ControlFlowCase>
+   <View
+      id="View28">
+      <property
+         name="activityId">Consultar_PO</property>
+      <property
+         name="page">/ParteOcurrencia/Consultar_PO.amx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Consultar_PO&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">609.15625</property>
+      <property
+         name="x">577.0</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase29"
+      from="View3"
+      to="View28">
+      <property
+         name="fromOutcome">consultar_po</property>
+      <property
+         name="sdm:polyPoints">B44,388.5,348.76184,573.5,555.1719,T44</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase30"
+      from="View28"
+      to="View3">
+      <property
+         name="fromOutcome">BACK_MAIN</property>
+      <property
+         name="sdm:polyPoints">T56,580.5,552.5067,395.5,346.10938,B56</property>
+   </ControlFlowCase>
+   <View
+      id="View31">
+      <property
+         name="activityId">Detalle_PO</property>
+      <property
+         name="page">/ParteOcurrencia/Detalle_PO.amx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Detalle_PO&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">611.09375</property>
+      <property
+         name="x">846.0</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase32"
+      from="View28"
+      to="View31">
+      <property
+         name="fromOutcome">detalle_po</property>
+      <property
+         name="sdm:polyPoints">R46,618.03625,605.6719,805.0,607.6094,L46</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase33"
+      from="View31"
+      to="View28">
+      <property
+         name="fromOutcome">_BACK</property>
+      <property
+         name="sdm:polyPoints">L54,804.96375,614.6094,618.0,612.6719,R54</property>
+   </ControlFlowCase>
 </SDM>

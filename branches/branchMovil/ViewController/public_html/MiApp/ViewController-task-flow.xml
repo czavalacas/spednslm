@@ -42,6 +42,11 @@
       <managed-bean-class>mobile.respaldo.parteocu.bBuscarMain</managed-bean-class>
       <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean id="__41">
+      <managed-bean-name>bConsultar_PO</managed-bean-name>
+      <managed-bean-class>mobile.respaldo.parteocu.bConsultar_PO</managed-bean-class>
+      <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <view id="inicio">
       <page>/inicio.amx</page>
     </view>
@@ -65,6 +70,12 @@
     </view>
     <view id="Registrar_PO">
       <page>/ParteOcurrencia/Registrar_PO.amx</page>
+    </view>
+    <view id="Consultar_PO">
+      <page>/ParteOcurrencia/Consultar_PO.amx</page>
+    </view>
+    <view id="Detalle_PO">
+      <page>/ParteOcurrencia/Detalle_PO.amx</page>
     </view>
     <control-flow-rule id="__2">
       <from-activity-id>inicio</from-activity-id>
@@ -90,6 +101,10 @@
       <control-flow-case id="__26">
         <from-outcome>registrar_parteocurr</from-outcome>
         <to-activity-id>Buscar_Main</to-activity-id>
+      </control-flow-case>
+      <control-flow-case id="__35">
+        <from-outcome>consultar_po</from-outcome>
+        <to-activity-id>Consultar_PO</to-activity-id>
       </control-flow-case>
     </control-flow-rule>
     <control-flow-rule id="__9">
@@ -160,6 +175,24 @@
       <control-flow-case id="__34">
         <from-outcome>000</from-outcome>
         <to-activity-id>Main</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__36">
+      <from-activity-id>Consultar_PO</from-activity-id>
+      <control-flow-case id="__37">
+        <from-outcome>BACK_MAIN</from-outcome>
+        <to-activity-id>Main</to-activity-id>
+      </control-flow-case>
+      <control-flow-case id="__38">
+        <from-outcome>detalle_po</from-outcome>
+        <to-activity-id>Detalle_PO</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__39">
+      <from-activity-id>Detalle_PO</from-activity-id>
+      <control-flow-case id="__40">
+        <from-outcome>_BACK</from-outcome>
+        <to-activity-id>Consultar_PO</to-activity-id>
       </control-flow-case>
     </control-flow-rule>
   </task-flow-definition>
