@@ -162,7 +162,7 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                                                   String curso,
                                                   String aula){
         try {
-            String qlString = "SELECT NEW sped.negocio.entidades.beans.BeanMainWS(m.nidMain," +
+           String qlString = "SELECT NEW sped.negocio.entidades.beans.BeanMainWS(m.nidMain," +
                                                                                  "m.profesor.apellidos," +
                                                                                  "m.profesor.nombres," +
                                                                                  "m.curso.descripcionCurso," +
@@ -176,22 +176,22 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                                                                                  "m.curso.areaAcademica.descripcionAreaAcademica) " +
                               "FROM Main m " +
                               "WHERE 1 = 1 ";
-            if(nidSede != null){
-                if(nidSede != 0){
-                    qlString = qlString.concat(" AND m.aula.sede.nidSede = :nidSede ");
-                }
-            }
-            if(profesor != null){
-                qlString = qlString.concat(" AND UPPER(CONCAT(m.profesor.apellidos,' ',m.profesor.nombres)) like UPPER(:profesor) ");
-            }
-            if(curso != null){
-                qlString = qlString.concat(" AND UPPER(m.curso.descripcionCurso) like UPPER(:curso) ");
-            }
-            if(aula != null){
-                qlString = qlString.concat(" AND UPPER(m.aula.descripcionAula) like UPPER(:aula) ");
-            }
+           if(nidSede != null){
+               if(nidSede != 0){
+                   qlString = qlString.concat(" AND m.aula.sede.nidSede = :nidSede ");
+               }
+           }
+           if(profesor != null){
+               qlString = qlString.concat(" AND UPPER(CONCAT(m.profesor.apellidos,' ',m.profesor.nombres)) like UPPER(:profesor) ");
+           }
+           if(curso != null){
+               qlString = qlString.concat(" AND UPPER(m.curso.descripcionCurso) like UPPER(:curso) ");
+           }
+           if(aula != null){
+               qlString = qlString.concat(" AND UPPER(m.aula.descripcionAula) like UPPER(:aula) ");
+           }
            qlString = qlString.concat(" ORDER BY m.profesor.apellidos ASC ");
-            Query query = em.createQuery(qlString);
+           Query query = em.createQuery(qlString);
            if(nidSede != null){
                if(nidSede != 0){
                    query.setParameter("nidSede", nidSede);

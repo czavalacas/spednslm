@@ -20,11 +20,13 @@ import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFLeyendaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFMainLocal;
+import sped.negocio.LNSF.IL.LN_C_SFParteOcurrenciaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_T_SFEvaluacionLocal;
+import sped.negocio.LNSF.IL.LN_T_SFParteOcurrenciaLocal;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCombo;
@@ -38,6 +40,7 @@ import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.beans.BeanIndicadorValorWS;
 import sped.negocio.entidades.beans.BeanLeyendaWS;
 import sped.negocio.entidades.beans.BeanMainWS;
+import sped.negocio.entidades.beans.BeanParteOcurrencia;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -51,8 +54,6 @@ public class WS_SPED {
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     @EJB
     private LN_C_SFEvaluacionLocal ln_C_SFEvaluacionLocal;
-    @EJB
-    private LN_C_SFAreaAcademicaLocal ln_C_SFAreaAcademicaLocal;
     @EJB
     private LN_C_SFSedeLocal ln_C_SFSedeLocal;
     @EJB
@@ -69,6 +70,10 @@ public class WS_SPED {
     private LN_C_SFUtilsLocal ln_C_SFUtilsLocal;
     @EJB
     private LN_C_SFMainLocal ln_C_SFMainLocal;
+    @EJB
+    private LN_T_SFParteOcurrenciaLocal ln_T_SFParteOcurrenciaLocal;
+    @EJB
+    private LN_C_SFParteOcurrenciaLocal ln_C_SFParteOcurrenciaLocal;
 
     @WebMethod
     public BeanUsuario autenticarUsuarioLN(@WebParam(name = "arg0") String usuario,
@@ -240,10 +245,6 @@ public class WS_SPED {
                                              @WebParam(name = "arg1") String profesor,
                                              @WebParam(name = "arg2") String curso,
                                              @WebParam(name = "arg3") String aula){
-        Utiles.sysout("nidSede: "+nidSede);
-        Utiles.sysout("profesor: "+profesor);
-        Utiles.sysout("curso: "+curso);
-        Utiles.sysout("aula: "+aula);
         return ln_C_SFMainLocal.getMainByAttr_LN_WS(nidSede, 
                                                        profesor,
                                                        curso, 
@@ -253,5 +254,31 @@ public class WS_SPED {
     @WebMethod
     public List<BeanCombo> getProblemas_LN_WS(){
         return ln_C_SFUtilsLocal.getProblemas_LN_WS();
+    }
+
+    @WebMethod
+    public String registrarParteOcurrencia_WS(@WebParam(name = "arg0") Integer nidMain,
+                                              @WebParam(name = "arg1") String comentario,
+                                              @WebParam(name = "arg2") Integer nidProblema,
+                                              @WebParam(name = "arg3") Integer nidUsuario){
+        return ln_T_SFParteOcurrenciaLocal.registrarParteOcurrencia_LN(nidMain, 
+                                                                           comentario,
+                                                                           nidProblema,
+                                                                           nidUsuario);
+    }
+
+    @WebMethod
+    public List<BeanParteOcurrencia> getListaPartesOcurrencia_WS(@WebParam(name = "arg0") Date fechaMin,
+                                                                 @WebParam(name = "arg1") Date fechaMax,
+                                                                 @WebParam(name = "arg2") Integer nidProblema,
+                                                                 @WebParam(name = "arg3") String nombreProfesor,
+                                                                 @WebParam(name = "arg4") Integer nidSede,
+                                                                 @WebParam(name = "arg5") Integer nidUsuario) {
+        return ln_C_SFParteOcurrenciaLocal.getListaPartesOcurrencia_LN(fechaMin,
+                                                                            fechaMax, 
+                                                                            nidProblema,
+                                                                            nombreProfesor, 
+                                                                            nidSede, 
+                                                                            nidUsuario);
     }
 }
