@@ -37,7 +37,8 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
     public LN_C_SFPermisosBean() {
     }
     
-    public List<BeanPermiso> getCrearArbolNuevo(int nidRol) {
+    public List<BeanPermiso> getCrearArbolNuevo(int nidRol,
+                                                int nidUsuario) {
         int nivel = 0;
         List<BeanPermiso> listaMenu = new ArrayList<BeanPermiso>();
         BeanPermiso raiz = new BeanPermiso();
@@ -46,7 +47,7 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
             List<Permiso> e_raiz = bdL_C_SFPermisoLocal.getByNidPermiso(0);
             for(int i = 0; i < e_raiz.size(); i++){
                 raiz = setBean(e_raiz.get(i), "S",lstPermisos);
-                raiz = crearArbolAux(nivel, null, null, raiz,nidRol,lstPermisos);
+                raiz = crearArbolAux(nivel, null, null, raiz,nidRol,nidUsuario,lstPermisos);
                 listaMenu.add(raiz);
             }
         }
@@ -58,15 +59,16 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
                                       BeanPermiso padre, 
                                       BeanPermiso raiz,
                                       int nidRol,
+                                      int nidUsuario,
                                       List<Integer> lstPermisos){
         if(nivel == bdL_C_SFPermisoLocal.getNiveles()){
             return raiz;
         }
         if(hijos == null){
-            raiz = setearHijos(raiz,hijos,null,0,1,nidRol,lstPermisos);
-            if(hayHijos(raiz.getListaHijos(),nidRol)){
+            raiz = setearHijos(raiz,hijos,null,0,1,nidRol,nidUsuario,lstPermisos);
+            if(hayHijos(raiz.getListaHijos(),nidRol,nidUsuario)){
                 nivel += 1;
-                raiz = crearArbolAux(nivel, raiz.getListaHijos(), padre, raiz,nidRol,lstPermisos);
+                raiz = crearArbolAux(nivel, raiz.getListaHijos(), padre, raiz,nidRol,nidUsuario,lstPermisos);
             }else{
                 return raiz;
             }
@@ -74,10 +76,10 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
             BeanPermiso hijo = new BeanPermiso();
             for(int i = 0; i <hijos.size(); i++){
                 hijo = hijos.get(i);
-                hijo = setearHijos(raiz,hijos,hijo,hijo.getNidPermiso(),2,nidRol,lstPermisos);
-                if (hayHijos(hijo.getListaHijos(),nidRol)) {
+                hijo = setearHijos(raiz,hijos,hijo,hijo.getNidPermiso(),2,nidRol,nidUsuario,lstPermisos);
+                if (hayHijos(hijo.getListaHijos(),nidRol,nidUsuario)) {
                     nivel += 1;
-                    crearArbolAux(nivel, hijo.getListaHijos(), padre, raiz,nidRol,lstPermisos);
+                    crearArbolAux(nivel, hijo.getListaHijos(), padre, raiz,nidRol,nidUsuario,lstPermisos);
                 } 
             }
         }
@@ -90,11 +92,12 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
                                     int nidp, 
                                     int pv,
                                     int nidRol,
+                                    int nidUsuario,
                                     List<Integer> lstPermisos){
         int bd = (pv == 2) ? nidp : raiz.getNidPermiso();
         BeanPermiso hijosObj = new BeanPermiso();
         hijos = new ArrayList<BeanPermiso>();
-        List<Permiso> lstPerm = bdL_C_SFPermisoLocal.getHijosByPadre(bd,nidRol);
+        List<Permiso> lstPerm = bdL_C_SFPermisoLocal.getHijosByPadre(bd,nidUsuario,nidRol);
         Iterator it = lstPerm.iterator();
         while(it.hasNext()){
             Permiso objP = (Permiso) it.next();
@@ -116,12 +119,13 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
     }
     
     public boolean hayHijos(List<BeanPermiso> lista,
-                              int nidRol){
+                            int nidRol,
+                            int nidUsuario){
             Iterator it = lista.iterator();
             int cant = 0;
             while(it.hasNext()){
                 BeanPermiso papa = (BeanPermiso) it.next();
-                List<Permiso> papHijos = bdL_C_SFPermisoLocal.getHijosByPadre(papa.getNidPermiso(),nidRol);
+                List<Permiso> papHijos = bdL_C_SFPermisoLocal.getHijosByPadre(papa.getNidPermiso(),nidUsuario,nidRol);
                 cant += papHijos.size();
             }
             return (cant > 0) ? true : false;
