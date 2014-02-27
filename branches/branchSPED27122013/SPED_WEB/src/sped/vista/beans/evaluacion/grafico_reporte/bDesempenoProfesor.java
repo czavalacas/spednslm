@@ -16,6 +16,7 @@ import oracle.adf.view.faces.bi.model.GraphDataModel;
 
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
+import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectManyCheckbox;
 
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
@@ -28,10 +29,13 @@ import org.apache.myfaces.trinidad.event.SelectionEvent;
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import org.apache.poi.xslf.usermodel.PieChartDemo;
 
+import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCriterioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
+import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
+import sped.negocio.LNSF.IR.LN_C_SFIndicadorRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFProfesorRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
@@ -40,13 +44,19 @@ import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanCurso;
 
+import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanEvaluacionWS;
+import sped.negocio.entidades.beans.BeanEvaluacion_DP;
 import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 import sped.negocio.entidades.beans.BeanGrado;
+import sped.negocio.entidades.beans.BeanIndicador;
 import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.beans.BeanSede;
 
 import sped.negocio.entidades.beans.BeanUsuario;
+
+import sped.negocio.entidades.eval.Evaluacion;
 
 import sped.vista.Utils.Utils;
 
@@ -69,7 +79,11 @@ public class bDesempenoProfesor {
     private LN_C_SFProfesorRemote ln_C_SFProfesorRemote;
     @EJB
     private LN_C_SFCriterioRemote ln_C_SFCriterioRemote;
-    
+    @EJB
+    private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
+    @EJB
+    private LN_C_SFIndicadorRemote ln_C_SFIndicadorRemote;
+ 
     private bSessionDesempenoProfesor sessionDesempenoProfesor;   
    
     private List listaBarPrueba;
@@ -99,13 +113,14 @@ public class bDesempenoProfesor {
     private RichTable tbFiltrosBusqueda;
     private RichInputDate inputFechaInicio;
     private RichInputDate inputFechaFin;
-   
+    private RichTable tbIndicadoresFiltro;
+    private RichInputText inputIndicador;
 
 
     public bDesempenoProfesor() {
         try {
             initGraphDataModelPie();
-            initGraphDataModelBarPorSede();
+          //  initGraphDataModelBarPorSede();
             initGraphDataModelBarPorArea();
             initGraphDataModelLinePorAño();
             initGraphDataModelBarPorNivel();
@@ -118,8 +133,8 @@ public class bDesempenoProfesor {
     public void methodInvokeOncedOnPageLoad() {           
         if(sessionDesempenoProfesor.getExec()==0){                  
             Utils.sysout("1 POST::>> "+sessionDesempenoProfesor.getExec()); 
-            llenarChoices();  
-            sessionDesempenoProfesor.setExec(1);            
+            llenarChoices();
+            sessionDesempenoProfesor.setExec(1);              
             }
   
     }  
@@ -253,8 +268,12 @@ public class bDesempenoProfesor {
         bean.setDniDocente(sessionDesempenoProfesor.getDniDocente());
         bean.setFechaInicio(sessionDesempenoProfesor.getFechaInicio());
         bean.setFechaFin(sessionDesempenoProfesor.getFechaFin());
-        
-        String mensaje=""; String mensaje2=""; String mensaje3=""; String mensaje4=""; String mensaje5=""; String mensaje6=""; String mensaje7="";
+        if(sessionDesempenoProfesor.getBeanIndicador()!=null){
+            if(sessionDesempenoProfesor.getBeanIndicador().getNidIndicador()!=null){
+                if(sessionDesempenoProfesor.getBeanIndicador().getNidIndicador()!=0){
+        bean.setNidIndicador(sessionDesempenoProfesor.getBeanIndicador().getNidIndicador().toString());}
+            }}
+        String mensaje=""; String mensaje2=""; String mensaje3=""; String mensaje4=""; String mensaje5=""; String mensaje6=""; String mensaje7=""; String mensaje8="";
         
         if(bean.getNidSede()!=null){
             bean.setNombreSede(ln_C_SFSedeRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidSede())));
@@ -284,15 +303,29 @@ public class bDesempenoProfesor {
             bean.setNombreCriterio(ln_C_SFCriterioRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidCriterio())));
             mensaje7=bean.getNombreCriterio().getDescripcionCriterio()+" -";
         }  
-        
-        bean.setCampoFiltroTrabla(mensaje+mensaje2+mensaje3+mensaje4+mensaje5+mensaje6+mensaje7);                 
-        sessionDesempenoProfesor.getListaFiltros().add(bean);   
-        limpiarComboBoxs(); 
-        if (tbFiltrosBusqueda != null) {
-            Utils.unselectFilas(tbFiltrosBusqueda);
-            tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
-            Utils.addTarget(tbFiltrosBusqueda);
-        }      
+        if(bean.getNidIndicador()!=null){
+            bean.setNombreIndicador(sessionDesempenoProfesor.getBeanIndicador());
+            mensaje8=bean.getNombreIndicador().getDescripcionIndicador()+" ";
+        }
+        if(bean.getNidSede()==null && bean.getNidArea()==null && bean.getNidCurso()==null &&bean.getNidNivele()==null&& bean.getNidGrado()==null&&bean.getDniDocente()==null&&bean.getNidCriterio()==null&&bean.getNidIndicador()==null){
+            Utils.sysout("NO HAY ELEJIDO FILTROS");
+        }else{
+            bean.setCampoFiltroTrabla(mensaje+mensaje2+mensaje3+mensaje4+mensaje5+mensaje6+mensaje7+mensaje8);                 
+            sessionDesempenoProfesor.getListaFiltros().add(bean);   
+            if(bean.getNidSede()!=null){//ESTE IF EVITA ACTUALIZAR EL GRAFICO DE SEDES SI NO HAY UN FILTRO DE SEDE ELEGIDO
+                llenarDatadeGrafBarrasSedes();      
+                }
+            
+            limpiarComboBoxs(); 
+            if (tbFiltrosBusqueda != null) {
+                Utils.unselectFilas(tbFiltrosBusqueda);
+                tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
+                Utils.addTarget(tbFiltrosBusqueda);
+            }         
+       
+       
+        }
+                   
         return null;
     }
     
@@ -305,21 +338,65 @@ public class bDesempenoProfesor {
         sessionDesempenoProfesor.setNidNivele(null);
         sessionDesempenoProfesor.setDniDocente(null);
         sessionDesempenoProfesor.setFechaInicio(null);
-        sessionDesempenoProfesor.setFechaFin(null);  
+        sessionDesempenoProfesor.setFechaFin(null);   
+        sessionDesempenoProfesor.setNidIndicador(null);
+        sessionDesempenoProfesor.setBeanIndicador(null); 
+        inputIndicador.resetValue();
         llenarChoices();
         Utils.addTargetMany(choiceAreas,choiceCriterios,choiceCursos,choiceDocente,choiceGrados,choiceNiveles,choiceSedes,inputFechaInicio,inputFechaFin);
+        limpiarTablaIndicadores();
         return null;
     }
+    public String limpiarTablaIndicadores(){       
+        inputIndicador.setValue(null);        
+        sessionDesempenoProfesor.getListaIndicadoresFiltro().clear();
+        sessionDesempenoProfesor.setEstadoTablaIndicadores(false);
+        if (tbIndicadoresFiltro != null) {
+            Utils.unselectFilas(tbIndicadoresFiltro);
+            tbIndicadoresFiltro.setValue(sessionDesempenoProfesor.getListaIndicadoresFiltro());
+            tbIndicadoresFiltro.setVisible(sessionDesempenoProfesor.isEstadoTablaIndicadores());                
+            Utils.addTarget(tbIndicadoresFiltro);
+        }        
+       Utils.addTarget(inputIndicador);
+    return null;}
     
     public String btnLimpiarFiltros() {
          limpiarComboBoxs();
         sessionDesempenoProfesor.getListaFiltros().clear();
+       sessionDesempenoProfesor.getLstEvaBarChart().clear();
         if (tbFiltrosBusqueda != null) {
             Utils.unselectFilas(tbFiltrosBusqueda);
             tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
             Utils.addTarget(tbFiltrosBusqueda);
         }
+        Utils.addTarget(barGraph);
+      limpiarTablaIndicadores();
         return null;
+    }
+    
+    public void valoresInputTexIndicador(ValueChangeEvent valueChangeEvent) {
+        if(inputIndicador.getValue()!=null){
+           sessionDesempenoProfesor.setListaIndicadoresFiltro(ln_C_SFIndicadorRemote.getIndicadoresByDescripcion_LN(inputIndicador.getValue().toString()));
+           sessionDesempenoProfesor.setEstadoTablaIndicadores(true);
+            if (tbIndicadoresFiltro != null) {
+                Utils.unselectFilas(tbIndicadoresFiltro);
+                tbIndicadoresFiltro.setValue(sessionDesempenoProfesor.getListaIndicadoresFiltro());
+                tbIndicadoresFiltro.setVisible(sessionDesempenoProfesor.isEstadoTablaIndicadores());                
+                Utils.addTarget(tbIndicadoresFiltro);
+            }
+        }
+    }
+    
+
+    public void seleccionarIndicador(SelectionEvent selectionEvent) {
+         
+        RichTable t = (RichTable) selectionEvent.getSource(); 
+        Object _selectedRowData = t.getSelectedRowData();
+        BeanIndicador filtro = (BeanIndicador) _selectedRowData;
+        if (filtro != null) {
+           sessionDesempenoProfesor.setBeanIndicador(filtro);
+           
+        }
     }
     
     public String deleteFiltros() {
@@ -330,6 +407,9 @@ public class bDesempenoProfesor {
                tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
                Utils.addTarget(tbFiltrosBusqueda);
            }
+           if(sessionDesempenoProfesor.getBeanFiltros()!=null){
+               if(sessionDesempenoProfesor.getBeanFiltros().getNidSede()!=null){
+               llenarDatadeGrafBarrasSedes();}}
        }
         return null;
     }
@@ -362,16 +442,65 @@ public class bDesempenoProfesor {
         graphDataPie.setDataSource(ds);
     }
     
+    
+    public String llenarDatadeGrafBarrasSedes(){
+        List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
+        List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
+        for(int i=0; i<listaFiltros.size(); i++){
+            if(listaFiltros.get(i).getNombreSede()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR SEDES  A COMPARAR
+             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i));Utils.sysout("num Evalu "+lstEvaluaciones.size());
+           //UNA LISTA DE EVALUACIONES QUE TIENE
+            BeanEvaluacion_DP bean=new BeanEvaluacion_DP();           
+            bean.setSede(listaFiltros.get(i).getNombreSede().getDescripcionSede());
+            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+            bean.setNotaFinal(valor);
+           
+            
+                listaParaGrfaicoDeBarrasSedes.add(bean);}
+            }
+        setListEvabarChart(listaParaGrfaicoDeBarrasSedes);    
+        Utils.addTarget(barGraph);
+        return null;
+    }
+              
+    public void setListEvabarChart(List <BeanEvaluacion_DP> lstEvaluaciones){
+        List<Object[]> lstEva = new ArrayList();       
+        
+        for(int i=0; i<lstEvaluaciones.size(); i++){            
+           
+            Object[] obj  = {  lstEvaluaciones.get(i).getSede(), "Desempeño", lstEvaluaciones.get(i).getNotaFinal()};
+             
+            lstEva.add(obj);
+        
+       
+        }
+        sessionDesempenoProfesor.setLstEvaBarChart(lstEva);        
+    }
+            
+            
     public void initGraphDataModelBarPorSede() {
-        String[] columnLabels = { "Industria","Ecologica","SEDE 3", "SEDE 4", "SEDE 5", "SEDE 6" };
-
-        String[] seriesLabels =
-        {"Desempeño"};
+       // String[] columnLabels = { "Industria","Ecologica","SEDE 3", "SEDE 4", "SEDE 5", "SEDE 6" };
+       List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();
+       
+       List<String> columnLabels = new ArrayList<String>();
+       Object[][] data2 = new Object[listaFiltros.size()][1];
+       String[] seriesLabels ={"Desempeño"};
+       
+        for(int i=0; i<listaFiltros.size(); i++){
+            List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i));Utils.sysout("num Evalu "+lstEvaluaciones.size());
+            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);            
+            columnLabels.add(i, listaFiltros.get(i).getNombreSede().getDescripcionSede());
+            data2[i][0] = new Double(valor);  
+        }
+       
+        String [] labels = columnLabels.toArray(new String[columnLabels.size()]);
         // 1er[] Tamaño de columnas empieza de 1,2,3..
         // 2do[] Tamaño de Labels Por Columna empieza de 0,1,2,3...
         //Ejemplo si queremos 3 columas con 5 barras cada uno seria   Object[][] data2 = new Object[3][5];
         //Para este caso queremos 5 columnas con 1 barra cada una 
         
+       
+    /*    
         Object[][] data2 = new Object[6][1];
         data2[0][0] = new Double(40);               
         data2[1][0] = new Double(70);
@@ -379,13 +508,14 @@ public class bDesempenoProfesor {
         data2[3][0] = new Double(90);
         data2[4][0] = new Double(60);        
         data2[5][0] = new Double(90); 
-    
+    */
 
         oracle.dss.dataView.LocalXMLDataSource ds =
-            new oracle.dss.dataView.LocalXMLDataSource(columnLabels, seriesLabels, data2);
+            new oracle.dss.dataView.LocalXMLDataSource(labels, seriesLabels, data2);
 
         graphDataBar = new oracle.adf.view.faces.bi.model.GraphDataModel();
         graphDataBar.setDataSource(ds);
+        Utils.addTarget(barGraph);
     }
     
     public void initGraphDataModelLinePorAño() {
@@ -743,5 +873,21 @@ public class bDesempenoProfesor {
     }
 
 
-    
+    public void setTbIndicadoresFiltro(RichTable tbIndicadoresFiltro) {
+        this.tbIndicadoresFiltro = tbIndicadoresFiltro;
+    }
+
+    public RichTable getTbIndicadoresFiltro() {
+        return tbIndicadoresFiltro;
+    }
+
+
+    public void setInputIndicador(RichInputText inputIndicador) {
+        this.inputIndicador = inputIndicador;
+    }
+
+    public RichInputText getInputIndicador() {
+        return inputIndicador;
+    }
+
 }

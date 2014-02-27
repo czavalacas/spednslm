@@ -71,6 +71,7 @@ public class LN_C_SFIndicadorBean implements LN_C_SFIndicadorRemote,
             return null;
         }
     }
+
     
     public List<Integer> toListInteger(/*HashSet<BeanCriterio> lstCritsArbol*/List<BeanCriterio> lstCritsArbol){
         List<Integer> lstNidsANoBuscar = new ArrayList<Integer>();
@@ -88,5 +89,9 @@ public class LN_C_SFIndicadorBean implements LN_C_SFIndicadorRemote,
             }
         }
         return lstNidsANoBuscar;
+    }
+    
+    public List<BeanIndicador> getIndicadoresByDescripcion_LN(String Indicador){        
+        return transformLstIndicadores(bdL_C_SFIndicadorLocal.getIndicadoresByDescripcion(Indicador));
     }
 }

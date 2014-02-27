@@ -67,4 +67,21 @@ public class BDL_C_SFIndicadorBean implements BDL_C_SFIndicadorRemote,
             return null;
         }
     }
+    
+    public List<Indicador> getIndicadoresByDescripcion(String Indicador){
+        try{
+            String qlString = "SELECT i " +
+                              "FROM Indicador i " +
+                              "WHERE upper(i.descripcionIndicador) like :descripcionIndicador ";            
+            Query query = em.createQuery(qlString);
+            if(Indicador != null){
+                query.setParameter("descripcionIndicador","%"+Indicador.toUpperCase()+"%");   
+            }
+            return query.getResultList();
+           
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

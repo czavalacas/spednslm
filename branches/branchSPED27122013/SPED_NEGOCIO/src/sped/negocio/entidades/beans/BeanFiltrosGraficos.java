@@ -20,6 +20,7 @@ public class BeanFiltrosGraficos implements Serializable {
     public String nidCriterio;
     public Date fechaInicio;
     public Date fechaFin;
+    public String nidIndicador;
     
     //Filtros para Tabla//
     public BeanSede nombreSede;
@@ -29,6 +30,7 @@ public class BeanFiltrosGraficos implements Serializable {
     public BeanGrado nombreGrado;
     public BeanProfesor nombreProfesor;
     public BeanCriterio nombreCriterio;
+    public BeanIndicador nombreIndicador;
         
     //Campo a Mostrar en tabla
     public String campoFiltroTrabla;
@@ -178,5 +180,21 @@ public class BeanFiltrosGraficos implements Serializable {
 
     public int getIndex() {
         return index;
+    }
+
+    public void setNidIndicador(String nidIndicador) {
+        this.nidIndicador = nidIndicador;
+    }
+
+    public String getNidIndicador() {
+        return nidIndicador;
+    }
+
+    public void setNombreIndicador(BeanIndicador nombreIndicador) {
+        this.nombreIndicador = nombreIndicador;
+    }
+
+    public BeanIndicador getNombreIndicador() {
+        return nombreIndicador;
     }
 }
