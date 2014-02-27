@@ -25,7 +25,7 @@ public class LN_C_SFCorreoRemoteClient {
             data[1] = "/home/diego/Pictures/popupalignment.png";
             data[2] = " jkljk";
             data[3] = "dfloresgonz@gmail.com";
-            lN_C_SFCorreoRemote.enviarCorreo2();
+            //lN_C_SFCorreoRemote.enviarCorreo2();
           //  String msj = lN_C_SFCorreoRemote.enviarCorreo(data);
          //   System.out.println(msj);
         } catch (CommunicationException ex) {

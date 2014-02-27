@@ -6,10 +6,13 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "ParteOcurrencia.findAll", query = "select o from ParteOcurrencia o") })
@@ -23,6 +26,8 @@ public class ParteOcurrencia implements Serializable {
     @Column(name = "nidMain", nullable = false)
     private int nidMain;
     @Id
+    @TableGenerator( name = "stmcodi.admpaoc", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "admpaoc.nidParte", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi.admpaoc" )
     @Column(name = "nidParte", nullable = false)
     private long nidParte;
     @Column(name = "nidProblema", nullable = false)
