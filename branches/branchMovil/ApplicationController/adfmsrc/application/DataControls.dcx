@@ -37,6 +37,7 @@
                   wsdl="application/WS_SPEDService.wsdl" ensureKeyAttribute="true" UsePersistedStructure="false">
         <service name="WS_SPEDService" namespace="http://servicios.webservice.sped/" connection="WS_SPED">
           <port name="WS_SPEDPort">
+            <operation name="getListaPartesOcurrencia_WS"/>
             <operation name="getDetalleEvaluacionById_WS"/>
             <operation name="getPermisosByUsuarioRol_WS"/>
             <operation name="getEvaluaciones_WS"/>
@@ -49,6 +50,7 @@
             <operation name="getLstIndicadoresByFichaCriterio_LN_WS"/>
             <operation name="getEvaluadores_LN_WS"/>
             <operation name="getCriteriosEvaluacion_WS"/>
+            <operation name="registrarParteOcurrencia_WS"/>
             <operation name="getPlanificaciones_WS"/>
             <operation name="getLeyendasByCritIndicador_WS"/>
             <operation name="getMainByAttr_WS"/>
