@@ -384,24 +384,23 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                         bean.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(bean.getNidProblema()));
                     }
                     bean.setUsuario(usu);
-                }
-                if(tipoBusqueda == 3){
-                    bean.setEndDate((Date)datos[6]);
-                }                    
+                }                                   
                 if(tipoBusqueda == 1 || tipoBusqueda == 3 || tipoBusqueda == 5){
-                    BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[1], BeanUsuario.class);
-                    bean.setNidEvaluador(usu.getNidUsuario());
-                    bean.setNombreEvaluador(usu.getNombres());
-                    bean.setUsuario(usu);
-                    bean.setCantEjecutado(Integer.parseInt(""+datos[2]));
-                    bean.setCantPendiente(Integer.parseInt(""+datos[3]));
-                    bean.setCantNoEjecutado(Integer.parseInt(""+datos[4]));
-                    bean.setCantNoJEjecutado(Integer.parseInt(""+datos[5]));
+                    bean.setCantEjecutado(Integer.parseInt(""+datos[0]));
+                    bean.setCantPendiente(Integer.parseInt(""+datos[1]));
+                    bean.setCantNoEjecutado(Integer.parseInt(""+datos[2]));
+                    bean.setCantNoJEjecutado(Integer.parseInt(""+datos[3]));
                     desempenoEvaluador(bean);
-                    if(tipoBusqueda == 5){
-                        bean.setDescripcion(usu.getRol().getDescripcionRol());
+                    if(tipoBusqueda == 1){
+                        bean.setNombreEvaluador(""+datos[4]);
                     }
-                }
+                    if(tipoBusqueda == 3){
+                        bean.setEndDate((Date)datos[4]);
+                    }
+                    if(tipoBusqueda == 5){
+                        bean.setDescripcion(""+datos[4]);
+                    }                    
+                }                 
                 if(tipoBusqueda == 4){                       
                     int id = Integer.parseInt(""+datos[1]);
                     bean.setCantProblema(Integer.parseInt(""+datos[0]));
