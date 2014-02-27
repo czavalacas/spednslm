@@ -17,4 +17,5 @@ public interface LN_C_SFUtilsLocal {
     List<BeanComboString> getTipoVisitaFromConstraint();
     List<BeanCombo> getAreas_LN_WS();
     List<BeanCombo> getProblemas_LN_WS();
+    List<BeanCombo> getUsuarios_LN_WS();
 }
