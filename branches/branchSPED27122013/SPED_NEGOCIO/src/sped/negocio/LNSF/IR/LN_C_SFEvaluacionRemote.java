@@ -8,6 +8,8 @@ import javax.ejb.Remote;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
+import sped.negocio.entidades.beans.BeanEvaluacion_DP;
+import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 
@@ -88,5 +90,8 @@ public interface LN_C_SFEvaluacionRemote {
      * @param nidEvaluacion
      * @return BeanEvaluacionWS
      */
-    BeanEvaluacionWS getEvaluacionById_LN_WS(Integer nidEvaluacion);
+    BeanEvaluacionWS getEvaluacionById_LN_WS(Integer nidEvaluacion);   
+    List<BeanEvaluacion_DP> desempeñoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros);
+    double promedioGeneralPorFiltroDesempeñoDocente(List<BeanEvaluacion_DP> listaEva_WS);
+    double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, int nidIndicador);
 }

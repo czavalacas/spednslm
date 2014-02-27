@@ -12,7 +12,11 @@
                    <f:facet name="first">
                       <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST" shortDesc="Desempeno Global"
                                       dynamicResize="DYNAMIC_SIZE" binding="#{bDesempenoProfesor.barGraph}"
-                                      value="#{requestScope.bDesempenoProfesor.graphDataBar}">
+                                      
+                                      hideAndShowBehavior="withRescale"  contentDelivery="immediate"
+                                       animationOnDataChange="auto"
+                                      animationIndicators="ALL" animationOnDisplay="auto"
+                                    tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaBarChart}">
                             <dvt:background>
                                 <dvt:specialEffects/>
                             </dvt:background>
@@ -108,7 +112,28 @@
                                         <f:selectItems value="#{sessionDesempenoProfesor.listaCriteriosFiltro}" id="si14"/>
                                    </af:selectOneChoice>
                                    <af:spacer width="10" height="10" id="s12"/>
-                                    <af:inputDate label="Inicio" id="id1"
+                                        <af:inputText label="Indicador" id="it1" autoSubmit="true"
+                                                      valueChangeListener="#{bDesempenoProfesor.valoresInputTexIndicador}"
+                                                      binding="#{bDesempenoProfesor.inputIndicador}"/>
+                                        
+                                    <af:spacer width="10" height="10" id="s19"/>
+                                    </af:panelFormLayout> 
+                                        <af:table var="row" rowBandingInterval="0" id="t2" varStatus="vs"
+                                                  value="#{sessionScope.sessionDesempenoProfesor.listaIndicadoresFiltro}"
+                                                  binding="#{bDesempenoProfesor.tbIndicadoresFiltro}"
+                                                  rowSelection="single"
+                                                  selectionListener="#{bDesempenoProfesor.seleccionarIndicador}"
+                                                  visible="#{sessionScope.sessionDesempenoProfesor.estadoTablaIndicadores}">
+                                            <af:column width="15">
+                                                <af:outputText value="#{vs.index + 1}"/>
+                                            </af:column>
+                                            <af:column sortable="false" headerText="Resultados de Busqueda"  width="600px" id="c2">
+                                                <af:outputText value="#{row.descripcionIndicador}" id="ot3"/>
+                                            </af:column>
+                                        </af:table>
+                                        <af:panelFormLayout>
+                                        <af:spacer width="10" height="10" id="s20"/>
+                                        <af:inputDate label="Inicio" id="id1"
                                                   binding="#{bDesempenoProfesor.inputFechaInicio}"/>
                                     <af:spacer width="10" height="10" id="s17"/>
                                     <af:inputDate label="Fin" id="id2" binding="#{bDesempenoProfesor.inputFechaFin}"/>

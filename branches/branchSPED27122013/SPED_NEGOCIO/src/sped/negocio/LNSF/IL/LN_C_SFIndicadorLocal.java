@@ -14,4 +14,5 @@ public interface LN_C_SFIndicadorLocal {
     List<BeanIndicador> getIndicadoresByAttr_LN(String descIndicador, 
                                                 int nidIndicador,
                                                 List<BeanCriterio> lstCritsArbol);
+    List<BeanIndicador> getIndicadoresByDescripcion_LN(String Indicador);
 }
