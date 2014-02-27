@@ -135,10 +135,10 @@ public class WS_SPED {
                 }
             }
             if(fechaMin == null){
-                fechaMin = new Date();
+                fechaMin = Utiles.removeTime(new Date());
             }
             if(fechaMax == null){
-                fechaMax = new Date();
+                fechaMax = Utiles.removeTime(new Date());
             }
             if(tipoVisita != null){
                 if(tipoVisita.equals("0")){
