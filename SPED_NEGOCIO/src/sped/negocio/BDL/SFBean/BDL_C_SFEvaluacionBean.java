@@ -566,7 +566,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     if(i != 0){
                         strQuery = strQuery.concat(" OR ");
                     }
-                    strQuery = strQuery.concat(" eva.nidEvaluador = :nid_evaluador"+i+" ");                 
+                    strQuery = strQuery.concat(" eva.nidEvaluador = :nid_Evaluador"+i+" ");                 
                 }
                 strQuery = strQuery.concat(" ) ");
             }           
@@ -609,18 +609,18 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 }
                 if(beanFEva.getFechaMinEvaluacion() != null && beanFEva.getFechaMaxEvaluacion() != null){
                     strQuery =
-                        strQuery.concat(" AND ( CAST(eva.endDate AS date) BETWEEN :eva_dateEva1 AND :eva_dateEva2 ) ");
+                        strQuery.concat(" AND ( CAST(eva.endDate AS date) BETWEEN :dateEva1 AND :dateEva2 ) ");
                 }else{
                     if(beanFEva.getFechaMinEvaluacion() != null || beanFEva.getFechaMaxEvaluacion() != null){
-                        strQuery = strQuery.concat(" AND CAST(eva.endDate AS date) = :eva_dateEva1 ");
+                        strQuery = strQuery.concat(" AND CAST(eva.endDate AS date) = :dateEva1 ");
                     }
                 }
                 if(beanFEva.getFechaMinPlanificacion() != null && beanFEva.getFechaMaxPlanificacion() != null){
                     strQuery =
-                        strQuery.concat(" AND ( CAST(eva.fechaPlanificacion AS date) BETWEEN :eva_datePla1 AND :eva_datePla2 ) ");
+                        strQuery.concat(" AND ( CAST(eva.fechaPlanificacion AS date) BETWEEN :datePla1 AND :datePla2 ) ");
                 }else{
                     if(beanFEva.getFechaMinPlanificacion() != null || beanFEva.getFechaMaxPlanificacion() != null){
-                        strQuery = strQuery.concat(" AND CAST(eva.fechaPlanificacion AS date) = :eva_datePla1 ");
+                        strQuery = strQuery.concat(" AND CAST(eva.fechaPlanificacion AS date) = :datePla1 ");
                     }
                 }
                 if(beanFEva.getNidProblema() != 0){
@@ -631,15 +631,22 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 }
             }
             if(tipoBusqueda == 1 || tipoBusqueda == 3 || tipoBusqueda == 5){
-                strQuery2 = "SELECT eva.nidEvaluador AS id, usu, " +
-                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'EJECUTADO' ) , " +
-                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'PENDIENTE' ) , " +
-                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EJECUTADO' AND eva.nidProblema != NULL),  " +
-                            "(SELECT COUNT(DISTINCT eva) "+strQuery+" AND eva.nidEvaluador = id AND eva.estadoEvaluacion = 'NO EJECUTADO' AND eva.nidProblema = NULL ) ";                
+                String subQuery = "(SELECT COUNT(DISTINCT x) " +
+                                  strQuery.replaceAll("eva", "x");
+                if(tipoBusqueda == 3){
+                    subQuery = subQuery.concat(" AND CAST(x.endDate AS date) = CAST(eva.endDate AS date) ");
+                }else{
+                    subQuery = subQuery.concat(" AND x.nidEvaluador = eva.nidEvaluador ");
+                }
+                strQuery2 = "SELECT " +
+                            subQuery+" AND x.estadoEvaluacion = 'EJECUTADO' ) eje, " +
+                            subQuery+" AND x.estadoEvaluacion = 'PENDIENTE' ) , " +
+                            subQuery+" AND x.estadoEvaluacion = 'NO EJECUTADO' AND x.nidProblema != NULL),  " +
+                            subQuery+" AND x.estadoEvaluacion = 'NO EJECUTADO' AND x.nidProblema = NULL ) ";
             }
             if(tipoBusqueda == 1){
-                strQuery2 = strQuery2.concat(strQuery+" GROUP BY eva.nidEvaluador ");
-                strQuery2 = strQuery2.concat(" ORDER BY usu.rol ASC "); 
+                strQuery2 = strQuery2.concat(", usu.nombres "+strQuery+" GROUP BY eva.nidEvaluador ");
+                strQuery2 = strQuery2.concat(" ORDER BY eje DESC "); 
             }            
             if(tipoBusqueda == 2 ){
                 strQuery2 = strQuery2.concat("SELECT eva, usu " +strQuery);
@@ -654,7 +661,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 strQuery2 = strQuery2.concat(" AND eva.nidProblema != NULL GROUP BY eva.nidProblema ORDER BY cont ASC ");
             }
             if(tipoBusqueda == 5){
-                strQuery2 = strQuery2.concat(strQuery+" GROUP BY usu.rol ");
+                strQuery2 = strQuery2.concat(", usu.rol.descripcionRol "+strQuery+" GROUP BY usu.rol ");
+                strQuery2 = strQuery2.concat(" ORDER BY eje DESC "); 
             }
             Query query = em.createQuery(strQuery2);
             if(lstnidRol != null){
@@ -664,7 +672,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             }
             if(lstnidEvaluador != null){
                 for(int i=0 ; i < lstnidEvaluador.size(); i++){
-                    query.setParameter("nid_evaluador"+i, Integer.parseInt(lstnidEvaluador.get(i).toString()));               
+                    query.setParameter("nid_Evaluador"+i, Integer.parseInt(lstnidEvaluador.get(i).toString()));               
                 }
             }
             if(lstnidSede != null){
@@ -685,25 +693,25 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     query.setParameter("estado",beanFEva.getEstadoEvaluacion().toUpperCase());
                 }
                 if(beanFEva.getFechaMinEvaluacion() != null && beanFEva.getFechaMaxEvaluacion()!=null){
-                    query.setParameter("eva_dateEva1",beanFEva.getFechaMinEvaluacion());
-                    query.setParameter("eva_dateEva2",beanFEva.getFechaMaxEvaluacion());
+                    query.setParameter("dateEva1",beanFEva.getFechaMinEvaluacion());
+                    query.setParameter("dateEva2",beanFEva.getFechaMaxEvaluacion());
                 }else{
                     if(beanFEva.getFechaMinEvaluacion() != null){
-                        query.setParameter("eva_dateEva1",beanFEva.getFechaMinEvaluacion());
+                        query.setParameter("dateEva1",beanFEva.getFechaMinEvaluacion());
                     }
                     if(beanFEva.getFechaMaxEvaluacion() != null){
-                        query.setParameter("eva_dateEva1",beanFEva.getFechaMaxEvaluacion());
+                        query.setParameter("dateEva1",beanFEva.getFechaMaxEvaluacion());
                     }
                 }
                 if(beanFEva.getFechaMinPlanificacion() != null && beanFEva.getFechaMaxPlanificacion() != null){
-                    query.setParameter("eva_datePla1",beanFEva.getFechaMinPlanificacion());
-                    query.setParameter("eva_datePla2",beanFEva.getFechaMaxPlanificacion());
+                    query.setParameter("datePla1",beanFEva.getFechaMinPlanificacion());
+                    query.setParameter("datePla2",beanFEva.getFechaMaxPlanificacion());
                 }else{
                     if(beanFEva.getFechaMinPlanificacion() != null){
-                        query.setParameter("eva_datePla1",beanFEva.getFechaMinPlanificacion());
+                        query.setParameter("datePla1",beanFEva.getFechaMinPlanificacion());
                     }
                     if(beanFEva.getFechaMaxPlanificacion() != null){
-                        query.setParameter("eva_datePla1",beanFEva.getFechaMaxPlanificacion());
+                        query.setParameter("datePla1",beanFEva.getFechaMaxPlanificacion());
                     }
                 }
                 if(beanFEva.getNidProblema() != 0){
@@ -714,12 +722,13 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 }
             }
             List primitiva = query.getResultList();
-            // tipo 1 --> 0 - nidEvaluador , 1 - Usuario, 2 - Ejecutado, 
-            //            3 - PENDIENTE, 4 -  NO EVALUO, 5 - NO EVALUO   
-            // tipo 2 --> 1 evaluacion
-            // tipo 3 --> 6 evaluacion
+            // tipo135--> 0 - Ejecutado, 
+            //            1 - PENDIENTE, 2 -  NO EVALUO, 3 - NO EVALUO 
+            // tipo 1 --> 4 nombreEvaluador
+            // tipo 2 --> 1 evaluacion, usuario
+            // tipo 3 --> 4 fecha evaluacion
             // tipo 4 --> 0 - countProblema, 1 - idProblema
-            // tipo 6 a + > 1 evaluador 2 usuario
+            // tipo 5 --> 4 rol evaluador
             int size = primitiva == null ? 0 : primitiva.size();
             if (size > 0) {
                 return primitiva;
