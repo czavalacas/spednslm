@@ -29,5 +29,12 @@
         </adfmf:includes>
       </adfmf:amx>
     </adfmf:content>
+    <adfmf:content id="MiApp.RegistrarPO.5">
+      <adfmf:amx file="ParteOcurrencia/Registrar_PO.amx">
+        <adfmf:includes>
+          <adfmf:include type="JavaScript" file="resources/js/ScriptUtiles.js" id="i5"/>
+        </adfmf:includes>
+      </adfmf:amx>
+    </adfmf:content>
   </adfmf:feature>
 </adfmf:features>

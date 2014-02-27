@@ -5,41 +5,17 @@
       <xsd:import namespace="http://servicios.webservice.sped/" schemaLocation="WS_SPEDPort1.xsd"/>
     </xsd:schema>
   </types>
+  <message name="getDetalleEvaluacionById_WS">
+    <part name="parameters" element="tns:getDetalleEvaluacionById_WS"/>
+  </message>
+  <message name="getDetalleEvaluacionById_WSResponse">
+    <part name="parameters" element="tns:getDetalleEvaluacionById_WSResponse"/>
+  </message>
   <message name="getMainByAttr_WS">
     <part name="parameters" element="tns:getMainByAttr_WS"/>
   </message>
   <message name="getMainByAttr_WSResponse">
     <part name="parameters" element="tns:getMainByAttr_WSResponse"/>
-  </message>
-  <message name="getLstIndicadoresByFichaCriterio_LN_WS">
-    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WS"/>
-  </message>
-  <message name="getLstIndicadoresByFichaCriterio_LN_WSResponse">
-    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
-  </message>
-  <message name="getPlanificadores_LN_WS">
-    <part name="parameters" element="tns:getPlanificadores_LN_WS"/>
-  </message>
-  <message name="getPlanificadores_LN_WSResponse">
-    <part name="parameters" element="tns:getPlanificadores_LN_WSResponse"/>
-  </message>
-  <message name="getEvaluadores_LN_WS">
-    <part name="parameters" element="tns:getEvaluadores_LN_WS"/>
-  </message>
-  <message name="getEvaluadores_LN_WSResponse">
-    <part name="parameters" element="tns:getEvaluadores_LN_WSResponse"/>
-  </message>
-  <message name="getProblemas_LN_WS">
-    <part name="parameters" element="tns:getProblemas_LN_WS"/>
-  </message>
-  <message name="getProblemas_LN_WSResponse">
-    <part name="parameters" element="tns:getProblemas_LN_WSResponse"/>
-  </message>
-  <message name="autenticarUsuarioLN">
-    <part name="parameters" element="tns:autenticarUsuarioLN"/>
-  </message>
-  <message name="autenticarUsuarioLNResponse">
-    <part name="parameters" element="tns:autenticarUsuarioLNResponse"/>
   </message>
   <message name="getPermisosByUsuarioRol_WS">
     <part name="parameters" element="tns:getPermisosByUsuarioRol_WS"/>
@@ -65,12 +41,6 @@
   <message name="getCriteriosEvaluacion_WSResponse">
     <part name="parameters" element="tns:getCriteriosEvaluacion_WSResponse"/>
   </message>
-  <message name="getLeyendasByCritIndicador_WS">
-    <part name="parameters" element="tns:getLeyendasByCritIndicador_WS"/>
-  </message>
-  <message name="getLeyendasByCritIndicador_WSResponse">
-    <part name="parameters" element="tns:getLeyendasByCritIndicador_WSResponse"/>
-  </message>
   <message name="getAreasAcademicas_WS">
     <part name="parameters" element="tns:getAreasAcademicas_WS"/>
   </message>
@@ -89,11 +59,23 @@
   <message name="getTipoVisita_LN_WSResponse">
     <part name="parameters" element="tns:getTipoVisita_LN_WSResponse"/>
   </message>
-  <message name="getDetalleEvaluacionById_WS">
-    <part name="parameters" element="tns:getDetalleEvaluacionById_WS"/>
+  <message name="getLeyendasByCritIndicador_WS">
+    <part name="parameters" element="tns:getLeyendasByCritIndicador_WS"/>
   </message>
-  <message name="getDetalleEvaluacionById_WSResponse">
-    <part name="parameters" element="tns:getDetalleEvaluacionById_WSResponse"/>
+  <message name="getLeyendasByCritIndicador_WSResponse">
+    <part name="parameters" element="tns:getLeyendasByCritIndicador_WSResponse"/>
+  </message>
+  <message name="registrarParteOcurrencia_WS">
+    <part name="parameters" element="tns:registrarParteOcurrencia_WS"/>
+  </message>
+  <message name="registrarParteOcurrencia_WSResponse">
+    <part name="parameters" element="tns:registrarParteOcurrencia_WSResponse"/>
+  </message>
+  <message name="getListaPartesOcurrencia_WS">
+    <part name="parameters" element="tns:getListaPartesOcurrencia_WS"/>
+  </message>
+  <message name="getListaPartesOcurrencia_WSResponse">
+    <part name="parameters" element="tns:getListaPartesOcurrencia_WSResponse"/>
   </message>
   <message name="getSedes_WS">
     <part name="parameters" element="tns:getSedes_WS"/>
@@ -101,42 +83,48 @@
   <message name="getSedes_WSResponse">
     <part name="parameters" element="tns:getSedes_WSResponse"/>
   </message>
+  <message name="getLstIndicadoresByFichaCriterio_LN_WS">
+    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WS"/>
+  </message>
+  <message name="getLstIndicadoresByFichaCriterio_LN_WSResponse">
+    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
+  </message>
+  <message name="autenticarUsuarioLN">
+    <part name="parameters" element="tns:autenticarUsuarioLN"/>
+  </message>
+  <message name="autenticarUsuarioLNResponse">
+    <part name="parameters" element="tns:autenticarUsuarioLNResponse"/>
+  </message>
+  <message name="getPlanificadores_LN_WS">
+    <part name="parameters" element="tns:getPlanificadores_LN_WS"/>
+  </message>
+  <message name="getPlanificadores_LN_WSResponse">
+    <part name="parameters" element="tns:getPlanificadores_LN_WSResponse"/>
+  </message>
+  <message name="getEvaluadores_LN_WS">
+    <part name="parameters" element="tns:getEvaluadores_LN_WS"/>
+  </message>
+  <message name="getEvaluadores_LN_WSResponse">
+    <part name="parameters" element="tns:getEvaluadores_LN_WSResponse"/>
+  </message>
+  <message name="getProblemas_LN_WS">
+    <part name="parameters" element="tns:getProblemas_LN_WS"/>
+  </message>
+  <message name="getProblemas_LN_WSResponse">
+    <part name="parameters" element="tns:getProblemas_LN_WSResponse"/>
+  </message>
   <portType name="WS_SPED">
+    <operation name="getDetalleEvaluacionById_WS">
+      <input message="tns:getDetalleEvaluacionById_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getDetalleEvaluacionById_WSRequest"/>
+      <output message="tns:getDetalleEvaluacionById_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getDetalleEvaluacionById_WSResponse"/>
+    </operation>
     <operation name="getMainByAttr_WS">
       <input message="tns:getMainByAttr_WS"
              wsam:Action="http://servicios.webservice.sped/WS_SPED/getMainByAttr_WSRequest"/>
       <output message="tns:getMainByAttr_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getMainByAttr_WSResponse"/>
-    </operation>
-    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
-      <input message="tns:getLstIndicadoresByFichaCriterio_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSRequest"/>
-      <output message="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
-    </operation>
-    <operation name="getPlanificadores_LN_WS">
-      <input message="tns:getPlanificadores_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSRequest"/>
-      <output message="tns:getPlanificadores_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSResponse"/>
-    </operation>
-    <operation name="getEvaluadores_LN_WS">
-      <input message="tns:getEvaluadores_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getEvaluadores_LN_WSRequest"/>
-      <output message="tns:getEvaluadores_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getEvaluadores_LN_WSResponse"/>
-    </operation>
-    <operation name="getProblemas_LN_WS">
-      <input message="tns:getProblemas_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getProblemas_LN_WSRequest"/>
-      <output message="tns:getProblemas_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getProblemas_LN_WSResponse"/>
-    </operation>
-    <operation name="autenticarUsuarioLN">
-      <input message="tns:autenticarUsuarioLN"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNRequest"/>
-      <output message="tns:autenticarUsuarioLNResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNResponse"/>
     </operation>
     <operation name="getPermisosByUsuarioRol_WS">
       <input message="tns:getPermisosByUsuarioRol_WS"
@@ -162,12 +150,6 @@
       <output message="tns:getCriteriosEvaluacion_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getCriteriosEvaluacion_WSResponse"/>
     </operation>
-    <operation name="getLeyendasByCritIndicador_WS">
-      <input message="tns:getLeyendasByCritIndicador_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getLeyendasByCritIndicador_WSRequest"/>
-      <output message="tns:getLeyendasByCritIndicador_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getLeyendasByCritIndicador_WSResponse"/>
-    </operation>
     <operation name="getAreasAcademicas_WS">
       <input message="tns:getAreasAcademicas_WS"
              wsam:Action="http://servicios.webservice.sped/WS_SPED/getAreasAcademicas_WSRequest"/>
@@ -186,66 +168,72 @@
       <output message="tns:getTipoVisita_LN_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getTipoVisita_LN_WSResponse"/>
     </operation>
-    <operation name="getDetalleEvaluacionById_WS">
-      <input message="tns:getDetalleEvaluacionById_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getDetalleEvaluacionById_WSRequest"/>
-      <output message="tns:getDetalleEvaluacionById_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getDetalleEvaluacionById_WSResponse"/>
+    <operation name="getLeyendasByCritIndicador_WS">
+      <input message="tns:getLeyendasByCritIndicador_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getLeyendasByCritIndicador_WSRequest"/>
+      <output message="tns:getLeyendasByCritIndicador_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getLeyendasByCritIndicador_WSResponse"/>
+    </operation>
+    <operation name="registrarParteOcurrencia_WS">
+      <input message="tns:registrarParteOcurrencia_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/registrarParteOcurrencia_WSRequest"/>
+      <output message="tns:registrarParteOcurrencia_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/registrarParteOcurrencia_WSResponse"/>
+    </operation>
+    <operation name="getListaPartesOcurrencia_WS">
+      <input message="tns:getListaPartesOcurrencia_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getListaPartesOcurrencia_WSRequest"/>
+      <output message="tns:getListaPartesOcurrencia_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getListaPartesOcurrencia_WSResponse"/>
     </operation>
     <operation name="getSedes_WS">
       <input message="tns:getSedes_WS" wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSRequest"/>
       <output message="tns:getSedes_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSResponse"/>
     </operation>
+    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
+      <input message="tns:getLstIndicadoresByFichaCriterio_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSRequest"/>
+      <output message="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
+    </operation>
+    <operation name="autenticarUsuarioLN">
+      <input message="tns:autenticarUsuarioLN"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNRequest"/>
+      <output message="tns:autenticarUsuarioLNResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNResponse"/>
+    </operation>
+    <operation name="getPlanificadores_LN_WS">
+      <input message="tns:getPlanificadores_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSRequest"/>
+      <output message="tns:getPlanificadores_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSResponse"/>
+    </operation>
+    <operation name="getEvaluadores_LN_WS">
+      <input message="tns:getEvaluadores_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getEvaluadores_LN_WSRequest"/>
+      <output message="tns:getEvaluadores_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getEvaluadores_LN_WSResponse"/>
+    </operation>
+    <operation name="getProblemas_LN_WS">
+      <input message="tns:getProblemas_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getProblemas_LN_WSRequest"/>
+      <output message="tns:getProblemas_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getProblemas_LN_WSResponse"/>
+    </operation>
   </portType>
   <binding name="WS_SPEDPortBinding" type="tns:WS_SPED">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getDetalleEvaluacionById_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
     <operation name="getMainByAttr_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="getPlanificadores_LN_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="getEvaluadores_LN_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="getProblemas_LN_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="autenticarUsuarioLN">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -290,15 +278,6 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getLeyendasByCritIndicador_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
     <operation name="getAreasAcademicas_WS">
       <soap:operation soapAction=""/>
       <input>
@@ -326,7 +305,25 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getDetalleEvaluacionById_WS">
+    <operation name="getLeyendasByCritIndicador_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="registrarParteOcurrencia_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getListaPartesOcurrencia_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -336,6 +333,51 @@
       </output>
     </operation>
     <operation name="getSedes_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="autenticarUsuarioLN">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getPlanificadores_LN_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getEvaluadores_LN_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getProblemas_LN_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>

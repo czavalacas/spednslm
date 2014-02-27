@@ -157,6 +157,10 @@
         <from-outcome>_BACK</from-outcome>
         <to-activity-id>Buscar_Main</to-activity-id>
       </control-flow-case>
+      <control-flow-case id="__34">
+        <from-outcome>000</from-outcome>
+        <to-activity-id>Main</to-activity-id>
+      </control-flow-case>
     </control-flow-rule>
   </task-flow-definition>
 </adfc-mobile-config>
