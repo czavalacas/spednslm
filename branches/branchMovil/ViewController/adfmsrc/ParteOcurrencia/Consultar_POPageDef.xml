@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="11.1.2.64.36" id="Consultar_POPageDef"
+                Package="ParteOcurrencia">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables">
+      <variable Type="java.sql.Date" Name="getListaPartesOcurrencia_WS_arg0" IsQueriable="false"/>
+      <variable Type="java.sql.Date" Name="getListaPartesOcurrencia_WS_arg1" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getListaPartesOcurrencia_WS_arg2" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="getListaPartesOcurrencia_WS_arg3" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getListaPartesOcurrencia_WS_arg4" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getListaPartesOcurrencia_WS_arg5" IsQueriable="false"/>
+    </variableIterator>
+    <methodIterator Binds="getListaPartesOcurrencia_WS.result" DataControl="WS_SPED" RangeSize="25"
+                    BeanClass="application.WS_SPED.getListaPartesOcurrencia_WS"
+                    id="getListaPartesOcurrencia_WSIterator" Refresh="always"/>
+    <accessorIterator MasterBinding="getListaPartesOcurrencia_WSIterator" Binds="Return" RangeSize="25"
+                      DataControl="WS_SPED" BeanClass="application.WS_SPED.getListaPartesOcurrencia_WS.Return"
+                      id="ReturnIterator" Refresh="always"/>
+  </executables>
+  <bindings>
+    <methodAction id="getListaPartesOcurrencia_WS" RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="getListaPartesOcurrencia_WS" IsViewObjectMethod="false" DataControl="WS_SPED"
+                  InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.getListaPartesOcurrencia_WS_WS_SPED_getListaPartesOcurrencia_WS_result">
+      <NamedData NDName="arg0" NDType="java.sql.Date" NDValue="${bindings.getListaPartesOcurrencia_WS_arg0}"/>
+      <NamedData NDName="arg1" NDType="java.sql.Date" NDValue="${bindings.getListaPartesOcurrencia_WS_arg1}"/>
+      <NamedData NDName="arg2" NDType="java.lang.Integer" NDValue="${bindings.getListaPartesOcurrencia_WS_arg2}"/>
+      <NamedData NDName="arg3" NDType="java.lang.String" NDValue="${bindings.getListaPartesOcurrencia_WS_arg3}"/>
+      <NamedData NDName="arg4" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1  || pageFlowScope.usuario.rol.nidRol == 5 ? bindings.getListaPartesOcurrencia_WS_arg4 : pageFlowScope.usuario.sedeNivel.sede.nidSede}"/>
+      <NamedData NDName="arg5" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1  || pageFlowScope.usuario.rol.nidRol == 5 ? bindings.getListaPartesOcurrencia_WS_arg5 : pageFlowScope.usuario.nidUsuario}"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="arg0">
+      <AttrNames>
+        <Item Value="getListaPartesOcurrencia_WS_arg0"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg1">
+      <AttrNames>
+        <Item Value="getListaPartesOcurrencia_WS_arg1"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg2">
+      <AttrNames>
+        <Item Value="getListaPartesOcurrencia_WS_arg2"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg3">
+      <AttrNames>
+        <Item Value="getListaPartesOcurrencia_WS_arg3"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg4">
+      <AttrNames>
+        <Item Value="getListaPartesOcurrencia_WS_arg4"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg5">
+      <AttrNames>
+        <Item Value="getListaPartesOcurrencia_WS_arg5"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="ReturnIterator" id="Return">
+      <nodeDefinition DefName="application.WS_SPED.getListaPartesOcurrencia_WS.Return" Name="Return0">
+        <AttrNames>
+          <Item Value="profesor"/>
+          <Item Value="curso"/>
+          <Item Value="areaAcademica"/>
+          <Item Value="aula"/>
+          <Item Value="comentario"/>
+          <Item Value="descProblema"/>
+          <Item Value="fechaRegistro"/>
+          <Item Value="nidMain"/>
+          <Item Value="nidUsuario"/>
+          <Item Value="nombresUsuario"/>
+          <Item Value="sede"/>
+          <Item Value="nidParte"/>
+          <Item Value="nidProblema"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+  </bindings>
+</pageDefinition>

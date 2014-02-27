@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<amx:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amx="http://xmlns.oracle.com/adf/mf/amx"
+          xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
+  <amx:panelPage id="pp1">
+    <amx:facet name="header">
+      <amx:outputText value="Partes de Ocurrencia" id="ot1"/>
+    </amx:facet>
+    <amx:facet name="primary">
+      <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"/>
+    </amx:facet>
+    <amx:panelFormLayout id="pfl1" labelPosition="topCenter" fieldHalign="start">
+      <amx:inputDate value="#{bindings.arg0.inputValue}" id="id1"/>
+      <amx:inputDate value="#{bindings.arg1.inputValue}" id="id2"/>
+      <amx:selectOneChoice label="Problemas" id="soc1"
+                           simple="true" value="#{bindings.arg2.inputValue}">
+          <amx:selectItem value="0" label="Seleccionar Problema"/>
+          <amx:selectItems value="#{viewScope.bRegistrarPO.listProblemas}"/>
+     </amx:selectOneChoice>
+     
+      <amx:inputText value="#{bindings.arg3.inputValue}" id="it4" hintText="Profesor"/>
+       <amx:selectOneChoice label="Sede" id="socSedes" value="#{bindings.arg4.inputValue}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         valueChangeListener="#{viewScope.bConsultar_PO.cambioEnSede}"
+                                         simple="true">
+            <amx:selectItem value="0" label="Seleccionar Sede"/>
+            <amx:selectItems value="#{viewScope.bMain.listaSedes}"/>
+        </amx:selectOneChoice>
+      
+      <amx:selectOneChoice label="Usuarios" id="socUsus" value="#{bindings.arg5.inputValue}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         valueChangeListener="#{viewScope.bConsultar_PO.cambioEnUsuario}"
+                                         simple="true">
+            <amx:selectItem value="0" label="Seleccionar Usuario"/>
+            <amx:selectItems value="#{viewScope.bConsultar_PO.listUsuarios}"/>
+        </amx:selectOneChoice>
+      
+    </amx:panelFormLayout>
+    <amx:panelGroupLayout layout="horizontal">
+             <amx:commandButton actionListener="#{bindings.getListaPartesOcurrencia_WS.execute}"
+                                text="Buscar" disabled="#{!bindings.getListaPartesOcurrencia_WS.enabled}"
+                                id="cb2"/>
+             <amx:commandButton id="cb3" icon="/resources/img/refresh.png" iconPosition="trailing"
+                                actionListener="#{viewScope.bConsultar_PO.refrescarBusqueda}"/>
+    </amx:panelGroupLayout>
+   
+    <amx:listView var="row" value="#{bindings.Return.collectionModel}" fetchSize="#{bindings.Return.rangeSize}"
+                  dividerAttribute="profesor" dividerMode="firstLetter" styleClass="adfmf-listView-insetList" id="lv1">
+      <amx:listItem id="li1" action="detalle_po">
+      
+             <amx:setPropertyListener from="#{row.comentario}" to="#{pageFlowScope._comentario}" type="action"/>
+             <amx:setPropertyListener from="#{row.descProblema}" to="#{pageFlowScope._descProblema}" type="action"/>
+             <amx:setPropertyListener from="#{row.profesor}" to="#{pageFlowScope._profesor}" type="action"/>
+             <amx:setPropertyListener from="#{row.curso}" to="#{pageFlowScope._curso}" type="action"/>
+             <amx:setPropertyListener from="#{row.fechaRegistro}" to="#{pageFlowScope._fechaRegistro}" type="action"/>
+             <amx:setPropertyListener from="#{row.areaAcademica}" to="#{pageFlowScope._areaAcademica}" type="action"/>
+             <amx:setPropertyListener from="#{row.aula}" to="#{pageFlowScope._aula}" type="action"/>
+             <amx:setPropertyListener from="#{row.sede}" to="#{pageFlowScope._sede}" type="action"/>
+             <amx:setPropertyListener from="#{row.nombresUsuario}" to="#{pageFlowScope._nombresUsuario}" type="action"/>
+             
+             <amx:tableLayout width="98%" id="tl1">
+                <amx:rowLayout id="rl1">
+                    <amx:cellFormat width="100%" height="30px" id="cf1">
+                            <amx:outputText value="#{row.profesor},  #{row.curso}" id="ot2"/>
+                    </amx:cellFormat>
+                </amx:rowLayout>
+                
+                <amx:rowLayout>
+                    <amx:cellFormat width="100%" height="40px">
+                            <amx:outputText value="Problema: #{row.descProblema}" styleClass="adfmf-listItem-captionText"
+                                            inlineStyle="margin:0px 1px 0px 0px;"/>
+                            <amx:outputText value="#{row.fechaRegistro}" id="ot5" styleClass="adfmf-listItem-captionText"
+                                    inlineStyle="margin:0px 1px 0px 0px;">
+                                 <amx:convertDateTime pattern="dd/MM/yyyy h:mm a" id="cdt1"/>
+                            </amx:outputText>    
+                            <amx:outputText value="Area: #{row.areaAcademica}" styleClass="adfmf-listItem-captionText"
+                                            inlineStyle="margin:0px 1px 0px 0px;"/>
+                            <amx:outputText value="Aula - Sede: #{row.aula} - #{row.sede}" styleClass="adfmf-listItem-captionText"
+                                            inlineStyle="margin:0px 1px 0px 0px;"/>
+                            <amx:outputText value="Usuario: #{row.nombresUsuario}" styleClass="adfmf-listItem-captionText"
+                                            inlineStyle="margin:0px 1px 0px 0px;"/>
+                    </amx:cellFormat>
+                </amx:rowLayout>
+            </amx:tableLayout>
+        
+      </amx:listItem>
+    </amx:listView>
+  </amx:panelPage>
+</amx:view>
