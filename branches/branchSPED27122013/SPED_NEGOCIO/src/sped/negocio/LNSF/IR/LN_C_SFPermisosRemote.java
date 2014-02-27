@@ -9,7 +9,8 @@ import sped.negocio.entidades.beans.BeanPermiso;
 @Remote
 public interface LN_C_SFPermisosRemote {
     
-    List<BeanPermiso> getCrearArbolNuevo(int nidRol);
+    List<BeanPermiso> getCrearArbolNuevo(int nidRol,
+                                         int nidUsuario);
     List<BeanPermiso> getPermisos_WS(int nidRol,
                                      int nidUsuario);
 }

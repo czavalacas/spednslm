@@ -64,7 +64,8 @@ public class bMain implements Serializable {
         if(sessionMain.getLstPermisos() != null){
             sessionMain.getLstPermisos().removeAll(sessionMain.getLstPermisos());   
         }
-        List<BeanPermiso> lstPerm = ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol());
+        List<BeanPermiso> lstPerm = ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol(),
+                                                                            beanUsuario.getNidUsuario());
         sessionMain.setLstPermisos(lstPerm);
         List<Integer> lstPermisos = lstPerm.get(0).getLstPermisos();
         beanUsuario.setLstPermisos(lstPermisos);
