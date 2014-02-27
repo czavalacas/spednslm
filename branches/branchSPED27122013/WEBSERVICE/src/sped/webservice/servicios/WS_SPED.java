@@ -239,6 +239,10 @@ public class WS_SPED {
     public BeanEvaluacionWS getDetalleEvaluacionById_WS(@WebParam(name = "arg0") Integer nidEvaluacion){
         return ln_C_SFEvaluacionLocal.getEvaluacionById_LN_WS(nidEvaluacion);
     }
+    
+    public List<BeanCombo> getUsuarios_LN_WS(){
+        return ln_C_SFUtilsLocal.getUsuarios_LN_WS();
+    }
 
     @WebMethod
     public List<BeanMainWS> getMainByAttr_WS(@WebParam(name = "arg0") Integer nidSede,
@@ -274,6 +278,12 @@ public class WS_SPED {
                                                                  @WebParam(name = "arg3") String nombreProfesor,
                                                                  @WebParam(name = "arg4") Integer nidSede,
                                                                  @WebParam(name = "arg5") Integer nidUsuario) {
+        if(fechaMin == null){
+            fechaMin = Utiles.removeTime(new Date());
+        }
+        if(fechaMax == null){
+            fechaMax = Utiles.removeTime(new Date());
+        }
         return ln_C_SFParteOcurrenciaLocal.getListaPartesOcurrencia_LN(fechaMin,
                                                                             fechaMax, 
                                                                             nidProblema,
