@@ -13,6 +13,7 @@ public interface BDL_C_SFPermisoRemote {
     List<Permiso> getByNidPermiso(int nidPermiso);
     int getNiveles();
     List<Permiso> getHijosByPadre(int nidPadre,
+                                  int nidUsuario,
                                   int nidRol);
     List<Permiso> getHijosByPadre_WS(int nidUsuario,
                                      int nidRol);
