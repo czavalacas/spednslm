@@ -47,6 +47,7 @@
             <operation name="getSedes_WS"/>
             <operation name="getPlanificadores_LN_WS"/>
             <operation name="evaluarDocente_WS"/>
+            <operation name="getUsuarios_LN_WS"/>
             <operation name="getLstIndicadoresByFichaCriterio_LN_WS"/>
             <operation name="getEvaluadores_LN_WS"/>
             <operation name="getCriteriosEvaluacion_WS"/>

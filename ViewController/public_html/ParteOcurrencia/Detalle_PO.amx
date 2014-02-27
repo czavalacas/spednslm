@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<amx:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amx="http://xmlns.oracle.com/adf/mf/amx"
+          xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
+  <amx:panelPage id="pp1">
+    <amx:facet name="Detalle del Parte de Ocurrencia">
+      <amx:outputText value="Header" id="ot1"/>
+    </amx:facet>
+    <amx:facet name="primary">
+      <amx:commandButton id="cb1" action="_BACK" icon="/resources/img/back.png" iconPosition="trailing"/>
+    </amx:facet>
+    <amx:tableLayout id="tl1">
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+            <amx:outputText value="Profesor" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+            <amx:outputText value="#{pageFlowScope._profesor}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+            <amx:outputText value="Curso - Area" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+            <amx:outputText value="#{pageFlowScope._curso} - #{pageFlowScope._areaAcademica}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+            <amx:outputText value="Aula - Sede" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+            <amx:outputText value="#{pageFlowScope._aula} - #{pageFlowScope._sede}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+            <amx:outputText value="Usuario" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+             <amx:outputText value="#{pageFlowScope._nombresUsuario}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+            <amx:outputText value="Fecha" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+              <amx:outputText value="#{pageFlowScope._fechaRegistro}" id="ot5" styleClass="adfmf-listItem-captionText">
+                 <amx:convertDateTime pattern="dd/MM/yyyy h:mm a" id="cdt1"/>
+             </amx:outputText>    
+        </amx:cellFormat>
+      </amx:rowLayout>
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+            <amx:outputText value="Problema" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+            <amx:outputText value="#{pageFlowScope._descProblema}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      <amx:rowLayout>
+        <amx:cellFormat header="true">
+            <amx:outputText value="Comentario" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+        <amx:cellFormat>
+            <amx:outputText value="#{pageFlowScope._comentario}" styleClass="adfmf-listItem-captionText"/>
+        </amx:cellFormat>
+      </amx:rowLayout>
+      
+      
+    </amx:tableLayout>
+  </amx:panelPage>
+</amx:view>

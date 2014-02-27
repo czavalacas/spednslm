@@ -14,6 +14,7 @@
     <page path="/Consultas/Ver_Evaluacion.amx" usageId="mobile_Ver_EvaluacionPageDef"/>
     <page path="/ParteOcurrencia/Buscar_Main.amx" usageId="mobile_Buscar_MainPageDef"/>
     <page path="/ParteOcurrencia/Registrar_PO.amx" usageId="mobile_Registrar_POPageDef"/>
+    <page path="/ParteOcurrencia/Consultar_PO.amx" usageId="mobile_Consultar_POPageDef"/>
   </pageMap>
   <pageDefinitionUsages>
     <page id="mobile_inicioPageDef" path="mobile.pageDefs.inicioPageDef"/>
@@ -24,6 +25,7 @@
     <page id="mobile_Ver_EvaluacionPageDef" path="Consultas.Ver_EvaluacionPageDef"/>
     <page id="mobile_Buscar_MainPageDef" path="ParteOcurrencia.Buscar_MainPageDef"/>
     <page id="mobile_Registrar_POPageDef" path="ParteOcurrencia.Registrar_POPageDef"/>
+    <page id="mobile_Consultar_POPageDef" path="ParteOcurrencia.Consultar_POPageDef"/>
   </pageDefinitionUsages>
   <dataControlUsages>
     <dc id="bVerEvaluacion" path="mobile.bVerEvaluacion"/>
