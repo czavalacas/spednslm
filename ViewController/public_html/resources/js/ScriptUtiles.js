@@ -5,6 +5,8 @@ var m_0002 = "Hubo un error con la conexion de Internet";
 var m_0003 = "Ocurrio un error en el ingreso";
 var m_0004 = "Esta seguro que desea salir de SPED MOVIL?";
 var m_0005 = "Asigne valores mayores a 0 a todos los Indicadores";
+var m_0006 = "Seleccione un Problema";
+var m_0007 = "Escriba un comentario";
 
 //This is an event that fires when the user presses the device back button
 /*document.addEventListener("deviceready", onDeviceReady, false);
