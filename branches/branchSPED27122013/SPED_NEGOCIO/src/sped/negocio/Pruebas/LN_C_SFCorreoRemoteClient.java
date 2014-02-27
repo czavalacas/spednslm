@@ -22,11 +22,12 @@ public class LN_C_SFCorreoRemoteClient {
             //String fpath = root+"/recursos/reportes/"+getSessionBeanConsultarPregrado().getTiempoFile()+"_reporte.pdf";Utiles.sysout("fpath: "+fpath);
             String[] data = new String[4];
             data[0] = "kaka";
-            data[1] = "C:/Users/David/Desktop/Scan.jpg";
+            data[1] = "/home/diego/Pictures/popupalignment.png";
             data[2] = " jkljk";
-            data[3] = "davidangeleshuaman@gmail.com";
-            String msj = lN_C_SFCorreoRemote.enviarCorreo(data);
-            System.out.println(msj);
+            data[3] = "dfloresgonz@gmail.com";
+            lN_C_SFCorreoRemote.enviarCorreo2();
+          //  String msj = lN_C_SFCorreoRemote.enviarCorreo(data);
+         //   System.out.println(msj);
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());

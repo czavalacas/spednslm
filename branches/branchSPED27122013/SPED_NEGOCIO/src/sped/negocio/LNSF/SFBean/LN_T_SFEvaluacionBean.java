@@ -141,6 +141,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setEstadoEvaluacion("EJECUTADO");
             eva.setNid_usuario_ws(nidUsuario);
             eva.setNidLog(nidLog);
+            eva.setNidProblema(null);
             eva.setComentario_evaluador(comentarioEvaluador);
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
         }catch (Exception e) {

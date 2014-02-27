@@ -65,7 +65,7 @@ public class Evaluacion implements Serializable {
     @Column(name = "nidLog")    
     private Integer nidLog;
     @Column(name = "nidProblema")
-    private int nidProblema;
+    private Integer nidProblema;
     @Column(name = "comentario_evaluador")  
     private String comentario_evaluador;//ESTE COMENTARIO SE INGRESA CUANDO SE EVALUA A UN PROFESOR
     @Column(name = "comentario_profesor")  
@@ -250,11 +250,11 @@ public class Evaluacion implements Serializable {
         return resultado;
     }
 
-    public void setNidProblema(int nidProblema) {
+    public void setNidProblema(Integer nidProblema) {
         this.nidProblema = nidProblema;
     }
 
-    public int getNidProblema() {
+    public Integer getNidProblema() {
         return nidProblema;
     }
 

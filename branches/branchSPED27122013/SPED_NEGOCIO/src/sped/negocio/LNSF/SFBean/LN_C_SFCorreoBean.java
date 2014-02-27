@@ -30,7 +30,8 @@ import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 
 @Stateless(name = "LN_C_SFCorreo", mappedName = "mapLN_C_SFCorreo")
-public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote, LN_C_SFCorreoLocal {
+public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote, 
+                                             LN_C_SFCorreoLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -44,7 +45,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote, LN_C_SFCorreoLoca
      * @param data -> String[] con datos basicos que se incluiran en el msj
      */
     public String enviarCorreo(String data[]) {
-        String PUERTO = "587";
+        String PUERTO = "465";
         String HOST = "smtp.gmail.com";
         String USUARIO = "siatod2013";
         String CLAVE = "taller2013";
@@ -55,27 +56,13 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote, LN_C_SFCorreoLoca
             BodyPart messageBodyPart = new MimeBodyPart();
             // Propiedades de la conexion
             Properties props = new Properties();
-            props.put("mail.smtp.starttls.enable", "true");
             props.setProperty("mail.smtp.host", HOST);
             props.setProperty("mail.smtp.starttls.enable", "true");
             props.setProperty("mail.smtp.starttls.required", "true");
             props.setProperty("mail.smtp.user", EMAIL_QUE_ENVIA);
             props.setProperty("mail.smtp.auth", "true");
-            props.put("mail.smtp.host", HOST);
-            props.put("mail.smtp.starttls.required", "true");
-            String smtp = HOST;
-            /*if (smtp.indexOf(HOST) >= 0) {
-              props.setProperty ("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-              //props.setProperty("mail.smtp.socketFactory.fallback", "true");
-              props.setProperty("mail.smtp.port", PUERTO);
-              props.setProperty("mail.smtp.socketFactory.port", PUERTO);
-          }*/
-            if (smtp.equals("smtp.gmail.com")) {
-                props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                props.setProperty("mail.smtp.socketFactory.fallback", "false");
-                props.setProperty("mail.smtp.port", PUERTO);
-                props.setProperty("mail.smtp.socketFactory.port", PUERTO);
-            }
+            props.setProperty("mail.smtp.port", PUERTO);
+            
             // Preparamos la sesion
             Session session = Session.getDefaultInstance(props);
             // Construimos el mensaje
@@ -103,7 +90,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote, LN_C_SFCorreoLoca
             Transport t = session.getTransport("smtp");
             t.connect(USUARIO, CLAVE);
             t.sendMessage(message, message.getAllRecipients());
-            System.out.println("Se envio el correo Electronico!");
+            System.out.println("\n********************Se envio el correo Electronico!************\n");
             // Cierre.
             t.close();
             return "Se envio el correo electronico a " + data[3];
