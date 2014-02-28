@@ -160,4 +160,19 @@
     <validator-id>EmailValidator</validator-id>
     <validator-class>sped.vista.Utils.Validators.EmailValidator</validator-class>
   </validator>
+  <managed-bean>
+    <managed-bean-name>bGestionarPermisos</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.administrativo.usuario.bGestionarPermisos</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionGestionarPermisos</property-name>
+      <property-class>sped.vista.beans.administrativo.usuario.bSessionGestionarPermisos</property-class>
+      <value>#{sessionGestionarPermisos}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionGestionarPermisos</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.administrativo.usuario.bSessionGestionarPermisos</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>

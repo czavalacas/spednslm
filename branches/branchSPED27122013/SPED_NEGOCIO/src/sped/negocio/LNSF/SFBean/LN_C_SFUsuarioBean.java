@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -220,4 +221,12 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             return null;
         }      
     }
+    
+    public List<BeanUsuario> getListUsuarioPermisosLN(){
+        try{
+            return transformLstUsuario(bdL_C_SFUsuarioLocal.getListUsuarioPermisosBDL());
+        }catch(Exception e){
+            return new ArrayList<BeanUsuario>();
+        }
+    }    
 }
