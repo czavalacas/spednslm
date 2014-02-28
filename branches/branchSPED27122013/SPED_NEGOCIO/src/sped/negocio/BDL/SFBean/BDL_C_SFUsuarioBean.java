@@ -223,4 +223,19 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
             return new ArrayList();
         }
     }
+    
+    public List<Usuario> getListUsuarioPermisosBDL() {
+        List<Usuario> lstUsuario = null;
+        try {
+            String strQuery = "SELECT u " + 
+                              "FROM Usuario u " + 
+                              "WHERE u.estadoUsuario = '1' " +
+                              "AND upper(u.usuario) != 'ADMIN'" +
+                              "ORDER BY u.nombres ASC";
+            lstUsuario = em.createQuery(strQuery).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lstUsuario;
+    }
 }

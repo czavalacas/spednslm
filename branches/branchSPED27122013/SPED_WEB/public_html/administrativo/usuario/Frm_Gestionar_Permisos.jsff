@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <f:view>
+        <af:panelGroupLayout id="pgl1" layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+            <af:treeTable value="#{sessionGestionarPermisos.permisosTree}" var="row" rowBandingInterval="0"
+                          id="treePer" binding="#{bGestionarPermisos.treePer}"
+                          width="420" inlineStyle="width:420px; height:600px;" initiallyExpanded="true"
+                          emptyText="No hay permisos">
+                <f:facet name="nodeStamp">
+                    <af:column sortable="false" headerText="Permisos" align="start" id="c1" width="320">
+                        <af:outputText value="#{row.descripcionPermiso}" id="ot1"/>
+                    </af:column>
+                </f:facet>
+                <af:column width="60" headerText="Seleccionar" align="center">
+                    <af:selectBooleanCheckbox id="sbcPerm" selected="true"
+                                              autoSubmit="true">
+                    </af:selectBooleanCheckbox>
+                </af:column>
+            </af:treeTable>
+        </af:panelGroupLayout>
+    </f:view>
+</ui:composition>
