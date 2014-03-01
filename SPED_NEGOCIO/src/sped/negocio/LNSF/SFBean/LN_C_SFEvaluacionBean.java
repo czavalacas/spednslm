@@ -509,8 +509,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     //terminarrrrrr
     public List<BeanEvaluacion_DP> desempeñoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros){
     List<BeanEvaluacion_DP> lstBeanEvas = new ArrayList<BeanEvaluacion_DP>();
-    List<Evaluacion> lstEvas =
-        bdL_C_SFEvaluacionLocal.getEvaluaciones_DesempenoDocentes(beanFiltros); 
+    List<Evaluacion> lstEvas = new ArrayList<Evaluacion>();
+        lstEvas=  bdL_C_SFEvaluacionLocal.getEvaluaciones_DeDocente(beanFiltros);
         for(Evaluacion eva : lstEvas){
             BeanEvaluacion_DP beanEva = new BeanEvaluacion_DP();
             beanEva.setNidEvaluacion(eva.getNidEvaluacion());
@@ -531,6 +531,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setNotaFinal(nota);
             lstBeanEvas.add(beanEva);
         }
+    
           //traer el peso de cada valor de indicador por evaluacion.
       
        // System.out.println("RESULTADO DE LOS INDICADORES "+resu);
@@ -562,9 +563,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }
         
         /**Si beanFiltros.nidIndicador!= null  : Trae el promedio del Indicador elejido */
-        public double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, int nidIndicador){
+        public double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, Integer nidIndicador){
             List<Evaluacion> listaEvaluaciones =
-                bdL_C_SFEvaluacionLocal.getEvaluaciones_DesempenoDocentes(beanFiltros); 
+                bdL_C_SFEvaluacionLocal.getEvaluaciones_DeDocente(beanFiltros); 
             double resu = 0;
             int tamano = listaEvaluaciones.size();
             int size=0;

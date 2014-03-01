@@ -203,12 +203,13 @@
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:pieGraph>
                             </af:panelBox>
-                            <af:panelBox text="PanelBox3" id="pb3" showDisclosure="false" type="stretch">
+                            <af:panelBox text="Grafico de Areas" id="pb3" showDisclosure="false" type="stretch">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
                                 <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_CLUST" shortDesc="lin"
                                                         dynamicResize="DYNAMIC_SIZE"
-                                                        value="#{requestScope.bDesempenoProfesor.graphDataBarHorizontal}">
+                                                        tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaAreasBarChart}"
+                                                        binding="#{bDesempenoProfesor.barAreaGraph}">
                                     
                                     <dvt:background>
                                     <dvt:specialEffects/>
@@ -242,12 +243,13 @@
                                         </dvt:gauge>
                                        
                                     </af:panelBox>
-                            <af:panelBox text="PanelBox5" id="pb5" type="stretch">
+                            <af:panelBox text="Docente Indicador" id="pb5" type="stretch">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
                                 <dvt:barGraph id="graph5" subType="BAR_VERT_CLUST" shortDesc="r"
                                               dynamicResize="DYNAMIC_SIZE"
-                                              value="#{requestScope.bDesempenoProfesor.graphDataBarNiveles}">
+                                              tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteIndicadorBarChart}"
+                                              binding="#{bDesempenoProfesor.barDocIndicadorGraph}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>

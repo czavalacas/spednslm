@@ -49,6 +49,6 @@ public interface BDL_C_SFEvaluacionLocal {
                                             Date fechaMax,
                                             String tipoVisita,
                                             Integer nidPlanificador,
-                                            Integer nidEvaluador);
-    List<Evaluacion> getEvaluaciones_DesempenoDocentes(BeanFiltrosGraficos beanFiltros);
+                                            Integer nidEvaluador);  
+    List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros);
 }

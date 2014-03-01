@@ -115,6 +115,8 @@ public class bDesempenoProfesor {
     private RichInputDate inputFechaFin;
     private RichTable tbIndicadoresFiltro;
     private RichInputText inputIndicador;
+    private UIGraph barAreaGraph;
+    private UIGraph barDocIndicadorGraph;
 
 
     public bDesempenoProfesor() {
@@ -315,6 +317,12 @@ public class bDesempenoProfesor {
             if(bean.getNidSede()!=null){//ESTE IF EVITA ACTUALIZAR EL GRAFICO DE SEDES SI NO HAY UN FILTRO DE SEDE ELEGIDO
                 llenarDatadeGrafBarrasSedes();      
                 }
+            if(bean.getNidArea()!=null){//ESTE IF EVITA ACTUALIZAR EL GRAFICO DE Areas SI NO HAY UN FILTRO DE SEDE ELEGIDO
+                llenarDatadeGrafBarrasSedesYAreas();      
+                }
+            if(bean.getNidIndicador()!=null){
+                llenarDatadeGrafBarrasDocenteIndicador();
+            }
             
             limpiarComboBoxs(); 
             if (tbFiltrosBusqueda != null) {
@@ -364,12 +372,13 @@ public class bDesempenoProfesor {
          limpiarComboBoxs();
         sessionDesempenoProfesor.getListaFiltros().clear();
        sessionDesempenoProfesor.getLstEvaBarChart().clear();
+       sessionDesempenoProfesor.getLstEvaAreasBarChart().clear();
         if (tbFiltrosBusqueda != null) {
             Utils.unselectFilas(tbFiltrosBusqueda);
             tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
             Utils.addTarget(tbFiltrosBusqueda);
         }
-        Utils.addTarget(barGraph);
+        Utils.addTargetMany(barAreaGraph, barGraph);
       limpiarTablaIndicadores();
         return null;
     }
@@ -409,8 +418,14 @@ public class bDesempenoProfesor {
            }
            if(sessionDesempenoProfesor.getBeanFiltros()!=null){
                if(sessionDesempenoProfesor.getBeanFiltros().getNidSede()!=null){
-               llenarDatadeGrafBarrasSedes();}}
+               llenarDatadeGrafBarrasSedes();} }
+           
+                   if(sessionDesempenoProfesor.getBeanFiltros()!=null){
+                       if(sessionDesempenoProfesor.getBeanFiltros().getNidArea()!=null){
+                       llenarDatadeGrafBarrasSedesYAreas();} 
+                   }
        }
+        
         return null;
     }
     public void seleccionarFiltro(SelectionEvent selectionEvent) {
@@ -440,8 +455,80 @@ public class bDesempenoProfesor {
 
         graphDataPie = new oracle.adf.view.faces.bi.model.GraphDataModel();
         graphDataPie.setDataSource(ds);
+    }   
+    
+    
+    public String llenarDatadeGrafBarrasDocenteIndicador(){
+        List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
+        List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
+        for(int i=0; i<listaFiltros.size(); i++){
+            if(listaFiltros.get(i).getNombreIndicador()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR INDICADORES  A COMPARAR
+          //   List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),3);Utils.sysout("num Evalu "+lstEvaluaciones.size());
+           //UNA LISTA DE EVALUACIONES QUE TIENE
+            BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
+            if(listaFiltros.get(i).getNombreProfesor()!=null){
+            bean.setProfesor(listaFiltros.get(i).getNombreProfesor().getApellidos()+" "+listaFiltros.get(i).getNombreProfesor().getNombres());
+            }
+            if(listaFiltros.get(i).getNombreProfesor()==null){
+            bean.setProfesor("Global");
+            }   
+            bean.setIndicador(listaFiltros.get(i).getNombreIndicador().getDescripcionIndicador());
+            double valor=ln_C_SFEvaluacionRemote.resultadoPromediodeIndicador(listaFiltros.get(i) ,listaFiltros.get(i).getNombreIndicador().getNidIndicador());  
+            bean.setNotaFinal(valor);
+                listaParaGrfaicoDeBarrasSedes.add(bean);}
+            }
+        setListEvabarChartDocenteIndicador(listaParaGrfaicoDeBarrasSedes);    
+        Utils.addTarget(barDocIndicadorGraph);
+        return null;
     }
     
+    public void setListEvabarChartDocenteIndicador(List <BeanEvaluacion_DP> lstEvaluaciones){
+      
+        List<Object[]> lstEva = new ArrayList();   
+        for(int i=0; i<lstEvaluaciones.size(); i++){             
+            
+            Object[] obj  = { lstEvaluaciones.get(i).getProfesor(),lstEvaluaciones.get(i).getIndicador(),  lstEvaluaciones.get(i).getNotaFinal()}; 
+            
+            lstEva.add(obj);
+        }
+        sessionDesempenoProfesor.setLstEvaDocenteIndicadorBarChart(lstEva);        
+    }            
+
+    
+    public String llenarDatadeGrafBarrasSedesYAreas(){
+        List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
+        List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
+        for(int i=0; i<listaFiltros.size(); i++){
+            if(listaFiltros.get(i).getNombreArea()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR SEDES  A COMPARAR
+             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i));Utils.sysout("num Evalu "+lstEvaluaciones.size());
+           //UNA LISTA DE EVALUACIONES QUE TIENE
+            BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
+            if(listaFiltros.get(i).getNombreSede()!=null){
+            bean.setSede(listaFiltros.get(i).getNombreSede().getDescripcionSede());}
+            if(listaFiltros.get(i).getNombreSede()==null){
+            bean.setSede("Global");
+            }   
+            bean.setAreaAcademica(listaFiltros.get(i).getNombreArea().getDescripcionAreaAcademica());
+            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+            bean.setNotaFinal(valor);
+                listaParaGrfaicoDeBarrasSedes.add(bean);}
+            }
+        setListEvabarChartSedesYAreas(listaParaGrfaicoDeBarrasSedes);    
+        Utils.addTarget(barAreaGraph);
+        return null;
+    }
+    public void setListEvabarChartSedesYAreas(List <BeanEvaluacion_DP> lstEvaluaciones){
+      
+        List<Object[]> lstEva = new ArrayList();   
+        for(int i=0; i<lstEvaluaciones.size(); i++){             
+            
+            Object[] obj  = { lstEvaluaciones.get(i).getSede(),lstEvaluaciones.get(i).getAreaAcademica(),  lstEvaluaciones.get(i).getNotaFinal()}; 
+            
+            lstEva.add(obj);
+        }
+        sessionDesempenoProfesor.setLstEvaAreasBarChart(lstEva);        
+    }            
+
     
     public String llenarDatadeGrafBarrasSedes(){
         List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
@@ -454,70 +541,22 @@ public class bDesempenoProfesor {
             bean.setSede(listaFiltros.get(i).getNombreSede().getDescripcionSede());
             double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
             bean.setNotaFinal(valor);
-           
-            
                 listaParaGrfaicoDeBarrasSedes.add(bean);}
             }
-        setListEvabarChart(listaParaGrfaicoDeBarrasSedes);    
+        setListEvabarChartSedes(listaParaGrfaicoDeBarrasSedes);    
         Utils.addTarget(barGraph);
         return null;
     }
               
-    public void setListEvabarChart(List <BeanEvaluacion_DP> lstEvaluaciones){
-        List<Object[]> lstEva = new ArrayList();       
-        
+    public void setListEvabarChartSedes(List <BeanEvaluacion_DP> lstEvaluaciones){
+        List<Object[]> lstEva = new ArrayList();   
         for(int i=0; i<lstEvaluaciones.size(); i++){            
-           
-            Object[] obj  = {  lstEvaluaciones.get(i).getSede(), "Desempeño", lstEvaluaciones.get(i).getNotaFinal()};
-             
+            Object[] obj  = {  lstEvaluaciones.get(i).getSede(), "Desempeño", lstEvaluaciones.get(i).getNotaFinal()};             
             lstEva.add(obj);
-        
-       
         }
         sessionDesempenoProfesor.setLstEvaBarChart(lstEva);        
-    }
-            
-            
-    public void initGraphDataModelBarPorSede() {
-       // String[] columnLabels = { "Industria","Ecologica","SEDE 3", "SEDE 4", "SEDE 5", "SEDE 6" };
-       List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();
-       
-       List<String> columnLabels = new ArrayList<String>();
-       Object[][] data2 = new Object[listaFiltros.size()][1];
-       String[] seriesLabels ={"Desempeño"};
-       
-        for(int i=0; i<listaFiltros.size(); i++){
-            List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i));Utils.sysout("num Evalu "+lstEvaluaciones.size());
-            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);            
-            columnLabels.add(i, listaFiltros.get(i).getNombreSede().getDescripcionSede());
-            data2[i][0] = new Double(valor);  
-        }
-       
-        String [] labels = columnLabels.toArray(new String[columnLabels.size()]);
-        // 1er[] Tamaño de columnas empieza de 1,2,3..
-        // 2do[] Tamaño de Labels Por Columna empieza de 0,1,2,3...
-        //Ejemplo si queremos 3 columas con 5 barras cada uno seria   Object[][] data2 = new Object[3][5];
-        //Para este caso queremos 5 columnas con 1 barra cada una 
-        
-       
-    /*    
-        Object[][] data2 = new Object[6][1];
-        data2[0][0] = new Double(40);               
-        data2[1][0] = new Double(70);
-        data2[2][0] = new Double(20);               
-        data2[3][0] = new Double(90);
-        data2[4][0] = new Double(60);        
-        data2[5][0] = new Double(90); 
-    */
+    }            
 
-        oracle.dss.dataView.LocalXMLDataSource ds =
-            new oracle.dss.dataView.LocalXMLDataSource(labels, seriesLabels, data2);
-
-        graphDataBar = new oracle.adf.view.faces.bi.model.GraphDataModel();
-        graphDataBar.setDataSource(ds);
-        Utils.addTarget(barGraph);
-    }
-    
     public void initGraphDataModelLinePorAño() {
         String[] columnLabels = { "Enero","Febrero","Marzo", "Abril", "Mayo", "Junio","Julio","Agosto","Setiembre", "Octubre", "Noviembre", "Diciembre"  };
 
@@ -890,4 +929,19 @@ public class bDesempenoProfesor {
         return inputIndicador;
     }
 
+    public void setBarAreaGraph(UIGraph barAreaGraph) {
+        this.barAreaGraph = barAreaGraph;
+    }
+
+    public UIGraph getBarAreaGraph() {
+        return barAreaGraph;
+    }
+
+    public void setBarDocIndicadorGraph(UIGraph barDocIndicadorGraph) {
+        this.barDocIndicadorGraph = barDocIndicadorGraph;
+    }
+
+    public UIGraph getBarDocIndicadorGraph() {
+        return barDocIndicadorGraph;
+    }
 }
