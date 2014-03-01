@@ -39,6 +39,8 @@ public class bSessionDesempenoProfesor implements Serializable {
     private boolean estadoTablaIndicadores=false;
     
     private transient List<Object[]> lstEvaBarChart;
+    private transient List<Object[]> lstEvaAreasBarChart;
+    private transient List<Object[]> lstEvaDocenteIndicadorBarChart;
     
     public bSessionDesempenoProfesor() {
     }
@@ -235,5 +237,21 @@ public class bSessionDesempenoProfesor implements Serializable {
 
     public List<Object[]> getLstEvaBarChart() {
         return lstEvaBarChart;
+    }
+
+    public void setLstEvaAreasBarChart(List<Object[]> lstEvaAreasBarChart) {
+        this.lstEvaAreasBarChart = lstEvaAreasBarChart;
+    }
+
+    public List<Object[]> getLstEvaAreasBarChart() {
+        return lstEvaAreasBarChart;
+    }
+
+    public void setLstEvaDocenteIndicadorBarChart(List<Object[]> lstEvaDocenteIndicadorBarChart) {
+        this.lstEvaDocenteIndicadorBarChart = lstEvaDocenteIndicadorBarChart;
+    }
+
+    public List<Object[]> getLstEvaDocenteIndicadorBarChart() {
+        return lstEvaDocenteIndicadorBarChart;
     }
 }

@@ -740,19 +740,34 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             return null;
         }
     }
-    
-    public List<Evaluacion> getEvaluaciones_DesempenoDocentes(BeanFiltrosGraficos beanFiltros) {
-        try{
+
+    public List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros) {
+        try{System.out.println("ENTRO QUERY POR INDICADOR"); 
             String ejbQl = " SELECT eva " +
-                           " FROM Evaluacion eva, Main ma, Aula au, Sede sed " +
-                           " WHERE eva.main.nidMain=ma.nidMain " +
-                           " and ma.aula.nidAula=au.nidAula " +
-                           " and au.sede.nidSede=sed.nidSede and eva.estadoEvaluacion='EJECUTADO'";
-              
-              if(beanFiltros.getNidSede() != null){ System.out.println("Hay nidSede");                
-                    ejbQl = ejbQl.concat(" and sed.nidSede="+beanFiltros.getNidSede());
-                }
-                
+                           " FROM Evaluacion eva, Main ma, Aula au"+
+                           " WHERE eva.main.nidMain=ma.nidMain"+
+                           " and ma.aula.nidAula=au.nidAula"+                         
+                           " and eva.estadoEvaluacion='EJECUTADO'";                                    
+             
+            if(beanFiltros.getNidSede() != null){ System.out.println("Hay nidSede");                
+              ejbQl = ejbQl.concat(" and au.sede.nidSede="+beanFiltros.getNidSede());
+            }
+            if(beanFiltros.getNidArea()!=null){System.out.println("Hay Area");
+              ejbQl = ejbQl.concat(" and ma.curso.areaAcademica.nidAreaAcademica="+beanFiltros.getNidArea());
+            }  
+            if(beanFiltros.getNidCurso()!=null){System.out.println("Hay Curso");
+              ejbQl = ejbQl.concat(" and ma.curso.nidCurso="+beanFiltros.getNidCurso());
+            } 
+            if(beanFiltros.getNidNivele()!=null){System.out.println("Hay Nivel");
+              ejbQl = ejbQl.concat(" and au.gradoNivel.nivel.nidNivel="+beanFiltros.getNidNivele());
+            } 
+            if(beanFiltros.getNidGrado()!=null){System.out.println("Hay Grado");
+              ejbQl = ejbQl.concat(" and au.gradoNivel.grado.nidGrado="+beanFiltros.getNidGrado());
+            } 
+            if(beanFiltros.getDniDocente() != null){ System.out.println("Hay Docente");                
+              ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor="+beanFiltros.getDniDocente());
+            }
+         
                 List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();           
                 return eva;         
         }catch(Exception e){
