@@ -41,6 +41,7 @@ public class BeanEvaluacion_DP implements Serializable {
     private BeanCriterioWS[] criterios;
     private Double NotaFinalIndicador;
     private List<BeanResultado> resultadoLista;
+    private String indicador;
 
     public void setResultadoLista(List<BeanResultado> resultadoLista) {
         this.resultadoLista = resultadoLista;
@@ -264,5 +265,13 @@ public class BeanEvaluacion_DP implements Serializable {
 
     public Double getNotaFinalIndicador() {
         return NotaFinalIndicador;
+    }
+
+    public void setIndicador(String indicador) {
+        this.indicador = indicador;
+    }
+
+    public String getIndicador() {
+        return indicador;
     }
 }

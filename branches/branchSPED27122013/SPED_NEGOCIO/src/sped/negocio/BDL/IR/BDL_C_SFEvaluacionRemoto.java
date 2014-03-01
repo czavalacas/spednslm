@@ -50,5 +50,5 @@ public interface BDL_C_SFEvaluacionRemoto {
                                             String tipoVisita,
                                             Integer nidPlanificador,
                                             Integer nidEvaluador);
-    List<Evaluacion> getEvaluaciones_DesempenoDocentes(BeanFiltrosGraficos beanFiltros);
+    List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros) ;
 }
