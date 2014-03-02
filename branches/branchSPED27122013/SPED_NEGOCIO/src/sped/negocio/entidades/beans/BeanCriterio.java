@@ -27,6 +27,7 @@ public class BeanCriterio implements Serializable, Cloneable {
     private double sumaNota;
     private int cantidadIndicadores;
     private FichaCriterio fichaCriterioAUX;
+    private String isRaiz;
     
     public Object clone() {
         Object clone = null;
@@ -40,10 +41,14 @@ public class BeanCriterio implements Serializable, Cloneable {
     
     @Override
     public int hashCode(){
-        if(this.getNidCriterio() != 0){
-            return this.getNidCriterio().hashCode();
+        if(this.getNidCriterio() != null){
+            if(this.getNidCriterio() != 0){
+                return this.getNidCriterio().hashCode();
+            }else{
+                return 0;    
+            }
         }else{
-            return 0;    
+            return 0;
         }
     }
     
@@ -58,6 +63,14 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+
+    public void setIsRaiz(String isRaiz) {
+        this.isRaiz = isRaiz;
+    }
+
+    public String getIsRaiz() {
+        return isRaiz;
     }
 
     public void setSumaNota(double sumaNota) {

@@ -127,6 +127,7 @@ public class bRegistrarFicha {
         BeanCriterio b = new BeanCriterio();
         b.setDescripcionCriterio("::: Ficha de Evaluacion :::");
         b.setMostrarBoton(false);
+        b.setIsRaiz("1");
         List<BeanCriterio> lstBeanCriterio = new ArrayList<BeanCriterio>();
         Collections.sort(sessionRegistrarFicha.getLstCriteriosMultiples(), new Comparator<BeanCriterio>() {
             public int compare(BeanCriterio s1,BeanCriterio s2) {
@@ -153,19 +154,18 @@ public class bRegistrarFicha {
                 sessionRegistrarFicha.setActDesEstilo("FondoRojoLetraVerde");
             }
             boolean fichaEvaluada = ln_C_SFResultadoLocal.fichaUsadaEnEvaluacion_LN(beanFicha.getNidFicha());
-            Utils.sysout("usada:"+fichaEvaluada);
-            BeanFicha clon = (BeanFicha) beanFicha.clone();Utils.sysout("clon.:"+clon);
-            Utils.sysout("22clon.getTipoFicha():"+clon.getTipoFicha());
+            BeanFicha clon = (BeanFicha) beanFicha.clone();
             sessionRegistrarFicha.setFichaEditarClon(clon);
             if(!fichaEvaluada){
                 btnEditFicha.setDisabled(false);
-                Utils.addTargetMany(btnEditFicha);
+            }else{
+                btnEditFicha.setDisabled(true);
             }
             btnActDesact.setText(sessionRegistrarFicha.getActDesact());
             btnActDesact.setStyleClass(sessionRegistrarFicha.getActDesEstilo());
             btnBase.setDisabled(false);
             btnActDesact.setDisabled(false);
-            Utils.addTargetMany(btnBase,btnActDesact);
+            Utils.addTargetMany(btnBase,btnActDesact,btnEditFicha);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -347,6 +347,7 @@ public class bRegistrarFicha {
                     crit.setMostrarUpDown(true);
                     crit.setNoMostrarDown(true);
                     crit.setEsIndicador(1);
+                    crit.setIsRaiz("0");
                     crit.setDescripcionCriterio(beanIndicador.getDescripcionIndicador());
                     crit.setDisplay("display:block;");
                     crit.setSelected(beanIndicador.isSelected());
@@ -395,6 +396,7 @@ public class bRegistrarFicha {
                 crit.setMostrarUpDown(true);
                 crit.setNoMostrarDown(indi.isNoMostrarDown());
                 crit.setEsIndicador(1);
+                crit.setIsRaiz("0");
                 crit.setDescripcionCriterio(indi.getDescripcionIndicador());
                 crit.setDisplay("display:block;");
                 crit.setSelected(indi.isSelected());
@@ -1105,11 +1107,14 @@ public class bRegistrarFicha {
             col.setWidth("40");
             ValueExpression ve = Utils.createValueExpression("#{row.display}");//../recursos/img/usuarios/
             ValueExpression veIcono = Utils.createValueExpression("#{row.lstLeyenda["+c+"].descripcionLeyenda == null || row.lstLeyenda["+c+"].descripcionLeyenda == '' ? '../recursos/img/usuarios/closed_eye.png' : '../recursos/img/usuarios/ver.png' }");
+            ValueExpression veShort = Utils.createValueExpression("#{row.isRaiz}");
             RichButton buton = new RichButton();
             String name = RichButton.INLINE_STYLE_KEY.getName();
             String nameIcono = RichButton.ICON_KEY.getName();
+            String nameShort = RichButton.SHORT_DESC_KEY.getName();
             buton.setValueExpression(name, ve);
             buton.setValueExpression(nameIcono,veIcono);
+            buton.setValueExpression(nameShort,veShort);
             buton.setActionListener(Utils.createActionListenerMethodBinding("#{bRegistrarFicha.getVerLeyenda}"));
             buton.getAttributes().put("leyenda",valor);
             col.getChildren().add(buton);
@@ -1118,11 +1123,77 @@ public class bRegistrarFicha {
         Utils.addTarget(treeCriIndi);
     }
 
+    public void actualizarLeyendasByValor(String valor,String descLeyenda){
+        ChildPropertyTreeModel permisosTree = sessionRegistrarFicha.getPermisosTree();
+        List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) permisosTree.getWrappedData();
+        lstBeanCriterio.get(0).setDisplay("display:block;");
+        if(lstBeanCriterio.get(0) != null){
+            lstBeanCriterio.get(0).getLstLeyenda().removeAll(lstBeanCriterio.get(0).getLstLeyenda());
+        }
+        lstBeanCriterio.get(0).setLstLeyenda(sessionRegistrarFicha.getLstLeyendasRaiz());
+        BeanLeyenda ley1 = this.getLeyendaByValor(valor,lstBeanCriterio.get(0));
+        if(ley1 == null){
+            ley1 = new BeanLeyenda();
+            ley1.setDescripcionLeyenda(descLeyenda);
+            ley1.setHeader(valor);
+            int indx = Integer.parseInt(valor.substring(valor.indexOf(" ")+1,valor.length()) ) - 1;
+            if(lstBeanCriterio.get(0).getLstLeyenda().size() < indx){
+                lstBeanCriterio.get(0).getLstLeyenda().addAll(Collections.<BeanLeyenda>nCopies((indx - lstBeanCriterio.get(0).getLstLeyenda().size()), null));
+                sessionRegistrarFicha.getLstLeyendasRaiz().addAll(Collections.<BeanLeyenda>nCopies((indx - lstBeanCriterio.get(0).getLstLeyenda().size()), null));
+            }else if(lstBeanCriterio.get(0).getLstLeyenda().size() > indx){
+                lstBeanCriterio.get(0).getLstLeyenda().remove(indx);
+                sessionRegistrarFicha.getLstLeyendasRaiz().remove(indx);
+            }
+            lstBeanCriterio.get(0).getLstLeyenda().add(indx,ley1);
+         //   sessionRegistrarFicha.getLstLeyendasRaiz().add(indx,ley1);
+        }else{
+            ley1.setDescripcionLeyenda(descLeyenda);
+            ley1.setHeader(valor);
+        }
+        if(lstBeanCriterio.get(0).getLstIndicadores() != null){
+            if(lstBeanCriterio.get(0).getLstIndicadores().size() > 0){
+                for(int i = 0; i < lstBeanCriterio.get(0).getLstIndicadores().size(); i++){
+                    BeanCriterio crit = lstBeanCriterio.get(0).getLstIndicadores().get(i);
+                    if(crit.getLstIndicadores() != null){
+                        if(crit.getLstIndicadores().size() > 0){
+                            for(int j = 0; j < crit.getLstIndicadores().size(); j++){
+                                BeanCriterio indi = crit.getLstIndicadores().get(j);
+                                if(indi.getLstLeyenda() != null){
+                                    BeanLeyenda ley = this.getLeyendaByValor(valor,indi);
+                                    if(ley == null){
+                                        BeanLeyenda le = new BeanLeyenda();
+                                        le.setDescripcionLeyenda(descLeyenda);
+                                        le.setHeader(valor);
+                                        int indx = Integer.parseInt(valor.substring(valor.indexOf(" ")+1,valor.length()) ) - 1;
+                                        if(indi.getLstLeyenda().size() < indx){
+                                            indi.getLstLeyenda().addAll(Collections.<BeanLeyenda>nCopies((indx - indi.getLstLeyenda().size()), null));
+                                        }else if(indi.getLstLeyenda().size() > indx){
+                                            indi.getLstLeyenda().remove(indx);
+                                        }
+                                        indi.getLstLeyenda().add(indx,le);
+                                    }else{
+                                        ley.setDescripcionLeyenda(descLeyenda);
+                                        ley.setHeader(valor);
+                                    }
+                                }
+                            }
+                        }  
+                    }
+                }
+            } 
+        }
+        permisosTree = new ChildPropertyTreeModel(lstBeanCriterio,"lstIndicadores");
+        if(treeCriIndi != null){
+            treeCriIndi.setValue(permisosTree);
+            sessionRegistrarFicha.setPermisosTree(permisosTree);
+            Utils.addTarget(treeCriIndi);
+        }
+    }
+    
     public void getVerLeyenda(ActionEvent ae){
         String param = (String)ae.getComponent().getAttributes().get("leyenda");
         if(itLey != null){
             itLey.resetValue();
-           // itLey.setValue(param);
             Utils.addTarget(itLey);
         }
         RichTreeTable tt = sessionRegistrarFicha.getTt();
@@ -1132,12 +1203,14 @@ public class bRegistrarFicha {
         List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) model.getWrappedData();
         if (keys.hasNext()) {
             List key = (List)keys.next();
-            if(key.size() == 3){
-                int llave = Integer.parseInt(key.get(2).toString());
-                int llaveCrit = Integer.parseInt(key.get(1).toString());
-                BeanCriterio criterio = lstBeanCriterio.get(0).getLstIndicadores().get(llaveCrit);
-                BeanCriterio indiSelected = criterio.getLstIndicadores().get(llave);
-                BeanLeyenda ley = this.getLeyendaByValor(param, indiSelected);
+            boolean isGeneral = sessionRegistrarFicha.isLeyendasGenerales() == true && key.size() == 1;
+            if((isGeneral)){
+                RichButton btn = (RichButton) ae.getComponent();
+                sessionRegistrarFicha.setShortDesc(btn.getShortDesc());
+                BeanCriterio criterio = lstBeanCriterio.get(0);
+                sessionRegistrarFicha.setIndiHeaderSelectLeyenda(criterio);
+                sessionRegistrarFicha.setDescCriterioSeleccionado(" -- Leyendas en general --");
+                BeanLeyenda ley = this.getLeyendaByValor(param,criterio);
                 if(ley != null){
                     sessionRegistrarFicha.setLeyenda(ley.getDescripcionLeyenda());
                     if(itLey != null){
@@ -1153,60 +1226,138 @@ public class bRegistrarFicha {
                         Utils.addTarget(itLey);
                     }
                 }
-                sessionRegistrarFicha.setIndiSelectLeyenda(indiSelected);
-                sessionRegistrarFicha.setDescIndicadorSelected(indiSelected.getDescripcionCriterio());
+                sessionRegistrarFicha.setDescIndicadorSelected(null);
                 sessionRegistrarFicha.setValorDesc(param);
                 Utils.showPopUpMIDDLE(popLey);
             }else{
-                sessionRegistrarFicha.setValorDesc(null);
-                sessionRegistrarFicha.setLeyenda(null);
-                if(itLey != null){
-                    itLey.resetValue();
-                    itLey.setValue(null);
-                    Utils.addTarget(itLey);
+                if(key.size() == 3){
+                    sessionRegistrarFicha.setShortDesc("0");
+                    int llave = Integer.parseInt(key.get(2).toString());
+                    int llaveCrit = Integer.parseInt(key.get(1).toString());
+                    BeanCriterio criterio = lstBeanCriterio.get(0).getLstIndicadores().get(llaveCrit);
+                    BeanCriterio indiSelected = criterio.getLstIndicadores().get(llave);
+                    sessionRegistrarFicha.setDescCriterioSeleccionado(criterio.getDescripcionCriterio());
+                    BeanLeyenda ley = this.getLeyendaByValor(param, indiSelected);
+                    if(ley != null){
+                        sessionRegistrarFicha.setLeyenda(ley.getDescripcionLeyenda());
+                        if(itLey != null){
+                            itLey.resetValue();
+                            itLey.setValue(ley.getDescripcionLeyenda());
+                            Utils.addTarget(itLey);
+                        }
+                    }else{
+                        sessionRegistrarFicha.setLeyenda(null);
+                        if(itLey != null){
+                            itLey.resetValue();
+                            itLey.setValue(null);
+                            Utils.addTarget(itLey);
+                        }
+                    }
+                    sessionRegistrarFicha.setIndiSelectLeyenda(indiSelected);
+                    sessionRegistrarFicha.setDescIndicadorSelected(indiSelected.getDescripcionCriterio());
+                    sessionRegistrarFicha.setValorDesc(param);
+                    Utils.showPopUpMIDDLE(popLey);
+                }else{
+                    sessionRegistrarFicha.setValorDesc(null);
+                    sessionRegistrarFicha.setLeyenda(null);
+                    if(itLey != null){
+                        itLey.resetValue();
+                        itLey.setValue(null);
+                        Utils.addTarget(itLey);
+                    }
                 }
             }
-        } 
-       // sessionRegistrarFicha.setLeyenda(leyenda);
-       // Utils.invokePopup("r1:1:popLey");
+        }
     }
     
     public void asignarLeyenda(ActionEvent ae) {
         if(sessionRegistrarFicha.getLeyenda() != null){
-            BeanCriterio indiSelected = sessionRegistrarFicha.getIndiSelectLeyenda();
-            if(indiSelected.getLstLeyenda() != null){
-                BeanLeyenda ley = this.getLeyendaByValor(sessionRegistrarFicha.getValorDesc(), indiSelected);
-                if(ley != null){
-                    ley.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
-                }else{
-                    ley = new BeanLeyenda();
-                    ley.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
-                    ley.setHeader(sessionRegistrarFicha.getValorDesc());
-                    int indx = Integer.parseInt(sessionRegistrarFicha.getValorDesc().substring(sessionRegistrarFicha.getValorDesc().indexOf(" ")+1,
-                                                                                                  sessionRegistrarFicha.getValorDesc().length()) );
-                    if(indiSelected.getLstLeyenda().size() < indx){
-                        indiSelected.getLstLeyenda().addAll(Collections.<BeanLeyenda>nCopies((indx - indiSelected.getLstLeyenda().size()), null));
-                    }else if(indiSelected.getLstLeyenda().size() > indx){
-                        indiSelected.getLstLeyenda().remove(indx);
+            String shortDesc = sessionRegistrarFicha.getShortDesc();
+            String leyendaDesc = sessionRegistrarFicha.getLeyenda();
+            boolean isHeader = true;
+            if(shortDesc != null){
+                if(shortDesc.equalsIgnoreCase("1")){
+                    BeanCriterio critRaiz = sessionRegistrarFicha.getIndiHeaderSelectLeyenda();
+                    if(critRaiz.getLstLeyenda() != null){
+                        BeanLeyenda ley = this.getLeyendaByValor(sessionRegistrarFicha.getValorDesc(),critRaiz);
+                        if(ley != null){
+                            ley.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
+                        }else{
+                            ley = new BeanLeyenda();
+                            ley.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
+                            ley.setHeader(sessionRegistrarFicha.getValorDesc());
+                            int indx = Integer.parseInt(sessionRegistrarFicha.getValorDesc().substring(sessionRegistrarFicha.getValorDesc().indexOf(" ")+1,
+                                                                                                          sessionRegistrarFicha.getValorDesc().length()) ) - 1;
+                            if(critRaiz.getLstLeyenda().size() < indx){
+                                critRaiz.getLstLeyenda().addAll(Collections.<BeanLeyenda>nCopies((indx - critRaiz.getLstLeyenda().size()), null));
+                            }else if(critRaiz.getLstLeyenda().size() > indx){
+                                critRaiz.getLstLeyenda().remove(indx);
+                            }
+                            critRaiz.getLstLeyenda().add(indx,ley);
+                        }
+                        if(itLey != null){
+                            sessionRegistrarFicha.setLeyenda(null);
+                            itLey.resetValue();
+                            itLey.setValue(null);
+                            Utils.addTarget(itLey);
+                        }
+                    }else{
+                        BeanLeyenda leye = new BeanLeyenda();
+                        leye.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
+                        leye.setHeader(sessionRegistrarFicha.getValorDesc());
+                        int indx = Integer.parseInt(sessionRegistrarFicha.getValorDesc().substring(sessionRegistrarFicha.getValorDesc().indexOf(" ")+1,
+                                                                                                      sessionRegistrarFicha.getValorDesc().length())       );
+                        critRaiz.getLstLeyenda().add(indx,leye);
+                        if(itLey != null){
+                            itLey.resetValue();
+                            Utils.addTarget(itLey);
+                        }
                     }
-                    indiSelected.getLstLeyenda().add(indx,ley);
-                }
-                if(itLey != null){
-                    sessionRegistrarFicha.setLeyenda(null);
-                    itLey.resetValue();
-                    itLey.setValue(null);
-                    Utils.addTarget(itLey);
+                    popLey.hide();
+                    Utils.addTarget(treeCriIndi);
+                    actualizarLeyendasByValor(sessionRegistrarFicha.getValorDesc(),leyendaDesc);
+                }else{
+                    isHeader = false;
                 }
             }else{
-                BeanLeyenda leye = new BeanLeyenda();
-                leye.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
-                leye.setHeader(sessionRegistrarFicha.getValorDesc());
-                int indx = Integer.parseInt(sessionRegistrarFicha.getValorDesc().substring(sessionRegistrarFicha.getValorDesc().indexOf(" ")+1,
-                                                                                              sessionRegistrarFicha.getValorDesc().length())       );
-                indiSelected.getLstLeyenda().add(indx,leye);
-                if(itLey != null){
-                    itLey.resetValue();
-                    Utils.addTarget(itLey);
+                isHeader = false;
+            }
+            if(isHeader == false){
+                BeanCriterio indiSelected = sessionRegistrarFicha.getIndiSelectLeyenda();
+                if(indiSelected.getLstLeyenda() != null){
+                    BeanLeyenda ley = this.getLeyendaByValor(sessionRegistrarFicha.getValorDesc(), indiSelected);
+                    if(ley != null){
+                        ley.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
+                    }else{
+                        ley = new BeanLeyenda();
+                        ley.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
+                        ley.setHeader(sessionRegistrarFicha.getValorDesc());
+                        int indx = Integer.parseInt(sessionRegistrarFicha.getValorDesc().substring(sessionRegistrarFicha.getValorDesc().indexOf(" ")+1,
+                                                                                                      sessionRegistrarFicha.getValorDesc().length()) ) - 1;
+                        if(indiSelected.getLstLeyenda().size() < indx){
+                            indiSelected.getLstLeyenda().addAll(Collections.<BeanLeyenda>nCopies((indx - indiSelected.getLstLeyenda().size()), null));
+                        }else if(indiSelected.getLstLeyenda().size() > indx){
+                            indiSelected.getLstLeyenda().remove(indx);
+                        }
+                        indiSelected.getLstLeyenda().add(indx,ley);
+                    }
+                    if(itLey != null){
+                        sessionRegistrarFicha.setLeyenda(null);
+                        itLey.resetValue();
+                        itLey.setValue(null);
+                        Utils.addTarget(itLey);
+                    }
+                }else{
+                    BeanLeyenda leye = new BeanLeyenda();
+                    leye.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
+                    leye.setHeader(sessionRegistrarFicha.getValorDesc());
+                    int indx = Integer.parseInt(sessionRegistrarFicha.getValorDesc().substring(sessionRegistrarFicha.getValorDesc().indexOf(" ")+1,
+                                                                                                  sessionRegistrarFicha.getValorDesc().length())       );
+                    indiSelected.getLstLeyenda().add(indx,leye);
+                    if(itLey != null){
+                        itLey.resetValue();
+                        Utils.addTarget(itLey);
+                    }
                 }
             }
             popLey.hide();
@@ -1349,55 +1500,31 @@ public class bRegistrarFicha {
         sessionRegistrarFicha.setActDesEstilo(null);
         Utils.addTargetMany(btnBase,btnActDesact);
     }
-     
-    public void exportData(FacesContext facesContext, OutputStream outputStream) throws IOException,WriteException{
-        XWPFDocument document = new XWPFDocument();
- 
-        // New 2x2 table
-        XWPFTable tableOne = document.createTable();
-        XWPFTableRow tableOneRowOne = tableOne.getRow(0);
-        tableOneRowOne.getCell(0).setText("Hello");
-        tableOneRowOne.addNewTableCell().setText("World");
- 
-        XWPFTableRow tableOneRowTwo = tableOne.createRow();
-        tableOneRowTwo.getCell(0).setText("This is");
-        tableOneRowTwo.getCell(1).setText("a table");
- 
-        //Add a break between the tables
-        document.createParagraph().createRun().addBreak();
- 
-        // New 3x3 table
-        XWPFTable tableTwo = document.createTable();
-        XWPFTableRow tableTwoRowOne = tableTwo.getRow(0);
-        tableTwoRowOne.getCell(0).setText("col one, row one");
-        tableTwoRowOne.addNewTableCell().setText("col two, row one");
-        tableTwoRowOne.addNewTableCell().setText("col three, row one");
- 
-        XWPFTableRow tableTwoRowTwo = tableTwo.createRow();
-        tableTwoRowTwo.getCell(0).setText("col one, row two");
-        tableTwoRowTwo.getCell(1).setText("col two, row two");
-        tableTwoRowTwo.getCell(2).setText("col three, row two");
- 
-        XWPFTableRow tableTwoRowThree = tableTwo.createRow();
-        tableTwoRowThree.getCell(0).setText("col one, row three");
-        tableTwoRowThree.getCell(1).setText("col two, row three");
-        tableTwoRowThree.getCell(2).setText("col three, row three");
- 
-       /* FileOutputStream outStream = null;
-        try {
-            outStream = new FileOutputStream("");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
-        try {
-            document.write(outputStream);
-            outputStream.flush();
-            outputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    
+    public void changeLeyendasGenerales(ValueChangeEvent vce) {
+        boolean isGeneral = (Boolean)vce.getNewValue();
+        sessionRegistrarFicha.setLeyendasGenerales(isGeneral);
+        if(isGeneral){//Checked
+            ChildPropertyTreeModel permisosTree = sessionRegistrarFicha.getPermisosTree();
+            try {
+                List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) permisosTree.getWrappedData();
+                lstBeanCriterio.get(0).setDisplay("display:block;");
+                if(treeCriIndi != null){
+                    treeCriIndi.setValue(sessionRegistrarFicha.getPermisosTree());
+                    Utils.addTarget(treeCriIndi);
+                }
+                Utils.sysout("perm: " + lstBeanCriterio.get(0).getDescripcionCriterio());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{//Unchecked
+            List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) permisosTree.getWrappedData();
+            lstBeanCriterio.get(0).setDisplay("display:none;");
+                if(treeCriIndi != null){
+                    treeCriIndi.setValue(sessionRegistrarFicha.getPermisosTree());
+                    Utils.addTarget(treeCriIndi);
+                }
+            }
     }
     
     public void setTbFichas(RichTable tbFichas) {
