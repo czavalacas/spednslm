@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import java.sql.Timestamp;
 
+import java.util.List;
+
 /**
  * Bean que maneja los valores de la entidad ParteOcurrencia, es usado en el WS, consultar antes
  * de agregar/Modicar/Borrar algun atributo
@@ -28,6 +30,7 @@ public class BeanParteOcurrencia implements Serializable {
     private int nidProblema;
     private long nidParte;
     private int nidMain;
+    private List lstPies;//No se pone List<BeanPie> porque en movil no acepta
 
     public BeanParteOcurrencia(){
         
@@ -60,6 +63,14 @@ public class BeanParteOcurrencia implements Serializable {
         this.nidProblema = nidProblema;
         this.nidParte = nidParte;
         this.nidMain = nidMain;
+    }
+
+    public void setLstPies(List lstPies) {
+        this.lstPies = lstPies;
+    }
+
+    public List getLstPies() {
+        return lstPies;
     }
 
     public void setComentario(String comentario) {
