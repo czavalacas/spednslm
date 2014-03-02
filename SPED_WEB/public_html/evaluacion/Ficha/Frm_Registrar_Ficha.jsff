@@ -240,8 +240,7 @@
             </af:dialog>
         </af:popup>
         <af:popup childCreation="deferred" id="popIndByCrit"
-                  binding="#{bRegistrarFicha.popIndByCrit}"
-                  popupCanceledListener="#{bRegistrarFicha.cancelarPopIndiByCrit}">
+                  binding="#{bRegistrarFicha.popIndByCrit}">
             <af:dialog id="diaIndByCrit"
                        title="Indicadores del Criterio: #{sessionScope.sessionRegistrarFicha.descCriterioSeleccionado}" type="none">
                 <af:panelGroupLayout id="pgl5">
