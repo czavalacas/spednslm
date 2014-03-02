@@ -64,9 +64,45 @@ public class bSessionRegistrarFicha implements Serializable {
     private String actDesact;
     private String actDesEstilo;
     private String advertenciaSPED0004;
+    private boolean leyendasGenerales;
+    private BeanCriterio indiHeaderSelectLeyenda = new BeanCriterio();
+    private String shortDesc;
+    private List<BeanLeyenda> lstLeyendasRaiz = new ArrayList<BeanLeyenda>();
     
     public bSessionRegistrarFicha() {
 
+    }
+
+    public void setLstLeyendasRaiz(List<BeanLeyenda> lstLeyendasRaiz) {
+        this.lstLeyendasRaiz = lstLeyendasRaiz;
+    }
+
+    public List<BeanLeyenda> getLstLeyendasRaiz() {
+        return lstLeyendasRaiz;
+    }
+
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
+    }
+
+    public String getShortDesc() {
+        return shortDesc;
+    }
+
+    public void setIndiHeaderSelectLeyenda(BeanCriterio indiHeaderSelectLeyenda) {
+        this.indiHeaderSelectLeyenda = indiHeaderSelectLeyenda;
+    }
+
+    public BeanCriterio getIndiHeaderSelectLeyenda() {
+        return indiHeaderSelectLeyenda;
+    }
+
+    public void setLeyendasGenerales(boolean leyendasGenerales) {
+        this.leyendasGenerales = leyendasGenerales;
+    }
+
+    public boolean isLeyendasGenerales() {
+        return leyendasGenerales;
     }
 
     public void setActDesact(String actDesact) {
