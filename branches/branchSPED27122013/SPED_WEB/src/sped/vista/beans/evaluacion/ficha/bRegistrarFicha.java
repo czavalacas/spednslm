@@ -962,10 +962,6 @@ public class bRegistrarFicha {
         Utils.addTarget(itDescVersion);
     }
     
-    public void cancelarPopIndiByCrit(PopupCanceledEvent popupCanceledEvent) {
-       // Utils.unselectFilas(treeCriIndi);
-    }
-    
     public void registrarCriterio(ActionEvent ae) {
         if(sessionRegistrarFicha.getDescCriterio() != null){
             if(!sessionRegistrarFicha.getDescCriterio().equalsIgnoreCase("")){
