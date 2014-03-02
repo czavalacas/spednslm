@@ -239,7 +239,8 @@ public class WS_SPED {
     public BeanEvaluacionWS getDetalleEvaluacionById_WS(@WebParam(name = "arg0") Integer nidEvaluacion){
         return ln_C_SFEvaluacionLocal.getEvaluacionById_LN_WS(nidEvaluacion);
     }
-    
+
+    @WebMethod
     public List<BeanCombo> getUsuarios_LN_WS(){
         return ln_C_SFUtilsLocal.getUsuarios_LN_WS();
     }
