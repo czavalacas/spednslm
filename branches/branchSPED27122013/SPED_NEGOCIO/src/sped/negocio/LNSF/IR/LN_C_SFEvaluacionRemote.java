@@ -21,7 +21,6 @@ public interface LN_C_SFEvaluacionRemote {
                                                     int nidArea,
                                                     int nidCurso,
                                                     int nidGrado,
-                                                    String estado,
                                                     String nomProfesor,
                                                     String nomEvaluador,
                                                     Date fechaPlanifiacion,

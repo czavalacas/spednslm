@@ -39,7 +39,7 @@ import sped.negocio.entidades.eval.Resultado;
  */
 @Stateless(name = "LN_T_SFEvaluacion", mappedName = "mapLN_T_SFEvaluacion")
 public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
-                                                 LN_T_SFEvaluacionLocal {
+                                              LN_T_SFEvaluacionLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -85,8 +85,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public String removerEvaluacion_LN(Evaluacion eva){
-       
+    public String removerEvaluacion_LN(Evaluacion eva){       
         BeanError beanError = new BeanError();
         String error = "000";
         try {
@@ -143,6 +142,23 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setNidLog(nidLog);
             eva.setNidProblema(null);
             eva.setComentario_evaluador(comentarioEvaluador);
+            bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+        }catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+    }
+    
+    public String updateEvaluacionbyComentarioProfesor(int idEvaluacion,
+                                                       String comentario){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(idEvaluacion);
+            eva.setComentario_profesor(comentario);
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
         }catch (Exception e) {
             e.printStackTrace();

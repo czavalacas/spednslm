@@ -13,6 +13,7 @@ import sped.negocio.entidades.beans.BeanSede;
 public class bSessionConsultarEvaluacion {
     private int exec;
     private List<BeanEvaluacion> lstBeanEvaluacion;
+    private BeanEvaluacion evaSelect; // evaluacion para el comentario profesor
     private boolean columnArea = true;
     private boolean columnEvaluador = true;
     private boolean columnProfesor = true;
@@ -256,5 +257,13 @@ public class bSessionConsultarEvaluacion {
 
     public BeanEvaluacion getEvaluacion() {
         return evaluacion;
+    }
+
+    public void setEvaSelect(BeanEvaluacion evaSelect) {
+        this.evaSelect = evaSelect;
+    }
+
+    public BeanEvaluacion getEvaSelect() {
+        return evaSelect;
     }
 }

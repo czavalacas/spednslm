@@ -1,5 +1,14 @@
 package sped.vista.beans.evaluacion.grafico_reporte;
 
+import java.awt.Dimension;
+
+import java.io.File;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -12,18 +21,18 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.FacesEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
-import jxl.write.DateTime;
+import javax.servlet.ServletContext;
 
+import oracle.adf.view.faces.bi.component.graph.UIGraph;
 import oracle.adf.view.faces.bi.event.ClickEvent;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.RichSubform;
-import oracle.adf.view.rich.component.rich.data.RichTable;
+import oracle.adf.view.rich.component.rich.input.RichSelectBooleanCheckbox;
 import oracle.adf.view.rich.component.rich.input.RichSelectManyChoice;
 
 import oracle.adf.view.rich.component.rich.input.RichTextEditor;
@@ -39,6 +48,7 @@ import oracle.dss.dataView.ComponentHandle;
 
 import oracle.dss.dataView.DataComponentHandle;
 
+import oracle.dss.dataView.ImageView;
 import oracle.dss.dataView.SeriesComponentHandle;
 
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
@@ -48,7 +58,7 @@ import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
-import sped.negocio.Utils.Utiles;
+import sped.vista.Utils.Utils;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanRol;
@@ -91,6 +101,13 @@ public class bDesempenoEvaluador {
     Calendar cal= new GregorianCalendar();
     private RichTextEditor rte1;
     private String mensaje;
+    private RichPanelFormLayout pfl4;
+    private RichShowDetail sd3;
+    private RichSelectBooleanCheckbox booleanCheckRol;
+    private RichSelectBooleanCheckbox booleanCheckEva;
+    private RichSelectBooleanCheckbox booleanCheckLine;
+    private RichSelectBooleanCheckbox booleanCheckPie;
+    private UIGraph graph4;
 
     public bDesempenoEvaluador() {
         nombreUsuario = beanUsuario.getNombres();
@@ -216,22 +233,103 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setFechaPI_axu(sessionDesempenoEvaluador.getFechaPI());
         sessionDesempenoEvaluador.setFechaPF_aux(sessionDesempenoEvaluador.getFechaPF());
         sessionDesempenoEvaluador.setFechaEI_aux(sessionDesempenoEvaluador.getFechaEI());
-        sessionDesempenoEvaluador.setFechaEF_aux(sessionDesempenoEvaluador.getFechaEF());
+        sessionDesempenoEvaluador.setFechaEF_aux(sessionDesempenoEvaluador.getFechaEF());        
+    }
+    
+    public void Prueba(ActionEvent actionEvent) {
+        exportGrafPNG(graph4, "GRB");        
+    }
+    
+    public void exportGrafPNG(UIGraph graph, String nombre){
+        if(graph != null){
+            UIGraph dvtgraph = graph; 
+            ImageView imgView = dvtgraph.getImageView();
+            imgView.setImageSize(new Dimension(400,400));  
+            String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
+            String rutaLocal = "";
+            if(File.separator.equals("/")){
+                rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + 
+                            "usuarios" + File.separator + nombre + timePath + ".png";     
+            }else{
+                rutaLocal = "recursos" + File.separator + "img" + File.separator + 
+                            "usuarios" + File.separator + nombre +timePath + ".png";   
+            }
+            ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
+            String imageDirPath = servletCtx.getRealPath("/");
+            String rutaImg = imageDirPath + rutaLocal;
+            System.out.println(rutaImg);
+            try{
+                File file = null; 
+                FileOutputStream fos;
+                file = new File(rutaImg); 
+                fos = new FileOutputStream(file); 
+                imgView.exportToPNG(fos); 
+                fos.close(); 
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+                       
     }
     
     public void setListEvaFiltro_aux(){
+        int cont = 0;
         List <BeanEvaluacion> lst = desempenoFiltro(1, null, null, null,null);
-        List <BeanEvaluacion> lstDate = desempenoFiltro(3, null, null, null,null);
-        List <BeanEvaluacion> lstPie = desempenoFiltro(4, null, null, null,null);
-        List <BeanEvaluacion> lstBarRol = desempenoFiltro(5, null, null, null,null);
         sessionDesempenoEvaluador.setLstEvaTable(lst);
-        setListEvabarChart(lst);
-        setListLinegraph(lstDate);
-        setListPiegraph(lstPie);
-        setListEvabarChartRol(lstBarRol);
+        sessionDesempenoEvaluador.setRGrafEvaA(sessionDesempenoEvaluador.isRGrafEva());
+        sessionDesempenoEvaluador.setRGrafRolA(sessionDesempenoEvaluador.isRGrafRol());
+        sessionDesempenoEvaluador.setRGrafLineA(sessionDesempenoEvaluador.isRGrafLine());
+        sessionDesempenoEvaluador.setRGrafPieA(sessionDesempenoEvaluador.isRGrafPie());
+        if(sessionDesempenoEvaluador.isRGrafEva() == true){
+            setListEvabarChart(lst);
+            cont++;
+        }
+        if(sessionDesempenoEvaluador.isRGrafRol() == true){
+            List <BeanEvaluacion> lstBarRol = desempenoFiltro(5, null, null, null,null);
+            setListEvabarChartRol(lstBarRol);
+            cont++;
+        }
+        if(sessionDesempenoEvaluador.isRGrafLine() == true){
+            List <BeanEvaluacion> lstDate = desempenoFiltro(3, null, null, null,null);
+            setListLinegraph(lstDate);
+            cont++;
+        }
+        if(sessionDesempenoEvaluador.isRGrafPie() == true){
+            List <BeanEvaluacion> lstPie = desempenoFiltro(4, null, null, null,null);
+            setListPiegraph(lstPie);
+            cont++;
+        }
+        sessionDesempenoEvaluador.setColumnsDashboard(cont == 1 ? 1 : 2);
+        sessionDesempenoEvaluador.setRowHeightDashboard(cont > 2 ? "350px" : "700px");
         if(pgl2 != null){
             Utils.addTargetMany(pgl2);
-        }        
+        }
+    }
+    
+    public void selectBCheck(ValueChangeEvent vce) {
+        RichSelectBooleanCheckbox ckBox = (RichSelectBooleanCheckbox)vce.getComponent();
+        String texto = ckBox.getText().toString();
+        int GrafEva = sessionDesempenoEvaluador.isRGrafEva() == false ? 1 : 0;
+        int GrafRol = sessionDesempenoEvaluador.isRGrafRol() == false ? 1 : 0;
+        int GrafLine = sessionDesempenoEvaluador.isRGrafLine() == false ? 1 : 0;
+        int GrafPie = sessionDesempenoEvaluador.isRGrafPie() == false ? 1 : 0;
+        if((GrafEva+GrafRol+GrafLine+GrafPie) >= 3){
+            if(texto.compareTo("Rol(s)") == 0){
+                booleanCheckRol.setSelected(true);
+            }
+            if(texto.compareTo("Evaluador(s)") == 0){
+                booleanCheckEva.setSelected(true);
+            }
+            if(texto.compareTo("Linea de Tiempo") == 0){
+                booleanCheckLine.setSelected(true);
+            }
+            if(texto.compareTo("Evaluaciones Justificadas") == 0){
+                booleanCheckPie.setSelected(true);
+            }
+            Utils.addTargetMany(sd3);
+        }
     }
     
     public List<BeanEvaluacion> desempenoFiltro(int tipoEvento,
@@ -642,4 +740,60 @@ public class bDesempenoEvaluador {
     public String getMensaje() {
         return mensaje;
     }
+
+    public void setPfl4(RichPanelFormLayout pfl4) {
+        this.pfl4 = pfl4;
+    }
+
+    public RichPanelFormLayout getPfl4() {
+        return pfl4;
+    }
+
+    public void setSd3(RichShowDetail sd3) {
+        this.sd3 = sd3;
+    }
+
+    public RichShowDetail getSd3() {
+        return sd3;
+    }
+
+    public void setBooleanCheckRol(RichSelectBooleanCheckbox booleanCheckRol) {
+        this.booleanCheckRol = booleanCheckRol;
+    }
+
+    public RichSelectBooleanCheckbox getBooleanCheckRol() {
+        return booleanCheckRol;
+    }
+
+    public void setBooleanCheckEva(RichSelectBooleanCheckbox booleanCheckEva) {
+        this.booleanCheckEva = booleanCheckEva;
+    }
+
+    public RichSelectBooleanCheckbox getBooleanCheckEva() {
+        return booleanCheckEva;
+    }
+
+    public void setBooleanCheckLine(RichSelectBooleanCheckbox booleanCheckLine) {
+        this.booleanCheckLine = booleanCheckLine;
+    }
+
+    public RichSelectBooleanCheckbox getBooleanCheckLine() {
+        return booleanCheckLine;
+    }
+
+    public void setBooleanCheckPie(RichSelectBooleanCheckbox booleanCheckPie) {
+        this.booleanCheckPie = booleanCheckPie;
+    }
+
+    public RichSelectBooleanCheckbox getBooleanCheckPie() {
+        return booleanCheckPie;
+    }
+
+    public void setGraph4(UIGraph graph4) {
+        this.graph4 = graph4;
+    }
+
+    public UIGraph getGraph4() {
+        return graph4;
+    }    
 }
