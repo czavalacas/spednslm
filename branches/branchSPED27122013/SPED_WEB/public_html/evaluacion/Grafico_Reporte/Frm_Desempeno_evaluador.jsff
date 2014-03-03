@@ -90,6 +90,10 @@
                         <af:button id="b2" icon="../recursos/img/usuarios/refresh.png"
                                    actionListener="#{bDesempenoEvaluador.limpiarFiltro}"/>
                         <af:button text="button 1" id="b4" actionListener="#{bDesempenoEvaluador.Prueba}"/>
+                        <af:button text="Export PDF" id="b5">
+                            <af:fileDownloadActionListener contentType="application/pdf" filename="PRUEBA.pdf"
+                                                           method="#{bDesempenoEvaluador.exportPDF}"/>
+                        </af:button>
                     </af:subform>
                 </f:facet>
                 <f:facet name="second">
@@ -100,13 +104,13 @@
                             <af:panelBox text="Rol(s)" id="pb1" showDisclosure="false"
                                          rendered="#{sessionDesempenoEvaluador.RGrafRolA}">
                                 <af:componentDragSource/>
-                                <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_PERCENT"
+                                <dvt:horizontalBarGraph id="gRol" subType="BAR_HORIZ_PERCENT"
                                                         dynamicResize="DYNAMIC_SIZE"
                                                         tabularData="#{sessionDesempenoEvaluador.lstEvaBarChartRol}"
                                                         hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                                         animationOnDataChange="auto" animationOnDisplay="auto"
                                                         clickListener="#{bDesempenoEvaluador.clickListenerHBar}"
-                                                        binding="#{bDesempenoEvaluador.graph4}">
+                                                        binding="#{bDesempenoEvaluador.grol}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -122,12 +126,13 @@
                             <af:panelBox text="Evaluador(s)" id="pb2" showDisclosure="false"
                                          rendered="#{sessionDesempenoEvaluador.RGrafEvaA}">
                                 <af:componentDragSource/>
-                                <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST" dynamicResize="DYNAMIC_SIZE"
+                                <dvt:barGraph id="gEva" subType="BAR_VERT_CLUST" dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaBarChart}"
                                               clickListener="#{bDesempenoEvaluador.clickListenerGraph1}"
                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                               timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
-                                              animationIndicators="ALL" animationOnDisplay="auto">
+                                              animationIndicators="ALL" animationOnDisplay="auto"
+                                              binding="#{bDesempenoEvaluador.geva}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -143,13 +148,14 @@
                             <af:panelBox text="Linea de Tiempo" id="pb3" showDisclosure="false"
                                          rendered="#{sessionDesempenoEvaluador.RGrafLineA}">
                                 <af:componentDragSource/>
-                                <dvt:lineGraph id="graph2" subType="LINE_VERT_ABS" dynamicResize="DYNAMIC_SIZE"
+                                <dvt:lineGraph id="gLine" subType="LINE_VERT_ABS" dynamicResize="DYNAMIC_SIZE"
                                                tabularData="#{sessionDesempenoEvaluador.lstEvaLineG}"
                                                hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                                timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
                                                animationIndicators="ALL" animationOnDisplay="auto"
                                                animationDuration="1500"
-                                               clickListener="#{bDesempenoEvaluador.clickListenerGraphLine}">
+                                               clickListener="#{bDesempenoEvaluador.clickListenerGraphLine}"
+                                               binding="#{bDesempenoEvaluador.gline}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -166,10 +172,11 @@
                             <af:panelBox text="Evaluaciones justificadas" id="pb4" showDisclosure="false"
                                          rendered="#{sessionDesempenoEvaluador.RGrafPieA}">
                                 <af:componentDragSource/>
-                                <dvt:pieGraph id="graph3" subType="RING" dynamicResize="DYNAMIC_SIZE"
+                                <dvt:pieGraph id="gPie" subType="RING" dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaPieG}"
                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
-                                              clickListener="#{bDesempenoEvaluador.clickListenerGraphPie}">
+                                              clickListener="#{bDesempenoEvaluador.clickListenerGraphPie}"
+                                              binding="#{bDesempenoEvaluador.gpie}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -264,8 +271,7 @@
                                 <af:inputText label="Evaluacion(s) " id="it6" labelStyle="text-align: left;"
                                               disabled="true" value="#{sessionDesempenoEvaluador.estado}"/>
                                 <af:button text="Enviar mensaje" id="bSendM"
-                                           actionListener="#{bDesempenoEvaluador.bSendM}"
-                                           rendered="#{sessionDesempenoEvaluador.renderMensaje}"/>
+                                           actionListener="#{bDesempenoEvaluador.bSendM}"/>
                             </af:panelFormLayout>
                         </af:gridCell>
                     </af:gridRow>
@@ -383,6 +389,16 @@
                     <af:richTextEditor id="rte1" binding="#{bDesempenoEvaluador.rte1}"
                                        value="#{bDesempenoEvaluador.mensaje}"/>
                 </af:panelFormLayout>
+            </af:dialog>
+        </af:popup>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popKey" binding="#{bDesempenoEvaluador.popKey}">
+            <af:dialog id="d4" dialogListener="#{bDesempenoEvaluador.confirmarEnvio}" title="Ingrese clave">
+                <af:panelFormLayout id="pfl7">
+                    <af:inputText label="Correo" id="it9" labelStyle="text-align: left;" disabled="true"
+                                  value="#{sessionDesempenoEvaluador.evaluador.correo}"/>
+                    <af:inputText label="Contraseña" id="it10" labelStyle="text-align: left;" disabled="false"
+                                  value="#{bDesempenoEvaluador.clave}" secret="true" />
+                </af:panelFormLayout>                
             </af:dialog>
         </af:popup>
     </f:view>

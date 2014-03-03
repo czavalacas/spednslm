@@ -1,5 +1,12 @@
 package sped.vista.beans.evaluacion.grafico_reporte;
 
+import com.itextpdf.text.Document;
+
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.awt.Dimension;
 
 import java.io.File;
@@ -9,7 +16,7 @@ import java.io.FileOutputStream;
 
 import java.io.IOException;
 
-import java.text.SimpleDateFormat;
+import java.net.MalformedURLException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,15 +64,12 @@ import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
-import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.vista.Utils.Utils;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanRol;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
-
-import sped.vista.Utils.Utils;
 
 public class bDesempenoEvaluador {
     private bSessionDesempenoEvaluador sessionDesempenoEvaluador;
@@ -107,7 +111,12 @@ public class bDesempenoEvaluador {
     private RichSelectBooleanCheckbox booleanCheckEva;
     private RichSelectBooleanCheckbox booleanCheckLine;
     private RichSelectBooleanCheckbox booleanCheckPie;
-    private UIGraph graph4;
+    private UIGraph grol;
+    private UIGraph geva;
+    private UIGraph gline;
+    private UIGraph gpie;
+    private RichPopup popKey;
+    private String clave;
 
     public bDesempenoEvaluador() {
         nombreUsuario = beanUsuario.getNombres();
@@ -121,17 +130,10 @@ public class bDesempenoEvaluador {
             sessionDesempenoEvaluador.setLstEvaSede(llenarComboEvaSede());
             sessionDesempenoEvaluador.setLstEvaGeneral(llenarComboEvaGeneral());
             sessionDesempenoEvaluador.setLstSede(llenarComboSede());
-            sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());                        
-            try{                
-                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                String resultado = formato.format(cal.getTime()); 
-                sessionDesempenoEvaluador.setFechaActual(formato.parse(resultado));
-                cal.add(Calendar.MONTH, -1);
-                resultado = formato.format(cal.getTime()); 
-                sessionDesempenoEvaluador.setFechaAnterior(formato.parse(resultado));  
-            }catch(Exception e){
-                e.printStackTrace();
-            }                      
+            sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());            
+            sessionDesempenoEvaluador.setFechaActual(Utils.removeTime(cal.getTime()));
+            cal.add(Calendar.MONTH, -1);
+            sessionDesempenoEvaluador.setFechaAnterior(Utils.removeTime(cal.getTime()));                      
             sessionDesempenoEvaluador.setFechaEI(sessionDesempenoEvaluador.getFechaAnterior());
             sessionDesempenoEvaluador.setFechaEI_aux(sessionDesempenoEvaluador.getFechaAnterior());
             sessionDesempenoEvaluador.setFechaEF(sessionDesempenoEvaluador.getFechaActual());
@@ -237,15 +239,97 @@ public class bDesempenoEvaluador {
     }
     
     public void Prueba(ActionEvent actionEvent) {
-        exportGrafPNG(graph4, "GRB");        
+        String rutaPdf = "";
+        String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";  
+        String rutaLocal = "";
+        if(File.separator.equals("/")){
+            rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + 
+                        "usuarios" + File.separator + timePath + ".pdf";     
+        }else{
+            rutaLocal = "recursos" + File.separator + "img" + File.separator + 
+                        "usuarios" + File.separator + timePath + ".pdf";   
+        }
+        ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
+        String imageDirPath = servletCtx.getRealPath("/");
+        rutaPdf = imageDirPath + rutaLocal;
+        rutaLocal = rutaPdf;
+        /////////////////////////////////        
+        try{
+            try{
+                Document document = new Document();
+                File file = null; 
+                FileOutputStream fos;
+                file = new File(rutaPdf); 
+                fos = new FileOutputStream(file); 
+                PdfWriter.getInstance(document, fos);
+                document.open();
+                if(sessionDesempenoEvaluador.isRGrafRolA()){
+                    addImagenes(document, "Grafico Rol", exportGrafPNG(grol, "GR"));
+                }
+                if(sessionDesempenoEvaluador.isRGrafEvaA()){
+                    addImagenes(document, "Grafico Evaluador", exportGrafPNG(geva, "GE"));
+                }
+                if(sessionDesempenoEvaluador.isRGrafLineA()){
+                    addImagenes(document, "Grafico linea de Tiempo", exportGrafPNG(gline, "GL"));
+                }
+                if(sessionDesempenoEvaluador.isRGrafPieA()){
+                    addImagenes(document, "Grafico Problemas Frecuentes", exportGrafPNG(gpie, "GP"));
+                }
+                document.close();
+                fos.close();                
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+            }catch(IOException e){
+                e.printStackTrace();
+            }                        
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        /////////////////////////////////  
     }
     
-    public void exportGrafPNG(UIGraph graph, String nombre){
+    public void exportPDF(FacesContext facesContext, java.io.OutputStream outputStream) {
+        Document document = new Document();
+        try{            
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+            if(sessionDesempenoEvaluador.isRGrafRolA()){
+                addImagenes(document, "Grafico Rol", exportGrafPNG(grol, "GR"));
+            }
+            if(sessionDesempenoEvaluador.isRGrafEvaA()){
+                addImagenes(document, "Grafico Evaluador", exportGrafPNG(geva, "GE"));
+            }
+            if(sessionDesempenoEvaluador.isRGrafLineA()){
+                addImagenes(document, "Grafico linea de Tiempo", exportGrafPNG(gline, "GL"));
+            }
+            if(sessionDesempenoEvaluador.isRGrafPieA()){
+                addImagenes(document, "Grafico Problemas Frecuentes", exportGrafPNG(gpie, "GP"));
+            }
+            document.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }        
+    }
+    
+    public void addImagenes(Document document, 
+                            String titulo, 
+                            String rutaImg) throws DocumentException, MalformedURLException, IOException {
+        Paragraph  paragraph =new Paragraph("\n\n"+titulo+"\n");
+        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+        document.add(paragraph);
+        Image img = Image.getInstance(rutaImg);
+        img.scalePercent(75);
+        img.setAlignment(Image.ALIGN_CENTER );
+        document.add(img);
+    }
+    
+    public String exportGrafPNG(UIGraph graph, String nombre){
+        String rutaImg = "";
         if(graph != null){
             UIGraph dvtgraph = graph; 
             ImageView imgView = dvtgraph.getImageView();
-            imgView.setImageSize(new Dimension(400,400));  
-            String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
+            imgView.setImageSize(new Dimension(600,400));  
+            String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";  
             String rutaLocal = "";
             if(File.separator.equals("/")){
                 rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + 
@@ -256,8 +340,8 @@ public class bDesempenoEvaluador {
             }
             ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
             String imageDirPath = servletCtx.getRealPath("/");
-            String rutaImg = imageDirPath + rutaLocal;
-            System.out.println(rutaImg);
+            rutaImg = imageDirPath + rutaLocal;
+            rutaLocal = rutaImg;
             try{
                 File file = null; 
                 FileOutputStream fos;
@@ -271,7 +355,7 @@ public class bDesempenoEvaluador {
                 e.printStackTrace();
             }
         }
-                       
+        return rutaImg;                       
     }
     
     public void setListEvaFiltro_aux(){
@@ -506,6 +590,10 @@ public class bDesempenoEvaluador {
     }
     
     public void confirmarCorreo(DialogEvent dialogEvent) {
+        Utils.showPopUpMIDDLE(popKey);
+    }
+    
+    public void confirmarEnvio(DialogEvent dialogEvent) {
         DialogEvent.Outcome outcome = dialogEvent.getOutcome();
         if(outcome == DialogEvent.Outcome.ok){
             //String root = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
@@ -518,6 +606,7 @@ public class bDesempenoEvaluador {
             data[3] = "davidangeleshuaman@gmail.com";
             String msj = ln_C_SFCorreoRemote.enviarCorreo(data);
             //throwError(ctx,msj);
+            popKey.hide();
             popCorreo.hide();
         }
     }
@@ -789,11 +878,51 @@ public class bDesempenoEvaluador {
         return booleanCheckPie;
     }
 
-    public void setGraph4(UIGraph graph4) {
-        this.graph4 = graph4;
+    public void setGrol(UIGraph grol) {
+        this.grol = grol;
     }
 
-    public UIGraph getGraph4() {
-        return graph4;
-    }    
+    public UIGraph getGrol() {
+        return grol;
+    }
+
+    public void setGeva(UIGraph geva) {
+        this.geva = geva;
+    }
+
+    public UIGraph getGeva() {
+        return geva;
+    }
+
+    public void setGline(UIGraph gline) {
+        this.gline = gline;
+    }
+
+    public UIGraph getGline() {
+        return gline;
+    }
+
+    public void setGpie(UIGraph gpie) {
+        this.gpie = gpie;
+    }
+
+    public UIGraph getGpie() {
+        return gpie;
+    }
+
+    public void setPopKey(RichPopup popKey) {
+        this.popKey = popKey;
+    }
+
+    public RichPopup getPopKey() {
+        return popKey;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getClave() {
+        return clave;
+    }
 }
