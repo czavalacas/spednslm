@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import sped.negocio.entidades.beans.BeanParteOcurrencia;
+import sped.negocio.entidades.beans.BeanPie;
 
 @Local
 public interface LN_C_SFParteOcurrenciaLocal {
@@ -15,4 +16,9 @@ public interface LN_C_SFParteOcurrenciaLocal {
                                                           String nombreProfesor, 
                                                           Integer nidSede,
                                                           Integer nidUsuario);
+    List<BeanPie> getPiePO_ByProfesor_LN_WS(Date fechaMin,
+                                            Date fechaMax,
+                                            String dniProfesor,
+                                            Integer nidSede,
+                                            Integer nidUsuario);
 }

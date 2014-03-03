@@ -1,6 +1,8 @@
 package sped.negocio.Pruebas;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -11,15 +13,17 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import sped.negocio.BDL.IR.BDL_C_SFParteOcurrenciaRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.ParteOcurrencia;
 import sped.negocio.entidades.beans.BeanParteOcurrencia;
+import sped.negocio.entidades.beans.BeanProblemaProfesor;
 
 public class BDL_C_SFParteOcurrenciaRemoteClient {
     public static void main(String[] args) {
         try {
             final Context context = getInitialContext();
             BDL_C_SFParteOcurrenciaRemote bDL_C_SFParteOcurrenciaRemote = (BDL_C_SFParteOcurrenciaRemote) context.lookup("mapBDL_C_SFParteOcurrencia#sped.negocio.BDL.IR.BDL_C_SFParteOcurrenciaRemote");
-            Date fechaMin = null;
+            /*Date fechaMin = null;
             Date fechaMax = null;
             Integer nidProblema = null;
             String nombreProfesor = null;
@@ -27,6 +31,14 @@ public class BDL_C_SFParteOcurrenciaRemoteClient {
             Integer nidUsuario = null;
             for (BeanParteOcurrencia parteocurrencia : (List<BeanParteOcurrencia>) bDL_C_SFParteOcurrenciaRemote.getListaPartesOcurrencia_BDL(fechaMin,fechaMax,nidProblema,nombreProfesor,nidSede,nidUsuario)) {
                 printParteOcurrencia(parteocurrencia);
+            }*/
+            
+            Calendar calendar = new GregorianCalendar(2014,1,1,0,0,0);
+            Calendar calendar2 = new GregorianCalendar(2014,2,30,0,0,0);
+            String dni = "46522554";
+            List<BeanProblemaProfesor> lst = bDL_C_SFParteOcurrenciaRemote.getListaProblemas_ByProfesor_BDL(calendar.getTime(),calendar2.getTime(),dni, null, null);
+            for(BeanProblemaProfesor s : lst){
+                Utiles.sysout("s: "+s.getProblema()+" prof:"+s.getProfesor());
             }
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());

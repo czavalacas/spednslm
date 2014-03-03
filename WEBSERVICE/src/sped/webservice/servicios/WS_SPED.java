@@ -42,6 +42,7 @@ import sped.negocio.entidades.beans.BeanLeyendaWS;
 import sped.negocio.entidades.beans.BeanMainWS;
 import sped.negocio.entidades.beans.BeanParteOcurrencia;
 import sped.negocio.entidades.beans.BeanPermiso;
+import sped.negocio.entidades.beans.BeanPie;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -291,5 +292,24 @@ public class WS_SPED {
                                                                             nombreProfesor, 
                                                                             nidSede, 
                                                                             nidUsuario);
+    }
+
+    @WebMethod
+    public List<BeanPie> getPieProfesor_WS(@WebParam(name = "arg0") Date fechaMin,
+                                           @WebParam(name = "arg1") Date fechaMax,
+                                           @WebParam(name = "arg2") String dniProfesor,
+                                           @WebParam(name = "arg3") Integer nidSede,
+                                           @WebParam(name = "arg4") Integer nidUsuario){
+        if(fechaMin == null){
+            fechaMin = Utiles.removeTime(new Date());
+        }
+        if(fechaMax == null){
+            fechaMax = Utiles.removeTime(new Date());
+        }
+        return ln_C_SFParteOcurrenciaLocal.getPiePO_ByProfesor_LN_WS(fechaMin, 
+                                                                          fechaMax,
+                                                                          dniProfesor,
+                                                                          nidSede, 
+                                                                          nidUsuario);
     }
 }

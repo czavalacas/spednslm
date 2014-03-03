@@ -2,6 +2,8 @@ package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
 
+import java.util.List;
+
 public class BeanPie implements Serializable {
     @SuppressWarnings("compatibility:-1668204839217609361")
     private static final long serialVersionUID = 1L;
@@ -9,6 +11,7 @@ public class BeanPie implements Serializable {
     private String serie;
     private int cantSlice;
     private String colorRGB;
+    private BeanBar[] lstBar;
 
     @Override
     public int hashCode(){
@@ -34,6 +37,14 @@ public class BeanPie implements Serializable {
     
     public BeanPie(){
         
+    }
+
+    public void setLstBar(BeanBar[] lstBar) {
+        this.lstBar = lstBar;
+    }
+
+    public BeanBar[] getLstBar() {
+        return lstBar;
     }
 
     public BeanPie(String serie,int cantSlice,String colorRGB){
