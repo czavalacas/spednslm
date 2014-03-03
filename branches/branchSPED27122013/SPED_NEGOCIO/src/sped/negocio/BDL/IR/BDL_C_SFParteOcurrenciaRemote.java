@@ -7,6 +7,7 @@ import javax.ejb.Remote;
 
 import sped.negocio.entidades.admin.ParteOcurrencia;
 import sped.negocio.entidades.beans.BeanParteOcurrencia;
+import sped.negocio.entidades.beans.BeanProblemaProfesor;
 
 @Remote
 public interface BDL_C_SFParteOcurrenciaRemote {
@@ -17,4 +18,9 @@ public interface BDL_C_SFParteOcurrenciaRemote {
                                                            String nombreProfesor,
                                                            Integer nidSede,
                                                            Integer nidUsuario);
+    List<BeanProblemaProfesor> getListaProblemas_ByProfesor_BDL(Date fechaMin,
+                                                                Date fechaMax,
+                                                                String dniProfesor,
+                                                                Integer nidSede,
+                                                                Integer nidUsuario);
 }

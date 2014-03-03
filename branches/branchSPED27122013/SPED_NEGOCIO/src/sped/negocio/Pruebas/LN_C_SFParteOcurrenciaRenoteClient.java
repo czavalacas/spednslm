@@ -28,8 +28,8 @@ public class LN_C_SFParteOcurrenciaRenoteClient {
             for(BeanParteOcurrencia po : pos){
                 System.out.println("prob: "+po.getDescProblema());
                 if(pos.size() == i){System.out.println("last:"+pos.get(i-1).getLstPies());
-                    for(int j = 0; j < pos.get(i-1).getLstPies().size();j++){System.out.println("2222222");
-                        System.out.println("pie:"+pos.get(i-1).getLstPies().get(j));
+                    for(int j = 0; j < pos.get(i-1).getLstPies().length;j++){System.out.println("2222222");
+                        System.out.println("pie:"+pos.get(i-1).getLstPies()[j]);
                     }
                 }
                 i++;
