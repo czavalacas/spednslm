@@ -9,7 +9,7 @@
             <amx:commandButton id="cb1" icon="/resources/img/out.png" iconPosition="trailing"
                                actionListener="#{viewScope.bLogin.salirAplicacion}"/>
         </amx:facet>
-        <amx:panelGroupLayout id="panelGroupLayout2">
+        <amx:panelGroupLayout id="panelGroupLayout2" layout="horizontal">
             <amx:inputText id="it1" hintText="Usuario" value="#{viewScope.bLogin.usuario}" required="true"
                             showRequired="true"/>
             <amx:inputText hintText="Clave" id="it2" value="#{viewScope.bLogin.clave}" secret="true" required="true"

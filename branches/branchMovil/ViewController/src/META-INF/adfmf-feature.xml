@@ -36,5 +36,12 @@
         </adfmf:includes>
       </adfmf:amx>
     </adfmf:content>
+    <adfmf:content id="MiApp.DetallePO.6">
+      <adfmf:amx file="ParteOcurrencia/Detalle_PO.amx">
+        <adfmf:includes>
+          <adfmf:include type="JavaScript" file="resources/js/ScriptUtiles.js" id="i6"/>
+        </adfmf:includes>
+      </adfmf:amx>
+    </adfmf:content>
   </adfmf:feature>
 </adfmf:features>

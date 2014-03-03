@@ -15,6 +15,7 @@
     <page path="/ParteOcurrencia/Buscar_Main.amx" usageId="mobile_Buscar_MainPageDef"/>
     <page path="/ParteOcurrencia/Registrar_PO.amx" usageId="mobile_Registrar_POPageDef"/>
     <page path="/ParteOcurrencia/Consultar_PO.amx" usageId="mobile_Consultar_POPageDef"/>
+    <page path="/ParteOcurrencia/Detalle_PO.amx" usageId="mobile_Detalle_POPageDef"/>
   </pageMap>
   <pageDefinitionUsages>
     <page id="mobile_inicioPageDef" path="mobile.pageDefs.inicioPageDef"/>
@@ -26,8 +27,10 @@
     <page id="mobile_Buscar_MainPageDef" path="ParteOcurrencia.Buscar_MainPageDef"/>
     <page id="mobile_Registrar_POPageDef" path="ParteOcurrencia.Registrar_POPageDef"/>
     <page id="mobile_Consultar_POPageDef" path="ParteOcurrencia.Consultar_POPageDef"/>
+    <page id="mobile_Detalle_POPageDef" path="ParteOcurrencia.Detalle_POPageDef"/>
   </pageDefinitionUsages>
   <dataControlUsages>
+    <dc id="bDetalle_PO" path="mobile.bDetalle_PO"/>
     <dc id="bVerEvaluacion" path="mobile.bVerEvaluacion"/>
     <dc id="bConsultarEvaluacion" path="mobile.bConsultarEvaluacion"/>
     <dc id="bEvaluar" path="mobile.bEvaluar"/>
