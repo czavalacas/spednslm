@@ -91,23 +91,30 @@
 
     </amx:tableLayout>
     <amx:spacer id="s1" height="5"/>
-    
-        <dvtm:pieChart id="graph1" var="row" value="#{bindings.pieProfesor.collectionModel}" emptyText="No hay datos" title="Grafico de Porcentaje de Problemas"
-               dataSelection="single">
-          <amx:facet name="dataStamp">
-             <dvtm:pieDataItem label="#{row.serie}" value="#{row.cantSlice}" id="pdi1"/>
-          </amx:facet>
-          <dvtm:legend id="l1"/>
-        </dvtm:pieChart>
-    <amx:spacer height="5"/>
-        <dvtm:barChart id="graph2" var="row" value="#{bindings.barProfesor.collectionModel}">
-          <amx:facet name="dataStamp">
-            <dvtm:chartDataItem group="#{row.group}" value="#{row.cantidad}"
-                                series="#{row.serie}" id="cdi1"/>
-          </amx:facet>
-          <dvtm:legend position="end" id="l2"/>
-        </dvtm:barChart>
-        
-   
+    <amx:tableLayout width="100%">
+         <amx:rowLayout>
+            <amx:cellFormat width="100%">
+                      <dvtm:pieChart id="graph1" var="row" value="#{bindings.pieProfesor.collectionModel}" emptyText="No hay datos" title="Grafico de Porcentaje de Problemas"
+                           dataSelection="single">
+                          <amx:facet name="dataStamp">
+                             <dvtm:pieDataItem label="#{row.serie}" value="#{row.cantSlice}" id="pdi1"/>
+                          </amx:facet>
+                          <dvtm:legend id="l1" position="end" scrolling="asNeeded"/>
+                     </dvtm:pieChart>
+            </amx:cellFormat>
+        </amx:rowLayout>
+        <amx:rowLayout>
+        <amx:cellFormat width="100%">
+                     <dvtm:barChart id="graph2" var="row" value="#{bindings.barProfesor.collectionModel}">
+                      <amx:facet name="dataStamp">
+                        <dvtm:chartDataItem group="#{row.group}" value="#{row.cantidad}"
+                                            series="#{row.serie}" id="cdi1"/>
+                      </amx:facet>
+                      <dvtm:legend position="end" id="l2" scrolling="asNeeded"/>
+                    </dvtm:barChart>
+        </amx:cellFormat>
+    </amx:rowLayout>
+    </amx:tableLayout>
+
   </amx:panelPage>
 </amx:view>
