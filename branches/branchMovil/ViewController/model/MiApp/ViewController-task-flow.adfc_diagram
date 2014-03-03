@@ -212,7 +212,7 @@
       <property
          name="fromOutcome">ver</property>
       <property
-         name="sdm:polyPoints">R50,720.0,472.20312,906.0,476.14062,L50</property>
+         name="sdm:polyPoints">R46,720.0741,468.70312,906.0,472.64062,L46</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -373,5 +373,40 @@
          name="fromOutcome">_BACK</property>
       <property
          name="sdm:polyPoints">L54,804.96375,614.6094,618.0,612.6719,R54</property>
+   </ControlFlowCase>
+   <View
+      id="View34">
+      <property
+         name="activityId">Graficos_PO</property>
+      <property
+         name="page">/ParteOcurrencia/Graficos_PO.amx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Graficos_PO&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">821.125</property>
+      <property
+         name="x">577.0</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase35"
+      from="View28"
+      to="View34">
+      <property
+         name="fromOutcome">graficos</property>
+      <property
+         name="sdm:polyPoints">B44,573.5,663.1719,573.5,767.1094,T44</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase36"
+      from="View34"
+      to="View28">
+      <property
+         name="fromOutcome">_BACK</property>
+      <property
+         name="sdm:polyPoints">T56,580.5,767.1094,580.5,663.1719,B56</property>
    </ControlFlowCase>
 </SDM>

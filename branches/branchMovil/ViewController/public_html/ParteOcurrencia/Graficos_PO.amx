@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<amx:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amx="http://xmlns.oracle.com/adf/mf/amx"
+          xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
+  <amx:panelPage id="pp1">
+    <amx:facet name="header">
+      <amx:outputText value="Graficos Parte de Ocurrencia" id="ot1"/>
+    </amx:facet>
+    <amx:facet name="primary">
+      <amx:commandButton id="cb1" action="_BACK" icon="/resources/img/back.png" iconPosition="trailing"/>
+    </amx:facet>
+    <dvtm:barChart id="graph1" var="row">
+      <amx:facet name="dataStamp">
+      
+      </amx:facet>
+      <dvtm:legend position="end" id="l1"/>
+    </dvtm:barChart>
+  </amx:panelPage>
+</amx:view>
