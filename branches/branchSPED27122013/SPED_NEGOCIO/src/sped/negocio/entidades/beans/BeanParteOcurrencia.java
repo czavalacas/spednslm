@@ -30,7 +30,9 @@ public class BeanParteOcurrencia implements Serializable {
     private int nidProblema;
     private long nidParte;
     private int nidMain;
-    private List lstPies;//No se pone List<BeanPie> porque en movil no acepta
+    private String dniProfesor;
+    private BeanPie lstPies[];//No se pone List<BeanPie> porque en movil no acepta
+    private BeanBar lstBars[];
 
     public BeanParteOcurrencia(){
         
@@ -49,7 +51,8 @@ public class BeanParteOcurrencia implements Serializable {
                                 int nidUsuario,
                                 int nidProblema,
                                 long nidParte,
-                                int nidMain){
+                                int nidMain,
+                                String dniProfesor){
         this.comentario = comentario;
         this.fechaRegistro = fechaRegistro;
         this.descProblema = descProblema;
@@ -63,14 +66,15 @@ public class BeanParteOcurrencia implements Serializable {
         this.nidProblema = nidProblema;
         this.nidParte = nidParte;
         this.nidMain = nidMain;
+        this.dniProfesor = dniProfesor;
     }
 
-    public void setLstPies(List lstPies) {
-        this.lstPies = lstPies;
+    public void setDniProfesor(String dniProfesor) {
+        this.dniProfesor = dniProfesor;
     }
 
-    public List getLstPies() {
-        return lstPies;
+    public String getDniProfesor() {
+        return dniProfesor;
     }
 
     public void setComentario(String comentario) {
@@ -175,5 +179,21 @@ public class BeanParteOcurrencia implements Serializable {
 
     public int getNidMain() {
         return nidMain;
+    }
+
+    public void setLstPies(BeanPie[] lstPies) {
+        this.lstPies = lstPies;
+    }
+
+    public BeanPie[] getLstPies() {
+        return lstPies;
+    }
+
+    public void setLstBars(BeanBar[] lstBars) {
+        this.lstBars = lstBars;
+    }
+
+    public BeanBar[] getLstBars() {
+        return lstBars;
     }
 }
