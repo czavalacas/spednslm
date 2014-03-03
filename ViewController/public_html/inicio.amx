@@ -12,11 +12,14 @@
         <amx:panelGroupLayout id="panelGroupLayout2" layout="horizontal">
             <amx:inputText id="it1" hintText="Usuario" value="#{viewScope.bLogin.usuario}" required="true"
                             showRequired="true"/>
-            <amx:inputText hintText="Clave" id="it2" value="#{viewScope.bLogin.clave}" secret="true" required="true"
+        </amx:panelGroupLayout>
+        <amx:panelGroupLayout layout="horizontal">
+             <amx:inputText hintText="Clave" id="it2" value="#{viewScope.bLogin.clave}" secret="true" required="true"
                             showRequired="true"/>
+        </amx:panelGroupLayout>
+           
             <amx:commandButton text="Ingresar" id="cb2" 
                                action="#{viewScope.bLogin.autenticarUsuario}"/>
-        </amx:panelGroupLayout>
       
     </amx:panelPage>
 </amx:view>
