@@ -53,6 +53,16 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private boolean renderMensaje;
     private boolean renderComentario;
     private boolean renderProblema;
+    private boolean rGrafRol = true;
+    private boolean rGrafEva = true;
+    private boolean rGrafLine = true;
+    private boolean rGrafPie = true;
+    private boolean rGrafRolA = true;
+    private boolean rGrafEvaA = true;
+    private boolean rGrafLineA = true;
+    private boolean rGrafPieA = true;
+    private String rowHeightDashboard = "350px";
+    private int columnsDashboard = 2;
     
     public bSessionDesempenoEvaluador() {
     }
@@ -383,5 +393,85 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public Date getFechaAnterior() {
         return fechaAnterior;
+    }
+
+    public void setRGrafRol(boolean rGrafRol) {
+        this.rGrafRol = rGrafRol;
+    }
+
+    public boolean isRGrafRol() {
+        return rGrafRol;
+    }
+
+    public void setRGrafEva(boolean rGrafEva) {
+        this.rGrafEva = rGrafEva;
+    }
+
+    public boolean isRGrafEva() {
+        return rGrafEva;
+    }
+
+    public void setRGrafLine(boolean rGrafLine) {
+        this.rGrafLine = rGrafLine;
+    }
+
+    public boolean isRGrafLine() {
+        return rGrafLine;
+    }
+
+    public void setRGrafPie(boolean rGrafPie) {
+        this.rGrafPie = rGrafPie;
+    }
+
+    public boolean isRGrafPie() {
+        return rGrafPie;
+    }
+
+    public void setRowHeightDashboard(String rowHeightDashboard) {
+        this.rowHeightDashboard = rowHeightDashboard;
+    }
+
+    public String getRowHeightDashboard() {
+        return rowHeightDashboard;
+    }
+
+    public void setColumnsDashboard(int columnsDashboard) {
+        this.columnsDashboard = columnsDashboard;
+    }
+
+    public int getColumnsDashboard() {
+        return columnsDashboard;
+    }
+
+    public void setRGrafRolA(boolean rGrafRolA) {
+        this.rGrafRolA = rGrafRolA;
+    }
+
+    public boolean isRGrafRolA() {
+        return rGrafRolA;
+    }
+
+    public void setRGrafEvaA(boolean rGrafEvaA) {
+        this.rGrafEvaA = rGrafEvaA;
+    }
+
+    public boolean isRGrafEvaA() {
+        return rGrafEvaA;
+    }
+
+    public void setRGrafLineA(boolean rGrafLineA) {
+        this.rGrafLineA = rGrafLineA;
+    }
+
+    public boolean isRGrafLineA() {
+        return rGrafLineA;
+    }
+
+    public void setRGrafPieA(boolean rGrafPieA) {
+        this.rGrafPieA = rGrafPieA;
+    }
+
+    public boolean isRGrafPieA() {
+        return rGrafPieA;
     }
 }

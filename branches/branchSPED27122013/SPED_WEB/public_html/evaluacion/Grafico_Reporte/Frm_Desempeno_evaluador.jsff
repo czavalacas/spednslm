@@ -64,24 +64,49 @@
                                 </af:inputDate>
                             </af:panelFormLayout>
                         </af:showDetail>
+                        <af:showDetail disclosed="true" id="sd3" disclosedText="Graficos"
+                                       binding="#{bDesempenoEvaluador.sd3}">                            
+                            <af:panelFormLayout id="pfl4" binding="#{bDesempenoEvaluador.pfl4}">
+                                <af:selectBooleanCheckbox text="Rol(s)" id="sbc1" autoSubmit="true"
+                                                          selected="#{sessionDesempenoEvaluador.RGrafRol}"
+                                                          valueChangeListener="#{bDesempenoEvaluador.selectBCheck}"
+                                                          binding="#{bDesempenoEvaluador.booleanCheckRol}"/>
+                                <af:selectBooleanCheckbox text="Evaluador(s)" id="sbc2" autoSubmit="true"
+                                                          selected="#{sessionDesempenoEvaluador.RGrafEva}"
+                                                          valueChangeListener="#{bDesempenoEvaluador.selectBCheck}"
+                                                          binding="#{bDesempenoEvaluador.booleanCheckEva}"/>
+                                <af:selectBooleanCheckbox text="Linea de Tiempo" id="sbc3" autoSubmit="true"
+                                                          selected="#{sessionDesempenoEvaluador.RGrafLine}"
+                                                          valueChangeListener="#{bDesempenoEvaluador.selectBCheck}"
+                                                          binding="#{bDesempenoEvaluador.booleanCheckLine}"/>
+                                <af:selectBooleanCheckbox text="Evaluaciones Justificadas" id="sbc4" autoSubmit="true"
+                                                          selected="#{sessionDesempenoEvaluador.RGrafPie}"
+                                                          valueChangeListener="#{bDesempenoEvaluador.selectBCheck}"
+                                                          binding="#{bDesempenoEvaluador.booleanCheckPie}"/>
+                            </af:panelFormLayout>
+                        </af:showDetail>
                         <af:spacer width="10" height="25" id="s1"/>
                         <af:button text="Buscar" id="bBuscar" actionListener="#{bDesempenoEvaluador.buscarByFiltro}"/>
                         <af:button id="b2" icon="../recursos/img/usuarios/refresh.png"
                                    actionListener="#{bDesempenoEvaluador.limpiarFiltro}"/>
+                        <af:button text="button 1" id="b4" actionListener="#{bDesempenoEvaluador.Prueba}"/>
                     </af:subform>
                 </f:facet>
                 <f:facet name="second">
                     <af:panelGroupLayout id="pgl2" binding="#{bDesempenoEvaluador.pgl2}">
-                        <af:panelDashboard id="pdash1" columns="2" rowHeight="350px"
+                        <af:panelDashboard id="pdash1" columns="#{sessionDesempenoEvaluador.columnsDashboard}"
+                                           rowHeight="#{sessionDesempenoEvaluador.rowHeightDashboard}"
                                            binding="#{bDesempenoEvaluador.pdash1}">
-                            <af:panelBox text="Rol(s)" id="pb1" showDisclosure="false">
+                            <af:panelBox text="Rol(s)" id="pb1" showDisclosure="false"
+                                         rendered="#{sessionDesempenoEvaluador.RGrafRolA}">
                                 <af:componentDragSource/>
                                 <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_PERCENT"
                                                         dynamicResize="DYNAMIC_SIZE"
                                                         tabularData="#{sessionDesempenoEvaluador.lstEvaBarChartRol}"
                                                         hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                                         animationOnDataChange="auto" animationOnDisplay="auto"
-                                                        clickListener="#{bDesempenoEvaluador.clickListenerHBar}">
+                                                        clickListener="#{bDesempenoEvaluador.clickListenerHBar}"
+                                                        binding="#{bDesempenoEvaluador.graph4}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -94,7 +119,8 @@
                                     <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
                                 </dvt:horizontalBarGraph>
                             </af:panelBox>
-                            <af:panelBox text="Evaluador(s)" id="pb2" showDisclosure="false">
+                            <af:panelBox text="Evaluador(s)" id="pb2" showDisclosure="false"
+                                         rendered="#{sessionDesempenoEvaluador.RGrafEvaA}">
                                 <af:componentDragSource/>
                                 <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST" dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaBarChart}"
@@ -114,7 +140,8 @@
                                     <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
                                 </dvt:barGraph>
                             </af:panelBox>
-                            <af:panelBox text="Linea de Tiempo" id="pb3" showDisclosure="false">
+                            <af:panelBox text="Linea de Tiempo" id="pb3" showDisclosure="false"
+                                         rendered="#{sessionDesempenoEvaluador.RGrafLineA}">
                                 <af:componentDragSource/>
                                 <dvt:lineGraph id="graph2" subType="LINE_VERT_ABS" dynamicResize="DYNAMIC_SIZE"
                                                tabularData="#{sessionDesempenoEvaluador.lstEvaLineG}"
@@ -136,7 +163,8 @@
                                     <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
                                 </dvt:lineGraph>
                             </af:panelBox>
-                            <af:panelBox text="Evaluaciones justificadas" id="pb4" showDisclosure="false">
+                            <af:panelBox text="Evaluaciones justificadas" id="pb4" showDisclosure="false"
+                                         rendered="#{sessionDesempenoEvaluador.RGrafPieA}">
                                 <af:componentDragSource/>
                                 <dvt:pieGraph id="graph3" subType="RING" dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaPieG}"
@@ -197,7 +225,7 @@
                                        sortProperty="cantNoJEjecutado">
                                 <af:outputText value="#{row.cantNoJEjecutado}" id="ot5"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Desempeño" align="center" id="c23"
+                            <af:column sortable="true" headerText="Desempeño( 0 - 100% )" align="center" id="c23"
                                        sortProperty="porcentajeDesempeno"
                                        inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;">
                                 <af:outputText value="#{row.porcentajeDesempeno}" id="ot23">
@@ -243,7 +271,7 @@
                     </af:gridRow>
                 </af:panelGridLayout>
                 <af:table value="#{sessionDesempenoEvaluador.lstEvaDetalle}" var="row" rowBandingInterval="0" id="t2">
-                    <af:column sortable="true" headerText="Fecha Evaluacion" align="start" id="c9"
+                    <af:column sortable="true" headerText="Fecha Evaluacion" align="center" id="c9"
                                sortProperty="endDate">
                         <af:outputText value="#{row.endDate}" id="ot9">
                             <af:convertDateTime pattern="dd/MM/yyyy"/>
@@ -287,7 +315,7 @@
                 </af:button>
                 <af:table value="#{sessionDesempenoEvaluador.lstEvaDetallePie}" var="row" rowBandingInterval="0"
                           id="tDetal">
-                    <af:column sortable="true" headerText="Fecha Evaluacion" align="start" id="c10"
+                    <af:column sortable="true" headerText="Fecha Evaluacion" align="center" id="c10"
                                sortProperty="endDate">
                         <af:outputText value="#{row.endDate}" id="ot11">
                             <af:convertDateTime pattern="dd/MM/yyyy"/>

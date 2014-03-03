@@ -167,7 +167,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                                       " FROM Evaluacion eva, " +
                                       " Usuario usu " + 
                                       " WHERE eva.nidEvaluador=usu.nidUsuario " +
-                                      " AND upper(eva.estadoEvaluacion) != 'PENDIENTE' ";
+                                      " AND upper(eva.estadoEvaluacion) = 'EJECUTADO' ";
                     int nidRol = beanUsuario.getRol().getNidRol();
                     if(nidRol == 2 || nidRol == 4 || nidRol == 5){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
@@ -202,11 +202,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         if(beanFiltroEva.getNidGrado() != 0){
                             strQuery = strQuery.concat(" AND eva.main.aula.gradoNivel.grado.nidGrado = :nidf_grado ");
                         }
-                        if(beanFiltroEva.getEstadoEvaluacion() != null){
-                            strQuery = strQuery.concat(" AND upper(eva.estadoEvaluacion) = :eva_estado ");
-                        }
                         if(beanFiltroEva.getApellidosDocentes() != null){
-                        strQuery =
+                            strQuery =
                             strQuery.concat(" AND upper(CONCAT(eva.main.profesor.nombres ,' ' ," +
                                                        " eva.main.profesor.apellidos)) like :eva_profesor ");
                         }
@@ -264,9 +261,6 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         }
                         if(beanFiltroEva.getNidGrado() != 0){
                             query.setParameter("nidf_grado", beanFiltroEva.getNidGrado());
-                        }
-                        if(beanFiltroEva.getEstadoEvaluacion() != null){
-                            query.setParameter("eva_estado", beanFiltroEva.getEstadoEvaluacion().toUpperCase());
                         }
                         if(beanFiltroEva.getApellidosDocentes() != null){
                         query.setParameter("eva_profesor",

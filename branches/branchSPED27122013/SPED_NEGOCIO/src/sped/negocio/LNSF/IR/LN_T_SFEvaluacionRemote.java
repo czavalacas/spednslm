@@ -16,4 +16,6 @@ public interface LN_T_SFEvaluacionRemote {
                                      String comentarioEvaluador);
     String registrarEvaluacion_LN(Evaluacion eva);
     String removerEvaluacion_LN(Evaluacion eva);
+    String updateEvaluacionbyComentarioProfesor(int idEvaluacion,
+                                                String comentario);
 }

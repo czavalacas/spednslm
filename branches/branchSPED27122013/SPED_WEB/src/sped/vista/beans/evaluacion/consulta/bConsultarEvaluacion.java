@@ -50,6 +50,7 @@ import oracle.adf.model.BindingContainer;
 import oracle.adf.model.BindingContext;
 import oracle.adf.model.binding.DCBindingContainer;
 import oracle.adf.share.ADFContext;
+import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.RichSubform;
 import oracle.adf.view.rich.component.rich.data.RichColumn;
 import oracle.adf.view.rich.component.rich.data.RichTable;
@@ -64,6 +65,8 @@ import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
 
 import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
 import oracle.adf.view.rich.component.rich.nav.RichGoLink;
+
+import oracle.adf.view.rich.event.DialogEvent;
 
 import oracle.dms.table.Row;
 
@@ -95,6 +98,7 @@ import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
+import sped.negocio.LNSF.IR.LN_T_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanConstraint;
@@ -116,6 +120,8 @@ public class bConsultarEvaluacion {
     
     private bSessionConsultarEvaluacion sessionConsultarEvaluacion;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
+    FacesContext ctx = FacesContext.getCurrentInstance();
+    private String comentarioProf;
     private RichSelectOneChoice choiceFSede;
     private UISelectItems si1;
     private RichSelectOneChoice choiceFNivel;
@@ -150,10 +156,13 @@ public class bConsultarEvaluacion {
     private LN_C_SFFichaCriterioRemote ln_C_SFFichaCriterioRemote;
     @EJB
     private LN_C_SFValorLocal ln_C_SFValorLocal;
+    @EJB
+    private LN_T_SFEvaluacionRemote ln_T_SFEvaluacionRemote;
     private RichPanelFormLayout pfl7;
     private RichShowDetail sd1;
     private RichShowDetail sd2;
     private RichTable tbEval;
+    private RichPopup popCom;
 
     public bConsultarEvaluacion() {
         
@@ -163,7 +172,7 @@ public class bConsultarEvaluacion {
     public void methodInvokeOncedOnPageLoad() {
         if(sessionConsultarEvaluacion.getExec() == 0){
             sessionConsultarEvaluacion.setExec(1);
-            renderColumns(beanUsuario.getRol().getDescripcionRol());
+            renderColumns(beanUsuario.getRol().getNidRol());
             sessionConsultarEvaluacion.setLstSede(llenarComboSede());
             sessionConsultarEvaluacion.setLstNivel(llenarComboNivel());
             sessionConsultarEvaluacion.setLstArea(llenarComboAreaA());
@@ -174,16 +183,21 @@ public class bConsultarEvaluacion {
         }
     }
     
-    public void renderColumns(String descripcionRol){
-        if(descripcionRol.toUpperCase().compareTo("SUBDIRECTOR") == 0){
+    public void renderColumns(int nidRol){
+        if(nidRol == 1){
             sessionConsultarEvaluacion.setColumnSede(false);
             sessionConsultarEvaluacion.setColumnNivel(false);
         }
-        if(descripcionRol.toUpperCase().compareTo("EVALUADOR") == 0){
+        if(nidRol == 2 || nidRol == 4 || nidRol == 5){
             sessionConsultarEvaluacion.setColumnEvaluador(false);
-            sessionConsultarEvaluacion.setColumnArea(false);
-        }
-        if(descripcionRol.toUpperCase().compareTo("PROFESOR") == 0){
+            if(nidRol == 2){
+                sessionConsultarEvaluacion.setColumnArea(false);
+            }
+            if(nidRol == 4){
+                sessionConsultarEvaluacion.setColumnSede(false);
+            }
+        }        
+        if(nidRol == 3){
             sessionConsultarEvaluacion.setColumnProfesor(false);
         }        
     }
@@ -285,7 +299,6 @@ public class bConsultarEvaluacion {
                                                                 sessionConsultarEvaluacion.getNidArea(), 
                                                                 sessionConsultarEvaluacion.getNidCurso(),
                                                                 sessionConsultarEvaluacion.getNidGrado(),
-                                                                sessionConsultarEvaluacion.getDescripcionEstadoEvaluacion(),
                                                                 sessionConsultarEvaluacion.getNombreProfesor(),
                                                                 sessionConsultarEvaluacion.getNombreEvaluador(),
                                                                 sessionConsultarEvaluacion.getFechaP(),
@@ -459,6 +472,38 @@ public class bConsultarEvaluacion {
             color = "00ff00";
         }
         return color;
+    }
+    
+    public void comentarEvaluacion(ActionEvent actionEvent) {
+        Utils.showPopUpMIDDLE(popCom);
+    }
+    
+    public void confirmarEnvioMensaje(DialogEvent dialogEvent) {
+        DialogEvent.Outcome outcome = dialogEvent.getOutcome();        
+        String detalle = "Error";
+        String error = "Operacion Incorrecta, vuelva intentarlo";
+        int severidad = 2;
+        if(outcome == DialogEvent.Outcome.ok){            
+            if(sessionConsultarEvaluacion.getEvaSelect() != null){
+                System.out.println(sessionConsultarEvaluacion.getEvaSelect().getNidEvaluacion()+"   "+comentarioProf);
+                error = ln_T_SFEvaluacionRemote.updateEvaluacionbyComentarioProfesor(
+                                                        sessionConsultarEvaluacion.getEvaSelect().getNidEvaluacion(),
+                                                        comentarioProf);
+                if(error.compareTo("000") == 0){
+                    detalle = "Se registro el comentario";
+                    error = "Operacion Realizada Correctamente";
+                    severidad = 3;
+                    llenarTabla();
+                    Utils.addTarget(pfl7);
+                }                
+            }
+            Utils.mostrarMensaje(ctx, 
+                                 error, 
+                                 detalle, 
+                                 severidad);
+            
+        }
+        
     }
     
     public String Pnota(double nota){
@@ -644,5 +689,21 @@ public class bConsultarEvaluacion {
 
     public RichTable getTbEval() {
         return tbEval;
-    }    
+    }
+
+    public void setPopCom(RichPopup popCom) {
+        this.popCom = popCom;
+    }
+
+    public RichPopup getPopCom() {
+        return popCom;
+    }
+
+    public void setComentarioProf(String comentarioProf) {
+        this.comentarioProf = comentarioProf;
+    }
+
+    public String getComentarioProf() {
+        return comentarioProf;
+    }   
 }

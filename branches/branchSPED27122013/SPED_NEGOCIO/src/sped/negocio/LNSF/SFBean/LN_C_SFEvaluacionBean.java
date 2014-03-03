@@ -104,11 +104,18 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBean;
     }
     
-    public List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario, int nidSede, int nidNivel,
-                                                           int nidArea, int nidCurso, int nidGrado, String estado,
-                                                           String nomProfesor, String nomEvaluador,
-                                                           Date fechaPlanifiacion, Date fechaPlanifiacionF,
-                                                           Date fechaEvaluacion, Date fachaEvaluacionF) {
+    public List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario, 
+                                                           int nidSede, 
+                                                           int nidNivel,
+                                                           int nidArea, 
+                                                           int nidCurso, 
+                                                           int nidGrado, 
+                                                           String nomProfesor, 
+                                                           String nomEvaluador,
+                                                           Date fechaPlanifiacion, 
+                                                           Date fechaPlanifiacionF,
+                                                           Date fechaEvaluacion, 
+                                                           Date fachaEvaluacionF) {
         try{
             BeanEvaluacion beanEva = new BeanEvaluacion();
             beanEva.setNidSede(nidSede);
@@ -116,7 +123,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setNidArea(nidArea);
             beanEva.setNidCurso(nidCurso);
             beanEva.setNidGrado(nidGrado);
-            beanEva.setEstadoEvaluacion(estado);
             beanEva.setApellidosDocentes(nomProfesor);//nom y ap del docente
             beanEva.setNombreEvaluador(nomEvaluador);
             beanEva.setFechaMinPlanificacion(fechaPlanifiacion);
