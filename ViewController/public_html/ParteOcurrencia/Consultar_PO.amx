@@ -56,6 +56,9 @@
              <amx:setPropertyListener from="#{row.aula}" to="#{pageFlowScope._aula}" type="action"/>
              <amx:setPropertyListener from="#{row.sede}" to="#{pageFlowScope._sede}" type="action"/>
              <amx:setPropertyListener from="#{row.nombresUsuario}" to="#{pageFlowScope._nombresUsuario}" type="action"/>
+             <amx:setPropertyListener from="#{row.dniProfesor}" to="#{pageFlowScope._dniProfesor}" type="action"/>
+             <amx:setPropertyListener from="#{bindings.arg0.inputValue == null ? viewScope.bConsultar_PO.hoy : bindings.arg0.inputValue}" to="#{pageFlowScope._fecMin}" type="action"/>
+             <amx:setPropertyListener from="#{bindings.arg1.inputValue == null ? viewScope.bConsultar_PO.hoy : bindings.arg1.inputValue}" to="#{pageFlowScope._fecMax}" type="action"/>
              
              <amx:tableLayout width="98%" id="tl1">
                 <amx:rowLayout id="rl1">

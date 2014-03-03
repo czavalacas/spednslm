@@ -76,6 +76,7 @@
           <Item Value="sede"/>
           <Item Value="nidParte"/>
           <Item Value="nidProblema"/>
+          <Item Value="dniProfesor"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

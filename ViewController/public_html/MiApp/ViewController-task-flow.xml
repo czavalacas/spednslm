@@ -82,6 +82,9 @@
     <view id="Detalle_PO">
       <page>/ParteOcurrencia/Detalle_PO.amx</page>
     </view>
+    <view id="Graficos_PO">
+      <page>/ParteOcurrencia/Graficos_PO.amx</page>
+    </view>
     <control-flow-rule id="__2">
       <from-activity-id>inicio</from-activity-id>
       <control-flow-case id="__3">
@@ -192,10 +195,21 @@
         <from-outcome>detalle_po</from-outcome>
         <to-activity-id>Detalle_PO</to-activity-id>
       </control-flow-case>
+      <control-flow-case id="__43">
+        <from-outcome>graficos</from-outcome>
+        <to-activity-id>Graficos_PO</to-activity-id>
+      </control-flow-case>
     </control-flow-rule>
     <control-flow-rule id="__39">
       <from-activity-id>Detalle_PO</from-activity-id>
       <control-flow-case id="__40">
+        <from-outcome>_BACK</from-outcome>
+        <to-activity-id>Consultar_PO</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__44">
+      <from-activity-id>Graficos_PO</from-activity-id>
+      <control-flow-case id="__45">
         <from-outcome>_BACK</from-outcome>
         <to-activity-id>Consultar_PO</to-activity-id>
       </control-flow-case>

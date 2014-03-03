@@ -46,4 +46,18 @@
                        xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
     </Source>
   </AdapterDataControl>
+  <AdapterDataControl id="bDetalle_PO" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
+                      ImplDef="oracle.adf.model.adapter.bean.BeanDCDefinition" SupportsTransactions="false"
+                      SupportsSortCollection="true" SupportsResetState="false" SupportsRangesize="false"
+                      SupportsFindMode="false" SupportsUpdates="true" Definition="mobile.respaldo.parteocu.bDetalle_PO"
+                      BeanClass="mobile.respaldo.parteocu.bDetalle_PO" xmlns="http://xmlns.oracle.com/adfm/datacontrol">
+    <CreatableTypes>
+      <TypeInfo FullName="mobile.beans.BeanPie"/>
+      <TypeInfo FullName="mobile.respaldo.parteocu.bDetalle_PO"/>
+    </CreatableTypes>
+    <Source>
+      <bean-definition BeanClass="mobile.respaldo.parteocu.bDetalle_PO"
+                       xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
+    </Source>
+  </AdapterDataControl>
 </DataControlConfigs>

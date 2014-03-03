@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="11.1.2.64.36" id="Detalle_POPageDef"
+                Package="ParteOcurrencia">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables">
+      <variable Type="java.sql.Date" Name="getPieProfesor_WS_arg0" IsQueriable="false"/>
+      <variable Type="java.sql.Date" Name="getPieProfesor_WS_arg1" IsQueriable="false"/>
+      <variable Type="java.lang.String" Name="getPieProfesor_WS_arg2" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getPieProfesor_WS_arg3" IsQueriable="false"/>
+      <variable Type="java.lang.Integer" Name="getPieProfesor_WS_arg4" IsQueriable="false"/>
+    </variableIterator>
+    <iterator Binds="root" RangeSize="25" DataControl="bDetalle_PO" id="bDetalle_POIterator"/>
+    <accessorIterator MasterBinding="bDetalle_POIterator" Binds="pieProfesor" RangeSize="25" DataControl="bDetalle_PO"
+                      BeanClass="mobile.beans.BeanPie" id="pieProfesorIterator" Refresh="always"/>
+    <methodIterator Binds="getPieProfesor_WS.result" DataControl="WS_SPED" RangeSize="25" Refresh="always"
+                    BeanClass="application.WS_SPED.getPieProfesor_WS" id="getPieProfesor_WSIterator"/>
+    <accessorIterator MasterBinding="getPieProfesor_WSIterator" Binds="Return" RangeSize="25" DataControl="WS_SPED"  Refresh="always"
+                      BeanClass="application.WS_SPED.getPieProfesor_WS.Return" id="ReturnIterator"/>
+    <accessorIterator MasterBinding="bDetalle_POIterator" Binds="barProfesor" RangeSize="-1" DataControl="bDetalle_PO"
+                      BeanClass="mobile.beans.BeanBar" id="barProfesorIterator"/>
+  </executables>
+  <bindings>
+    <tree IterBinding="pieProfesorIterator" id="pieProfesor">
+      <nodeDefinition DefName="mobile.beans.BeanPie" Name="pieProfesor0">
+        <AttrNames>
+          <Item Value="serie"/>
+          <Item Value="cantSlice"/>
+          <Item Value="lstBar"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <methodAction id="getPieProfesor_WS" RequiresUpdateModel="true" Action="invokeMethod" MethodName="getPieProfesor_WS"
+                  IsViewObjectMethod="false" DataControl="WS_SPED" InstanceName="data.WS_SPED" 
+                  ReturnName="data.WS_SPED.methodResults.getPieProfesor_WS_WS_SPED_getPieProfesor_WS_result">
+      <NamedData NDName="arg0" NDType="java.sql.Date" NDValue="#{pageFlowScope._fecMin}"/>
+      <NamedData NDName="arg1" NDType="java.sql.Date" NDValue="#{pageFlowScope._fecMax}"/>
+      <NamedData NDName="arg2" NDType="java.lang.String" NDValue="#{pageFlowScope._dniProfesor}"/>
+      <NamedData NDName="arg3" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1  || pageFlowScope.usuario.rol.nidRol == 5 ? bindings.getPieProfesor_WS_arg3 : pageFlowScope.usuario.sedeNivel.sede.nidSede}"/>
+      <NamedData NDName="arg4" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1  || pageFlowScope.usuario.rol.nidRol == 5 ? bindings.getPieProfesor_WS_arg4 : pageFlowScope.usuario.nidUsuario}"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="arg0">
+      <AttrNames>
+        <Item Value="getPieProfesor_WS_arg0"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg1">
+      <AttrNames>
+        <Item Value="getPieProfesor_WS_arg1"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg2">
+      <AttrNames>
+        <Item Value="getPieProfesor_WS_arg2"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg3">
+      <AttrNames>
+        <Item Value="getPieProfesor_WS_arg3"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="arg4">
+      <AttrNames>
+        <Item Value="getPieProfesor_WS_arg4"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="ReturnIterator" id="Return">
+      <nodeDefinition DefName="application.WS_SPED.getPieProfesor_WS.Return" Name="Return0">
+        <AttrNames>
+          <Item Value="cantSlice"/>
+          <Item Value="serie"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="barProfesorIterator" id="barProfesor">
+      <nodeDefinition DefName="mobile.beans.BeanBar" Name="barProfesor0">
+        <AttrNames>
+          <Item Value="cantidad"/>
+          <Item Value="group"/>
+          <Item Value="serie"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+  </bindings>
+</pageDefinition>

@@ -64,7 +64,6 @@ public class bVerEvaluacion {
             AdfmfJavaUtilities.setELValue("#{pageFlowScope.cometProf}",beanEvaluacionWS.getComentarioProfesor());
             AdfmfJavaUtilities.setELValue("#{pageFlowScope.vals}",beanEvaluacionWS.getValores());
         } catch (AdfInvocationException aie) {
-            // TODO: Add catch code
             aie.printStackTrace();
         }
         listCrits.removeAll(listCrits);

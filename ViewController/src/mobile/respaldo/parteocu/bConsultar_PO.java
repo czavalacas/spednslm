@@ -1,6 +1,9 @@
 package mobile.respaldo.parteocu;
 
+import java.sql.Date;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.el.ValueExpression;
@@ -29,6 +32,7 @@ public class bConsultar_PO {
     private final static String ALERTA = "mostrarMensaje";
     private final static String METODO = "#{bindings.getListaPartesOcurrencia_WS}";
     private final static String METODO_ITERATOR = "#{bindings.getListaPartesOcurrencia_WSIterator}";
+    private Date hoy;
     
     public bConsultar_PO(){
         this.setListUsuarios(this.llenarUsuarios());
@@ -145,5 +149,29 @@ public class bConsultar_PO {
 
     public List getListUsuarios() {
         return listUsuarios;
+    }
+
+    public void setAdfELContext(AdfELContext adfELContext) {
+        this.adfELContext = adfELContext;
+    }
+
+    public AdfELContext getAdfELContext() {
+        return adfELContext;
+    }
+
+    public void setHoy(Date hoy) {
+        this.hoy = hoy;
+    }
+
+    public Date getHoy() {
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        java.util.Date utilDate = cal.getTime();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        hoy = sqlDate;
+        return hoy;
     }
 }
