@@ -1,6 +1,9 @@
 package sped.vista.beans.evaluacion.grafico_reporte;
 
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -117,15 +120,14 @@ public class bDesempenoProfesor {
     private RichInputText inputIndicador;
     private UIGraph barAreaGraph;
     private UIGraph barDocIndicadorGraph;
+    private UIGraph lineaDesempenoGlobal;
+    private UIGraph lineDesempeñoProf;
 
 
     public bDesempenoProfesor() {
         try {
             initGraphDataModelPie();
-          //  initGraphDataModelBarPorSede();
-            initGraphDataModelBarPorArea();
-            initGraphDataModelLinePorAño();
-            initGraphDataModelBarPorNivel();
+          //  initGraphDataModelBarPorSede();      
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -322,6 +324,10 @@ public class bDesempenoProfesor {
                 }
             if(bean.getNidIndicador()!=null){
                 llenarDatadeGrafBarrasDocenteIndicador();
+                llenarDatadeLineaUltimoAñoDocenteIndicador();
+            }
+            if(bean.getDniDocente()!=null){
+                llenarDatadeLineaUltimoAñoDocenteGlobal();
             }
             
             limpiarComboBoxs(); 
@@ -332,8 +338,7 @@ public class bDesempenoProfesor {
             }         
        
        
-        }
-                   
+        }          
         return null;
     }
     
@@ -473,7 +478,7 @@ public class bDesempenoProfesor {
             bean.setProfesor("Global");
             }   
             bean.setIndicador(listaFiltros.get(i).getNombreIndicador().getDescripcionIndicador());
-            double valor=ln_C_SFEvaluacionRemote.resultadoPromediodeIndicador(listaFiltros.get(i) ,listaFiltros.get(i).getNombreIndicador().getNidIndicador());  
+            double valor=ln_C_SFEvaluacionRemote.resultadoPromediodeIndicador(listaFiltros.get(i) ,listaFiltros.get(i).getNombreIndicador().getNidIndicador(),null);  
             bean.setNotaFinal(valor);
                 listaParaGrfaicoDeBarrasSedes.add(bean);}
             }
@@ -500,7 +505,7 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getNombreArea()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR SEDES  A COMPARAR
-             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i));Utils.sysout("num Evalu "+lstEvaluaciones.size());
+             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
             if(listaFiltros.get(i).getNombreSede()!=null){
@@ -535,7 +540,7 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getNombreSede()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR SEDES  A COMPARAR
-             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i));Utils.sysout("num Evalu "+lstEvaluaciones.size());
+             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();           
             bean.setSede(listaFiltros.get(i).getNombreSede().getDescripcionSede());
@@ -548,6 +553,9 @@ public class bDesempenoProfesor {
         return null;
     }
               
+              
+              
+              
     public void setListEvabarChartSedes(List <BeanEvaluacion_DP> lstEvaluaciones){
         List<Object[]> lstEva = new ArrayList();   
         for(int i=0; i<lstEvaluaciones.size(); i++){            
@@ -555,196 +563,97 @@ public class bDesempenoProfesor {
             lstEva.add(obj);
         }
         sessionDesempenoProfesor.setLstEvaBarChart(lstEva);        
-    }            
-
-    public void initGraphDataModelLinePorAño() {
-        String[] columnLabels = { "Enero","Febrero","Marzo", "Abril", "Mayo", "Junio","Julio","Agosto","Setiembre", "Octubre", "Noviembre", "Diciembre"  };
-
-        String[] seriesLabels =
-        {"Sede 1", "Sede 2","Sede 3", "Sede 4","Sede 5","Sede 6"};
-        // 1er[] Tamaño de columnas empieza de 1,2,3..
-        // 2do[] Tamaño de Labels Por Columna empieza de 0,1,2,3...
-        //Ejemplo si queremos 3 columas con 5 barras cada uno seria   Object[][] data2 = new Object[3][5];
-        //Para este caso queremos 5 columnas con 1 barra cada una 
+    }        
+    
+    
+    
+    public String llenarDatadeLineaUltimoAñoDocenteIndicador(){
+        List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
+        List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
+        for(int i=0; i<listaFiltros.size(); i++){
+            if(listaFiltros.get(i).getNombreIndicador()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR INDICADORES  A COMPARAR
         
-        Object[][] data2 = new Object[12][6];
-        
-        //MESES 
-        
-        
-        data2[0][0] = new Double(40);    
-        data2[1][0] = new Double(50);
-        data2[2][0] = new Double(70); 
-        data2[3][0] = new Double(80);  
-        data2[4][0] = new Double(90);
-        data2[5][0] = new Double(70);
-        data2[6][0] = new Double(60);
-        data2[7][0] = new Double(90);
-        data2[8][0] = new Double(80); 
-        data2[9][0] = new Double(70); 
-        data2[10][0] = new Double(90);     
-        data2[11][0] = new Double(95);
-        
-        data2[0][1] = new Double(60);
-        data2[1][1] = new Double(50);
-        data2[2][1] = new Double(80);
-        data2[3][1] = new Double(40);
-        data2[4][1] = new Double(90);
-        data2[5][1] = new Double(40);
-        data2[6][1] = new Double(70);
-        data2[7][1] = new Double(60);
-        data2[8][1] = new Double(80);
-        data2[9][1] = new Double(90);
-        data2[10][1] = new Double(85);
-        data2[11][1] = new Double(95);
-        
-        data2[0][2] = new Double(40);               
-        data2[1][2] = new Double(50);
-        data2[2][2] = new Double(70);  
-        data2[3][2] = new Double(50); 
-        data2[4][2] = new Double(80); 
-        data2[5][2] = new Double(90);
-        data2[6][2] = new Double(70);
-        data2[7][2] = new Double(75);
-        data2[8][2] = new Double(85);   
-        data2[9][2] = new Double(60); 
-        data2[10][2] = new Double(70); 
-        data2[11][2] = new Double(90);
-        
-        data2[0][3] = new Double(70);
-        data2[1][3] = new Double(60);
-        data2[2][3] = new Double(50);
-        data2[3][3] = new Double(40);
-        data2[4][3] = new Double(60);
-        data2[5][3] = new Double(70);
-        data2[6][3] = new Double(50);
-        data2[7][3] = new Double(80);
-        data2[8][3] = new Double(90);
-        data2[9][3] = new Double(70);
-        data2[10][3] = new Double(80);
-        data2[11][3] = new Double(95);
-        
-        data2[0][4] = new Double(60); 
-        data2[1][4] = new Double(80);
-        data2[2][4] = new Double(70);
-        data2[3][4] = new Double(60); 
-        data2[4][4] = new Double(80);
-        data2[5][4] = new Double(90);
-        data2[6][4] = new Double(60);
-        data2[7][4] = new Double(70);
-        data2[8][4] = new Double(80); 
-        data2[9][4] = new Double(90); 
-        data2[10][4] = new Double(70); 
-        data2[11][4] = new Double(90);
-        
-        data2[0][5] = new Double(30); 
-        data2[1][5] = new Double(40);
-        data2[2][5] = new Double(50);
-        data2[3][5] = new Double(60); 
-        data2[4][5] = new Double(80);              
-        data2[5][5] = new Double(90);
-        data2[6][5] = new Double(60);
-        data2[7][5] = new Double(70); 
-        data2[8][5] = new Double(90); 
-        data2[9][5] = new Double(80);
-        data2[10][5] = new Double(70);   
-        data2[11][5] = new Double(95);       
-  
-        oracle.dss.dataView.LocalXMLDataSource ds =
-            new oracle.dss.dataView.LocalXMLDataSource(columnLabels, seriesLabels, data2);
-
-        graphDataLine = new oracle.adf.view.faces.bi.model.GraphDataModel();
-        graphDataLine.setDataSource(ds);
+           for(int j=0; j<13; j++){
+               
+                    Date hoy=new Date();
+                    Date fecha1= (Date)hoy.clone();
+                    fecha1.setMonth(hoy.getMonth()-(12-j));
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+                    Date fechaActual =fecha1;
+                    String fechaConFormato = sdf.format(fechaActual);
+            
+                 
+            BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
+            if(listaFiltros.get(i).getNombreProfesor()!=null){
+            bean.setProfesor(listaFiltros.get(i).getNombreProfesor().getApellidos()+" "+listaFiltros.get(i).getNombreProfesor().getNombres());
+            }
+            if(listaFiltros.get(i).getNombreProfesor()==null){
+            bean.setProfesor("Global");
+            }   
+            bean.setFechaLineGraph(fecha1);            
+            double valor=ln_C_SFEvaluacionRemote.resultadoPromediodeIndicador(listaFiltros.get(i) ,listaFiltros.get(i).getNombreIndicador().getNidIndicador(), fechaConFormato);  
+            bean.setNotaFinal(valor);
+                listaParaGrfaicoDeBarrasSedes.add(bean);}
+            }
+            }
+        setListLinegraphDesempeñodocente(listaParaGrfaicoDeBarrasSedes);    
+        Utils.addTarget(lineaDesempenoGlobal);
+        return null;
     }
     
-    
-    public void initGraphDataModelBarPorArea() {
-        String[] columnLabels = { "Area Academica" };
+    public void setListLinegraphDesempeñodocente(List <BeanEvaluacion_DP> lstEvaluaciones){
+        List<Object[]> lstEva = new ArrayList();        
+        for(int i=0; i<lstEvaluaciones.size(); i++){
+         
+            Object[] obj1 = { lstEvaluaciones.get(i).getFechaLineGraph(), lstEvaluaciones.get(i).getProfesor(), lstEvaluaciones.get(i).getNotaFinal()};           
+            lstEva.add(obj1);       
+        }        
+        sessionDesempenoProfesor.setLstEvaLineGraph(lstEva);
+    }
 
-        String[] seriesLabels =
-        {"Matematicas","Lenguaje","ciencias","Ingles","Educacion Fisica"};
-        // 1er[] Tamaño de columnas empieza de 1,2,3..
-        // 2do[] Tamaño de Labels Por Columna empieza de 0,1,2,3...
-        //Ejemplo si queremos 3 columas con 5 barras cada uno seria   Object[][] data2 = new Object[3][5];
-        //Para este caso queremos 5 columnas con 1 barra cada una 
+    public String llenarDatadeLineaUltimoAñoDocenteGlobal(){
+        List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
+        List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
+        for(int i=0; i<listaFiltros.size(); i++){
+            if(listaFiltros.get(i).getNombreProfesor()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR PROFESORES
         
-        Object[][] data2 = new Object[1][5];
-        data2[0][0] = new Double(40);               
-        data2[0][1] = new Double(70);
-        data2[0][2] = new Double(20);               
-        data2[0][3] = new Double(90);
-        data2[0][4] = new Double(60);        
-    
-
-        oracle.dss.dataView.LocalXMLDataSource ds =
-            new oracle.dss.dataView.LocalXMLDataSource(columnLabels, seriesLabels, data2);
-
-        graphDataBarHorizontal = new oracle.adf.view.faces.bi.model.GraphDataModel();
-        graphDataBarHorizontal.setDataSource(ds);
+           for(int j=0; j<13; j++){
+               
+                    Date hoy=new Date();
+                    Date fecha1= (Date)hoy.clone();
+                    fecha1.setMonth(hoy.getMonth()-(12-j));
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+                    Date fechaActual =fecha1;
+                    String fechaConFormato = sdf.format(fechaActual);
+            
+                 
+            BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
+            if(listaFiltros.get(i).getNombreProfesor()!=null){
+            bean.setProfesor(listaFiltros.get(i).getNombreProfesor().getApellidos()+" "+listaFiltros.get(i).getNombreProfesor().getNombres());
+            }
+            if(listaFiltros.get(i).getNombreProfesor()==null){
+            bean.setProfesor("Global");
+            }   
+            bean.setFechaLineGraph(fecha1);     
+            List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
+            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+            bean.setNotaFinal(valor);
+                listaParaGrfaicoDeBarrasSedes.add(bean);}
+            }
+            }
+        setListLinegraphDesempeñodocenteGlobal(listaParaGrfaicoDeBarrasSedes);    
+        Utils.addTarget(lineDesempeñoProf);
+        return null;
     }
     
-    public void initGraphDataModelBarPorNivel() {
-        String[] columnLabels = { "Niveles" };
-
-        String[] seriesLabels =
-        {"Inicial","Primaria","Secundaria"};
-        // 1er[] Tamaño de columnas empieza de 1,2,3..
-        // 2do[] Tamaño de Labels Por Columna empieza de 0,1,2,3...
-        //Ejemplo si queremos 3 columas con 5 barras cada uno seria   Object[][] data2 = new Object[3][5];
-        //Para este caso queremos 5 columnas con 1 barra cada una 
-        
-        Object[][] data2 = new Object[1][3];
-        data2[0][0] = new Double(40);               
-        data2[0][1] = new Double(70);
-        data2[0][2] = new Double(20);               
-              
-    
-
-        oracle.dss.dataView.LocalXMLDataSource ds =
-            new oracle.dss.dataView.LocalXMLDataSource(columnLabels, seriesLabels, data2);
-
-        graphDataBarNiveles = new oracle.adf.view.faces.bi.model.GraphDataModel();
-        graphDataBarNiveles.setDataSource(ds);
+    public void setListLinegraphDesempeñodocenteGlobal(List <BeanEvaluacion_DP> lstEvaluaciones){
+        List<Object[]> lstEva = new ArrayList();        
+        for(int i=0; i<lstEvaluaciones.size(); i++){         
+            Object[] obj1 = { lstEvaluaciones.get(i).getFechaLineGraph(), lstEvaluaciones.get(i).getProfesor(), lstEvaluaciones.get(i).getNotaFinal()};           
+            lstEva.add(obj1);       
+        }        
+        sessionDesempenoProfesor.setLstEvaLineGlobalGraph(lstEva);
     }
-    
-    /*
-    public List listaDeValoresParaBarGrap() {
-        
-        ArrayList data = new ArrayList();
-        Object obj[] = new Object[3];
-        obj[0] = "ACTUAL";
-        obj[1] = "CENTRAL";
-        obj[2] = 40;
-        data.add(obj);
-
-        Object obj2[] = new Object[3];
-        obj2[0] = "ACTUAL";
-        obj2[1] = "ECOLOGICO";
-        obj2[2] = 30;
-        data.add(obj2);
-        
-    
-        Object obj3[] = new Object[3];
-        obj[0] = "ACTUAL";
-        obj[1] = "INDUSTRIAL";
-        obj[2] =20;
-        data.add(obj3);
-
-        Object obj4[] = new Object[3];
-        obj2[0] = "ACTUAL";
-        obj2[1] = "INICIAL";
-        obj2[2] = 90;
-        data.add(obj4); 
-        
-        Object obj5[] = new Object[3];
-        obj2[0] = "ACTUAL";
-        obj2[1] = "INICIAL";
-        obj2[2] = 70;
-        data.add(obj5); 
-        
-        return data;
-    }*/
-
     public void setSessionDesempenoProfesor(bSessionDesempenoProfesor sessionDesempenoProfesor) {
         this.sessionDesempenoProfesor = sessionDesempenoProfesor;
     }
@@ -943,5 +852,21 @@ public class bDesempenoProfesor {
 
     public UIGraph getBarDocIndicadorGraph() {
         return barDocIndicadorGraph;
+    }
+
+    public void setLineaDesempenoGlobal(UIGraph lineaDesempenoGlobal) {
+        this.lineaDesempenoGlobal = lineaDesempenoGlobal;
+    }
+
+    public UIGraph getLineaDesempenoGlobal() {
+        return lineaDesempenoGlobal;
+    }
+
+    public void setLineDesempeñoProf(UIGraph lineDesempeñoProf) {
+        this.lineDesempeñoProf = lineDesempeñoProf;
+    }
+
+    public UIGraph getLineDesempeñoProf() {
+        return lineDesempeñoProf;
     }
 }

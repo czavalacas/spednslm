@@ -90,7 +90,7 @@ public interface LN_C_SFEvaluacionLocal {
       * @return BeanEvaluacionWS
       */
      BeanEvaluacionWS getEvaluacionById_LN_WS(Integer nidEvaluacion);
-    List<BeanEvaluacion_DP> desempeñoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros);
+    List<BeanEvaluacion_DP> desempeñoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros, String fechaHoy);
     double promedioGeneralPorFiltroDesempeñoDocente(List<BeanEvaluacion_DP> listaEva_WS);
-    double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, Integer nidIndicador);
+    double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, Integer nidIndicador, String fechaHoy);
 }
