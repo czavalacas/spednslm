@@ -42,6 +42,9 @@ public class BeanEvaluacion_DP implements Serializable {
     private Double NotaFinalIndicador;
     private List<BeanResultado> resultadoLista;
     private String indicador;
+    private String fechaHoy;
+    private Date fechaLineGraph;
+    
 
     public void setResultadoLista(List<BeanResultado> resultadoLista) {
         this.resultadoLista = resultadoLista;
@@ -273,5 +276,21 @@ public class BeanEvaluacion_DP implements Serializable {
 
     public String getIndicador() {
         return indicador;
+    }
+
+    public void setFechaHoy(String fechaHoy) {
+        this.fechaHoy = fechaHoy;
+    }
+
+    public String getFechaHoy() {
+        return fechaHoy;
+    }
+
+    public void setFechaLineGraph(Date fechaLineGraph) {
+        this.fechaLineGraph = fechaLineGraph;
+    }
+
+    public Date getFechaLineGraph() {
+        return fechaLineGraph;
     }
 }

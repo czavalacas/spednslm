@@ -30,13 +30,15 @@ public class BeanFiltrosGraficos implements Serializable {
     public BeanGrado nombreGrado;
     public BeanProfesor nombreProfesor;
     public BeanCriterio nombreCriterio;
-    public BeanIndicador nombreIndicador;
+    public BeanIndicador nombreIndicador;  
         
     //Campo a Mostrar en tabla
     public String campoFiltroTrabla;
     
     //index
-    public int index;
+    public int index;    
+    
+    public String fechaHoy;
     
     public void setNidSede(String nidSede) {
         this.nidSede = nidSede;
@@ -196,5 +198,13 @@ public class BeanFiltrosGraficos implements Serializable {
 
     public BeanIndicador getNombreIndicador() {
         return nombreIndicador;
+    }
+
+    public void setFechaHoy(String fechaHoy) {
+        this.fechaHoy = fechaHoy;
+    }
+
+    public String getFechaHoy() {
+        return fechaHoy;
     }
 }

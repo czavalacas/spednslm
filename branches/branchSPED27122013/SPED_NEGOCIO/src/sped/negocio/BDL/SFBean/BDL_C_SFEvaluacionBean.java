@@ -735,7 +735,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }
     }
 
-    public List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros) {
+    public List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros, String fechaHoy) {
         try{System.out.println("ENTRO QUERY POR INDICADOR"); 
             String ejbQl = " SELECT eva " +
                            " FROM Evaluacion eva, Main ma, Aula au"+
@@ -761,7 +761,10 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             if(beanFiltros.getDniDocente() != null){ System.out.println("Hay Docente");                
               ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor="+beanFiltros.getDniDocente());
             }
-         
+            if(fechaHoy != null){ System.out.println("Hay FechaHoy");                
+              ejbQl = ejbQl.concat(" and eva.startDate like '%"+fechaHoy+"%'");
+            }            
+            
                 List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();           
                 return eva;         
         }catch(Exception e){
@@ -769,4 +772,6 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             return null;
         }   
         }
+  
+        
 }

@@ -168,11 +168,12 @@
                     </f:facet>
                 <f:facet name="second">
                         <af:panelDashboard id="pd1" columns="2" rowHeight="350px" >
-                            <af:panelBox text="PanelBox1" id="pb1">
+                            <af:panelBox text="Desempeño Docente Indicador " id="pb1">
                                 <af:componentDragSource/>
                                 <dvt:lineGraph id="graph3" subType="LINE_VERT_ABS" shortDesc="line"
                                                dynamicResize="DYNAMIC_SIZE"
-                                               value="#{requestScope.bDesempenoProfesor.graphDataLine}">
+                                               tabularData="#{sessionDesempenoProfesor.lstEvaLineGraph}"
+                                               binding="#{bDesempenoProfesor.lineaDesempenoGlobal}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -184,25 +185,7 @@
                                     <dvt:y1Axis/>
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:lineGraph>
-                            </af:panelBox>
-                            <af:panelBox text="PanelBox2" id="pb2" showDisclosure="false" type="stretch">
-                                <f:facet name="toolbar"/>
-                                <af:componentDragSource/>
-                                <dvt:pieGraph id="graph2" subType="PIE" shortDesc="Pie" dynamicResize="DYNAMIC_SIZE"
-                                              binding="#{bDesempenoProfesor.pieGraph}"
-                                              value="#{requestScope.bDesempenoProfesor.graphDataPie}">
-                                    <dvt:background>
-                                        <dvt:specialEffects/>
-                                    </dvt:background>
-                                    <dvt:graphPieFrame/>
-                                    <dvt:seriesSet>
-                                        <dvt:series/>
-                                    </dvt:seriesSet>
-                                    <dvt:sliceLabel/>
-                                    <dvt:pieLabel rendered="true"/>
-                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                                </dvt:pieGraph>
-                            </af:panelBox>
+                            </af:panelBox>                         
                             <af:panelBox text="Grafico de Areas" id="pb3" showDisclosure="false" type="stretch">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
@@ -223,25 +206,25 @@
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:horizontalBarGraph>
                             </af:panelBox>
-                            <af:panelBox text="PanelBox4" id="pb4" showDisclosure="false" type="stretch">
+                            <af:panelBox text="Desempeño Docente Evaluacion" id="pb4" showDisclosure="false" type="stretch">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
                                
-                                                    <dvt:gauge id="gauge1" gaugeType="DIAL" shortDesc="c"  dynamicResize="DYNAMIC_SIZE">
-                                            <dvt:gaugeBackground>
-                                                <dvt:specialEffects/>
-                                            </dvt:gaugeBackground>
-                                            <dvt:gaugeFrame/>
-                                            <dvt:indicator/>
-                                            <dvt:indicatorBase/>
-                                            <dvt:gaugePlotArea/>
-                                            <dvt:tickLabel/>
-                                            <dvt:tickMark/>
-                                            <dvt:topLabel/>
-                                            <dvt:bottomLabel/>
-                                            <dvt:metricLabel position="LP_WITH_BOTTOM_LABEL"/>
-                                        </dvt:gauge>
-                                       
+                                             <dvt:lineGraph id="graph6" subType="LINE_VERT_ABS" shortDesc="line"
+                                               dynamicResize="DYNAMIC_SIZE"
+                                               tabularData="#{sessionDesempenoProfesor.lstEvaLineGlobalGraph}"
+                                               binding="#{bDesempenoProfesor.lineDesempe&#241;oProf}">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPlotArea/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:o1Axis/>
+                                    <dvt:y1Axis/>
+                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                </dvt:lineGraph>
                                     </af:panelBox>
                             <af:panelBox text="Docente Indicador" id="pb5" type="stretch">
                                 <f:facet name="toolbar"/>
@@ -261,6 +244,24 @@
                                     <dvt:y1Axis/>
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:barGraph>
+                            </af:panelBox>
+                               <af:panelBox text="PanelBox2" id="pb2" showDisclosure="false" type="stretch">
+                                <f:facet name="toolbar"/>
+                                <af:componentDragSource/>
+                                <dvt:pieGraph id="graph2" subType="PIE" shortDesc="Pie" dynamicResize="DYNAMIC_SIZE"
+                                              binding="#{bDesempenoProfesor.pieGraph}"
+                                              value="#{requestScope.bDesempenoProfesor.graphDataPie}">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPieFrame/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:sliceLabel/>
+                                    <dvt:pieLabel rendered="true"/>
+                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                </dvt:pieGraph>
                             </af:panelBox>
                         </af:panelDashboard>
                 </f:facet>
