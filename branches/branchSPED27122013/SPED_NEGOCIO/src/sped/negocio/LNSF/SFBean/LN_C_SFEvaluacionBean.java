@@ -513,10 +513,10 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return beanEvaluacion;
     }
     //terminarrrrrr
-    public List<BeanEvaluacion_DP> desempeñoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros){
+    public List<BeanEvaluacion_DP> desempeñoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros,String fechaHoy){
     List<BeanEvaluacion_DP> lstBeanEvas = new ArrayList<BeanEvaluacion_DP>();
     List<Evaluacion> lstEvas = new ArrayList<Evaluacion>();
-        lstEvas=  bdL_C_SFEvaluacionLocal.getEvaluaciones_DeDocente(beanFiltros);
+        lstEvas=  bdL_C_SFEvaluacionLocal.getEvaluaciones_DeDocente(beanFiltros,fechaHoy);
         for(Evaluacion eva : lstEvas){
             BeanEvaluacion_DP beanEva = new BeanEvaluacion_DP();
             beanEva.setNidEvaluacion(eva.getNidEvaluacion());
@@ -569,9 +569,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }
         
         /**Si beanFiltros.nidIndicador!= null  : Trae el promedio del Indicador elejido */
-        public double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, Integer nidIndicador){
+        public double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, Integer nidIndicador, String fechaHoy){
             List<Evaluacion> listaEvaluaciones =
-                bdL_C_SFEvaluacionLocal.getEvaluaciones_DeDocente(beanFiltros); 
+                bdL_C_SFEvaluacionLocal.getEvaluaciones_DeDocente(beanFiltros, fechaHoy); 
             double resu = 0;
             int tamano = listaEvaluaciones.size();
             int size=0;
@@ -588,6 +588,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 }
                 int r = (int) Math.round( (total/size) * 100);
                 resu = r / 100.0;
+                System.out.println("VALOR RESU "+resu);
             }
             return resu;
         }

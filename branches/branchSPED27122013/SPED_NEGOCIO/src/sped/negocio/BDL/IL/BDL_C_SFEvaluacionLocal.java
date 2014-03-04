@@ -50,5 +50,5 @@ public interface BDL_C_SFEvaluacionLocal {
                                             String tipoVisita,
                                             Integer nidPlanificador,
                                             Integer nidEvaluador);  
-    List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros);
+    List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros, String fechaHoy);
 }
