@@ -20,14 +20,21 @@ public class LN_C_SFCorreoRemoteClient {
                 (LN_C_SFCorreoRemote) context.lookup("mapLN_C_SFCorreo#sped.negocio.LNSF.IR.LN_C_SFCorreoRemote");
             //String root = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
             //String fpath = root+"/recursos/reportes/"+getSessionBeanConsultarPregrado().getTiempoFile()+"_reporte.pdf";Utiles.sysout("fpath: "+fpath);
-            String[] data = new String[4];
+           /* String[] data = new String[4];
             data[0] = "kaka";
             data[1] = "/home/diego/Pictures/popupalignment.png";
             data[2] = " jkljk";
             data[3] = "dfloresgonz@gmail.com";
             //lN_C_SFCorreoRemote.enviarCorreo2();
-          //  String msj = lN_C_SFCorreoRemote.enviarCorreo(data);
-         //   System.out.println(msj);
+            String msj = lN_C_SFCorreoRemote.enviarCorreo(data);*/
+            String[] data = new String[5];
+            data[0] = "03/03/2014";
+            data[1] = "Se jodio todo!!!";
+            data[2] = "diego flores gonzales";
+            data[3] = "evento loco";
+            data[4] = "  todo esta jodido csm!!";
+            lN_C_SFCorreoRemote.enviarCorreo("dfloresgonz@gmail.com", data);
+           // System.out.println(msj);
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());
