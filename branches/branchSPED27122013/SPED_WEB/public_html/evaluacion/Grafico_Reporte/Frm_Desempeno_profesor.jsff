@@ -134,9 +134,11 @@
                                         <af:panelFormLayout>
                                         <af:spacer width="10" height="10" id="s20"/>
                                         <af:inputDate label="Inicio" id="id1"
-                                                  binding="#{bDesempenoProfesor.inputFechaInicio}"/>
+                                                  binding="#{bDesempenoProfesor.inputFechaInicio}"
+                                                      value="#{sessionScope.sessionDesempenoProfesor.fechaInicio}"/>
                                     <af:spacer width="10" height="10" id="s17"/>
-                                    <af:inputDate label="Fin" id="id2" binding="#{bDesempenoProfesor.inputFechaFin}"/>
+                                    <af:inputDate label="Fin" id="id2" binding="#{bDesempenoProfesor.inputFechaFin}"
+                                                  value="#{sessionScope.sessionDesempenoProfesor.fechaFin}"/>
                                     
                                   <af:spacer width="10" height="10" id="s18"/>                                              
                                         
@@ -160,7 +162,9 @@
                                    binding="#{bDesempenoProfesor.tbFiltrosBusqueda}" rowSelection="single"
                                    selectionListener="#{bDesempenoProfesor.seleccionarFiltro}"> 
                                         <af:column sortable="false" headerText="Filtro de Busqueda" id="c1" width="600px">
-                                            <af:outputText value="#{row.campoFiltroTrabla}" id="ot2"/>
+                                            <af:outputText value="#{row.campoFiltroTrabla}" id="ot2">
+                                               <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </af:outputText>
                                         </af:column>
                                     </af:table>
                     </af:panelGroupLayout>
