@@ -3,8 +3,8 @@
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces"
                 xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
-        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 30px;" id="pgl1">
-            <af:panelSplitter orientation="horizontal" splitterPosition="250" id="ps1">
+        <af:panelGroupLayout layout="scroll" id="pgl1">
+            <af:panelSplitter orientation="horizontal" splitterPosition="250" id="ps1" inlineStyle="margin:0px 0px 0px 30px;">
                 <f:facet name="first">
                     <af:subform id="s2" binding="#{bDesempenoEvaluador.s2}">
                         <h:outputText value="Filtros de Busqueda" id="ot10" styleClass="titulos"/>
