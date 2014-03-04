@@ -742,6 +742,10 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                            " WHERE eva.main.nidMain=ma.nidMain"+
                            " and ma.aula.nidAula=au.nidAula"+                         
                            " and eva.estadoEvaluacion='EJECUTADO'";                                    
+            
+            if(beanFiltros.getFechaInicio() != null && beanFiltros.getFechaFin() != null){
+              ejbQl = ejbQl.concat(" and eva.startDate BETWEEN :min AND :max ");
+            }
              
             if(beanFiltros.getNidSede() != null){ System.out.println("Hay nidSede");                
               ejbQl = ejbQl.concat(" and au.sede.nidSede="+beanFiltros.getNidSede());
@@ -764,7 +768,15 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             if(fechaHoy != null){ System.out.println("Hay FechaHoy");                
               ejbQl = ejbQl.concat(" and eva.startDate like '%"+fechaHoy+"%'");
             }            
-            
+            if (beanFiltros.getFechaFin() != null &&
+                beanFiltros.getFechaInicio() != null) {
+                List<Evaluacion> eva = em.createQuery(ejbQl).setParameter("min", beanFiltros.getFechaInicio(),
+                                                   TemporalType.DATE).setParameter("max",beanFiltros.getFechaFin(),
+                                                                                    TemporalType.DATE).getResultList();
+                return eva;
+            }else{
+                
+            }
                 List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();           
                 return eva;         
         }catch(Exception e){

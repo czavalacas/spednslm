@@ -277,44 +277,52 @@ public class bDesempenoProfesor {
                 if(sessionDesempenoProfesor.getBeanIndicador().getNidIndicador()!=0){
         bean.setNidIndicador(sessionDesempenoProfesor.getBeanIndicador().getNidIndicador().toString());}
             }}
-        String mensaje=""; String mensaje2=""; String mensaje3=""; String mensaje4=""; String mensaje5=""; String mensaje6=""; String mensaje7=""; String mensaje8="";
+        String mensaje=""; String mensaje2=""; String mensaje3=""; String mensaje4=""; String mensaje5=""; String mensaje6=""; String mensaje7=""; String mensaje8=""; String mensaje9="";
         
         if(bean.getNidSede()!=null){
             bean.setNombreSede(ln_C_SFSedeRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidSede())));
-            mensaje=bean.getNombreSede().getDescripcionSede()+" -";
+            mensaje=bean.getNombreSede().getDescripcionSede()+", ";
         }
         if(bean.getNidArea()!=null){
             bean.setNombreArea(ln_C_SFAreaAcademicaRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidArea())));
-            mensaje2=bean.getNombreArea().getDescripcionAreaAcademica()+" -";
+            mensaje2=bean.getNombreArea().getDescripcionAreaAcademica()+", ";
         }
         if(bean.getNidCurso()!=null){
             bean.setNombreCurso(ln_C_SFCursoRemoto.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidCurso())));
-            mensaje3=bean.getNombreCurso().getDescripcionCurso()+" -";
+            mensaje3=bean.getNombreCurso().getDescripcionCurso()+", ";
         }
         if(bean.getNidNivele()!=null){
             bean.setNombreNivel(ln_C_SFNivelRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidNivele())));
-            mensaje4=bean.getNombreNivel().getDescripcionNivel()+" -";
+            mensaje4=bean.getNombreNivel().getDescripcionNivel()+", ";
         }
         if(bean.getNidGrado()!=null){
             bean.setNombreGrado(ln_C_SFGradoRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidGrado())));
-            mensaje5=bean.getNombreGrado().getDescripcionGrado()+" -";
+            mensaje5=bean.getNombreGrado().getDescripcionGrado()+", ";
         }
         if(bean.getDniDocente()!=null){
             bean.setNombreProfesor(ln_C_SFProfesorRemote.findConstrainByDni(sessionDesempenoProfesor.getDniDocente()));
-            mensaje6=bean.getNombreProfesor().getApellidos()+" "+bean.getNombreProfesor().getNombres()+" -";
+            mensaje6=bean.getNombreProfesor().getApellidos()+" "+bean.getNombreProfesor().getNombres()+", ";
         }
         if(bean.getNidCriterio()!=null){
             bean.setNombreCriterio(ln_C_SFCriterioRemote.findConstrainByIdLN(Integer.parseInt(sessionDesempenoProfesor.getNidCriterio())));
-            mensaje7=bean.getNombreCriterio().getDescripcionCriterio()+" -";
+            mensaje7=bean.getNombreCriterio().getDescripcionCriterio()+", ";
         }  
         if(bean.getNidIndicador()!=null){
             bean.setNombreIndicador(sessionDesempenoProfesor.getBeanIndicador());
-            mensaje8=bean.getNombreIndicador().getDescripcionIndicador()+" ";
+            mensaje8=bean.getNombreIndicador().getDescripcionIndicador()+", ";
+        }  
+        if(bean.getFechaInicio()!=null && bean.getFechaFin()!=null){
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            Date fechaIni = bean.fechaInicio;
+            Date fechaFin = bean.fechaFin;
+            String fechaConFormato = sdf.format(fechaIni);
+            String fechaConFormato2 = sdf.format(fechaFin);
+            mensaje9=fechaConFormato+" - "+fechaConFormato2;
         }
         if(bean.getNidSede()==null && bean.getNidArea()==null && bean.getNidCurso()==null &&bean.getNidNivele()==null&& bean.getNidGrado()==null&&bean.getDniDocente()==null&&bean.getNidCriterio()==null&&bean.getNidIndicador()==null){
             Utils.sysout("NO HAY ELEJIDO FILTROS");
         }else{
-            bean.setCampoFiltroTrabla(mensaje+mensaje2+mensaje3+mensaje4+mensaje5+mensaje6+mensaje7+mensaje8);                 
+            bean.setCampoFiltroTrabla(mensaje+mensaje2+mensaje3+mensaje4+mensaje5+mensaje6+mensaje7+mensaje8+mensaje9);                 
             sessionDesempenoProfesor.getListaFiltros().add(bean);   
             if(bean.getNidSede()!=null){//ESTE IF EVITA ACTUALIZAR EL GRAFICO DE SEDES SI NO HAY UN FILTRO DE SEDE ELEGIDO
                 llenarDatadeGrafBarrasSedes();      
@@ -374,17 +382,20 @@ public class bDesempenoProfesor {
     return null;}
     
     public String btnLimpiarFiltros() {
-         limpiarComboBoxs();
-        sessionDesempenoProfesor.getListaFiltros().clear();
+       limpiarComboBoxs();
+       sessionDesempenoProfesor.getListaFiltros().clear();
        sessionDesempenoProfesor.getLstEvaBarChart().clear();
        sessionDesempenoProfesor.getLstEvaAreasBarChart().clear();
+       sessionDesempenoProfesor.getLstEvaDocenteIndicadorBarChart().clear();
+       sessionDesempenoProfesor.getLstEvaLineGlobalGraph().clear();
+       sessionDesempenoProfesor.getLstEvaLineGraph().clear();
         if (tbFiltrosBusqueda != null) {
             Utils.unselectFilas(tbFiltrosBusqueda);
             tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
             Utils.addTarget(tbFiltrosBusqueda);
         }
-        Utils.addTargetMany(barAreaGraph, barGraph);
-      limpiarTablaIndicadores();
+       Utils.addTargetMany(barAreaGraph, barGraph,barDocIndicadorGraph,lineDesempeñoProf,lineaDesempenoGlobal);
+       limpiarTablaIndicadores();
         return null;
     }
     
@@ -572,7 +583,32 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getNombreIndicador()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR INDICADORES  A COMPARAR
-        
+            if(listaFiltros.get(i).getFechaInicio()!=null && listaFiltros.get(i).getFechaFin()!=null){//SI HAY FILTROS FECHAS
+                int num=((listaFiltros.get(i).getFechaFin().getYear()-listaFiltros.get(i).getFechaInicio().getYear())*12)+(listaFiltros.get(i).getFechaFin().getMonth()-listaFiltros.get(i).getFechaInicio().getMonth());
+                System.out.println("num ::: "+num);
+                for(int j=0; j<num+1; j++){               
+                         Date hoy=listaFiltros.get(i).getFechaFin();
+                         Date fecha1= (Date)hoy.clone();
+                         fecha1.setMonth(hoy.getMonth()-((num)-j));
+                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+                         Date fechaActual =fecha1;
+                         String fechaConFormato = sdf.format(fechaActual);                 
+                      
+                 BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
+                 if(listaFiltros.get(i).getNombreProfesor()!=null){
+                 bean.setProfesor(listaFiltros.get(i).getNombreProfesor().getApellidos()+" "+listaFiltros.get(i).getNombreProfesor().getNombres());
+                 }
+                 if(listaFiltros.get(i).getNombreProfesor()==null){
+                 bean.setProfesor("Global");
+                 }   
+                 bean.setFechaLineGraph(fecha1);     
+                   
+                 double valor=ln_C_SFEvaluacionRemote.resultadoPromediodeIndicador(listaFiltros.get(i) ,listaFiltros.get(i).getNombreIndicador().getNidIndicador(), fechaConFormato);    
+                 bean.setNotaFinal(valor);
+                     listaParaGrfaicoDeBarrasSedes.add(bean);}      
+                
+                
+            }else{
            for(int j=0; j<13; j++){
                
                     Date hoy=new Date();
@@ -596,6 +632,7 @@ public class bDesempenoProfesor {
                 listaParaGrfaicoDeBarrasSedes.add(bean);}
             }
             }
+            }
         setListLinegraphDesempeñodocente(listaParaGrfaicoDeBarrasSedes);    
         Utils.addTarget(lineaDesempenoGlobal);
         return null;
@@ -616,29 +653,57 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getNombreProfesor()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR PROFESORES
+                if(listaFiltros.get(i).getFechaInicio()!=null && listaFiltros.get(i).getFechaFin()!=null){//SI HAY FILTROS FECHAS
+                    int num=((listaFiltros.get(i).getFechaFin().getYear()-listaFiltros.get(i).getFechaInicio().getYear())*12)+(listaFiltros.get(i).getFechaFin().getMonth()-listaFiltros.get(i).getFechaInicio().getMonth());
+                    System.out.println("num ::: "+num);
+                    for(int j=0; j<num+1; j++){               
+                             Date hoy=listaFiltros.get(i).getFechaFin();
+                             Date fecha1= (Date)hoy.clone();
+                             fecha1.setMonth(hoy.getMonth()-((num)-j));
+                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+                             Date fechaActual =fecha1;
+                             String fechaConFormato = sdf.format(fechaActual);
+                     
+                          
+                     BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
+                     if(listaFiltros.get(i).getNombreProfesor()!=null){
+                     bean.setProfesor(listaFiltros.get(i).getNombreProfesor().getApellidos()+" "+listaFiltros.get(i).getNombreProfesor().getNombres());
+                     }
+                     if(listaFiltros.get(i).getNombreProfesor()==null){
+                     bean.setProfesor("Global");
+                     }   
+                     bean.setFechaLineGraph(fecha1);     
+                     List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
+                     double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+                     bean.setNotaFinal(valor);
+                         listaParaGrfaicoDeBarrasSedes.add(bean);}      
+                    
+                    
+                }else{
+                    for(int j=0; j<13; j++){               
+                             Date hoy=new Date();
+                             Date fecha1= (Date)hoy.clone();
+                             fecha1.setMonth(hoy.getMonth()-(12-j));
+                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+                             Date fechaActual =fecha1;
+                             String fechaConFormato = sdf.format(fechaActual);
+                     
+                          
+                     BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
+                     if(listaFiltros.get(i).getNombreProfesor()!=null){
+                     bean.setProfesor(listaFiltros.get(i).getNombreProfesor().getApellidos()+" "+listaFiltros.get(i).getNombreProfesor().getNombres());
+                     }
+                     if(listaFiltros.get(i).getNombreProfesor()==null){
+                     bean.setProfesor("Global");
+                     }   
+                     bean.setFechaLineGraph(fecha1);     
+                     List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
+                     double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+                     bean.setNotaFinal(valor);
+                         listaParaGrfaicoDeBarrasSedes.add(bean);}    
+                    
+                }
         
-           for(int j=0; j<13; j++){
-               
-                    Date hoy=new Date();
-                    Date fecha1= (Date)hoy.clone();
-                    fecha1.setMonth(hoy.getMonth()-(12-j));
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-                    Date fechaActual =fecha1;
-                    String fechaConFormato = sdf.format(fechaActual);
-            
-                 
-            BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
-            if(listaFiltros.get(i).getNombreProfesor()!=null){
-            bean.setProfesor(listaFiltros.get(i).getNombreProfesor().getApellidos()+" "+listaFiltros.get(i).getNombreProfesor().getNombres());
-            }
-            if(listaFiltros.get(i).getNombreProfesor()==null){
-            bean.setProfesor("Global");
-            }   
-            bean.setFechaLineGraph(fecha1);     
-            List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
-            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
-            bean.setNotaFinal(valor);
-                listaParaGrfaicoDeBarrasSedes.add(bean);}
             }
             }
         setListLinegraphDesempeñodocenteGlobal(listaParaGrfaicoDeBarrasSedes);    
