@@ -26,6 +26,8 @@ import javax.activation.DataHandler;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.mail.MessagingException;
+
 import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.Utils.Utiles;
@@ -49,7 +51,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
         String PUERTO = "587";
         String HOST = "smtp.gmail.com";
         String USUARIO = "siatod2013";//"siatod2013";
-        String CLAVE = "taller2013";//taller2013
+        String CLAVE = "taller20134";//taller2013
         String DOMINIO = "@gmail.com";
         String EMAIL_QUE_ENVIA = USUARIO + DOMINIO;
         try {
@@ -100,18 +102,18 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
         }
     }
     
-    public void enviarCorreoHTML(String data[]) {
+    public boolean enviarCorreoHTML(String data[]) {
+        boolean valida = false;
       try {
           String PUERTO = "587";
           String HOST = "smtp.gmail.com";
           String USUARIO = "siatod2013";//"siatod2013";
-          String CLAVE = "taller2013";//taller2013
+          String CLAVE = data[6];//taller2013
           String DOMINIO = "@gmail.com";
-          String EMAIL_QUE_ENVIA = USUARIO + DOMINIO;
+          String EMAIL_QUE_ENVIA = data[5];
           
           Multipart multipart = new MimeMultipart();
           BodyPart messageBodyPart = new MimeBodyPart();
-          // Propiedades de la conexión
           Properties props = new Properties();
           props.setProperty("mail.smtp.host", HOST);
           props.setProperty("mail.smtp.starttls.enable", "true");
@@ -119,34 +121,53 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
           props.setProperty("mail.smtp.user", EMAIL_QUE_ENVIA);
           props.setProperty("mail.smtp.auth", "true");
           props.setProperty("mail.smtp.port", PUERTO);
-          // Preparamos la sesion
           Session session = Session.getDefaultInstance(props);
-          // Construimos el mensaje
           MimeMessage message = new MimeMessage(session);
           message.setFrom(new InternetAddress(EMAIL_QUE_ENVIA));
-          String correos = data[5];
+          String correos = data[3];
           String[] vecCorreos = correos.split(";");
           for (int i = 0; i < vecCorreos.length; i++) {
               message.addRecipient(Message.RecipientType.TO, new InternetAddress(vecCorreos[i]));
           }
-          message.setSubject("INFO-MOBILE URP Alarma.");
-          String contenido = contenidoHTML(data);
+          message.setSubject(data[2]);
+          String contenido = contenidoHTML2(data);
           messageBodyPart.setContent(contenido, "text/html");
           multipart.addBodyPart(messageBodyPart);
-          // Lo enviamos.
+          BodyPart messageBodyPart2 = new MimeBodyPart();
+          FileDataSource source = new FileDataSource(data[1]);
+          messageBodyPart2.setDataHandler(new DataHandler(source));
+          messageBodyPart2.setFileName(source.getName());
+          multipart.addBodyPart(messageBodyPart2);
           message.setContent(multipart);
           Transport t = session.getTransport("smtp");
-          t.connect(HOST, USUARIO, CLAVE);
+          t.connect(HOST, EMAIL_QUE_ENVIA, CLAVE);
           t.sendMessage(message, message.getAllRecipients());
-          System.out.println("Se envio el correo Electrónico!");
-          // Cierre.
+          valida = true;
           t.close();
-      } catch (Exception e) {
-          e.printStackTrace();
+      }catch (MessagingException ex){
+          ex.printStackTrace();
+          return valida;
       }
+      return valida;
     }
     
+    
+    
     //falta una validacion que en la descripcion no se admita codigo HTML.
+    public String contenidoHTML2(String data[]){
+        String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";
+      String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
+                      .concat("<tbody>")
+                      .concat("<p style=\"text-align: center;\">")
+                      .concat("<a href=\"www.google.com\"><img alt=\"\" src=\""+rutaimg+"\" style=\"width: 690px; height: 61px;\" /></a></p>")
+                      .concat("<p style=\"text-align: right;\">")
+                      .concat("<strong>Fecha:</strong> 05/03/2014</p>")
+                      .concat("<p>"+data[4]+"</p>")
+                      .concat("</tbody>")
+                      .concat("</table>");
+      return contenido;
+    }
+    
     public String contenidoHTML(String data[]){
       String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
                       .concat("<tbody>")

@@ -2,8 +2,6 @@ package sped.negocio.Pruebas;
 
 import java.util.Hashtable;
 
-import javax.faces.context.FacesContext;
-
 import javax.naming.CommunicationException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -27,13 +25,16 @@ public class LN_C_SFCorreoRemoteClient {
             data[3] = "dfloresgonz@gmail.com";
             //lN_C_SFCorreoRemote.enviarCorreo2();
             String msj = lN_C_SFCorreoRemote.enviarCorreo(data);*/
-            String[] data = new String[5];
-            data[0] = "03/03/2014";
-            data[1] = "Se jodio todo!!!";
-            data[2] = "diego flores gonzales";
-            data[3] = "evento loco";
-            data[4] = "  todo esta jodido csm!!";
-            //lN_C_SFCorreoRemote.enviarCorreo("dfloresgonz@gmail.com", data);
+            String pdf = "C:/Users/David/AppData/Roaming/JDeveloper/system12.1.2.0.40.66.68/o.j2ee/drs/SPED_APP/SPED_WEBWebApp.war/recursos/img/usuarios/prueba.pdf";
+            String[] data = new String[7];
+            data[0] = "03/03/2014"; //fecha
+            data[1] = pdf; //pdf
+            data[2] = "diego flores gonzales"; //asunto            
+            data[3] = "davidangeleshuaman@gmail.com"; //correos
+            data[4] = "evento loco"; //mensaje
+            data[5] = "siatod2013@gmail.com";
+            data[6] = "123";
+            System.out.println(lN_C_SFCorreoRemote.enviarCorreoHTML(data));
            // System.out.println(msj);
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
