@@ -102,7 +102,7 @@
                                         <f:selectItems value="#{sessionDesempenoProfesor.listaProfesoresFiltro}" id="si13"/>
                                    </af:selectOneChoice>
                                        <af:spacer width="10" height="10" id="s16"/>
-                                     <af:spacer width="10" height="10" id="s14"/>
+                               <!--      <af:spacer width="10" height="10" id="s14"/>
                                         <af:selectOneChoice label="Criterio" id="smc14"
                                                             value="#{sessionDesempenoProfesor.nidCriterio}"
                                                             autoSubmit="true"
@@ -110,7 +110,7 @@
                                                             binding="#{bDesempenoProfesor.choiceCriterios}"
                                                             unselectedLabel="::Seleccionar Criterio::">
                                         <f:selectItems value="#{sessionDesempenoProfesor.listaCriteriosFiltro}" id="si14"/>
-                                   </af:selectOneChoice>
+                                   </af:selectOneChoice>-->
                                    <af:spacer width="10" height="10" id="s12"/>
                                         <af:inputText label="Indicador" id="it1" autoSubmit="true"
                                                       valueChangeListener="#{bDesempenoProfesor.valoresInputTexIndicador}"
@@ -189,27 +189,26 @@
                                     <dvt:y1Axis/>
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:lineGraph>
-                            </af:panelBox>                         
-                            <af:panelBox text="Grafico de Areas" id="pb3" showDisclosure="false" type="stretch">
+                            </af:panelBox>           
+                             <af:panelBox text="Docente Indicador" id="pb5" type="stretch">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
-                                <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_CLUST" shortDesc="lin"
-                                                        dynamicResize="DYNAMIC_SIZE"
-                                                        tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaAreasBarChart}"
-                                                        binding="#{bDesempenoProfesor.barAreaGraph}">
-                                    
+                                <dvt:barGraph id="graph5" subType="BAR_VERT_CLUST" shortDesc="r"
+                                              dynamicResize="DYNAMIC_SIZE"
+                                              tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteIndicadorBarChart}"
+                                              binding="#{bDesempenoProfesor.barDocIndicadorGraph}">
                                     <dvt:background>
-                                    <dvt:specialEffects/>
+                                        <dvt:specialEffects/>
                                     </dvt:background>
                                     <dvt:graphPlotArea/>
                                     <dvt:seriesSet>
-                                    <dvt:series/>
+                                        <dvt:series/>
                                     </dvt:seriesSet>
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                                </dvt:horizontalBarGraph>
-                            </af:panelBox>
+                                </dvt:barGraph>
+                            </af:panelBox>                          
                             <af:panelBox text="Desempeño Docente Evaluacion" id="pb4" showDisclosure="false" type="stretch">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
@@ -230,13 +229,14 @@
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:lineGraph>
                                     </af:panelBox>
-                            <af:panelBox text="Docente Indicador" id="pb5" type="stretch">
+                           
+                               <af:panelBox text="Docente Evaluacion" id="pb2" showDisclosure="false" type="stretch">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
-                                <dvt:barGraph id="graph5" subType="BAR_VERT_CLUST" shortDesc="r"
+                                  <dvt:barGraph id="graph7" subType="BAR_VERT_CLUST" shortDesc="r"
                                               dynamicResize="DYNAMIC_SIZE"
-                                              tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteIndicadorBarChart}"
-                                              binding="#{bDesempenoProfesor.barDocIndicadorGraph}">
+                                              tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteEvaluacionBarChart}"
+                                              binding="#{bDesempenoProfesor.barDocenteEvalu}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -248,11 +248,7 @@
                                     <dvt:y1Axis/>
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:barGraph>
-                            </af:panelBox>
-                               <af:panelBox text="PanelBox2" id="pb2" showDisclosure="false" type="stretch">
-                                <f:facet name="toolbar"/>
-                                <af:componentDragSource/>
-                                <dvt:pieGraph id="graph2" subType="PIE" shortDesc="Pie" dynamicResize="DYNAMIC_SIZE"
+                   <!--             <dvt:pieGraph id="graph2" subType="PIE" shortDesc="Pie" dynamicResize="DYNAMIC_SIZE"
                                               binding="#{bDesempenoProfesor.pieGraph}"
                                               value="#{requestScope.bDesempenoProfesor.graphDataPie}">
                                     <dvt:background>
@@ -265,7 +261,28 @@
                                     <dvt:sliceLabel/>
                                     <dvt:pieLabel rendered="true"/>
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                                </dvt:pieGraph>
+                                </dvt:pieGraph>-->
+                                
+                            </af:panelBox>
+                              <af:panelBox text="Grafico de Areas" id="pb3" showDisclosure="false" type="stretch">
+                                <f:facet name="toolbar"/>
+                                <af:componentDragSource/>
+                                <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_CLUST" shortDesc="lin"
+                                                        dynamicResize="DYNAMIC_SIZE"
+                                                        tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaAreasBarChart}"
+                                                        binding="#{bDesempenoProfesor.barAreaGraph}">
+                                    
+                                    <dvt:background>
+                                    <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPlotArea/>
+                                    <dvt:seriesSet>
+                                    <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:o1Axis/>
+                                    <dvt:y1Axis/>
+                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                </dvt:horizontalBarGraph>
                             </af:panelBox>
                         </af:panelDashboard>
                 </f:facet>

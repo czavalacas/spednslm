@@ -122,12 +122,12 @@ public class bDesempenoProfesor {
     private UIGraph barDocIndicadorGraph;
     private UIGraph lineaDesempenoGlobal;
     private UIGraph lineDesempeñoProf;
+    private UIGraph barDocenteEvalu;
 
 
     public bDesempenoProfesor() {
         try {
-            initGraphDataModelPie();
-          //  initGraphDataModelBarPorSede();      
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -334,8 +334,9 @@ public class bDesempenoProfesor {
                 llenarDatadeGrafBarrasDocenteIndicador();
                 llenarDatadeLineaUltimoAñoDocenteIndicador();
             }
-            if(bean.getDniDocente()!=null){
+            if(bean.getDniDocente()!=null && bean.getNidIndicador()==null){
                 llenarDatadeLineaUltimoAñoDocenteGlobal();
+                llenarDatadeGrafBarrasDocenteEvaluacion();
             }
             
             limpiarComboBoxs(); 
@@ -364,7 +365,8 @@ public class bDesempenoProfesor {
         sessionDesempenoProfesor.setBeanIndicador(null); 
         inputIndicador.resetValue();
         llenarChoices();
-        Utils.addTargetMany(choiceAreas,choiceCriterios,choiceCursos,choiceDocente,choiceGrados,choiceNiveles,choiceSedes,inputFechaInicio,inputFechaFin);
+        Utils.addTargetMany(choiceAreas,choiceCursos,choiceDocente,choiceGrados,choiceNiveles,choiceSedes,inputFechaInicio,inputFechaFin);
+        //,choiceCriterios
         limpiarTablaIndicadores();
         return null;
     }
@@ -384,17 +386,31 @@ public class bDesempenoProfesor {
     public String btnLimpiarFiltros() {
        limpiarComboBoxs();
        sessionDesempenoProfesor.getListaFiltros().clear();
-       sessionDesempenoProfesor.getLstEvaBarChart().clear();
-       sessionDesempenoProfesor.getLstEvaAreasBarChart().clear();
-       sessionDesempenoProfesor.getLstEvaDocenteIndicadorBarChart().clear();
-       sessionDesempenoProfesor.getLstEvaLineGlobalGraph().clear();
-       sessionDesempenoProfesor.getLstEvaLineGraph().clear();
+       if( sessionDesempenoProfesor.getLstEvaBarChart()!=null){
+           sessionDesempenoProfesor.getLstEvaBarChart().clear();
+       }
+        if(  sessionDesempenoProfesor.getLstEvaAreasBarChart()!=null){
+            sessionDesempenoProfesor.getLstEvaAreasBarChart().clear();
+        }
+        if(   sessionDesempenoProfesor.getLstEvaDocenteIndicadorBarChart()!=null){
+            sessionDesempenoProfesor.getLstEvaDocenteIndicadorBarChart().clear();
+        }   
+        if(   sessionDesempenoProfesor.getLstEvaLineGlobalGraph()!=null){
+            sessionDesempenoProfesor.getLstEvaLineGlobalGraph().clear();
+        }
+        if(   sessionDesempenoProfesor.getLstEvaLineGraph()!=null){
+            sessionDesempenoProfesor.getLstEvaLineGraph().clear();
+        }      
+        if(   sessionDesempenoProfesor.getLstEvaDocenteEvaluacionBarChart()!=null){
+            sessionDesempenoProfesor.getLstEvaDocenteEvaluacionBarChart().clear();
+        } 
+       
         if (tbFiltrosBusqueda != null) {
             Utils.unselectFilas(tbFiltrosBusqueda);
             tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
             Utils.addTarget(tbFiltrosBusqueda);
         }
-       Utils.addTargetMany(barAreaGraph, barGraph,barDocIndicadorGraph,lineDesempeñoProf,lineaDesempenoGlobal);
+       Utils.addTargetMany(barAreaGraph, barGraph,barDocIndicadorGraph,lineDesempeñoProf,lineaDesempenoGlobal,barDocenteEvalu);
        limpiarTablaIndicadores();
         return null;
     }
@@ -433,12 +449,26 @@ public class bDesempenoProfesor {
                Utils.addTarget(tbFiltrosBusqueda);
            }
            if(sessionDesempenoProfesor.getBeanFiltros()!=null){
-               if(sessionDesempenoProfesor.getBeanFiltros().getNidSede()!=null){
-               llenarDatadeGrafBarrasSedes();} }
-           
-                   if(sessionDesempenoProfesor.getBeanFiltros()!=null){
-                       if(sessionDesempenoProfesor.getBeanFiltros().getNidArea()!=null){
-                       llenarDatadeGrafBarrasSedesYAreas();} 
+           if(sessionDesempenoProfesor.getBeanFiltros().getNidSede()!=null){
+              llenarDatadeGrafBarrasSedes();
+              } 
+                   }           
+           if(sessionDesempenoProfesor.getBeanFiltros()!=null){
+           if(sessionDesempenoProfesor.getBeanFiltros().getNidArea()!=null){
+              llenarDatadeGrafBarrasSedesYAreas();
+              } 
+                   }                   
+           if(sessionDesempenoProfesor.getBeanFiltros()!=null){
+           if(sessionDesempenoProfesor.getBeanFiltros().getDniDocente()!=null){
+              llenarDatadeLineaUltimoAñoDocenteGlobal();
+              llenarDatadeGrafBarrasDocenteEvaluacion();
+                       }
+           }
+           if(sessionDesempenoProfesor.getBeanFiltros()!=null){
+           if(sessionDesempenoProfesor.getBeanFiltros().getNombreIndicador()!=null){
+              llenarDatadeLineaUltimoAñoDocenteIndicador();
+              llenarDatadeGrafBarrasDocenteIndicador();
+                           }    
                    }
        }
         
@@ -453,26 +483,7 @@ public class bDesempenoProfesor {
            sessionDesempenoProfesor.setBeanFiltros(filtro);
            
         }
-    }
-    public void initGraphDataModelPie() {
-        String[] columnLabels = { "Porcentajes de Desempeño" };
-
-        String[] seriesLabels =
-        { "0 - 10", "11 - 15", "15 - 20"};
-        // 6 labels , so 6 data row
-        Object[][] data2 = new Object[1][3];
-
-        data2[0][0] = new Double(15);
-        data2[0][1] = new Double(35);
-        data2[0][2] = new Double(50);
-
-        oracle.dss.dataView.LocalXMLDataSource ds =
-            new oracle.dss.dataView.LocalXMLDataSource(columnLabels, seriesLabels, data2);
-
-        graphDataPie = new oracle.adf.view.faces.bi.model.GraphDataModel();
-        graphDataPie.setDataSource(ds);
-    }   
-    
+    }    
     
     public String llenarDatadeGrafBarrasDocenteIndicador(){
         List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
@@ -488,7 +499,26 @@ public class bDesempenoProfesor {
             if(listaFiltros.get(i).getNombreProfesor()==null){
             bean.setProfesor("Global");
             }   
-            bean.setIndicador(listaFiltros.get(i).getNombreIndicador().getDescripcionIndicador());
+            
+           if(listaFiltros.get(i).getFechaInicio()!=null && listaFiltros.get(i).getFechaFin()!=null){
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                        Date fechaIni = listaFiltros.get(i).getFechaInicio();
+                        Date fechaFin = listaFiltros.get(i).getFechaFin();
+                        String fechaConFormato = sdf.format(fechaIni);
+                        String fechaConFormato2 = sdf.format(fechaFin);
+                        String mensaje=fechaConFormato+" - "+fechaConFormato2;                
+                        bean.setIndicador(listaFiltros.get(i).getNombreIndicador().getDescripcionIndicador()+" ("+mensaje+")");
+           }else{
+                        Date fechaFin=new Date();
+                        Date fechaInicio= (Date)fechaFin.clone();
+                        fechaInicio.setMonth(fechaFin.getMonth()-12);
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");            
+                        String fechaConFormato = sdf.format(fechaInicio);
+                        String fechaConFormato2 = sdf.format(fechaFin);
+                        String mensaje=fechaConFormato+" - "+fechaConFormato2;     
+                        bean.setIndicador(listaFiltros.get(i).getNombreIndicador().getDescripcionIndicador()+" ("+mensaje+")");
+               }
+          
             double valor=ln_C_SFEvaluacionRemote.resultadoPromediodeIndicador(listaFiltros.get(i) ,listaFiltros.get(i).getNombreIndicador().getNidIndicador(),null);  
             bean.setNotaFinal(valor);
                 listaParaGrfaicoDeBarrasSedes.add(bean);}
@@ -543,7 +573,60 @@ public class bDesempenoProfesor {
             lstEva.add(obj);
         }
         sessionDesempenoProfesor.setLstEvaAreasBarChart(lstEva);        
-    }            
+    }        
+    
+    public String llenarDatadeGrafBarrasDocenteEvaluacion(){
+        List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
+        List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
+        for(int i=0; i<listaFiltros.size(); i++){
+            if(listaFiltros.get(i).getDniDocente()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR DNI DOCENTE
+            List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
+           //UNA LISTA DE EVALUACIONES QUE TIENE
+            BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
+            if(listaFiltros.get(i).getNombreProfesor()!=null){
+            bean.setProfesor(listaFiltros.get(i).getNombreProfesor().getApellidos()+" "+listaFiltros.get(i).getNombreProfesor().getNombres());
+            }
+            if(listaFiltros.get(i).getNombreProfesor()==null){
+            bean.setProfesor("Global");
+            }   
+            if(listaFiltros.get(i).getFechaInicio()!=null && listaFiltros.get(i).getFechaFin()!=null){
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                Date fechaIni = listaFiltros.get(i).getFechaInicio();
+                Date fechaFin = listaFiltros.get(i).getFechaFin();
+                String fechaConFormato = sdf.format(fechaIni);
+                String fechaConFormato2 = sdf.format(fechaFin);
+                String mensaje=fechaConFormato+" - "+fechaConFormato2;                
+                bean.setIndicador("Desempeno ("+mensaje+")");
+            }else{
+                Date fechaFin=new Date();
+                Date fechaInicio= (Date)fechaFin.clone();
+                fechaInicio.setMonth(fechaFin.getMonth()-12);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");            
+                String fechaConFormato = sdf.format(fechaInicio);
+                String fechaConFormato2 = sdf.format(fechaFin);
+                String mensaje=fechaConFormato+" - "+fechaConFormato2;                
+                bean.setIndicador("Desempeno ("+mensaje+")");
+            }
+            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+            bean.setNotaFinal(valor);
+                listaParaGrfaicoDeBarrasSedes.add(bean);}
+            }
+        setListEvabarChartDocenteEvaluacion(listaParaGrfaicoDeBarrasSedes);    
+        Utils.addTarget(barDocenteEvalu);
+        return null;
+    }
+    
+    public void setListEvabarChartDocenteEvaluacion(List <BeanEvaluacion_DP> lstEvaluaciones){
+      
+        List<Object[]> lstEva = new ArrayList();   
+        for(int i=0; i<lstEvaluaciones.size(); i++){             
+            
+            Object[] obj  = { lstEvaluaciones.get(i).getProfesor(),lstEvaluaciones.get(i).getIndicador(),  lstEvaluaciones.get(i).getNotaFinal()}; 
+            
+            lstEva.add(obj);
+        }
+        sessionDesempenoProfesor.setLstEvaDocenteEvaluacionBarChart(lstEva);        
+    }     
 
     
     public String llenarDatadeGrafBarrasSedes(){
@@ -652,7 +735,7 @@ public class bDesempenoProfesor {
         List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
-            if(listaFiltros.get(i).getNombreProfesor()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR PROFESORES
+            if(listaFiltros.get(i).getNombreProfesor()!=null && listaFiltros.get(i).getNombreIndicador()==null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR PROFESORES
                 if(listaFiltros.get(i).getFechaInicio()!=null && listaFiltros.get(i).getFechaFin()!=null){//SI HAY FILTROS FECHAS
                     int num=((listaFiltros.get(i).getFechaFin().getYear()-listaFiltros.get(i).getFechaInicio().getYear())*12)+(listaFiltros.get(i).getFechaFin().getMonth()-listaFiltros.get(i).getFechaInicio().getMonth());
                     System.out.println("num ::: "+num);
@@ -933,5 +1016,13 @@ public class bDesempenoProfesor {
 
     public UIGraph getLineDesempeñoProf() {
         return lineDesempeñoProf;
+    }
+
+    public void setBarDocenteEvalu(UIGraph barDocenteEvalu) {
+        this.barDocenteEvalu = barDocenteEvalu;
+    }
+
+    public UIGraph getBarDocenteEvalu() {
+        return barDocenteEvalu;
     }
 }
