@@ -381,21 +381,34 @@
         <af:popup childCreation="deferred" autoCancel="disabled" id="popCorreo"
                   binding="#{bDesempenoEvaluador.popCorreo}">
             <af:dialog id="d3" dialogListener="#{bDesempenoEvaluador.confirmarCorreo}" title="Mensaje">
-                <af:panelFormLayout id="pfl3">
-                    <af:inputText label="Para" id="it7" labelStyle="text-align: left;" disabled="true"
-                                  value="#{sessionDesempenoEvaluador.evaluador.nombres}"/>
-                    <af:inputText label="De" id="it8" labelStyle="text-align: left;" disabled="true"
-                                  value="#{bDesempenoEvaluador.nombreUsuario}"/>
-                    <af:richTextEditor id="rte1" binding="#{bDesempenoEvaluador.rte1}"
-                                       value="#{bDesempenoEvaluador.mensaje}"/>
+                <af:panelFormLayout id="pfl3" rows="1">
+                    <af:inputText label="Correo" id="it7" labelStyle="text-align: left;"
+                                  value="#{sessionDesempenoEvaluador.correo}">
+                        <f:validator validatorId="EmailValidator"/>
+                    </af:inputText>
+                    <af:button text="Agregar" id="b6" actionListener="#{bDesempenoEvaluador.agregarCorreo}"/>
+                    <af:table var="row" rowBandingInterval="0" id="t1" value="#{sessionDesempenoEvaluador.lstCorreo}">
+                        <af:column sortable="true" headerText="col1" id="c11">
+                            <af:outputText value="#{row}" id="ot12"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="col2" id="c20" align="center">
+                            <af:button id="b7" icon="../recursos/img/usuarios/borrar.png"
+                                       actionListener="#{bDesempenoEvaluador.removeCorreo}">
+                                <f:setPropertyActionListener value="#{row}"
+                                                             target="#{bDesempenoEvaluador.correoDelete}"/>
+                            </af:button>
+                        </af:column>
+                    </af:table>
                 </af:panelFormLayout>
+                <af:richTextEditor id="rte1" binding="#{bDesempenoEvaluador.rte1}"
+                                       value="#{bDesempenoEvaluador.mensaje}"/>
             </af:dialog>
         </af:popup>
         <af:popup childCreation="deferred" autoCancel="disabled" id="popKey" binding="#{bDesempenoEvaluador.popKey}">
             <af:dialog id="d4" dialogListener="#{bDesempenoEvaluador.confirmarEnvio}" title="Ingrese clave">
                 <af:panelFormLayout id="pfl7">
                     <af:inputText label="Correo" id="it9" labelStyle="text-align: left;" disabled="true"
-                                  value="#{sessionDesempenoEvaluador.evaluador.correo}"/>
+                                  value="#{bDesempenoEvaluador.correo}"/>
                     <af:inputText label="Contraseña" id="it10" labelStyle="text-align: left;" disabled="false"
                                   value="#{bDesempenoEvaluador.clave}" secret="true" />
                 </af:panelFormLayout>                

@@ -97,6 +97,8 @@ public class bDesempenoEvaluador {
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     BeanUsuario beanUsu;
     private String nombreUsuario;
+    private String correo;
+    private String correoDelete;
     private RichSelectManyChoice choiceFArea;
     private RichSelectManyChoice choiceFRol;
     private RichSelectManyChoice choiceFEva;
@@ -127,6 +129,7 @@ public class bDesempenoEvaluador {
 
     public bDesempenoEvaluador() {
         nombreUsuario = beanUsuario.getNombres();
+        correo = beanUsuario.getCorreo();
     }
     
     @PostConstruct
@@ -706,7 +709,8 @@ public class bDesempenoEvaluador {
         if(nombre != null && estado != null){
             List <BeanEvaluacion> lst = desempenoFiltro_Aux(2, nombre, estado, null, null);
             sessionDesempenoEvaluador.setLstEvaDetalle(lst);
-            beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());            
+            beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());
+            beanUsu.setClave("");
             sessionDesempenoEvaluador.setEvaluador(beanUsu);
             sessionDesempenoEvaluador.setEstado(estado);
             estadoEvaluacion(estado);            
@@ -836,6 +840,31 @@ public class bDesempenoEvaluador {
             sessionDesempenoEvaluador.setRenderNivel(false);
             sessionDesempenoEvaluador.setRenderSede(false);
         }        
+    }
+    
+    public void agregarCorreo(ActionEvent actionEvent) {
+        int cont = 0;
+        if(sessionDesempenoEvaluador.getCorreo() != null){
+            for(String correo : sessionDesempenoEvaluador.getLstCorreo()){
+                if(correo.compareTo(sessionDesempenoEvaluador.getCorreo()) == 0){
+                    cont = 1;
+                    break;
+                }
+            }
+            if(cont != 1){
+                sessionDesempenoEvaluador.getLstCorreo().add(sessionDesempenoEvaluador.getCorreo());
+                sessionDesempenoEvaluador.setCorreo("");
+                Utils.addTarget(popCorreo);
+            }
+        }        
+        
+    }
+    
+    public void removeCorreo(ActionEvent actionEvent) {
+        if(sessionDesempenoEvaluador.getLstCorreo() != null){
+            sessionDesempenoEvaluador.getLstCorreo().remove(correoDelete);
+            Utils.addTarget(popCorreo);
+        } 
     }
     
     public void renderMensaje(String estado){
@@ -1084,5 +1113,21 @@ public class bDesempenoEvaluador {
 
     public String getClave() {
         return clave;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreoDelete(String correoDelete) {
+        this.correoDelete = correoDelete;
+    }
+
+    public String getCorreoDelete() {
+        return correoDelete;
     }
 }
