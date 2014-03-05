@@ -12,7 +12,7 @@
                             <af:selectManyChoice label="Rol" id="choiceFRol" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFRol}" autoSubmit="true"
                                                  value="#{sessionDesempenoEvaluador.selectedRol}">
-                                <f:selectItems value="#{sessionDesempenoEvaluador.lstRol}" id="si3"/>
+                                <f:selectItems value="#{sessionDesempenoEvaluador.lstRol}" id="siRol"/>
                             </af:selectManyChoice>
                             <af:selectManyChoice label="Evaluador" id="choiceFEva" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFEva}" autoSubmit="true"
