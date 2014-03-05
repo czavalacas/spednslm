@@ -27,6 +27,8 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private List selectedEvaluador_aux;
     private List selectedSede_aux;
     private List selectedArea_aux;
+    private List<String> lstCorreo = new ArrayList();
+    private String correo;
     private Date fechaPI;
     private Date fechaPF;
     private Date fechaEI;
@@ -473,5 +475,21 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public boolean isRGrafPieA() {
         return rGrafPieA;
+    }
+
+    public void setLstCorreo(List<String> lstCorreo) {
+        this.lstCorreo = lstCorreo;
+    }
+
+    public List<String> getLstCorreo() {
+        return lstCorreo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCorreo() {
+        return correo;
     }
 }

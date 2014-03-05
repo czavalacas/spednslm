@@ -33,7 +33,7 @@ public class LN_C_SFCorreoRemoteClient {
             data[2] = "diego flores gonzales";
             data[3] = "evento loco";
             data[4] = "  todo esta jodido csm!!";
-            lN_C_SFCorreoRemote.enviarCorreo("dfloresgonz@gmail.com", data);
+            //lN_C_SFCorreoRemote.enviarCorreo("dfloresgonz@gmail.com", data);
            // System.out.println(msj);
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
