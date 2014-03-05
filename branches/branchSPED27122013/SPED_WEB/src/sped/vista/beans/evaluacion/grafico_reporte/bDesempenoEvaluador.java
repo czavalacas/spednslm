@@ -3,6 +3,8 @@ package sped.vista.beans.evaluacion.grafico_reporte;
 import com.itextpdf.text.Document;
 
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -18,6 +20,8 @@ import java.io.IOException;
 
 import java.net.MalformedURLException;
 
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,6 +32,7 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -57,6 +62,8 @@ import oracle.dss.dataView.DataComponentHandle;
 
 import oracle.dss.dataView.ImageView;
 import oracle.dss.dataView.SeriesComponentHandle;
+
+import oracle.jbo.uicli.binding.JUCtrlListBinding;
 
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
@@ -293,17 +300,44 @@ public class bDesempenoEvaluador {
         try{            
             PdfWriter.getInstance(document, outputStream);
             document.open();
+            //////////////////////////////
+            String rutaLocal = "";
+            if(File.separator.equals("/")){
+                rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + 
+                            "usuarios" + File.separator;     
+            }else{
+                rutaLocal = "recursos" + File.separator + "img" + File.separator + 
+                            "usuarios" + File.separator;   
+            }
+            ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
+            String imageDirPath = servletCtx.getRealPath("/");
+            String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
+            String rutaImg = imageDirPath + rutaLocal;
+            String rutaSave = rutaImg+timePath; 
+            ////////////////////////////
+            Image img = Image.getInstance(rutaImg+"cabecera.png");
+            img.scalePercent(60);
+            img.setAlignment(Image.ALIGN_CENTER);
+            document.add(img);
+            addSelectFiltro(document);
+            int cont = 0;
             if(sessionDesempenoEvaluador.isRGrafRolA()){
-                addImagenes(document, "Grafico Rol", exportGrafPNG(grol, "GR"));
+                addImagenes(document, "Grafico Rol", exportGrafPNG(grol, rutaSave+"GR.png"));
+                cont++;
+                addEspacio(cont, document);
             }
             if(sessionDesempenoEvaluador.isRGrafEvaA()){
-                addImagenes(document, "Grafico Evaluador", exportGrafPNG(geva, "GE"));
+                addImagenes(document, "Grafico Evaluador", exportGrafPNG(geva, rutaSave+"GE.png"));
+                cont++;
+                addEspacio(cont, document);
             }
             if(sessionDesempenoEvaluador.isRGrafLineA()){
-                addImagenes(document, "Grafico linea de Tiempo", exportGrafPNG(gline, "GL"));
+                addImagenes(document, "Grafico linea de Tiempo", exportGrafPNG(gline, rutaSave+"GL.png"));
+                cont++;
+                addEspacio(cont, document);
             }
             if(sessionDesempenoEvaluador.isRGrafPieA()){
-                addImagenes(document, "Grafico Problemas Frecuentes", exportGrafPNG(gpie, "GP"));
+                addImagenes(document, "Grafico Problemas Frecuentes", exportGrafPNG(gpie, rutaSave+"GP.png"));
             }
             document.close();
         }catch(Exception e){
@@ -311,41 +345,167 @@ public class bDesempenoEvaluador {
         }        
     }
     
+    public void addEspacio(int i,Document document) throws DocumentException {
+        if(i == 1 || i == 3){
+            document.newPage();
+        }
+    }
+    
     public void addImagenes(Document document, 
                             String titulo, 
                             String rutaImg) throws DocumentException, MalformedURLException, IOException {
-        Paragraph  paragraph =new Paragraph("\n\n"+titulo+"\n");
+        Paragraph  paragraph =new Paragraph("\n"+titulo+"\n",
+                       FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLDITALIC));
         paragraph.setAlignment(Paragraph.ALIGN_CENTER);
         document.add(paragraph);
         Image img = Image.getInstance(rutaImg);
         img.scalePercent(75);
-        img.setAlignment(Image.ALIGN_CENTER );
+        img.setAlignment(Image.ALIGN_CENTER);
         document.add(img);
     }
     
-    public String exportGrafPNG(UIGraph graph, String nombre){
-        String rutaImg = "";
+    public void addSelectFiltro(Document document) throws DocumentException {
+        Paragraph  paragraph =new Paragraph("Filtro",
+                       FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLDITALIC));
+        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+        document.add(paragraph);
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        String dateE = "Fecha Evaluacion :";
+        if(sessionDesempenoEvaluador.getFechaEI_aux() == null && sessionDesempenoEvaluador.getFechaEF_aux() == null ){
+            dateE = dateE.concat("hasta "+formato.format(sessionDesempenoEvaluador.getFechaActual()));
+        }else if(sessionDesempenoEvaluador.getFechaEI_aux() == null || sessionDesempenoEvaluador.getFechaEF_aux() == null ){
+            if(sessionDesempenoEvaluador.getFechaEI_aux() != null){
+                dateE = dateE.concat(formato.format(sessionDesempenoEvaluador.getFechaEI_aux().toString()));
+            }
+            if(sessionDesempenoEvaluador.getFechaEF_aux() != null ){
+                dateE = dateE.concat(formato.format(sessionDesempenoEvaluador.getFechaEF_aux().toString()));
+            }
+        }else{
+            dateE = dateE.concat(formato.format(sessionDesempenoEvaluador.getFechaEI_aux())
+                                 +" - "+formato.format(sessionDesempenoEvaluador.getFechaEF_aux()));
+        }
+        mostrarFiltro(document, dateE,null);
+        String dateP = "Fecha Planificacion :";
+        if(sessionDesempenoEvaluador.getFechaPI_axu() == null && sessionDesempenoEvaluador.getFechaPF_aux() == null ){
+            dateP = dateP.concat("hasta "+formato.format(sessionDesempenoEvaluador.getFechaActual()));
+        }else if(sessionDesempenoEvaluador.getFechaPI_axu() == null || sessionDesempenoEvaluador.getFechaPF_aux() == null ){
+            if(sessionDesempenoEvaluador.getFechaPI_axu() != null){
+                dateP = dateP.concat(formato.format(sessionDesempenoEvaluador.getFechaPI_axu().toString()));
+            }
+            if(sessionDesempenoEvaluador.getFechaPF_aux() != null ){
+                dateP = dateP.concat(formato.format(sessionDesempenoEvaluador.getFechaPF_aux().toString()));
+            }
+        }else{
+            dateP = dateP.concat(formato.format(sessionDesempenoEvaluador.getFechaPI_axu())+
+                                 " - "+formato.format(sessionDesempenoEvaluador.getFechaPF_aux()));
+        }
+        mostrarFiltro(document, dateP,null);
+        if(sessionDesempenoEvaluador.getSelectedRol_aux() != null){
+            String rol = "";
+            int cont=0;
+            int size = sessionDesempenoEvaluador.getSelectedRol_aux().size();
+            for(Object o : sessionDesempenoEvaluador.getLstRol()){                
+                if(size == cont){
+                    break;
+                }
+                SelectItem si = (SelectItem)o;
+                if(si.getValue() == sessionDesempenoEvaluador.getSelectedRol_aux().get(cont)){
+                    rol = rol.concat(si.getLabel());
+                    cont++;
+                    if(size != cont){
+                        rol = rol.concat(",");
+                    }
+                }
+            }
+            mostrarFiltro(document, "Rol",rol);
+        }
+        if(sessionDesempenoEvaluador.getSelectedEvaluador_aux() != null){
+            List evaluadores = new ArrayList();
+            evaluadores.addAll(sessionDesempenoEvaluador.getLstEvaArea());
+            evaluadores.addAll(sessionDesempenoEvaluador.getLstEvaSede());
+            evaluadores.addAll(sessionDesempenoEvaluador.getLstEvaGeneral());
+            String eva = "";
+            int cont=0;
+            int size = sessionDesempenoEvaluador.getSelectedEvaluador_aux().size();
+            for(Object o : evaluadores){                
+                if(size == cont){
+                    break;
+                }
+                SelectItem si = (SelectItem)o;
+                if(si.getValue() == sessionDesempenoEvaluador.getSelectedEvaluador_aux().get(cont)){
+                    eva = eva.concat(si.getLabel());
+                    cont++;
+                    if(size != cont){
+                        eva = eva.concat(",");
+                    }
+                }
+            }
+            mostrarFiltro(document, "Evaluador",eva);
+        }      
+        if(sessionDesempenoEvaluador.getSelectedSede_aux() != null){
+            String sede = "";
+            int cont=0;
+            int size = sessionDesempenoEvaluador.getSelectedSede_aux().size();
+            for(Object o : sessionDesempenoEvaluador.getLstSede()){                
+                if(size == cont){
+                    break;
+                }
+                SelectItem si = (SelectItem)o;
+                if(si.getValue() == sessionDesempenoEvaluador.getSelectedSede_aux().get(cont)){
+                    sede = sede.concat(si.getLabel());
+                    cont++;
+                    if(size != cont){
+                        sede = sede.concat(",");
+                    }
+                }
+            }
+            mostrarFiltro(document, "Sede",sede);
+        }
+        if(sessionDesempenoEvaluador.getSelectedArea_aux() != null){
+            String area = "";
+            int cont=0;
+            int size = sessionDesempenoEvaluador.getSelectedArea_aux().size();
+            for(Object o : sessionDesempenoEvaluador.getLstArea()){ 
+                if(size == cont){
+                    break;
+                }
+                SelectItem si = (SelectItem)o;
+                if(si.getValue().toString().compareTo(sessionDesempenoEvaluador.getSelectedArea_aux().get(cont).toString()) == 0 ){
+                    area = area.concat(si.getLabel());
+                    cont++;
+                    if(size != cont){
+                        area = area.concat(",");
+                    }
+                }
+            }
+            mostrarFiltro(document, "Area",area);
+        }
+    }
+    
+    public void mostrarFiltro(Document document,
+                              String titulo,
+                              String selecionado) throws DocumentException {
+        Paragraph  paragraph =new Paragraph(titulo,
+                       FontFactory.getFont(FontFactory.TIMES, 11, Font.BOLD));
+        paragraph.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+        document.add(paragraph);
+        if(selecionado != null){
+            Paragraph  paragraph2 =new Paragraph(selecionado,
+                           FontFactory.getFont(FontFactory.TIMES, 9, Font.NORMAL));
+            paragraph2.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+            document.add(paragraph2);
+        }        
+    }
+    
+    public String exportGrafPNG(UIGraph graph, String ruta){
         if(graph != null){
             UIGraph dvtgraph = graph; 
             ImageView imgView = dvtgraph.getImageView();
-            imgView.setImageSize(new Dimension(600,400));  
-            String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";  
-            String rutaLocal = "";
-            if(File.separator.equals("/")){
-                rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + 
-                            "usuarios" + File.separator + nombre + timePath + ".png";     
-            }else{
-                rutaLocal = "recursos" + File.separator + "img" + File.separator + 
-                            "usuarios" + File.separator + nombre +timePath + ".png";   
-            }
-            ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
-            String imageDirPath = servletCtx.getRealPath("/");
-            rutaImg = imageDirPath + rutaLocal;
-            rutaLocal = rutaImg;
+            imgView.setImageSize(new Dimension(600,400));
             try{
                 File file = null; 
                 FileOutputStream fos;
-                file = new File(rutaImg); 
+                file = new File(ruta); 
                 fos = new FileOutputStream(file); 
                 imgView.exportToPNG(fos); 
                 fos.close(); 
@@ -355,7 +515,7 @@ public class bDesempenoEvaluador {
                 e.printStackTrace();
             }
         }
-        return rutaImg;                       
+        return ruta;                       
     }
     
     public void setListEvaFiltro_aux(){
