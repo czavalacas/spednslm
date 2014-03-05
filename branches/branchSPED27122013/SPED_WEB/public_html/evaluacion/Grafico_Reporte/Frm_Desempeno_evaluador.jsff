@@ -89,11 +89,6 @@
                         <af:button text="Buscar" id="bBuscar" actionListener="#{bDesempenoEvaluador.buscarByFiltro}"/>
                         <af:button id="b2" icon="../recursos/img/usuarios/refresh.png"
                                    actionListener="#{bDesempenoEvaluador.limpiarFiltro}"/>
-                        <af:button text="button 1" id="b4" actionListener="#{bDesempenoEvaluador.Prueba}"/>
-                        <af:button text="Export PDF" id="b5">
-                            <af:fileDownloadActionListener contentType="application/pdf" filename="PRUEBA.pdf"
-                                                           method="#{bDesempenoEvaluador.exportPDF}"/>
-                        </af:button>
                     </af:subform>
                 </f:facet>
                 <f:facet name="second">
@@ -190,6 +185,9 @@
                                 </dvt:pieGraph>
                             </af:panelBox>
                         </af:panelDashboard>
+                        <af:button text="Enviar mensaje" id="bSendM"
+                                   actionListener="#{bDesempenoEvaluador.bSendM}"
+                                   rendered="#{sessionDesempenoEvaluador.renderMensaje}"/>
                         <af:button id="b1" immediate="true" text="Exportar a Excel">
                             <af:exportCollectionActionListener type="excelHTML" exportedId="tEva"
                                                                filename="Desempeño_Evaluador.xls" title="Desempeño"/>
@@ -269,9 +267,7 @@
                                               value="#{sessionDesempenoEvaluador.evaluador.areaAcademica.descripcionAreaAcademica}"
                                               rendered="#{sessionDesempenoEvaluador.renderArea}"/>
                                 <af:inputText label="Evaluacion(s) " id="it6" labelStyle="text-align: left;"
-                                              disabled="true" value="#{sessionDesempenoEvaluador.estado}"/>
-                                <af:button text="Enviar mensaje" id="bSendM"
-                                           actionListener="#{bDesempenoEvaluador.bSendM}"/>
+                                              disabled="true" value="#{sessionDesempenoEvaluador.estado}"/>                                
                             </af:panelFormLayout>
                         </af:gridCell>
                     </af:gridRow>
@@ -380,18 +376,19 @@
         </af:popup>
         <af:popup childCreation="deferred" autoCancel="disabled" id="popCorreo"
                   binding="#{bDesempenoEvaluador.popCorreo}">
-            <af:dialog id="d3" dialogListener="#{bDesempenoEvaluador.confirmarCorreo}" title="Mensaje">
+            <af:dialog id="d3" dialogListener="#{bDesempenoEvaluador.confirmarCorreo}" title="Mensaje" 
+                       type="#{sessionDesempenoEvaluador.typePopUpCorreo}">
                 <af:panelFormLayout id="pfl3" rows="1">
                     <af:inputText label="Correo" id="it7" labelStyle="text-align: left;"
-                                  value="#{sessionDesempenoEvaluador.correo}">
+                                  value="#{sessionDesempenoEvaluador.correo}" columns="15">
                         <f:validator validatorId="EmailValidator"/>
                     </af:inputText>
                     <af:button text="Agregar" id="b6" actionListener="#{bDesempenoEvaluador.agregarCorreo}"/>
                     <af:table var="row" rowBandingInterval="0" id="t1" value="#{sessionDesempenoEvaluador.lstCorreo}">
-                        <af:column sortable="true" headerText="col1" id="c11">
+                        <af:column sortable="true" headerText="Correo" id="c11" width="150">
                             <af:outputText value="#{row}" id="ot12"/>
                         </af:column>
-                        <af:column sortable="false" headerText="col2" id="c20" align="center">
+                        <af:column sortable="false" headerText="Eliminar" id="c20" align="center" width="50">
                             <af:button id="b7" icon="../recursos/img/usuarios/borrar.png"
                                        actionListener="#{bDesempenoEvaluador.removeCorreo}">
                                 <f:setPropertyActionListener value="#{row}"
@@ -400,17 +397,20 @@
                         </af:column>
                     </af:table>
                 </af:panelFormLayout>
-                <af:richTextEditor id="rte1" binding="#{bDesempenoEvaluador.rte1}"
-                                       value="#{bDesempenoEvaluador.mensaje}"/>
+                <af:panelFormLayout id="pfl8">
+                    <af:inputText label="Asunto " id="it8" value="#{sessionDesempenoEvaluador.asunto}"/>
+                    <af:richTextEditor id="rte1" binding="#{bDesempenoEvaluador.rte1}"
+                                       value="#{sessionDesempenoEvaluador.mensaje}"/>
+                </af:panelFormLayout>                
             </af:dialog>
         </af:popup>
         <af:popup childCreation="deferred" autoCancel="disabled" id="popKey" binding="#{bDesempenoEvaluador.popKey}">
-            <af:dialog id="d4" dialogListener="#{bDesempenoEvaluador.confirmarEnvio}" title="Ingrese clave">
+            <af:dialog id="d4" dialogListener="#{bDesempenoEvaluador.confirmarEnvio}" title="Ingrese contraseña">
                 <af:panelFormLayout id="pfl7">
                     <af:inputText label="Correo" id="it9" labelStyle="text-align: left;" disabled="true"
                                   value="#{bDesempenoEvaluador.correo}"/>
                     <af:inputText label="Contraseña" id="it10" labelStyle="text-align: left;" disabled="false"
-                                  value="#{bDesempenoEvaluador.clave}" secret="true" />
+                                  value="#{bDesempenoEvaluador.clave}" secret="true" required="true"/>
                 </af:panelFormLayout>                
             </af:dialog>
         </af:popup>

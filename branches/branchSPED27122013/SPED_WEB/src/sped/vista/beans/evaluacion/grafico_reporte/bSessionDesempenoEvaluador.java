@@ -65,6 +65,9 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private boolean rGrafPieA = true;
     private String rowHeightDashboard = "350px";
     private int columnsDashboard = 2;
+    private String mensaje;
+    private String asunto;
+    private String typePopUpCorreo = "none";
     
     public bSessionDesempenoEvaluador() {
     }
@@ -491,5 +494,29 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public String getCorreo() {
         return correo;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setAsunto(String asunto) {
+        this.asunto = asunto;
+    }
+
+    public String getAsunto() {
+        return asunto;
+    }
+
+    public void setTypePopUpCorreo(String typePopUpCorreo) {
+        this.typePopUpCorreo = typePopUpCorreo;
+    }
+
+    public String getTypePopUpCorreo() {
+        return typePopUpCorreo;
     }
 }
