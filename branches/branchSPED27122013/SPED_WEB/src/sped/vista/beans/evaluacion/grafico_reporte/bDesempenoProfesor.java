@@ -511,8 +511,7 @@ public class bDesempenoProfesor {
         List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
-            if(listaFiltros.get(i).getNombreIndicador()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR INDICADORES  A COMPARAR
-          //   List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),3);Utils.sysout("num Evalu "+lstEvaluaciones.size());
+            if(listaFiltros.get(i).getNombreIndicador()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR INDICADORES  A COMPARAR         
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
             if(listaFiltros.get(i).getNombreProfesor()!=null){
@@ -568,7 +567,7 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getNombreArea()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR SEDES  A COMPARAR
-             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
+             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
             if(listaFiltros.get(i).getNombreSede()!=null){
@@ -602,7 +601,7 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getDniDocente()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR DNI DOCENTE
-            List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
+            List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
             if(listaFiltros.get(i).getNombreProfesor()!=null){
@@ -656,7 +655,7 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getNombreSede()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR SEDES  A COMPARAR
-             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
+             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();           
             bean.setSede(listaFiltros.get(i).getNombreSede().getDescripcionSede());
@@ -778,7 +777,7 @@ public class bDesempenoProfesor {
                      bean.setProfesor("Global");
                      }   
                      bean.setFechaLineGraph(fecha1);     
-                     List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
+                     List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
                      double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
                      bean.setNotaFinal(valor);
                          listaParaGrfaicoDeBarrasSedes.add(bean);}      
@@ -802,7 +801,7 @@ public class bDesempenoProfesor {
                      bean.setProfesor("Global");
                      }   
                      bean.setFechaLineGraph(fecha1);     
-                     List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempeñoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
+                     List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
                      double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
                      bean.setNotaFinal(valor);
                          listaParaGrfaicoDeBarrasSedes.add(bean);}    
