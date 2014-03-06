@@ -18,4 +18,8 @@ public interface LN_T_SFEvaluacionRemote {
     String removerEvaluacion_LN(Evaluacion eva);
     String updateEvaluacionbyComentarioProfesor(int idEvaluacion,
                                                 String comentario);
+    String grabarComentariosYJustificacionesDeEvaluacion(String nidDate, 
+                                                         String comentEvalu, 
+                                                         String descripOtros, 
+                                                         String nidProblema);
 }

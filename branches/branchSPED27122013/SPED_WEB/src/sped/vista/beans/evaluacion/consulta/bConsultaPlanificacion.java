@@ -88,6 +88,7 @@ public class bConsultaPlanificacion {
         llenarCombos();        
         if(sessionConsultarPlanificacion.getExec()==0){
            sessionConsultarPlanificacion.setExec(1); 
+           sessionConsultarPlanificacion.setNidEstadoPlanificacion("PENDIENTE");
             buscarPlani();
             System.out.println("Se Ejecuto el post");
         }        

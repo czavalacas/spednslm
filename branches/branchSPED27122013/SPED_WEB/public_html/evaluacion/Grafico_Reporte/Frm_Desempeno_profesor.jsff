@@ -167,7 +167,8 @@
                                             </af:outputText>
                                         </af:column>
                                     </af:table>
-                    </af:panelGroupLayout>
+                                    <af:button text="PDF" id="b4" action="#{bDesempenoProfesor.rutaPdf}"/>
+                                </af:panelGroupLayout>
                                 <!--FILTROS DE BUSQUEDA-->
                     </f:facet>
                 <f:facet name="second">

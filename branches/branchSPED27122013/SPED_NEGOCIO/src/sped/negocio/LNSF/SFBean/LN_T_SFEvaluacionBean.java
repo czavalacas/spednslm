@@ -168,4 +168,27 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         }
         return error;
     }
+    
+    
+    public String grabarComentariosYJustificacionesDeEvaluacion(String nidDate, String comentEvalu, String descripOtros, String nidProblema){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            Evaluacion eva = bdL_C_SFEvaluacionLocal.getEvaluacionById(nidDate);
+            eva.setComentario_evaluador(comentEvalu);
+            eva.setComentarioEvaluador(descripOtros);
+            if(nidProblema!=null){
+                eva.setNidProblema(Integer.parseInt(nidProblema));
+            }
+            bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+        }catch (Exception e) {            
+        e.printStackTrace();
+        error = "111";
+        beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+        error = beanError.getDescripcionError();
+        }
+        return error;
+        
+    
+    }
 }
