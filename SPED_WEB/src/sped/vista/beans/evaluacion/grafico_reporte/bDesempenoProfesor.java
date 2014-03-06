@@ -1,17 +1,38 @@
 package sped.vista.beans.evaluacion.grafico_reporte;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.awt.Dimension;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import java.net.MalformedURLException;
+
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+
+import javax.servlet.ServletContext;
 
 import oracle.adf.view.faces.bi.component.graph.UIGraph;
 
@@ -26,6 +47,7 @@ import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
+import oracle.dss.dataView.ImageView;
 import oracle.dss.graph.GraphModel;
 
 import org.apache.myfaces.trinidad.event.SelectionEvent;
@@ -88,7 +110,7 @@ public class bDesempenoProfesor {
     private LN_C_SFIndicadorRemote ln_C_SFIndicadorRemote;
  
     private bSessionDesempenoProfesor sessionDesempenoProfesor;   
-   
+    FacesContext ctx = FacesContext.getCurrentInstance();
     private List listaBarPrueba;
     private UIGraph pieGraph;
     private UIGraph barGraph;
@@ -646,7 +668,7 @@ public class bDesempenoProfesor {
         Utils.addTarget(barGraph);
         return null;
     }
-              
+    
               
               
               
@@ -802,6 +824,114 @@ public class bDesempenoProfesor {
         }        
         sessionDesempenoProfesor.setLstEvaLineGlobalGraph(lstEva);
     }
+    
+    public String rutaPdf() {
+        String rutaLocal = "";
+        if(File.separator.equals("/")){
+            rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + 
+                        "usuarios" + File.separator;     
+        }else{
+            rutaLocal = "recursos" + File.separator + "img" + File.separator + 
+                        "usuarios" + File.separator;   
+        }
+        ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
+        String imageDirPath = servletCtx.getRealPath("/");
+        String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
+        String rutaImg = imageDirPath + rutaLocal;
+        String rutaSave = rutaImg+timePath; 
+        String rutaPdf = rutaSave+"Reporte-"+timePath+".pdf";
+        /////////////////////////////////        
+        try{
+            try{
+                Document document = new Document();
+                File file = null; 
+                FileOutputStream fos;
+                file = new File(rutaPdf); 
+                fos = new FileOutputStream(file); 
+                PdfWriter.getInstance(document, fos);
+                document.open();
+                Image img = Image.getInstance(rutaImg+"cabecera.png");
+                img.scalePercent(60);
+                img.setAlignment(Image.ALIGN_CENTER);
+                document.add(img);
+              // addSelectFiltro(document);
+                int cont = 0;
+             //   if(sessionDesempenoEvaluador.isRGrafRolA()){
+                    addImagenes(document, "Grafico Evaluacion Docente", exportGrafPNG( barDocenteEvalu, rutaSave+"GR.png"));
+                    cont++;
+                    addEspacio(cont, document);
+              //  }
+               // if(sessionDesempenoEvaluador.isRGrafEvaA()){
+                    addImagenes(document, "Grafico Desempeño Docente", exportGrafPNG(lineaDesempenoGlobal, rutaSave+"GE.png"));
+                    cont++;
+                    addEspacio(cont, document);
+              //  }
+            //    if(sessionDesempenoEvaluador.isRGrafLineA()){
+                    addImagenes(document, "Grafico Evaluacion Docente Indicador", exportGrafPNG(barDocIndicadorGraph, rutaSave+"GL.png"));
+                    cont++;
+                    addEspacio(cont, document);
+              //  }
+              //  if(sessionDesempenoEvaluador.isRGrafPieA()){
+                    addImagenes(document, "Grafico Desempeño Docente Indicador", exportGrafPNG(lineDesempeñoProf, rutaSave+"GP.png"));
+             //   }
+                document.close();
+                fos.close(); System.out.println(rutaPdf);
+                return rutaPdf;
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+                return null;
+            }catch(IOException e){
+                e.printStackTrace();
+                return null;
+            }                        
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    } 
+    
+    public String exportGrafPNG(UIGraph graph, String ruta){
+        if(graph != null){
+            UIGraph dvtgraph = graph; 
+            ImageView imgView = dvtgraph.getImageView();
+            imgView.setImageSize(new Dimension(600,400));
+            try{
+                File file = null; 
+                FileOutputStream fos;
+                file = new File(ruta); 
+                fos = new FileOutputStream(file); 
+                imgView.exportToPNG(fos); 
+                fos.close(); 
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+        return ruta;                       
+    }
+    
+    public void addImagenes(Document document, 
+                            String titulo, 
+                            String rutaImg) throws DocumentException, MalformedURLException, IOException {
+        Paragraph  paragraph =new Paragraph("\n"+titulo+"\n",
+                       FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLDITALIC));
+        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+        document.add(paragraph);
+        Image img = Image.getInstance(rutaImg);
+        img.scalePercent(75);
+        img.setAlignment(Image.ALIGN_CENTER);
+        File archivo = new File(rutaImg);
+        archivo.delete();
+        document.add(img);
+    }
+    
+    public void addEspacio(int i,Document document) throws DocumentException {
+        if(i == 1 || i == 3){
+            document.newPage();
+        }
+    }
+    
     public void setSessionDesempenoProfesor(bSessionDesempenoProfesor sessionDesempenoProfesor) {
         this.sessionDesempenoProfesor = sessionDesempenoProfesor;
     }

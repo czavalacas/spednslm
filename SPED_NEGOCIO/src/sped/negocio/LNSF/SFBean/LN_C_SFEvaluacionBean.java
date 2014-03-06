@@ -454,7 +454,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         Evaluacion entida = bdL_C_SFEvaluacionLocal.getEvaluacionById(nidDate);
         BeanEvaluacion bean = (BeanEvaluacion) mapper.map(entida, BeanEvaluacion.class);
         return bean;
-    }
+    }    
+   
 
     public List<BeanEvaluacion> getEvaluaciones_LN(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
                                                    String dniProfesor, String nidCurso, Integer nidSede) {
@@ -513,7 +514,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return beanEvaluacion;
     }
     //terminarrrrrr
-    public List<BeanEvaluacion_DP> desempeñoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros,String fechaHoy){
+    public List<BeanEvaluacion_DP> desempenoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros,String fechaHoy){
     List<BeanEvaluacion_DP> lstBeanEvas = new ArrayList<BeanEvaluacion_DP>();
     List<Evaluacion> lstEvas = new ArrayList<Evaluacion>();
         lstEvas=  bdL_C_SFEvaluacionLocal.getEvaluaciones_DeDocente(beanFiltros,fechaHoy);
@@ -591,6 +592,5 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 System.out.println("VALOR RESU "+resu);
             }
             return resu;
-        }
-    
+        }    
     }
