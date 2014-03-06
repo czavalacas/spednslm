@@ -5,11 +5,11 @@
       <xsd:import namespace="http://servicios.webservice.sped/" schemaLocation="WS_SPEDPort1.xsd"/>
     </xsd:schema>
   </types>
-  <message name="getLstIndicadoresByFichaCriterio_LN_WS">
-    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WS"/>
+  <message name="getPlanificadores_LN_WS">
+    <part name="parameters" element="tns:getPlanificadores_LN_WS"/>
   </message>
-  <message name="getLstIndicadoresByFichaCriterio_LN_WSResponse">
-    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
+  <message name="getPlanificadores_LN_WSResponse">
+    <part name="parameters" element="tns:getPlanificadores_LN_WSResponse"/>
   </message>
   <message name="autenticarUsuarioLN">
     <part name="parameters" element="tns:autenticarUsuarioLN"/>
@@ -17,11 +17,11 @@
   <message name="autenticarUsuarioLNResponse">
     <part name="parameters" element="tns:autenticarUsuarioLNResponse"/>
   </message>
-  <message name="getPlanificadores_LN_WS">
-    <part name="parameters" element="tns:getPlanificadores_LN_WS"/>
+  <message name="getLstIndicadoresByFichaCriterio_LN_WS">
+    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WS"/>
   </message>
-  <message name="getPlanificadores_LN_WSResponse">
-    <part name="parameters" element="tns:getPlanificadores_LN_WSResponse"/>
+  <message name="getLstIndicadoresByFichaCriterio_LN_WSResponse">
+    <part name="parameters" element="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
   </message>
   <message name="getEvaluadores_LN_WS">
     <part name="parameters" element="tns:getEvaluadores_LN_WS"/>
@@ -41,11 +41,35 @@
   <message name="getUsuarios_LN_WSResponse">
     <part name="parameters" element="tns:getUsuarios_LN_WSResponse"/>
   </message>
-  <message name="getTipoVisita_LN_WS">
-    <part name="parameters" element="tns:getTipoVisita_LN_WS"/>
+  <message name="getListaPartesOcurrencia_WS">
+    <part name="parameters" element="tns:getListaPartesOcurrencia_WS"/>
   </message>
-  <message name="getTipoVisita_LN_WSResponse">
-    <part name="parameters" element="tns:getTipoVisita_LN_WSResponse"/>
+  <message name="getListaPartesOcurrencia_WSResponse">
+    <part name="parameters" element="tns:getListaPartesOcurrencia_WSResponse"/>
+  </message>
+  <message name="getPlanificaciones_WS">
+    <part name="parameters" element="tns:getPlanificaciones_WS"/>
+  </message>
+  <message name="getPlanificaciones_WSResponse">
+    <part name="parameters" element="tns:getPlanificaciones_WSResponse"/>
+  </message>
+  <message name="getCriteriosEvaluacion_WS">
+    <part name="parameters" element="tns:getCriteriosEvaluacion_WS"/>
+  </message>
+  <message name="getCriteriosEvaluacion_WSResponse">
+    <part name="parameters" element="tns:getCriteriosEvaluacion_WSResponse"/>
+  </message>
+  <message name="evaluarDocente_WS">
+    <part name="parameters" element="tns:evaluarDocente_WS"/>
+  </message>
+  <message name="evaluarDocente_WSResponse">
+    <part name="parameters" element="tns:evaluarDocente_WSResponse"/>
+  </message>
+  <message name="getSedes_WS">
+    <part name="parameters" element="tns:getSedes_WS"/>
+  </message>
+  <message name="getSedes_WSResponse">
+    <part name="parameters" element="tns:getSedes_WSResponse"/>
   </message>
   <message name="getEvaluaciones_WS">
     <part name="parameters" element="tns:getEvaluaciones_WS"/>
@@ -65,17 +89,11 @@
   <message name="getAreasAcademicas_WSResponse">
     <part name="parameters" element="tns:getAreasAcademicas_WSResponse"/>
   </message>
-  <message name="getSedes_WS">
-    <part name="parameters" element="tns:getSedes_WS"/>
+  <message name="getPieProfesor_WS">
+    <part name="parameters" element="tns:getPieProfesor_WS"/>
   </message>
-  <message name="getSedes_WSResponse">
-    <part name="parameters" element="tns:getSedes_WSResponse"/>
-  </message>
-  <message name="evaluarDocente_WS">
-    <part name="parameters" element="tns:evaluarDocente_WS"/>
-  </message>
-  <message name="evaluarDocente_WSResponse">
-    <part name="parameters" element="tns:evaluarDocente_WSResponse"/>
+  <message name="getPieProfesor_WSResponse">
+    <part name="parameters" element="tns:getPieProfesor_WSResponse"/>
   </message>
   <message name="getMainByAttr_WS">
     <part name="parameters" element="tns:getMainByAttr_WS"/>
@@ -83,11 +101,11 @@
   <message name="getMainByAttr_WSResponse">
     <part name="parameters" element="tns:getMainByAttr_WSResponse"/>
   </message>
-  <message name="getCriteriosEvaluacion_WS">
-    <part name="parameters" element="tns:getCriteriosEvaluacion_WS"/>
+  <message name="getTipoVisita_LN_WS">
+    <part name="parameters" element="tns:getTipoVisita_LN_WS"/>
   </message>
-  <message name="getCriteriosEvaluacion_WSResponse">
-    <part name="parameters" element="tns:getCriteriosEvaluacion_WSResponse"/>
+  <message name="getTipoVisita_LN_WSResponse">
+    <part name="parameters" element="tns:getTipoVisita_LN_WSResponse"/>
   </message>
   <message name="getLeyendasByCritIndicador_WS">
     <part name="parameters" element="tns:getLeyendasByCritIndicador_WS"/>
@@ -101,30 +119,18 @@
   <message name="getDetalleEvaluacionById_WSResponse">
     <part name="parameters" element="tns:getDetalleEvaluacionById_WSResponse"/>
   </message>
-  <message name="getListaPartesOcurrencia_WS">
-    <part name="parameters" element="tns:getListaPartesOcurrencia_WS"/>
-  </message>
-  <message name="getListaPartesOcurrencia_WSResponse">
-    <part name="parameters" element="tns:getListaPartesOcurrencia_WSResponse"/>
-  </message>
   <message name="registrarParteOcurrencia_WS">
     <part name="parameters" element="tns:registrarParteOcurrencia_WS"/>
   </message>
   <message name="registrarParteOcurrencia_WSResponse">
     <part name="parameters" element="tns:registrarParteOcurrencia_WSResponse"/>
   </message>
-  <message name="getPlanificaciones_WS">
-    <part name="parameters" element="tns:getPlanificaciones_WS"/>
-  </message>
-  <message name="getPlanificaciones_WSResponse">
-    <part name="parameters" element="tns:getPlanificaciones_WSResponse"/>
-  </message>
   <portType name="WS_SPED">
-    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
-      <input message="tns:getLstIndicadoresByFichaCriterio_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSRequest"/>
-      <output message="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
+    <operation name="getPlanificadores_LN_WS">
+      <input message="tns:getPlanificadores_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSRequest"/>
+      <output message="tns:getPlanificadores_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSResponse"/>
     </operation>
     <operation name="autenticarUsuarioLN">
       <input message="tns:autenticarUsuarioLN"
@@ -132,11 +138,11 @@
       <output message="tns:autenticarUsuarioLNResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNResponse"/>
     </operation>
-    <operation name="getPlanificadores_LN_WS">
-      <input message="tns:getPlanificadores_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSRequest"/>
-      <output message="tns:getPlanificadores_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSResponse"/>
+    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
+      <input message="tns:getLstIndicadoresByFichaCriterio_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSRequest"/>
+      <output message="tns:getLstIndicadoresByFichaCriterio_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getLstIndicadoresByFichaCriterio_LN_WSResponse"/>
     </operation>
     <operation name="getEvaluadores_LN_WS">
       <input message="tns:getEvaluadores_LN_WS"
@@ -156,11 +162,34 @@
       <output message="tns:getUsuarios_LN_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getUsuarios_LN_WSResponse"/>
     </operation>
-    <operation name="getTipoVisita_LN_WS">
-      <input message="tns:getTipoVisita_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getTipoVisita_LN_WSRequest"/>
-      <output message="tns:getTipoVisita_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getTipoVisita_LN_WSResponse"/>
+    <operation name="getListaPartesOcurrencia_WS">
+      <input message="tns:getListaPartesOcurrencia_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getListaPartesOcurrencia_WSRequest"/>
+      <output message="tns:getListaPartesOcurrencia_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getListaPartesOcurrencia_WSResponse"/>
+    </operation>
+    <operation name="getPlanificaciones_WS">
+      <input message="tns:getPlanificaciones_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificaciones_WSRequest"/>
+      <output message="tns:getPlanificaciones_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificaciones_WSResponse"/>
+    </operation>
+    <operation name="getCriteriosEvaluacion_WS">
+      <input message="tns:getCriteriosEvaluacion_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getCriteriosEvaluacion_WSRequest"/>
+      <output message="tns:getCriteriosEvaluacion_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getCriteriosEvaluacion_WSResponse"/>
+    </operation>
+    <operation name="evaluarDocente_WS">
+      <input message="tns:evaluarDocente_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/evaluarDocente_WSRequest"/>
+      <output message="tns:evaluarDocente_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/evaluarDocente_WSResponse"/>
+    </operation>
+    <operation name="getSedes_WS">
+      <input message="tns:getSedes_WS" wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSRequest"/>
+      <output message="tns:getSedes_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSResponse"/>
     </operation>
     <operation name="getEvaluaciones_WS">
       <input message="tns:getEvaluaciones_WS"
@@ -180,16 +209,11 @@
       <output message="tns:getAreasAcademicas_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getAreasAcademicas_WSResponse"/>
     </operation>
-    <operation name="getSedes_WS">
-      <input message="tns:getSedes_WS" wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSRequest"/>
-      <output message="tns:getSedes_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSResponse"/>
-    </operation>
-    <operation name="evaluarDocente_WS">
-      <input message="tns:evaluarDocente_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/evaluarDocente_WSRequest"/>
-      <output message="tns:evaluarDocente_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/evaluarDocente_WSResponse"/>
+    <operation name="getPieProfesor_WS">
+      <input message="tns:getPieProfesor_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPieProfesor_WSRequest"/>
+      <output message="tns:getPieProfesor_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPieProfesor_WSResponse"/>
     </operation>
     <operation name="getMainByAttr_WS">
       <input message="tns:getMainByAttr_WS"
@@ -197,11 +221,11 @@
       <output message="tns:getMainByAttr_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getMainByAttr_WSResponse"/>
     </operation>
-    <operation name="getCriteriosEvaluacion_WS">
-      <input message="tns:getCriteriosEvaluacion_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getCriteriosEvaluacion_WSRequest"/>
-      <output message="tns:getCriteriosEvaluacion_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getCriteriosEvaluacion_WSResponse"/>
+    <operation name="getTipoVisita_LN_WS">
+      <input message="tns:getTipoVisita_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getTipoVisita_LN_WSRequest"/>
+      <output message="tns:getTipoVisita_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getTipoVisita_LN_WSResponse"/>
     </operation>
     <operation name="getLeyendasByCritIndicador_WS">
       <input message="tns:getLeyendasByCritIndicador_WS"
@@ -215,28 +239,16 @@
       <output message="tns:getDetalleEvaluacionById_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getDetalleEvaluacionById_WSResponse"/>
     </operation>
-    <operation name="getListaPartesOcurrencia_WS">
-      <input message="tns:getListaPartesOcurrencia_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getListaPartesOcurrencia_WSRequest"/>
-      <output message="tns:getListaPartesOcurrencia_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getListaPartesOcurrencia_WSResponse"/>
-    </operation>
     <operation name="registrarParteOcurrencia_WS">
       <input message="tns:registrarParteOcurrencia_WS"
              wsam:Action="http://servicios.webservice.sped/WS_SPED/registrarParteOcurrencia_WSRequest"/>
       <output message="tns:registrarParteOcurrencia_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/registrarParteOcurrencia_WSResponse"/>
     </operation>
-    <operation name="getPlanificaciones_WS">
-      <input message="tns:getPlanificaciones_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificaciones_WSRequest"/>
-      <output message="tns:getPlanificaciones_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificaciones_WSResponse"/>
-    </operation>
   </portType>
   <binding name="WS_SPEDPortBinding" type="tns:WS_SPED">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
+    <operation name="getPlanificadores_LN_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -254,7 +266,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getPlanificadores_LN_WS">
+    <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -290,7 +302,43 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getTipoVisita_LN_WS">
+    <operation name="getListaPartesOcurrencia_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getPlanificaciones_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getCriteriosEvaluacion_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="evaluarDocente_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getSedes_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -326,16 +374,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getSedes_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="evaluarDocente_WS">
+    <operation name="getPieProfesor_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -353,7 +392,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getCriteriosEvaluacion_WS">
+    <operation name="getTipoVisita_LN_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -380,25 +419,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getListaPartesOcurrencia_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
     <operation name="registrarParteOcurrencia_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="getPlanificaciones_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>

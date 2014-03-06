@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="11.1.2.64.36" id="Graficos_POPageDef"
+                Package="ParteOcurrencia">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="root" RangeSize="25" DataControl="Graficos_PO" id="Graficos_POIterator"/>
+    <accessorIterator MasterBinding="Graficos_POIterator" Binds="pieProfesor" RangeSize="-1" DataControl="Graficos_PO"
+                      BeanClass="mobile.beans.BeanPie" id="pieProfesorIterator"/>
+    <accessorIterator MasterBinding="Graficos_POIterator" Binds="barProfesor" RangeSize="-1" DataControl="Graficos_PO"
+                      BeanClass="mobile.beans.BeanBar" id="barProfesorIterator"/>
+  </executables>
+  <bindings>
+    <tree IterBinding="pieProfesorIterator" id="pieProfesor">
+      <nodeDefinition DefName="mobile.beans.BeanPie" Name="pieProfesor0">
+        <AttrNames>
+          <Item Value="serie"/>
+          <Item Value="cantSlice"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="barProfesorIterator" id="barProfesor">
+      <nodeDefinition DefName="mobile.beans.BeanBar" Name="barProfesor0">
+        <AttrNames>
+          <Item Value="cantidad"/>
+          <Item Value="group"/>
+          <Item Value="serie"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+  </bindings>
+</pageDefinition>

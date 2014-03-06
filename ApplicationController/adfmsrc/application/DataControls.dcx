@@ -43,6 +43,7 @@
             <operation name="getEvaluaciones_WS"/>
             <operation name="getTipoVisita_LN_WS"/>
             <operation name="getAreasAcademicas_WS"/>
+            <operation name="getPieProfesor_WS"/>
             <operation name="autenticarUsuarioLN"/>
             <operation name="getSedes_WS"/>
             <operation name="getPlanificadores_LN_WS"/>
