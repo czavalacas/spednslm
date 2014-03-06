@@ -209,6 +209,47 @@
                                       disabled="true"/>
                     </af:panelFormLayout>
                 </af:panelBox>
+                   <af:panelBox text="Comentarios y/o Sugerencias" id="pb8"
+                                binding="#{bPlanificarEva.panelBoxComentYSug}"
+                                visible="#{sessionScope.sessionPlanificarEva.estadoBoxComentarios}">
+                    <af:panelFormLayout id="pfl22">
+                      <af:inputText label="Evaluador" autoSubmit="true" id="it42"
+                                      value="#{sessionScope.sessionPlanificarEva.comentarioEvaluador}"
+                                      disabled="#{sessionScope.sessionPlanificarEva.estadoDinputcomentarioEvaluador}"
+                                      binding="#{bPlanificarEva.inputComentarioEvaluador}" rows="2"
+                                    valueChangeListener="#{bPlanificarEva.activarEstadoComentEvalu}"/>
+                        <af:button text="Guardar" id="b5" binding="#{bPlanificarEva.btnSaveComentEvalu}"
+                                   action="#{bPlanificarEva.guardarComentarioEvaluador}"
+                                   visible="#{sessionScope.sessionPlanificarEva.estadoBtnSaveComentEvalu}"/>
+                        <af:inputText label="Docente" autoSubmit="true" id="it122" 
+                                      value="#{sessionScope.sessionPlanificarEva.comentarioProfesor}"
+                                      disabled="#{sessionScope.sessionPlanificarEva.estadoDinputcomentarioProfesor}"
+                                      binding="#{bPlanificarEva.inputComentarioProfesor}" rows="2"/>
+                                                       
+                                      
+                    </af:panelFormLayout>
+                 </af:panelBox>
+                      <af:panelBox text="Justificacion de Inasistencia" id="pb9"
+                                   binding="#{bPlanificarEva.panelBoxJusticacion}"                                  
+                                   visible="#{sessionScope.sessionPlanificarEva.estadoBoxJustificacion}">
+                    <af:panelFormLayout id="pfl21">
+                         <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidProblema}" label="Problema"
+                                                    id="choiseProblema" unselectedLabel="::Seleccionar Problema::"
+                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceProblema}"
+                                                    disabled="#{sessionScope.sessionPlanificarEva.estadoDisableChoiceProblema}"
+                                             valueChangeListener="#{bPlanificarEva.seleccionarProblema}">
+                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaProblemas}" id="si17"/>
+                                </af:selectOneChoice>
+                        <af:inputText label="Especificar" autoSubmit="true" id="it41"
+                                      value="#{sessionScope.sessionPlanificarEva.justificacionProfesor}"
+                                      disabled="#{sessionScope.sessionPlanificarEva.estadoDinputJustificacion}"
+                                      visible="#{sessionScope.sessionPlanificarEva.estadoDinputJustificacionVisible}"
+                                      binding="#{bPlanificarEva.inputDescripcionOtros}" rows="2"/>
+                        <af:button text="Guardar" id="b6" binding="#{bPlanificarEva.btnSaveJustificacion}"
+                                   action="#{bPlanificarEva.guardarJustificacion}"
+                                   visible="#{sessionScope.sessionPlanificarEva.estadoBtnSaveJustificaEvalu}"/>
+                    </af:panelFormLayout>
+                </af:panelBox>
                 <af:panelFormLayout id="pfl7">
                     <af:panelGridLayout id="pgl1">
                         <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
@@ -256,25 +297,19 @@
                 <af:spacer width="10" height="10" id="s7"/>
                 <!--545-->
                 <af:table var="row" rowBandingInterval="0" id="t2" varStatus="vs" 
-                inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
+              width="inherit;" 
                           value="#{sessionScope.sessionPlanificarEva.listBeanUsua}" rowSelection="single"
                           selectionListener="#{bPlanificarEva.seleccionarEvaluador}"
                           binding="#{bPlanificarEva.tbEvaluadores}">
-                    <af:column width="20">
+                    <af:column width="15">
                         <af:outputText value="#{vs.index + 1}"/>
                     </af:column>
-                    <af:column width="140" sortable="false" headerText="Evaluador" id="c9">
+                    <af:column width="160" sortable="false" headerText="Evaluador" id="c9">
                         <af:outputText value="#{row.nombres}" id="ot9"/>
                     </af:column>
-                    <af:column width="100" sortable="false" headerText="Area Academica" id="c11">
+                    <af:column width="140" sortable="false" headerText="Area Academica" id="c11">
                         <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot10"/>
-                    </af:column>
-                      <af:column width="100" sortable="false" headerText="Sede" id="c13">
-                        <af:outputText value="#{row.sedeNivel.sede.descripcionSede}" id="ot23"/>
-                    </af:column>
-                    <af:column width="160" sortable="false" headerText="Rol" id="c12">
-                        <af:outputText value="#{row.rol.descripcionRol}" id="ot22"/>
-                    </af:column>
+                    </af:column>  
                 </af:table>
             </af:dialog>
         </af:popup>

@@ -751,7 +751,7 @@ public class bDesempenoEvaluador {
                 data[4] = sessionDesempenoEvaluador.getMensaje();
                 data[5] = correo;
                 data[6] = clave;
-                boolean valida = ln_C_SFCorreoRemote.enviarCorreoHTML(data);
+                boolean valida = true;//ln_C_SFCorreoRemote.enviarCorreoHTML(data);  
                 if(valida == true){
                     Utils.mostrarMensaje(ctx, "Se envio el correo", "Operacion Correcta", 3);
                     sessionDesempenoEvaluador.setTypePopUpCorreo("none");

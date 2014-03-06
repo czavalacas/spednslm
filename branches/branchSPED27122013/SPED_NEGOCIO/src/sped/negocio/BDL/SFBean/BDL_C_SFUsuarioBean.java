@@ -68,13 +68,11 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         return mapa;
     }
     
-    /**Metodo para traer a los Evaluadores Siendo nidRol=1 el de evaluador**/
+    /**Metodo para traer a los Evaluadores Siendo nidRol=2 el de evaluador Area**/
     public List<Usuario> getEvaluadores(String nidAreaAcademica){
         try{
             String ejbQl = "SELECT ma FROM Usuario ma" +
-                           " WHERE ma.rol.nidRol=2 OR " +
-                           " ma.rol.nidRol=4 OR "+
-                           " ma.rol.nidRol=5 ";
+                           " WHERE ma.rol.nidRol=2";
             if (nidAreaAcademica!= null) {               
                 ejbQl = ejbQl.concat(" and ma.areaAcademica.nidAreaAcademica= "+nidAreaAcademica);  
             }

@@ -75,6 +75,23 @@ public class sessionPlanificar {
     private boolean estadoDisableChoiceSede=false;
     private boolean estadoDisableChoiceArea=false;
     private Integer nidRolUsuarioEnSession;
+    private String comentarioProfesor;
+    private String comentarioEvaluador;
+    private String justificacionProfesor;
+    private List listaProblemas;
+    private boolean estadoBoxComentarios=false;
+    private boolean estadoBoxJustificacion=false;
+    private String nidProblema;
+    private boolean estadoDisableChoiceProblema=false;
+    private boolean estadoDinputJustificacion=false;
+    private boolean estadoDinputcomentarioProfesor=true;
+    private boolean estadoDinputcomentarioEvaluador=false;
+    private boolean estadoBtnSaveComentEvalu=false;
+    private boolean estadoDinputJustificacionVisible=false;
+    private boolean estadoBtnSaveJustificaEvalu=false;
+    private String estadoDeEvaluacion;
+    private String calendaryActivityID;
+    
                                     
                                     
     
@@ -557,5 +574,133 @@ public class sessionPlanificar {
 
     public boolean isEstadoDisableChoiceArea() {
         return estadoDisableChoiceArea;
+    }
+
+    public void setComentarioProfesor(String comentarioProfesor) {
+        this.comentarioProfesor = comentarioProfesor;
+    }
+
+    public String getComentarioProfesor() {
+        return comentarioProfesor;
+    }
+
+    public void setComentarioEvaluador(String comentarioEvaluador) {
+        this.comentarioEvaluador = comentarioEvaluador;
+    }
+
+    public String getComentarioEvaluador() {
+        return comentarioEvaluador;
+    }
+
+    public void setJustificacionProfesor(String justificacionProfesor) {
+        this.justificacionProfesor = justificacionProfesor;
+    }
+
+    public String getJustificacionProfesor() {
+        return justificacionProfesor;
+    }
+
+    public void setListaProblemas(List listaProblemas) {
+        this.listaProblemas = listaProblemas;
+    }
+
+    public List getListaProblemas() {
+        return listaProblemas;
+    }
+
+    public void setEstadoBoxComentarios(boolean estadoBoxComentarios) {
+        this.estadoBoxComentarios = estadoBoxComentarios;
+    }
+
+    public boolean isEstadoBoxComentarios() {
+        return estadoBoxComentarios;
+    }
+
+    public void setEstadoBoxJustificacion(boolean estadoBoxJustificacion) {
+        this.estadoBoxJustificacion = estadoBoxJustificacion;
+    }
+
+    public boolean isEstadoBoxJustificacion() {
+        return estadoBoxJustificacion;
+    }
+
+    public void setNidProblema(String nidProblema) {
+        this.nidProblema = nidProblema;
+    }
+
+    public String getNidProblema() {
+        return nidProblema;
+    }
+
+    public void setEstadoDisableChoiceProblema(boolean estadoDisableChoiceProblema) {
+        this.estadoDisableChoiceProblema = estadoDisableChoiceProblema;
+    }
+
+    public boolean isEstadoDisableChoiceProblema() {
+        return estadoDisableChoiceProblema;
+    }
+
+    public void setEstadoDinputJustificacion(boolean estadoDinputJustificacion) {
+        this.estadoDinputJustificacion = estadoDinputJustificacion;
+    }
+
+    public boolean isEstadoDinputJustificacion() {
+        return estadoDinputJustificacion;
+    }
+
+    public void setEstadoDinputcomentarioProfesor(boolean estadoDinputcomentarioProfesor) {
+        this.estadoDinputcomentarioProfesor = estadoDinputcomentarioProfesor;
+    }
+
+    public boolean isEstadoDinputcomentarioProfesor() {
+        return estadoDinputcomentarioProfesor;
+    }
+
+    public void setEstadoDinputcomentarioEvaluador(boolean estadoDinputcomentarioEvaluador) {
+        this.estadoDinputcomentarioEvaluador = estadoDinputcomentarioEvaluador;
+    }
+
+    public boolean isEstadoDinputcomentarioEvaluador() {
+        return estadoDinputcomentarioEvaluador;
+    }
+
+    public void setEstadoBtnSaveComentEvalu(boolean estadoBtnSaveComentEvalu) {
+        this.estadoBtnSaveComentEvalu = estadoBtnSaveComentEvalu;
+    }
+
+    public boolean isEstadoBtnSaveComentEvalu() {
+        return estadoBtnSaveComentEvalu;
+    }
+
+    public void setEstadoDinputJustificacionVisible(boolean estadoDinputJustificacionVisible) {
+        this.estadoDinputJustificacionVisible = estadoDinputJustificacionVisible;
+    }
+
+    public boolean isEstadoDinputJustificacionVisible() {
+        return estadoDinputJustificacionVisible;
+    }
+
+    public void setEstadoBtnSaveJustificaEvalu(boolean estadoBtnSaveJustificaEvalu) {
+        this.estadoBtnSaveJustificaEvalu = estadoBtnSaveJustificaEvalu;
+    }
+
+    public boolean isEstadoBtnSaveJustificaEvalu() {
+        return estadoBtnSaveJustificaEvalu;
+    }
+
+    public void setEstadoDeEvaluacion(String estadoDeEvaluacion) {
+        this.estadoDeEvaluacion = estadoDeEvaluacion;
+    }
+
+    public String getEstadoDeEvaluacion() {
+        return estadoDeEvaluacion;
+    }
+
+    public void setCalendaryActivityID(String calendaryActivityID) {
+        this.calendaryActivityID = calendaryActivityID;
+    }
+
+    public String getCalendaryActivityID() {
+        return calendaryActivityID;
     }
 }

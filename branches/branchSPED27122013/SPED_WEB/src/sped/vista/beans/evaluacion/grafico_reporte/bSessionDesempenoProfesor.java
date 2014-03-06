@@ -43,6 +43,7 @@ public class bSessionDesempenoProfesor implements Serializable {
     private transient List<Object[]> lstEvaDocenteIndicadorBarChart;
     private transient List<Object[]> lstEvaLineGraph;
     private transient List<Object[]> lstEvaLineGlobalGraph;
+    private transient List<Object[]> lstEvaDocenteEvaluacionBarChart;
     
     public bSessionDesempenoProfesor() {
     }
@@ -271,5 +272,13 @@ public class bSessionDesempenoProfesor implements Serializable {
 
     public List<Object[]> getLstEvaLineGlobalGraph() {
         return lstEvaLineGlobalGraph;
+    }
+
+    public void setLstEvaDocenteEvaluacionBarChart(List<Object[]> lstEvaDocenteEvaluacionBarChart) {
+        this.lstEvaDocenteEvaluacionBarChart = lstEvaDocenteEvaluacionBarChart;
+    }
+
+    public List<Object[]> getLstEvaDocenteEvaluacionBarChart() {
+        return lstEvaDocenteEvaluacionBarChart;
     }
 }

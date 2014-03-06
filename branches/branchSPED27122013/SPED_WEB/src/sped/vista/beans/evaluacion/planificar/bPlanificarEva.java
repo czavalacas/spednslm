@@ -39,7 +39,9 @@ import oracle.adf.share.logging.ADFLogger;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichCalendar;
 import oracle.adf.view.rich.component.rich.data.RichTable;
+import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
+import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.nav.RichCommandButton;
 import oracle.adf.view.rich.event.CalendarActivityEvent;
@@ -73,6 +75,7 @@ import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFEvaluacionRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Constraint;
@@ -82,6 +85,7 @@ import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanAula;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
@@ -126,6 +130,8 @@ public class bPlanificarEva {
     private LN_C_SFGradoRemote ln_C_SFGradoRemote;
     @EJB
     private LN_C_SFNivelRemote ln_C_SFNivelRemote; 
+    @EJB
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote; 
     FacesContext ctx = FacesContext.getCurrentInstance();
     private sessionPlanificar sessionPlanificarEva;
     private RichCalendar calendar;
@@ -154,6 +160,14 @@ public class bPlanificarEva {
     private RichButton btnBloque2;
     private RichSelectOneChoice choiceTipoVisita;
     private RichSelectOneChoice choiceAreaAcademicas;
+    private RichPanelBox panelBoxComentYSug;
+    private RichPanelBox panelBoxJusticacion;
+    private RichSelectOneChoice choiceProblema;
+    private RichInputText inputDescripcionOtros;
+    private RichInputText inputComentarioEvaluador;
+    private RichInputText inputComentarioProfesor;
+    private RichButton btnSaveComentEvalu;
+    private RichButton btnSaveJustificacion;
 
 
     public bPlanificarEva() {
@@ -193,6 +207,15 @@ public class bPlanificarEva {
         List<BeanConstraint> roles = ln_C_SFEvaluacionRemoto.getTipoVisitaLN();
         for (BeanConstraint r : roles) {          
             unItems.add(new SelectItem(r.getValorCampo().toString(), r.getDescripcionAMostrar().toString()));
+        }
+        return unItems;
+    }
+    
+    public ArrayList llenarTipoProblema() {
+        ArrayList unItems = new ArrayList();
+        List<BeanCombo> roles = ln_C_SFUtilsRemote.getProblemas_LN_WS();
+        for (BeanCombo r : roles) {          
+            unItems.add(new SelectItem(r.getId().toString(), r.getDescripcion().toString()));
         }
         return unItems;
     }
@@ -306,6 +329,7 @@ public class bPlanificarEva {
         long d = fechaHoy.getTime();
         eva.setFechaPlanificacion(new Timestamp(d));
         eva.setTipoVisita(sessionPlanificarEva.getValorTipoVisita());
+        eva.setNidProblema(0);
         ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(eva);
         llenarBean();
         if (tbHorario != null) {
@@ -332,6 +356,7 @@ public class bPlanificarEva {
 
     public void abrirPopupEvaluar(CalendarActivityEvent calendarActivityEvent) {
         CalendarActivity activity = calendarActivityEvent.getCalendarActivity();
+        sessionPlanificarEva.setCalendaryActivityID(activity.getId());
         BeanEvaluacion entida = ln_C_SFEvaluacionRemoto.getEvaluacionById_LN(activity.getId());
         sessionPlanificarEva.setFechaEvaluacionPopup(entida.getStartDate());
         sessionPlanificarEva.setHoraEvaluacionPopup(entida.getEndDate());
@@ -349,6 +374,10 @@ public class bPlanificarEva {
         sessionPlanificarEva.setRolPlanificador(usua.getRol().getDescripcionRol());
         BeanConstraint con = ln_C_SFEvaluacionRemoto.getTipoVisita_ByValorLN(entida.getTipoVisita());
         sessionPlanificarEva.setTipoEvaluacion(con.getDescripcionAMostrar());
+        sessionPlanificarEva.setComentarioEvaluador(entida.getComentario_evaluador());
+        sessionPlanificarEva.setComentarioProfesor(entida.getComentario_profesor());
+        sessionPlanificarEva.setJustificacionProfesor(entida.getComentarioEvaluador());
+        sessionPlanificarEva.setEstadoDeEvaluacion(entida.getEstadoEvaluacion());
 
         Date fechaHoy = new Date();
         if (sessionPlanificarEva.getFechaEvaluacionPopup().before(fechaHoy)) {    
@@ -360,8 +389,81 @@ public class bPlanificarEva {
                 sessionPlanificarEva.setEstadoBotonEliminarEvaluacion(true);
             }             
                 }
+        if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("EJECUTADO")){
+            sessionPlanificarEva.setNidProblema(null);
+            sessionPlanificarEva.setEstadoBoxComentarios(true);
+            sessionPlanificarEva.setEstadoBoxJustificacion(false);
+        }
+        if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("NO EJECUTADO")){
+            sessionPlanificarEva.setListaProblemas(llenarTipoProblema());  
+            sessionPlanificarEva.setEstadoBoxJustificacion(true);
+            sessionPlanificarEva.setEstadoBoxComentarios(false);
+            if(entida.getNidProblema()!=0){               
+                sessionPlanificarEva.setNidProblema(""+entida.getNidProblema());
+                sessionPlanificarEva.setEstadoDisableChoiceProblema(true);
+                sessionPlanificarEva.setEstadoDinputJustificacion(true);
+                sessionPlanificarEva.setEstadoDinputJustificacionVisible(true);
+            }else{
+            sessionPlanificarEva.setNidProblema(null);
+            sessionPlanificarEva.setEstadoDisableChoiceProblema(false);
+            sessionPlanificarEva.setEstadoDinputJustificacion(false);
+            }
+        }
+        if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("PENDIENTE")){
+            sessionPlanificarEva.setEstadoBoxJustificacion(false);
+            sessionPlanificarEva.setEstadoBoxComentarios(false);
+        }
+     
+        
         Utils.showPopUpMIDDLE(popupDetalleEva);
     }
+    
+    
+    public void seleccionarProblema(ValueChangeEvent valueChangeEvent) {
+        /** 
+         * Siempre y cuando Opcion OTROS sea nidProblema=6   
+         * */
+        if(choiceProblema.getValue().toString().equals("6")){
+        System.out.println("es otro");
+            sessionPlanificarEva.setEstadoDinputJustificacionVisible(true);
+        }  else{        
+            sessionPlanificarEva.setEstadoDinputJustificacionVisible(false);
+        }
+        sessionPlanificarEva.setEstadoBtnSaveJustificaEvalu(true);
+        Utils.addTargetMany(inputDescripcionOtros,btnSaveJustificacion);
+    }
+    
+    public String guardarJustificacion() {
+        
+        ln_T_SFEvaluacionRemote.grabarComentariosYJustificacionesDeEvaluacion(sessionPlanificarEva.getCalendaryActivityID(), 
+                                                                              sessionPlanificarEva.getComentarioEvaluador(),
+                                                                              sessionPlanificarEva.getJustificacionProfesor(), 
+                                                                              sessionPlanificarEva.getNidProblema());
+        sessionPlanificarEva.setEstadoBtnSaveJustificaEvalu(false);
+        sessionPlanificarEva.setEstadoDinputJustificacion(true);
+        sessionPlanificarEva.setEstadoDisableChoiceProblema(true);
+        
+        Utils.addTargetMany(btnSaveJustificacion,choiceProblema,inputDescripcionOtros);
+        return null;
+    }
+    
+    public String guardarComentarioEvaluador() {
+        ln_T_SFEvaluacionRemote.grabarComentariosYJustificacionesDeEvaluacion(sessionPlanificarEva.getCalendaryActivityID(), 
+                                                                              sessionPlanificarEva.getComentarioEvaluador(),
+                                                                              sessionPlanificarEva.getJustificacionProfesor(), 
+                                                                              sessionPlanificarEva.getNidProblema());
+       sessionPlanificarEva.setEstadoDinputcomentarioEvaluador(false);
+       sessionPlanificarEva.setEstadoBtnSaveComentEvalu(false);
+       Utils.addTargetMany(inputComentarioEvaluador,btnSaveComentEvalu);
+       return null;
+    }
+    
+
+    public void activarEstadoComentEvalu(ValueChangeEvent valueChangeEvent) {
+        System.out.println("entro11");
+        sessionPlanificarEva.setEstadoBtnSaveComentEvalu(true);
+        Utils.addTarget(btnSaveComentEvalu);
+        }
 
     public String getDiaDeCalendario(int dia) {
         String day = "";
@@ -1264,4 +1366,70 @@ public class bPlanificarEva {
     public RichSelectOneChoice getChoiceAreaAcademicas() {
         return choiceAreaAcademicas;
     }
+
+    public void setPanelBoxComentYSug(RichPanelBox panelBoxComentYSug) {
+        this.panelBoxComentYSug = panelBoxComentYSug;
+    }
+
+    public RichPanelBox getPanelBoxComentYSug() {
+        return panelBoxComentYSug;
+    }
+
+    public void setPanelBoxJusticacion(RichPanelBox panelBoxJusticacion) {
+        this.panelBoxJusticacion = panelBoxJusticacion;
+    }
+
+    public RichPanelBox getPanelBoxJusticacion() {
+        return panelBoxJusticacion;
+    }
+
+    public void setChoiceProblema(RichSelectOneChoice choiceProblema) {
+        this.choiceProblema = choiceProblema;
+    }
+
+    public RichSelectOneChoice getChoiceProblema() {
+        return choiceProblema;
+    }
+
+    public void setInputDescripcionOtros(RichInputText inputDescripcionOtros) {
+        this.inputDescripcionOtros = inputDescripcionOtros;
+    }
+
+    public RichInputText getInputDescripcionOtros() {
+        return inputDescripcionOtros;
+    }
+
+    public void setInputComentarioEvaluador(RichInputText inputComentarioEvaluador) {
+        this.inputComentarioEvaluador = inputComentarioEvaluador;
+    }
+
+    public RichInputText getInputComentarioEvaluador() {
+        return inputComentarioEvaluador;
+    }
+
+    public void setInputComentarioProfesor(RichInputText inputComentarioProfesor) {
+        this.inputComentarioProfesor = inputComentarioProfesor;
+    }
+
+    public RichInputText getInputComentarioProfesor() {
+        return inputComentarioProfesor;
+    }
+
+    public void setBtnSaveComentEvalu(RichButton btnSaveComentEvalu) {
+        this.btnSaveComentEvalu = btnSaveComentEvalu;
+    }
+
+    public RichButton getBtnSaveComentEvalu() {
+        return btnSaveComentEvalu;
+    }
+
+    public void setBtnSaveJustificacion(RichButton btnSaveJustificacion) {
+        this.btnSaveJustificacion = btnSaveJustificacion;
+    }
+
+    public RichButton getBtnSaveJustificacion() {
+        return btnSaveJustificacion;
+    }
+
+ 
 }
