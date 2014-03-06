@@ -58,8 +58,6 @@ public class bDetalle_PO {
             for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++){
                 row = (GenericType)iteratorBinding.getCurrentRow();
                 pie = (BeanPie)GenericTypeBeanSerializationHelper.fromGenericType(BeanPie.class,row);
-                
-                Integer cant = (Integer) row.getAttribute("cantSlice");
                 lstPie.add(pie);
                 try {
                     if ((i + 1) == iteratorBinding.getIterator().getTotalRowCount()) {
@@ -69,7 +67,7 @@ public class bDetalle_PO {
                         } 
                     }
                 } catch (Exception e) {
-                    AdfmUtils.logStackTrace(e);
+                   // AdfmUtils.logStackTrace(e);
                 }
                 iteratorBinding.getIterator().next();
             }

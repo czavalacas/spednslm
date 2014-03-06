@@ -52,6 +52,11 @@
       <managed-bean-class>mobile.respaldo.parteocu.bDetalle_PO</managed-bean-class>
       <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
+    <managed-bean id="__46">
+      <managed-bean-name>bGraficos_PO</managed-bean-name>
+      <managed-bean-class>mobile.respaldo.parteocu.Graficos_PO</managed-bean-class>
+      <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
     <view id="inicio">
       <page>/inicio.amx</page>
     </view>
