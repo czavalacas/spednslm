@@ -6,13 +6,33 @@
       <amx:outputText value="Graficos Parte de Ocurrencia" id="ot1"/>
     </amx:facet>
     <amx:facet name="primary">
-      <amx:commandButton id="cb1" action="_BACK" icon="/resources/img/back.png" iconPosition="trailing"/>
+      <amx:commandButton id="cb1" action="_BACK" icon="/resources/img/back.png" iconPosition="trailing"
+                         actionListener="#{viewScope.bGraficos_PO.reset}"/>
     </amx:facet>
-    <dvtm:barChart id="graph1" var="row">
-      <amx:facet name="dataStamp">
-      
-      </amx:facet>
-      <dvtm:legend position="end" id="l1"/>
-    </dvtm:barChart>
+    <amx:tableLayout width="100%">
+         <amx:rowLayout>
+            <amx:cellFormat width="100%">
+                      <dvtm:pieChart id="graph1" var="row" emptyText="No hay datos" title="Grafico de Porcentaje de Problemas"
+                           dataSelection="single" value="#{bindings.pieProfesor.collectionModel}">
+                          <amx:facet name="dataStamp">
+                            <dvtm:pieDataItem label="#{row.serie}" value="#{row.cantSlice}" id="pdi1"/>
+                          </amx:facet>
+                          <dvtm:legend id="l1" position="end" scrolling="asNeeded"/>
+                     </dvtm:pieChart>
+            </amx:cellFormat>
+        </amx:rowLayout>
+        <amx:rowLayout>
+        <amx:cellFormat width="100%">
+                     <dvtm:barChart id="graph2" var="row" value="#{bindings.barProfesor.collectionModel}"
+                                    emptyText="No hay Datos necesarios" title="Grafico de Barras de Problemas">
+                      <amx:facet name="dataStamp">
+                          <dvtm:chartDataItem group="#{row.group}" value="#{row.cantidad}"
+                                              series="#{row.serie}" id="cdi1"/>
+                      </amx:facet>
+                      <dvtm:legend position="end" id="l2" scrolling="asNeeded"/>
+                    </dvtm:barChart>
+        </amx:cellFormat>
+    </amx:rowLayout>
+    </amx:tableLayout>
   </amx:panelPage>
 </amx:view>

@@ -10,7 +10,11 @@ import javax.el.ValueExpression;
 
 import mobile.AdfmUtils;
 
+import mobile.beans.BeanBar;
 import mobile.beans.BeanCombo;
+
+import mobile.beans.BeanParteOcurrencia;
+import mobile.beans.BeanPie;
 
 import oracle.adfmf.amx.event.ActionEvent;
 import oracle.adfmf.amx.event.ValueChangeEvent;
@@ -95,6 +99,40 @@ public class bConsultar_PO {
         ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression(METODO_ITERATOR,Object.class);
         AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
         iteratorBinding.getIterator().refresh();
+    }
+    
+    public void mandarPieBarAsParams(ActionEvent actionEvent) {//"#{bindings.ReturnIterator}"  METODO_ITERATOR
+        try {
+            ValueExpression veIter = (ValueExpression)AdfmfJavaUtilities.getValueExpression("#{bindings.ReturnIterator}",Object.class);
+            AmxIteratorBinding iteratorBinding = (AmxIteratorBinding)veIter.getValue(AdfmfJavaUtilities.getAdfELContext());
+            iteratorBinding.getIterator().refresh();
+            
+            GenericType row = null;
+            iteratorBinding.getIterator().first();
+            BeanParteOcurrencia po = null;
+            for (int i = 0; i < iteratorBinding.getIterator().getTotalRowCount(); i++){
+                row = (GenericType)iteratorBinding.getCurrentRow();
+                po = (BeanParteOcurrencia)GenericTypeBeanSerializationHelper.fromGenericType(BeanParteOcurrencia.class,row);
+                try {
+                    int idx = i + 1;
+                    if (idx == iteratorBinding.getIterator().getTotalRowCount()) {
+                        BeanBar[] lstBarras = po.getLstBars();
+                        BeanPie[] lstPies = po.getLstPies();
+                        AdfmfJavaUtilities.setELValue("#{pageFlowScope.listaBarras}",lstBarras);
+                        AdfmfJavaUtilities.setELValue("#{pageFlowScope.listaPies}",lstPies);
+                    }
+                } catch (Exception e) {
+                    return;
+                }
+                iteratorBinding.getIterator().next();
+            }
+        } catch(Exception e){
+            AdfmUtils.alert(FEATURE,
+                            ALERTA,
+                            new Object[] {"m_0001"});
+            return;
+        }
+        return;
     }
     
     public ArrayList llenarUsuarios() {

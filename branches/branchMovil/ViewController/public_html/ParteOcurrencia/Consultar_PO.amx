@@ -41,6 +41,8 @@
                                 id="cb2"/>
              <amx:commandButton id="cb3" icon="/resources/img/refresh.png" iconPosition="trailing"
                                 actionListener="#{viewScope.bConsultar_PO.refrescarBusqueda}"/>
+             <amx:commandButton text="Ver Graficos" id="cb4" action="graficos"
+                                actionListener="#{viewScope.bConsultar_PO.mandarPieBarAsParams}"/>
     </amx:panelGroupLayout>
    
     <amx:listView var="row" value="#{bindings.Return.collectionModel}" fetchSize="#{bindings.Return.rangeSize}"

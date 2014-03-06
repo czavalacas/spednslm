@@ -16,6 +16,7 @@
     <page path="/ParteOcurrencia/Registrar_PO.amx" usageId="mobile_Registrar_POPageDef"/>
     <page path="/ParteOcurrencia/Consultar_PO.amx" usageId="mobile_Consultar_POPageDef"/>
     <page path="/ParteOcurrencia/Detalle_PO.amx" usageId="mobile_Detalle_POPageDef"/>
+    <page path="/ParteOcurrencia/Graficos_PO.amx" usageId="mobile_Graficos_POPageDef"/>
   </pageMap>
   <pageDefinitionUsages>
     <page id="mobile_inicioPageDef" path="mobile.pageDefs.inicioPageDef"/>
@@ -28,8 +29,10 @@
     <page id="mobile_Registrar_POPageDef" path="ParteOcurrencia.Registrar_POPageDef"/>
     <page id="mobile_Consultar_POPageDef" path="ParteOcurrencia.Consultar_POPageDef"/>
     <page id="mobile_Detalle_POPageDef" path="ParteOcurrencia.Detalle_POPageDef"/>
+    <page id="mobile_Graficos_POPageDef" path="ParteOcurrencia.Graficos_POPageDef"/>
   </pageDefinitionUsages>
   <dataControlUsages>
+    <dc id="Graficos_PO" path="mobile.Graficos_PO"/>
     <dc id="bDetalle_PO" path="mobile.bDetalle_PO"/>
     <dc id="bVerEvaluacion" path="mobile.bVerEvaluacion"/>
     <dc id="bConsultarEvaluacion" path="mobile.bConsultarEvaluacion"/>
