@@ -2,10 +2,35 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core">
     <f:view>
-        <af:panelGroupLayout id="pgl1" layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+        <af:panelGroupLayout id="pgl1" layout="scroll" inlineStyle="margin:0px 0px 0px 43px;"
+                             binding="#{bGestionarPermisos.pgl1}">
+            <af:panelGroupLayout id="pgl2">
+                <af:spacer height="10" id="s1"/>
+                <af:outputText value="Gestionar Permisos" id="ot2" styleClass="titulos"/>
+                <af:spacer height="10" id="s2"/>
+            </af:panelGroupLayout>
+            <af:panelGroupLayout id="pgl3">
+                <af:button text="Selecionar Usuario" id="bVerUs" action="#{bGestionarPermisos.mostrarUsuarios}"/>
+                <af:button text="Resetear Permisos" id="b2"/>
+                <af:button text="Grabar Permisos" id="b3"/>
+                <af:spacer height="10" id="s3"/>                
+            </af:panelGroupLayout>
+            <af:panelFormLayout id="pfl1">
+                <af:inputText label="Permisos de: " id="it1" disabled="true"
+                              labelStyle="text-align: left;" value="#{sessionGestionarPermisos.beanUsuario.nombres}"
+                              rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
+                <af:inputText label="Usuario" id="it2" disabled="true"
+                              labelStyle="text-align: left;" value="#{sessionGestionarPermisos.beanUsuario.usuario}"
+                              rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
+                <af:inputText label="Rol" id="it3" disabled="true"
+                              labelStyle="text-align: left;" 
+                              value="#{sessionGestionarPermisos.beanUsuario.rol.descripcionRol}"
+                              rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
+            </af:panelFormLayout>
             <af:treeTable value="#{sessionGestionarPermisos.permisosTree}" var="row" rowBandingInterval="0"
                           id="treePer" binding="#{bGestionarPermisos.treePer}"
                           width="420" inlineStyle="width:420px; height:600px;" initiallyExpanded="true"
+                          rendered="#{sessionGestionarPermisos.permisosTree != null ? true : false}"
                           emptyText="No hay permisos">
                 <f:facet name="nodeStamp">
                     <af:column sortable="false" headerText="Permisos" align="start" id="c1" width="320">
@@ -20,5 +45,33 @@
                 </af:column>
             </af:treeTable>
         </af:panelGroupLayout>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popUsu" binding="#{bGestionarPermisos.popUsu}">
+            <af:dialog id="dialogU" title="Selecionar Usuarios" type="okCancel"
+                       dialogListener="#{bGestionarPermisos.confirmarSelecion}">
+                <af:table value="#{sessionGestionarPermisos.lstUsuarios}" var="row" rowBandingInterval="0" id="t1"
+                          rowSelection="single"  selectionListener="#{bGestionarPermisos.seleccionarUsuario}">
+                    <af:column sortable="true" headerText="Nombres" align="start" id="c2" 
+                               sortProperty="nombres">
+                        <af:outputText value="#{row.nombres}" id="ot3"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Usuario" align="start" id="c3" 
+                               sortProperty="usuario">
+                        <af:outputText value="#{row.usuario}" id="ot4"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Rol" align="start" id="c4" 
+                               sortProperty="rol.descripcionRol">
+                        <af:outputText value="#{row.rol.descripcionRol}" id="ot5"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Sede Nivel" align="start" id="c5" 
+                               sortProperty="sedeNivel.nivel">
+                        <af:outputText value="#{row.sedeNivel.nivel}" id="ot6"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Area Academica" align="start" id="c6"
+                               sortProperty="areaAcademica.descripcionAreaAcademica">
+                        <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot7"/>
+                    </af:column>
+                </af:table>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>
