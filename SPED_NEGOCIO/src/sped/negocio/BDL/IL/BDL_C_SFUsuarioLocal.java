@@ -21,5 +21,5 @@ public interface BDL_C_SFUsuarioLocal {
     String getNombresUsuarioByNidUsuario(int nidUsuario);
     List<Usuario> getUsuariobyByAttrBDL(BeanUsuario beanUsuario);
     List<Usuario> getUsuariobyNidRolBDL(int nidRol);
-    List<Usuario> getListUsuarioPermisosBDL();
+    List<Usuario> getListUsuarioNoAdmin();
 }
