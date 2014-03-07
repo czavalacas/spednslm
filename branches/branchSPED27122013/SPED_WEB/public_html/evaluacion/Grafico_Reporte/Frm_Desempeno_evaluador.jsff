@@ -267,7 +267,10 @@
                                               value="#{sessionDesempenoEvaluador.evaluador.areaAcademica.descripcionAreaAcademica}"
                                               rendered="#{sessionDesempenoEvaluador.renderArea}"/>
                                 <af:inputText label="Evaluacion(s) " id="it6" labelStyle="text-align: left;"
-                                              disabled="true" value="#{sessionDesempenoEvaluador.estado}"/>                                
+                                              disabled="true" value="#{sessionDesempenoEvaluador.estado}"/> 
+                                <af:button text="Enviar mensaje" id="bSendMA" 
+                                           rendered="#{sessionDesempenoEvaluador.evaluador.correo != null ? true : false}"
+                                           actionListener="#{bDesempenoEvaluador.bSendMA}"/>
                             </af:panelFormLayout>
                         </af:gridCell>
                     </af:gridRow>

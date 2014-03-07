@@ -145,7 +145,6 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
           valida = true;
           t.close();
       }catch (MessagingException ex){
-          ex.printStackTrace();
           return valida;
       }
       return valida;

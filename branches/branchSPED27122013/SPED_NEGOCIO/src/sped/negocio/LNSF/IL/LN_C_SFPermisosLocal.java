@@ -13,4 +13,6 @@ public interface LN_C_SFPermisosLocal {
                                          int nidUsuario);
     List<BeanPermiso> getPermisos_WS(int nidRol,
                                      int nidUsuario);
+    BeanPermiso getCrearArbolNuevoGP(int nidRol,
+                                     int nidUsuario);
 }

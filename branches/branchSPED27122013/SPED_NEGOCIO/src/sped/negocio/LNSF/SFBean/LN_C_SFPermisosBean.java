@@ -136,7 +136,7 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
         bean.setLstPermisos(lstPermisos);
         bean.setIndMostrar(indMostrar);
         return bean;
-    }
+    }        
     
     public List<BeanPermiso> getPermisos_WS(int nidRol,
                                              int nidUsuario){
@@ -150,4 +150,54 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
         }
         return lstPerms;
     }
+    
+    public BeanPermiso setBeanGP(Object[] datos){
+        BeanPermiso bean = (BeanPermiso) mapper.map(datos[0], BeanPermiso.class);
+        if(datos[1].toString().compareTo("1") == 0){
+            bean.setEstado(true);
+        }else{
+            bean.setEstado(false);
+        }
+        return bean;
+    }
+    
+    public BeanPermiso getCrearArbolNuevoGP(int nidRol,
+                                            int nidUsuario) {
+        BeanPermiso aux = new BeanPermiso();
+        aux.setDescripcionPermiso("SPED");
+        List<BeanPermiso> permisos = new ArrayList();
+        if(nidRol != -1){
+            List lstraiz = bdL_C_SFPermisoLocal.getHijosByPadreGP(0, nidUsuario, nidRol);
+            for(Object dato : lstraiz){
+                Object[] datos = (Object[]) dato;
+                BeanPermiso raiz = setBeanGP(datos);
+                if(raiz.getEstadoRegistro().compareTo("1") == 0){
+                    aux.setEstado(true);
+                }
+                crearArbolAuxGP(raiz, nidRol, nidUsuario);
+                permisos.add(raiz);
+            }
+        }
+        aux.setListaHijos(permisos);
+        return aux;
+    }
+    
+    public BeanPermiso crearArbolAuxGP(BeanPermiso raiz,
+                                       int nidRol,
+                                       int nidUsuario){
+        List raiz_aux = bdL_C_SFPermisoLocal.getHijosByPadreGP(raiz.getNidPermiso(), nidUsuario, nidRol);        
+        if(raiz_aux != null){
+            List<BeanPermiso> permisos = new ArrayList();
+            for(Object dato : raiz_aux){
+                Object[] datos = (Object[]) dato;
+                BeanPermiso hijo = setBeanGP(datos);
+                crearArbolAuxGP(hijo, nidRol, nidUsuario);
+                permisos.add(hijo);
+            }
+            raiz.setListaHijos(permisos);
+        }
+        return raiz;
+    }
+    
+    
 }

@@ -13,4 +13,6 @@ public interface LN_C_SFPermisosRemote {
                                          int nidUsuario);
     List<BeanPermiso> getPermisos_WS(int nidRol,
                                      int nidUsuario);
+    BeanPermiso getCrearArbolNuevoGP(int nidRol,
+                                     int nidUsuario);
 }
