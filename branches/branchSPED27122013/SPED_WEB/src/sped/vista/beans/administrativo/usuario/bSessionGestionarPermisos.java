@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import sped.negocio.entidades.beans.BeanPermiso;
+import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bSessionGestionarPermisos implements Serializable {
     @SuppressWarnings("compatibility:1667722088073630492")
@@ -14,6 +15,9 @@ public class bSessionGestionarPermisos implements Serializable {
     private transient ChildPropertyTreeModel permisosTree;
     private transient ChildPropertyTreeModel permisosTree_aux;
     private BeanPermiso permisos;
+    private List<BeanUsuario> lstUsuarios;
+    private BeanUsuario beanUsuario;
+    private BeanUsuario beanUsuario_aux;
     private int exec;
     private int nidPadre;
     private int validaPermiso;
@@ -118,5 +122,29 @@ public class bSessionGestionarPermisos implements Serializable {
 
     public int getNidPadre() {
         return nidPadre;
+    }
+
+    public void setLstUsuarios(List<BeanUsuario> lstUsuarios) {
+        this.lstUsuarios = lstUsuarios;
+    }
+
+    public List<BeanUsuario> getLstUsuarios() {
+        return lstUsuarios;
+    }
+
+    public void setBeanUsuario(BeanUsuario beanUsuario) {
+        this.beanUsuario = beanUsuario;
+    }
+
+    public BeanUsuario getBeanUsuario() {
+        return beanUsuario;
+    }
+
+    public void setBeanUsuario_aux(BeanUsuario beanUsuario_aux) {
+        this.beanUsuario_aux = beanUsuario_aux;
+    }
+
+    public BeanUsuario getBeanUsuario_aux() {
+        return beanUsuario_aux;
     }
 }

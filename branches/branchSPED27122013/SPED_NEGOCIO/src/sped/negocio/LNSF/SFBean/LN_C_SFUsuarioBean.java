@@ -222,9 +222,9 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
         }      
     }
     
-    public List<BeanUsuario> getListUsuarioPermisosLN(){
+    public List<BeanUsuario> getListUsuarioNoAdminLN(){
         try{
-            return transformLstUsuario(bdL_C_SFUsuarioLocal.getListUsuarioPermisosBDL());
+            return transformLstUsuario(bdL_C_SFUsuarioLocal.getListUsuarioNoAdmin());
         }catch(Exception e){
             return new ArrayList<BeanUsuario>();
         }
