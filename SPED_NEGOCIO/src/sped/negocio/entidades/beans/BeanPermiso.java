@@ -26,6 +26,7 @@ public class BeanPermiso implements Serializable {
     private char accessKey;
     private String shortURL_WS;
     private String accelerator;
+    private boolean estado;
 
     public void setShortURL_WS(String shortURL_WS) {
         this.shortURL_WS = shortURL_WS;
@@ -145,5 +146,13 @@ public class BeanPermiso implements Serializable {
 
     public String getAccelerator() {
         return accelerator;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public boolean isEstado() {
+        return estado;
     }
 }

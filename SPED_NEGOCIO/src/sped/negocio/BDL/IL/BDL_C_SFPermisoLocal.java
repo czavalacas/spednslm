@@ -17,4 +17,7 @@ public interface BDL_C_SFPermisoLocal {
                                   int nidRol);
     List<Permiso> getHijosByPadre_WS(int nidUsuario,
                                      int nidRol);
+    List getHijosByPadreGP(int nidPadre,
+                           int nidUsuario,
+                           int nidRol);
 }
