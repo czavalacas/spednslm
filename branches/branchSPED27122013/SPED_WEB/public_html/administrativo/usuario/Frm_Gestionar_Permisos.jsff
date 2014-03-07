@@ -13,8 +13,9 @@
                     </af:column>
                 </f:facet>
                 <af:column width="60" headerText="Seleccionar" align="center">
-                    <af:selectBooleanCheckbox id="sbcPerm" selected="true"
-                                              autoSubmit="true">
+                    <af:selectBooleanCheckbox id="sbcPerm" selected="#{row.estado}"
+                                              autoSubmit="true" shortDesc="#{row.descripcionPermiso}"
+                                              valueChangeListener="#{bGestionarPermisos.permisoChecked}" simple="false">
                     </af:selectBooleanCheckbox>
                 </af:column>
             </af:treeTable>

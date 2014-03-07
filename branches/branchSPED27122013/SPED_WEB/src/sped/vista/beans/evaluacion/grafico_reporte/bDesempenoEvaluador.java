@@ -262,7 +262,7 @@ public class bDesempenoEvaluador {
         String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
         String rutaImg = imageDirPath + rutaLocal;
         String rutaSave = rutaImg+timePath; 
-        String rutaPdf = rutaSave+"Reporte-"+timePath+".pdf";
+        String rutaPdf = rutaSave+"-Reporte.pdf";
         /////////////////////////////////        
         try{
             try{
@@ -723,11 +723,24 @@ public class bDesempenoEvaluador {
         Utils.showPopUpMIDDLE(popCorreo);
     }
     
+    public void bSendMA(ActionEvent actionEvent) {
+        sessionDesempenoEvaluador.getLstCorreo().add(sessionDesempenoEvaluador.getEvaluador().getCorreo());
+        Utils.showPopUpMIDDLE(popCorreo);
+    }
+    
     public void confirmarCorreo(DialogEvent dialogEvent) {
         DialogEvent.Outcome outcome = dialogEvent.getOutcome();        
         if(outcome == DialogEvent.Outcome.ok){
             Utils.showPopUpMIDDLE(popKey);   
-        }        
+        }
+        if(outcome == DialogEvent.Outcome.no){
+            Utils.showPopUpMIDDLE(popKey);   
+            sessionDesempenoEvaluador.setTypePopUpCorreo("none");
+            sessionDesempenoEvaluador.setLstCorreo(new ArrayList());
+            sessionDesempenoEvaluador.setCorreo("");
+            sessionDesempenoEvaluador.setAsunto(""); 
+            sessionDesempenoEvaluador.setMensaje("");
+        }
     }
     
     public void confirmarEnvio(DialogEvent dialogEvent) {
@@ -759,14 +772,15 @@ public class bDesempenoEvaluador {
                     sessionDesempenoEvaluador.setCorreo("");
                     sessionDesempenoEvaluador.setAsunto(""); 
                     sessionDesempenoEvaluador.setMensaje("");
+                    popKey.hide();
+                    popCorreo.hide();
                 }else{
                     Utils.mostrarMensaje(ctx, "Ocurrio un error inesperado", "Operacion Incorrecta", 2);
+                    popKey.hide();
+                    Utils.showPopUpMIDDLE(popCorreo);
                 }                
-            }
-            popKey.hide();
-            popCorreo.hide();
-        }
-        
+            }            
+        }        
     }
     
     public void clickListenerGraphPie(ClickEvent clickEvent) {
@@ -1117,5 +1131,5 @@ public class bDesempenoEvaluador {
 
     public String getCorreoDelete() {
         return correoDelete;
-    }
+    }    
 }
