@@ -15,10 +15,20 @@
                             <af:gridCell marginStart="2px" width="15%" marginEnd="1px" id="gc2">
                                 <af:panelGridLayout>
                                     <af:gridRow>
+                                        <af:gridCell valign="middle" halign="center">
+                                            <af:outputLabel value="#{sessionScope.sessionMain.cantNotif}" visible="#{sessionScope.sessionMain.cantNotif > 0}"
+                                                              inlineStyle="color:red; font-weight:bold; font-size:large; margin:0px -1px 0px 0px;"
+                                                              id="cantNotif" binding="#{bMain.cantNotif}"/>
+                                            <af:image source="../recursos/img/usuarios/notifications.png" id="i3"
+                                                      inlineStyle="height:20px; width:20px; margin:0px 0px -11px; background-size:inherit; background-repeat:repeat;">
+                                                      <af:showPopupBehavior popupId="popNotif" triggerType="click"
+                                                                               alignId="i3" align="afterStart"/>
+                                            </af:image>
+                                        </af:gridCell>
                                         <af:gridCell>
                                             <af:image source="/imageservlet?nomusuario=#{bMain.nomUsuario}" id="i2" inlineStyle="height:45px; width:40px;">
                                                 <af:showPopupBehavior popupId="popCerrar" triggerType="click"
-                                                                              alignId="i2" align="afterStart"/>
+                                                                         alignId="i2" align="afterStart"/>
                                             </af:image>
                                         </af:gridCell>
                                         <af:gridCell valign="middle">
@@ -50,6 +60,16 @@
                     </af:panelFormLayout>
                 </af:noteWindow>
             </af:popup>
+            <af:popup id="popNotif">
+                <af:noteWindow>
+                    <af:panelFormLayout rows="2" maxColumns="1">
+                        <af:commandLink text="Hay #{sessionScope.sessionMain.cantNotifEvas} Notificaciones de Evaluaciones" rendered="#{sessionScope.sessionMain.cantNotifEvas > 0}"
+                                        id="clCantEvas" binding="#{bMain.clCantEvas}"/>
+                        <af:commandLink text="Hay #{sessionScope.sessionMain.cantNotifPO} Notificaciones de Partes de Ocurrencia" rendered="#{sessionScope.sessionMain.cantNotifPO > 0}"
+                                        id="clCantPO" binding="#{bMain.clCantPO}"/>
+                    </af:panelFormLayout>
+                </af:noteWindow>
+            </af:popup>
             <af:popup id="p1">
                 <af:dialog id="d2"
                            title="Confirmar" dialogListener="#{bMain.dialogLogoutListener}">
@@ -57,5 +77,6 @@
                 </af:dialog>
             </af:popup>       
         </af:form>
+        <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"/>
     </af:document>
 </f:view>
