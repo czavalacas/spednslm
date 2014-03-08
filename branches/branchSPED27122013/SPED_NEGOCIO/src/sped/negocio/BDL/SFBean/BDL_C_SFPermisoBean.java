@@ -99,7 +99,7 @@ public class BDL_C_SFPermisoBean implements BDL_C_SFPermisoRemote,
     public List getHijosByPadreGP(int nidPadre,
                                   int nidUsuario,
                                   int nidRol){
-        String  ejbQL = "SELECT per, uspe.estado " +
+        String  ejbQL = "SELECT per, uspe.estado, uspe.nidPermisoUsuario " +
                         "FROM Permiso per, " +
                         "     RolPermiso up," +
                         "     UsuarioPermiso uspe "+

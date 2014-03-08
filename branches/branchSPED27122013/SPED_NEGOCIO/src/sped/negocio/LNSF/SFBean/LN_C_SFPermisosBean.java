@@ -158,6 +158,7 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
         }else{
             bean.setEstado(false);
         }
+        bean.setNidPermisoUsuario(Integer.parseInt(datos[2].toString()));
         return bean;
     }
     
@@ -168,10 +169,11 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
         List<BeanPermiso> permisos = new ArrayList();
         if(nidRol != -1){
             List lstraiz = bdL_C_SFPermisoLocal.getHijosByPadreGP(0, nidUsuario, nidRol);
+            aux.setEstado(false);
             for(Object dato : lstraiz){
                 Object[] datos = (Object[]) dato;
                 BeanPermiso raiz = setBeanGP(datos);
-                if(raiz.getEstadoRegistro().compareTo("1") == 0){
+                if(raiz.isEstado()){
                     aux.setEstado(true);
                 }
                 crearArbolAuxGP(raiz, nidRol, nidUsuario);
