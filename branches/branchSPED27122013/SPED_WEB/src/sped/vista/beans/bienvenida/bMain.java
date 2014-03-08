@@ -20,10 +20,15 @@ import javax.servlet.http.HttpSession;
 
 import oracle.adf.view.rich.component.rich.RichMenu;
 import oracle.adf.view.rich.component.rich.RichMenuBar;
+import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
 import oracle.adf.view.rich.component.rich.nav.RichCommandMenuItem;
 
+import oracle.adf.view.rich.component.rich.output.RichOutputLabel;
 import oracle.adf.view.rich.event.DialogEvent;
 
+import org.apache.myfaces.trinidad.event.PollEvent;
+
+import sped.negocio.LNSF.IL.LN_C_SFNotificacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -38,12 +43,17 @@ public class bMain implements Serializable {
 
     @EJB
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
+    @EJB
+    private LN_C_SFNotificacionLocal ln_C_SFNotificacionLocal;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private String usuario;
     private String nomUsuario;
     private final static String LOGIN = "/faces/Frm_login";
     private RichMenuBar menu;
     private bSessionMain sessionMain;
+    private RichOutputLabel cantNotif;
+    private RichCommandLink clCantEvas;
+    private RichCommandLink clCantPO;
 
     public bMain(){
         super();
@@ -149,6 +159,34 @@ public class bMain implements Serializable {
         }
     }
 
+    public void getNumeroNotificacionesAll(PollEvent pe) {
+        try {
+            int vec[] = new int[3];
+            vec = ln_C_SFNotificacionLocal.getCantidadAMostrarNotificaciones(beanUsuario.getNidUsuario());
+            sessionMain.setCantNotifEvas(vec[0]);
+            sessionMain.setCantNotifPO(vec[1]);
+            sessionMain.setCantNotif(vec[2]);
+            cantNotif.setValue(sessionMain.getCantNotif());
+            if(sessionMain.getCantNotif() > 0){
+                cantNotif.setRendered(true);
+            }else{
+                cantNotif.setRendered(false);
+            }
+            Utils.addTarget(cantNotif);
+            if(clCantPO != null){
+                clCantPO.setText("Hay "+sessionMain.getCantNotifPO()+" Notificaciones de Partes de Ocurrencia");
+                Utils.addTarget(clCantPO);
+            }
+            if(clCantEvas != null){
+                clCantEvas.setText("Hay "+sessionMain.getCantNotifEvas()+" Notificaciones de Evaluaciones");
+                Utils.addTarget(clCantEvas);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+    
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
@@ -179,5 +217,29 @@ public class bMain implements Serializable {
 
     public String getNomUsuario() {
         return nomUsuario;
+    }
+
+    public void setCantNotif(RichOutputLabel cantNotif) {
+        this.cantNotif = cantNotif;
+    }
+
+    public RichOutputLabel getCantNotif() {
+        return cantNotif;
+    }
+
+    public void setClCantEvas(RichCommandLink clCantEvas) {
+        this.clCantEvas = clCantEvas;
+    }
+
+    public RichCommandLink getClCantEvas() {
+        return clCantEvas;
+    }
+
+    public void setClCantPO(RichCommandLink clCantPO) {
+        this.clCantPO = clCantPO;
+    }
+
+    public RichCommandLink getClCantPO() {
+        return clCantPO;
     }
 }

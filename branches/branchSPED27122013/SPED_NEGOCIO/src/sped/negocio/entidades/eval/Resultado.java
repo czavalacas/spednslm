@@ -28,6 +28,8 @@ public class Resultado implements Serializable {
     @Id
     @JoinColumn(name = "nidEvaluacion")
     private Evaluacion evaluacion;
+    @Column(name = "toNotification")
+    private String toNotification;
 
     public Resultado() {
     }
@@ -36,6 +38,14 @@ public class Resultado implements Serializable {
         this.criterioIndicador = criterioIndicador;
         this.evaluacion = evaluacion;
         this.valor = valor;
+    }
+
+    public void setToNotification(String toNotification) {
+        this.toNotification = toNotification;
+    }
+
+    public String getToNotification() {
+        return toNotification;
     }
 
     public short getValor() {
