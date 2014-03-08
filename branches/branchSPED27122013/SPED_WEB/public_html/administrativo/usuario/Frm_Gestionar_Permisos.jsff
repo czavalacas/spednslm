@@ -11,8 +11,10 @@
             </af:panelGroupLayout>
             <af:panelGroupLayout id="pgl3">
                 <af:button text="Selecionar Usuario" id="bVerUs" action="#{bGestionarPermisos.mostrarUsuarios}"/>
-                <af:button text="Resetear Permisos" id="b2"/>
-                <af:button text="Grabar Permisos" id="b3"/>
+                <af:button text="Resetear Permisos" id="b2" action="#{bGestionarPermisos.resetPermisos}"
+                           rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
+                <af:button text="Grabar Permisos" id="b3" action="#{bGestionarPermisos.openPopConfrimarPermisos}"
+                           rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
                 <af:spacer height="10" id="s3"/>                
             </af:panelGroupLayout>
             <af:panelFormLayout id="pfl1">
@@ -49,7 +51,8 @@
             <af:dialog id="dialogU" title="Selecionar Usuarios" type="okCancel"
                        dialogListener="#{bGestionarPermisos.confirmarSelecion}">
                 <af:table value="#{sessionGestionarPermisos.lstUsuarios}" var="row" rowBandingInterval="0" id="t1"
-                          rowSelection="single"  selectionListener="#{bGestionarPermisos.seleccionarUsuario}">
+                          rowSelection="single"  selectionListener="#{bGestionarPermisos.seleccionarUsuario}"
+                          width="526">
                     <af:column sortable="true" headerText="Nombres" align="start" id="c2" 
                                sortProperty="nombres">
                         <af:outputText value="#{row.nombres}" id="ot3"/>
@@ -71,6 +74,12 @@
                         <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot7"/>
                     </af:column>
                 </af:table>
+            </af:dialog>
+        </af:popup>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popConf" binding="#{bGestionarPermisos.popConf}">
+            <af:dialog id="d1" title="Confirmacion de Registro de Permisos"
+                       dialogListener="#{bGestionarPermisos.dialogPermisosListener}">
+                 <af:outputText value="Desea Grabar los permisos?" id="grabPerm"/>
             </af:dialog>
         </af:popup>
     </f:view>

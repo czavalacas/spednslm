@@ -9,11 +9,10 @@ import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bSessionGestionarPermisos implements Serializable {
-    @SuppressWarnings("compatibility:1667722088073630492")
+    @SuppressWarnings("compatibility:-6345626028466824419")
     private static final long serialVersionUID = 1L;
     
     private transient ChildPropertyTreeModel permisosTree;
-    private transient ChildPropertyTreeModel permisosTree_aux;
     private BeanPermiso permisos;
     private List<BeanUsuario> lstUsuarios;
     private BeanUsuario beanUsuario;
@@ -90,14 +89,6 @@ public class bSessionGestionarPermisos implements Serializable {
 
     public ChildPropertyTreeModel getPermisosTree() {
         return permisosTree;
-    }
-
-    public void setPermisosTree_aux(ChildPropertyTreeModel permisosTree_aux) {
-        this.permisosTree_aux = permisosTree_aux;
-    }
-
-    public ChildPropertyTreeModel getPermisosTree_aux() {
-        return permisosTree_aux;
     }
 
     public void setPermisos(BeanPermiso permisos) {

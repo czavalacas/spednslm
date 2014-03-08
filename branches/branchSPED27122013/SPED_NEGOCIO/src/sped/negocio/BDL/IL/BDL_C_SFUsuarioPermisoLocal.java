@@ -11,4 +11,5 @@ import sped.negocio.entidades.sist.UsuarioPermiso;
 @Local
 public interface BDL_C_SFUsuarioPermisoLocal {
     List<UsuarioPermiso> getUsuarioPermisoByUsuario(Usuario u);
+    UsuarioPermiso findConstrainById(int id);
 }

@@ -41,4 +41,13 @@ public class BDL_C_SFUsuarioPermisoBean implements BDL_C_SFUsuarioPermisoRemote,
             return null;
         }
     }
+    
+    public UsuarioPermiso findConstrainById(int id){
+        try{
+            UsuarioPermiso instance = em.find(UsuarioPermiso.class, id);
+            return instance;
+        }catch(RuntimeException re){
+            throw re;
+        }
+    }
 }

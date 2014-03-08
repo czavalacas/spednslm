@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import javax.faces.event.ValueChangeEvent;
@@ -23,6 +24,7 @@ import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 
 import sped.negocio.LNSF.IR.LN_C_SFPermisosRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.LNSF.IR.LN_T_SFUsuarioPermisoRemote;
 import sped.negocio.entidades.beans.BeanPermiso;
 
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -37,23 +39,16 @@ public class bGestionarPermisos {
     private LN_C_SFPermisosRemote ln_C_SFPermisosRemote;
     @EJB
     private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
+    @EJB
+    private LN_T_SFUsuarioPermisoRemote ln_T_SFUsuarioPermisoRemote;
     private RichTreeTable treePer;
     private ChildPropertyTreeModel permisosTree;
     private RichPopup popUsu;
     private RichPanelGroupLayout pgl1;
+    private RichPopup popConf;
+    FacesContext ctx = FacesContext.getCurrentInstance();
 
     public bGestionarPermisos() {
-    }
-    
-    @PostConstruct
-    public void methodInvokeOncedOnPageLoad() {
-        if(sessionGestionarPermisos.getExec() == 0){
-            /* sessionGestionarPermisos.setPermisos(ln_C_SFPermisosRemote.getCrearArbolNuevoGP(1, 4));
-            permisosTree = new ChildPropertyTreeModel(sessionGestionarPermisos.getPermisos(),"listaHijos");
-            sessionGestionarPermisos.setPermisosTree(permisosTree);
-            sessionGestionarPermisos.setPermisosTree_aux(permisosTree);
-            sessionGestionarPermisos.setExec(1); */
-        }
     }
     
     public void permisoChecked(ValueChangeEvent vce) {
@@ -81,21 +76,48 @@ public class bGestionarPermisos {
     public void confirmarSelecion(DialogEvent dialogEvent) {
         DialogEvent.Outcome outcome = dialogEvent.getOutcome();
         if(outcome == DialogEvent.Outcome.ok){
-            System.out.println("hola entre");
             BeanUsuario usu = sessionGestionarPermisos.getBeanUsuario_aux();
             sessionGestionarPermisos.setBeanUsuario(usu);
-            sessionGestionarPermisos.setPermisos(ln_C_SFPermisosRemote.getCrearArbolNuevoGP(usu.getRol().getNidRol(),
-                                                                                            usu.getNidUsuario()));
-            permisosTree = new ChildPropertyTreeModel(sessionGestionarPermisos.getPermisos(),"listaHijos");
-            sessionGestionarPermisos.setPermisosTree(permisosTree);
-            sessionGestionarPermisos.setPermisosTree_aux(permisosTree);
-            Utils.addTarget(pgl1);
+            mostrarPermisos(usu);
         }
+    }
+    
+    public void mostrarPermisos(BeanUsuario usu){
+        //sessionGestionarPermisos.setPermisosTree(null);
+        sessionGestionarPermisos.setPermisos(ln_C_SFPermisosRemote.getCrearArbolNuevoGP(usu.getRol().getNidRol(),
+                                                                                        usu.getNidUsuario()));
+        permisosTree = new ChildPropertyTreeModel(sessionGestionarPermisos.getPermisos(),"listaHijos");
+        sessionGestionarPermisos.setPermisosTree(permisosTree);
+        Utils.addTarget(pgl1);
     }
     
     public void seleccionarUsuario(SelectionEvent se) {
         RichTable t = (RichTable) se.getSource();
         sessionGestionarPermisos.setBeanUsuario_aux((BeanUsuario) t.getSelectedRowData());
+    }
+    
+    public String resetPermisos() {
+        mostrarPermisos(sessionGestionarPermisos.getBeanUsuario());
+        Utils.addTarget(pgl1);
+        return null;
+    }
+    
+    public String openPopConfrimarPermisos() {        
+        Utils.showPopUpMIDDLE(popConf);
+        return null;
+    }
+    
+    public void dialogPermisosListener(DialogEvent dialogEvent) {
+        DialogEvent.Outcome outcome = dialogEvent.getOutcome();
+        if(outcome == DialogEvent.Outcome.ok){
+            ln_T_SFUsuarioPermisoRemote.gestionPermisoLN(sessionGestionarPermisos.getPermisos());
+            Utils.addTarget(pgl1);
+            Utils.mostrarMensaje(ctx, 
+                                 "Se modifico correctamente los permisos de "+
+                                 sessionGestionarPermisos.getBeanUsuario().getNombres(), 
+                                 "Operacion Correcta", 
+                                 3);
+        }
     }
 
     public void setSessionGestionarPermisos(bSessionGestionarPermisos sessionGestionarPermisos) {
@@ -145,4 +167,12 @@ public class bGestionarPermisos {
     public RichPanelGroupLayout getPgl1() {
         return pgl1;
     }
+
+    public void setPopConf(RichPopup popConf) {
+        this.popConf = popConf;
+    }
+
+    public RichPopup getPopConf() {
+        return popConf;
+    }    
 }
