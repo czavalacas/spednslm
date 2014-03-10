@@ -83,7 +83,6 @@ public class bGestionarPermisos {
     }
     
     public void mostrarPermisos(BeanUsuario usu){
-        //sessionGestionarPermisos.setPermisosTree(null);
         sessionGestionarPermisos.setPermisos(ln_C_SFPermisosRemote.getCrearArbolNuevoGP(usu.getRol().getNidRol(),
                                                                                         usu.getNidUsuario()));
         permisosTree = new ChildPropertyTreeModel(sessionGestionarPermisos.getPermisos(),"listaHijos");
@@ -174,5 +173,5 @@ public class bGestionarPermisos {
 
     public RichPopup getPopConf() {
         return popConf;
-    }    
+    }
 }

@@ -58,4 +58,14 @@ public class BDL_C_SFProblemaBean implements BDL_C_SFProblemaRemote,
         }
         return nidProblema;
     }
+    
+    public Problema findConstrainById(int id){
+        try{
+            Problema instance = em.find(Problema.class, id);
+            return instance;
+        }catch(RuntimeException re){
+            throw re;
+        }
+    }
+    
 }
