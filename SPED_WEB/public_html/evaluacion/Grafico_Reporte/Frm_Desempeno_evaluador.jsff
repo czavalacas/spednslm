@@ -185,7 +185,7 @@
                                 </dvt:pieGraph>
                             </af:panelBox>
                         </af:panelDashboard>
-                        <af:button text="Enviar mensaje" id="bSendM"
+                        <af:button text="Enviar correo" id="bSendM"
                                    actionListener="#{bDesempenoEvaluador.bSendM}"
                                    rendered="#{sessionDesempenoEvaluador.renderMensaje}"/>
                         <af:button id="b1" immediate="true" text="Exportar a Excel">

@@ -351,4 +351,28 @@
     <ejb-name>LN_T_SFUsuarioPermiso</ejb-name>
     <stateless-session-descriptor/>
   </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_T_SFProblema</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_T_SFProblema</ejb-name>
+    <stateless-session-descriptor>
+      <business-interface-jndi-name-map>
+        <business-remote>sped.negocio.LNSF.SFBean.LN_T_SFProblemaRemote</business-remote>
+        <jndi-name>mapLN_T_SFProblema</jndi-name>
+      </business-interface-jndi-name-map>
+    </stateless-session-descriptor>
+    <enable-call-by-reference>true</enable-call-by-reference>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_C_SFProblema</ejb-name>
+    <stateless-session-descriptor>
+      <business-interface-jndi-name-map>
+        <business-remote>sped.negocio.LNSF.SFBean.LN_C_SFProblemaRemote</business-remote>
+        <jndi-name>mapLN_C_SFProblema</jndi-name>
+      </business-interface-jndi-name-map>
+    </stateless-session-descriptor>
+    <enable-call-by-reference>true</enable-call-by-reference>
+  </weblogic-enterprise-bean>
 </weblogic-ejb-jar>
