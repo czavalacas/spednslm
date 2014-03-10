@@ -100,7 +100,7 @@ public class bGestionarProblema {
                                                              sessionGestionarProblema.getNidProblema(), 
                                                              sessionGestionarProblema.getDescripcion());
         if(msj == null){
-            if(sessionGestionarProblema.getNidProblema() == 1){
+            if(sessionGestionarProblema.getEvento() == 1){
                 msj = "Se registro correctamente el problema "+sessionGestionarProblema.getDescripcion();
             }else{
                 msj = "Se elimino correctamente el problema "+sessionGestionarProblema.getDescripcion();
