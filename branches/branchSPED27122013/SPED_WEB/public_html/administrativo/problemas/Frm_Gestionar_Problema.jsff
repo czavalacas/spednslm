@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+  <f:view>
+    <af:panelGroupLayout id="pgl1" layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+      <af:panelGroupLayout id="pgl2">
+        <af:spacer height="10" id="s1"/>
+        <af:outputText value="Gestionar Problemas Frecuentes" id="ot2" styleClass="titulos"/>
+        <af:spacer height="10" id="s2"/>
+      </af:panelGroupLayout>
+      <af:panelGroupLayout id="pgl4" binding="#{bGestionarProblema.pgl4}">
+        <af:button text="Insertar" id="b1" action="#{bGestionarProblema.insertarProblema}"/>
+        <af:button text="Eliminar" id="b2" action="#{bGestionarProblema.eliminarProblema}"
+                   rendered="#{sessionGestionarProblema.descripcion == null ? false : true}"/>
+      </af:panelGroupLayout>
+      <af:panelGroupLayout id="pgl3" binding="#{bGestionarProblema.pgl3}">
+        <af:table value="#{sessionGestionarProblema.lstBeanProblema}" var="row" rowBandingInterval="0" id="tPermi"
+                  rowSelection="single" selectionListener="#{bGestionarProblema.selecionarPermiso}"
+                  binding="#{bGestionarProblema.tpermi}">
+          <af:column sortable="true" headerText="Descripcion Problema" align="start" id="c1" sortProperty="desc_problema"
+                     width="200">
+            <af:outputText value="#{row.desc_problema}" id="ot1"/>
+          </af:column>
+        </af:table>
+      </af:panelGroupLayout>
+    </af:panelGroupLayout>
+    <af:popup childCreation="deferred" autoCancel="disabled" id="popNew" binding="#{bGestionarProblema.popNew}">
+      <af:dialog id="d1" title="Registrar Problema Frecuente" dialogListener="#{bGestionarProblema.confirmarRegistro}">
+        <af:inputText label="Descripcion " id="itDesc" maximumLength="150"
+                      value="#{sessionGestionarProblema.descripcion}" binding="#{bGestionarProblema.itDesc}">
+          <f:validator validatorId="LetrasValidator"/>
+        </af:inputText>
+      </af:dialog>
+    </af:popup>
+    <af:popup childCreation="deferred" autoCancel="disabled" id="popDel" binding="#{bGestionarProblema.popDel}">
+      <af:dialog id="d2" title="Eliminar Problema Frecuente"
+                 dialogListener="#{bGestionarProblema.confirmarEliminacion}">
+        <af:outputText value="Desea eliminar el problema #{sessionGestionarProblema.descripcion}" id="ot3"/>
+      </af:dialog>
+    </af:popup>
+  </f:view>
+</ui:composition>

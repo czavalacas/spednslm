@@ -11,4 +11,5 @@ public interface BDL_C_SFProblemaRemote {
     List<Problema> getProblemaFindAll();
     String getDescripcionProblemaById(int idProblema);
     int getNidProblemaByDescripcion(String descripcion);
+    Problema findConstrainById(int id);
 }

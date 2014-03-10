@@ -4,10 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Problema.findAll", query = "select o from Problema o") })
@@ -20,6 +23,8 @@ public class Problema implements Serializable {
     private String estado;
     @Id
     @Column(name = "nidProblema", nullable = false)
+    @TableGenerator( name = "stmcodi_admprob", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "admprob.nidProblema", valueColumnName = "APP_SEQ_VALUE", initialValue = 7, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi_admprob" )
     private int nidProblema;
 
     public Problema() {

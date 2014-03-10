@@ -1,0 +1,24 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SDM>
+   <OverallProperties
+      id="OverallProperties1"/>
+   <View
+      id="View2">
+      <property
+         name="activityId">Frm_Gestionar_Problema</property>
+      <property
+         name="page">/administrativo/problemas/Frm_Gestionar_Problema.jsff</property>
+      <property
+         name="start">true</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Frm_Gestionar_Problema&lt;/b> (Default Activity)&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">410.79883</property>
+      <property
+         name="pageFragment">true</property>
+      <property
+         name="x">625.02637</property>
+   </View>
+</SDM>

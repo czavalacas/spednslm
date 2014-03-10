@@ -49,17 +49,11 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
             else{
                 lstRP = lstRolPermiso;
             }
-            for(RolPermiso rolPermiso : lstRP){
-                UsuarioPermiso up = new UsuarioPermiso();
-                up.setRolPermiso(rolPermiso);
-                up.setUsuario(usuario);
-                if(rolPermiso.getPermiso().getNidPermiso() == 7 ||
-                   rolPermiso.getPermiso().getNidPermiso() == 9){
-                    up.setIsWS("1");
-                }else{
-                    up.setIsWS("0");
-                }
-                up.setEstado("1");
+            UsuarioPermiso up = new UsuarioPermiso();
+            up.setUsuario(usuario);
+            for(RolPermiso rolPermiso : lstRP){                
+                up.setRolPermiso(rolPermiso);                
+                setUsuarioPermiso(up, rolPermiso);                
                 bdL_T_SFUsuarioPermisoLocal.persistUsuarioPermiso(up);
             }
         }catch(Exception e){
@@ -69,83 +63,57 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
     
     public void updateUsuarioPermisobyUsuario(Usuario usuario){
         boolean valida = true;
-        int cont = 0;
         if(usuario.getUsuarioPermisosLista().size() == 0){
             insertUsuarioPermisobyUsuario(usuario, null);
         }else{
             List<UsuarioPermiso> lstUsuarioPermiso = bdL_C_SFUsuarioPermisoLocal
                                                         .getUsuarioPermisoByUsuario(usuario);
             List<RolPermiso> lstRolPermiso = bdL_C_SFRolPermisoLocal
-                                                        .getPermisosByRolBDL(usuario.getRol());
-            List<UsuarioPermiso> lstUsuarioPermisoAux = new ArrayList();
-            while(valida){                
-                int nidPermisoUsuarioPermiso = lstUsuarioPermiso.get(0).getRolPermiso().getPermiso().getNidPermiso();
-                int nidPermisoRolPermiso = lstRolPermiso.get(cont).getPermiso().getNidPermiso();
-                if(nidPermisoUsuarioPermiso > nidPermisoRolPermiso){
-                    cont++;
-                }else{
-                    if(nidPermisoUsuarioPermiso == nidPermisoRolPermiso){
-                        UsuarioPermiso up = lstUsuarioPermiso.get(0);
-                        up.setRolPermiso(lstRolPermiso.get(cont));
-                        bdL_T_SFUsuarioPermisoLocal.mergeUsuarioPermiso(up);
-                        lstRolPermiso.remove(lstRolPermiso.get(cont));
-                    }
-                    if(nidPermisoUsuarioPermiso < nidPermisoRolPermiso){
-                        lstUsuarioPermisoAux.add(lstUsuarioPermiso.get(0));
-                    }
+                                                        .getPermisosByRolBDL(usuario.getRol()); 
+            UsuarioPermiso up_aux = new UsuarioPermiso();
+            up_aux.setUsuario(usuario);
+            while(valida){
+                int nidUsuarioPermiso = lstUsuarioPermiso.get(0).getRolPermiso().getPermiso().getNidPermiso();
+                int nidRolPermiso = lstRolPermiso.get(0).getPermiso().getNidPermiso();
+                if(nidUsuarioPermiso == nidRolPermiso){
+                    UsuarioPermiso up = lstUsuarioPermiso.get(0);
+                    up.setRolPermiso(lstRolPermiso.get(0));
+                    bdL_T_SFUsuarioPermisoLocal.mergeUsuarioPermiso(up);
+                    lstUsuarioPermiso.remove(lstUsuarioPermiso.get(0));
+                    lstRolPermiso.remove(lstRolPermiso.get(0));                    
+                }
+                if(nidUsuarioPermiso < nidRolPermiso){
                     lstUsuarioPermiso.remove(lstUsuarioPermiso.get(0));
                 }
-                if(cont == lstRolPermiso.size()){
-                    for(int i = 0; i < lstUsuarioPermiso.size(); i++){
-                        lstUsuarioPermisoAux.add(lstUsuarioPermiso.get(0));
+                if(nidUsuarioPermiso > nidRolPermiso){
+                    up_aux.setRolPermiso(lstRolPermiso.get(0));
+                    bdL_T_SFUsuarioPermisoLocal.persistUsuarioPermiso(up_aux);
+                    lstRolPermiso.remove(lstRolPermiso.get(0)); 
+                }
+                if(lstRolPermiso.size() == 0){
+                    valida = false;
+                }
+                if(lstUsuarioPermiso.size() == 0){
+                    for(RolPermiso rolPermiso : lstRolPermiso){                
+                        up_aux.setRolPermiso(rolPermiso);                
+                        setUsuarioPermiso(up_aux, rolPermiso);                
+                        bdL_T_SFUsuarioPermisoLocal.persistUsuarioPermiso(up_aux);
                     }
                     valida = false;
                 }
             }
-            if(lstUsuarioPermisoAux.size() == 0){
-                insertUsuarioPermisobyUsuario(usuario, lstRolPermiso);
-                lstRolPermiso.clear();
-            }else if(lstRolPermiso.size() == 0){
-                for(int i = 0 ; i< lstUsuarioPermisoAux.size(); i++){
-                    bdL_T_SFUsuarioPermisoLocal.removeUsuarioPermiso(lstUsuarioPermisoAux.get(i));
-                }
-                lstUsuarioPermisoAux.clear();
-            }else{
-                boolean valida2 = true;
-                while(valida2){
-                    UsuarioPermiso up = lstUsuarioPermisoAux.get(0);
-                    RolPermiso rolPermiso = lstRolPermiso.get(0);
-                    up.setRolPermiso(rolPermiso);
-                    up.setUsuario(usuario);
-                    if(rolPermiso.getPermiso().getNidPermiso() == 7 ||
-                       rolPermiso.getPermiso().getNidPermiso() == 9){
-                        up.setIsWS("1");
-                    }else{
-                        up.setIsWS("0");
-                    }
-                    up.setEstado("1");
-                    bdL_T_SFUsuarioPermisoLocal.mergeUsuarioPermiso(up);
-                    lstUsuarioPermisoAux.remove(lstUsuarioPermisoAux.get(0));
-                    lstRolPermiso.remove(lstRolPermiso.get(0));
-                    if(lstUsuarioPermisoAux.size() == 0 || lstRolPermiso.size() == 0){
-                        valida2 = false;
-                    }
-                }
-            }
-            if(lstUsuarioPermisoAux.size() == 0 && lstRolPermiso.size() != 0){
-                insertUsuarioPermisobyUsuario(usuario, lstRolPermiso);
-            }else if(lstRolPermiso.size() == 0 && lstUsuarioPermisoAux.size() != 0){
-                for(int i = 0 ; i < lstUsuarioPermisoAux.size(); i++){
-                    System.out.println(i);
-                    System.out.println(lstUsuarioPermisoAux.size());
-                    System.out.println(lstUsuarioPermisoAux.get(i).getNidPermisoUsuario());
-                    bdL_T_SFUsuarioPermisoLocal.removeUsuarioPermiso(lstUsuarioPermisoAux.get(i));
-                }
-            }
-        }   
+        }
     }
     
-    public void updateUsuarioPermisobyUsuario_Aux(Usuario usuario){
-        
+    public UsuarioPermiso setUsuarioPermiso(UsuarioPermiso up, 
+                                            RolPermiso rolPermiso){
+        if(rolPermiso.getPermiso().getNidPermiso() == 7 ||
+           rolPermiso.getPermiso().getNidPermiso() == 9){
+            up.setIsWS("1");
+        }else{
+            up.setIsWS("0");
+        }
+        up.setEstado("1");
+        return up;
     }     
 }
