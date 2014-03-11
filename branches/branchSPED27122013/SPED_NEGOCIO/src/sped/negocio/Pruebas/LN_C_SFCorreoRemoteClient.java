@@ -40,8 +40,8 @@ public class LN_C_SFCorreoRemoteClient {
             data[2] = "diego flores gonzales"; //asunto            
             data[3] = "davidangeleshuaman@gmail.com"; //correos
             data[4] = "evento loco"; //mensaje
-            data[5] = "siatod2013@gmail.com";//correo
-            data[6] = "taller2013";//contraseña
+            data[5] = "siatod2013@gmail.com";//correo del que envia
+            data[6] = "taller2013";//contraseña del que envia
             data[7] = "1";//tipo de correo
             System.out.println(lN_C_SFCorreoRemote.enviarCorreoHTML(data));
            // System.out.println(msj);

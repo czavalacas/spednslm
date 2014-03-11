@@ -10,7 +10,10 @@ import javax.faces.event.ActionEvent;
 
 import oracle.adf.view.rich.component.rich.output.RichMessages;
 
+import oracle.adf.view.rich.event.DialogEvent;
+
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
+import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
@@ -26,9 +29,12 @@ public class bLogin implements Serializable {
     private String redireccionar = "";
     private String usuario;
     private String clave;
+    private String correo;
     FacesContext ctx = FacesContext.getCurrentInstance();
     @EJB
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
+    @EJB
+    private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
     private RichMessages mensaje;
 
     public bLogin(){
@@ -48,6 +54,18 @@ public class bLogin implements Serializable {
             }
         }else{
             Utils.mostrarMensaje(ctx,"Error Inesperado","Comuniquese con el administrador",2);
+        }
+    }
+    
+    public void recuperarClave(DialogEvent dialogEvent) {
+        DialogEvent.Outcome outcome = dialogEvent.getOutcome();
+        if(outcome == DialogEvent.Outcome.ok){
+            String enviar = ln_C_SFCorreoRemote.recuperarClave(correo);
+            if(enviar.equals("000")){
+                Utils.mostrarMensaje(ctx,"Revisa tu correo","Te hemos enviado un mensaje con tus datos",3);
+            }else{
+                Utils.mostrarMensaje(ctx,"Error","El correo ingresado no pertenece a ninguna cuenta",2);
+            }
         }
     }
 
@@ -82,4 +100,12 @@ public class bLogin implements Serializable {
     public RichMessages getMensaje() {
         return mensaje;
     }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }    
 }

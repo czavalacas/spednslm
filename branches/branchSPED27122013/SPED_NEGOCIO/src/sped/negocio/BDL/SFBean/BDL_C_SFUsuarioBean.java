@@ -236,4 +236,29 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         }
         return lstUsuario;
     }
+    
+    public int countCorreoBDL(String correo){
+        String ejbQL = "SELECT  count(u) FROM Usuario u " 
+                       + "WHERE u.correo = :correo ";
+        Object object = em.createQuery(ejbQL).setParameter("correo", correo)
+                            .getSingleResult();
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
+        }
+        return cont;
+    }
+    
+    public Usuario getUsuarioByCorreoBDL(String correo){
+        try{
+            String ejbQL = "SELECT  u FROM Usuario u " 
+                           + "WHERE u.correo = :correo ";
+             List<Usuario> lstUsuario =em.createQuery(ejbQL).setParameter("correo", correo)
+                                                                .getResultList();
+             return lstUsuario.get(0);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }        
+    }
 }
