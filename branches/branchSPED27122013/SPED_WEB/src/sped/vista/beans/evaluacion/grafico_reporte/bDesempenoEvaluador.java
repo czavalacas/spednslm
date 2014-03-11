@@ -756,7 +756,7 @@ public class bDesempenoEvaluador {
         if(outcome == DialogEvent.Outcome.ok){
             String rutapdf = rutaPdf();
             if(rutapdf != null){
-                String[] data = new String[7];
+                String[] data = new String[8];
                 data[0] = formato.format(sessionDesempenoEvaluador.getFechaActual());
                 data[1] = rutapdf;
                 data[2] = sessionDesempenoEvaluador.getAsunto();
@@ -764,8 +764,9 @@ public class bDesempenoEvaluador {
                 data[4] = sessionDesempenoEvaluador.getMensaje();
                 data[5] = correo;
                 data[6] = clave;
-                boolean valida = true;//ln_C_SFCorreoRemote.enviarCorreoHTML(data);  
-                if(valida == true){
+                data[7] = "1";
+                boolean valida = ln_C_SFCorreoRemote.enviarCorreoHTML(data);  
+                if(valida){
                     Utils.mostrarMensaje(ctx, "Se envio el correo", "Operacion Correcta", 3);
                     sessionDesempenoEvaluador.setTypePopUpCorreo("none");
                     sessionDesempenoEvaluador.setLstCorreo(new ArrayList());
