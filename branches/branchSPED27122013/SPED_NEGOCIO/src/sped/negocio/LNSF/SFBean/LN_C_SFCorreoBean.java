@@ -132,12 +132,14 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
           message.setSubject(data[2]);
           String contenido = contenidoHTML2(data);
           messageBodyPart.setContent(contenido, "text/html");
-          multipart.addBodyPart(messageBodyPart);
-          BodyPart messageBodyPart2 = new MimeBodyPart();
-          FileDataSource source = new FileDataSource(data[1]);
-          messageBodyPart2.setDataHandler(new DataHandler(source));
-          messageBodyPart2.setFileName(source.getName());
-          multipart.addBodyPart(messageBodyPart2);
+          multipart.addBodyPart(messageBodyPart);          
+          if(data[7].toString().compareTo("1") == 0){
+              BodyPart messageBodyPart2 = new MimeBodyPart();
+              FileDataSource source = new FileDataSource(data[1]);
+              messageBodyPart2.setDataHandler(new DataHandler(source));
+              messageBodyPart2.setFileName(source.getName());
+              multipart.addBodyPart(messageBodyPart2);
+          }          
           message.setContent(multipart);
           Transport t = session.getTransport("smtp");
           t.connect(HOST, EMAIL_QUE_ENVIA, CLAVE);
@@ -145,12 +147,11 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
           valida = true;
           t.close();
       }catch (MessagingException ex){
+          ex.printStackTrace();
           return valida;
       }
       return valida;
     }
-    
-    
     
     //falta una validacion que en la descripcion no se admita codigo HTML.
     public String contenidoHTML2(String data[]){
@@ -158,36 +159,10 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
       String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
                       .concat("<tbody>")
                       .concat("<p style=\"text-align: center;\">")
-                      .concat("<a href=\"www.google.com\"><img alt=\"\" src=\""+rutaimg+"\" style=\"width: 690px; height: 61px;\" /></a></p>")
+                      .concat("<a><img alt=\"\" src=\""+rutaimg+"\" style=\"width: 690px; height: 61px;\" /></a></p>")
                       .concat("<p style=\"text-align: right;\">")
                       .concat("<strong>Fecha:</strong> 05/03/2014</p>")
                       .concat("<p>"+data[4]+"</p>")
-                      .concat("</tbody>")
-                      .concat("</table>");
-      return contenido;
-    }
-    
-    public String contenidoHTML(String data[]){
-      String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
-                      .concat("<tbody>")
-                      .concat("<tr>")
-                      .concat("<td colspan=\"2\" style = \"vertical-align:middle;\">")
-                      .concat("<span style=\"font-size:10px;\"><a href=\"\"><img alt=\"LOGO\" src=\"http://img109.imageshack.us/img109/6844/iconpequeno.jpg\" style=\"height: 50px; width: 50px;\" /></a>&nbsp;<strong><span style=\"font-family:arial,helvetica,sans-serif;\"><span style=\"font-size: 12px;\"><span style=\"color: rgb(0, 128, 0);\">INFO MOBILE</span></span></span></strong></span></td>")
-                      .concat("<td colspan=\"2\">")
-                      .concat("<span style=\"color:#008000;\">Fecha:</span>&nbsp; "+data[0]+"</td>")
-                      .concat("</tr>")
-                      .concat("<tr>")
-                      .concat("<td>")
-                      .concat("<span style=\"color:#008000;\">Alarma enviada :</span>"+data[1]+"</td>")
-                      .concat("<td>")
-                      .concat("<span style=\"color:#008000;\">Alumno:</span>&nbsp;"+data[2]+"</td>")
-                      .concat("<td>")
-                      .concat("<span style=\"color:#008000;\">Evento:</span>&nbsp;"+data[3]+"</td>")
-                      .concat("</tr>")
-                      .concat("<tr>")
-                      .concat("<td colspan=\"3\" rowspan=\"1\">")
-                      .concat("<span style=\"color:#008000;\">Nota:</span>&nbsp;"+data[4]+"</td>")
-                      .concat("</tr>")
                       .concat("</tbody>")
                       .concat("</table>");
       return contenido;
