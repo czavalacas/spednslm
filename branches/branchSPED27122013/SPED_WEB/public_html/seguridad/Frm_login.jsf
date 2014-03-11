@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html>
-<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+        xmlns:h="http://java.sun.com/jsf/html">
     <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario">
         <af:form id="f1">
             <af:panelGridLayout id="pgl1">
@@ -27,13 +28,25 @@
                                         <af:button text="Ingresar" id="btnInicio"
                                                    actionListener="#{bLogin.autenticarUsuario}"
                                                    action="#{bLogin.getRedireccionar}"/>
-                                        <af:messages id="m1" inline="false" binding="#{bLogin.mensaje}"/>
+                                        <af:messages id="m1" inline="false" binding="#{bLogin.mensaje}"/>                                    
                                 </af:panelFormLayout>
                              </af:subform>
+                            <af:panelGroupLayout id="pgl2" layout="scroll" inlineStyle="margin:0px 0px 0px 53px;">
+                                <af:link text="¿Has olvidado tu clave?" id="l1" partialSubmit="true">
+                                    <af:showPopupBehavior popupId="p1"/>
+                                </af:link>
+                            </af:panelGroupLayout>                            
                         </af:panelBox>
                     </af:gridCell>
                 </af:gridRow>
             </af:panelGridLayout>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
+                <af:dialog id="d2" title="Recupera tu clave" dialogListener="#{bLogin.recuperarClave}">
+                    <af:inputText label="Correo" id="it1" value="#{bLogin.correo}" required="true">
+                        <f:validator validatorId="EmailValidator"/>
+                    </af:inputText>
+                </af:dialog>
+            </af:popup>
         </af:form>
     </af:document>
 </f:view>

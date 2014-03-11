@@ -1,5 +1,9 @@
 package sped.negocio.LNSF.SFBean;
 
+import java.text.SimpleDateFormat;
+
+import java.util.Calendar;
+
 import javax.annotation.Resource;
 
 import javax.ejb.SessionContext;
@@ -24,13 +28,18 @@ import javax.mail.internet.MimeMultipart;
 import javax.activation.DataHandler;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Properties;
+
+import javax.ejb.EJB;
 
 import javax.mail.MessagingException;
 
+import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.Utils.Utiles;
+import sped.negocio.entidades.admin.Usuario;
 
 @Stateless(name = "LN_C_SFCorreo", mappedName = "mapLN_C_SFCorreo")
 public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote, 
@@ -39,7 +48,9 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
     private EntityManager em;
-
+    @EJB
+    private BDL_C_SFUsuarioLocal bd_C_SFUsuarioLocal;
+    
     public LN_C_SFCorreoBean() {
     }
 
@@ -107,11 +118,8 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
       try {
           String PUERTO = "587";
           String HOST = "smtp.gmail.com";
-          String USUARIO = "siatod2013";//"siatod2013";
-          String CLAVE = data[6];//taller2013
-          String DOMINIO = "@gmail.com";
-          String EMAIL_QUE_ENVIA = data[5];
-          
+          String CLAVE = data[6];
+          String EMAIL_QUE_ENVIA = data[5];          
           Multipart multipart = new MimeMultipart();
           BodyPart messageBodyPart = new MimeBodyPart();
           Properties props = new Properties();
@@ -130,7 +138,12 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
               message.addRecipient(Message.RecipientType.TO, new InternetAddress(vecCorreos[i]));
           }
           message.setSubject(data[2]);
-          String contenido = contenidoHTML2(data);
+          String contenido = "";
+          if(data[7].toString().compareTo("1") == 0){
+              contenido = contenidoHTML2(data);
+          }else{
+              contenido = contenidoHTML(data);
+          }
           messageBodyPart.setContent(contenido, "text/html");
           multipart.addBodyPart(messageBodyPart);          
           if(data[7].toString().compareTo("1") == 0){
@@ -153,7 +166,6 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
       return valida;
     }
     
-    //falta una validacion que en la descripcion no se admita codigo HTML.
     public String contenidoHTML2(String data[]){
         String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";
       String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
@@ -161,10 +173,52 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                       .concat("<p style=\"text-align: center;\">")
                       .concat("<a><img alt=\"\" src=\""+rutaimg+"\" style=\"width: 690px; height: 61px;\" /></a></p>")
                       .concat("<p style=\"text-align: right;\">")
-                      .concat("<strong>Fecha:</strong> 05/03/2014</p>")
+                      .concat("<strong>Fecha:</strong> "+data[0]+"</p>")
                       .concat("<p>"+data[4]+"</p>")
                       .concat("</tbody>")
                       .concat("</table>");
       return contenido;
     }
+    
+    public String contenidoHTML(String data[]){
+      String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";
+      String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
+                      .concat("<tbody>")
+                      .concat("<p style=\"text-align: center;\">")
+                      .concat("<a><img alt=\"\" src=\""+rutaimg+"\" style=\"width: 690px; height: 61px;\" /></a></p>")
+                      .concat("<p style=\"text-align: right;\">")
+                      .concat("<strong>Fecha:</strong> "+data[0]+"</p>")
+                      .concat("<p><h2>\nHola "+data[1]+"</h2>\n<p>")
+                      .concat("Recibimos tu solicitud para recuperar tu cuenta.</p>\n")
+                      .concat("<p style=\"margin-left: 40px;\">\n<strong>Usuario : "+data[8]+"</strong></p>")
+                      .concat("<p style=\"margin-left: 40px;\"><strong>Clave : "+data[9]+"</strong></p></p>")
+                      .concat("</tbody>")
+                      .concat("</table>");
+      return contenido;
+    }
+    
+    public String recuperarClave(String correo){
+        if(bd_C_SFUsuarioLocal.countCorreoBDL(correo) != 0){
+            Usuario u = bd_C_SFUsuarioLocal.getUsuarioByCorreoBDL(correo);
+            if(u != null){
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                Calendar cal= new GregorianCalendar();
+                String[] data = new String[10];
+                data[0] = formato.format(cal.getTime()); //fecha
+                data[1] = u.getNombres(); //pdf - nombres
+                data[2] = "Recuperar Clave"; //asunto            
+                data[3] = correo; //correos
+                data[4] = null; //mensaje
+                data[5] = "siatod2013@gmail.com";//correo del que envia
+                data[6] = "taller2013";//contraseña del que envia
+                data[7] = "0";//tipo de correo
+                data[8] = u.getUsuario();
+                data[9] = u.getClave();
+                enviarCorreoHTML(data);
+                return "000";
+            }            
+        }
+        return "001";
+    }
+    
 }

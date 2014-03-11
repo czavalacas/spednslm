@@ -541,6 +541,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                                                   List lstnidArea,
                                                   BeanEvaluacion beanFEva){
         try{
+            boolean  oneDate = false;//para saber si se seleciono una sola fecha
             String strQuery2 = " ";
             String strQuery = " FROM Evaluacion eva, Usuario usu " +
                               " WHERE eva.nidEvaluador=usu.nidUsuario ";                      
@@ -607,6 +608,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 }else{
                     if(beanFEva.getFechaMinEvaluacion() != null || beanFEva.getFechaMaxEvaluacion() != null){
                         strQuery = strQuery.concat(" AND CAST(eva.endDate AS date) = :dateEva1 ");
+                        oneDate = true;
                     }
                 }
                 if(beanFEva.getFechaMinPlanificacion() != null && beanFEva.getFechaMaxPlanificacion() != null){
@@ -615,6 +617,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 }else{
                     if(beanFEva.getFechaMinPlanificacion() != null || beanFEva.getFechaMaxPlanificacion() != null){
                         strQuery = strQuery.concat(" AND CAST(eva.fechaPlanificacion AS date) = :datePla1 ");
+                        oneDate = true;
                     }
                 }
                 if(beanFEva.getNidProblema() != 0){
@@ -647,7 +650,12 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 strQuery2 = strQuery2.concat(" ORDER BY eva.endDate DESC ");
             }          
             if(tipoBusqueda == 3){
-                strQuery2 = strQuery2.concat(",CAST(eva.endDate AS date) "+strQuery+" GROUP BY CAST(eva.endDate AS date) ");
+                if(oneDate){
+                    strQuery2 = strQuery2.concat(",eva.endDate "+strQuery+" GROUP BY eva.endDate ");
+                }else{
+                    strQuery2 = strQuery2.concat(",CAST(eva.endDate AS date) "+
+                                                 strQuery+" GROUP BY CAST(eva.endDate AS date) ");
+                }                
                 strQuery2 = strQuery2.concat(" ORDER BY eva.endDate ASC ");
             }
             if(tipoBusqueda == 4){

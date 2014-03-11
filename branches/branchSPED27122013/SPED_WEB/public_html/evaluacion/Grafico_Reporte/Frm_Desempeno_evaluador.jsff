@@ -100,7 +100,7 @@
                                          rendered="#{sessionDesempenoEvaluador.RGrafRolA}">
                                 <af:componentDragSource/>
                                 <dvt:horizontalBarGraph id="gRol" subType="BAR_HORIZ_PERCENT"
-                                                        dynamicResize="DYNAMIC_SIZE"
+                                                        dynamicResize="DYNAMIC_SIZE" shortDesc="Grafico por Rol"
                                                         tabularData="#{sessionDesempenoEvaluador.lstEvaBarChartRol}"
                                                         hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                                         animationOnDataChange="auto" animationOnDisplay="auto"
@@ -111,7 +111,10 @@
                                     </dvt:background>
                                     <dvt:graphPlotArea/>
                                     <dvt:seriesSet>
-                                        <dvt:series/>
+                                        <dvt:series color="#008400"/>
+                                        <dvt:series color="#0042c6"/>
+                                        <dvt:series color="#FF7514"/>
+                                        <dvt:series color="#ff0000"/>
                                     </dvt:seriesSet>
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
@@ -127,13 +130,16 @@
                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                               timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
                                               animationIndicators="ALL" animationOnDisplay="auto"
-                                              binding="#{bDesempenoEvaluador.geva}">
+                                              binding="#{bDesempenoEvaluador.geva}" shortDesc="Grafico por Evaluador">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
                                     <dvt:graphPlotArea/>
                                     <dvt:seriesSet>
-                                        <dvt:series/>
+                                        <dvt:series color="#008400"/>
+                                        <dvt:series color="#0042c6"/>
+                                        <dvt:series color="#FF7514"/>
+                                        <dvt:series color="#ff0000"/>
                                     </dvt:seriesSet>
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
@@ -148,7 +154,7 @@
                                                hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                                timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
                                                animationIndicators="ALL" animationOnDisplay="auto"
-                                               animationDuration="1500"
+                                               animationDuration="1500" shortDesc="Grafico Linea de Tiempo"
                                                clickListener="#{bDesempenoEvaluador.clickListenerGraphLine}"
                                                binding="#{bDesempenoEvaluador.gline}">
                                     <dvt:background>
@@ -157,7 +163,10 @@
                                     <dvt:shapeAttributesSet/>
                                     <dvt:graphPlotArea/>
                                     <dvt:seriesSet>
-                                        <dvt:series/>
+                                        <dvt:series color="#008400"/>
+                                        <dvt:series color="#0042c6"/>
+                                        <dvt:series color="#FF7514"/>
+                                        <dvt:series color="#ff0000"/>
                                     </dvt:seriesSet>
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
@@ -171,7 +180,7 @@
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaPieG}"
                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                               clickListener="#{bDesempenoEvaluador.clickListenerGraphPie}"
-                                              binding="#{bDesempenoEvaluador.gpie}">
+                                              binding="#{bDesempenoEvaluador.gpie}" shortDesc="Grafico Pie">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -188,10 +197,16 @@
                         <af:button text="Enviar correo" id="bSendM"
                                    actionListener="#{bDesempenoEvaluador.bSendM}"
                                    rendered="#{sessionDesempenoEvaluador.renderMensaje}"/>
+                        <af:button text="Exportar Graficos" id="b4" rendered="#{sessionDesempenoEvaluador.renderMensaje}">
+                            <af:fileDownloadActionListener filename="Graficos_Desempeño_Evaluador.pdf"
+                                                           contentType="application/pdf"
+                                                           method="#{bDesempenoEvaluador.exportPdf}"/>
+                        </af:button>
                         <af:button id="b1" immediate="true" text="Exportar a Excel">
                             <af:exportCollectionActionListener type="excelHTML" exportedId="tEva"
                                                                filename="Desempeño_Evaluador.xls" title="Desempeño"/>
                         </af:button>
+                        
                         <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row" rowBandingInterval="0"
                                   id="tEva" width="inherit;" fetchSize="50" columnStretching="column:c23">
                             <af:column sortable="true" headerText="Nombre Evaluador" align="start" id="c1"
