@@ -22,4 +22,6 @@ public interface BDL_C_SFUsuarioRemote {
     List<Usuario> getUsuariobyByAttrBDL(BeanUsuario beanUsuario);
     List<Usuario> getUsuariobyNidRolBDL(int nidRol);
     List<Usuario> getListUsuarioNoAdmin();
+    int countCorreoBDL(String correo);
+    Usuario getUsuarioByCorreoBDL(String correo);
 }

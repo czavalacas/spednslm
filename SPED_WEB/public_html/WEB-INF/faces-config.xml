@@ -190,4 +190,19 @@
     <managed-bean-class>sped.vista.beans.administrativo.problemas.bSessionGestionarProblema</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bConfigurarCuenta</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.administrativo.usuario.bConfigurarCuenta</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionConfigurarCuenta</property-name>
+      <property-class>sped.vista.beans.administrativo.usuario.bSessionConfigurarCuenta</property-class>
+      <value>#{sessionConfigurarCuenta}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionConfigurarCuenta</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.administrativo.usuario.bSessionConfigurarCuenta</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>

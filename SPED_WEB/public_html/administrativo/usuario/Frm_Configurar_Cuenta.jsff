@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+  <f:view>
+    <af:panelGroupLayout id="pgl1" layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+      <af:panelGroupLayout id="pgl2">
+        <af:spacer height="10" id="s1"/>
+        <af:outputText value="Configuración de la Cuenta" id="ot2" styleClass="titulos"/>
+        <af:spacer height="10" id="s2"/>
+      </af:panelGroupLayout>
+      <af:panelGridLayout id="pgl3">
+        <af:gridRow marginTop="5px" height="auto" id="gr1">
+          <af:gridCell marginStart="5px" width="5%" id="gc1">
+            <af:outputText value="Clave" id="ot1"/>
+          </af:gridCell>
+          <af:gridCell marginStart="5px" width="10%" id="gc2"/>
+          <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc3">
+            <af:button text="button 1" id="b1"/>
+          </af:gridCell>
+        </af:gridRow>
+        <af:gridRow marginTop="5px" height="auto" id="gr2">
+          <af:gridCell marginStart="5px" width="10%" id="gc4">
+            <af:outputText value="Imagen" id="ot3"/>
+          </af:gridCell>
+          <af:gridCell marginStart="5px" width="20%" id="gc5"/>
+          <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc6">
+            <af:button text="button 2" id="b2"/>
+          </af:gridCell>
+        </af:gridRow>
+        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr3">
+          <af:gridCell marginStart="5px" width="10%" id="gc7">
+            <af:outputText value="Correo" id="ot4"/>
+          </af:gridCell>
+          <af:gridCell marginStart="5px" width="20%" id="gc8"/>
+          <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc9">
+            <af:button text="button 3" id="b3"/>
+          </af:gridCell>
+        </af:gridRow>
+      </af:panelGridLayout>
+    </af:panelGroupLayout>
+  </f:view>
+</ui:composition>
