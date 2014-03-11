@@ -34,14 +34,15 @@ public class LN_C_SFCorreoRemoteClient {
             data[4] = "  todo esta jodido csm!!";*/
            // lN_C_SFCorreoRemote.enviarCorreo("dfloresgonz@gmail.com", data);
             String pdf = "C:/Users/David/AppData/Roaming/JDeveloper/system12.1.2.0.40.66.68/o.j2ee/drs/SPED_APP/SPED_WEBWebApp.war/recursos/img/usuarios/prueba.pdf";
-            String[] data = new String[7];
+            String[] data = new String[8];
             data[0] = "03/03/2014"; //fecha
             data[1] = pdf; //pdf
             data[2] = "diego flores gonzales"; //asunto            
             data[3] = "davidangeleshuaman@gmail.com"; //correos
             data[4] = "evento loco"; //mensaje
-            data[5] = "siatod2013@gmail.com";
-            data[6] = "123";
+            data[5] = "siatod2013@gmail.com";//correo
+            data[6] = "taller2013";//contraseña
+            data[7] = "1";//tipo de correo
             System.out.println(lN_C_SFCorreoRemote.enviarCorreoHTML(data));
            // System.out.println(msj);
         } catch (CommunicationException ex) {
