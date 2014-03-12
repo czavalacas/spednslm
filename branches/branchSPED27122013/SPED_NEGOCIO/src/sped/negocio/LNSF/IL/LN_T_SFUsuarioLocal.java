@@ -16,4 +16,8 @@ public interface LN_T_SFUsuarioLocal {
                           String rutaImg,
                           int nidSede,
                           int nidNivel);
+    void configuracionCuentaUsuario(int nidUsuario,
+                                    String clave,
+                                    String correo,
+                                    String rutaImg);
 }

@@ -146,4 +146,21 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             e.printStackTrace();
         }
     }
+    
+    public void configuracionCuentaUsuario(int nidUsuario,
+                                           String clave,
+                                           String correo,
+                                           String rutaImg){
+        Usuario u = bdL_C_SFUsuarioLocal.findConstrainById(nidUsuario);
+        if(clave != null){
+            u.setClave(clave);
+        }
+        if(correo != null){
+            u.setCorreo(correo);
+        }
+        if(rutaImg != null){
+            Imagen(rutaImg, u);
+        }        
+        bdL_T_SFUsuarioLocal.mergeUsuario(u);
+    }
 }

@@ -8,35 +8,55 @@
         <af:outputText value="Configuración de la Cuenta" id="ot2" styleClass="titulos"/>
         <af:spacer height="10" id="s2"/>
       </af:panelGroupLayout>
-      <af:panelGridLayout id="pgl3">
-        <af:gridRow marginTop="5px" height="auto" id="gr1">
-          <af:gridCell marginStart="5px" width="5%" id="gc1">
-            <af:outputText value="Clave" id="ot1"/>
-          </af:gridCell>
-          <af:gridCell marginStart="5px" width="10%" id="gc2"/>
-          <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc3">
-            <af:button text="button 1" id="b1"/>
-          </af:gridCell>
-        </af:gridRow>
-        <af:gridRow marginTop="5px" height="auto" id="gr2">
-          <af:gridCell marginStart="5px" width="10%" id="gc4">
-            <af:outputText value="Imagen" id="ot3"/>
-          </af:gridCell>
-          <af:gridCell marginStart="5px" width="20%" id="gc5"/>
-          <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc6">
-            <af:button text="button 2" id="b2"/>
-          </af:gridCell>
-        </af:gridRow>
-        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr3">
-          <af:gridCell marginStart="5px" width="10%" id="gc7">
-            <af:outputText value="Correo" id="ot4"/>
-          </af:gridCell>
-          <af:gridCell marginStart="5px" width="20%" id="gc8"/>
-          <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc9">
-            <af:button text="button 3" id="b3"/>
-          </af:gridCell>
-        </af:gridRow>
-      </af:panelGridLayout>
+      <af:subform id="s4">
+        <af:outputText value="Correo" id="ot1" styleClass="subTitulos"/>
+        <af:panelFormLayout id="pCoreo" binding="#{bConfigurarCuenta.pcoreo}">
+            <af:inputText label="Correo Actual" id="it1" disabled="true" value="#{bConfigurarCuenta.correo}"
+                          labelStyle="text-align: left;" />
+            <af:inputText label="Correo Nuevo" id="it2" autoSubmit="true" maximumLength="150"
+                          labelStyle="text-align: left;" required="true" value="#{bConfigurarCuenta.correoNew}">
+            <f:validator validatorId="EmailValidator"/>
+          </af:inputText>
+            <af:button text="Cambiar" id="b1" action="#{bConfigurarCuenta.cambiarCorreo}"/>
+        </af:panelFormLayout>
+      </af:subform>
+      <af:separator id="s3"/>
+      <af:subform id="s5">
+        <af:outputText value="Clave" id="ot3" styleClass="subTitulos"/>
+        <af:panelFormLayout id="pClave" binding="#{bConfigurarCuenta.pclave}">
+          <af:inputText label="Clave Actual" id="it3" labelStyle="text-align: left;" required="true"
+                        value="#{bConfigurarCuenta.claveActual}" secret="true" maximumLength="32"
+                        autoSubmit="true">
+            <f:validator validatorId="ClaveValidator"/>
+          </af:inputText>
+          <af:inputText label="Clave nueva" id="it4" labelStyle="text-align: left;" required="true"
+                        value="#{bConfigurarCuenta.claveNew}" secret="true" maximumLength="32"
+                        autoSubmit="true">
+            <f:validator validatorId="ClaveValidator"/>
+          </af:inputText>
+          <af:inputText label="Confirmar Clave" id="it5" labelStyle="text-align: left;" required="true"
+                        value="#{bConfigurarCuenta.claveConf}" secret="true" maximumLength="32"
+                        autoSubmit="true">
+            <f:validator validatorId="ClaveValidator"/>
+          </af:inputText>
+            <af:button text="Cambiar" id="b2" action="#{bConfigurarCuenta.cambiarClave}"/>
+        </af:panelFormLayout>
+      </af:subform>
+      <af:separator id="s6"/>
+      <af:subform id="s7">
+        <af:outputText value="Imagen" id="ot4" styleClass="subTitulos"/>
+        <af:panelFormLayout id="pImag" binding="#{bConfigurarCuenta.pimag}">
+          <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true"
+                        labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"
+                        maximumFiles="1"
+                        valueChangeListener="#{bConfigurarCuenta.uploadFileValueChangeEvent}"
+                        binding="#{bConfigurarCuenta.fileImg}"/>
+          <af:image id="image" source="#{sessionConfigurarCuenta.imgSource}"
+                    binding="#{bConfigurarCuenta.image}"/>
+          <af:button text="Cambiar" id="b3" rendered="#{sessionConfigurarCuenta.rutaImg != null ? true : false}"
+                     action="#{bConfigurarCuenta.cambiarImagen}"/>
+        </af:panelFormLayout>
+      </af:subform>
     </af:panelGroupLayout>
   </f:view>
 </ui:composition>

@@ -39,6 +39,7 @@
     <class>sped.negocio.entidades.admin.ParteOcurrencia</class>
     <class>sped.negocio.entidades.sist.NotificacionParteOcurrencia</class>
     <class>sped.negocio.entidades.sist.NotificacionEvaluacion</class>
+    <class>sped.negocio.entidades.sist.Email</class>
     <properties>
       <property name="eclipselink.target-server" value="WebLogic_10"/>
       <property name="javax.persistence.jtaDataSource" value="java:/app/jdbc/jdbc/SPED_RemotoDS"/>
