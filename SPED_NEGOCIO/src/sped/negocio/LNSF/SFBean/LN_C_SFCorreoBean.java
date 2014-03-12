@@ -36,10 +36,12 @@ import javax.ejb.EJB;
 import javax.mail.MessagingException;
 
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
+import sped.negocio.BDL.IR.BDL_C_SFEmailRemote;
 import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.sist.Email;
 
 @Stateless(name = "LN_C_SFCorreo", mappedName = "mapLN_C_SFCorreo")
 public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote, 
@@ -50,6 +52,8 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     private EntityManager em;
     @EJB
     private BDL_C_SFUsuarioLocal bd_C_SFUsuarioLocal;
+    @EJB
+    private BDL_C_SFEmailRemote bd_C_SFEmailRemote;
     
     public LN_C_SFCorreoBean() {
     }
@@ -116,10 +120,18 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     public boolean enviarCorreoHTML(String data[]) {
         boolean valida = false;
       try {
-          String PUERTO = "587";
-          String HOST = "smtp.gmail.com";
-          String CLAVE = data[6];
-          String EMAIL_QUE_ENVIA = data[5];          
+          Email email = bd_C_SFEmailRemote.getEmail();
+          String PUERTO = email.getPuerto();
+          String HOST = email.getHost();
+          String CLAVE = "";
+          String EMAIL_QUE_ENVIA = "";
+          if(data[7].toString().compareTo("1") == 0){
+              CLAVE = data[6];
+              EMAIL_QUE_ENVIA = data[5];
+          }else{
+              CLAVE = email.getClave();
+              EMAIL_QUE_ENVIA = email.getCorreo();
+          }                    
           Multipart multipart = new MimeMultipart();
           BodyPart messageBodyPart = new MimeBodyPart();
           Properties props = new Properties();
@@ -190,8 +202,8 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                       .concat("<strong>Fecha:</strong> "+data[0]+"</p>")
                       .concat("<p><h2>\nHola "+data[1]+"</h2>\n<p>")
                       .concat("Recibimos tu solicitud para recuperar tu cuenta.</p>\n")
-                      .concat("<p style=\"margin-left: 40px;\">\n<strong>Usuario : "+data[8]+"</strong></p>")
-                      .concat("<p style=\"margin-left: 40px;\"><strong>Clave : "+data[9]+"</strong></p></p>")
+                      .concat("<p style=\"margin-left: 40px;\">\n<strong>Usuario : "+data[5]+"</strong></p>")
+                      .concat("<p style=\"margin-left: 40px;\"><strong>Clave : "+data[6]+"</strong></p></p>")
                       .concat("</tbody>")
                       .concat("</table>");
       return contenido;
@@ -207,13 +219,11 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                 data[0] = formato.format(cal.getTime()); //fecha
                 data[1] = u.getNombres(); //pdf - nombres
                 data[2] = "Recuperar Clave"; //asunto            
-                data[3] = correo; //correos
-                data[4] = null; //mensaje
-                data[5] = "siatod2013@gmail.com";//correo del que envia
-                data[6] = "taller2013";//contraseña del que envia
-                data[7] = "0";//tipo de correo
-                data[8] = u.getUsuario();
-                data[9] = u.getClave();
+                data[3] = correo;
+                data[4] = null;
+                data[5] = u.getUsuario();
+                data[6] = u.getClave();
+                data[7] = "0";
                 enviarCorreoHTML(data);
                 return "000";
             }            
