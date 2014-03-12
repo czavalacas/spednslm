@@ -18,4 +18,7 @@ public interface LN_C_SFUtilsRemote {
     List<BeanCombo> getAreas_LN_WS();
     List<BeanCombo> getProblemas_LN_WS();
     List<BeanCombo> getUsuarios_LN_WS();
+    int findCountByProperty(String correo, 
+                            boolean changeCase, 
+                            boolean isUpdate);
 }

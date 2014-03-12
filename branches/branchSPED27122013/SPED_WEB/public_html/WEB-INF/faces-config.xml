@@ -205,4 +205,8 @@
     <managed-bean-class>sped.vista.beans.administrativo.usuario.bSessionConfigurarCuenta</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <validator>
+    <validator-id>EmailUValidator</validator-id>
+    <validator-class>sped.vista.Utils.Validators.EmailUValidator</validator-class>
+  </validator>
 </faces-config>

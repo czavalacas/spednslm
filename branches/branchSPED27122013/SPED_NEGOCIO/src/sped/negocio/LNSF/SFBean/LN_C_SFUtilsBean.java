@@ -77,4 +77,10 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     public List<BeanCombo> getUsuarios_LN_WS(){
         return bdL_C_SFUtilsLocal.getUsuarios_WS("e.nidUsuario", "e.nombres");
     }
+    
+    public int findCountByProperty(String correo, 
+                                   boolean changeCase, 
+                                   boolean isUpdate){
+        return bdL_C_SFUtilsLocal.findCountByProperty("correo", correo, "Usuario", changeCase, isUpdate);
+    }
 }
