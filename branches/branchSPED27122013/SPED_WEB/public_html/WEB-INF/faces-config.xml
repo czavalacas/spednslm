@@ -209,4 +209,19 @@
     <validator-id>EmailUValidator</validator-id>
     <validator-class>sped.vista.Utils.Validators.EmailUValidator</validator-class>
   </validator>
+  <managed-bean>
+    <managed-bean-name>bMigrarHorarios</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.migracion.bMigrarHorarios</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionMigrarHorarios</property-name>
+      <property-class>sped.vista.beans.migracion.bSessionMigrarHorarios</property-class>
+      <value>#{sessionMigrarHorarios}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionMigrarHorarios</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.migracion.bSessionMigrarHorarios</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>
