@@ -8,7 +8,11 @@
         <af:outputText value="Migrar Horarios" id="ot1" styleClass="titulos"/>
         <af:spacer height="10" id="s2"/>
       </af:panelGroupLayout>
-      <af:panelGroupLayout id="pgl3"/>
+      <af:panelGroupLayout id="pgl3">
+        <af:selectOneChoice label="Sede" id="soc1" binding="#{bMigrarHorarios.soc1}">
+          <f:selectItems value="#{sessionMigrarHorarios.lstsedes}" id="si1"/>
+        </af:selectOneChoice>
+      </af:panelGroupLayout>
     </af:panelGroupLayout>
   </f:view>
 </ui:composition>

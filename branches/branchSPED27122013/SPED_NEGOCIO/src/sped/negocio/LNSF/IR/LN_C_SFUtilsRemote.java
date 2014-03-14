@@ -21,4 +21,6 @@ public interface LN_C_SFUtilsRemote {
     int findCountByProperty(String correo, 
                             boolean changeCase, 
                             boolean isUpdate);
+    List<BeanCombo> getSedes_LN();
+    List<BeanCombo> getNiveles_LN();
 }

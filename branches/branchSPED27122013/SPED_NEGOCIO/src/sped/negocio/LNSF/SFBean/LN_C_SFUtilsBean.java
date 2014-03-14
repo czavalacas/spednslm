@@ -83,4 +83,12 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
                                    boolean isUpdate){
         return bdL_C_SFUtilsLocal.findCountByProperty("correo", correo, "Usuario", changeCase, isUpdate);
     }
+    
+    public List<BeanCombo> getSedes_LN(){
+        return bdL_C_SFUtilsLocal.getSedes("e.nidSede", "e.descripcionSede");
+    }
+    
+    public List<BeanCombo> getNiveles_LN(){
+        return bdL_C_SFUtilsLocal.getNiveles("e.nidNivel", "e.descripcionNivel");
+    }
 }
