@@ -38,12 +38,23 @@ public class bSessionDesempenoProfesor implements Serializable {
     private List<BeanIndicador> listaIndicadoresFiltro=new ArrayList<BeanIndicador>();
     private boolean estadoTablaIndicadores=false;
     
-    private transient List<Object[]> lstEvaBarChart;
-    private transient List<Object[]> lstEvaAreasBarChart;
-    private transient List<Object[]> lstEvaDocenteIndicadorBarChart;
-    private transient List<Object[]> lstEvaLineGraph;
-    private transient List<Object[]> lstEvaLineGlobalGraph;
-    private transient List<Object[]> lstEvaDocenteEvaluacionBarChart;
+    private transient List<Object[]> lstEvaBarChart=new ArrayList<Object[]>();
+    private transient List<Object[]> lstEvaAreasBarChart=new ArrayList<Object[]>();
+    private transient List<Object[]> lstEvaDocenteIndicadorBarChart=new ArrayList<Object[]>();
+    private transient List<Object[]> lstEvaLineGraph=new ArrayList<Object[]>();
+    private transient List<Object[]> lstEvaLineGlobalGraph=new ArrayList<Object[]>();
+    private transient List<Object[]> lstEvaDocenteEvaluacionBarChart=new ArrayList<Object[]>();
+    
+    private List<String> relaValueGraficos=new ArrayList<String>();
+    private boolean estaPanelDesemDocenIndi=true;
+    private boolean estaPanelDesemDocenEvalu=true;
+    private boolean estaPanelDocenteIndica=true; 
+    private boolean estaPanelDocenteEvalua=true;
+    private boolean estaPanelAreas=true;
+    private boolean estaPanelSedes=true;
+    
+    private String rowHeightDashboard = "350px";
+    private int columnsDashboard = 2;
     
     public bSessionDesempenoProfesor() {
     }
@@ -280,5 +291,77 @@ public class bSessionDesempenoProfesor implements Serializable {
 
     public List<Object[]> getLstEvaDocenteEvaluacionBarChart() {
         return lstEvaDocenteEvaluacionBarChart;
+    }
+
+    public void setRelaValueGraficos(List<String> relaValueGraficos) {
+        this.relaValueGraficos = relaValueGraficos;
+    }
+
+    public List<String> getRelaValueGraficos() {
+        return relaValueGraficos;
+    }
+
+    public void setEstaPanelDesemDocenIndi(boolean estaPanelDesemDocenIndi) {
+        this.estaPanelDesemDocenIndi = estaPanelDesemDocenIndi;
+    }
+
+    public boolean isEstaPanelDesemDocenIndi() {
+        return estaPanelDesemDocenIndi;
+    }
+
+    public void setEstaPanelDesemDocenEvalu(boolean estaPanelDesemDocenEvalu) {
+        this.estaPanelDesemDocenEvalu = estaPanelDesemDocenEvalu;
+    }
+
+    public boolean isEstaPanelDesemDocenEvalu() {
+        return estaPanelDesemDocenEvalu;
+    }
+
+    public void setEstaPanelDocenteIndica(boolean estaPanelDocenteIndica) {
+        this.estaPanelDocenteIndica = estaPanelDocenteIndica;
+    }
+
+    public boolean isEstaPanelDocenteIndica() {
+        return estaPanelDocenteIndica;
+    }
+
+    public void setEstaPanelDocenteEvalua(boolean estaPanelDocenteEvalua) {
+        this.estaPanelDocenteEvalua = estaPanelDocenteEvalua;
+    }
+
+    public boolean isEstaPanelDocenteEvalua() {
+        return estaPanelDocenteEvalua;
+    }
+
+    public void setEstaPanelAreas(boolean estaPanelAreas) {
+        this.estaPanelAreas = estaPanelAreas;
+    }
+
+    public boolean isEstaPanelAreas() {
+        return estaPanelAreas;
+    }
+
+    public void setEstaPanelSedes(boolean estaPanelSedes) {
+        this.estaPanelSedes = estaPanelSedes;
+    }
+
+    public boolean isEstaPanelSedes() {
+        return estaPanelSedes;
+    }
+
+    public void setRowHeightDashboard(String rowHeightDashboard) {
+        this.rowHeightDashboard = rowHeightDashboard;
+    }
+
+    public String getRowHeightDashboard() {
+        return rowHeightDashboard;
+    }
+
+    public void setColumnsDashboard(int columnsDashboard) {
+        this.columnsDashboard = columnsDashboard;
+    }
+
+    public int getColumnsDashboard() {
+        return columnsDashboard;
     }
 }

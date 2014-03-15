@@ -167,13 +167,43 @@
                                             </af:outputText>
                                         </af:column>
                                     </af:table>
-                                    <af:button text="PDF" id="b4" action="#{bDesempenoProfesor.rutaPdf}"/>
-                                </af:panelGroupLayout>
+                                
+                                
                                 <!--FILTROS DE BUSQUEDA-->
+                                  <af:spacer width="10" height="10" id="s22"/>         <af:spacer width="10" height="10" id="s23"/>       
+                                  <af:showDetail disclosed="true" id="sd3" disclosedText="Graficos"
+                                     >                            
+                            <af:panelFormLayout id="pfl4" >
+                                            <af:selectManyCheckbox id="smc5"
+                                                                   autoSubmit="true"
+                                                                   binding="#{bDesempenoProfesor.checksGraficos}"
+                                                                   valueChangeListener="#{bDesempenoProfesor.seleccionarGraficos}"
+                                                                   value="#{sessionScope.sessionDesempenoProfesor.relaValueGraficos}">
+                                             <!--   <af:selectItem value="1" id="si5" label="Sede"/>-->
+                                                <af:selectItem value="2" id="si6" label="Docente Inidicador"/>
+                                                <af:selectItem value="3" id="si7" label="Docente Evaluacion"/>
+                                                <af:selectItem value="4" id="si8"
+                                                              label="Desempe&#241;o Docente Indicador"/>
+                                                <af:selectItem value="5" id="si9"
+                                                              label="Dsempe&#241;o Docente Evaluador"/>
+                                                <af:selectItem value="6" id="si11" label="Areas"/>
+                                            </af:selectManyCheckbox>
+                                        </af:panelFormLayout>
+                        </af:showDetail>
+                          
+                           <af:spacer width="10" height="10" id="s24"/>  
+                           <af:spacer width="10" height="10" id="s25"/>  
+                              <af:button text="Generar PDF" id="b4" action="#{bDesempenoProfesor.rutaPdf}"/>
+                        </af:panelGroupLayout>
                     </f:facet>
                 <f:facet name="second">
-                        <af:panelDashboard id="pd1" columns="2" rowHeight="350px" >
-                            <af:panelBox text="Desempeño Docente Indicador " id="pb1">
+                 <af:panelGroupLayout id="pgl4" binding="#{bDesempenoProfesor.pgl4}">
+                 
+                        <af:panelDashboard id="pd1" columns="#{sessionScope.sessionDesempenoProfesor.columnsDashboard}"
+                                           rowHeight="#{sessionScope.sessionDesempenoProfesor.rowHeightDashboard}" >
+                            <af:panelBox text="Desempeño Docente Indicador " id="pb1" showDisclosure="false"
+                                         binding="#{bDesempenoProfesor.panelDesemDocenIndi}"
+                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDesemDocenIndi}">
                                 <af:componentDragSource/>
                                 <dvt:lineGraph id="graph3" subType="LINE_VERT_ABS" shortDesc="line"
                                                dynamicResize="DYNAMIC_SIZE"
@@ -191,7 +221,8 @@
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:lineGraph>
                             </af:panelBox>           
-                             <af:panelBox text="Docente Indicador" id="pb5" type="stretch">
+                             <af:panelBox text="Docente Indicador" id="pb5" type="stretch"
+                                          rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDocenteIndica}">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
                                 <dvt:barGraph id="graph5" subType="BAR_VERT_CLUST" shortDesc="r"
@@ -210,7 +241,8 @@
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:barGraph>
                             </af:panelBox>                          
-                            <af:panelBox text="Desempeño Docente Evaluacion" id="pb4" showDisclosure="false" type="stretch">
+                            <af:panelBox text="Desempeño Docente Evaluacion" id="pb4" showDisclosure="false" type="stretch"
+                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDesemDocenEvalu}">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
                                
@@ -231,7 +263,8 @@
                                 </dvt:lineGraph>
                                     </af:panelBox>
                            
-                               <af:panelBox text="Docente Evaluacion" id="pb2" showDisclosure="false" type="stretch">
+                               <af:panelBox text="Docente Evaluacion" id="pb2" showDisclosure="false" type="stretch"
+                                            rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDocenteEvalua}">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
                                   <dvt:barGraph id="graph7" subType="BAR_VERT_CLUST" shortDesc="r"
@@ -265,7 +298,8 @@
                                 </dvt:pieGraph>-->
                                 
                             </af:panelBox>
-                              <af:panelBox text="Grafico de Areas" id="pb3" showDisclosure="false" type="stretch">
+                              <af:panelBox text="Grafico de Areas" id="pb3" showDisclosure="false" type="stretch"
+                                           rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelAreas}">
                                 <f:facet name="toolbar"/>
                                 <af:componentDragSource/>
                                 <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_CLUST" shortDesc="lin"
@@ -286,6 +320,8 @@
                                 </dvt:horizontalBarGraph>
                             </af:panelBox>
                         </af:panelDashboard>
+             
+               </af:panelGroupLayout>
                 </f:facet>
                    </af:panelSplitter>
                         
