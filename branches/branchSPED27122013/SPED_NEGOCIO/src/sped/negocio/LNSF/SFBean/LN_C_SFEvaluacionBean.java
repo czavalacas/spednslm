@@ -552,7 +552,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
          * @return resultado
          */
         
-    public double promedioGeneralPorFiltroDesempeñoDocente(List<BeanEvaluacion_DP> listaEva_WS){
+    public double promedioGeneralPorFiltroDesempenoDocente(List<BeanEvaluacion_DP> listaEva_WS){
         double suma=0;
         double resu=0;
         List<BeanEvaluacion_DP> listEvaWS=new ArrayList<BeanEvaluacion_DP>();
