@@ -249,7 +249,7 @@
                                              <dvt:lineGraph id="graph6" subType="LINE_VERT_ABS" shortDesc="line"
                                                dynamicResize="DYNAMIC_SIZE"
                                                tabularData="#{sessionDesempenoProfesor.lstEvaLineGlobalGraph}"
-                                               binding="#{bDesempenoProfesor.lineDesempe&#241;oProf}">
+                                               binding="#{bDesempenoProfesor.lineDesempenoProf}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>

@@ -145,7 +145,7 @@ public class bDesempenoProfesor {
     private UIGraph barAreaGraph;
     private UIGraph barDocIndicadorGraph;
     private UIGraph lineaDesempenoGlobal;
-    private UIGraph lineDesempeñoProf;
+    private UIGraph lineDesempenoProf;
     private UIGraph barDocenteEvalu;
     private RichSelectManyCheckbox checksGraficos;
     private RichPanelBox panelDesemDocenIndi;
@@ -360,10 +360,10 @@ public class bDesempenoProfesor {
                 }
             if(bean.getNidIndicador()!=null){
                 llenarDatadeGrafBarrasDocenteIndicador();
-                llenarDatadeLineaUltimoAñoDocenteIndicador();
+                llenarDatadeLineaUltimoAnoDocenteIndicador();
             }
             if(bean.getDniDocente()!=null && bean.getNidIndicador()==null){
-                llenarDatadeLineaUltimoAñoDocenteGlobal();
+                llenarDatadeLineaUltimoAnoDocenteGlobal();
                 llenarDatadeGrafBarrasDocenteEvaluacion();
             }
             
@@ -438,7 +438,7 @@ public class bDesempenoProfesor {
              tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
              Utils.addTarget(tbFiltrosBusqueda);
          }
-        Utils.addTargetMany(barAreaGraph, barGraph,barDocIndicadorGraph,lineDesempeñoProf,lineaDesempenoGlobal,barDocenteEvalu);
+        Utils.addTargetMany(barAreaGraph, barGraph,barDocIndicadorGraph,lineDesempenoProf,lineaDesempenoGlobal,barDocenteEvalu);
         return null;
     }
     public String btnLimpiarFiltros() {
@@ -493,13 +493,13 @@ public class bDesempenoProfesor {
                    }                   
            if(sessionDesempenoProfesor.getBeanFiltros()!=null){
            if(sessionDesempenoProfesor.getBeanFiltros().getDniDocente()!=null){
-              llenarDatadeLineaUltimoAñoDocenteGlobal();
+              llenarDatadeLineaUltimoAnoDocenteGlobal();
               llenarDatadeGrafBarrasDocenteEvaluacion();
                        }
            }
            if(sessionDesempenoProfesor.getBeanFiltros()!=null){
            if(sessionDesempenoProfesor.getBeanFiltros().getNombreIndicador()!=null){
-              llenarDatadeLineaUltimoAñoDocenteIndicador();
+              llenarDatadeLineaUltimoAnoDocenteIndicador();
               llenarDatadeGrafBarrasDocenteIndicador();
                            }    
                    }
@@ -587,7 +587,7 @@ public class bDesempenoProfesor {
             bean.setSede("Global");
             }   
             bean.setAreaAcademica(listaFiltros.get(i).getNombreArea().getDescripcionAreaAcademica());
-            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempenoDocente(lstEvaluaciones);  
             bean.setNotaFinal(valor);
                 listaParaGrfaicoDeBarrasSedes.add(bean);}
             }
@@ -639,7 +639,7 @@ public class bDesempenoProfesor {
                 String mensaje=fechaConFormato+" - "+fechaConFormato2;                
                 bean.setIndicador("Desempeno ("+mensaje+")");
             }
-            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempenoDocente(lstEvaluaciones);  
             bean.setNotaFinal(valor);
                 listaParaGrfaicoDeBarrasSedes.add(bean);}
             }
@@ -670,7 +670,7 @@ public class bDesempenoProfesor {
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();           
             bean.setSede(listaFiltros.get(i).getNombreSede().getDescripcionSede());
-            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+            double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempenoDocente(lstEvaluaciones);  
             bean.setNotaFinal(valor);
                 listaParaGrfaicoDeBarrasSedes.add(bean);}
             }
@@ -693,7 +693,7 @@ public class bDesempenoProfesor {
     
     
     
-    public String llenarDatadeLineaUltimoAñoDocenteIndicador(){
+    public String llenarDatadeLineaUltimoAnoDocenteIndicador(){
         List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
@@ -748,12 +748,12 @@ public class bDesempenoProfesor {
             }
             }
             }
-        setListLinegraphDesempeñodocente(listaParaGrfaicoDeBarrasSedes);    
+        setListLinegraphDesempenodocente(listaParaGrfaicoDeBarrasSedes);    
         Utils.addTarget(lineaDesempenoGlobal);
         return null;
     }
     
-    public void setListLinegraphDesempeñodocente(List <BeanEvaluacion_DP> lstEvaluaciones){
+    public void setListLinegraphDesempenodocente(List <BeanEvaluacion_DP> lstEvaluaciones){
         List<Object[]> lstEva = new ArrayList();        
         for(int i=0; i<lstEvaluaciones.size(); i++){
          
@@ -763,7 +763,7 @@ public class bDesempenoProfesor {
         sessionDesempenoProfesor.setLstEvaLineGraph(lstEva);
     }
 
-    public String llenarDatadeLineaUltimoAñoDocenteGlobal(){
+    public String llenarDatadeLineaUltimoAnoDocenteGlobal(){
         List<BeanFiltrosGraficos> listaFiltros=sessionDesempenoProfesor.getListaFiltros();      //NUMERO DE FILTROS  
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
@@ -789,7 +789,7 @@ public class bDesempenoProfesor {
                      }   
                      bean.setFechaLineGraph(fecha1);     
                      List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
-                     double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+                     double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempenoDocente(lstEvaluaciones);  
                      bean.setNotaFinal(valor);
                          listaParaGrfaicoDeBarrasSedes.add(bean);}      
                     
@@ -813,7 +813,7 @@ public class bDesempenoProfesor {
                      }   
                      bean.setFechaLineGraph(fecha1);     
                      List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),fechaConFormato);   
-                     double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempeñoDocente(lstEvaluaciones);  
+                     double valor=ln_C_SFEvaluacionRemote.promedioGeneralPorFiltroDesempenoDocente(lstEvaluaciones);  
                      bean.setNotaFinal(valor);
                          listaParaGrfaicoDeBarrasSedes.add(bean);}    
                     
@@ -821,12 +821,12 @@ public class bDesempenoProfesor {
         
             }
             }
-        setListLinegraphDesempeñodocenteGlobal(listaParaGrfaicoDeBarrasSedes);    
-        Utils.addTarget(lineDesempeñoProf);
+        setListLinegraphDesempenodocenteGlobal(listaParaGrfaicoDeBarrasSedes);    
+        Utils.addTarget(lineDesempenoProf);
         return null;
     }
     
-    public void setListLinegraphDesempeñodocenteGlobal(List <BeanEvaluacion_DP> lstEvaluaciones){
+    public void setListLinegraphDesempenodocenteGlobal(List <BeanEvaluacion_DP> lstEvaluaciones){
         List<Object[]> lstEva = new ArrayList();        
         for(int i=0; i<lstEvaluaciones.size(); i++){         
             Object[] obj1 = { lstEvaluaciones.get(i).getFechaLineGraph(), lstEvaluaciones.get(i).getProfesor(), lstEvaluaciones.get(i).getNotaFinal()};           
@@ -882,7 +882,7 @@ public class bDesempenoProfesor {
                     addEspacio(cont, document);                    
                 }
                if(sessionDesempenoProfesor.isEstaPanelDesemDocenIndi()){
-                    addImagenes(document, "Grafico Desempeño Docente Indicador", exportGrafPNG(lineDesempeñoProf, rutaSave+"GP.png"));
+                    addImagenes(document, "Grafico Desempeño Docente Indicador", exportGrafPNG(lineDesempenoProf, rutaSave+"GP.png"));
                     cont++;
                     addEspacio(cont, document);
                }
@@ -1155,12 +1155,12 @@ public class bDesempenoProfesor {
         return lineaDesempenoGlobal;
     }
 
-    public void setLineDesempeñoProf(UIGraph lineDesempeñoProf) {
-        this.lineDesempeñoProf = lineDesempeñoProf;
+    public void setLineDesempenoProf(UIGraph lineDesempenoProf) {
+        this.lineDesempenoProf = lineDesempenoProf;
     }
 
-    public UIGraph getLineDesempeñoProf() {
-        return lineDesempeñoProf;
+    public UIGraph getLineDesempenoProf() {
+        return lineDesempenoProf;
     }
 
     public void setBarDocenteEvalu(UIGraph barDocenteEvalu) {
