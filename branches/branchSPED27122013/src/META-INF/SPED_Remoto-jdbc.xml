@@ -12,6 +12,7 @@
                 <value>root</value>
             </property>
         </properties>
+        <password-encrypted>EB06669B8F72C62CD8FA944D7AC3A91B</password-encrypted>
     </jdbc-driver-params>
     <jdbc-connection-pool-params>
         <test-table-name>SQL SELECT 1</test-table-name>

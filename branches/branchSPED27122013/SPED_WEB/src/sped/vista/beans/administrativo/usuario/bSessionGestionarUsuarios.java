@@ -34,7 +34,6 @@ public class bSessionGestionarUsuarios implements Serializable {
     private boolean disabledActualizar = false;
     private boolean disableRol;
     private boolean renderSede = false;
-    private boolean renderNivel = false;
     private boolean renderImg = false;
     ///filtro///
     private String fNombres;
@@ -46,7 +45,6 @@ public class bSessionGestionarUsuarios implements Serializable {
     private int fNidSede;
     private int fNidNivel;
     private boolean fbooleanSede = false;
-    private boolean fbooleanNivel = false;
     private String rutaImg;
     private List lstRolf;
     private List lstRol;
@@ -275,14 +273,6 @@ public class bSessionGestionarUsuarios implements Serializable {
         return fbooleanSede;
     }
 
-    public void setFbooleanNivel(boolean fbooleanNivel) {
-        this.fbooleanNivel = fbooleanNivel;
-    }
-
-    public boolean isFbooleanNivel() {
-        return fbooleanNivel;
-    }
-
     public void setRutaImg(String rutaImg) {
         this.rutaImg = rutaImg;
     }
@@ -305,14 +295,6 @@ public class bSessionGestionarUsuarios implements Serializable {
 
     public boolean isRenderSede() {
         return renderSede;
-    }
-
-    public void setRenderNivel(boolean renderNivel) {
-        this.renderNivel = renderNivel;
-    }
-
-    public boolean isRenderNivel() {
-        return renderNivel;
     }
 
     public void setNidSede(int nidSede) {

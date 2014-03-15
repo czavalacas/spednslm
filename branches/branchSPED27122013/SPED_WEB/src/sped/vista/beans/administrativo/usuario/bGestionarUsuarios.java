@@ -93,7 +93,6 @@ public class bGestionarUsuarios {
     private RichPanelFormLayout pfl3;
     private RichSelectOneChoice choiceFTipoSede;
     private UISelectItems si6;
-    private RichSelectOneChoice choiceFTipoNivel;
     private UISelectItems si7;
     private RichInputFile fileImg;
     private RichImage i1;    
@@ -114,7 +113,6 @@ public class bGestionarUsuarios {
     private LN_C_SFSedeNivelRemote ln_C_SFSedeNivelRemote;
     private RichSelectOneChoice choiceTipoSede;
     private UISelectItems si8;
-    private RichSelectOneChoice choiceTipoNivel;
     private UISelectItems si9;
     private RichInputText itCor;
 
@@ -196,6 +194,7 @@ public class bGestionarUsuarios {
         BeanUsuario usuario = (BeanUsuario) t.getSelectedRowData();
         sessionGestionarUsuarios.setNidUsuario(usuario.getNidUsuario());
         sessionGestionarUsuarios.setNombres(usuario.getNombres());
+        sessionGestionarUsuarios.setCorreo(usuario.getCorreo());
         sessionGestionarUsuarios.setDni(usuario.getDni());
         sessionGestionarUsuarios.setUsuario(usuario.getUsuario());
         sessionGestionarUsuarios.setClave(usuario.getClave());
@@ -211,7 +210,6 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setNidSede(usuario.getSedeNivel().getSede().getNidSede());
             sessionGestionarUsuarios.setLstNivel(llenarComboNivel(usuario.getSedeNivel().getSede().getNidSede()));
             sessionGestionarUsuarios.setNidNivel(usuario.getSedeNivel().getNivel().getNidNivel());
-            sessionGestionarUsuarios.setRenderNivel(true);
             sessionGestionarUsuarios.setRenderSede(true);
         }
         if(usuario.getRol().getNidRol() == 3){
@@ -295,8 +293,7 @@ public class bGestionarUsuarios {
                                               sessionGestionarUsuarios.getClave(), 
                                               sessionGestionarUsuarios.getNidUsuario(),
                                               sessionGestionarUsuarios.getRutaImg(),
-                                              sessionGestionarUsuarios.getNidSede(),
-                                              sessionGestionarUsuarios.getNidNivel());
+                                              sessionGestionarUsuarios.getNidSede());
         String msj="";
         switch(sessionGestionarUsuarios.getTipoEvento()){
         case 1 : msj =  "Se registro al usuario "; break;
@@ -321,7 +318,6 @@ public class bGestionarUsuarios {
             int nidrol = Integer.parseInt(index);
             sessionGestionarUsuarios.setRenderAreaAcdemica(false);
             sessionGestionarUsuarios.setRenderSede(false);
-            sessionGestionarUsuarios.setRenderNivel(false);
             sessionGestionarUsuarios.setNidAreaAcademica(0);
             sessionGestionarUsuarios.setNidSede(0);
             sessionGestionarUsuarios.setNidNivel(0);
@@ -346,7 +342,6 @@ public class bGestionarUsuarios {
                 }
                 else{
                     sessionGestionarUsuarios.setFbooleanSede(false);
-                    sessionGestionarUsuarios.setFbooleanNivel(false);
                     sessionGestionarUsuarios.setFNidNivel(0);
                     sessionGestionarUsuarios.setFNidSede(0);                        
                 }
@@ -355,37 +350,6 @@ public class bGestionarUsuarios {
         }catch(Exception e){
             e.printStackTrace();
         }     
-    }
-    
-
-    public void tipoSedeChangeListener(ValueChangeEvent valueChangeEvent) {
-        if(valueChangeEvent.getNewValue() != null){
-            String index = valueChangeEvent.getNewValue().toString();                
-            int nidSede = Integer.parseInt(index);
-            sessionGestionarUsuarios.setLstNivel(llenarComboNivel(nidSede));
-            if(sessionGestionarUsuarios.getLstNivel() != null){
-                sessionGestionarUsuarios.setRenderNivel(true);                
-            }
-            Utils.addTarget(pfl1);
-        }
-    }
-    
-    public void tipoSedeFChangeListener(ValueChangeEvent valueChangeEvent) {
-        if(valueChangeEvent.getNewValue() != null){
-            String index = valueChangeEvent.getNewValue().toString();                
-            int nidSede = Integer.parseInt(index);
-            sessionGestionarUsuarios.setLstNivel(llenarComboNivel(nidSede));
-            if(sessionGestionarUsuarios.getLstNivel() != null){
-                if(sessionGestionarUsuarios.getLstNivel().size() > 0){
-                    sessionGestionarUsuarios.setFbooleanNivel(true);
-                }
-                else{
-                    sessionGestionarUsuarios.setFNidNivel(0);
-                    sessionGestionarUsuarios.setFbooleanNivel(false);
-                }                
-            }
-            Utils.addTarget(pfl3);
-        }
     }
 
     public void buscarUsuarioFiltro(ActionEvent actionEvent) {
@@ -411,7 +375,6 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setFNidAreaAcademica(0);
         sessionGestionarUsuarios.setFNidEstado(0);
         sessionGestionarUsuarios.setFbooleanSede(false);
-        sessionGestionarUsuarios.setFbooleanNivel(false);
         sessionGestionarUsuarios.setFNidNivel(0);
         sessionGestionarUsuarios.setFNidSede(0); 
         sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
@@ -429,7 +392,6 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setNidSede(0);
         sessionGestionarUsuarios.setNidNivel(0);
         sessionGestionarUsuarios.setRenderAreaAcdemica(false);
-        sessionGestionarUsuarios.setRenderNivel(false);
         sessionGestionarUsuarios.setRenderSede(false);
         sessionGestionarUsuarios.setRenderImg(false);
         sessionGestionarUsuarios.setDisableRol(false);
@@ -712,14 +674,6 @@ public class bGestionarUsuarios {
         return si6;
     }
 
-    public void setChoiceFTipoNivel(RichSelectOneChoice choiceFTipoNivel) {
-        this.choiceFTipoNivel = choiceFTipoNivel;
-    }
-
-    public RichSelectOneChoice getChoiceFTipoNivel() {
-        return choiceFTipoNivel;
-    }
-
     public void setSi7(UISelectItems si7) {
         this.si7 = si7;
     }
@@ -758,14 +712,6 @@ public class bGestionarUsuarios {
 
     public UISelectItems getSi8() {
         return si8;
-    }
-
-    public void setChoiceTipoNivel(RichSelectOneChoice choiceTipoNivel) {
-        this.choiceTipoNivel = choiceTipoNivel;
-    }
-
-    public RichSelectOneChoice getChoiceTipoNivel() {
-        return choiceTipoNivel;
     }
 
     public void setSi9(UISelectItems si9) {

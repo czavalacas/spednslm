@@ -51,8 +51,7 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
             }
             UsuarioPermiso up = new UsuarioPermiso();
             up.setUsuario(usuario);
-            for(RolPermiso rolPermiso : lstRP){                
-                up.setRolPermiso(rolPermiso);                
+            for(RolPermiso rolPermiso : lstRP){             
                 setUsuarioPermiso(up, rolPermiso);                
                 bdL_T_SFUsuarioPermisoLocal.persistUsuarioPermiso(up);
             }
@@ -86,7 +85,7 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
                     lstUsuarioPermiso.remove(lstUsuarioPermiso.get(0));
                 }
                 if(nidUsuarioPermiso > nidRolPermiso){
-                    up_aux.setRolPermiso(lstRolPermiso.get(0));
+                    setUsuarioPermiso(up_aux, lstRolPermiso.get(0));
                     bdL_T_SFUsuarioPermisoLocal.persistUsuarioPermiso(up_aux);
                     lstRolPermiso.remove(lstRolPermiso.get(0)); 
                 }
@@ -94,9 +93,8 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
                     valida = false;
                 }
                 if(lstUsuarioPermiso.size() == 0){
-                    for(RolPermiso rolPermiso : lstRolPermiso){                
-                        up_aux.setRolPermiso(rolPermiso);                
-                        setUsuarioPermiso(up_aux, rolPermiso);                
+                    for(RolPermiso rolPermiso : lstRolPermiso){               
+                        setUsuarioPermiso(up_aux, rolPermiso);
                         bdL_T_SFUsuarioPermisoLocal.persistUsuarioPermiso(up_aux);
                     }
                     valida = false;
@@ -107,6 +105,7 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
     
     public UsuarioPermiso setUsuarioPermiso(UsuarioPermiso up, 
                                             RolPermiso rolPermiso){
+        up.setRolPermiso(rolPermiso);
         if(rolPermiso.getPermiso().getNidPermiso() == 7 ||
            rolPermiso.getPermiso().getNidPermiso() == 9){
             up.setIsWS("1");
