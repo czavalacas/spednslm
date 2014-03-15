@@ -91,6 +91,6 @@ public interface LN_C_SFEvaluacionRemote {
      */
     BeanEvaluacionWS getEvaluacionById_LN_WS(Integer nidEvaluacion);   
     List<BeanEvaluacion_DP> desempenoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros, String fechaHoy);
-    double promedioGeneralPorFiltroDesempeñoDocente(List<BeanEvaluacion_DP> listaEva_WS);
+    double promedioGeneralPorFiltroDesempenoDocente(List<BeanEvaluacion_DP> listaEva_WS);
     double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros,Integer nidIndicador, String fechaHoy);
 }
