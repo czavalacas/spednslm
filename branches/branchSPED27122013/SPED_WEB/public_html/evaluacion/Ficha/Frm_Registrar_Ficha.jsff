@@ -85,8 +85,7 @@
                                                                labelStyle="text-align: left;" autoSubmit="true" 
                                                                valueChangeListener="#{bRegistrarFicha.changeTipoFichaCurso}"
                                                                binding="#{bRegistrarFicha.socTipFichaCurs}">
-                                            <af:selectItem label="Cursos Principales" value="P" id="si3"/>
-                                            <af:selectItem label="Cursos Otros" value="O" id="si4"/>
+                                            <f:selectItems  id="si3" value="#{sessionScope.sessionRegistrarFicha.lstTiposFichaCurso}"/>
                                         </af:selectOneChoice>
                                         <af:inputText label="Version" id="itDescVersion" labelStyle="text-align: left;" autoSubmit="true"
                                                         value="#{bRegistrarFicha.sessionRegistrarFicha.versionGenerada}" 

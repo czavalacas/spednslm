@@ -63,10 +63,24 @@
             <af:popup id="popNotif">
                 <af:noteWindow>
                     <af:panelFormLayout rows="2" maxColumns="1">
+                        <af:commandLink text="Ver todas las Notificaciones" rendered="#{sessionScope.sessionMain.cantNotifEvas > 0 &amp;&amp; sessionScope.sessionMain.cantNotifPO > 0}"
+                                        id="clCantAll"
+                                        actionListener="#{bMain.verNotifTodos}" binding="#{bMain.clCantAll}">
+                            <f:param value="S" name="evas"/>
+                            <f:param value="S" name="pos"/>
+                        </af:commandLink>
                         <af:commandLink text="Hay #{sessionScope.sessionMain.cantNotifEvas} Notificaciones de Evaluaciones" rendered="#{sessionScope.sessionMain.cantNotifEvas > 0}"
-                                        id="clCantEvas" binding="#{bMain.clCantEvas}"/>
+                                        id="clCantEvas" binding="#{bMain.clCantEvas}"
+                                        actionListener="#{bMain.verNotifEvas}">
+                            <f:param value="S" name="evas"/>
+                            <f:param value="N" name="pos"/>
+                        </af:commandLink>
                         <af:commandLink text="Hay #{sessionScope.sessionMain.cantNotifPO} Notificaciones de Partes de Ocurrencia" rendered="#{sessionScope.sessionMain.cantNotifPO > 0}"
-                                        id="clCantPO" binding="#{bMain.clCantPO}"/>
+                                        id="clCantPO" binding="#{bMain.clCantPO}"
+                                        actionListener="#{bMain.verNotifPOs}">
+                            <f:param value="N" name="evas"/>
+                            <f:param value="S" name="pos"/>
+                        </af:commandLink>
                     </af:panelFormLayout>
                 </af:noteWindow>
             </af:popup>
@@ -77,6 +91,8 @@
                 </af:dialog>
             </af:popup>       
         </af:form>
+        <af:media source="../recursos/sound/buho.mp3" id="sonidoBuho" binding="#{bMain.sonidoBuho}"
+                  visible="false" autostart="true" contentType="mp3"/>
         <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"/>
     </af:document>
 </f:view>
