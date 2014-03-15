@@ -14,6 +14,33 @@ public class bSessionMain {
     private int cantNotif;
     private int cantNotifEvas;
     private int cantNotifPO;
+    private boolean verNotificaciones;
+    private boolean verNotificacionesEvas;
+    private boolean verNotificacionesPOs;
+
+    public void setVerNotificacionesEvas(boolean verNotificacionesEvas) {
+        this.verNotificacionesEvas = verNotificacionesEvas;
+    }
+
+    public boolean isVerNotificacionesEvas() {
+        return verNotificacionesEvas;
+    }
+
+    public void setVerNotificacionesPOs(boolean verNotificacionesPOs) {
+        this.verNotificacionesPOs = verNotificacionesPOs;
+    }
+
+    public boolean isVerNotificacionesPOs() {
+        return verNotificacionesPOs;
+    }
+
+    public void setVerNotificaciones(boolean verNotificaciones) {
+        this.verNotificaciones = verNotificaciones;
+    }
+
+    public boolean isVerNotificaciones() {
+        return verNotificaciones;
+    }
 
     public void setCantNotifEvas(int cantNotifEvas) {
         this.cantNotifEvas = cantNotifEvas;

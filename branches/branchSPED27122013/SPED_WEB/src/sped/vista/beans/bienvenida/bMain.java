@@ -10,6 +10,8 @@ import java.util.List;
 
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import javax.ejb.EJB;
 
 import javax.faces.component.UIParameter;
@@ -80,7 +82,7 @@ public class bMain implements Serializable {
             logoutTarget(LOGIN);
         }
     }
-
+    
     public void createMenus(PhaseEvent phaseEvent) {
         try {
             if (sessionMain.getLstPermisos() != null) {
@@ -92,6 +94,9 @@ public class bMain implements Serializable {
             sessionMain.setLstPermisos(lstPerm);
             List<Integer> lstPermisos = lstPerm.get(0).getLstPermisos();
             beanUsuario.setLstPermisos(lstPermisos);
+            sessionMain.setVerNotificaciones(Utils.hasPermiso(lstPermisos,new Integer("19")));
+            sessionMain.setVerNotificacionesEvas(Utils.hasPermiso(lstPermisos,new Integer("16")));
+            sessionMain.setVerNotificacionesPOs(Utils.hasPermiso(lstPermisos,new Integer("17")));
             if(menu != null){
                 if(menu.getChildren() != null){
                     menu.getChildren().clear();
@@ -211,9 +216,9 @@ public class bMain implements Serializable {
     public void getNumeroNotificacionesAll(PollEvent pe) {
         try {
             int vec[] = new int[3];
-            vec = ln_C_SFNotificacionLocal.getCantidadAMostrarNotificaciones(beanUsuario.getNidUsuario());
+            vec = ln_C_SFNotificacionLocal.getCantidadAMostrarNotificaciones(beanUsuario.getNidUsuario(),sessionMain.isVerNotificacionesEvas(),sessionMain.isVerNotificacionesPOs());
             sessionMain.setCantNotifEvas(vec[0]);
-            sessionMain.setCantNotifPO(vec[1]);
+            sessionMain.setCantNotifPO(vec[1]); 
             sessionMain.setCantNotif(vec[2]);
             cantNotif.setValue(sessionMain.getCantNotif());
             if(sessionMain.getCantNotif() > 0){

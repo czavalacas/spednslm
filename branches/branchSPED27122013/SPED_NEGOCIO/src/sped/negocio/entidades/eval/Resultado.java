@@ -29,7 +29,9 @@ public class Resultado implements Serializable {
     @JoinColumn(name = "nidEvaluacion")
     private Evaluacion evaluacion;
     @Column(name = "toNotification")
-    private String toNotification;
+    private String toNotification;//
+    @Column(name = "notaVigecimal")
+    private double notaVigecimal;
 
     public Resultado() {
     }
@@ -38,6 +40,14 @@ public class Resultado implements Serializable {
         this.criterioIndicador = criterioIndicador;
         this.evaluacion = evaluacion;
         this.valor = valor;
+    }
+
+    public void setNotaVigecimal(double notaVigecimal) {
+        this.notaVigecimal = notaVigecimal;
+    }
+
+    public double getNotaVigecimal() {
+        return notaVigecimal;
     }
 
     public void setToNotification(String toNotification) {

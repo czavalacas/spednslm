@@ -375,6 +375,14 @@
     <enable-call-by-reference>true</enable-call-by-reference>
   </weblogic-enterprise-bean>
   <weblogic-enterprise-bean>
+    <ejb-name>BDL_T_SFUtils</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_T_SFUtils</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
     <ejb-name>BDL_C_SFEmail</ejb-name>
     <stateless-session-descriptor/>
   </weblogic-enterprise-bean>

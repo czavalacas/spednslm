@@ -28,7 +28,7 @@
                                         <af:button text="Ingresar" id="btnInicio"
                                                    actionListener="#{bLogin.autenticarUsuario}"
                                                    action="#{bLogin.getRedireccionar}"/>
-                                        <af:messages id="m1" inline="false" binding="#{bLogin.mensaje}"/>                                    
+                                        <af:messages id="m1" inline="true" binding="#{bLogin.mensaje}"/>                                    
                                 </af:panelFormLayout>
                              </af:subform>
                             <af:panelGroupLayout id="pgl2" layout="scroll" inlineStyle="margin:0px 0px 0px 53px;">
