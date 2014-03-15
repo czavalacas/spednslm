@@ -40,18 +40,9 @@
                                                     id="choiceFTipoSede" autoSubmit="true"
                                                     labelStyle="text-align: left;"
                                                     binding="#{bGestionarUsuarios.choiceFTipoSede}"
-                                                    rendered="#{sessionScope.sessionGestionarUsuarios.fbooleanSede}"
-                                                    valueChangeListener="#{bGestionarUsuarios.tipoSedeFChangeListener}">
+                                                    rendered="#{sessionScope.sessionGestionarUsuarios.fbooleanSede}">
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstSede}" id="si6"
                                                    binding="#{bGestionarUsuarios.si6}"/>
-                                </af:selectOneChoice>
-                                <af:selectOneChoice label="Nivel" value="#{sessionGestionarUsuarios.FNidNivel}"
-                                                    id="choiceFTipoNivel" autoSubmit="true"
-                                                    labelStyle="text-align: left;"
-                                                    binding="#{bGestionarUsuarios.choiceFTipoNivel}"
-                                                    rendered="#{sessionScope.sessionGestionarUsuarios.fbooleanNivel}">
-                                    <f:selectItems value="#{sessionGestionarUsuarios.lstNivel}" id="si7"
-                                                   binding="#{bGestionarUsuarios.si7}"/>
                                 </af:selectOneChoice>
                             </af:panelFormLayout>
                         </af:gridCell>
@@ -167,20 +158,10 @@
                                         unselectedLabel="::Selecionar Sede::" autoSubmit="true"
                                         labelStyle="text-align: left;"
                                         rendered="#{sessionScope.sessionGestionarUsuarios.renderSede}"
-                                        required="#{sessionScope.sessionGestionarUsuarios.renderSede}"
-                                        valueChangeListener="#{bGestionarUsuarios.tipoSedeChangeListener}">
+                                        required="#{sessionScope.sessionGestionarUsuarios.renderSede}">
                         <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstSede}" id="si8"
                                        binding="#{bGestionarUsuarios.si8}"/>
-                    </af:selectOneChoice>
-                    <af:selectOneChoice label="Nivel" value="#{sessionScope.sessionGestionarUsuarios.nidNivel}"
-                                        id="choiceTipoNivel" binding="#{bGestionarUsuarios.choiceTipoNivel}"
-                                        unselectedLabel="::Selecionar Nivel::" autoSubmit="true"
-                                        labelStyle="text-align: left;"
-                                        rendered="#{sessionScope.sessionGestionarUsuarios.renderNivel}"
-                                        required="#{sessionScope.sessionGestionarUsuarios.renderNivel}">
-                        <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstNivel}" id="si9"
-                                       binding="#{bGestionarUsuarios.si9}"/>
-                    </af:selectOneChoice>                    
+                    </af:selectOneChoice>                   
                     <af:inputText label="Usuario" id="itUsuario" labelStyle="text-align: left;" required="true"
                                   value="#{sessionGestionarUsuarios.usuario}" maximumLength="10" 
                                   disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"

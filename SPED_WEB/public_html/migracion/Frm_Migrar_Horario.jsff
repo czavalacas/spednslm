@@ -9,9 +9,13 @@
         <af:spacer height="10" id="s2"/>
       </af:panelGroupLayout>
       <af:panelGroupLayout id="pgl3">
-        <af:selectOneChoice label="Sede" id="soc1" binding="#{bMigrarHorarios.soc1}">
+        <af:selectOneChoice label="Sede" id="soc1" binding="#{bMigrarHorarios.soc1}"
+                            value="#{sessionMigrarHorarios.nidSede}">
           <f:selectItems value="#{sessionMigrarHorarios.lstsedes}" id="si1"/>
         </af:selectOneChoice>
+        <af:inputFile label="Subir archivo XML" id="fXML" autoSubmit="true" maximumFiles="1"
+                      binding="#{bMigrarHorarios.fxML}"
+                      valueChangeListener="#{bMigrarHorarios.uploadFileValueChangeEvent}"/>
       </af:panelGroupLayout>
     </af:panelGroupLayout>
   </f:view>

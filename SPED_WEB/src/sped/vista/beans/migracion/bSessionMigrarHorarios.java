@@ -10,6 +10,7 @@ public class bSessionMigrarHorarios implements Serializable {
     @SuppressWarnings("compatibility:4148271209688817738")
     private static final long serialVersionUID = 1L;
     private List lstsedes;
+    private int nidSede;
     private int exec;
     
     public bSessionMigrarHorarios() {
@@ -21,6 +22,14 @@ public class bSessionMigrarHorarios implements Serializable {
 
     public List getLstsedes() {
         return lstsedes;
+    }
+
+    public void setNidSede(int nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public int getNidSede() {
+        return nidSede;
     }
 
     public void setExec(int exec) {
