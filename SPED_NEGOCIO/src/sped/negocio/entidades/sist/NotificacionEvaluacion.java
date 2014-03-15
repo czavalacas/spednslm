@@ -32,7 +32,11 @@ public class NotificacionEvaluacion implements Serializable {
     private int nidEvaluacion;
     @Column(name = "nidUsuario", nullable = false)
     private int nidUsuario;
-
+    @Column(name = "valor")
+    private short valor;
+    @Column(name = "notaVigecimal")
+    private double notaVigecimal;
+    
     public NotificacionEvaluacion() {
     }
 
@@ -45,6 +49,22 @@ public class NotificacionEvaluacion implements Serializable {
         this.nidCriterioIndicador = nidCriterioIndicador;
         this.nidEvaluacion = nidEvaluacion;
         this.nidUsuario = nidUsuario;
+    }
+
+    public void setValor(short valor) {
+        this.valor = valor;
+    }
+
+    public short getValor() {
+        return valor;
+    }
+
+    public void setNotaVigecimal(double notaVigecimal) {
+        this.notaVigecimal = notaVigecimal;
+    }
+
+    public double getNotaVigecimal() {
+        return notaVigecimal;
     }
 
     public String getCidNotificacion() {

@@ -1,5 +1,7 @@
 package sped.vista.Utils;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -259,5 +261,18 @@ public class Utils {
             unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
         }
         return unItems;
+    }
+    
+    public static boolean hasPermiso(List<Integer> lstPermisos,Integer permiso){
+        try {
+            if (lstPermisos.contains(permiso)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

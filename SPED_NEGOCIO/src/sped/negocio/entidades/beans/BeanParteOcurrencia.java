@@ -33,6 +33,8 @@ public class BeanParteOcurrencia implements Serializable {
     private String dniProfesor;
     private BeanPie lstPies[];//No se pone List<BeanPie> porque en movil no acepta
     private BeanBar lstBars[];
+    //Para las notificaciones y poder actualizar su estado a leido
+    private String cidNotificacion;
 
     public BeanParteOcurrencia(){
         
@@ -67,6 +69,48 @@ public class BeanParteOcurrencia implements Serializable {
         this.nidParte = nidParte;
         this.nidMain = nidMain;
         this.dniProfesor = dniProfesor;
+    }
+
+    //Constructor para las notificaciones
+    public BeanParteOcurrencia(String comentario,
+                                Timestamp fechaRegistro,
+                                String descProblema,
+                                String nombresUsuario,
+                                String apellidos,
+                                String nombres,
+                                String curso,
+                                String sede,
+                                String areaAcademica,
+                                String aula,
+                                int nidUsuario,
+                                int nidProblema,
+                                long nidParte,
+                                int nidMain,
+                                String dniProfesor,
+                                String cidNotificacion){
+        this.comentario = comentario;
+        this.fechaRegistro = fechaRegistro;
+        this.descProblema = descProblema;
+        this.nombresUsuario = nombresUsuario;
+        this.profesor = apellidos +" "+nombres;
+        this.curso = curso;
+        this.sede = sede;
+        this.areaAcademica = areaAcademica;
+        this.aula = aula;
+        this.nidUsuario = nidUsuario;
+        this.nidProblema = nidProblema;
+        this.nidParte = nidParte;
+        this.nidMain = nidMain;
+        this.dniProfesor = dniProfesor;
+        this.cidNotificacion = cidNotificacion;
+    }
+    
+    public void setCidNotificacion(String cidNotificacion) {
+        this.cidNotificacion = cidNotificacion;
+    }
+
+    public String getCidNotificacion() {
+        return cidNotificacion;
     }
 
     public void setDniProfesor(String dniProfesor) {

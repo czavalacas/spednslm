@@ -208,10 +208,10 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     public List<BeanCombo> getSedes(String id, String desc){
         try{
             String qlString = this.getSelectBasicoBeanCombo(id, desc, "Sede");
-            List<BeanCombo> lstSede = em.createQuery(qlString).getResultList();        
-            return lstSede;       
+            List<BeanCombo> lstSedes = em.createQuery(qlString).getResultList();        
+            return lstSedes;       
         }catch(Exception e){
-            e.printStackTrace();
+            e.printStackTrace();  
             return null;
         }
     }

@@ -18,9 +18,11 @@
                                         <af:gridCell valign="middle" halign="center">
                                             <af:outputLabel value="#{sessionScope.sessionMain.cantNotif}" visible="#{sessionScope.sessionMain.cantNotif > 0}"
                                                               inlineStyle="color:red; font-weight:bold; font-size:large; margin:0px -1px 0px 0px;"
+                                                              rendered="#{sessionScope.sessionMain.verNotificaciones}"
                                                               id="cantNotif" binding="#{bMain.cantNotif}"/>
                                             <af:image source="../recursos/img/usuarios/notifications.png" id="i3"
-                                                      inlineStyle="height:20px; width:20px; margin:0px 0px -11px; background-size:inherit; background-repeat:repeat;">
+                                                       rendered="#{sessionScope.sessionMain.verNotificaciones}"
+                                                       inlineStyle="height:20px; width:20px; margin:0px 0px -11px; background-size:inherit; background-repeat:repeat;">
                                                       <af:showPopupBehavior popupId="popNotif" triggerType="click"
                                                                                alignId="i3" align="afterStart"/>
                                             </af:image>
@@ -93,6 +95,7 @@
         </af:form>
         <af:media source="../recursos/sound/buho.mp3" id="sonidoBuho" binding="#{bMain.sonidoBuho}"
                   visible="false" autostart="true" contentType="mp3"/>
-        <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"/>
+        <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
+                 rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
     </af:document>
 </f:view>
