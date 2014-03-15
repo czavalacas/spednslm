@@ -45,6 +45,8 @@ import oracle.adf.view.rich.component.rich.input.RichSelectManyCheckbox;
 
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
+import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
+import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
 import oracle.dss.dataView.ImageView;
@@ -145,6 +147,9 @@ public class bDesempenoProfesor {
     private UIGraph lineaDesempenoGlobal;
     private UIGraph lineDesempeñoProf;
     private UIGraph barDocenteEvalu;
+    private RichSelectManyCheckbox checksGraficos;
+    private RichPanelBox panelDesemDocenIndi;
+    private RichPanelGroupLayout pgl4;
 
 
     public bDesempenoProfesor() {
@@ -160,7 +165,8 @@ public class bDesempenoProfesor {
         if(sessionDesempenoProfesor.getExec()==0){                  
             Utils.sysout("1 POST::>> "+sessionDesempenoProfesor.getExec()); 
             llenarChoices();
-            sessionDesempenoProfesor.setExec(1);              
+            sessionDesempenoProfesor.setExec(1);     
+            sessionDesempenoProfesor.setRelaValueGraficos(llenarListaString());               
             }
   
     }  
@@ -403,36 +409,41 @@ public class bDesempenoProfesor {
             Utils.addTarget(tbIndicadoresFiltro);
         }        
        Utils.addTarget(inputIndicador);
-    return null;}
+    return null;
+    }
     
+    public String limpiarGraficos(){
+        sessionDesempenoProfesor.getListaFiltros().clear();
+        if( sessionDesempenoProfesor.getLstEvaBarChart()!=null){
+            sessionDesempenoProfesor.getLstEvaBarChart().clear();
+        }
+         if(  sessionDesempenoProfesor.getLstEvaAreasBarChart()!=null){
+             sessionDesempenoProfesor.getLstEvaAreasBarChart().clear();
+         }
+         if(   sessionDesempenoProfesor.getLstEvaDocenteIndicadorBarChart()!=null){
+             sessionDesempenoProfesor.getLstEvaDocenteIndicadorBarChart().clear();
+         }   
+         if(   sessionDesempenoProfesor.getLstEvaLineGlobalGraph()!=null){
+             sessionDesempenoProfesor.getLstEvaLineGlobalGraph().clear();
+         }
+         if(   sessionDesempenoProfesor.getLstEvaLineGraph()!=null){
+             sessionDesempenoProfesor.getLstEvaLineGraph().clear();
+         }      
+         if(   sessionDesempenoProfesor.getLstEvaDocenteEvaluacionBarChart()!=null){
+             sessionDesempenoProfesor.getLstEvaDocenteEvaluacionBarChart().clear();
+         }      
+        
+         if (tbFiltrosBusqueda != null) {
+             Utils.unselectFilas(tbFiltrosBusqueda);
+             tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
+             Utils.addTarget(tbFiltrosBusqueda);
+         }
+        Utils.addTargetMany(barAreaGraph, barGraph,barDocIndicadorGraph,lineDesempeñoProf,lineaDesempenoGlobal,barDocenteEvalu);
+        return null;
+    }
     public String btnLimpiarFiltros() {
        limpiarComboBoxs();
-       sessionDesempenoProfesor.getListaFiltros().clear();
-       if( sessionDesempenoProfesor.getLstEvaBarChart()!=null){
-           sessionDesempenoProfesor.getLstEvaBarChart().clear();
-       }
-        if(  sessionDesempenoProfesor.getLstEvaAreasBarChart()!=null){
-            sessionDesempenoProfesor.getLstEvaAreasBarChart().clear();
-        }
-        if(   sessionDesempenoProfesor.getLstEvaDocenteIndicadorBarChart()!=null){
-            sessionDesempenoProfesor.getLstEvaDocenteIndicadorBarChart().clear();
-        }   
-        if(   sessionDesempenoProfesor.getLstEvaLineGlobalGraph()!=null){
-            sessionDesempenoProfesor.getLstEvaLineGlobalGraph().clear();
-        }
-        if(   sessionDesempenoProfesor.getLstEvaLineGraph()!=null){
-            sessionDesempenoProfesor.getLstEvaLineGraph().clear();
-        }      
-        if(   sessionDesempenoProfesor.getLstEvaDocenteEvaluacionBarChart()!=null){
-            sessionDesempenoProfesor.getLstEvaDocenteEvaluacionBarChart().clear();
-        } 
-       
-        if (tbFiltrosBusqueda != null) {
-            Utils.unselectFilas(tbFiltrosBusqueda);
-            tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
-            Utils.addTarget(tbFiltrosBusqueda);
-        }
-       Utils.addTargetMany(barAreaGraph, barGraph,barDocIndicadorGraph,lineDesempeñoProf,lineaDesempenoGlobal,barDocenteEvalu);
+       limpiarGraficos();
        limpiarTablaIndicadores();
         return null;
     }
@@ -855,24 +866,29 @@ public class bDesempenoProfesor {
                 document.add(img);
               // addSelectFiltro(document);
                 int cont = 0;
-             //   if(sessionDesempenoEvaluador.isRGrafRolA()){
+               if(sessionDesempenoProfesor.isEstaPanelDocenteEvalua()){
                     addImagenes(document, "Grafico Evaluacion Docente", exportGrafPNG( barDocenteEvalu, rutaSave+"GR.png"));
                     cont++;
                     addEspacio(cont, document);
-              //  }
-               // if(sessionDesempenoEvaluador.isRGrafEvaA()){
+               }
+                if(sessionDesempenoProfesor.isEstaPanelDesemDocenEvalu()){
                     addImagenes(document, "Grafico Desempeño Docente", exportGrafPNG(lineaDesempenoGlobal, rutaSave+"GE.png"));
                     cont++;
                     addEspacio(cont, document);
-              //  }
-            //    if(sessionDesempenoEvaluador.isRGrafLineA()){
+                }
+               if(sessionDesempenoProfesor.isEstaPanelDocenteIndica()){
                     addImagenes(document, "Grafico Evaluacion Docente Indicador", exportGrafPNG(barDocIndicadorGraph, rutaSave+"GL.png"));
                     cont++;
-                    addEspacio(cont, document);
-              //  }
-              //  if(sessionDesempenoEvaluador.isRGrafPieA()){
+                    addEspacio(cont, document);                    
+                }
+               if(sessionDesempenoProfesor.isEstaPanelDesemDocenIndi()){
                     addImagenes(document, "Grafico Desempeño Docente Indicador", exportGrafPNG(lineDesempeñoProf, rutaSave+"GP.png"));
-             //   }
+                    cont++;
+                    addEspacio(cont, document);
+               }
+                if(sessionDesempenoProfesor.isEstaPanelAreas()){
+                    addImagenes(document, "Grafico Desempeño Areas Academicas", exportGrafPNG(barAreaGraph, rutaSave+"GA.png"));
+                }
                 document.close();
                 fos.close(); System.out.println(rutaPdf);
                 return rutaPdf;
@@ -1153,5 +1169,82 @@ public class bDesempenoProfesor {
 
     public UIGraph getBarDocenteEvalu() {
         return barDocenteEvalu;
+    }
+
+    public void setChecksGraficos(RichSelectManyCheckbox checksGraficos) {
+        this.checksGraficos = checksGraficos;
+    }
+
+    public RichSelectManyCheckbox getChecksGraficos() {
+        return checksGraficos;
+    }
+    
+    public List<String> llenarListaString(){
+     List<String> lista=new ArrayList<String>();
+     lista.add("1");lista.add("2");lista.add("3");lista.add("4");lista.add("5");lista.add("6");   
+    return lista;
+    }
+    
+    public void seleccionarGraficos(ValueChangeEvent valueChangeEvent) {
+     Utils.sysout("Valores NEW del check BOX : "+valueChangeEvent.getNewValue());       
+     List<String> objArr = (List<String>)valueChangeEvent.getNewValue();
+     if(valueChangeEvent.getNewValue()!=null){      
+     int num=0;
+         if(objArr.contains("2")){num++;
+             Utils.sysout("contiene 2");
+             sessionDesempenoProfesor.setEstaPanelDocenteIndica(true);                                  
+         }else{
+             Utils.sysout("no contiene 2");
+             sessionDesempenoProfesor.setEstaPanelDocenteIndica(false);     
+         }
+         if(objArr.contains("3")){num++;
+             Utils.sysout("contiene 3");
+             sessionDesempenoProfesor.setEstaPanelDocenteEvalua(true);                 
+         }else{
+             Utils.sysout("no contiene 3");
+             sessionDesempenoProfesor.setEstaPanelDocenteEvalua(false);   
+         }
+         if(objArr.contains("4")){num++;
+             Utils.sysout("contiene 4");
+             sessionDesempenoProfesor.setEstaPanelDesemDocenIndi(true);                   
+         }else{
+             Utils.sysout("no contiene 4");
+             sessionDesempenoProfesor.setEstaPanelDesemDocenIndi(false);       
+         } 
+         if(objArr.contains("5")){num++;
+             Utils.sysout("contiene 5");
+             sessionDesempenoProfesor.setEstaPanelDesemDocenEvalu(true);              
+         }else{
+             Utils.sysout("no contiene 5");
+             sessionDesempenoProfesor.setEstaPanelDesemDocenEvalu(false);  
+         } 
+         if(objArr.contains("6")){num++;
+             Utils.sysout("contiene 6");
+             sessionDesempenoProfesor.setEstaPanelAreas(true);              
+         }else{
+             Utils.sysout("no contiene 6");
+             sessionDesempenoProfesor.setEstaPanelAreas(false);  
+         }  
+        sessionDesempenoProfesor.setColumnsDashboard(num == 1 ? 1 : 2);
+        sessionDesempenoProfesor.setRowHeightDashboard(num > 2 ? "350px" : "700px"); 
+             Utils.addTarget(pgl4);         
+     }
+     
+    }
+
+    public void setPanelDesemDocenIndi(RichPanelBox panelDesemDocenIndi) {
+        this.panelDesemDocenIndi = panelDesemDocenIndi;
+    }
+
+    public RichPanelBox getPanelDesemDocenIndi() {
+        return panelDesemDocenIndi;
+    }
+
+    public void setPgl4(RichPanelGroupLayout pgl4) {
+        this.pgl4 = pgl4;
+    }
+
+    public RichPanelGroupLayout getPgl4() {
+        return pgl4;
     }
 }
