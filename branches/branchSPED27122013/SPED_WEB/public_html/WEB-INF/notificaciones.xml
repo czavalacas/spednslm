@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="notificaciones">
+    <default-activity>Frm_notificaciones</default-activity>
+    <view id="Frm_notificaciones">
+      <page>/notificaciones/Frm_notificaciones.jsff</page>
+    </view>
+    <use-page-fragments/>
+  </task-flow-definition>
+</adfc-config>

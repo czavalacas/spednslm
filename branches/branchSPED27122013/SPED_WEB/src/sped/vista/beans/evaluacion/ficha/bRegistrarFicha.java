@@ -124,6 +124,7 @@ public class bRegistrarFicha {
     }
     
     private String mostrarCuadre() {
+        sessionRegistrarFicha.setPermisosTree(null);
         BeanCriterio b = new BeanCriterio();
         b.setDescripcionCriterio("::: Ficha de Evaluacion :::");
         b.setMostrarBoton(false);
@@ -533,6 +534,12 @@ public class bRegistrarFicha {
         panelBoxNewFicha.setVisible(true);
         sessionRegistrarFicha.setTipoFicha(clon.getTipoFicha());
         sessionRegistrarFicha.setTipFichaCurs(clon.getTipoFichaCurso());
+        if(sessionRegistrarFicha.getLstTiposFichaCurso() != null){
+            sessionRegistrarFicha.getLstTiposFichaCurso().clear();
+        }
+        sessionRegistrarFicha.setLstTiposFichaCurso(Utils.llenarComboString(ln_C_SFFichaRemote.getListaTiposFichaByTipoRol_LN(clon.getTipoFicha())));
+        Utils.addTarget(socTipFichaCurs);
+        
         getNuevaVersion(clon.getTipoFicha(),clon.getTipoFichaCurso());
         sessionRegistrarFicha.setNumValores(clon.getCantidadValores());
         sessionRegistrarFicha.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(clon.getNidFicha()));
@@ -938,10 +945,16 @@ public class bRegistrarFicha {
     }
     
     public void changeTipoFicha(ValueChangeEvent vce) {
-        if(sessionRegistrarFicha.getTipFichaCurs() != null){
-            if(vce.getNewValue() != null){
+        sessionRegistrarFicha.setTipFichaCurs(null);
+        sessionRegistrarFicha.setVersionGenerada(null);
+        itDescVersion.setValue(null);
+        Utils.addTarget(itDescVersion);
+        if(vce.getNewValue() != null){
+            if(sessionRegistrarFicha.getTipFichaCurs() != null){
                 getNuevaVersion(vce.getNewValue().toString(),sessionRegistrarFicha.getTipFichaCurs());
             }
+            sessionRegistrarFicha.setLstTiposFichaCurso(Utils.llenarComboString(ln_C_SFFichaRemote.getListaTiposFichaByTipoRol_LN(vce.getNewValue().toString())));
+            Utils.addTarget(socTipFichaCurs);
         }
     }
     

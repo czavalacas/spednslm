@@ -156,7 +156,8 @@
                                                animationIndicators="ALL" animationOnDisplay="auto"
                                                animationDuration="1500" shortDesc="Grafico Linea de Tiempo"
                                                clickListener="#{bDesempenoEvaluador.clickListenerGraphLine}"
-                                               binding="#{bDesempenoEvaluador.gline}">
+                                               binding="#{bDesempenoEvaluador.gline}"
+                                               emptyText="Se necesitan mas datos para mostrar el grafico">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>

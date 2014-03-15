@@ -1,7 +1,9 @@
 package sped.vista.Utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.el.ELContext;
@@ -11,6 +13,7 @@ import javax.el.ValueExpression;
 
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
@@ -23,6 +26,8 @@ import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
+import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
+import oracle.adf.view.rich.component.rich.nav.RichCommandMenuItem;
 import oracle.adf.view.rich.context.AdfFacesContext;
 
 import oracle.binding.BindingContainer;
@@ -31,6 +36,10 @@ import oracle.binding.OperationBinding;
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 import org.apache.myfaces.trinidad.render.ExtendedRenderKitService;
 import org.apache.myfaces.trinidad.util.Service;
+
+import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
+import sped.negocio.entidades.beans.BeanUsuario;
 
 /** Clase Utils contiene metodos reutilizables
  * @author dfloresgonz
@@ -195,5 +204,60 @@ public class Utils {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
+    }
+    
+    public static void _redireccionar(FacesContext ctx,String taskFLowId){
+        UIComponent component = findComponent(ctx.getViewRoot(),"menu19");
+        RichCommandMenuItem rcl = (RichCommandMenuItem) component;
+      //  rcl.setShortDesc(taskFLowId);
+        putSession("url",taskFLowId);
+        putSession("override","1");
+        ActionEvent actionEvent = new ActionEvent(rcl);
+        actionEvent.queue();
+    }
+    
+    /**
+     * FacesContext fctx = FacesContext.getCurrentInstance();
+     * UIViewRoot root = fctx.getViewRoot();
+     * UIComponent component = findComponent(fctx.getViewRoot(),clientId);
+     * @param base
+     * @param id
+     * @return
+     */
+    public static UIComponent findComponent(UIComponent base, String id) {
+        if (id.equals(base.getId()))
+            return base;
+
+        UIComponent children = null;
+        UIComponent result = null;
+        Iterator childrens = base.getFacetsAndChildren();
+        while (childrens.hasNext() && (result == null)) {
+            children = (UIComponent)childrens.next();
+            if (id.equals(children.getId())) {
+                result = children;
+                break;
+            }
+            result = findComponent(children, id);
+            if (result != null) {
+                break;
+            }
+        }
+        return result;
+    }
+    
+    public static ArrayList llenarCombo(List<BeanCombo> lista) {
+        ArrayList unItems = new ArrayList();
+        for (BeanCombo c : lista) {      
+            unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
+        }
+        return unItems;
+    }
+    
+    public static ArrayList llenarComboString(List<BeanComboString> lista) {
+        ArrayList unItems = new ArrayList();
+        for (BeanComboString c : lista) {      
+            unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
+        }
+        return unItems;
     }
 }
