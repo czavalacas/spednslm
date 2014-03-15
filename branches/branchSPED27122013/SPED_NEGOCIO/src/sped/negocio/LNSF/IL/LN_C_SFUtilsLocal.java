@@ -18,9 +18,9 @@ public interface LN_C_SFUtilsLocal {
     List<BeanCombo> getAreas_LN_WS();
     List<BeanCombo> getProblemas_LN_WS();
     List<BeanCombo> getUsuarios_LN_WS();
+    List<BeanCombo> getSedes_LN();
     int findCountByProperty(String correo, 
                             boolean changeCase, 
                             boolean isUpdate);
-    List<BeanCombo> getSedes_LN();
     List<BeanCombo> getNiveles_LN();
 }

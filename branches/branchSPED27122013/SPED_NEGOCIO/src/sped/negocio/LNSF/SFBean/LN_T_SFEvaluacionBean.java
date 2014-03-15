@@ -134,8 +134,9 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                 resultado.setCriterioIndicador(ci);
                 resultado.setEvaluacion(eva);
                 resultado.setValor((short) beanIV.getValor().intValue());
+                resultado.setNotaVigecimal((beanIV.getValor().intValue() * 20) / bCrit.getCantidadValoresWS());
                 // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
-                resultado.setToNotification(this.isMenorADiez_Notificacion(beanIV.getValor().intValue(),bCrit.getCantidadValoresWS()));
+                resultado.setToNotification(resultado.getNotaVigecimal() <= 10.49 || resultado.getNotaVigecimal() >= 17.00 ? "1" : "0");
                 bdL_T_SFResultadoLocal.persistResultado(resultado);
             }
             ln_T_SFResultadoCriterioLocal.registrarResultadoCriterios_LN(lstBCrit,eva);
@@ -194,8 +195,4 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     
     }
     
-    public String isMenorADiez_Notificacion(int valor,int cantidadValores){
-        double vig = (valor * 20) / cantidadValores;
-        return (vig <= 10.49 || vig >= 17.00 ? "1" : "0");
-    }
 }

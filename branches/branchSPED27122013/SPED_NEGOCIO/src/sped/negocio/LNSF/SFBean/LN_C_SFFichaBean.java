@@ -26,6 +26,7 @@ import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaLocal;
 import sped.negocio.LNSF.IR.LN_C_SFFichaRemote;
 import sped.negocio.Utils.Utiles;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanFicha;
@@ -136,5 +137,9 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
             e.printStackTrace();
             return 0;
         }
+    }
+    
+    public List<BeanComboString> getListaTiposFichaByTipoRol_LN(String subDirector){
+        return bdL_C_SFFichaLocal.getListaTiposFichaByTipoRol(subDirector);
     }
 }

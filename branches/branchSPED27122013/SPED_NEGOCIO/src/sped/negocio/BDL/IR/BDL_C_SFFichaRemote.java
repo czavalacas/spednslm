@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.eval.Ficha;
 
 @Remote
@@ -17,4 +18,5 @@ public interface BDL_C_SFFichaRemote {
                                             String tipFichaCurso);
     int hayFichasActivas(String tipFicha,String tipCursoFicha);
     Ficha getFichaEvaluacion(String tipoFicha,String tipoFichaCurso);
+    List<BeanComboString> getListaTiposFichaByTipoRol(String subDirector);
 }

@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFFichaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFFichaRemote;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.eval.Ficha;
 
 @Stateless(name = "BDL_C_SFFicha", mappedName = "mapBDL_C_SFFicha")
@@ -62,7 +63,7 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
                                                       String tipFicha,
                                                       String tipFichaCurso){
         try{
-            String qlString = "SELECT max(SUBSTRING(f.descripcionVersion,15,Length(f.descripcionVersion)))," +
+            String qlString = "SELECT max(SUBSTRING(f.descripcionVersion,16,Length(f.descripcionVersion)))," +
                               "       f.descripcionVersion," +
                               "       f.nidFicha," +
                               "       f.estadoFicha," +
@@ -112,6 +113,27 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
             Ficha ficha = (Ficha) em.createQuery(qlString).setParameter("tipFicha",tipoFicha).setParameter("tipFichaCurso",tipoFichaCurso).getSingleResult();
             return ficha;
         }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<BeanComboString> getListaTiposFichaByTipoRol(String subDirector){
+        try {
+            String qlString = "SELECT NEW sped.negocio.entidades.beans.BeanComboString(c.valorCampo,c.descripcionAMostrar) " +
+                              "FROM Constraint c " +
+                              "WHERE c.nombreCampo = 'tipo_ficha_curso' " +
+                              "AND   c.nombreTabla = 'evmfich' ";
+            if(subDirector != null){
+                if(subDirector.equals("S")){
+                    qlString = qlString.concat(" AND c.valorCampo = 'SD' ");
+                }else{
+                    qlString = qlString.concat(" AND c.valorCampo <> 'SD' ");
+                }
+            }
+           List<BeanComboString> lstConst = em.createQuery(qlString).getResultList();        
+           return lstConst;
+       } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
