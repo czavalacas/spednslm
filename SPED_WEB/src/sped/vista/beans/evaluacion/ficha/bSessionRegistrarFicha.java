@@ -68,9 +68,18 @@ public class bSessionRegistrarFicha implements Serializable {
     private BeanCriterio indiHeaderSelectLeyenda = new BeanCriterio();
     private String shortDesc;
     private List<BeanLeyenda> lstLeyendasRaiz = new ArrayList<BeanLeyenda>();
+    private List lstTiposFichaCurso;
     
     public bSessionRegistrarFicha() {
 
+    }
+
+    public void setLstTiposFichaCurso(List lstTiposFichaCurso) {
+        this.lstTiposFichaCurso = lstTiposFichaCurso;
+    }
+
+    public List getLstTiposFichaCurso() {
+        return lstTiposFichaCurso;
     }
 
     public void setLstLeyendasRaiz(List<BeanLeyenda> lstLeyendasRaiz) {

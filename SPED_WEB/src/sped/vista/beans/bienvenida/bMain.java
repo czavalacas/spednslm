@@ -5,10 +5,14 @@ import java.awt.AWTKeyStroke;
 import java.io.IOException;
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import java.util.Map;
 
 import javax.ejb.EJB;
 
+import javax.faces.component.UIParameter;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -23,7 +27,9 @@ import oracle.adf.view.rich.component.rich.RichMenuBar;
 import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
 import oracle.adf.view.rich.component.rich.nav.RichCommandMenuItem;
 
+import oracle.adf.view.rich.component.rich.output.RichMedia;
 import oracle.adf.view.rich.component.rich.output.RichOutputLabel;
+import oracle.adf.view.rich.context.AdfFacesContext;
 import oracle.adf.view.rich.event.DialogEvent;
 
 import org.apache.myfaces.trinidad.event.PollEvent;
@@ -33,6 +39,7 @@ import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanUsuario;
 
+import sped.vista.Utils.ADFUtil;
 import sped.vista.Utils.Utils;
 
 /** Clase de Respaldo de Frm_Main.jsf
@@ -41,6 +48,11 @@ import sped.vista.Utils.Utils;
  */
 public class bMain implements Serializable {
 
+    private RichMenuBar menu;
+    private bSessionMain sessionMain;
+    private RichOutputLabel cantNotif;
+    private RichCommandLink clCantEvas;
+    private RichCommandLink clCantPO;
     @EJB
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     @EJB
@@ -49,11 +61,10 @@ public class bMain implements Serializable {
     private String usuario;
     private String nomUsuario;
     private final static String LOGIN = "/faces/Frm_login";
-    private RichMenuBar menu;
-    private bSessionMain sessionMain;
-    private RichOutputLabel cantNotif;
-    private RichCommandLink clCantEvas;
-    private RichCommandLink clCantPO;
+
+    private FacesContext ctx = FacesContext.getCurrentInstance();
+    private RichCommandLink clCantAll;
+    private RichMedia sonidoBuho;
 
     public bMain(){
         super();
@@ -71,17 +82,27 @@ public class bMain implements Serializable {
     }
 
     public void createMenus(PhaseEvent phaseEvent) {
-        if(sessionMain.getLstPermisos() != null){
-            sessionMain.getLstPermisos().removeAll(sessionMain.getLstPermisos());   
-        }
-        List<BeanPermiso> lstPerm = ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol(),
-                                                                            beanUsuario.getNidUsuario());
-        sessionMain.setLstPermisos(lstPerm);
-        List<Integer> lstPermisos = lstPerm.get(0).getLstPermisos();
-        beanUsuario.setLstPermisos(lstPermisos);
-        for (int i = 0; i < sessionMain.getLstPermisos().size(); i++) {
-            int hijoDeMBar = 0;
-            crearHijos(sessionMain.getLstPermisos().get(i), new RichMenu(), hijoDeMBar);
+        try {
+            if (sessionMain.getLstPermisos() != null) {
+                sessionMain.getLstPermisos().removeAll(sessionMain.getLstPermisos());
+                sessionMain.getLstPermisos().clear();
+                sessionMain.setLstPermisos(new ArrayList<BeanPermiso>());
+            }
+            List<BeanPermiso> lstPerm = ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol(), beanUsuario.getNidUsuario());
+            sessionMain.setLstPermisos(lstPerm);
+            List<Integer> lstPermisos = lstPerm.get(0).getLstPermisos();
+            beanUsuario.setLstPermisos(lstPermisos);
+            if(menu != null){
+                if(menu.getChildren() != null){
+                    menu.getChildren().clear();
+                }
+            }
+            for (int i = 0; i < sessionMain.getLstPermisos().size(); i++) {
+                int hijoDeMBar = 0;
+                crearHijos(sessionMain.getLstPermisos().get(i), new RichMenu(), hijoDeMBar);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -158,6 +179,34 @@ public class bMain implements Serializable {
             logoutTarget(LOGIN);
         }
     }
+    
+    public void verNotifEvas(ActionEvent actionEvent) {
+        if(Utils.getSession("url") != null){
+            if(Utils.getSession("url").equals("/WEB-INF/notificaciones.xml#notificaciones")){
+                return;
+            }
+        }
+        Utils._redireccionar(ctx,"/WEB-INF/notificaciones.xml#notificaciones");
+    }
+    
+    public void verNotifPOs(ActionEvent actionEvent) {
+        if(Utils.getSession("url") != null){
+            if(Utils.getSession("url").equals("/WEB-INF/notificaciones.xml#notificaciones")){
+                return;
+            }
+        }
+        Utils._redireccionar(ctx,"/WEB-INF/notificaciones.xml#notificaciones");
+    }
+    
+    public void verNotifTodos(ActionEvent actionEvent) {
+        if(Utils.getSession("url") != null){
+            if(Utils.getSession("url").equals("/WEB-INF/notificaciones.xml#notificaciones")){
+                return;
+            }
+        }
+        Utils._redireccionar(ctx,"/WEB-INF/notificaciones.xml#notificaciones");
+    }
+
 
     public void getNumeroNotificacionesAll(PollEvent pe) {
         try {
@@ -169,6 +218,9 @@ public class bMain implements Serializable {
             cantNotif.setValue(sessionMain.getCantNotif());
             if(sessionMain.getCantNotif() > 0){
                 cantNotif.setRendered(true);
+                sonidoBuho.setAutostart(true);
+              //  sonidoBuho.setPlayCount(1);
+                Utils.addTarget(sonidoBuho);Utils.sysout("PLAYYYYYYYYYY buhoo");
             }else{
                 cantNotif.setRendered(false);
             }
@@ -241,5 +293,21 @@ public class bMain implements Serializable {
 
     public RichCommandLink getClCantPO() {
         return clCantPO;
+    }
+
+    public void setClCantAll(RichCommandLink clCantAll) {
+        this.clCantAll = clCantAll;
+    }
+
+    public RichCommandLink getClCantAll() {
+        return clCantAll;
+    }
+
+    public void setSonidoBuho(RichMedia sonidoBuho) {
+        this.sonidoBuho = sonidoBuho;
+    }
+
+    public RichMedia getSonidoBuho() {
+        return sonidoBuho;
     }
 }

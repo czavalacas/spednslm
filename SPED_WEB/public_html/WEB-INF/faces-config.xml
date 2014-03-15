@@ -176,6 +176,21 @@
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
   <managed-bean>
+    <managed-bean-name>sessionNoti</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.notificaciones.sessionNotificaciones</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bNotificaciones</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.notificaciones.bNotificaciones</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionNoti</property-name>
+      <property-class>sped.vista.beans.notificaciones.sessionNotificaciones</property-class>
+      <value>#{sessionNoti}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
     <managed-bean-name>bGestionarProblema</managed-bean-name>
     <managed-bean-class>sped.vista.beans.administrativo.problemas.bGestionarProblema</managed-bean-class>
     <managed-bean-scope>request</managed-bean-scope>
