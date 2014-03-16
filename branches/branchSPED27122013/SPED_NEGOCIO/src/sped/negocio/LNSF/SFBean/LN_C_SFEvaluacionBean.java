@@ -239,6 +239,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setProfesor(eva.getMain().getProfesor().getApellidos() + " " +
                                 eva.getMain().getProfesor().getNombres());
             beanEva.setCurso(eva.getMain().getCurso().getDescripcionCurso());
+            beanEva.setTipoFichaCurso(eva.getMain().getCurso().getTipoFichaCurso());
             beanEva.setStartDate(eva.getStartDate());
             beanEva.setEndDate(eva.getEndDate());
             beanEva.setSede(eva.getMain().getAula().getSede().getDescripcionSede());

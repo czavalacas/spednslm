@@ -14,6 +14,7 @@ public class BeanEvaluacionWS implements Serializable {
     private String evaluador;
     private String planificador;
     private String curso;
+    private String tipoFichaCurso;
     private Date startDate;
     private String sede;
     private String areaAcademica;
@@ -36,6 +37,14 @@ public class BeanEvaluacionWS implements Serializable {
     private String comentarioEvaluador;
     private String comentarioProfesor;
     private BeanCriterioWS[] criterios;
+
+    public void setTipoFichaCurso(String tipoFichaCurso) {
+        this.tipoFichaCurso = tipoFichaCurso;
+    }
+
+    public String getTipoFichaCurso() {
+        return tipoFichaCurso;
+    }
 
     public void setCriterios(BeanCriterioWS[] criterios) {
         this.criterios = criterios;

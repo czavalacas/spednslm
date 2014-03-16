@@ -149,9 +149,9 @@ public class bNotificaciones {
                    sessionNoti.setCidSedePO("0");
                }
            }
-            if(sessionNoti.getCidProblema() == null){
-                sessionNoti.setCidProblema("0");
-            }
+           if(sessionNoti.getCidProblema() == null){
+               sessionNoti.setCidProblema("0");
+           }
            sessionNoti.setLstNotifPOs(ln_C_SFNotificacionLocal.getListaNotificacionesPartesOcurrenciaByAttr_BDL(sessionNoti.getDocentePO(), 
                                                                                                                      new Integer(sessionNoti.getCidProblema()),
                                                                                                                      new Integer(sessionNoti.getCidSedePO()),

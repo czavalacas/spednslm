@@ -25,7 +25,7 @@ import sped.negocio.entidades.sist.UsuarioPermiso;
 
 @Stateless(name = "LN_C_SFUsuarioPermiso", mappedName = "mapLN_C_SFUsuarioPermiso")
 public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote, 
-                                                  LN_C_SFUsuarioPermisoLocal {
+                                                     LN_C_SFUsuarioPermisoLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -106,12 +106,12 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
     public UsuarioPermiso setUsuarioPermiso(UsuarioPermiso up, 
                                             RolPermiso rolPermiso){
         up.setRolPermiso(rolPermiso);
-        if(rolPermiso.getPermiso().getNidPermiso() == 7 ||
+       /* if(rolPermiso.getPermiso().getNidPermiso() == 7 ||
            rolPermiso.getPermiso().getNidPermiso() == 9){
             up.setIsWS("1");
         }else{
             up.setIsWS("0");
-        }
+        }*/
         up.setEstado("1");
         return up;
     }     
