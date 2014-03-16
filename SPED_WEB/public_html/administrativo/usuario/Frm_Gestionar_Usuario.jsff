@@ -82,7 +82,7 @@
                       binding="#{bGestionarUsuarios.t1}" rowSelection="single"
                       inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
                       fetchSize="50" 
-                      selectionListener="#{bGestionarUsuarios.selecionarUsuario}">
+                      selectionListener="#{bGestionarUsuarios.selecionarUsuario}" columnStretching="column:c1">
                 <af:column sortable="true" headerText="Nombre y Apellidos" align="start" id="c1" sortProperty="nombres">
                     <af:outputText value="#{row.nombres}" id="ot1"/>
                 </af:column>
@@ -104,7 +104,7 @@
                 <af:column sortable="true" headerText="Usuario" align="start" id="c4" sortProperty="usuario">
                     <af:outputText value="#{row.usuario}" id="ot4"/>
                 </af:column>                
-                <af:column sortable="true" headerText="Correo" align="start" id="c10" sortProperty="correo">
+                <af:column sortable="true" headerText="Correo" align="start" id="c10" sortProperty="correo" width="150">
                     <af:outputText value="#{row.correo}" id="ot10"/>
                 </af:column>
                 <af:column sortable="true" headerText="Estado" align="start" id="c6"
