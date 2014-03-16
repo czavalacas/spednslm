@@ -43,7 +43,7 @@
                   InstanceName="data.WS_SPED"
                   ReturnName="data.WS_SPED.methodResults.getCriteriosEvaluacion_WS_WS_SPED_getCriteriosEvaluacion_WS_result">
       <NamedData NDName="arg0" NDValue="#{pageFlowScope.usuario.rol.nidRol}" NDType="java.lang.Integer" NDOption="3"/>
-      <NamedData NDName="arg1" NDValue="O" NDType="java.lang.String" NDOption="3"/>
+      <NamedData NDName="arg1" NDValue="#{pageFlowScope._tipoFichaCurso}" NDType="java.lang.String" NDOption="3"/>
     </methodAction>
     <tree IterBinding="ReturnIterator" id="Return">
       <nodeDefinition DefName="application.WS_SPED.getCriteriosEvaluacion_WS.Return" Name="Return0">

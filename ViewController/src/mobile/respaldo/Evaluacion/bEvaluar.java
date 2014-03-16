@@ -69,7 +69,9 @@ public class bEvaluar {
         this.setNotaEscala20(0.0);
         this.setNotaFinalEscala20(0.0);
         ValueExpression veNidRol = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.rol.nidRol}",Integer.class);
+        ValueExpression veTipoFichCurso = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope._tipoFichaCurso}",String.class);
         Integer nidRol = (Integer) veNidRol.getValue(adfELContext);
+        String tipFichaCurso = (String) veTipoFichCurso.getValue(adfELContext);
        
         List pnames = new ArrayList();//aqui van los nombres en el metodo WS are01,arg02, etc si son 5 hasta arg5
         List params = new ArrayList();//en esta seteas todos los valores si son 5 la lista tendra list.size = 5
@@ -80,7 +82,7 @@ public class bEvaluar {
         ptypes.add(Integer.class);
         
         pnames.add("arg1");        
-        params.add("O");
+        params.add(tipFichaCurso);
         ptypes.add(String.class);
         
         try {
