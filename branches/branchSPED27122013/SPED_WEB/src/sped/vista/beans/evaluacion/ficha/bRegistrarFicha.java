@@ -27,6 +27,7 @@ import oracle.adf.view.rich.component.rich.input.RichInputNumberSlider;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
+import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.output.RichMessages;
 import oracle.adf.view.rich.event.DialogEvent;
@@ -105,6 +106,7 @@ public class bRegistrarFicha {
     FacesContext ctx = FacesContext.getCurrentInstance();
     private RichButton btnActDesact;
     private RichPopup popActDes;
+    private RichPanelGridLayout pgl2;
 
     public bRegistrarFicha() {
         
@@ -140,7 +142,7 @@ public class bRegistrarFicha {
         permisosTree = new ChildPropertyTreeModel(lstBeanCriterio,"lstIndicadores");
         sessionRegistrarFicha.setPermisosTree(permisosTree);
         if(treeCriIndi != null){
-            treeCriIndi.setValue(sessionRegistrarFicha.getPermisosTree());
+            treeCriIndi.setValue(permisosTree);
             Utils.addTarget(treeCriIndi);
         }
         return null;
@@ -176,11 +178,17 @@ public class bRegistrarFicha {
         BeanFicha clon = sessionRegistrarFicha.getFichaEditarClon();
         sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(true);
         panelBoxNewFicha.setVisible(true);
+        pgl2.setVisible(true);
         sessionRegistrarFicha.setTipoFicha(clon.getTipoFicha());
         sessionRegistrarFicha.setTipFichaCurs(clon.getTipoFichaCurso());
         sessionRegistrarFicha.setVersionGenerada(clon.getDescripcionVersion());
         sessionRegistrarFicha.setNumValores(clon.getCantidadValores());
         sessionRegistrarFicha.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(clon.getNidFicha()));
+        if(sessionRegistrarFicha.getLstTiposFichaCurso() != null){
+            sessionRegistrarFicha.getLstTiposFichaCurso().clear();
+        }
+        sessionRegistrarFicha.setLstTiposFichaCurso(Utils.llenarComboString(ln_C_SFFichaRemote.getListaTiposFichaByTipoRol_LN(clon.getTipoFicha())));
+        Utils.addTarget(socTipFichaCurs);
         mostrarCuadre();
         List<UIComponent> children = null;
         children = this.treeCriIndi.getChildren();
@@ -203,7 +211,7 @@ public class bRegistrarFicha {
         sessionRegistrarFicha.setTipEvento(2);
         btnEditFicha.setDisabled(true);
         btnBase.setDisabled(true);
-        Utils.addTargetMany(panelBoxNewFicha,btnNewFicha,btnEditFicha,btnBase);
+        Utils.addTargetMany(panelBoxNewFicha,btnNewFicha,btnEditFicha,btnBase,pgl2);
     }
     
     public void selectCriterios(SelectionEvent se) {
@@ -507,6 +515,8 @@ public class bRegistrarFicha {
         sessionRegistrarFicha.setTipEvento(1);
         sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(true);
         panelBoxNewFicha.setVisible(true);
+        treeCriIndi.setVisible(true);
+        pgl2.setVisible(true);
         btnEditFicha.setDisabled(true);
         btnBase.setDisabled(true);
         btnActDesact.setDisabled(true);
@@ -521,7 +531,7 @@ public class bRegistrarFicha {
         sessionRegistrarFicha.setStyleClass("FondoRojoLetraBlanca");
         btnNewFicha.setText("Registrar Ficha");
         btnNewFicha.setStyleClass("FondoRojoLetraBlanca");
-        Utils.addTargetMany(btnNewFicha,btnEditFicha,panelBoxNewFicha,socTipFicha,socTipFichaCurs,ins1,btnBase,btnActDesact);
+        Utils.addTargetMany(btnNewFicha,btnEditFicha,treeCriIndi,pgl2,panelBoxNewFicha,socTipFicha,socTipFichaCurs,ins1,btnBase,btnActDesact);
     }
     
     public void resetar(ActionEvent actionEvent) {
@@ -558,8 +568,8 @@ public class bRegistrarFicha {
             e.printStackTrace();
         }
         crearColumnas(clon.getCantidadValores(), children);
-        btnEditFicha.setDisabled(true);
-        Utils.addTargetMany(panelBoxNewFicha,btnNewFicha,btnEditFicha,btnBase);
+        btnEditFicha.setDisabled(true);//panelBoxNewFicha
+        Utils.addTargetMany(treeCriIndi,btnNewFicha,btnEditFicha,btnBase);
         activar();
     }
     
@@ -567,6 +577,8 @@ public class bRegistrarFicha {
         sessionRegistrarFicha.setTipEvento(0);
         sessionRegistrarFicha.setVisiblePanelBoxPanelBoxFicha(false);
         panelBoxNewFicha.setVisible(false);
+        pgl2.setVisible(false);
+        treeCriIndi.setVisible(false);
         btnEditFicha.setDisabled(true);
         sessionRegistrarFicha.setBtnRegistrarFicha("Nueva Ficha");
         sessionRegistrarFicha.setStyleClass(null);
@@ -616,7 +628,7 @@ public class bRegistrarFicha {
         sessionRegistrarFicha.setDescIndicador(null);
         sessionRegistrarFicha.setLeyenda(null);
         sessionRegistrarFicha.setValorDesc(null);
-        Utils.addTargetMany(btnNewFicha,panelBoxNewFicha,btnBase,btnActDesact,btnEditFicha,socTipFicha,socTipFichaCurs,itDescVersion,treeCriIndi);
+        Utils.addTargetMany(btnNewFicha,panelBoxNewFicha,pgl2,btnBase,btnActDesact,btnEditFicha,socTipFicha,socTipFichaCurs,itDescVersion,treeCriIndi);
     }
     
     public void removerLista(List<?> lista){
@@ -1522,7 +1534,6 @@ public class bRegistrarFicha {
                     treeCriIndi.setValue(sessionRegistrarFicha.getPermisosTree());
                     Utils.addTarget(treeCriIndi);
                 }
-                Utils.sysout("perm: " + lstBeanCriterio.get(0).getDescripcionCriterio());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1751,5 +1762,13 @@ public class bRegistrarFicha {
 
     public RichPopup getPopActDes() {
         return popActDes;
+    }
+
+    public void setPgl2(RichPanelGridLayout pgl2) {
+        this.pgl2 = pgl2;
+    }
+
+    public RichPanelGridLayout getPgl2() {
+        return pgl2;
     }
 }

@@ -110,7 +110,10 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setNidCriterio(critIndi.getIndicador().getNidIndicador());
             crit.setOrden(critIndi.getOrden());
             crit.setSelected(true);
-            boolean bool = indx == lstCrisIndis.size();
+            boolean bool = false;
+            if(indx == lstCrisIndis.size()){
+                bool = true;
+            }
             if(bool){
                 crit.setNoMostrarDown(true);
             }
