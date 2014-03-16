@@ -83,7 +83,7 @@
             </af:button>
             <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row"
                       rowBandingInterval="0" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
-                      summary="Tabla de Evaluaciones" fetchSize="50" columnStretching="column:c1"
+                      summary="Tabla de Evaluaciones" fetchSize="50"
                       binding="#{bConsultarEvaluacion.tbEval}">
                 <af:column sortable="true" sortProperty="fechaPlanificacion" headerText="Fecha Planifiación"
                            align="center" id="c12">
@@ -101,7 +101,7 @@
                 </af:column>
                 <af:column sortable="true" sortProperty="comentarioEvaluador" headerText="Comentario Problema"
                            align="left" id="c13">
-                    <af:outputText value="#{row.comentarioEvaluador}" id="ot13"/>
+                    <af:outputText value="#{row.comentarioEvaluador}" id="ot13" />
                 </af:column>
                 <af:column sortable="true" sortProperty="main.profesor.apellidos" headerText="Profesor" align="start"
                            id="c1" rendered="#{sessionConsultarEvaluacion.columnProfesor}">

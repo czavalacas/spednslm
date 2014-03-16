@@ -106,7 +106,7 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
             ficha.setTipoFicha(tipFicha);
             ficha.setTipoFichaCurso(tipFichaCurso);
             if(evento == 1){
-                ficha.setFichaValorLista(this.setFichaValor(0,numVal, ficha));
+                ficha.setFichaValorLista(this.setFichaValor(0,numVal+1, ficha));
                 ficha.setFichaCriterioLista(this.setFichaCriteriosLista(listaCritsIndis,ficha,evento));
             }
             if (evento == 2) {
@@ -181,7 +181,7 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
     public List<FichaCriterio> setFichaCriteriosLista(List<BeanCriterio> listaCritsIndis,Ficha ficha,int evento){
         List<FichaCriterio> lstFichaCriterio = new ArrayList<FichaCriterio>();
         for(BeanCriterio bCrit : listaCritsIndis){
-            Criterio criterio = (Criterio) mapper.map(bCrit, Criterio.class);Utiles.sysout("crit:"+criterio.getNidCriterio());
+            Criterio criterio = (Criterio) mapper.map(bCrit, Criterio.class);
        //     Criterio criterio = bdL_C_SFCriterioLocal.findCriterioById(bCrit.getNidCriterio()); 
             FichaCriterio fichCriterio = new FichaCriterio();
             fichCriterio.setCriterio(criterio);
