@@ -167,8 +167,8 @@ public class WS_SPED {
 
     @WebMethod
     public List<BeanCriterioWS> getCriteriosEvaluacion_WS(@WebParam(name = "arg0") int nidRol,
-                                                          @WebParam(name = "arg1") String tipoFichaCurso){Utiles.sysout("tipoFichaCurso:"+tipoFichaCurso);
-        int ficha = ln_C_SFFichaLocal.getFichaActivaEvaluacion(nidRol == 4 ? "E" : "E", tipoFichaCurso);
+                                                          @WebParam(name = "arg1") String tipoFichaCurso){
+        int ficha = ln_C_SFFichaLocal.getFichaActivaEvaluacion(nidRol == 4 ? "E" : "S", tipoFichaCurso);
         return ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha_WS(ficha);
     }
 

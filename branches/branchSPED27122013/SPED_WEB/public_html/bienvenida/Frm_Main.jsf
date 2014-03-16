@@ -3,19 +3,20 @@
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         beforePhase="#{bMain.createMenus}">
     <af:document title="SPED ©" id="d1">
+        <script type="text/javascript" src="../recursos/utils.js"></script>
         <af:form id="f1" usesUpload="true">
             <af:spacer height="10"/>
             <af:panelSplitter orientation="vertical" splitterPosition="50" id="ps1">
                 <f:facet name="first">
                     <af:panelGridLayout id="pgl1" inlineStyle="border-top-width:thick;">
                         <af:gridRow marginTop="1px" height="auto" id="gr1">
-                            <af:gridCell marginStart="1px" width="85%" id="gc1">
+                            <af:gridCell marginStart="1px" width="80%" id="gc1">
                                 <af:menuBar id="menu" var="item" binding="#{bMain.menu}"/>
                             </af:gridCell>
-                            <af:gridCell marginStart="2px" width="15%" marginEnd="1px" id="gc2">
+                            <af:gridCell marginStart="2px" width="20%" marginEnd="10px" id="gc2">
                                 <af:panelGridLayout>
                                     <af:gridRow>
-                                        <af:gridCell valign="middle" halign="center">
+                                        <af:gridCell valign="middle" halign="center" >
                                             <af:outputLabel value="#{sessionScope.sessionMain.cantNotif}" visible="#{sessionScope.sessionMain.cantNotif > 0}"
                                                               inlineStyle="color:red; font-weight:bold; font-size:large; margin:0px -1px 0px 0px;"
                                                               rendered="#{sessionScope.sessionMain.verNotificaciones}"
@@ -35,17 +36,14 @@
                                         </af:gridCell>
                                         <af:gridCell valign="middle">
                                         <af:outputLabel value="Bienvenido, #{bMain.usuario}" id="ol1"/>
-                                        </af:gridCell>
-                                    </af:gridRow>
+                                         </af:gridCell>
+                                   </af:gridRow>
                                 </af:panelGridLayout>
-                                
                             </af:gridCell>
                         </af:gridRow>
-                        <af:gridRow marginTop="2px" height="auto" marginBottom="3px" id="gr2">
-                            <af:gridCell marginStart="1px" width="85%" id="gc3"></af:gridCell>
-                            <af:gridCell marginStart="2px" width="15%" marginEnd="1px" id="gc4"/>
-                        </af:gridRow>
+                        
                     </af:panelGridLayout>
+                   
                 </f:facet>
                 <f:facet name="second">
                     <af:region value="#{bindings.dynamicRegion1.regionModel}" id="r1"/>
@@ -92,10 +90,16 @@
                     <af:outputText value="Desea Cerrar Sesion?" id="ot2"/>
                 </af:dialog>
             </af:popup>       
+            <af:resource type="javascript">
+                             
+                function playSound(soundfile) {
+                    document.getElementById("dummy").innerHTML = "&lt;embed src==\""+soundfile+"\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
+                }
+ 
+            </af:resource>
         </af:form>
-        <af:media source="../recursos/sound/buho.mp3" id="sonidoBuho" binding="#{bMain.sonidoBuho}"
-                  visible="false" autostart="true" contentType="mp3"/>
+        <af:media source="/recursos/sound/buho.mp3" id="sonidoBuho" binding="#{bMain.sonidoBuho}" visible="false" autostart="true"/>
         <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
-                 rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
+                  rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
     </af:document>
 </f:view>

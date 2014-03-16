@@ -66,6 +66,7 @@ public class BDL_C_SFPermisoBean implements BDL_C_SFPermisoRemote,
                         "AND uspe.rolPermiso.rol.nidRol = :nidRol " +
                         "AND uspe.usuario.nidUsuario = :nidUsuario " +
                         "AND uspe.estado = '1' "+
+                        "AND per.isWS = '0' "+
                         "AND up.permiso.estadoRegistro = 1 " +
                         "ORDER BY per.descripcionPermiso ASC";
         return em.createQuery(ejbQL)
@@ -84,8 +85,7 @@ public class BDL_C_SFPermisoBean implements BDL_C_SFPermisoRemote,
                         "WHERE up.permiso.nidPermiso = per.nidPermiso "+
                         "AND uspe.usuario.nidUsuario = :nidUsuario "+
                         "AND up.rol.nidRol = :nidRol "+
-                        "AND uspe.isWS = '1' "+
-                        "AND up.isWS = '1' "+
+                        "AND per.isWS = '1' "+
                         "AND uspe.rolPermiso.permiso.nidPermiso = per.nidPermiso " +
                         "AND uspe.rolPermiso.rol.nidRol = :nidRol " +
                         "AND uspe.estado = '1' "+

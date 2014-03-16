@@ -275,4 +275,11 @@ public class Utils {
             return false;
         }
     }
+    
+    public static void llamarJavascript(){
+        FacesContext fctx = FacesContext.getCurrentInstance();
+        ExtendedRenderKitService erks = Service.getRenderKitService(fctx, ExtendedRenderKitService.class);      
+        // Invoke a java script method name called showConfPopup()' with two parameters, You can pass any value 
+        erks.addScript(fctx, "playSound();");  
+    }
 }

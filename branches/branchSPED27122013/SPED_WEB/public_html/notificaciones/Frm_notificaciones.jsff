@@ -64,59 +64,67 @@
                                        actionListener="#{bNotificaciones.limpiar}"/>
                         </af:panelGroupLayout>
                     </af:subform>
-                    <af:table var="row" rowBandingInterval="0" id="tbEvas" binding="#{bNotificaciones.tbEvas}"
-                              varStatus="vs" emptyText="No hay Notificaciones" width="inherit;"
-                              inlineStyle="width:inherit;" rowSelection="single"
-                              value="#{sessionScope.sessionNoti.lstNotifEvaluaciones}" columnStretching="column:c3">
-                        <af:column width="18" frozen="true">
-                            <af:outputText value="#{vs.index + 1}"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Docente" id="c1" sortProperty="docente" align="start"
-                                   width="170">
-                            <af:outputText value="#{row.docente}" id="ot1"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Fecha" id="c2" sortProperty="fechaEvaluacion"
-                                   align="center" width="60">
-                            <af:outputText value="#{row.fechaEvaluacion}" id="ot2">
-                                <af:convertDateTime pattern="dd/MM/yyyy"/>
-                            </af:outputText>
-                        </af:column>
-                        <af:column sortable="true" headerText="Indicador" id="c3" sortProperty="indicador" align="start"
-                                   width="350">
-                            <af:outputText value="#{row.indicador}" id="ot3"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Ficha" id="c4" sortProperty="versionFicha" align="start"
-                                   width="90">
-                            <af:outputText value="#{row.versionFicha}" id="ot4"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Curso" id="c5" sortProperty="curso" align="start"
-                                   width="100">
-                            <af:outputText value="#{row.curso}" id="ot5"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Area" sortProperty="area" align="start" width="100">
-                            <af:outputText value="#{row.area}"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Aula" sortProperty="aula" align="start" width="100">
-                            <af:outputText value="#{row.aula}"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Sede" sortProperty="sede" align="start" width="100">
-                            <af:outputText value="#{row.sede}"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Evaluador" sortProperty="evaluador" align="start"
-                                   width="160">
-                            <af:outputText value="#{row.evaluador}"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Puntaje" sortProperty="puntaje" align="center" width="50"
-                                   inlineStyle="#{row.inlineStiloPuntaje}">
-                            <af:outputText value="#{row.puntaje}"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Vigesimal" sortProperty="puntaje20" align="center"
-                                   width="50" inlineStyle="#{row.inlineStiloPuntaje20}">
-                            <af:outputText value="#{row.puntaje20}">
-                                <af:convertNumber maxFractionDigits="2"/>
-                            </af:outputText>
-                        </af:column>
-                    </af:table>
+                         <af:panelCollection id="pc2" inlineStyle="width:inherit;">
+                         <f:facet name="menus"/>
+                        <f:facet name="toolbar">
+                            <af:toolbar id="t2">
+                            </af:toolbar>
+                        </f:facet>
+                        <f:facet name="statusbar"/>
+                                <af:table var="row" rowBandingInterval="0" id="tbEvas" binding="#{bNotificaciones.tbEvas}"
+                                  varStatus="vs" emptyText="No hay Notificaciones" width="inherit;"
+                                  inlineStyle="width:inherit;" rowSelection="single"
+                                  value="#{sessionScope.sessionNoti.lstNotifEvaluaciones}" columnStretching="column:c3">
+                                <af:column width="18" frozen="true">
+                                    <af:outputText value="#{vs.index + 1}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Docente" id="c1" sortProperty="docente" align="start"
+                                           width="170">
+                                    <af:outputText value="#{row.docente}" id="ot1"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Fecha" id="c2" sortProperty="fechaEvaluacion"
+                                           align="center" width="60">
+                                    <af:outputText value="#{row.fechaEvaluacion}" id="ot2">
+                                        <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </af:outputText>
+                                </af:column>
+                                <af:column sortable="true" headerText="Indicador" id="c3" sortProperty="indicador" align="start"
+                                           width="350">
+                                    <af:outputText value="#{row.indicador}" id="ot3"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Ficha" id="c4" sortProperty="versionFicha" align="start"
+                                           width="90">
+                                    <af:outputText value="#{row.versionFicha}" id="ot4"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Curso" id="c5" sortProperty="curso" align="start"
+                                           width="100">
+                                    <af:outputText value="#{row.curso}" id="ot5"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Area" sortProperty="area" align="start" width="100">
+                                    <af:outputText value="#{row.area}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Aula" sortProperty="aula" align="start" width="100">
+                                    <af:outputText value="#{row.aula}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Sede" sortProperty="sede" align="start" width="100">
+                                    <af:outputText value="#{row.sede}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Evaluador" sortProperty="evaluador" align="start"
+                                           width="180">
+                                    <af:outputText value="#{row.evaluador}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Puntaje" sortProperty="puntaje" align="center" width="50"
+                                           inlineStyle="#{row.inlineStiloPuntaje}">
+                                    <af:outputText value="#{row.puntaje}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Vigesimal" sortProperty="puntaje20" align="center"
+                                           width="50" inlineStyle="#{row.inlineStiloPuntaje20}">
+                                    <af:outputText value="#{row.puntaje20}">
+                                        <af:convertNumber maxFractionDigits="2"/>
+                                    </af:outputText>
+                                </af:column>
+                        </af:table>
+                   </af:panelCollection>
                 </af:panelBox>
                 <af:panelBox text="Notificaciones de Partes de Ocurrencia" id="pb2" showDisclosure="false"
                              inlineStyle="margin:0px 50px 0px 0px;" background="light"
@@ -175,7 +183,14 @@
                                        actionListener="#{bNotificaciones.limpiarPO}"/>
                         </af:panelGroupLayout>
                     </af:subform>
-                    <af:table value="#{sessionScope.sessionNoti.lstNotifPOs}" var="row" rowBandingInterval="0" id="tbPOs"
+                     <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                         <f:facet name="menus"/>
+                        <f:facet name="toolbar">
+                            <af:toolbar id="t1">
+                            </af:toolbar>
+                        </f:facet>
+                        <f:facet name="statusbar"/>
+                        <af:table value="#{sessionScope.sessionNoti.lstNotifPOs}" var="row" rowBandingInterval="0" id="tbPOs"
                               binding="#{bNotificaciones.tbPOs}"
                               varStatus="vs" emptyText="No hay Notificaciones de Parte de Ocurrencia" width="inherit;"
                               inlineStyle="width:inherit;" rowSelection="single" columnStretching="column:c7">
@@ -196,7 +211,7 @@
                         <af:column sortable="true" headerText="Problema" align="start" id="c9" width="120" sortProperty="descProblema">
                             <af:outputText value="#{row.descProblema}" id="ot9"/>
                         </af:column>
-                        <af:column sortable="true" headerText="Usuario" align="start" id="c10" width="120" sortProperty="nombresUsuario">
+                        <af:column sortable="true" headerText="Usuario" align="start" id="c10" width="180" sortProperty="nombresUsuario">
                             <af:outputText value="#{row.nombresUsuario}" id="ot10"/>
                         </af:column>
                         <af:column sortable="true" headerText="Curso" align="start" id="c11" width="100" sortProperty="curso">
@@ -212,6 +227,7 @@
                             <af:outputText value="#{row.sede}" id="ot14"/>
                         </af:column>
                     </af:table>
+                    </af:panelCollection>
                 </af:panelBox>
             </af:panelGroupLayout>
         </af:panelGroupLayout>

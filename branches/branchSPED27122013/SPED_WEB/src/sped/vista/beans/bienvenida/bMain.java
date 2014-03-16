@@ -223,11 +223,17 @@ public class bMain implements Serializable {
             cantNotif.setValue(sessionMain.getCantNotif());
             if(sessionMain.getCantNotif() > 0){
                 cantNotif.setRendered(true);
+                sessionMain.setVerNotificaciones(true);
+                cantNotif.setVisible(true);
                 sonidoBuho.setAutostart(true);
               //  sonidoBuho.setPlayCount(1);
-                Utils.addTarget(sonidoBuho);Utils.sysout("PLAYYYYYYYYYY buhoo");
+                Utils.addTarget(sonidoBuho);
+            //    Utils.llamarJavascript();
+                Utils.sysout("PLAYYYYYYYYYY buhoo");
             }else{
-                cantNotif.setRendered(false);
+                sessionMain.setCantNotif(0);
+                cantNotif.setValue(0);
+                cantNotif.setVisible(false);
             }
             Utils.addTarget(cantNotif);
             if(clCantPO != null){
