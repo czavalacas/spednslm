@@ -45,6 +45,8 @@ public class Permiso implements Serializable {
     private String accelerator;
     @Column(name = "accessKey")
     private char accessKey;
+    @Column(name = "isWS", nullable = false)
+    private String isWS;
 
     public Permiso() {
     }
@@ -60,6 +62,14 @@ public class Permiso implements Serializable {
         this.nivel = nivel;
         this.url = url;
         this.urlIcono = urlIcono;
+    }
+
+    public void setIsWS(String isWS) {
+        this.isWS = isWS;
+    }
+
+    public String getIsWS() {
+        return isWS;
     }
 
     public void setIndMostrar(String indMostrar) {

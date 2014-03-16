@@ -32,18 +32,8 @@ public class RolPermiso implements Serializable {
     private Permiso permiso;
     @OneToMany(mappedBy = "rolPermiso", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<UsuarioPermiso> usuarioPermisosLista;
-    @Column(name = "isWS", nullable = false)
-    private String isWS;
 
     public RolPermiso() {
-    }
-
-    public void setIsWS(String isWS) {
-        this.isWS = isWS;
-    }
-
-    public String getIsWS() {
-        return isWS;
     }
 
     public void setUsuarioPermisosLista(List<UsuarioPermiso> usuarioPermisosLista) {
