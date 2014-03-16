@@ -58,6 +58,7 @@
           <Item Value="evaluador"/>
           <Item Value="planificador"/>
           <Item Value="curso"/>
+          <Item Value="tipoFichaCurso"/>
           <Item Value="areaAcademica"/>
           <Item Value="sede"/>
           <Item Value="tipoVisita"/>

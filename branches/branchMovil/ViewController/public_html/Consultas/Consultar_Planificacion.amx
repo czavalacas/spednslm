@@ -49,6 +49,7 @@
         <amx:setPropertyListener from="#{row.sede}" to="#{pageFlowScope.sede}" type="action"/>
         <amx:setPropertyListener from="#{row.aula}" to="#{pageFlowScope.aula}" type="action"/>
         <amx:setPropertyListener from="#{row.curso}" to="#{pageFlowScope.curso}" type="action"/>
+        <amx:setPropertyListener from="#{row.tipoFichaCurso}" to="#{pageFlowScope._tipoFichaCurso}" type="action"/>
         <amx:setPropertyListener from="#{row.nidEvaluacion}" to="#{pageFlowScope.nidEvaluacion}" type="action"/>
         <amx:setPropertyListener from="pi1" to="#{pageFlowScope.panel}" type="action"/>
         
