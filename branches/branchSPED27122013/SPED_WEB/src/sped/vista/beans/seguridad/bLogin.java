@@ -42,10 +42,10 @@ public class bLogin implements Serializable {
 
     public bLogin(){
         super();
-        Utils.sysout("locale1: "+Locale.getDefault());
-        Utils.sysout("locale2: "+contx.getViewRoot().getLocale());
+       // Utils.sysout("locale1: "+Locale.getDefault());
+        //Utils.sysout("locale2: "+contx.getViewRoot().getLocale());
         Locale.setDefault(contx.getViewRoot().getLocale());
-        Utils.sysout("locale3: "+Locale.getDefault());
+        //Utils.sysout("locale3: "+Locale.getDefault());
     }
 
     public void autenticarUsuario(ActionEvent actionEvent) {
