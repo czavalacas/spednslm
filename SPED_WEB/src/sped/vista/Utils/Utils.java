@@ -278,8 +278,7 @@ public class Utils {
     
     public static void llamarJavascript(String metodo){
         FacesContext fctx = FacesContext.getCurrentInstance();
-        ExtendedRenderKitService erks = Service.getRenderKitService(fctx, ExtendedRenderKitService.class);      
-        // Invoke a java script method name called showConfPopup()' with two parameters, You can pass any value 
+        ExtendedRenderKitService erks = Service.getRenderKitService(fctx, ExtendedRenderKitService.class);
         erks.addScript(fctx, ""+metodo+"();");  
     }
 }

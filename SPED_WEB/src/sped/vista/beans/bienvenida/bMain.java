@@ -179,7 +179,6 @@ public class bMain implements Serializable {
 
     public void dialogLogoutListener(DialogEvent dialogEvent) {
         if (dialogEvent.getOutcome() == DialogEvent.Outcome.ok) {
-         //   ADFUtil.invokeEL("#{chatBean.logout}");
             logoutTarget(LOGIN);
         }
     }
@@ -226,7 +225,7 @@ public class bMain implements Serializable {
                 cantNotif.setVisible(true);
                 if(sessionMain.getCantNotif() != sessionMain.getCantNotifAux()){
                     Utils.llamarJavascript("reproducirNotificacion");
-                    Utils.sysout("PLAYYYYYYYYYY buhoo");
+                    Utils.sysout("play buhoo");
                     sessionMain.setCantNotifAux(sessionMain.getCantNotif());
                 }
             }else{
