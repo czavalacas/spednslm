@@ -105,7 +105,8 @@
                                                         hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                                         animationOnDataChange="auto" animationOnDisplay="auto"
                                                         clickListener="#{bDesempenoEvaluador.clickListenerHBar}"
-                                                        binding="#{bDesempenoEvaluador.grol}">
+                                                        binding="#{bDesempenoEvaluador.grol}"
+                                                        emptyText="No hay ningún dato que mostrar">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -130,7 +131,8 @@
                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                               timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
                                               animationIndicators="ALL" animationOnDisplay="auto"
-                                              binding="#{bDesempenoEvaluador.geva}" shortDesc="Grafico por Evaluador">
+                                              binding="#{bDesempenoEvaluador.geva}" shortDesc="Grafico por Evaluador"
+                                              emptyText="No hay ningún dato que mostrar">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -157,7 +159,7 @@
                                                animationDuration="1500" shortDesc="Grafico Linea de Tiempo"
                                                clickListener="#{bDesempenoEvaluador.clickListenerGraphLine}"
                                                binding="#{bDesempenoEvaluador.gline}"
-                                               emptyText="Se necesitan mas datos para mostrar el grafico">
+                                               emptyText="No hay ningún dato que mostrar">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -181,7 +183,8 @@
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaPieG}"
                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
                                               clickListener="#{bDesempenoEvaluador.clickListenerGraphPie}"
-                                              binding="#{bDesempenoEvaluador.gpie}" shortDesc="Grafico Pie">
+                                              binding="#{bDesempenoEvaluador.gpie}" shortDesc="Grafico Pie"
+                                              emptyText="No hay ningún dato que mostrar">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
