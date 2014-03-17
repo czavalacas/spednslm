@@ -497,25 +497,82 @@ public class bDesempenoEvaluador {
     public void selectBCheck(ValueChangeEvent vce) {
         RichSelectBooleanCheckbox ckBox = (RichSelectBooleanCheckbox)vce.getComponent();
         String texto = ckBox.getText().toString();
-        int GrafEva = sessionDesempenoEvaluador.isRGrafEva() == false ? 1 : 0;
-        int GrafRol = sessionDesempenoEvaluador.isRGrafRol() == false ? 1 : 0;
-        int GrafLine = sessionDesempenoEvaluador.isRGrafLine() == false ? 1 : 0;
-        int GrafPie = sessionDesempenoEvaluador.isRGrafPie() == false ? 1 : 0;
-        if((GrafEva+GrafRol+GrafLine+GrafPie) >= 3){
+        int GrafEva = sessionDesempenoEvaluador.isRGrafEva() == true ? 1 : 0;
+        int GrafRol = sessionDesempenoEvaluador.isRGrafRol() == true ? 1 : 0;
+        int GrafLine = sessionDesempenoEvaluador.isRGrafLine() == true ? 1 : 0;
+        int GrafPie = sessionDesempenoEvaluador.isRGrafPie() == true ? 1 : 0;
+        int cont = GrafEva+GrafRol+GrafLine+GrafPie;
+        int selecion = vce.getNewValue() == true ? 1 : -1 ;
+        boolean valida = true;
+        System.out.println(cont);
+        System.out.println(selecion);
+        if(cont <= 1){
             if(texto.compareTo("Rol(s)") == 0){
                 booleanCheckRol.setSelected(true);
+                valida = false;
             }
             if(texto.compareTo("Evaluador(s)") == 0){
                 booleanCheckEva.setSelected(true);
+                valida = false;
             }
             if(texto.compareTo("Linea de Tiempo") == 0){
                 booleanCheckLine.setSelected(true);
+                valida = false;
             }
             if(texto.compareTo("Evaluaciones Justificadas") == 0){
                 booleanCheckPie.setSelected(true);
+                valida = false;
             }
             Utils.addTargetMany(sd3);
         }
+        if(valida){
+            if(texto.compareTo("Rol(s)") == 0){
+                if(vce.getNewValue() == true){
+                    List <BeanEvaluacion> lstBarRol = desempenoFiltro_Aux(5, null, null, null,null);
+                    setListEvabarChartRol(lstBarRol);
+                    renderMensaje(lstBarRol);
+                    sessionDesempenoEvaluador.setRGrafRolA(true);
+                }else{
+                    sessionDesempenoEvaluador.setRGrafRolA(false);
+                }
+            }
+            if(texto.compareTo("Evaluador(s)") == 0){
+                if(vce.getNewValue() == true){
+                    List <BeanEvaluacion> lst = desempenoFiltro_Aux(1, null, null, null,null);
+                    sessionDesempenoEvaluador.setLstEvaTable(lst);
+                    setListEvabarChart(lst);
+                    sessionDesempenoEvaluador.setRGrafEvaA(true);
+                }else{
+                    sessionDesempenoEvaluador.setRGrafEvaA(false);
+                }
+            }
+            if(texto.compareTo("Linea de Tiempo") == 0){
+                if(vce.getNewValue() == true){
+                    List <BeanEvaluacion> lstDate = desempenoFiltro_Aux(3, null, null, null,null);
+                    setListLinegraph(lstDate);
+                    renderMensaje(lstDate);
+                    sessionDesempenoEvaluador.setRGrafLineA(true);
+                }else{
+                    sessionDesempenoEvaluador.setRGrafLineA(false);
+                }
+            }
+            if(texto.compareTo("Evaluaciones Justificadas") == 0){
+                if(vce.getNewValue() == true){
+                    List <BeanEvaluacion> lstPie = desempenoFiltro_Aux(4, null, null, null,null);
+                    setListPiegraph(lstPie);
+                    renderMensaje(lstPie);
+                    sessionDesempenoEvaluador.setRGrafPieA(true);
+                }else{
+                    sessionDesempenoEvaluador.setRGrafPieA(false);
+                }
+            }
+            cont = cont + selecion;
+            sessionDesempenoEvaluador.setColumnsDashboard(cont == 1 ? 1 : 2);
+            sessionDesempenoEvaluador.setRowHeightDashboard(cont > 2 ? "350px" : "700px");
+            Utils.addTargetMany(pgl2);
+        }        
+        
+        
     }
     
     public List<BeanEvaluacion> desempenoFiltro(int tipoEvento,
