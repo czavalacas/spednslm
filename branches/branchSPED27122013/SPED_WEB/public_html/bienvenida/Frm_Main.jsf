@@ -3,9 +3,9 @@
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         beforePhase="#{bMain.createMenus}">
     <af:document title="SPED ©" id="d1">
-        <script type="text/javascript" src="../recursos/utils.js"></script>
         <af:form id="f1" usesUpload="true">
             <af:spacer height="10"/>
+            <af:resource type="javascript" source="/recursos/js/utiles.js"/>
             <af:panelSplitter orientation="vertical" splitterPosition="50" id="ps1">
                 <f:facet name="first">
                     <af:panelGridLayout id="pgl1" inlineStyle="border-top-width:thick;">
@@ -89,15 +89,16 @@
                     <af:outputText value="Desea Cerrar Sesion?" id="ot2"/>
                 </af:dialog>
             </af:popup>       
-            <af:resource type="javascript">
-                             
-                function playSound(soundfile) {
-                    document.getElementById("dummy").innerHTML = "&lt;embed src==\""+soundfile+"\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
-                }
- 
-            </af:resource>
+
         </af:form>
-        <af:media source="/recursos/sound/buho.mp3" id="sonidoBuho" binding="#{bMain.sonidoBuho}" visible="false" autostart="true"/>
+        <span id="dummy">
+        
+        </span>
+        <audio controls="controls" xmlns="http://www.w3.org/1999/xhtml" id="audio" hidden="hidden">
+            <source src="../recursos/sound/buho.mp3"
+                     type="audio/mp3"/>
+        </audio>
+       <!-- <a href="javascript: void(0);" onclick="hola();">Click</a>-->
         <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
                   rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
     </af:document>

@@ -17,6 +17,15 @@ public class bSessionMain {
     private boolean verNotificaciones;
     private boolean verNotificacionesEvas;
     private boolean verNotificacionesPOs;
+    private int cantNotifAux;
+
+    public void setCantNotifAux(int cantNotifAux) {
+        this.cantNotifAux = cantNotifAux;
+    }
+
+    public int getCantNotifAux() {
+        return cantNotifAux;
+    }
 
     public void setVerNotificacionesEvas(boolean verNotificacionesEvas) {
         this.verNotificacionesEvas = verNotificacionesEvas;
