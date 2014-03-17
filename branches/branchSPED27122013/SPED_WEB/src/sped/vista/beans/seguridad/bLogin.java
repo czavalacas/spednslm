@@ -2,6 +2,8 @@ package sped.vista.beans.seguridad;
 
 import java.io.Serializable;
 
+import java.util.Locale;
+
 import javax.ejb.EJB;
 
 import javax.faces.application.FacesMessage;
@@ -36,9 +38,14 @@ public class bLogin implements Serializable {
     @EJB
     private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
     private RichMessages mensaje;
+    FacesContext contx = FacesContext.getCurrentInstance();
 
     public bLogin(){
         super();
+        Utils.sysout("locale1: "+Locale.getDefault());
+        Utils.sysout("locale2: "+contx.getViewRoot().getLocale());
+        Locale.setDefault(contx.getViewRoot().getLocale());
+        Utils.sysout("locale3: "+Locale.getDefault());
     }
 
     public void autenticarUsuario(ActionEvent actionEvent) {
