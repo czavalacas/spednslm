@@ -10,6 +10,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import oracle.adf.view.rich.component.rich.RichPopup;
+import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.component.rich.output.RichMessages;
 
 import oracle.adf.view.rich.event.DialogEvent;
@@ -37,8 +39,12 @@ public class bLogin implements Serializable {
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
     @EJB
     private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
-    private RichMessages mensaje;
     FacesContext contx = FacesContext.getCurrentInstance();
+    private String msjError;
+    private RichActiveOutputText otError;
+    private String tituloPopup;
+    private String mensajeCorreo;
+    private RichPopup popMsj;
 
     public bLogin(){
         super();
@@ -55,12 +61,12 @@ public class bLogin implements Serializable {
                 Utils.putSession("USER",beanUsuario);
                 setRedireccionar("000");
             }else{
-                mensaje.setText(beanUsuario.getError().getTituloError());
-                Utils.addTarget(mensaje);
-                Utils.mostrarMensaje(ctx,beanUsuario.getError().getDescripcionError(),beanUsuario.getError().getTituloError(),2);
+                setMsjError(beanUsuario.getError().getDescripcionError());
+                Utils.addTarget(otError);
             }
         }else{
-            Utils.mostrarMensaje(ctx,"Error Inesperado","Comuniquese con el administrador",2);
+            setMsjError(beanUsuario.getError().getDescripcionError());
+            Utils.addTarget(otError);
         }
     }
     
@@ -69,11 +75,38 @@ public class bLogin implements Serializable {
         if(outcome == DialogEvent.Outcome.ok){
             String enviar = ln_C_SFCorreoRemote.recuperarClave(correo);
             if(enviar.equals("000")){
-                Utils.mostrarMensaje(ctx,"Revisa tu correo","Te hemos enviado un mensaje con tus datos",3);
+                setTituloPopup("Revisa tu correo");
+                setMensajeCorreo("Te hemos enviado un correo con tu clave. Recuerda cambiarla por seguridad");
             }else{
-                Utils.mostrarMensaje(ctx,"Error","El correo ingresado no pertenece a ninguna cuenta",2);
+                setTituloPopup("Ocurrio un error al enviar tu clave");
+                setMensajeCorreo("Trata nuevamente o comunicate con el administrador del sistema.");
             }
+            Utils.showPopUpMIDDLE(popMsj);
         }
+    }
+
+    public void setTituloPopup(String tituloPopup) {
+        this.tituloPopup = tituloPopup;
+    }
+
+    public String getTituloPopup() {
+        return tituloPopup;
+    }
+
+    public void setMensajeCorreo(String mensajeCorreo) {
+        this.mensajeCorreo = mensajeCorreo;
+    }
+
+    public String getMensajeCorreo() {
+        return mensajeCorreo;
+    }
+
+    public void setMsjError(String msjError) {
+        this.msjError = msjError;
+    }
+
+    public String getMsjError() {
+        return msjError;
     }
 
     public void setRedireccionar(String redireccionar) {
@@ -100,19 +133,27 @@ public class bLogin implements Serializable {
         return clave;
     }
 
-    public void setMensaje(RichMessages mensaje) {
-        this.mensaje = mensaje;
-    }
-
-    public RichMessages getMensaje() {
-        return mensaje;
-    }
-
     public void setCorreo(String correo) {
         this.correo = correo;
     }
 
     public String getCorreo() {
         return correo;
-    }    
+    }
+
+    public void setOtError(RichActiveOutputText otError) {
+        this.otError = otError;
+    }
+
+    public RichActiveOutputText getOtError() {
+        return otError;
+    }
+
+    public void setPopMsj(RichPopup popMsj) {
+        this.popMsj = popMsj;
+    }
+
+    public RichPopup getPopMsj() {
+        return popMsj;
+    }
 }
