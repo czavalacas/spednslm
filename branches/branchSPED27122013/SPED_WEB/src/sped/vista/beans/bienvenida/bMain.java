@@ -55,6 +55,8 @@ public class bMain implements Serializable {
     private RichOutputLabel cantNotif;
     private RichCommandLink clCantEvas;
     private RichCommandLink clCantPO;
+    private RichCommandLink clCantAll;
+    private RichMedia sonidoBuho;
     @EJB
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     @EJB
@@ -63,10 +65,7 @@ public class bMain implements Serializable {
     private String usuario;
     private String nomUsuario;
     private final static String LOGIN = "/faces/Frm_login";
-
     private FacesContext ctx = FacesContext.getCurrentInstance();
-    private RichCommandLink clCantAll;
-    private RichMedia sonidoBuho;
 
     public bMain(){
         super();
@@ -225,11 +224,11 @@ public class bMain implements Serializable {
                 cantNotif.setRendered(true);
                 sessionMain.setVerNotificaciones(true);
                 cantNotif.setVisible(true);
-                sonidoBuho.setAutostart(true);
-              //  sonidoBuho.setPlayCount(1);
-                Utils.addTarget(sonidoBuho);
-            //    Utils.llamarJavascript();
-                Utils.sysout("PLAYYYYYYYYYY buhoo");
+                if(sessionMain.getCantNotif() != sessionMain.getCantNotifAux()){
+                    Utils.llamarJavascript("reproducirNotificacion");
+                    Utils.sysout("PLAYYYYYYYYYY buhoo");
+                    sessionMain.setCantNotifAux(sessionMain.getCantNotif());
+                }
             }else{
                 sessionMain.setCantNotif(0);
                 cantNotif.setValue(0);

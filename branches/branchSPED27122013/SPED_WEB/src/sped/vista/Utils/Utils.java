@@ -276,10 +276,10 @@ public class Utils {
         }
     }
     
-    public static void llamarJavascript(){
+    public static void llamarJavascript(String metodo){
         FacesContext fctx = FacesContext.getCurrentInstance();
         ExtendedRenderKitService erks = Service.getRenderKitService(fctx, ExtendedRenderKitService.class);      
         // Invoke a java script method name called showConfPopup()' with two parameters, You can pass any value 
-        erks.addScript(fctx, "playSound();");  
+        erks.addScript(fctx, ""+metodo+"();");  
     }
 }
