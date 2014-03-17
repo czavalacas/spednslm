@@ -73,8 +73,11 @@ import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
+import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
+
 import sped.vista.Utils.Utils;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanRol;
 import sped.negocio.entidades.beans.BeanSede;
@@ -84,11 +87,7 @@ public class bDesempenoEvaluador {
     private bSessionDesempenoEvaluador sessionDesempenoEvaluador;
     private RichSelectManyChoice choiceFSede;
     @EJB
-    private LN_C_SFSedeRemote ln_C_SFSedeRemote;
-    @EJB
-    private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
-    @EJB
-    private LN_C_SFRolRemote ln_C_SFRolRemote;
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     @EJB
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
     @EJB
@@ -156,64 +155,33 @@ public class bDesempenoEvaluador {
     }
     
     private ArrayList llenarComboRol(){
-        ArrayList unItems = new ArrayList();
-        List<BeanRol> lstbean = ln_C_SFRolRemote.getListRolbyNombreLN("Evaluador");
-        for(BeanRol r : lstbean){
-            unItems.add(new SelectItem(r.getNidRol(),
-                                       r.getDescripcionRol().toString()));
-        }
-        return unItems;
+        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getRolEvaluadores_LN();
+        return Utils.llenarCombo(lstCombo);
     }
     
     private ArrayList llenarComboEvaArea(){
-        ArrayList unItems = new ArrayList();
-        List<BeanUsuario> lstbean = ln_C_SFUsuarioLocal.getUsuariobyNidRolLN(2);
-        for(BeanUsuario u : lstbean){
-            unItems.add(new SelectItem(u.getNidUsuario(),
-                                       u.getNombres().toString()));
-        }
-        return unItems;
+        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getEvaluadoresByRol_LN(2);
+        return Utils.llenarCombo(lstCombo);
     }
     
     private ArrayList llenarComboEvaSede(){
-        ArrayList unItems = new ArrayList();
-        List<BeanUsuario> lstbean = ln_C_SFUsuarioLocal.getUsuariobyNidRolLN(4);
-        for(BeanUsuario u : lstbean){
-            unItems.add(new SelectItem(u.getNidUsuario(),
-                                       u.getNombres().toString()));
-        }
-        return unItems;
+        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getEvaluadoresByRol_LN(4);
+        return Utils.llenarCombo(lstCombo);
     }
     
     private ArrayList llenarComboEvaGeneral(){
-        ArrayList unItems = new ArrayList();
-        List<BeanUsuario> lstbean = ln_C_SFUsuarioLocal.getUsuariobyNidRolLN(5);
-        for(BeanUsuario u : lstbean){
-            unItems.add(new SelectItem(u.getNidUsuario(),
-                                       u.getNombres().toString()));
-        }
-        return unItems;
+        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getEvaluadoresByRol_LN(5);
+        return Utils.llenarCombo(lstCombo);
     }
     
     private ArrayList llenarComboSede(){
-        ArrayList unItems = new ArrayList();
-        List<BeanSede> lstbean = ln_C_SFSedeRemote.getSedeLN();
-        for(BeanSede b : lstbean){
-            unItems.add(new SelectItem(b.getNidSede(),
-                                       b.getDescripcionSede().toString()));
-        }
-        return unItems;
+        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getSedes_LN();
+        return Utils.llenarCombo(lstCombo);
     }
     
     private ArrayList llenarComboAreaA() {
-        ArrayList unItems = new ArrayList();
-        List<BeanAreaAcademica> beanAreaA = ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
-        for(BeanAreaAcademica a : beanAreaA){
-            SelectItem se = new SelectItem(a.getNidAreaAcademica(), 
-                                           a.getDescripcionAreaAcademica().toString());
-            unItems.add(se);
-        }
-        return unItems;
+        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getAreas_LN_WS();
+        return Utils.llenarCombo(lstCombo);
     }
     
     public void limpiarFiltro(ActionEvent actionEvent) {
@@ -495,7 +463,7 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setRGrafRolA(sessionDesempenoEvaluador.isRGrafRol());
         sessionDesempenoEvaluador.setRGrafLineA(sessionDesempenoEvaluador.isRGrafLine());
         sessionDesempenoEvaluador.setRGrafPieA(sessionDesempenoEvaluador.isRGrafPie());
-        sessionDesempenoEvaluador.setRenderMensaje(true);
+        sessionDesempenoEvaluador.setRenderMensaje(false);
         if(sessionDesempenoEvaluador.isRGrafEva() == true){
             setListEvabarChart(lst);
             renderMensaje(lst);
@@ -881,8 +849,8 @@ public class bDesempenoEvaluador {
     }
     
     public void renderMensaje(List list){
-        if(list.size() == 0){
-            sessionDesempenoEvaluador.setRenderMensaje(false);
+        if(list.size() != 0){
+            sessionDesempenoEvaluador.setRenderMensaje(true);
         }
     }
     

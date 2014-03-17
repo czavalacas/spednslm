@@ -174,7 +174,8 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     
     public List<BeanCombo> getAreas_WS(String id, String desc){
         try{
-            String qlString = this.getSelectBasicoBeanCombo(id, desc, "AreaAcademica");
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "AreaAcademica")+
+                              " ORDER BY e.descripcionAreaAcademica ASC ";
             List<BeanCombo> lstAreas = em.createQuery(qlString).getResultList();        
             return lstAreas;       
         }catch(Exception e){
@@ -207,7 +208,8 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     
     public List<BeanCombo> getSedes(String id, String desc){
         try{
-            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Sede");
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Sede") +
+                              " ORDER BY e.descripcionSede ASC ";
             List<BeanCombo> lstSedes = em.createQuery(qlString).getResultList();        
             return lstSedes;       
         }catch(Exception e){
@@ -218,11 +220,41 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     
     public List<BeanCombo> getNiveles(String id, String desc){
         try{
-            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Nivel");
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Nivel") +
+                              " ORDER BY e.descripcionNivel ASC";
             List<BeanCombo> lstNivel = em.createQuery(qlString).getResultList();        
             return lstNivel;       
         }catch(Exception e){
             e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<BeanCombo> getRolEvaluadores(String id, String desc){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Rol") +
+                               " WHERE e.nidRol = 2 OR " +
+                               " e.nidRol = 4 OR "+
+                               " e.nidRol = 5 " +
+                               "ORDER BY e.descripcionRol ASC";
+            List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
+            return lstUsuarios;       
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
+    }
+    
+    public List<BeanCombo> getEvaluadoresByRol(String id, String desc, int nidRol){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Usuario") +
+                               " WHERE e.rol.nidRol = :nidRol " +
+                               " ORDER BY e.nombres ASC ";
+            List<BeanCombo> lstUsuarios = em.createQuery(qlString).setParameter("nidRol", nidRol)
+                                                                  .getResultList();        
+            return lstUsuarios;       
+        }catch(Exception e){
+            e.printStackTrace();  
             return null;
         }
     }
