@@ -56,7 +56,6 @@
                         <af:commandLink text="> Cerrar Sesion" id="txt">
                             <af:showPopupBehavior popupId="p1" triggerType="action"/>
                         </af:commandLink>
-                        <af:commandLink text="> Cambiar Clave" id="txtCambClav"/>
                     </af:panelFormLayout>
                 </af:noteWindow>
             </af:popup>
