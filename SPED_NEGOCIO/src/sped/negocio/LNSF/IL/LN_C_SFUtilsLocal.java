@@ -23,4 +23,6 @@ public interface LN_C_SFUtilsLocal {
                             boolean changeCase, 
                             boolean isUpdate);
     List<BeanCombo> getNiveles_LN();
+    List<BeanCombo> getRolEvaluadores_LN();
+    List<BeanCombo> getEvaluadoresByRol_LN(int nidRol);
 }

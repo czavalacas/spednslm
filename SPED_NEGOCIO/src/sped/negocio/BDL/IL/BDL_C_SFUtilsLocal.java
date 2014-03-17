@@ -31,4 +31,6 @@ public interface BDL_C_SFUtilsLocal {
     List<BeanCombo> getUsuarios_WS(String id, String desc);
     List<BeanCombo> getSedes(String id, String desc);
     List<BeanCombo> getNiveles(String id, String desc);
+    List<BeanCombo> getRolEvaluadores(String id, String desc);
+    List<BeanCombo> getEvaluadoresByRol(String id, String desc, int nidRol);
 }
