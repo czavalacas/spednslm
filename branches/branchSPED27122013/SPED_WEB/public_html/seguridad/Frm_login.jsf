@@ -28,8 +28,12 @@
                                         <af:button text="Ingresar" id="btnInicio"
                                                    actionListener="#{bLogin.autenticarUsuario}"
                                                    action="#{bLogin.getRedireccionar}"/>
-                                        <af:messages id="m1" inline="true" binding="#{bLogin.mensaje}"/>                                    
-                                </af:panelFormLayout>
+                                        <af:activeOutputText id="otError"
+                                                                value="#{requestScope.bLogin.msjError}"
+                                                                inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
+                                                                binding="#{bLogin.otError}"/>
+                                <af:messages id="m1" inline="true"/>                                    
+                               </af:panelFormLayout>
                              </af:subform>
                             <af:panelGroupLayout id="pgl2" layout="scroll" inlineStyle="margin:0px 0px 0px 53px;">
                                 <af:link text="¿Has olvidado tu clave?" id="l1" partialSubmit="true">
@@ -45,6 +49,12 @@
                     <af:inputText label="Correo" id="it1" value="#{bLogin.correo}" required="true">
                         <f:validator validatorId="EmailValidator"/>
                     </af:inputText>
+                </af:dialog>
+            </af:popup>
+             <af:popup childCreation="deferred" autoCancel="disabled" contentDelivery="immediate" id="popMsj"
+                       binding="#{bLogin.popMsj}">
+                <af:dialog title="#{requestScope.bLogin.tituloPopup}" type="ok">
+                    <af:outputText value="#{requestScope.bLogin.mensajeCorreo}" id="ot1"/>
                 </af:dialog>
             </af:popup>
         </af:form>
