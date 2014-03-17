@@ -91,9 +91,6 @@
             </af:popup>       
 
         </af:form>
-        <span id="dummy">
-        
-        </span>
         <audio controls="controls" xmlns="http://www.w3.org/1999/xhtml" id="audio" hidden="hidden">
             <source src="../recursos/sound/buho.mp3"
                      type="audio/mp3"/>
