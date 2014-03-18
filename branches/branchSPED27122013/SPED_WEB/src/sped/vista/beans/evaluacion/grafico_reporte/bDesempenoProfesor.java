@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -29,6 +30,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
@@ -38,6 +40,7 @@ import oracle.adf.view.faces.bi.component.graph.UIGraph;
 
 import oracle.adf.view.faces.bi.model.GraphDataModel;
 
+import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
@@ -45,9 +48,12 @@ import oracle.adf.view.rich.component.rich.input.RichSelectManyCheckbox;
 
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
+import oracle.adf.view.rich.component.rich.input.RichTextEditor;
 import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
+
+import oracle.adf.view.rich.event.DialogEvent;
 
 import oracle.dss.dataView.ImageView;
 import oracle.dss.graph.GraphModel;
@@ -58,6 +64,7 @@ import org.apache.poi.xslf.usermodel.PieChartDemo;
 
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
+import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCriterioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
@@ -110,9 +117,21 @@ public class bDesempenoProfesor {
     private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
     @EJB
     private LN_C_SFIndicadorRemote ln_C_SFIndicadorRemote;
+    @EJB
+    private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
  
-    private bSessionDesempenoProfesor sessionDesempenoProfesor;   
+    private bSessionDesempenoProfesor sessionDesempenoProfesor;
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    
+    private String correoDelete;
+    private String clave;
+    private String correo;
+    private String nombreUsuario;
+    
+    Calendar cal= new GregorianCalendar();
     FacesContext ctx = FacesContext.getCurrentInstance();
+    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
+    
     private List listaBarPrueba;
     private UIGraph pieGraph;
     private UIGraph barGraph;
@@ -150,11 +169,15 @@ public class bDesempenoProfesor {
     private RichSelectManyCheckbox checksGraficos;
     private RichPanelBox panelDesemDocenIndi;
     private RichPanelGroupLayout pgl4;
+    private RichPopup popCorreo;
+    private RichTextEditor ret1;
+    private RichPopup popKey;
 
 
     public bDesempenoProfesor() {
         try {
-            
+            nombreUsuario = beanUsuario.getNombres();
+            correo = beanUsuario.getCorreo();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -166,7 +189,9 @@ public class bDesempenoProfesor {
             Utils.sysout("1 POST::>> "+sessionDesempenoProfesor.getExec()); 
             llenarChoices();
             sessionDesempenoProfesor.setExec(1);     
-            sessionDesempenoProfesor.setRelaValueGraficos(llenarListaString());               
+            sessionDesempenoProfesor.setRelaValueGraficos(llenarListaString());  
+                sessionDesempenoProfesor.setFechaActual(Utils.removeTime(cal.getTime()));
+                cal.add(Calendar.MONTH, -1);
             }
   
     }  
@@ -835,7 +860,11 @@ public class bDesempenoProfesor {
         sessionDesempenoProfesor.setLstEvaLineGlobalGraph(lstEva);
     }
     
-    public String rutaPdf() {
+    public void exportPdf(FacesContext facesContext, java.io.OutputStream outputStream) {
+        generarPdf(outputStream);
+    }
+    
+    public String rutaImagenes(){
         String rutaLocal = "";
         if(File.separator.equals("/")){
             rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + 
@@ -846,65 +875,74 @@ public class bDesempenoProfesor {
         }
         ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
         String imageDirPath = servletCtx.getRealPath("/");
+        return imageDirPath + rutaLocal;
+    }
+    
+    public void generarPdf(java.io.OutputStream fos) {
         String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
-        String rutaImg = imageDirPath + rutaLocal;
-        String rutaSave = rutaImg+timePath; 
-        String rutaPdf = rutaSave+"Reporte-"+timePath+".pdf";
-        /////////////////////////////////        
+        String rutaImg = rutaImagenes();
+        String rutaSave = rutaImg+timePath;
         try{
-            try{
-                Document document = new Document();
-                File file = null; 
-                FileOutputStream fos;
-                file = new File(rutaPdf); 
-                fos = new FileOutputStream(file); 
-                PdfWriter.getInstance(document, fos);
-                document.open();
-                Image img = Image.getInstance(rutaImg+"cabecera.png");
-                img.scalePercent(60);
-                img.setAlignment(Image.ALIGN_CENTER);
-                document.add(img);
-              // addSelectFiltro(document);
-                int cont = 0;
-               if(sessionDesempenoProfesor.isEstaPanelDocenteEvalua()){
-                    addImagenes(document, "Grafico Evaluacion Docente", exportGrafPNG( barDocenteEvalu, rutaSave+"GR.png"));
-                    cont++;
-                    addEspacio(cont, document);
-               }
-                if(sessionDesempenoProfesor.isEstaPanelDesemDocenEvalu()){
-                    addImagenes(document, "Grafico Desempeño Docente", exportGrafPNG(lineaDesempenoGlobal, rutaSave+"GE.png"));
-                    cont++;
-                    addEspacio(cont, document);
-                }
-               if(sessionDesempenoProfesor.isEstaPanelDocenteIndica()){
-                    addImagenes(document, "Grafico Evaluacion Docente Indicador", exportGrafPNG(barDocIndicadorGraph, rutaSave+"GL.png"));
-                    cont++;
-                    addEspacio(cont, document);                    
-                }
-               if(sessionDesempenoProfesor.isEstaPanelDesemDocenIndi()){
-                    addImagenes(document, "Grafico Desempeño Docente Indicador", exportGrafPNG(lineDesempenoProf, rutaSave+"GP.png"));
-                    cont++;
-                    addEspacio(cont, document);
-               }
-                if(sessionDesempenoProfesor.isEstaPanelAreas()){
-                    addImagenes(document, "Grafico Desempeño Areas Academicas", exportGrafPNG(barAreaGraph, rutaSave+"GA.png"));
-                }
-                document.close();
-                fos.close(); System.out.println(rutaPdf);
-                return rutaPdf;
-            }catch(FileNotFoundException e){
-                e.printStackTrace();
-                return null;
-            }catch(IOException e){
-                e.printStackTrace();
-                return null;
-            }                        
+            Document document = new Document();
+            PdfWriter.getInstance(document, fos);
+            document.open();
+            Image img = Image.getInstance(rutaImg+"cabecera.png");
+            img.scalePercent(60);
+            img.setAlignment(Image.ALIGN_CENTER);
+            document.add(img);
+          //  addSelectFiltro(document);
+            int cont = 0;            
+           
+                   if(sessionDesempenoProfesor.isEstaPanelDocenteEvalua()){
+                        addImagenes(document, "Grafico Evaluacion Docente", exportGrafPNG( barDocenteEvalu, rutaSave+"GR.png"));
+                        cont++;
+                        addEspacio(cont, document);
+                   }
+                    if(sessionDesempenoProfesor.isEstaPanelDesemDocenEvalu()){
+                        addImagenes(document, "Grafico Desempeño Docente", exportGrafPNG(lineaDesempenoGlobal, rutaSave+"GE.png"));
+                        cont++;
+                        addEspacio(cont, document);
+                    }
+                   if(sessionDesempenoProfesor.isEstaPanelDocenteIndica()){
+                        addImagenes(document, "Grafico Evaluacion Docente Indicador", exportGrafPNG(barDocIndicadorGraph, rutaSave+"GL.png"));
+                        cont++;
+                        addEspacio(cont, document);                    
+                    }
+                   if(sessionDesempenoProfesor.isEstaPanelDesemDocenIndi()){
+                        addImagenes(document, "Grafico Desempeño Docente Indicador", exportGrafPNG(lineDesempenoProf, rutaSave+"GP.png"));
+                        cont++;
+                        addEspacio(cont, document);
+                   }
+                    if(sessionDesempenoProfesor.isEstaPanelAreas()){
+                        addImagenes(document, "Grafico Desempeño Areas Academicas", exportGrafPNG(barAreaGraph, rutaSave+"GA.png"));
+                    }
+                    document.close();
+                    fos.close();              
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public String rutaPdf() {
+        String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
+        String rutaPdf = rutaImagenes() + timePath + "-Reporte.pdf";     
+        try{
+            File file = null; 
+            FileOutputStream fos;
+            file = new File(rutaPdf); 
+            fos = new FileOutputStream(file);
+            generarPdf(fos);
+            return rutaPdf;
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }
     } 
     
+   
     public String exportGrafPNG(UIGraph graph, String ruta){
         if(graph != null){
             UIGraph dvtgraph = graph; 
@@ -1246,5 +1284,163 @@ public class bDesempenoProfesor {
 
     public RichPanelGroupLayout getPgl4() {
         return pgl4;
+    }
+
+
+    public void bSendM(ActionEvent actionEvent) {
+        Utils.showPopUpMIDDLE(popCorreo);
+    }
+
+    public void setPopCorreo(RichPopup popCorreo) {
+        this.popCorreo = popCorreo;
+    }
+
+    public RichPopup getPopCorreo() {
+        return popCorreo;
+    }
+
+    public void confirmarCorreo(DialogEvent dialogEvent) {
+        Utils.sysout("entro 1");
+            DialogEvent.Outcome outcome = dialogEvent.getOutcome();        
+            if(outcome == DialogEvent.Outcome.ok){
+                Utils.sysout("entro 2");
+                Utils.showPopUpMIDDLE(popKey);   
+            }
+            if(outcome == DialogEvent.Outcome.no){
+                Utils.sysout("NO entro");
+                Utils.showPopUpMIDDLE(popKey);   
+                sessionDesempenoProfesor.setTypePopUpCorreo("none");
+                sessionDesempenoProfesor.setLstCorreo(new ArrayList());
+                sessionDesempenoProfesor.setCorreo("");
+                sessionDesempenoProfesor.setAsunto(""); 
+                sessionDesempenoProfesor.setMensaje("");
+            }
+        
+    }
+
+    public void agregarCorreo(ActionEvent actionEvent) {
+        int cont = 0;
+        if(sessionDesempenoProfesor.getCorreo() != null){
+            for(String correo : sessionDesempenoProfesor.getLstCorreo()){
+                if(correo.compareTo(sessionDesempenoProfesor.getCorreo()) == 0){
+                    cont = 1;
+                    break;
+                }
+            }
+            if(cont != 1){
+                sessionDesempenoProfesor.setTypePopUpCorreo("okCancel");                
+                sessionDesempenoProfesor.getLstCorreo().add(sessionDesempenoProfesor.getCorreo());
+                sessionDesempenoProfesor.setCorreo("");
+                Utils.addTarget(popCorreo);
+            }
+        }        
+        
+    }
+
+    public void removeCorreo(ActionEvent actionEvent) {
+        if(sessionDesempenoProfesor.getLstCorreo() != null){
+            sessionDesempenoProfesor.getLstCorreo().remove(correoDelete);
+            if(sessionDesempenoProfesor.getLstCorreo().size() == 0){
+                sessionDesempenoProfesor.setTypePopUpCorreo("none"); 
+            }
+            Utils.addTarget(popCorreo);
+        } 
+    }
+
+    public void setCorreoDelete(String correoDelete) {
+        this.correoDelete = correoDelete;
+    }
+
+    public String getCorreoDelete() {
+        return correoDelete;
+    }
+
+    public void setRet1(RichTextEditor ret1) {
+        this.ret1 = ret1;
+    }
+
+    public RichTextEditor getRet1() {
+        return ret1;
+    }
+
+    public void setPopKey(RichPopup popKey) {
+        this.popKey = popKey;
+    }
+
+    public RichPopup getPopKey() {
+        return popKey;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setFormato(SimpleDateFormat formato) {
+        this.formato = formato;
+    }
+
+    public SimpleDateFormat getFormato() {
+        return formato;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void confirmarEnvio(DialogEvent dialogEvent) {
+        String correos = "";
+        int size = sessionDesempenoProfesor.getLstCorreo().size();
+        for(int i = 0 ; i < size; i++){
+            correos = correos.concat(sessionDesempenoProfesor.getLstCorreo().get(i));
+            if(i != size-1){
+                correos = correos.concat(";");
+            }
+        }
+        DialogEvent.Outcome outcome = dialogEvent.getOutcome();        
+        if(outcome == DialogEvent.Outcome.ok){
+            String rutapdf = rutaPdf();
+            if(rutapdf != null){
+                String[] data = new String[8];
+                data[0] = formato.format(sessionDesempenoProfesor.getFechaActual());
+                data[1] = rutapdf;
+                data[2] = sessionDesempenoProfesor.getAsunto();
+                data[3] = correos;
+                data[4] = sessionDesempenoProfesor.getMensaje();
+                data[5] = correo;
+                data[6] = clave;
+                data[7] = "1";
+                boolean valida = ln_C_SFCorreoRemote.enviarCorreoHTML(data);  
+                if(valida){
+                    Utils.mostrarMensaje(ctx, "Se envio el correo", "Operacion Correcta", 3);
+                    sessionDesempenoProfesor.setTypePopUpCorreo("none");
+                    sessionDesempenoProfesor.setLstCorreo(new ArrayList());
+                    sessionDesempenoProfesor.setCorreo("");
+                    sessionDesempenoProfesor.setAsunto(""); 
+                    sessionDesempenoProfesor.setMensaje("");
+                }else{
+                    Utils.mostrarMensaje(ctx, "Ocurrio un error inesperado", "Operacion Incorrecta", 2);
+                    Utils.showPopUpMIDDLE(popCorreo);
+                }                
+            }            
+        }
+        if(outcome == DialogEvent.Outcome.no){
+            Utils.showPopUpMIDDLE(popCorreo);
+        }
     }
 }

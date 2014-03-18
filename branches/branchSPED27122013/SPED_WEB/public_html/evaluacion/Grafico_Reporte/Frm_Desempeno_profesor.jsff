@@ -16,7 +16,8 @@
                                       hideAndShowBehavior="withRescale"  contentDelivery="immediate"
                                        animationOnDataChange="auto"
                                       animationIndicators="ALL" animationOnDisplay="auto"
-                                    tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaBarChart}">
+                                    tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaBarChart}"
+                                    emptyText="Seleccione un tipo de Filtro Sedes">
                             <dvt:background>
                                 <dvt:specialEffects/>
                             </dvt:background>
@@ -101,16 +102,7 @@
                                                             unselectedLabel="::Seleccionar Docente::">
                                         <f:selectItems value="#{sessionDesempenoProfesor.listaProfesoresFiltro}" id="si13"/>
                                    </af:selectOneChoice>
-                                       <af:spacer width="10" height="10" id="s16"/>
-                               <!--      <af:spacer width="10" height="10" id="s14"/>
-                                        <af:selectOneChoice label="Criterio" id="smc14"
-                                                            value="#{sessionDesempenoProfesor.nidCriterio}"
-                                                            autoSubmit="true"
-                                                           
-                                                            binding="#{bDesempenoProfesor.choiceCriterios}"
-                                                            unselectedLabel="::Seleccionar Criterio::">
-                                        <f:selectItems value="#{sessionDesempenoProfesor.listaCriteriosFiltro}" id="si14"/>
-                                   </af:selectOneChoice>-->
+                                       <af:spacer width="10" height="10" id="s16"/>                     
                                    <af:spacer width="10" height="10" id="s12"/>
                                         <af:inputText label="Indicador" id="it1" autoSubmit="true"
                                                       valueChangeListener="#{bDesempenoProfesor.valoresInputTexIndicador}"
@@ -135,10 +127,14 @@
                                         <af:spacer width="10" height="10" id="s20"/>
                                         <af:inputDate label="Inicio" id="id1"
                                                   binding="#{bDesempenoProfesor.inputFechaInicio}"
-                                                      value="#{sessionScope.sessionDesempenoProfesor.fechaInicio}"/>
+                                                      value="#{sessionScope.sessionDesempenoProfesor.fechaInicio}">
+                                                        <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                      </af:inputDate>
                                     <af:spacer width="10" height="10" id="s17"/>
                                     <af:inputDate label="Fin" id="id2" binding="#{bDesempenoProfesor.inputFechaFin}"
-                                                  value="#{sessionScope.sessionDesempenoProfesor.fechaFin}"/>
+                                                  value="#{sessionScope.sessionDesempenoProfesor.fechaFin}">
+                                                    <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                  </af:inputDate>
                                     
                                   <af:spacer width="10" height="10" id="s18"/>                                              
                                         
@@ -193,7 +189,14 @@
                           
                            <af:spacer width="10" height="10" id="s24"/>  
                            <af:spacer width="10" height="10" id="s25"/>  
-                              <af:button text="Generar PDF" id="b4" action="#{bDesempenoProfesor.rutaPdf}"/>
+                              <af:button text="Generar PDF" id="b4" action="#{bDesempenoProfesor.rutaPdf}">
+                              <af:fileDownloadActionListener filename="Graficos_Desempeño_Profesorr.pdf"
+                                                           contentType="application/pdf"
+                                                           method="#{bDesempenoProfesor.exportPdf}"/>
+                              </af:button>
+                              <af:button text="Enviar correo" id="bSendM"
+                                   actionListener="#{bDesempenoProfesor.bSendM}"
+                                   rendered="true"/>
                         </af:panelGroupLayout>
                     </f:facet>
                 <f:facet name="second">
@@ -208,7 +211,8 @@
                                 <dvt:lineGraph id="graph3" subType="LINE_VERT_ABS" shortDesc="line"
                                                dynamicResize="DYNAMIC_SIZE"
                                                tabularData="#{sessionDesempenoProfesor.lstEvaLineGraph}"
-                                               binding="#{bDesempenoProfesor.lineaDesempenoGlobal}">
+                                               binding="#{bDesempenoProfesor.lineaDesempenoGlobal}"
+                                               emptyText="Selecion un tipo de Filtro Docente con Indicador Durante un periodo">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -228,7 +232,8 @@
                                 <dvt:barGraph id="graph5" subType="BAR_VERT_CLUST" shortDesc="r"
                                               dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteIndicadorBarChart}"
-                                              binding="#{bDesempenoProfesor.barDocIndicadorGraph}">
+                                              binding="#{bDesempenoProfesor.barDocIndicadorGraph}"
+                                              emptyText="Selecion un tipo de Filtro Docente con Indicador Durante un periodo">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -249,7 +254,8 @@
                                              <dvt:lineGraph id="graph6" subType="LINE_VERT_ABS" shortDesc="line"
                                                dynamicResize="DYNAMIC_SIZE"
                                                tabularData="#{sessionDesempenoProfesor.lstEvaLineGlobalGraph}"
-                                               binding="#{bDesempenoProfesor.lineDesempenoProf}">
+                                               binding="#{bDesempenoProfesor.lineDesempenoProf}"
+                                                            emptyText="Selecion un tipo de Filtro Docente Durante un periodo">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -270,7 +276,8 @@
                                   <dvt:barGraph id="graph7" subType="BAR_VERT_CLUST" shortDesc="r"
                                               dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteEvaluacionBarChart}"
-                                              binding="#{bDesempenoProfesor.barDocenteEvalu}">
+                                              binding="#{bDesempenoProfesor.barDocenteEvalu}"
+                                                emptyText="Selecion un tipo de Filtro Docente Durante un periodo">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -282,21 +289,6 @@
                                     <dvt:y1Axis/>
                                     <dvt:legendArea automaticPlacement="AP_NEVER"/>
                                 </dvt:barGraph>
-                   <!--             <dvt:pieGraph id="graph2" subType="PIE" shortDesc="Pie" dynamicResize="DYNAMIC_SIZE"
-                                              binding="#{bDesempenoProfesor.pieGraph}"
-                                              value="#{requestScope.bDesempenoProfesor.graphDataPie}">
-                                    <dvt:background>
-                                        <dvt:specialEffects/>
-                                    </dvt:background>
-                                    <dvt:graphPieFrame/>
-                                    <dvt:seriesSet>
-                                        <dvt:series/>
-                                    </dvt:seriesSet>
-                                    <dvt:sliceLabel/>
-                                    <dvt:pieLabel rendered="true"/>
-                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                                </dvt:pieGraph>-->
-                                
                             </af:panelBox>
                               <af:panelBox text="Grafico de Areas" id="pb3" showDisclosure="false" type="stretch"
                                            rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelAreas}">
@@ -305,7 +297,8 @@
                                 <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_CLUST" shortDesc="lin"
                                                         dynamicResize="DYNAMIC_SIZE"
                                                         tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaAreasBarChart}"
-                                                        binding="#{bDesempenoProfesor.barAreaGraph}">
+                                                        binding="#{bDesempenoProfesor.barAreaGraph}"
+                                                        emptyText="Selecion un tipo de Filtro Areas">
                                     
                                     <dvt:background>
                                     <dvt:specialEffects/>
@@ -327,7 +320,49 @@
                         
                    </f:facet> 
                 </af:panelSplitter>
-            </f:facet>
+            </f:facet>            
         </af:panelStretchLayout>
+          <af:popup childCreation="deferred" autoCancel="disabled" id="popCorreo"
+                  binding="#{bDesempenoProfesor.popCorreo}">
+            <af:dialog id="d3" dialogListener="#{bDesempenoProfesor.confirmarCorreo}" title="Mensaje" 
+                       type="#{sessionDesempenoProfesor.typePopUpCorreo}">
+                <af:panelFormLayout id="pfl3" rows="1">
+                    <af:inputText label="Correo" id="it7" labelStyle="text-align: left;"
+                                  value="#{sessionDesempenoProfesor.correo}" columns="15">
+                        <f:validator validatorId="EmailValidator"/>
+                    </af:inputText>
+                    <af:button text="Agregar" id="b6" actionListener="#{bDesempenoProfesor.agregarCorreo}"/>
+                    <af:table var="row" rowBandingInterval="0" id="t3" value="#{sessionDesempenoProfesor.lstCorreo}">
+                        <af:column sortable="true" headerText="Correo" id="c11" width="150">
+                            <af:outputText value="#{row}" id="ot12"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Eliminar" id="c20" align="center" width="50">
+                            <af:button id="b7" icon="../recursos/img/usuarios/borrar.png"
+                                       actionListener="#{bDesempenoProfesor.removeCorreo}">
+                                <f:setPropertyActionListener value="#{row}"
+                                                             target="#{bDesempenoProfesor.correoDelete}"/>
+                            </af:button>
+                        </af:column>
+                    </af:table>
+                </af:panelFormLayout>
+                <af:panelFormLayout id="pfl8">
+                    <af:inputText label="Asunto " id="it8" value="#{sessionDesempenoProfesor.asunto}"/>
+                    <af:richTextEditor id="rte1" binding="#{bDesempenoProfesor.ret1}"
+                                       value="#{sessionDesempenoProfesor.mensaje}"/>
+                </af:panelFormLayout>                
+            </af:dialog>
+             </af:popup>
+              <af:popup childCreation="deferred" autoCancel="disabled" id="popKey"
+                        binding="#{bDesempenoProfesor.popKey}">
+            <af:dialog id="d4" dialogListener="#{bDesempenoProfesor.confirmarEnvio}" title="Ingrese contraseña">
+                <af:panelFormLayout id="pfl7">
+                    <af:inputText label="Correo" id="it9" labelStyle="text-align: left;" disabled="true"
+                                  value="#{bDesempenoProfesor.correo}"/>
+                    <af:inputText label="Contraseña" id="it10" labelStyle="text-align: left;" disabled="false"
+                                  value="#{bDesempenoProfesor.clave}" secret="true" required="true"/>
+                </af:panelFormLayout>                
+            </af:dialog>
+        </af:popup>
+       
     </f:view>
 </jsp:root>
