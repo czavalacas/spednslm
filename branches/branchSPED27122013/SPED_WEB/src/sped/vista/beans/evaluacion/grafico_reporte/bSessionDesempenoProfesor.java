@@ -56,6 +56,14 @@ public class bSessionDesempenoProfesor implements Serializable {
     private String rowHeightDashboard = "350px";
     private int columnsDashboard = 2;
     
+    private String typePopUpCorreo = "none";
+    private String correo;
+    private String mensaje;
+    private String asunto;
+    
+    private List<String> lstCorreo = new ArrayList();
+    private Date fechaActual;
+    
     public bSessionDesempenoProfesor() {
     }
 
@@ -363,5 +371,53 @@ public class bSessionDesempenoProfesor implements Serializable {
 
     public int getColumnsDashboard() {
         return columnsDashboard;
+    }
+
+    public void setTypePopUpCorreo(String typePopUpCorreo) {
+        this.typePopUpCorreo = typePopUpCorreo;
+    }
+
+    public String getTypePopUpCorreo() {
+        return typePopUpCorreo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setAsunto(String asunto) {
+        this.asunto = asunto;
+    }
+
+    public String getAsunto() {
+        return asunto;
+    }
+
+    public void setLstCorreo(List<String> lstCorreo) {
+        this.lstCorreo = lstCorreo;
+    }
+
+    public List<String> getLstCorreo() {
+        return lstCorreo;
+    }
+
+    public void setFechaActual(Date fechaActual) {
+        this.fechaActual = fechaActual;
+    }
+
+    public Date getFechaActual() {
+        return fechaActual;
     }
 }
