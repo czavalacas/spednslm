@@ -76,12 +76,12 @@ public class bNotificaciones {
                 sessionNoti.setEvas(evas);
                 sessionNoti.setPos(pos);
                 sessionNoti.setLstSedes(Utils.llenarCombo(ln_C_SFUtilsLocal.getSedes_LN()));
-                if(usuario.getNidRol() == 4){
-                    sessionNoti.setEnableSedes(false);
-                    sessionNoti.setCidSede(String.valueOf(usuario.getNidRol()));
-                    sessionNoti.setCidSedePO(String.valueOf(usuario.getNidRol()));
-                }else{
+                if(usuario.getRol().getNidRol() == 4){
                     sessionNoti.setEnableSedes(true);
+                    sessionNoti.setCidSede(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
+                    sessionNoti.setCidSedePO(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
+                }else{
+                    sessionNoti.setEnableSedes(false);
                 }
                 if(evas != null){
                     sessionNoti.setMostrarNotifEvas(evas.equals("S") ? true : false);
@@ -115,8 +115,8 @@ public class bNotificaciones {
     
     public String buscarNotificacionesEvaluaciones(){
         try {
-           if(usuario.getNidRol() == 4){
-               sessionNoti.setCidSede(String.valueOf(usuario.getNidRol()));
+           if(usuario.getRol().getNidRol() == 4){
+               sessionNoti.setCidSede(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
            }else{
                if(sessionNoti.getCidSede() == null){
                    sessionNoti.setCidSede("0");
@@ -143,8 +143,8 @@ public class bNotificaciones {
     
     public String buscarNotificacionesPartesOcurrencia(){
         try {
-           if(usuario.getNidRol() == 4){
-               sessionNoti.setCidSedePO(String.valueOf(usuario.getNidRol()));
+           if(usuario.getRol().getNidRol() == 4){
+               sessionNoti.setCidSedePO(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
            }else{
                if(sessionNoti.getCidSedePO() == null){
                    sessionNoti.setCidSedePO("0");

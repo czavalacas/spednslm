@@ -53,11 +53,11 @@ public class bParteOcurrencia {
             sessionParteOcurrencia.setExec(1);
             sessionParteOcurrencia.setLstSedes(Utils.llenarCombo(ln_C_SFUtilsLocal.getSedes_LN()));
             sessionParteOcurrencia.setLstProblemas(Utils.llenarCombo(ln_C_SFUtilsLocal.getProblemas_LN_WS()));
-            if(usuario.getNidRol() == 4){
-                sessionParteOcurrencia.setEnableSedes(false);
-                sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getNidRol()));
-            }else{
+            if(usuario.getRol().getNidRol() == 4){
                 sessionParteOcurrencia.setEnableSedes(true);
+                sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
+            }else{
+                sessionParteOcurrencia.setEnableSedes(false);
             }
             buscarPartesOcurrencia();
         }else{
@@ -68,8 +68,8 @@ public class bParteOcurrencia {
     public String buscarPartesOcurrencia(){
         try {
            int idUsuario = 0; 
-           if(usuario.getNidRol() == 4){
-               sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getNidRol()));
+           if(usuario.getRol().getNidRol() == 4){
+               sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
                idUsuario = usuario.getNidUsuario();
            }else{
                if(sessionParteOcurrencia.getCidSedePO() == null){
