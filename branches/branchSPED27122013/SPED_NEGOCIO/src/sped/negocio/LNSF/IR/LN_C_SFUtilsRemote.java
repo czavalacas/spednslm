@@ -24,5 +24,4 @@ public interface LN_C_SFUtilsRemote {
     List<BeanCombo> getSedes_LN();
     List<BeanCombo> getNiveles_LN();
     List<BeanCombo> getRolEvaluadores_LN();
-    List<BeanCombo> getEvaluadoresByRol_LN(int nidRol);
 }

@@ -16,9 +16,7 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private List lstRol;
     private List lstSede;
     private List lstArea;
-    private List lstEvaArea;
-    private List lstEvaSede;
-    private List lstEvaGeneral;
+    private List lstEvaluador;
     private List selectedRol;
     private List selectedEvaluador;
     private List selectedSede;
@@ -118,30 +116,6 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public List getLstRol() {
         return lstRol;
-    }
-
-    public void setLstEvaArea(List lstEvaArea) {
-        this.lstEvaArea = lstEvaArea;
-    }
-
-    public List getLstEvaArea() {
-        return lstEvaArea;
-    }
-
-    public void setLstEvaSede(List lstEvaSede) {
-        this.lstEvaSede = lstEvaSede;
-    }
-
-    public List getLstEvaSede() {
-        return lstEvaSede;
-    }
-
-    public void setLstEvaGeneral(List lstEvaGeneral) {
-        this.lstEvaGeneral = lstEvaGeneral;
-    }
-
-    public List getLstEvaGeneral() {
-        return lstEvaGeneral;
     }
 
     public void setSelectedRol(List selectedRol) {
@@ -518,5 +492,13 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public String getTypePopUpCorreo() {
         return typePopUpCorreo;
+    }
+
+    public void setLstEvaluador(List lstEvaluador) {
+        this.lstEvaluador = lstEvaluador;
+    }
+
+    public List getLstEvaluador() {
+        return lstEvaluador;
     }
 }
