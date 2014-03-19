@@ -18,6 +18,24 @@ public class bSessionParteOcurrencia {
     private Date fecMinPO;   
     private Date fecMaxPO;
     private List<BeanParteOcurrencia> lstNotifPOs = new ArrayList<BeanParteOcurrencia>();
+    private transient List<Object[]> lstEvaPieG;
+    private boolean pie3D;
+
+    public void setPie3D(boolean pie3D) {
+        this.pie3D = pie3D;
+    }
+
+    public boolean isPie3D() {
+        return pie3D;
+    }
+
+    public void setLstEvaPieG(List<Object[]> lstEvaPieG) {
+        this.lstEvaPieG = lstEvaPieG;
+    }
+
+    public List<Object[]> getLstEvaPieG() {
+        return lstEvaPieG;
+    }
 
     public void setLstSedes(List lstSedes) {
         this.lstSedes = lstSedes;
