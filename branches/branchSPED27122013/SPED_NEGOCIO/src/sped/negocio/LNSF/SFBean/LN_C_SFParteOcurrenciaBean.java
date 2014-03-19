@@ -43,11 +43,11 @@ public class LN_C_SFParteOcurrenciaBean implements LN_C_SFParteOcurrenciaRenote,
     }
 
     public List<BeanParteOcurrencia> getListaPartesOcurrencia_LN(Date fechaMin, 
-                                                                 Date fechaMax,
-                                                                 Integer nidProblema,
-                                                                 String nombreProfesor,
-                                                                 Integer nidSede,
-                                                                 Integer nidUsuario) {
+                                                                  Date fechaMax,
+                                                                  Integer nidProblema,
+                                                                  String nombreProfesor,
+                                                                  Integer nidSede,
+                                                                  Integer nidUsuario) {
         List<BeanParteOcurrencia> lstPOs = bdL_C_SFParteOcurrenciaLocal.getListaPartesOcurrencia_BDL(fechaMin, 
                                                                                                           fechaMax,
                                                                                                           nidProblema,

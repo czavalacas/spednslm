@@ -52,9 +52,9 @@
                         </af:panelGridLayout>
                         <af:panelGroupLayout>
                             <af:button text="Buscar" id="btnBuscarPO"
-                                        action="#{bNotificaciones.buscarNotificacionesPartesOcurrencia}"/>
+                                        action="#{bParteOcurrencia.buscarPartesOcurrencia}"/>
                             <af:button icon="../recursos/img/usuarios/refresh.png" immediate="true"
-                                        actionListener="#{bNotificaciones.limpiarPO}"/>
+                                        actionListener="#{bParteOcurrencia.limpiarPO}"/>
                         </af:panelGroupLayout>
                     </af:subform>
                      <af:panelCollection id="pc1" inlineStyle="width:inherit;">
@@ -65,10 +65,10 @@
                         </f:facet>
                         <f:facet name="statusbar"/>
                         <af:table value="#{sessionScope.sessionParteOcurrencia.lstNotifPOs}" var="row" rowBandingInterval="0" id="tbPOs"
-                              binding="#{bNotificaciones.tbPOs}"
-                              varStatus="vs" emptyText="No hay Notificaciones de Parte de Ocurrencia" width="inherit;"
+                              binding="#{bParteOcurrencia.tbPOs}"
+                              varStatus="vs" emptyText="No hay Partes de Ocurrencia" width="inherit;"
                               inlineStyle="width:inherit;" rowSelection="single" columnStretching="column:c7">
-                        <af:column width="18" frozen="true">
+                        <af:column width="22" frozen="true">
                             <af:outputText value="#{vs.index + 1}"/>
                         </af:column>
                         <af:column sortable="true" headerText="Profesor" align="start" width="170" id="c6" sortProperty="profesor">
