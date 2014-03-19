@@ -24,4 +24,7 @@ public interface LN_C_SFUtilsLocal {
                             boolean isUpdate);
     List<BeanCombo> getNiveles_LN();
     List<BeanCombo> getRolEvaluadores_LN();
+    List<BeanCombo> getCursos_LN();
+    List<BeanCombo> getGrados_LN();
+    List<BeanComboString> getEstadoEvaluacionFromConstraint();
 }

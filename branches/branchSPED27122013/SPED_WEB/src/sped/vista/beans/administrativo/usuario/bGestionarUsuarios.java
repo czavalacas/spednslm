@@ -26,9 +26,6 @@ import javax.faces.model.SelectItem;
 
 import javax.imageio.ImageIO;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
 import javax.servlet.ServletContext;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
@@ -47,10 +44,8 @@ import org.apache.myfaces.trinidad.event.SelectionEvent;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
 
-import sped.negocio.BDL.IR.BDL_C_SFLeyendaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
-import sped.negocio.LNSF.IR.LN_C_SFSedeNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
@@ -59,7 +54,6 @@ import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanRol;
 import sped.negocio.entidades.beans.BeanSede;
-import sped.negocio.entidades.beans.BeanSedeNivel;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
@@ -109,8 +103,6 @@ public class bGestionarUsuarios {
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     @EJB
     private LN_C_SFSedeRemote ln_C_SFSedeRemote;
-    @EJB
-    private LN_C_SFSedeNivelRemote ln_C_SFSedeNivelRemote;
     private RichSelectOneChoice choiceTipoSede;
     private UISelectItems si8;
     private UISelectItems si9;
@@ -123,7 +115,7 @@ public class bGestionarUsuarios {
     public void methodInvokeOncedOnPageLoad() {
         if (sessionGestionarUsuarios.getExec() == 0) {
             sessionGestionarUsuarios.setExec(1);
-            sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
+            sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN());
             sessionGestionarUsuarios.setLstRol(this.llenarComboRol(1));
             sessionGestionarUsuarios.setLstRolf(this.llenarComboRol(2));
             sessionGestionarUsuarios.setLstAreaAcademica(this.llenarComboAreaA());
@@ -176,16 +168,6 @@ public class bGestionarUsuarios {
         }
         return unItems;
     }
-    
-    private ArrayList llenarComboNivel(int nidSede){
-        ArrayList unItems = new ArrayList();
-        List<BeanSedeNivel> lstSedeNivel = ln_C_SFSedeNivelRemote.getSedeNivelbyNidSedeLN(nidSede);
-        for(BeanSedeNivel sn : lstSedeNivel){            
-            unItems.add(new SelectItem(sn.getNivel().getNidNivel(),
-                                       sn.getNivel().getDescripcionNivel()));
-        }
-        return unItems;
-    }
 
     public void selecionarUsuario(SelectionEvent se) {        
         b3.setDisabled(false);
@@ -206,10 +188,8 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setNidAreaAcademica(usuario.getAreaAcademica().getNidAreaAcademica());
             sessionGestionarUsuarios.setRenderAreaAcdemica(true);
         }
-        if(usuario.getSedeNivel()!=null){
-            sessionGestionarUsuarios.setNidSede(usuario.getSedeNivel().getSede().getNidSede());
-            sessionGestionarUsuarios.setLstNivel(llenarComboNivel(usuario.getSedeNivel().getSede().getNidSede()));
-            sessionGestionarUsuarios.setNidNivel(usuario.getSedeNivel().getNivel().getNidNivel());
+        if(usuario.getSede()!=null){
+            sessionGestionarUsuarios.setNidSede(usuario.getSede().getNidSede());
             sessionGestionarUsuarios.setRenderSede(true);
         }
         if(usuario.getRol().getNidRol() == 3){
@@ -305,7 +285,7 @@ public class bGestionarUsuarios {
                              msj+sessionGestionarUsuarios.getUsuario(), 
                              "Operacion Correcta", 
                              3);
-        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
+        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN());
         b2.setDisabled(true);
         b3.setDisabled(true);
         Utils.addTargetMany(b2, b3, t1);
@@ -377,7 +357,7 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setFbooleanSede(false);
         sessionGestionarUsuarios.setFNidNivel(0);
         sessionGestionarUsuarios.setFNidSede(0); 
-        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN("1"));
+        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN());
         Utils.addTargetMany(pgl2,t1);
     }
     

@@ -4,11 +4,6 @@ import java.io.Serializable;
 
 import java.util.List;
 
-import oracle.adf.view.rich.component.rich.output.RichImage;
-
-import sped.negocio.entidades.beans.BeanNivel;
-import sped.negocio.entidades.beans.BeanSede;
-import sped.negocio.entidades.beans.BeanSedeNivel;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bSessionGestionarUsuarios implements Serializable {

@@ -62,7 +62,7 @@ public class bParteOcurrencia {
             sessionParteOcurrencia.setLstProblemas(Utils.llenarCombo(ln_C_SFUtilsLocal.getProblemas_LN_WS()));
             if(usuario.getRol().getNidRol() == 4){
                 sessionParteOcurrencia.setEnableSedes(true);
-                sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
+                sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getSede().getNidSede()));
             }else{
                 sessionParteOcurrencia.setEnableSedes(false);
             }
@@ -77,7 +77,7 @@ public class bParteOcurrencia {
         try {
            int idUsuario = 0; 
            if(usuario.getRol().getNidRol() == 4){
-               sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
+               sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getSede().getNidSede()));
                idUsuario = usuario.getNidUsuario();
            }else{
                if(sessionParteOcurrencia.getCidSedePO() == null){

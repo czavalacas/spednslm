@@ -16,7 +16,7 @@ public class BeanUsuario implements java.io.Serializable{
     private String usuario;
     private BeanRol rol;
     private int nidRol;
-    private BeanSedeNivel sedeNivel;   
+    private BeanSede sede;   
     private int nidSede;
     private int nidNivel;
     private BeanAreaAcademica areaAcademica;
@@ -119,12 +119,12 @@ public class BeanUsuario implements java.io.Serializable{
         return rol;
     }
 
-    public void setSedeNivel(BeanSedeNivel sedeNivel) {
-        this.sedeNivel = sedeNivel;
+    public void setSede(BeanSede sede) {
+        this.sede = sede;
     }
 
-    public BeanSedeNivel getSedeNivel() {
-        return sedeNivel;
+    public BeanSede getSede() {
+        return sede;
     }
 
     public void setAreaAcademica(BeanAreaAcademica areaAcademica) {

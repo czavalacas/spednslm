@@ -6,7 +6,6 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>java:/app/jdbc/jdbc/SPED_RemotoDS</jta-data-source>
     <class>sped.negocio.entidades.admin.Main</class>
-    <class>sped.negocio.entidades.admin.SedeNivel</class>
     <class>sped.negocio.entidades.admin.GradoNivel</class>
     <class>sped.negocio.entidades.admin.AreaAcademica</class>
     <class>sped.negocio.entidades.admin.Aula</class>

@@ -91,11 +91,7 @@
                 </af:column>
                 <af:column sortable="true" headerText="Sede" align="start" id="c7" 
                            sortProperty="sedeNivel.sede.descripcionSede">
-                    <af:outputText value="#{row.sedeNivel.sede.descripcionSede}" id="ot7"/>
-                </af:column>
-                <af:column sortable="true" headerText="Nivel" align="start" id="c9" 
-                           sortProperty="sedeNivel.nivel.descripcionNivel">
-                    <af:outputText value="#{row.sedeNivel.nivel.descripcionNivel}" id="ot9"/>
+                    <af:outputText value="#{row.sede.descripcionSede}" id="ot7"/>
                 </af:column>
                 <af:column sortable="true" headerText="Area Academica" align="start" id="c3"
                            sortProperty="areaAcademica.descripcionAreaAcademica">

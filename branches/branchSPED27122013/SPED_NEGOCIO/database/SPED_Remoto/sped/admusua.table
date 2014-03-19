@@ -93,36 +93,6 @@
       </properties>
     </column>
     <column>
-      <name>nidNivel</name>
-      <dataTypeUsage>
-        <attributeValues>
-          <entry>
-            <key>size</key>
-            <value class="java.lang.Long">10</value>
-          </entry>
-        </attributeValues>
-        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
-          <providerClass>oracle.javatools.db.mysql.MySQLDatabaseImpl</providerClass>
-          <typeName>INT</typeName>
-        </dataTypeID>
-      </dataTypeUsage>
-      <notNull>false</notNull>
-      <properties>
-        <entry>
-          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
-          <value class="oracle.javatools.db.ReferenceID">
-            <name>nidNivel</name>
-            <parent class="oracle.javatools.db.ReferenceID">
-              <name>admusua</name>
-              <schemaName>sped</schemaName>
-              <type>TABLE</type>
-            </parent>
-            <type>COLUMN</type>
-          </value>
-        </entry>
-      </properties>
-    </column>
-    <column>
       <name>nidAreaAcademica</name>
       <dataTypeUsage>
         <attributeValues>
@@ -328,21 +298,11 @@
     </column>
   </columns>
   <constraints>
-    <constraint class="oracle.javatools.db.FKConstraint">
-      <name>FK_ADDSENI_ADMUSUA_02</name>
+    <constraint class="oracle.javatools.db.PKConstraint">
+      <name>PRIMARY</name>
       <columnIDs>
         <columnID class="oracle.javatools.db.NameBasedID">
-          <name>nidSede</name>
-          <parent class="oracle.javatools.db.NameBasedID">
-            <name>admusua</name>
-            <schemaName>sped</schemaName>
-            <type>TABLE</type>
-          </parent>
-          <schemaName>sped</schemaName>
-          <type>COLUMN</type>
-        </columnID>
-        <columnID class="oracle.javatools.db.NameBasedID">
-          <name>nidNivel</name>
+          <name>nidUsuario</name>
           <parent class="oracle.javatools.db.NameBasedID">
             <name>admusua</name>
             <schemaName>sped</schemaName>
@@ -353,36 +313,24 @@
         </columnID>
       </columnIDs>
       <enabled>true</enabled>
-      <onDeleteAction>NO_ACTION</onDeleteAction>
       <properties>
         <entry>
           <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
           <value class="oracle.javatools.db.ReferenceID">
-            <name>FK_ADDSENI_ADMUSUA_02</name>
+            <name>PRIMARY</name>
             <childObjectNames>
-              <childObjectName>nidSede</childObjectName>
-              <childObjectName>nidNivel</childObjectName>
+              <childObjectName>nidUsuario</childObjectName>
             </childObjectNames>
             <parent class="oracle.javatools.db.ReferenceID">
               <name>admusua</name>
               <schemaName>sped</schemaName>
               <type>TABLE</type>
             </parent>
-            <subType>FKConstraint</subType>
+            <subType>PKConstraint</subType>
             <type>CONSTRAINT</type>
           </value>
         </entry>
       </properties>
-      <referenceID class="oracle.javatools.db.NameBasedID">
-        <name>PRIMARY</name>
-        <parent class="oracle.javatools.db.NameBasedID">
-          <name>addseni</name>
-          <schemaName>sped</schemaName>
-          <type>TABLE</type>
-        </parent>
-        <schemaName>sped</schemaName>
-        <type>CONSTRAINT</type>
-      </referenceID>
     </constraint>
     <constraint class="oracle.javatools.db.FKConstraint">
       <name>FK_ADMARAC_ADMUSUA_03</name>
@@ -474,11 +422,11 @@
         <type>CONSTRAINT</type>
       </referenceID>
     </constraint>
-    <constraint class="oracle.javatools.db.PKConstraint">
-      <name>PRIMARY</name>
+    <constraint class="oracle.javatools.db.FKConstraint">
+      <name>fk_admusua_admsede1_idx</name>
       <columnIDs>
         <columnID class="oracle.javatools.db.NameBasedID">
-          <name>nidUsuario</name>
+          <name>nidSede</name>
           <parent class="oracle.javatools.db.NameBasedID">
             <name>admusua</name>
             <schemaName>sped</schemaName>
@@ -489,24 +437,15 @@
         </columnID>
       </columnIDs>
       <enabled>true</enabled>
-      <properties>
-        <entry>
-          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
-          <value class="oracle.javatools.db.ReferenceID">
-            <name>PRIMARY</name>
-            <childObjectNames>
-              <childObjectName>nidUsuario</childObjectName>
-            </childObjectNames>
-            <parent class="oracle.javatools.db.ReferenceID">
-              <name>admusua</name>
-              <schemaName>sped</schemaName>
-              <type>TABLE</type>
-            </parent>
-            <subType>PKConstraint</subType>
-            <type>CONSTRAINT</type>
-          </value>
-        </entry>
-      </properties>
+      <referenceID class="oracle.javatools.db.ReferenceID">
+        <name>PRIMARY</name>
+        <parent class="oracle.javatools.db.NameBasedID">
+          <name>admsede</name>
+          <schemaName>sped</schemaName>
+          <type>TABLE</type>
+        </parent>
+        <type>CONSTRAINT</type>
+      </referenceID>
     </constraint>
   </constraints>
   <indexes>
@@ -515,10 +454,6 @@
       <columnExpressions>
         <columnExpression>
           <expressionSource>nidSede</expressionSource>
-          <orderType>ASC</orderType>
-        </columnExpression>
-        <columnExpression>
-          <expressionSource>nidNivel</expressionSource>
           <orderType>ASC</orderType>
         </columnExpression>
       </columnExpressions>
