@@ -158,6 +158,9 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
         }else{
             bean.setEstado(false);
         }
+        if(bean.getIsWS().compareTo("1") == 0){
+            bean.setDescripcionPermiso(bean.getDescripcionPermiso().concat("   (Mobil)"));
+        }
         bean.setNidPermisoUsuario(Integer.parseInt(datos[2].toString()));
         return bean;
     }
