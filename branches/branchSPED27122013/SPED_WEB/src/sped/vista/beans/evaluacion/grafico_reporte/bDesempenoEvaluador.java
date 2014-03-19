@@ -582,12 +582,11 @@ public class bDesempenoEvaluador {
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
-            lstEva.add(obj3);
             lstEva.add(obj4);
             cont++;
         }
         if(gline != null){
-            if(cont < 4 && lstEva.size() != 0){
+            if(cont < 2 && lstEva.size() != 0){
                 lstEva.clear();
                 gline.setEmptyText("No hay suficientes datos para mostrar este Grafico");
             }else{

@@ -28,6 +28,7 @@ public class BeanPermiso implements Serializable {
     private String accelerator;
     private boolean estado;
     private int nidPermisoUsuario;
+    private String isWS;
 
     public void setShortURL_WS(String shortURL_WS) {
         this.shortURL_WS = shortURL_WS;
@@ -163,5 +164,13 @@ public class BeanPermiso implements Serializable {
 
     public int getNidPermisoUsuario() {
         return nidPermisoUsuario;
+    }
+
+    public void setIsWS(String isWS) {
+        this.isWS = isWS;
+    }
+
+    public String getIsWS() {
+        return isWS;
     }
 }
