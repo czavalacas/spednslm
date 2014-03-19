@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+                xmlns:af="http://xmlns.oracle.com/adf/faces/rich" xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces">
     <f:view>
         <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
             <af:panelGroupLayout halign="left">
@@ -104,6 +104,39 @@
                     </af:panelCollection>
             
             </af:panelGroupLayout>
+            <af:panelSplitter id="ps1" orientation="horizontal">
+                <f:facet name="first">
+                    <af:panelFormLayout>
+                        <af:selectOneChoice label="Grafico" id="smc1">
+                            <af:selectItem label="Grafico Torta - Pie" value="P" id="si1"/>
+                            <af:selectItem label="Grafico de Barras" value="B" id="si2"/>
+                            <af:selectItem label="Grafico Tipo Radar" value="R" id="si3"/>
+                        </af:selectOneChoice>
+                        <af:selectBooleanCheckbox label="3D" id="sbc1" autoSubmit="true"
+                                                      value="#{sessionScope.sessionParteOcurrencia.pie3D}"
+                                                      valueChangeListener="#{bParteOcurrencia.change3DPie}"/>
+                    </af:panelFormLayout>
+                </f:facet>
+                <f:facet name="second">
+                    <dvt:pieGraph id="graph1"  tabularData="#{sessionParteOcurrencia.lstEvaPieG}"
+                                    dynamicResize="DYNAMIC_SIZE" contentDelivery="immediate" shortDesc="Grafico Pie"
+                                    emptyText="No hay ningún dato que mostrar" binding="#{bParteOcurrencia.piePO}"
+                                    interactiveSliceBehavior="explode explodeAll "
+                                    threeDEffect="#{sessionScope.sessionParteOcurrencia.pie3D}"
+                                  drillingEnabled="true">
+                        <dvt:background>
+                            <dvt:specialEffects/>
+                        </dvt:background>
+                        <dvt:graphPieFrame/>
+                        <dvt:seriesSet>
+                            <dvt:series/>
+                        </dvt:seriesSet>
+                        <dvt:sliceLabel/>
+                        <dvt:pieLabel rendered="true"/>
+                        <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
+                    </dvt:pieGraph>
+                </f:facet>
+            </af:panelSplitter>
         </af:panelGroupLayout>
     </f:view>
 </ui:composition>

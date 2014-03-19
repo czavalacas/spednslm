@@ -1,5 +1,6 @@
 package sped.vista.beans.administrativo.parte;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
@@ -10,6 +11,9 @@ import javax.faces.context.FacesContext;
 
 import javax.faces.event.ActionEvent;
 
+import javax.faces.event.ValueChangeEvent;
+
+import oracle.adf.view.faces.bi.component.graph.UIGraph;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
@@ -18,7 +22,9 @@ import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import sped.negocio.LNSF.IL.LN_C_SFParteOcurrenciaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUtilsLocal;
 
+import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanParteOcurrencia;
+import sped.negocio.entidades.beans.BeanPie;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
@@ -42,6 +48,7 @@ public class bParteOcurrencia {
     private LN_C_SFUtilsLocal ln_C_SFUtilsLocal;
     @EJB
     private LN_C_SFParteOcurrenciaLocal ln_C_SFParteOcurrenciaLocal;
+    private UIGraph piePO;
 
     public bParteOcurrencia(){
         
@@ -60,6 +67,7 @@ public class bParteOcurrencia {
                 sessionParteOcurrencia.setEnableSedes(false);
             }
             buscarPartesOcurrencia();
+            setListPieGraph(sessionParteOcurrencia.getLstNotifPOs().get(sessionParteOcurrencia.getLstNotifPOs().size()-1).getLstPies());
         }else{
             
         }
@@ -93,6 +101,23 @@ public class bParteOcurrencia {
             e.printStackTrace();
        }
         return null;
+    }
+    
+    public void setListPieGraph(BeanPie[] pieArray){
+        List<Object[]> lstPOs = new ArrayList();
+        for(int i = 0; i < pieArray.length; i++){
+            BeanPie eva = pieArray[i];
+            Object[] obj1 = { "Partes de Ocurrencia", eva.getSerie(), eva.getCantSlice()};
+            lstPOs.add(obj1);
+        }
+        sessionParteOcurrencia.setLstEvaPieG(lstPOs);
+    }
+    
+    public void change3DPie(ValueChangeEvent vce) {
+        boolean val = (Boolean) vce.getNewValue();
+        sessionParteOcurrencia.setPie3D(val);
+        piePO.setThreeDEffect(val);
+        Utils.addTarget(piePO);
     }
     
     public void limpiarPO(ActionEvent actionEvent) {
@@ -178,5 +203,13 @@ public class bParteOcurrencia {
 
     public RichTable getTbPOs() {
         return tbPOs;
+    }
+
+    public void setPiePO(UIGraph piePO) {
+        this.piePO = piePO;
+    }
+
+    public UIGraph getPiePO() {
+        return piePO;
     }
 }
