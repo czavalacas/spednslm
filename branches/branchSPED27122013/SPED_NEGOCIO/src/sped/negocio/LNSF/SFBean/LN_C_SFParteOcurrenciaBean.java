@@ -42,11 +42,18 @@ public class LN_C_SFParteOcurrenciaBean implements LN_C_SFParteOcurrenciaRenote,
     public LN_C_SFParteOcurrenciaBean() {
     }
 
-    public List<BeanParteOcurrencia> getListaPartesOcurrencia_LN(Date fechaMin, Date fechaMax, Integer nidProblema,
-                                                                  String nombreProfesor, Integer nidSede,
-                                                                  Integer nidUsuario) {
-        List<BeanParteOcurrencia> lstPOs = bdL_C_SFParteOcurrenciaLocal.getListaPartesOcurrencia_BDL(fechaMin, fechaMax, nidProblema,
-                                                                                                         nombreProfesor, nidSede, nidUsuario);
+    public List<BeanParteOcurrencia> getListaPartesOcurrencia_LN(Date fechaMin, 
+                                                                 Date fechaMax,
+                                                                 Integer nidProblema,
+                                                                 String nombreProfesor,
+                                                                 Integer nidSede,
+                                                                 Integer nidUsuario) {
+        List<BeanParteOcurrencia> lstPOs = bdL_C_SFParteOcurrenciaLocal.getListaPartesOcurrencia_BDL(fechaMin, 
+                                                                                                          fechaMax,
+                                                                                                          nidProblema,
+                                                                                                          nombreProfesor, 
+                                                                                                          nidSede, 
+                                                                                                          nidUsuario);
         try {
             if (lstPOs != null) {
                 if (lstPOs.size() > 0) {
@@ -93,7 +100,11 @@ public class LN_C_SFParteOcurrenciaBean implements LN_C_SFParteOcurrenciaRenote,
                                                     String dniProfesor,
                                                     Integer nidSede,
                                                     Integer nidUsuario){
-        List<BeanProblemaProfesor> lstProbs = bdL_C_SFParteOcurrenciaLocal.getListaProblemas_ByProfesor_BDL(fechaMin,fechaMax,dniProfesor,nidSede,nidUsuario);    
+        List<BeanProblemaProfesor> lstProbs = bdL_C_SFParteOcurrenciaLocal.getListaProblemas_ByProfesor_BDL(fechaMin,
+                                                                                                                 fechaMax,
+                                                                                                                 dniProfesor,
+                                                                                                                 nidSede,
+                                                                                                                 nidUsuario);    
         List<BeanPie> lstPies = new ArrayList<BeanPie>();
         List<BeanBar> lstBeanBar = new ArrayList<BeanBar>();
         if(lstProbs != null){
@@ -129,7 +140,8 @@ public class LN_C_SFParteOcurrenciaBean implements LN_C_SFParteOcurrenciaRenote,
         return lstPies;
     }
     
-    public BeanPie getPieBySerie(String serie,List<BeanPie> lstPies){
+    public BeanPie getPieBySerie(String serie,
+                                  List<BeanPie> lstPies){
         for(int i = 0; i < lstPies.size(); i++){
             BeanPie pie = lstPies.get(i);
             if(pie.getSerie().equalsIgnoreCase(serie)){
@@ -139,7 +151,9 @@ public class LN_C_SFParteOcurrenciaBean implements LN_C_SFParteOcurrenciaRenote,
         return null;
     }
     
-    public BeanBar getBarByGroupProblema(String group,String problema,List<BeanBar> lstBeanBar){//group profe, serie:problema
+    public BeanBar getBarByGroupProblema(String group,
+                                          String problema,
+                                          List<BeanBar> lstBeanBar){//group profe, serie:problema
         for(int i = 0; i < lstBeanBar.size(); i++){
             BeanBar barra = lstBeanBar.get(i);
             if(barra.getGroup().equalsIgnoreCase(group) && barra.getSerie().equalsIgnoreCase(problema)){

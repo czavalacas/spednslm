@@ -1,0 +1,24 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SDM>
+   <OverallProperties
+      id="OverallProperties1"/>
+   <View
+      id="View2">
+      <property
+         name="activityId">Frm_ParteOcurrencia</property>
+      <property
+         name="page">/administrativo/parte/Frm_ParteOcurrencia.jsff</property>
+      <property
+         name="start">true</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>Frm_ParteOcurrencia&lt;/b> (Default Activity)&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">264.53125</property>
+      <property
+         name="pageFragment">true</property>
+      <property
+         name="x">288.4629</property>
+   </View>
+</SDM>
