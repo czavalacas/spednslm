@@ -36,6 +36,7 @@ public class BDL_C_SFSedeBean implements BDL_C_SFSedeRemote,
     public List<Sede> getSedeFindAll() {
         return em.createNamedQuery("Sede.findAll", Sede.class).getResultList();
     }
+    
     public List<Sede> findSedePorAreaAcademica(Integer nidAreaAcademica, String dia) {
         try {
             String ejbQl =    "SELECT distinct sed FROM Main ma, " +
@@ -53,11 +54,9 @@ public class BDL_C_SFSedeBean implements BDL_C_SFSedeRemote,
                     ejbQl = ejbQl.concat(" and ac.nidAreaAcademica=" + nidAreaAcademica);
                 }
             }
-
             if (dia != null) {
                 ejbQl = ejbQl.concat(" and ma.dia='" + dia + "'");
             }
-
             List<Sede> lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;
 

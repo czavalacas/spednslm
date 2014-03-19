@@ -49,11 +49,8 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "nidRol")
     private Rol rol;
     @ManyToOne
-    @JoinColumns({
-                 @JoinColumn(name = "nidSede", referencedColumnName = "nidSede"),
-                 @JoinColumn(name = "nidNivel", referencedColumnName = "nidNivel")
-        })
-    private SedeNivel sedeNivel;
+    @JoinColumn(name = "nidSede")
+    private Sede sede;
     @ManyToOne
     @JoinColumn(name = "nidAreaAcademica")
     private AreaAcademica areaAcademica;
@@ -66,13 +63,13 @@ public class Usuario implements Serializable {
     }
 
     public Usuario(String clave, String dni, String estadoUsuario, AreaAcademica areaAcademica, Rol rol,
-                   SedeNivel sedeNivel, int nidUsuario, String nombres, String usuario) {
+                   Sede sede, int nidUsuario, String nombres, String usuario) {
         this.clave = clave;
         this.dni = dni;
         this.estadoUsuario = estadoUsuario;
         this.areaAcademica = areaAcademica;
         this.rol = rol;
-        this.sedeNivel = sedeNivel;
+        this.sede = sede;
         this.nidUsuario = nidUsuario;
         this.nombres = nombres;
         this.usuario = usuario;
@@ -151,12 +148,12 @@ public class Usuario implements Serializable {
         this.rol = rol;
     }
 
-    public SedeNivel getSedeNivel() {
-        return sedeNivel;
+    public void setSede(Sede sede) {
+        this.sede = sede;
     }
 
-    public void setSedeNivel(SedeNivel sedeNivel) {
-        this.sedeNivel = sedeNivel;
+    public Sede getSede() {
+        return sede;
     }
 
     public AreaAcademica getAreaAcademica() {

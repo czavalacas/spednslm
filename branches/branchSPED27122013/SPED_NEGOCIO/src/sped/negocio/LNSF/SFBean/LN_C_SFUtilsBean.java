@@ -95,4 +95,17 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     public List<BeanCombo> getRolEvaluadores_LN(){
         return bdL_C_SFUtilsLocal.getRolEvaluadores("e.nidRol", "e.descripcionRol");
     }
+    
+    public List<BeanCombo> getCursos_LN(){
+        return bdL_C_SFUtilsLocal.getCursos("e.nidCurso", "e.descripcionCurso");
+    }
+    
+    public List<BeanCombo> getGrados_LN(){
+        return bdL_C_SFUtilsLocal.getGrados("e.nidGrado", "e.descripcionGrado");
+    }
+    
+    public List<BeanComboString> getEstadoEvaluacionFromConstraint(){
+        return bdL_C_SFUtilsLocal.getEstadosEvaluacion("e.valorCampo", "e.descripcionAMostrar");
+    }
+    
 }

@@ -78,8 +78,8 @@ public class bNotificaciones {
                 sessionNoti.setLstSedes(Utils.llenarCombo(ln_C_SFUtilsLocal.getSedes_LN()));
                 if(usuario.getRol().getNidRol() == 4){
                     sessionNoti.setEnableSedes(true);
-                    sessionNoti.setCidSede(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
-                    sessionNoti.setCidSedePO(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
+                    sessionNoti.setCidSede(String.valueOf(usuario.getSede().getNidSede()));
+                    sessionNoti.setCidSedePO(String.valueOf(usuario.getSede().getNidSede()));
                 }else{
                     sessionNoti.setEnableSedes(false);
                 }
@@ -116,7 +116,7 @@ public class bNotificaciones {
     public String buscarNotificacionesEvaluaciones(){
         try {
            if(usuario.getRol().getNidRol() == 4){
-               sessionNoti.setCidSede(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
+               sessionNoti.setCidSede(String.valueOf(usuario.getSede().getNidSede()));
            }else{
                if(sessionNoti.getCidSede() == null){
                    sessionNoti.setCidSede("0");
@@ -144,7 +144,7 @@ public class bNotificaciones {
     public String buscarNotificacionesPartesOcurrencia(){
         try {
            if(usuario.getRol().getNidRol() == 4){
-               sessionNoti.setCidSedePO(String.valueOf(usuario.getSedeNivel().getSede().getNidSede()));
+               sessionNoti.setCidSedePO(String.valueOf(usuario.getSede().getNidSede()));
            }else{
                if(sessionNoti.getCidSedePO() == null){
                    sessionNoti.setCidSedePO("0");

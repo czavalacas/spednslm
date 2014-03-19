@@ -607,7 +607,7 @@ public class bPlanificarEva {
                     BeanUsuario evaluador =  ln_C_SFUsuarioRemote.findConstrainByIdLN(Integer.parseInt(sessionPlanificarEva.getNidUsuario()));
                     sessionPlanificarEva.setNidRolUsuarioEnSession(evaluador.getRol().getNidRol());
                     if(evaluador.getRol().getNidRol()==4){
-                        sessionPlanificarEva.setNidSede(""+evaluador.getSedeNivel().getSede().getNidSede());
+                        sessionPlanificarEva.setNidSede(""+evaluador.getSede().getNidSede());
                         sessionPlanificarEva.setEstadoDisableChoiceSede(true);
                     }
                         if(evaluador.getRol().getNidRol()==2){
@@ -619,9 +619,9 @@ public class bPlanificarEva {
                             sessionPlanificarEva.setNidAreaAcademica(evaluador.getAreaAcademica().getNidAreaAcademica());
                         }                        
                     } 
-                    if(evaluador.getSedeNivel()!=null){
-                        if(evaluador.getSedeNivel().getSede().getNidSede()!=0){
-                            sessionPlanificarEva.setNidSedeEvaluador(evaluador.getSedeNivel().getSede().getNidSede());                
+                    if(evaluador.getSede()!=null){
+                        if(evaluador.getSede().getNidSede()!=0){
+                            sessionPlanificarEva.setNidSedeEvaluador(evaluador.getSede().getNidSede());                
                             }
                         }        
                     }

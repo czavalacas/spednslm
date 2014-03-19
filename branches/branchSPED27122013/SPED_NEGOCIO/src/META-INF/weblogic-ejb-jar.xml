@@ -124,16 +124,6 @@
     <stateless-session-descriptor/>
   </weblogic-enterprise-bean>
   <weblogic-enterprise-bean>
-    <ejb-name>BDL_C_SFSedeNivel</ejb-name>
-    <stateless-session-descriptor/>
-    <enable-call-by-reference>true</enable-call-by-reference>
-  </weblogic-enterprise-bean>
-  <weblogic-enterprise-bean>
-    <ejb-name>LN_C_SFSedeNivel</ejb-name>
-    <stateless-session-descriptor/>
-    <enable-call-by-reference>true</enable-call-by-reference>
-  </weblogic-enterprise-bean>
-  <weblogic-enterprise-bean>
     <ejb-name>BDL_T_SFCriterio</ejb-name>
     <stateless-session-descriptor/>
     <enable-call-by-reference>true</enable-call-by-reference>

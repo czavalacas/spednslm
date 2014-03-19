@@ -39,8 +39,8 @@ public class BDL_C_SFUsuarioRemoteClient {
         System.out.println("nombres       = " + usuario.getNombres());
         System.out.println("usuario       = " + usuario.getUsuario());
         System.out.println("rol           = " + usuario.getRol().getDescripcionRol());
-        System.out.println("Nivel         = " + usuario.getSedeNivel().getNivel().getDescripcionNivel());
-        System.out.println("Sede          = " + usuario.getSedeNivel().getSede().getDescripcionSede());
+        //System.out.println("Nivel         = " + usuario.getSedeNivel().getNivel().getDescripcionNivel());
+        //System.out.println("Sede          = " + usuario.getSedeNivel().getSede().getDescripcionSede());
         System.out.println("areaAcademica = " + usuario.getAreaAcademica().getDescripcionAreaAcademica());
     }
 

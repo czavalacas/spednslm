@@ -17,14 +17,13 @@ import javax.persistence.Table;
 @NamedQueries({ @NamedQuery(name = "Nivel.findAll", query = "select o from Nivel o") })
 @Table(name = "\"admnive\"")
 public class Nivel implements Serializable {
+    @SuppressWarnings("compatibility:-3082116150889754670")
     private static final long serialVersionUID = -1748198043861578063L;
     @Column(name = "desc_nivel", nullable = false)
     private String descripcionNivel;
     @Id
     @Column(name = "nidNivel", nullable = false)
     private int nidNivel;
-    @OneToMany(mappedBy = "nivel", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    private List<SedeNivel> sedeNivelLista;
     @OneToMany(mappedBy = "nivel", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<GradoNivel> gradoNivelLista;
 
@@ -51,26 +50,6 @@ public class Nivel implements Serializable {
 
     public void setNidNivel(int nidNivel) {
         this.nidNivel = nidNivel;
-    }
-
-    public List<SedeNivel> getSedeNivelLista() {
-        return sedeNivelLista;
-    }
-
-    public void setSedeNivelLista(List<SedeNivel> sedeNivelLista) {
-        this.sedeNivelLista = sedeNivelLista;
-    }
-
-    public SedeNivel addSedeNivel(SedeNivel sedeNivel) {
-        getSedeNivelLista().add(sedeNivel);
-        sedeNivel.setNivel(this);
-        return sedeNivel;
-    }
-
-    public SedeNivel removeSedeNivel(SedeNivel sedeNivel) {
-        getSedeNivelLista().remove(sedeNivel);
-        sedeNivel.setNivel(null);
-        return sedeNivel;
     }
 
     public List<GradoNivel> getGradoNivelLista() {

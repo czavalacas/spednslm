@@ -283,7 +283,7 @@ public class bConsultaPlanificacion {
         if(usuarioEnSesion.getRol().getNidRol()==4){
             sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
             sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
-            sessionConsultarPlanificacion.setNidSedeChoice(""+usuarioEnSesion.getSedeNivel().getSede().getNidSede());
+            sessionConsultarPlanificacion.setNidSedeChoice(""+usuarioEnSesion.getSede().getNidSede());
             sessionConsultarPlanificacion.setEstadoChoiceSede(true);
         }
         if(usuarioEnSesion.getRol().getNidRol()==2){

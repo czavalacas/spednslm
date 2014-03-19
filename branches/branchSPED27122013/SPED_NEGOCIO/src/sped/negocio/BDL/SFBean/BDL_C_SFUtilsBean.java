@@ -39,8 +39,6 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     @PersistenceContext(unitName = "SPED_NEGOCIO")
     private EntityManager em;
     MapperIF mapper = new DozerBeanMapper();
-    @EJB
-    private LN_C_SFErrorLocal ln_C_SFErrorLocal;
 
     public BDL_C_SFUtilsBean() {
     }
@@ -242,6 +240,43 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
             return lstUsuarios;       
         }catch(Exception e){
             e.printStackTrace();  
+            return null;
+        }
+    }
+    
+    public List<BeanCombo> getCursos(String id, String desc){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Curso") +
+                              " ORDER BY e.descripcionCurso ASC";
+            List<BeanCombo> lstCurso = em.createQuery(qlString).getResultList();        
+            return lstCurso;       
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<BeanCombo> getGrados(String id, String desc){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Grado") +
+                              " ORDER BY e.descripcionGrado ASC";
+            List<BeanCombo> lstGrado = em.createQuery(qlString).getResultList();        
+            return lstGrado;       
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<BeanComboString> getEstadosEvaluacion(String id, String desc){
+        try{
+            String qlString = this.getSelectBasicoBeanComboString(id, desc, "Constraint") +
+                              " WHERE e.nombreCampo = 'estado_evaluacion' "+
+                              " ORDER BY e.descripcionAMostrar ASC";
+            List<BeanComboString> lstEstado = em.createQuery(qlString).getResultList();        
+            return lstEstado;       
+        }catch(Exception e){
+            e.printStackTrace();
             return null;
         }
     }
