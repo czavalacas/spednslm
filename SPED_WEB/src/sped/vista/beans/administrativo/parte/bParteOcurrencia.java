@@ -34,6 +34,7 @@ public class bParteOcurrencia {
     private RichSelectOneChoice socProbPO;
     private RichInputDate idMinPO;
     private RichInputDate idMaxPO;
+    private RichTable tbPOs;
     private bSessionParteOcurrencia sessionParteOcurrencia;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
@@ -41,7 +42,6 @@ public class bParteOcurrencia {
     private LN_C_SFUtilsLocal ln_C_SFUtilsLocal;
     @EJB
     private LN_C_SFParteOcurrenciaLocal ln_C_SFParteOcurrenciaLocal;
-    private RichTable tbPOs;
 
     public bParteOcurrencia(){
         
@@ -59,6 +59,7 @@ public class bParteOcurrencia {
             }else{
                 sessionParteOcurrencia.setEnableSedes(true);
             }
+            buscarPartesOcurrencia();
         }else{
             
         }
@@ -66,8 +67,10 @@ public class bParteOcurrencia {
 
     public String buscarPartesOcurrencia(){
         try {
+           int idUsuario = 0; 
            if(usuario.getNidRol() == 4){
                sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getNidRol()));
+               idUsuario = usuario.getNidUsuario();
            }else{
                if(sessionParteOcurrencia.getCidSedePO() == null){
                    sessionParteOcurrencia.setCidSedePO("0");
@@ -81,7 +84,7 @@ public class bParteOcurrencia {
                                                                                                                  new Integer(sessionParteOcurrencia.getCidProblema()),
                                                                                                                  sessionParteOcurrencia.getDocentePO(),
                                                                                                                  new Integer(sessionParteOcurrencia.getCidSedePO()),
-                                                                                                                 usuario.getNidUsuario()));
+                                                                                                                 idUsuario));
            if(tbPOs != null){
                tbPOs.setValue(sessionParteOcurrencia.getLstNotifPOs());
                Utils.addTarget(tbPOs);
