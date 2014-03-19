@@ -17,11 +17,7 @@
                             <af:selectManyChoice label="Evaluador" id="choiceFEva" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFEva}" autoSubmit="true"
                                                  value="#{sessionDesempenoEvaluador.selectedEvaluador}">
-                                <f:selectItems value="#{sessionDesempenoEvaluador.lstEvaArea}" id="si4"/>
-                                <af:separator id="s7"/>
-                                <f:selectItems value="#{sessionDesempenoEvaluador.lstEvaSede}" id="si5"/>
-                                <af:separator id="s8"/>
-                                <f:selectItems value="#{sessionDesempenoEvaluador.lstEvaGeneral}" id="si6"/>
+                                <f:selectItems value="#{sessionDesempenoEvaluador.lstEvaluador}" id="si4"/>
                             </af:selectManyChoice>
                             <af:selectManyChoice label="Sede" id="choiceFSede" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFSede}" autoSubmit="true"
@@ -287,9 +283,6 @@
                                               rendered="#{sessionDesempenoEvaluador.renderArea}"/>
                                 <af:inputText label="Evaluacion(s) " id="it6" labelStyle="text-align: left;"
                                               disabled="true" value="#{sessionDesempenoEvaluador.estado}"/> 
-                                <af:button text="Enviar mensaje" id="bSendMA" 
-                                           rendered="#{sessionDesempenoEvaluador.evaluador.correo != null ? true : false}"
-                                           actionListener="#{bDesempenoEvaluador.bSendMA}"/>
                             </af:panelFormLayout>
                         </af:gridCell>
                     </af:gridRow>
