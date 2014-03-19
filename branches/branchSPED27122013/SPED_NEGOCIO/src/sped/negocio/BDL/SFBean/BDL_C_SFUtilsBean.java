@@ -151,7 +151,8 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
             String qlString = this.getSelectBasicoBeanCombo(id, desc, "Usuario") +
                                " WHERE e.rol.nidRol = 2 OR " +
                                " e.rol.nidRol = 4 OR "+
-                               " e.rol.nidRol = 5 ";
+                               " e.rol.nidRol = 5 " +
+                               " ORDER BY e.nombres ASC ";
             List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
             return lstUsuarios;       
         }catch(Exception e){
@@ -238,20 +239,6 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
                                " e.nidRol = 5 " +
                                "ORDER BY e.descripcionRol ASC";
             List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
-            return lstUsuarios;       
-        }catch(Exception e){
-            e.printStackTrace();  
-            return null;
-        }
-    }
-    
-    public List<BeanCombo> getEvaluadoresByRol(String id, String desc, int nidRol){
-        try{
-            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Usuario") +
-                               " WHERE e.rol.nidRol = :nidRol " +
-                               " ORDER BY e.nombres ASC ";
-            List<BeanCombo> lstUsuarios = em.createQuery(qlString).setParameter("nidRol", nidRol)
-                                                                  .getResultList();        
             return lstUsuarios;       
         }catch(Exception e){
             e.printStackTrace();  

@@ -29,7 +29,8 @@
                                             </af:image>
                                         </af:gridCell>
                                         <af:gridCell>
-                                            <af:image source="/imageservlet?nomusuario=#{bMain.nomUsuario}" id="i2" inlineStyle="height:45px; width:40px;">
+                                            <af:image source="/imageservlet?nomusuario=#{bMain.nomUsuario}" id="i2" inlineStyle="height:45px; width:40px;"
+                                                      binding="#{bMain.i2}">
                                                 <af:showPopupBehavior popupId="popCerrar" triggerType="click"
                                                                          alignId="i2" align="afterStart"/>
                                             </af:image>

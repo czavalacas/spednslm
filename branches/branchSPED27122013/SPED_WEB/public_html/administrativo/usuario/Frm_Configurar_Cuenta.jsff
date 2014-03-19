@@ -52,9 +52,11 @@
                         valueChangeListener="#{bConfigurarCuenta.uploadFileValueChangeEvent}"
                         binding="#{bConfigurarCuenta.fileImg}"/>
           <af:image id="image" source="#{sessionConfigurarCuenta.imgSource}"
-                    binding="#{bConfigurarCuenta.image}"/>
+                    binding="#{bConfigurarCuenta.image}"
+                    inlineStyle="height:175px; width:150px;"/>
           <af:button text="Cambiar" id="b3" rendered="#{sessionConfigurarCuenta.rutaImg != null ? true : false}"
-                     action="#{bConfigurarCuenta.cambiarImagen}"/>
+                     action="#{bConfigurarCuenta.cambiarImagen}" actionListener="#{bMain.actualizarImagen}">
+          </af:button>
         </af:panelFormLayout>
       </af:subform>
     </af:panelGroupLayout>

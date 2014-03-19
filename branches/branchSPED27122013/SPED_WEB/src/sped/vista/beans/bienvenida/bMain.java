@@ -26,9 +26,11 @@ import javax.servlet.http.HttpSession;
 
 import oracle.adf.view.rich.component.rich.RichMenu;
 import oracle.adf.view.rich.component.rich.RichMenuBar;
+import oracle.adf.view.rich.component.rich.layout.RichGridCell;
 import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
 import oracle.adf.view.rich.component.rich.nav.RichCommandMenuItem;
 
+import oracle.adf.view.rich.component.rich.output.RichImage;
 import oracle.adf.view.rich.component.rich.output.RichMedia;
 import oracle.adf.view.rich.component.rich.output.RichOutputLabel;
 import oracle.adf.view.rich.context.AdfFacesContext;
@@ -66,6 +68,7 @@ public class bMain implements Serializable {
     private String nomUsuario;
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
+    private RichImage i2;
 
     public bMain(){
         super();
@@ -248,6 +251,10 @@ public class bMain implements Serializable {
         }
     }
     
+    public void actualizarImagen(ActionEvent actionEvent) {
+        Utils.addTarget(i2);
+    }
+    
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
@@ -319,4 +326,13 @@ public class bMain implements Serializable {
     public RichMedia getSonidoBuho() {
         return sonidoBuho;
     }
+
+    public void setI2(RichImage i2) {
+        this.i2 = i2;
+    }
+
+    public RichImage getI2() {
+        return i2;
+    }
+    
 }

@@ -95,8 +95,4 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     public List<BeanCombo> getRolEvaluadores_LN(){
         return bdL_C_SFUtilsLocal.getRolEvaluadores("e.nidRol", "e.descripcionRol");
     }
-    
-    public List<BeanCombo> getEvaluadoresByRol_LN(int nidRol){
-        return bdL_C_SFUtilsLocal.getEvaluadoresByRol("e.nidUsuario", "e.nombres", nidRol);
-    }
 }

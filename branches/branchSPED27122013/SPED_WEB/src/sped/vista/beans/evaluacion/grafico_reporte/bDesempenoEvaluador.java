@@ -136,12 +136,10 @@ public class bDesempenoEvaluador {
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
         if(sessionDesempenoEvaluador.getExec() == 0) {
-            sessionDesempenoEvaluador.setLstRol(llenarComboRol());
-            sessionDesempenoEvaluador.setLstEvaArea(llenarComboEvaArea());
-            sessionDesempenoEvaluador.setLstEvaSede(llenarComboEvaSede());
-            sessionDesempenoEvaluador.setLstEvaGeneral(llenarComboEvaGeneral());
-            sessionDesempenoEvaluador.setLstSede(llenarComboSede());
-            sessionDesempenoEvaluador.setLstArea(llenarComboAreaA());            
+            sessionDesempenoEvaluador.setLstRol(Utils.llenarCombo(ln_C_SFUtilsRemote.getRolEvaluadores_LN()));
+            sessionDesempenoEvaluador.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
+            sessionDesempenoEvaluador.setLstArea(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));    
+            sessionDesempenoEvaluador.setLstEvaluador(Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadores_LN_WS()));
             sessionDesempenoEvaluador.setFechaActual(Utils.removeTime(cal.getTime()));
             cal.add(Calendar.MONTH, -1);
             sessionDesempenoEvaluador.setFechaAnterior(Utils.removeTime(cal.getTime()));                      
@@ -152,36 +150,6 @@ public class bDesempenoEvaluador {
             setListEvaFiltro_aux();            
             sessionDesempenoEvaluador.setExec(1);
         }        
-    }
-    
-    private ArrayList llenarComboRol(){
-        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getRolEvaluadores_LN();
-        return Utils.llenarCombo(lstCombo);
-    }
-    
-    private ArrayList llenarComboEvaArea(){
-        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getEvaluadoresByRol_LN(2);
-        return Utils.llenarCombo(lstCombo);
-    }
-    
-    private ArrayList llenarComboEvaSede(){
-        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getEvaluadoresByRol_LN(4);
-        return Utils.llenarCombo(lstCombo);
-    }
-    
-    private ArrayList llenarComboEvaGeneral(){
-        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getEvaluadoresByRol_LN(5);
-        return Utils.llenarCombo(lstCombo);
-    }
-    
-    private ArrayList llenarComboSede(){
-        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getSedes_LN();
-        return Utils.llenarCombo(lstCombo);
-    }
-    
-    private ArrayList llenarComboAreaA() {
-        List<BeanCombo> lstCombo = ln_C_SFUtilsRemote.getAreas_LN_WS();
-        return Utils.llenarCombo(lstCombo);
     }
     
     public void limpiarFiltro(ActionEvent actionEvent) {
@@ -357,14 +325,10 @@ public class bDesempenoEvaluador {
             mostrarFiltro(document, "Rol",rol);
         }
         if(sessionDesempenoEvaluador.getSelectedEvaluador_aux() != null){
-            List evaluadores = new ArrayList();
-            evaluadores.addAll(sessionDesempenoEvaluador.getLstEvaArea());
-            evaluadores.addAll(sessionDesempenoEvaluador.getLstEvaSede());
-            evaluadores.addAll(sessionDesempenoEvaluador.getLstEvaGeneral());
             String eva = "";
             int cont=0;
             int size = sessionDesempenoEvaluador.getSelectedEvaluador_aux().size();
-            for(Object o : evaluadores){                
+            for(Object o : sessionDesempenoEvaluador.getLstEvaluador()){                
                 if(size == cont){
                     break;
                 }
@@ -456,42 +420,28 @@ public class bDesempenoEvaluador {
     }
     
     public void setListEvaFiltro_aux(){
-        int cont = 0;
         List <BeanEvaluacion> lst = desempenoFiltro(1, null, null, null,null);
         sessionDesempenoEvaluador.setLstEvaTable(lst);
         sessionDesempenoEvaluador.setRGrafEvaA(sessionDesempenoEvaluador.isRGrafEva());
         sessionDesempenoEvaluador.setRGrafRolA(sessionDesempenoEvaluador.isRGrafRol());
         sessionDesempenoEvaluador.setRGrafLineA(sessionDesempenoEvaluador.isRGrafLine());
         sessionDesempenoEvaluador.setRGrafPieA(sessionDesempenoEvaluador.isRGrafPie());
-        sessionDesempenoEvaluador.setRenderMensaje(false);
         if(sessionDesempenoEvaluador.isRGrafEva() == true){
             setListEvabarChart(lst);
-            renderMensaje(lst);
-            cont++;
         }
         if(sessionDesempenoEvaluador.isRGrafRol() == true){
             List <BeanEvaluacion> lstBarRol = desempenoFiltro(5, null, null, null,null);
             setListEvabarChartRol(lstBarRol);
-            renderMensaje(lstBarRol);
-            cont++;
         }
         if(sessionDesempenoEvaluador.isRGrafLine() == true){
             List <BeanEvaluacion> lstDate = desempenoFiltro(3, null, null, null,null);
             setListLinegraph(lstDate);
-            renderMensaje(lstDate);
-            cont++;
         }
         if(sessionDesempenoEvaluador.isRGrafPie() == true){
             List <BeanEvaluacion> lstPie = desempenoFiltro(4, null, null, null,null);
             setListPiegraph(lstPie);
-            renderMensaje(lstPie);
-            cont++;
         }
-        sessionDesempenoEvaluador.setColumnsDashboard(cont == 1 ? 1 : 2);
-        sessionDesempenoEvaluador.setRowHeightDashboard(cont > 2 ? "350px" : "700px");
-        if(pgl2 != null){
-            Utils.addTargetMany(pgl2);
-        }
+        renderGraficos_Correo();
     }
     
     public void selectBCheck(ValueChangeEvent vce) {
@@ -503,76 +453,61 @@ public class bDesempenoEvaluador {
         int GrafPie = sessionDesempenoEvaluador.isRGrafPie() == true ? 1 : 0;
         int cont = GrafEva+GrafRol+GrafLine+GrafPie;
         int selecion = vce.getNewValue() == true ? 1 : -1 ;
-        boolean valida = true;
-        System.out.println(cont);
-        System.out.println(selecion);
+        ///valida para q no aya checkbox vacio
         if(cont <= 1){
             if(texto.compareTo("Rol(s)") == 0){
                 booleanCheckRol.setSelected(true);
-                valida = false;
             }
             if(texto.compareTo("Evaluador(s)") == 0){
                 booleanCheckEva.setSelected(true);
-                valida = false;
             }
             if(texto.compareTo("Linea de Tiempo") == 0){
                 booleanCheckLine.setSelected(true);
-                valida = false;
             }
             if(texto.compareTo("Evaluaciones Justificadas") == 0){
                 booleanCheckPie.setSelected(true);
-                valida = false;
             }
             Utils.addTargetMany(sd3);
         }
-        if(valida){
-            if(texto.compareTo("Rol(s)") == 0){
-                if(vce.getNewValue() == true){
-                    List <BeanEvaluacion> lstBarRol = desempenoFiltro_Aux(5, null, null, null,null);
-                    setListEvabarChartRol(lstBarRol);
-                    renderMensaje(lstBarRol);
-                    sessionDesempenoEvaluador.setRGrafRolA(true);
-                }else{
-                    sessionDesempenoEvaluador.setRGrafRolA(false);
-                }
+        /////valida onde hace click para mostrar o ocultar el grafico
+        if(texto.compareTo("Rol(s)") == 0){
+            if(booleanCheckRol.isSelected()){
+                List <BeanEvaluacion> lstBarRol = desempenoFiltro_Aux(5, null, null, null,null);
+                setListEvabarChartRol(lstBarRol);
+                sessionDesempenoEvaluador.setRGrafRolA(true);
+            }else{
+                sessionDesempenoEvaluador.setRGrafRolA(false);
             }
-            if(texto.compareTo("Evaluador(s)") == 0){
-                if(vce.getNewValue() == true){
-                    List <BeanEvaluacion> lst = desempenoFiltro_Aux(1, null, null, null,null);
-                    sessionDesempenoEvaluador.setLstEvaTable(lst);
-                    setListEvabarChart(lst);
-                    sessionDesempenoEvaluador.setRGrafEvaA(true);
-                }else{
-                    sessionDesempenoEvaluador.setRGrafEvaA(false);
-                }
+        }
+        if(texto.compareTo("Evaluador(s)") == 0){
+            if(booleanCheckEva.isSelected()){
+                List <BeanEvaluacion> lst = desempenoFiltro_Aux(1, null, null, null,null);
+                sessionDesempenoEvaluador.setLstEvaTable(lst);
+                setListEvabarChart(lst);
+                sessionDesempenoEvaluador.setRGrafEvaA(true);
+            }else{
+                sessionDesempenoEvaluador.setRGrafEvaA(false);
             }
-            if(texto.compareTo("Linea de Tiempo") == 0){
-                if(vce.getNewValue() == true){
-                    List <BeanEvaluacion> lstDate = desempenoFiltro_Aux(3, null, null, null,null);
-                    setListLinegraph(lstDate);
-                    renderMensaje(lstDate);
-                    sessionDesempenoEvaluador.setRGrafLineA(true);
-                }else{
-                    sessionDesempenoEvaluador.setRGrafLineA(false);
-                }
+        }
+        if(texto.compareTo("Linea de Tiempo") == 0){
+            if(booleanCheckLine.isSelected()){
+                List <BeanEvaluacion> lstDate = desempenoFiltro_Aux(3, null, null, null,null);
+                setListLinegraph(lstDate);
+                sessionDesempenoEvaluador.setRGrafLineA(true);
+            }else{
+                sessionDesempenoEvaluador.setRGrafLineA(false);
             }
-            if(texto.compareTo("Evaluaciones Justificadas") == 0){
-                if(vce.getNewValue() == true){
-                    List <BeanEvaluacion> lstPie = desempenoFiltro_Aux(4, null, null, null,null);
-                    setListPiegraph(lstPie);
-                    renderMensaje(lstPie);
-                    sessionDesempenoEvaluador.setRGrafPieA(true);
-                }else{
-                    sessionDesempenoEvaluador.setRGrafPieA(false);
-                }
+        }
+        if(texto.compareTo("Evaluaciones Justificadas") == 0){
+            if(booleanCheckPie.isSelected()){
+                List <BeanEvaluacion> lstPie = desempenoFiltro_Aux(4, null, null, null,null);
+                setListPiegraph(lstPie);
+                sessionDesempenoEvaluador.setRGrafPieA(true);
+            }else{
+                sessionDesempenoEvaluador.setRGrafPieA(false);
             }
-            cont = cont + selecion;
-            sessionDesempenoEvaluador.setColumnsDashboard(cont == 1 ? 1 : 2);
-            sessionDesempenoEvaluador.setRowHeightDashboard(cont > 2 ? "350px" : "700px");
-            Utils.addTargetMany(pgl2);
-        }        
-        
-        
+        }
+        renderGraficos_Correo();     
     }
     
     public List<BeanEvaluacion> desempenoFiltro(int tipoEvento,
@@ -626,12 +561,13 @@ public class bDesempenoEvaluador {
             lstEva.add(obj3);
             lstEva.add(obj3);
             lstEva.add(obj4);
-        }
+        }        
         sessionDesempenoEvaluador.setLstEvaBarChart(lstEva);        
     }
     
     public void setListLinegraph(List <BeanEvaluacion> lst){
         List<Object[]> lstEva = new ArrayList();
+        int cont = 0;
         int contEjecutados, contPendiente, contNoEje, contNoEjeJ;
         for(int i=0; i<lst.size(); i++){
             Date date = lst.get(i).getEndDate();
@@ -648,6 +584,15 @@ public class bDesempenoEvaluador {
             lstEva.add(obj3);
             lstEva.add(obj3);
             lstEva.add(obj4);
+            cont++;
+        }
+        if(gline != null){
+            if(cont < 4 && lstEva.size() != 0){
+                lstEva.clear();
+                gline.setEmptyText("No hay suficientes datos para mostrar este Grafico");
+            }else{
+                gline.setEmptyText("No hay ning\u00FAn dato que mostrar");
+            }
         }
         sessionDesempenoEvaluador.setLstEvaLineG(lstEva);
     }
@@ -745,11 +690,6 @@ public class bDesempenoEvaluador {
     }
     
     public void bSendM(ActionEvent actionEvent) {
-        Utils.showPopUpMIDDLE(popCorreo);
-    }
-    
-    public void bSendMA(ActionEvent actionEvent) {
-        sessionDesempenoEvaluador.getLstCorreo().add(sessionDesempenoEvaluador.getEvaluador().getCorreo());
         Utils.showPopUpMIDDLE(popCorreo);
     }
     
@@ -905,10 +845,38 @@ public class bDesempenoEvaluador {
         } 
     }
     
-    public void renderMensaje(List list){
-        if(list.size() != 0){
-            sessionDesempenoEvaluador.setRenderMensaje(true);
+    public void renderGraficos_Correo(){
+        int cont = 0;
+        sessionDesempenoEvaluador.setRenderMensaje(false);
+        if(sessionDesempenoEvaluador.isRGrafEvaA() == true){
+            if(sessionDesempenoEvaluador.getLstEvaBarChart().size() > 0){
+                sessionDesempenoEvaluador.setRenderMensaje(true);
+            }
+            cont++;
         }
+        if(sessionDesempenoEvaluador.isRGrafRolA() == true){
+            if(sessionDesempenoEvaluador.getLstEvaBarChartRol().size() > 0){
+                sessionDesempenoEvaluador.setRenderMensaje(true);
+            }
+            cont++;
+        }
+        if(sessionDesempenoEvaluador.isRGrafLineA() == true){
+            if(sessionDesempenoEvaluador.getLstEvaLineG().size() > 0){
+                sessionDesempenoEvaluador.setRenderMensaje(true);
+            }
+            cont++;
+        }
+        if(sessionDesempenoEvaluador.isRGrafPieA() == true){
+            if(sessionDesempenoEvaluador.getLstEvaPieG().size() > 0){
+                sessionDesempenoEvaluador.setRenderMensaje(true);
+            }
+            cont++;
+        }
+        sessionDesempenoEvaluador.setColumnsDashboard(cont == 1 ? 1 : 2);
+        sessionDesempenoEvaluador.setRowHeightDashboard(cont > 2 ? "350px" : "700px");
+        if(pgl2 != null){
+            Utils.addTargetMany(pgl2);
+        }      
     }
     
     public String rutaImagenes(){
