@@ -18,7 +18,7 @@
                                 <af:gridCell marginStart="1px" width="34%" id="gc1">
                                     <af:selectOneChoice label="Sede" value="#{sessionScope.sessionNoti.cidSede}"
                                                         id="socSedes" labelStyle="text-align: left;" autoSubmit="true"
-                                                        visible="#{sessionScope.sessionNoti.enableSedes}"
+                                                        disabled="#{sessionScope.sessionNoti.enableSedes}"
                                                         binding="#{bNotificaciones.socSedes}">
                                         <f:selectItems value="#{sessionScope.sessionNoti.lstSedes}" id="si1"/>
                                     </af:selectOneChoice>
@@ -135,7 +135,7 @@
                                 <af:gridCell marginStart="1px" width="34%">
                                     <af:selectOneChoice label="Sede" value="#{sessionScope.sessionNoti.cidSedePO}"
                                                         id="socSedesPO" labelStyle="text-align: left;" autoSubmit="true"
-                                                        visible="#{sessionScope.sessionNoti.enableSedes}"
+                                                        disabled="#{sessionScope.sessionNoti.enableSedes}"
                                                         binding="#{bNotificaciones.socSedesPO}">
                                         <f:selectItems value="#{sessionScope.sessionNoti.lstSedes}"/>
                                     </af:selectOneChoice>
@@ -211,7 +211,7 @@
                         <af:column sortable="true" headerText="Problema" align="start" id="c9" width="120" sortProperty="descProblema">
                             <af:outputText value="#{row.descProblema}" id="ot9"/>
                         </af:column>
-                        <af:column sortable="true" headerText="Usuario" align="start" id="c10" width="180" sortProperty="nombresUsuario">
+                        <af:column sortable="true" headerText="Usuario" align="start" id="c10" width="210" sortProperty="nombresUsuario">
                             <af:outputText value="#{row.nombresUsuario}" id="ot10"/>
                         </af:column>
                         <af:column sortable="true" headerText="Curso" align="start" id="c11" width="100" sortProperty="curso">
