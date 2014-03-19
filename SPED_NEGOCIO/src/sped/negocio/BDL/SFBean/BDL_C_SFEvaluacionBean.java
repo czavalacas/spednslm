@@ -173,10 +173,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
                     }
                     if(nidRol == 4){
-                        strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede " +
-                                                   " AND eva.main.aula.gradoNivel.nivel.nidNivel = :nid_nivel ");
+                        strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede ");
                         beanFiltroEva.setNidSede(0);
-                        beanFiltroEva.setNidNivel(0);
                     }
                     if(nidRol == 2){
                         strQuery = strQuery.concat(" AND eva.main.curso.areaAcademica.nidAreaAcademica = :nid_area ");
@@ -184,7 +182,6 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                     if(nidRol == 3){
                         strQuery = strQuery.concat(" AND eva.main.profesor.dniProfesor = :dni_profesor ");
-                        //strQuery = strQuery.concat(" AND upper(eva.estadoEvaluacion) = 'REALIZADA' ");
                     }                    
                     if(beanFiltroEva != null){
                         if(beanFiltroEva.getNidSede() != 0){
@@ -237,8 +234,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
                     }
                     if(nidRol == 4){
-                        query.setParameter("nid_sede", beanUsuario.getSedeNivel().getSede().getNidSede());
-                        query.setParameter("nid_nivel", beanUsuario.getSedeNivel().getNivel().getNidNivel());
+                        query.setParameter("nid_sede", beanUsuario.getSede().getNidSede());
                     }
                     if(nidRol == 2){                        
                         query.setParameter("nid_area", beanUsuario.getAreaAcademica().getNidAreaAcademica());

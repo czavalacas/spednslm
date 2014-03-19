@@ -32,5 +32,8 @@ public interface BDL_C_SFUtilsRemote {
     List<BeanCombo> getSedes(String id, String desc);
     List<BeanCombo> getNiveles(String id, String desc);
     List<BeanCombo> getRolEvaluadores(String id, String desc);
+    List<BeanCombo> getCursos(String id, String desc);
+    List<BeanCombo> getGrados(String id, String desc);
+    List<BeanComboString> getEstadosEvaluacion(String id, String desc);
 }
 

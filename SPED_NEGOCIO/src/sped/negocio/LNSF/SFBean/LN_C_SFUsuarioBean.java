@@ -129,10 +129,13 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
         return listaBean;
     }
 
-    @Override
-    public List<BeanUsuario> getUsuarioByEstadoLN(String estado) {
+    /** Metodo que trae a todos los usuarios del sistema
+     *  CUS: Gestionar Usuario
+     * @return
+     */
+    public List<BeanUsuario> getUsuarioByEstadoLN() {
         try{
-            return transformLstUsuario(bdL_C_SFUsuarioLocal.getUsuarioByEstadoBDL(estado));
+            return transformLstUsuario(bdL_C_SFUsuarioLocal.getUsuarioByEstadoBDL());
         }catch(Exception e){
             return new ArrayList<BeanUsuario>();
         }

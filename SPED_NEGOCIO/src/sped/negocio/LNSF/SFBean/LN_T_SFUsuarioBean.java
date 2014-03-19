@@ -18,14 +18,13 @@ import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFAreaAcademicaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFRolLocal;
 import sped.negocio.BDL.IL.BDL_C_SFSedeLocal;
-import sped.negocio.BDL.IL.BDL_C_SFSedeNivelLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioPermisoLocal;
 import sped.negocio.LNSF.IL.LN_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
-import sped.negocio.entidades.admin.SedeNivel;
+import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.sist.Rol;
 
@@ -75,8 +74,8 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         if(tipoEvento == 1 || tipoEvento == 2){
             Rol rol = bdL_C_SFRolLocal.findConstrainById(nidRol);
             AreaAcademica area = bdL_C_SFAreaAcademicaLocal.findEvaluadorById(nidAreaA);
-            //SedeNivel seni = bdL_C_SFSedeNivelLocal.findSedeNivelById(nidSede, nidNivel);
-            //u.setSedeNivel(seni);
+            Sede sede = bdL_C_SFSedeLocal.findSedeById(nidSede);
+            u.setSede(sede);
             u.setNombres(nombres);            
             u.setDni(dni);
             if(correo != null && correo.length() == 0){

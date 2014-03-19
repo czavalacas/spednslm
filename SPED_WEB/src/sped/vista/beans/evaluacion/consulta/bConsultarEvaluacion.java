@@ -95,7 +95,6 @@ import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.LNSF.IR.LN_C_SFFichaCriterioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
-import sped.negocio.LNSF.IR.LN_C_SFSedeNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFEvaluacionRemote;
@@ -145,8 +144,6 @@ public class bConsultarEvaluacion {
     @EJB
     private LN_C_SFSedeRemote ln_C_SFSedeRemote;
     @EJB
-    private LN_C_SFNivelRemote ln_C_SFNivelRemote;
-    @EJB
     private LN_C_SFCursoRemoto ln_C_SFCursoRemoto;
     @EJB
     private LN_C_SFGradoRemote ln_C_SFGradoRemote;
@@ -173,12 +170,13 @@ public class bConsultarEvaluacion {
         if(sessionConsultarEvaluacion.getExec() == 0){
             sessionConsultarEvaluacion.setExec(1);
             renderColumns(beanUsuario.getRol().getNidRol());
-            sessionConsultarEvaluacion.setLstSede(llenarComboSede());
-            sessionConsultarEvaluacion.setLstNivel(llenarComboNivel());
-            sessionConsultarEvaluacion.setLstArea(llenarComboAreaA());
-            sessionConsultarEvaluacion.setLstCurso(llenarComboCurso());
-            sessionConsultarEvaluacion.setLstGrado(llenarComboGrado());
-            sessionConsultarEvaluacion.setLstEstadoEvaluacion(llenarComboEstadoEvaluacion());
+            sessionConsultarEvaluacion.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
+            sessionConsultarEvaluacion.setLstNivel(Utils.llenarCombo(ln_C_SFUtilsRemote.getNiveles_LN()));
+            sessionConsultarEvaluacion.setLstArea(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
+            sessionConsultarEvaluacion.setLstCurso(Utils.llenarCombo(ln_C_SFUtilsRemote.getCursos_LN()));
+            sessionConsultarEvaluacion.setLstGrado(Utils.llenarCombo(ln_C_SFUtilsRemote.getGrados_LN()));
+            sessionConsultarEvaluacion.setLstEstadoEvaluacion
+                        (Utils.llenarComboString(ln_C_SFUtilsRemote.getEstadoEvaluacionFromConstraint()));
             llenarTabla();
         }
     }
@@ -200,56 +198,6 @@ public class bConsultarEvaluacion {
         if(nidRol == 3){
             sessionConsultarEvaluacion.setColumnProfesor(false);
         }        
-    }
-    
-    private ArrayList llenarComboAreaA() {
-        ArrayList unItems = new ArrayList();
-        List<BeanAreaAcademica> beanAreaA = ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
-        for(BeanAreaAcademica a : beanAreaA){
-            unItems.add(new SelectItem(a.getNidAreaAcademica(), 
-                                       a.getDescripcionAreaAcademica().toString()));
-        }
-        return unItems;
-    }
-    
-    private ArrayList llenarComboSede(){
-        ArrayList unItems = new ArrayList();
-        List<BeanSede> lstbean = ln_C_SFSedeRemote.getSedeLN();
-        for(BeanSede b : lstbean){            
-            unItems.add(new SelectItem(b.getNidSede(),
-                                       b.getDescripcionSede().toString()));
-        }
-        return unItems;
-    }
-    
-    private ArrayList llenarComboNivel(){
-        ArrayList unItems = new ArrayList();
-        List<BeanNivel> lstSedeNivel = ln_C_SFNivelRemote.getNivelLN();
-        for(BeanNivel n : lstSedeNivel){
-            unItems.add(new SelectItem(n.getNidNivel(),
-                                       n.getDescripcionNivel().toString()));
-        }
-        return unItems;
-    }
-    
-    private ArrayList llenarComboCurso(){
-        ArrayList unItems = new ArrayList();
-        List<BeanCurso> lstBeanCurso = ln_C_SFCursoRemoto.getlistaCursos();
-        for(BeanCurso c : lstBeanCurso){
-            unItems.add(new SelectItem(c.getNidCurso(),
-                                       c.getDescripcionCurso().toString()));
-        }
-        return unItems;
-    }
-    
-    private ArrayList llenarComboGrado(){
-        ArrayList unItems = new ArrayList();
-        List<BeanGrado> lstBeanGrado = ln_C_SFGradoRemote.getGradoLN();
-        for(BeanGrado g : lstBeanGrado){
-            unItems.add(new SelectItem(g.getNidGrado(),
-                                       g.getDescripcionGrado().toString()));
-        }
-        return unItems;
     }
     
     private ArrayList llenarComboEstadoEvaluacion(){
@@ -652,11 +600,6 @@ public class bConsultarEvaluacion {
 
     public UISelectItems getSi4() {
         return si4;
-    }
-
-    public String METODO1(String algo) {
-        // Add event code here...
-        return null;
     }
 
     public void setPfl7(RichPanelFormLayout pfl7) {
