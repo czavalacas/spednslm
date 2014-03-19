@@ -243,4 +243,19 @@
     <managed-bean-class>sped.vista.beans.migracion.bSessionMigrarHorarios</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bParteOcurrencia</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.administrativo.parte.bParteOcurrencia</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionParteOcurrencia</property-name>
+      <property-class>sped.vista.beans.administrativo.parte.bSessionParteOcurrencia</property-class>
+      <value>#{sessionParteOcurrencia}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionParteOcurrencia</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.administrativo.parte.bSessionParteOcurrencia</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>

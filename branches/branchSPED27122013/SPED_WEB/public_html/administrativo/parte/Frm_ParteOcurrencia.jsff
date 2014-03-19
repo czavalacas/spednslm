@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <f:view>
+        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+            <af:panelGroupLayout halign="left">
+                <af:spacer height="10"/>
+                <af:outputText value="Partes de Ocurrencia" id="otTitulo" styleClass="titulos"/>
+                <af:spacer height="10"/>
+            </af:panelGroupLayout>
+            <af:panelGroupLayout>
+          
+                    <af:subform defaultCommand="btnBuscarPO">
+                        <af:panelGridLayout>
+                            <af:gridRow marginTop="1px" height="auto">
+                                <af:gridCell marginStart="1px" width="34%">
+                                    <af:selectOneChoice label="Sede" value="#{sessionScope.sessionParteOcurrencia.cidSedePO}"
+                                                        id="socSedesPO" labelStyle="text-align: left;" autoSubmit="true"
+                                                        visible="#{sessionScope.sessionParteOcurrencia.enableSedes}"
+                                                        binding="#{bParteOcurrencia.socSedesPO}">
+                                        <f:selectItems value="#{sessionScope.sessionParteOcurrencia.lstSedes}"/>
+                                    </af:selectOneChoice>
+                                </af:gridCell>
+                                <af:gridCell marginStart="1px" width="33%">
+                                    <af:inputText label="Docente" id="itDocPO"
+                                                  value="#{sessionScope.sessionParteOcurrencia.docentePO}"
+                                                  binding="#{bParteOcurrencia.itDocPO}"/>
+                                </af:gridCell>
+                                <af:gridCell marginStart="1px" width="33%" marginEnd="1px">
+                                    <af:selectOneChoice label="Problema" value="#{sessionScope.sessionParteOcurrencia.cidProblema}"
+                                                        id="socProbPO" binding="#{bParteOcurrencia.socProbPO}">
+                                        <f:selectItems value="#{sessionScope.sessionParteOcurrencia.lstProblemas}" id="si4"/>
+                                    </af:selectOneChoice>
+                                </af:gridCell>
+                            </af:gridRow>
+                            <af:gridRow marginTop="1px" height="auto" marginBottom="1px">
+                                <af:gridCell marginStart="1px" width="33%">
+                                    <af:inputDate label="Fecha Min" id="idMinPO"
+                                                  value="#{sessionScope.sessionParteOcurrencia.fecMinPO}"
+                                                  binding="#{bParteOcurrencia.idMinPO}">
+                                        <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </af:inputDate>
+                                </af:gridCell>
+                                <af:gridCell marginStart="1px" width="33%" marginEnd="1px">
+                                    <af:inputDate label="Fecha Max" id="idMaxPO"
+                                                  value="#{sessionScope.sessionParteOcurrencia.fecMaxPO}"
+                                                  binding="#{bParteOcurrencia.idMaxPO}">
+                                        <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </af:inputDate>
+                                </af:gridCell>
+                            </af:gridRow>
+                        </af:panelGridLayout>
+                        <af:panelGroupLayout>
+                            <af:button text="Buscar" id="btnBuscarPO"
+                                        action="#{bNotificaciones.buscarNotificacionesPartesOcurrencia}"/>
+                            <af:button icon="../recursos/img/usuarios/refresh.png" immediate="true"
+                                        actionListener="#{bNotificaciones.limpiarPO}"/>
+                        </af:panelGroupLayout>
+                    </af:subform>
+                     <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                         <f:facet name="menus"/>
+                        <f:facet name="toolbar">
+                            <af:toolbar id="t1">
+                            </af:toolbar>
+                        </f:facet>
+                        <f:facet name="statusbar"/>
+                        <af:table value="#{sessionScope.sessionParteOcurrencia.lstNotifPOs}" var="row" rowBandingInterval="0" id="tbPOs"
+                              binding="#{bNotificaciones.tbPOs}"
+                              varStatus="vs" emptyText="No hay Notificaciones de Parte de Ocurrencia" width="inherit;"
+                              inlineStyle="width:inherit;" rowSelection="single" columnStretching="column:c7">
+                        <af:column width="18" frozen="true">
+                            <af:outputText value="#{vs.index + 1}"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Profesor" align="start" width="170" id="c6" sortProperty="profesor">
+                            <af:outputText value="#{row.profesor}" id="ot6"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Comentario" width="220" align="start" id="c7" sortProperty="comentario">
+                            <af:outputText value="#{row.comentario}" id="ot7"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Fecha" width="60" align="start" id="c8" sortProperty="fechaRegistro">
+                            <af:outputText value="#{row.fechaRegistro}" id="ot8">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </af:outputText>
+                        </af:column>
+                        <af:column sortable="true" headerText="Problema" align="start" id="c9" width="120" sortProperty="descProblema">
+                            <af:outputText value="#{row.descProblema}" id="ot9"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Usuario" align="start" id="c10" width="180" sortProperty="nombresUsuario">
+                            <af:outputText value="#{row.nombresUsuario}" id="ot10"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Curso" align="start" id="c11" width="100" sortProperty="curso">
+                            <af:outputText value="#{row.curso}" id="ot11"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Area" align="start" width="100" id="c12" sortProperty="areaAcademica">
+                            <af:outputText value="#{row.areaAcademica}" id="ot12"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Aula" align="start" id="c13" width="100" sortProperty="aula">
+                            <af:outputText value="#{row.aula}" id="ot13"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Sede" align="start" id="c14" width="100" sortProperty="sede">
+                            <af:outputText value="#{row.sede}" id="ot14"/>
+                        </af:column>
+                    </af:table>
+                    </af:panelCollection>
+            
+            </af:panelGroupLayout>
+        </af:panelGroupLayout>
+    </f:view>
+</ui:composition>

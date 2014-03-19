@@ -30,7 +30,7 @@ import sped.vista.Utils.Utils;
 
 /** Clase de Respaldo de Frm_notificaciones.jsff
  * @author dfloresgonz
- * @since 27.12.2013
+ * @since 15.03.2014
  */
 public class bNotificaciones {
     private RichTable tbEvas;
@@ -79,6 +79,7 @@ public class bNotificaciones {
                 if(usuario.getNidRol() == 4){
                     sessionNoti.setEnableSedes(false);
                     sessionNoti.setCidSede(String.valueOf(usuario.getNidRol()));
+                    sessionNoti.setCidSedePO(String.valueOf(usuario.getNidRol()));
                 }else{
                     sessionNoti.setEnableSedes(true);
                 }
