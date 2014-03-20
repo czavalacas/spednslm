@@ -89,5 +89,18 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
             e.printStackTrace();
             return null;
         }}
-
+    
+    public List<Profesor>  getProfesores() {
+        try{
+            String ejbQl = " SELECT pro " +
+                           " FROM Profesor pro " +
+                           " WHERE 1=1 Order by pro.apellidos";   
+            
+            List<Profesor> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;      
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }   
+        }
 }
