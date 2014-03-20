@@ -52,13 +52,6 @@ public class bParteOcurrencia {
     private RichInputDate idMinPO;
     private RichInputDate idMaxPO;
     private RichTable tbPOs;
-    private bSessionParteOcurrencia sessionParteOcurrencia;
-    FacesContext ctx = FacesContext.getCurrentInstance();
-    private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
-    @EJB
-    private LN_C_SFUtilsLocal ln_C_SFUtilsLocal;
-    @EJB
-    private LN_C_SFParteOcurrenciaLocal ln_C_SFParteOcurrenciaLocal;
     private UIGraph piePO;
     private UIGraph gbarPOs;
     private RichPanelSplitter ps1;
@@ -67,6 +60,13 @@ public class bParteOcurrencia {
     private UIGraph gradar;
     private RichSelectBooleanCheckbox sbc1;
     private RichButton btnRadar;
+    private bSessionParteOcurrencia sessionParteOcurrencia;
+    FacesContext ctx = FacesContext.getCurrentInstance();
+    private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
+    @EJB
+    private LN_C_SFUtilsLocal ln_C_SFUtilsLocal;
+    @EJB
+    private LN_C_SFParteOcurrenciaLocal ln_C_SFParteOcurrenciaLocal;
 
     public bParteOcurrencia(){
         
