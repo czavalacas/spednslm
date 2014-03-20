@@ -72,18 +72,24 @@
                             <af:outputText value="#{vs.index + 1}"/>
                         </af:column>
                         <af:column sortable="true" headerText="Profesor" align="start" width="170" id="c6" sortProperty="profesor">
-                            <af:outputText value="#{row.profesor}" id="ot6"/>
+                            <af:outputText value="#{row.profesor}" id="ot6">
+                                <af:clientAttribute name="ddProfesor" value="#{row.profesor}"/>
+                                <af:attributeDragSource attribute="ddProfesor"/>
+                            </af:outputText>
                         </af:column>
-                        <af:column sortable="true" headerText="Comentario" width="220" align="start" id="c7" sortProperty="comentario">
-                            <af:outputText value="#{row.comentario}" id="ot7"/>
+                         <af:column sortable="true" headerText="Problema" align="start" id="c9" width="120" sortProperty="descProblema">
+                            <af:outputText value="#{row.descProblema}" id="ot9">
+                                <af:clientAttribute name="ddProblema" value="#{row.descProblema}"/>
+                                <af:attributeDragSource attribute="ddProblema"/>
+                            </af:outputText>
                         </af:column>
                         <af:column sortable="true" headerText="Fecha" width="60" align="start" id="c8" sortProperty="fechaRegistro">
                             <af:outputText value="#{row.fechaRegistro}" id="ot8">
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </af:outputText>
                         </af:column>
-                        <af:column sortable="true" headerText="Problema" align="start" id="c9" width="120" sortProperty="descProblema">
-                            <af:outputText value="#{row.descProblema}" id="ot9"/>
+                        <af:column sortable="true" headerText="Comentario" width="220" align="start" id="c7" sortProperty="comentario">
+                            <af:outputText value="#{row.comentario}" id="ot7"/>
                         </af:column>
                         <af:column sortable="true" headerText="Usuario" align="start" id="c10" width="210" sortProperty="nombresUsuario">
                             <af:outputText value="#{row.nombresUsuario}" id="ot10"/>
@@ -100,41 +106,122 @@
                         <af:column sortable="true" headerText="Sede" align="start" id="c14" width="100" sortProperty="sede">
                             <af:outputText value="#{row.sede}" id="ot14"/>
                         </af:column>
+                        <af:dropTarget dropListener="#{bParteOcurrencia.handleItemDropProblemaProfesor}">
+                           <af:dataFlavor flavorClass="java.lang.String"/>
+                        </af:dropTarget>
                     </af:table>
                     </af:panelCollection>
             
             </af:panelGroupLayout>
-            <af:panelSplitter id="ps1" orientation="horizontal">
+            <af:panelSplitter id="ps1" orientation="horizontal" binding="#{bParteOcurrencia.ps1}"
+                              splitterPosition="300">
                 <f:facet name="first">
                     <af:panelFormLayout>
-                        <af:selectOneChoice label="Grafico" id="smc1">
+                        <af:selectOneChoice label="Grafico" id="smc1" autoSubmit="true"
+                                            valueChangeListener="#{bParteOcurrencia.cambioTipoGrafico}">
                             <af:selectItem label="Grafico Torta - Pie" value="P" id="si1"/>
                             <af:selectItem label="Grafico de Barras" value="B" id="si2"/>
                             <af:selectItem label="Grafico Tipo Radar" value="R" id="si3"/>
                         </af:selectOneChoice>
-                        <af:selectBooleanCheckbox label="3D" id="sbc1" autoSubmit="true"
+                        <af:selectBooleanCheckbox label="3D" id="sbc1" autoSubmit="true" rendered="#{!sessionScope.sessionParteOcurrencia.renderedRadar}"
                                                       value="#{sessionScope.sessionParteOcurrencia.pie3D}"
-                                                      valueChangeListener="#{bParteOcurrencia.change3DPie}"/>
+                                                      valueChangeListener="#{bParteOcurrencia.change3DPie}"
+                                                      binding="#{bParteOcurrencia.sbc1}"/>
+                        <af:table value="#{sessionScope.sessionParteOcurrencia.lstProfesoresRadar}" var="row"
+                                  rowBandingInterval="0" id="tbProRr" varStatus="vs" rendered="#{sessionScope.sessionParteOcurrencia.renderedRadar}"
+                                  binding="#{bParteOcurrencia.tbProRr}" width="250" columnStretching="column:c2">
+                            <af:column width="17" frozen="true" >
+                                <af:outputText value="#{vs.index + 1}"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Profesor" align="start" id="c2">
+                                <af:outputText value="#{row}" id="ot2">
+                                    <af:clientAttribute name="ddProfesor2" value="#{row}"/>
+                                    <af:attributeDragSource attribute="ddProfesor2"/>
+                                </af:outputText>
+                            </af:column>
+                            <af:dropTarget dropListener="#{bParteOcurrencia.handleItemDrop}">
+                               <af:dataFlavor flavorClass="java.lang.String"/>
+                            </af:dropTarget>
+                        </af:table>
+                        <af:table value="#{sessionScope.sessionParteOcurrencia.lstProblemasRadar}" var="row"  varStatus="vs"
+                                   rowBandingInterval="0" id="tbProbs" binding="#{bParteOcurrencia.tbProbs}" width="250"
+                                   columnStretching="column:c3" rendered="#{sessionScope.sessionParteOcurrencia.renderedRadar}">
+                            <af:column width="17" frozen="true">
+                                <af:outputText value="#{vs.index + 1}"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Problema" align="start" id="c3">
+                                <af:outputText value="#{row}" id="ot3">
+                                    <af:clientAttribute name="ddProblema2" value="#{row}"/>
+                                    <af:attributeDragSource attribute="ddProblema2"/>
+                                </af:outputText>
+                            </af:column>
+                            <af:dropTarget dropListener="#{bParteOcurrencia.handleItemDropProblema}">
+                                <af:dataFlavor flavorClass="java.lang.String"/>
+                            </af:dropTarget>
+                        </af:table>
+                        <af:button text="Ver Grafico" id="btnRadar" binding="#{bParteOcurrencia.btnRadar}"
+                                    actionListener="#{bParteOcurrencia.verGraficoRadar}" rendered="#{sessionScope.sessionParteOcurrencia.renderedRadar}"/>
                     </af:panelFormLayout>
                 </f:facet>
                 <f:facet name="second">
-                    <dvt:pieGraph id="graph1"  tabularData="#{sessionParteOcurrencia.lstEvaPieG}"
-                                    dynamicResize="DYNAMIC_SIZE" contentDelivery="immediate" shortDesc="Grafico Pie"
-                                    emptyText="No hay ningún dato que mostrar" binding="#{bParteOcurrencia.piePO}"
-                                    interactiveSliceBehavior="explode explodeAll "
-                                    threeDEffect="#{sessionScope.sessionParteOcurrencia.pie3D}"
-                                  drillingEnabled="true">
-                        <dvt:background>
-                            <dvt:specialEffects/>
-                        </dvt:background>
-                        <dvt:graphPieFrame/>
-                        <dvt:seriesSet>
-                            <dvt:series/>
-                        </dvt:seriesSet>
-                        <dvt:sliceLabel/>
-                        <dvt:pieLabel rendered="true"/>
-                        <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
-                    </dvt:pieGraph>
+                    <af:panelFormLayout>
+                             <dvt:pieGraph id="piePO"  tabularData="#{sessionParteOcurrencia.lstPOsPieG}"
+                                            dynamicResize="DYNAMIC_SIZE" contentDelivery="immediate" shortDesc="Grafico Pie"
+                                            emptyText="No hay ningún dato que mostrar" binding="#{bParteOcurrencia.piePO}"
+                                            interactiveSliceBehavior="explode explodeAll "
+                                            threeDEffect="#{sessionScope.sessionParteOcurrencia.pie3D}"
+                                            drillingEnabled="true" inlineStyle="width:920px;"
+                                            rendered="#{sessionParteOcurrencia.renderedPie}">
+                                    <dvt:background>
+                                        <dvt:specialEffects/>
+                                    </dvt:background>
+                                    <dvt:graphPieFrame/>
+                                    <dvt:seriesSet>
+                                        <dvt:series/>
+                                    </dvt:seriesSet>
+                                    <dvt:sliceLabel/>
+                                    <dvt:pieLabel rendered="true"/>
+                                    <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
+                             </dvt:pieGraph>
+                             <dvt:barGraph id="gbarPOs" subType="BAR_VERT_CLUST" dynamicResize="DYNAMIC_SIZE"
+                                             tabularData="#{sessionParteOcurrencia.lstPOsBarChart}"
+                                             hideAndShowBehavior="withRescale" contentDelivery="immediate"
+                                             timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
+                                             animationIndicators="ALL" animationOnDisplay="auto"
+                                             binding="#{bParteOcurrencia.gbarPOs}" shortDesc="Grafico de Barras"
+                                             emptyText="No hay ningún dato que mostrar" inlineStyle="width:920px;"
+                                             threeDEffect="#{sessionScope.sessionParteOcurrencia.pie3D}"
+                                             rendered="#{sessionParteOcurrencia.renderedBar}">
+                                <dvt:background>
+                                    <dvt:specialEffects/>
+                                </dvt:background>
+                                <dvt:graphPlotArea/>
+                                <dvt:seriesSet>
+                                </dvt:seriesSet>
+                                <dvt:o1Axis/>
+                                <dvt:y1Axis/>
+                                <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
+                            </dvt:barGraph>
+                            <dvt:radarGraph id="gRadar" subType="RADAR_LINE"
+                                              tabularData="#{sessionScope.sessionParteOcurrencia.lstPOsRadarChart}"
+                                              emptyText="No hay la suficiente Informacion" shortDesc="Grafico de Radar"
+                                              rendered="#{sessionScope.sessionParteOcurrencia.renderedRadar}"
+                                              binding="#{bParteOcurrencia.gradar}" dataSelection="multiple"
+                                              dynamicResize="DYNAMIC_SIZE" drillingEnabled="true"
+                                              inlineStyle="width:920px;">
+                                <dvt:background>
+                                    <dvt:specialEffects/>
+                                </dvt:background>
+                                <dvt:graphPlotArea/>
+                                <dvt:seriesSet>
+                                    <dvt:series/>
+                                </dvt:seriesSet>
+                                <dvt:o1Axis/>
+                                <dvt:y1Axis/>
+                                <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                <dvt:legendTitle text="Profesores"/>
+                            </dvt:radarGraph>
+                    </af:panelFormLayout>
                 </f:facet>
             </af:panelSplitter>
         </af:panelGroupLayout>
