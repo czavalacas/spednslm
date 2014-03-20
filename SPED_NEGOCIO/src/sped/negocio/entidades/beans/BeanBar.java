@@ -6,8 +6,8 @@ public class BeanBar implements Serializable {
     @SuppressWarnings("compatibility:608911327329576460")
     private static final long serialVersionUID = 1L;
     
-    private String group;
-    private String serie;
+    private String group;//profe
+    private String serie;//prob
     private int cantidad;
 
     public BeanBar(){

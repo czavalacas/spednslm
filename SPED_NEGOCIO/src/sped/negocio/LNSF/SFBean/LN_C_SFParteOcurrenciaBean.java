@@ -22,6 +22,7 @@ import sped.negocio.entidades.beans.BeanBar;
 import sped.negocio.entidades.beans.BeanParteOcurrencia;
 import sped.negocio.entidades.beans.BeanPie;
 import sped.negocio.entidades.beans.BeanProblemaProfesor;
+import sped.negocio.entidades.beans.BeanRadar;
 
 /**
  * Clase que gestiona la logica de negocio para las consultas invoca a los BDL, mas no se

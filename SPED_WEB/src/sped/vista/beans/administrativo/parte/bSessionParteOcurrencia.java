@@ -18,8 +18,80 @@ public class bSessionParteOcurrencia {
     private Date fecMinPO;   
     private Date fecMaxPO;
     private List<BeanParteOcurrencia> lstNotifPOs = new ArrayList<BeanParteOcurrencia>();
-    private transient List<Object[]> lstEvaPieG;
+    private transient List<Object[]> lstPOsPieG;
+    private transient List<Object[]> lstPOsBarChart;
+    private transient List<Object[]> lstPOsRadarChart;
     private boolean pie3D;
+    private boolean renderedPie;
+    private boolean renderedBar;
+    private boolean renderedRadar;
+    //DragNDroop
+    private List<String> lstProfesoresRadar = new ArrayList<String>();
+    private List<String> lstProblemasRadar = new ArrayList<String>();
+
+    public void setLstPOsRadarChart(List<Object[]> lstPOsRadarChart) {
+        this.lstPOsRadarChart = lstPOsRadarChart;
+    }
+
+    public List<Object[]> getLstPOsRadarChart() {
+        return lstPOsRadarChart;
+    }
+
+    public void setLstProfesoresRadar(List<String> lstProfesoresRadar) {
+        this.lstProfesoresRadar = lstProfesoresRadar;
+    }
+
+    public List<String> getLstProfesoresRadar() {
+        return lstProfesoresRadar;
+    }
+
+    public void setLstProblemasRadar(List<String> lstProblemasRadar) {
+        this.lstProblemasRadar = lstProblemasRadar;
+    }
+
+    public List<String> getLstProblemasRadar() {
+        return lstProblemasRadar;
+    }
+
+    public void setRenderedPie(boolean renderedPie) {
+        this.renderedPie = renderedPie;
+    }
+
+    public boolean isRenderedPie() {
+        return renderedPie;
+    }
+
+    public void setRenderedBar(boolean renderedBar) {
+        this.renderedBar = renderedBar;
+    }
+
+    public boolean isRenderedBar() {
+        return renderedBar;
+    }
+
+    public void setRenderedRadar(boolean renderedRadar) {
+        this.renderedRadar = renderedRadar;
+    }
+
+    public boolean isRenderedRadar() {
+        return renderedRadar;
+    }
+
+    public void setLstPOsPieG(List<Object[]> lstPOsPieG) {
+        this.lstPOsPieG = lstPOsPieG;
+    }
+
+    public List<Object[]> getLstPOsPieG() {
+        return lstPOsPieG;
+    }
+
+    public void setLstPOsBarChart(List<Object[]> lstPOsBarChart) {
+        this.lstPOsBarChart = lstPOsBarChart;
+    }
+
+    public List<Object[]> getLstPOsBarChart() {
+        return lstPOsBarChart;
+    }
 
     public void setPie3D(boolean pie3D) {
         this.pie3D = pie3D;
@@ -27,14 +99,6 @@ public class bSessionParteOcurrencia {
 
     public boolean isPie3D() {
         return pie3D;
-    }
-
-    public void setLstEvaPieG(List<Object[]> lstEvaPieG) {
-        this.lstEvaPieG = lstEvaPieG;
-    }
-
-    public List<Object[]> getLstEvaPieG() {
-        return lstEvaPieG;
     }
 
     public void setLstSedes(List lstSedes) {
