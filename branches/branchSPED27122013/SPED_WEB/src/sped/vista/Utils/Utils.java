@@ -281,4 +281,12 @@ public class Utils {
         ExtendedRenderKitService erks = Service.getRenderKitService(fctx, ExtendedRenderKitService.class);
         erks.addScript(fctx, ""+metodo+"();");  
     }
+    public static boolean validarExtensionXls(String nombreArchivo){
+        String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".") + 1, nombreArchivo.length());
+        if(extension.equalsIgnoreCase("xls")){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
