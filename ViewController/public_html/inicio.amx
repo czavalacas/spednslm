@@ -6,8 +6,11 @@
             <amx:outputText value="SPED Movil" id="ot1"/>
         </amx:facet>
         <amx:facet name="primary">
-            <amx:commandButton id="cb1" icon="/resources/img/out.png" iconPosition="trailing"
-                               actionListener="#{viewScope.bLogin.salirAplicacion}"/>
+        <amx:commandLink id="cl1" actionListener="#{viewScope.bLogin.salirAplicacion}">
+            <amx:image id="i1" source="/resources/img/out.png"/>
+        </amx:commandLink>
+         <!--   <amx:commandButton id="cb1" icon="/resources/img/out.png" iconPosition="trailing"
+                               actionListener="#{viewScope.bLogin.salirAplicacion}"/>-->
         </amx:facet>
         <amx:panelGroupLayout id="panelGroupLayout2" layout="horizontal">
             <amx:inputText id="it1" hintText="Usuario" value="#{viewScope.bLogin.usuario}" required="true"
@@ -17,8 +20,8 @@
              <amx:inputText hintText="Clave" id="it2" value="#{viewScope.bLogin.clave}" secret="true" required="true"
                             showRequired="true"/>
         </amx:panelGroupLayout>
-           
-            <amx:commandButton text="Ingresar" id="cb2" 
+        
+        <amx:commandButton text="Ingresar" id="cb2" 
                                action="#{viewScope.bLogin.autenticarUsuario}"/>
       
     </amx:panelPage>
