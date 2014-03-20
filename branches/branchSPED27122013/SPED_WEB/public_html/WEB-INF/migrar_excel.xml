@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="migrar_excel">
+    <default-activity>Frm_Migrar_Excel</default-activity>
+    <view id="Frm_Migrar_Excel">
+      <page>/migracion/Frm_Migrar_Excel.jsff</page>
+    </view>
+    <use-page-fragments/>
+  </task-flow-definition>
+</adfc-config>

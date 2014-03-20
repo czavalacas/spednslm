@@ -1,0 +1,46 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <f:view>
+        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+            <af:panelGroupLayout halign="left">
+                <af:spacer height="10"/>
+                <af:outputText value="Importacion de Datos a la Base de Datos" id="otTituloU" styleClass="titulos"/>
+                <af:spacer height="10"/>
+            </af:panelGroupLayout>
+            <af:panelGroupLayout>
+                <!--<af:selectOneChoice label="Sede" id="soc1" binding="#{bMigrarExcel.choiceSede}">
+                    <f:selectItems value="" id="si1"/>
+                </af:selectOneChoice>-->
+                <af:inputFile label="Sellecionar Archivo" id="if1" binding="#{bMigrarExcel.inputFileExcel}"
+                             autoSubmit="true"
+                              valueChangeListener="#{bMigrarExcel.seleccionaExcel}"/>
+                <af:button text="Subir Archivo" id="b1" action="#{bMigrarExcel.migrarExcel}"
+                           disabled="#{sessionScope.sessionMigrarExcel.estadoBtnSubArchivo}"
+                           binding="#{bMigrarExcel.btnSubirArchivo}"/>
+            </af:panelGroupLayout>
+               <af:popup id="p4" binding="#{bMigrarExcel.popupConfirmarMigracion}">
+            <af:dialog closeIconVisible="false" modal="true" id="pw_deleteAction" styleClass="allertBox" type="none"
+                       title="Confirmar Migracion">
+                <af:panelGroupLayout layout="vertical" halign="center" id="pgl2">
+                    <af:spacer width="1" height="10" id="s5"/>
+                    <af:outputLabel value="Esta Seguro de Migrar este Archivo?"
+                                    inlineStyle="font-size:medium; color:Red;" id="ol1"/>
+                    <af:spacer width="1" height="10" id="s6"/>
+                </af:panelGroupLayout>
+                <f:facet name="buttonBar">
+                    <af:panelGroupLayout id="pgl6" layout="vertical" halign="right">
+                        <af:panelGroupLayout layout="horizontal" id="pg18">
+                            <af:commandButton text="Si" actionListener="#{bMigrarExcel.confirmarMigracion}" id="cb1"/>
+                            <af:commandButton text="Cancelar" id="cb2"
+                                              actionListener="#{bMigrarExcel.cancelarMigracion}">
+                                <af:resetActionListener/>
+                            </af:commandButton>
+                        </af:panelGroupLayout>
+                    </af:panelGroupLayout>
+                </f:facet>
+            </af:dialog>
+        </af:popup>
+        </af:panelGroupLayout>
+       
+    </f:view>
+</ui:composition>

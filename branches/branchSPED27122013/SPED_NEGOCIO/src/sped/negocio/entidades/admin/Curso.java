@@ -104,4 +104,8 @@ public class Curso implements Serializable {
         buffer.append(']');
         return buffer.toString();
     }
+
+    public void setTipoFichaCurso(String tipoFichaCurso) {
+        this.tipoFichaCurso = tipoFichaCurso;
+    }
 }
