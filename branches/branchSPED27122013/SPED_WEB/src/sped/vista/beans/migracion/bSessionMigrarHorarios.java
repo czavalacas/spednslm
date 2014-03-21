@@ -11,6 +11,7 @@ public class bSessionMigrarHorarios implements Serializable {
     private static final long serialVersionUID = 1L;
     private List lstsedes;
     private int nidSede;
+    private int nidNivel;
     private int exec;
     
     public bSessionMigrarHorarios() {
@@ -38,5 +39,13 @@ public class bSessionMigrarHorarios implements Serializable {
 
     public int getExec() {
         return exec;
+    }
+
+    public void setNidNivel(int nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public int getNidNivel() {
+        return nidNivel;
     }
 }

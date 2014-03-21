@@ -39,11 +39,21 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+import sped.negocio.LNSF.IR.LN_C_SFAulaRemote;
+import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
+import sped.negocio.LNSF.IR.LN_C_SFProfesorRemote;
+
 public class bMigrarHorarios {
     FacesContext ctx = FacesContext.getCurrentInstance();
     private bSessionMigrarHorarios sessionMigrarHorarios;
     @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
+    @EJB
+    private LN_C_SFProfesorRemote ln_C_SFProfesorRemote;
+    @EJB
+    private LN_C_SFAulaRemote ln_C_SFAulaRemote;
+    @EJB
+    private LN_C_SFCursoRemoto ln_C_SFCursoRemoto;
     private RichSelectOneChoice soc1;
     private RichInputFile fxML;
 
@@ -53,16 +63,11 @@ public class bMigrarHorarios {
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
         if(sessionMigrarHorarios.getExec() == 0){
-            sessionMigrarHorarios.setLstsedes(llenarComboSede());
+            sessionMigrarHorarios.setLstsedes(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
             sessionMigrarHorarios.setExec(1);
         }
     }
-    
-    private ArrayList llenarComboSede() {
-        List<BeanCombo> lstsedes = ln_C_SFUtilsRemote.getSedes_LN();
-        return transformLstSelectItem(lstsedes);
-    }
-    
+
     private ArrayList llenarComboNivel(){        
         List<BeanCombo> lstnivel = ln_C_SFUtilsRemote.getNiveles_LN();
         return transformLstSelectItem(lstnivel);
@@ -94,6 +99,7 @@ public class bMigrarHorarios {
                 InputStream inputStream = file.getInputStream();
                 String rutaXml = imageDirPath + rutaLocal;
                 TransferFile(rutaXml, inputStream);
+                leerXML(rutaXml);
                 System.out.println(rutaXml);
             }else{
                 Utils.mostrarMensaje(ctx, "El archivo no es de tipo xml", "Error", 1);
@@ -104,7 +110,8 @@ public class bMigrarHorarios {
             e.printStackTrace();
         }
     }
-    
+
+    @SuppressWarnings("oracle.jdeveloper.java.nested-assignment")
     public void TransferFile(String ruta, InputStream in) throws Exception {        
         OutputStream out = new FileOutputStream(new File(ruta));
         byte[] buf = new byte[2048];  
@@ -123,18 +130,137 @@ public class bMigrarHorarios {
             Document doc = dBuilder.parse(new File(rutaXML));
             if(doc.getDocumentElement().getNodeName().toString().compareTo("timetable") == 0){
                 doc.getDocumentElement().normalize();
-                NodeList lstDia = doc.getElementsByTagName("day");
+                NodeList lstDia = doc.getElementsByTagName("daysdef");
                 NodeList lstPeriodo = doc.getElementsByTagName("period");
                 NodeList lstCurso = doc.getElementsByTagName("subject");
                 NodeList lstProfesor = doc.getElementsByTagName("teacher");
-                NodeList lstSalon = doc.getElementsByTagName("classroom");
+                NodeList lstSalon = doc.getElementsByTagName("class");
+                //nodelist maestras " "
+                NodeList lstLeccion = doc.getElementsByTagName("lesson");
+                NodeList lstCard = doc.getElementsByTagName("card");
+                String error = validaNodeList(lstDia,lstPeriodo,lstCurso,lstProfesor,lstSalon,lstLeccion,lstCard);
+                if(error.compareTo("") == 0){
+                    String errorProf = leerProfesor(lstProfesor);
+                    if(errorProf.compareTo("") == 0){
+                        String errorSalon = leerSalon(lstSalon);
+                        if(errorSalon.compareTo("") == 0){
+                            String errorCurso = leerCurso(lstCurso);
+                            if(errorCurso.compareTo("") == 0){
+                                Utils.mostrarMensaje(ctx, null, "OK", 3);
+                            }else{
+                                Utils.mostrarMensaje(ctx, null, 
+                                                     "Erro al leer campo curso : "
+                                                     +errorCurso.substring(0, errorCurso.length()-1), 1);
+                            }                            
+                        }else{
+                            Utils.mostrarMensaje(ctx, null, 
+                                                 "Erro al leer campo salon : "
+                                                 +errorSalon.substring(0, errorSalon.length()-1), 1);
+                        }                        
+                    }else{
+                        Utils.mostrarMensaje(ctx, null, 
+                                             "Erro al leer el dni : "
+                                             +errorProf.substring(0, errorProf.length()-1), 1);
+                    }                    
+                }else{
+                    Utils.mostrarMensaje(ctx, null, 
+                                         "Faltan datos en el xml : "
+                                         +error.substring(0, error.length()-1), 1);
+                }
             }else{
-                
+                Utils.mostrarMensaje(ctx, null, "El archivo xml incorrecto. Cargue el archivo xml de horarios", 1);
             }  
         }catch(Exception e){
             e.printStackTrace();
         }
     }
+    
+    public String validaNodeList(NodeList lstDia, 
+                                 NodeList lstPeriodo, 
+                                 NodeList lstCurso, 
+                                 NodeList lstProfesor, 
+                                 NodeList lstSalon, 
+                                 NodeList lstLeccion, 
+                                 NodeList lstCard){
+        String msj = "";
+        if(lstDia.getLength() == 0){
+            msj = msj.concat(" dias,");
+        }
+        if(lstPeriodo.getLength() == 0){
+            msj = msj.concat(" periodos de horas,");
+        }
+        if(lstCurso.getLength() == 0){
+            msj = msj.concat(" curso,");
+        }
+        if(lstProfesor.getLength() == 0){
+            msj = msj.concat(" profesor,");
+        }
+        if(lstSalon.getLength() == 0){
+            msj = msj.concat(" salon,");
+        }
+        if(lstLeccion.getLength() == 0){
+            msj = msj.concat(" no hay horario establecido,");
+        }
+        return msj;
+    }
+    
+    public String leerProfesor(NodeList lst) {
+        String error = "";
+        for (int i = 0; i < lst.getLength(); i++) {
+            Node node = lst.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element elemento = (Element) node;
+                if(validaDni(elemento.getAttribute("email").toString()) != true){
+                    error = error.concat(" "+elemento.getAttribute("name")+",");
+                }else{
+                    if(ln_C_SFProfesorRemote.exiteDni_LN(elemento.getAttribute("email").toString()) == false){
+                        error = error.concat(" "+elemento.getAttribute("name")+",");
+                    }
+                }
+            }
+        }
+        return error;            
+    }
+    
+    public String leerSalon(NodeList lst) {
+        String error = "";
+        for (int i = 0; i < lst.getLength(); i++) {
+            Node node = lst.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element elemento = (Element) node;
+                int nidAula = ln_C_SFAulaRemote.getAulaByDescripcion_LN(sessionMigrarHorarios.getNidSede(), 
+                                                                        sessionMigrarHorarios.getNidNivel(), 
+                                                                        elemento.getAttribute("name").toString());
+                if(nidAula == 0){
+                    error = error.concat(" "+elemento.getAttribute("name")+",");
+                }else{
+                    elemento.setAttribute("short", nidAula+"");
+                }                
+            }
+        }
+        return error;            
+    }
+    
+    public String leerCurso(NodeList lst) {
+        String error = "";
+        for (int i = 0; i < lst.getLength(); i++) {
+            Node node = lst.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element elemento = (Element) node;
+                int nidCurso = ln_C_SFCursoRemoto.getNidCursoByDescripcion_LN(elemento.getAttribute("name").toString()); 
+                if(nidCurso == 0){
+                    error = error.concat(" "+elemento.getAttribute("name")+",");
+                }else{
+                    elemento.setAttribute("short", nidCurso+"");
+                }
+            }
+        }
+        return error;            
+    }
+    
+    public boolean validaDni(String dni){
+        return Utils.isNumeric(dni) && dni.length() == 8 ? true : false;
+    }    
 
     public void setSessionMigrarHorarios(bSessionMigrarHorarios sessionMigrarHorarios) {
         this.sessionMigrarHorarios = sessionMigrarHorarios;

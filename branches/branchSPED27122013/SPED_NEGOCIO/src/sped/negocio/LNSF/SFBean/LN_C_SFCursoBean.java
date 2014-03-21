@@ -92,4 +92,8 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
             return null;
         }        
     }
+    
+    public int getNidCursoByDescripcion_LN(String descripcion){
+        return bdl_C_SFCursoLocal.getNidCursoByDescripcion(descripcion);
+    }
 }
