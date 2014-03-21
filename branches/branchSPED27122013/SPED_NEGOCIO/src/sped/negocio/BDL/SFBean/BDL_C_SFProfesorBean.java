@@ -90,6 +90,18 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
             return null;
         }}
     
+    public int existeDni(String dni){
+        String ejbQL = "SELECT  count(p) FROM Profesor p " + 
+                       "WHERE p.dniProfesor = :dni ";
+        List<Object> lstObject = em.createQuery(ejbQL).setParameter("dni", dni)
+                                                      .getResultList();
+        int cont = 0;
+        if(lstObject.size() > 0){
+            cont = Integer.parseInt(lstObject.get(0).toString());
+        }        
+        return cont;
+    }
+    
     public List<Profesor>  getProfesores() {
         try{
             String ejbQl = " SELECT pro " +
@@ -103,4 +115,5 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
             return null;
         }   
         }
+    
 }

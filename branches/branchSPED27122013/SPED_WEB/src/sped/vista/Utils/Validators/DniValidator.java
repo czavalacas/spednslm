@@ -36,7 +36,7 @@ public class DniValidator implements Validator {
     public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) throws ValidatorException {
         String dato = object.toString();
         String msj = "";
-        if (isNumeric(dato) == false) {
+        if (Utils.isNumeric(dato) == false) {
             msj = "Ingrese solo numeros";
         } else {
             if (dato.length() != 8) {
@@ -51,14 +51,5 @@ public class DniValidator implements Validator {
             FacesMessage fm = new FacesMessage(msj);
             throw new ValidatorException(fm);
         }        
-    }
-
-    private static boolean isNumeric(String cadena) {
-        try {
-            Integer.parseInt(cadena);
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
     }
 }

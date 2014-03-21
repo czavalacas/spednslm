@@ -376,4 +376,12 @@
     <ejb-name>BDL_C_SFEmail</ejb-name>
     <stateless-session-descriptor/>
   </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>BDL_C_SFAula</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
+  <weblogic-enterprise-bean>
+    <ejb-name>LN_C_SFAula</ejb-name>
+    <stateless-session-descriptor/>
+  </weblogic-enterprise-bean>
 </weblogic-ejb-jar>

@@ -13,4 +13,5 @@ public interface LN_C_SFCursoRemoto {
     List<BeanCurso>  getlistaCursos();
     BeanCurso findConstrainByIdLN(int id);
     List<BeanCurso> findCursosPorAreaAcademica_ByOrden(String nidAreaAcademica, String nidSede);
+    int getNidCursoByDescripcion_LN(String descripcion);
 }
