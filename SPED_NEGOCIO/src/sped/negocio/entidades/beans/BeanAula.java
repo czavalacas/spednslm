@@ -19,7 +19,8 @@ public class BeanAula implements Serializable {
     private List<BeanMain> mainLista;
     private int nidAula;    
     private BeanSede sede;
-
+    private int nidSede;
+    private int nidNivel;
 
     public void setDescripcionAula(String descripcionAula) {
         this.descripcionAula = descripcionAula;
@@ -59,6 +60,22 @@ public class BeanAula implements Serializable {
 
     public List<BeanMain> getMainLista() {
         return mainLista;
+    }
+
+    public void setNidSede(int nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public int getNidSede() {
+        return nidSede;
+    }
+
+    public void setNidNivel(int nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public int getNidNivel() {
+        return nidNivel;
     }
 
 }

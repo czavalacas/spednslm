@@ -86,4 +86,9 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
             return null;
         }        
     }
+    
+    public boolean exiteDni_LN(String dni){
+        return bdl_C_SFProfesorLocal.existeDni(dni) > 0 ? true : false;
+    }
+    
 }

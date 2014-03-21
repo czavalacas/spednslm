@@ -281,6 +281,16 @@ public class Utils {
         ExtendedRenderKitService erks = Service.getRenderKitService(fctx, ExtendedRenderKitService.class);
         erks.addScript(fctx, ""+metodo+"();");  
     }
+    
+    public static boolean isNumeric(String cadena) {
+        try {
+            Integer.parseInt(cadena);
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+    }
+    
     public static boolean validarExtensionXls(String nombreArchivo){
         String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".") + 1, nombreArchivo.length());
         if(extension.equalsIgnoreCase("xls")){
@@ -289,4 +299,5 @@ public class Utils {
             return false;
         }
     }
+    
 }

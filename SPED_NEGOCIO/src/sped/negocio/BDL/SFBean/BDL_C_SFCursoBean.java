@@ -93,6 +93,7 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
             e.printStackTrace();
             return null;
         }}
+    
     public Curso findCursoById(int id) {
         try {
             Curso instance = em.find(Curso.class, id);
@@ -100,5 +101,16 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
         } catch (RuntimeException re) {
             throw re;
         }
+    }
+    
+    public int getNidCursoByDescripcion(String descripcion){
+        String ejbQL = "SELECT c.nidCurso FROM Curso c " + 
+                       "WHERE c.descripcionCurso = :descripcion ";
+        List<Object> lstObject = em.createQuery(ejbQL).setParameter("descripcion", descripcion).getResultList();
+        int nidCurso = 0;
+        if(lstObject != null){
+            nidCurso = Integer.parseInt(lstObject.get(0).toString());
+        }
+        return nidCurso;
     }
 }
