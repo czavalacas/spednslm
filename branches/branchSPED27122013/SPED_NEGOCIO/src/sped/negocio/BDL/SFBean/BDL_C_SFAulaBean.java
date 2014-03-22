@@ -17,12 +17,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import sped.negocio.BDL.IL.BDL_C_SFAulaLocal;
-import sped.negocio.BDL.IR.BDL_C_SFAulaRemoto;
+import sped.negocio.BDL.IR.BDL_C_SFAulaRemote;
 import sped.negocio.entidades.admin.Aula;
 import sped.negocio.entidades.beans.BeanAula;
 
 @Stateless(name = "BDL_C_SFAula", mappedName = "map-BDL_C_SFAula")
-public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemoto, 
+public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote, 
                                          BDL_C_SFAulaLocal {
     @Resource
     SessionContext sessionContext;
