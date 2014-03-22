@@ -65,9 +65,9 @@
                         </f:facet>
                         <f:facet name="statusbar"/>
                         <af:table value="#{sessionScope.sessionParteOcurrencia.lstNotifPOs}" var="row" rowBandingInterval="0" id="tbPOs"
-                              binding="#{bParteOcurrencia.tbPOs}"
+                              binding="#{bParteOcurrencia.tbPOs}" inlineStyle="width:inherit; margin:0px 50px 0px 0px;"
                               varStatus="vs" emptyText="No hay Partes de Ocurrencia" width="inherit;"
-                              inlineStyle="width:inherit;" rowSelection="single" columnStretching="column:c7">
+                              rowSelection="single" columnStretching="column:c7">
                         <af:column width="22" frozen="true">
                             <af:outputText value="#{vs.index + 1}"/>
                         </af:column>

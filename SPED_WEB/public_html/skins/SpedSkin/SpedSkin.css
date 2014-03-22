@@ -74,3 +74,11 @@ af|button.flechaDown:text-only {
     background-position: center;
     border-color: rgb(255,255,255);
 }
+.arriba{
+    position: absolute;   
+    z-index: 999;
+}
+
+.abajo{
+    position: relative;
+}
