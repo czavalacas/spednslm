@@ -269,7 +269,7 @@
             </af:dialog>
         </af:popup>
         
-        <af:popup childCreation="deferred" id="popLey" binding="#{bRegistrarFicha.popLey}">
+        <af:popup childCreation="deferred" id="popLey" binding="#{bRegistrarFicha.popLey}" contentDelivery="immediate">
             <af:dialog type="none" title="Leyenda por valor">
                 <af:subform defaultCommand="btnAsigLey">
                       <af:panelFormLayout id="pflpopLey">
