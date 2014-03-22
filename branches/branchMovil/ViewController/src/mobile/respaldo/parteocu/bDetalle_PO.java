@@ -31,8 +31,8 @@ public class bDetalle_PO {
     public bDetalle_PO() {
         
     }
-
-    public void resetearAlSalir(ActionEvent actionEvent) {
+    
+    public void _resetearAlSalir(){
         AdfmfJavaUtilities.setELValue("#{pageFlowScope._comentario}", null);
         AdfmfJavaUtilities.setELValue("#{pageFlowScope._descProblema}", null);
         AdfmfJavaUtilities.setELValue("#{pageFlowScope._profesor}", null);

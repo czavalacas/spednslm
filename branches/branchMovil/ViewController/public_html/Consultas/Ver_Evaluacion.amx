@@ -5,9 +5,6 @@
         <amx:facet name="header">
             <amx:outputText value="#{viewScope.bVerEvaluacion.titulo}" id="ot1"/>
         </amx:facet>
-        <amx:facet name="primary">
-            <amx:commandButton id="cb1" action="_BACK" icon="/resources/img/back.png" iconPosition="trailing"/>
-        </amx:facet>
         <amx:tableLayout width="95%">
             <amx:rowLayout>
                 <amx:cellFormat header="true" halign="center">
