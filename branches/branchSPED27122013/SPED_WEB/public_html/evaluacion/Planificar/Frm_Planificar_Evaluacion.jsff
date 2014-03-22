@@ -40,7 +40,7 @@
                 </f:facet>
             </af:panelStretchLayout>
         </af:panelFormLayout>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}">
+        <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bPlanificarEva.popupEvento}" >
             <af:dialog id="d1" title="Horarios Disponibles" type="ok">
                 <af:panelGroupLayout id="pgl5">
                     <af:panelGridLayout id="pgl7">
@@ -155,7 +155,7 @@
                 </af:table>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="p2" binding="#{bPlanificarEva.popupDetalleEva}">
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p2" binding="#{bPlanificarEva.popupDetalleEva}">
             <af:dialog id="d3" title="Detalle de Evaluacion" type="ok">
                 <af:panelBox text="Descripcion de Evaluacion" id="pb7">
                     <af:panelFormLayout id="pfl12">
@@ -264,7 +264,7 @@
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>
-        <af:popup id="p4" binding="#{bPlanificarEva.popupEliminarEvalu}">
+        <af:popup childCreation="deferred" contentDelivery="immediate" id="p4" binding="#{bPlanificarEva.popupEliminarEvalu}">
             <af:dialog closeIconVisible="false" modal="true" id="pw_deleteAction" styleClass="allertBox" type="none"
                        title="Eliminar Evaluacion">
                 <af:panelGroupLayout layout="vertical" halign="center" id="pgl2">
@@ -286,7 +286,7 @@
                 </f:facet>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="p3" binding="#{bPlanificarEva.popupEvalua}">
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p3" binding="#{bPlanificarEva.popupEvalua}">
             <af:dialog id="d2" type="ok">
                 <af:selectOneChoice label="Area Academica" id="soc1" unselectedLabel="::: Seleccionar Area :::"
                                     value="#{requestScope.bPlanificarEva.nidAreaAcademicaFiltro}"
@@ -314,7 +314,7 @@
                 </af:table>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="p5"
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p5"
                   binding="#{bPlanificarEva.popupSeleccionBloque}">
             <af:dialog id="d4" type="cancel" title="Seleccion de Bloque">
                 <af:panelGroupLayout id="pgl10">
