@@ -155,10 +155,6 @@ public class bRegistrarPO {
         AdfmfJavaUtilities.setELValue("#{pageFlowScope._nidMain}", null);
     }
     
-    public void resetOnBack(ActionEvent actionEvent) {
-        resetearValores();
-    }
-    
     public void setListProblemas(List listProblemas) {
         this.listProblemas = listProblemas;
     }

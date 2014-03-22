@@ -5,9 +5,6 @@
     <amx:facet name="header">
       <amx:outputText value="Partes de Ocurrencia" id="ot1"/>
     </amx:facet>
-    <amx:facet name="primary">
-      <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"/>
-    </amx:facet>
     <amx:panelFormLayout id="pfl1" labelPosition="topCenter" fieldHalign="start">
       <amx:inputDate value="#{bindings.arg0.inputValue}" id="id1"/>
       <amx:inputDate value="#{bindings.arg1.inputValue}" id="id2"/>

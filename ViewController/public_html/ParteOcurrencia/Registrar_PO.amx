@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <amx:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amx="http://xmlns.oracle.com/adf/mf/amx"
           xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
-  <amx:panelPage id="pp1">
+  <amx:panelPage id="pagebRegistrarPO">
     <amx:facet name="header">
       <amx:outputText value="Registrar Parte de Ocurrencia" id="ot1"/>
-    </amx:facet>
-    <amx:facet name="primary">
-      <amx:commandButton id="cb1" action="_BACK" icon="/resources/img/back.png" iconPosition="trailing"
-                         actionListener="#{viewScope.bRegistrarPO.resetOnBack}"/>
     </amx:facet>
     <amx:tableLayout id="tl1">
       <amx:rowLayout>
@@ -80,13 +76,14 @@
     </amx:panelFormLayout>
     <amx:commandButton text="Registrar" id="cb4" actionListener="#{viewScope.bRegistrarPO.registrarParteOcurrencia}"/>
     <amx:commandButton text="" id="btnShowPop" inlineStyle="display:none">
-        <amx:showPopupBehavior id="popMsjBeha" popupId="popMsj" align="after" alignId="cb4"/>
+        <amx:showPopupBehavior id="popMsjBeha" popupId="popMsj" align="overlapTop" alignId="pagebRegistrarPO"/>
     </amx:commandButton>
     
     
   </amx:panelPage>
   
-  <amx:popup id="popMsj">
+  <amx:popup id="popMsj" inlineStyle="position:relative;margin-top:#{(deviceScope.hardware.screen.availableHeight-90)/2}px;margin-left:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;
+                                      margin-right:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;width:#{deviceScope.hardware.screen.availableWidth};height:90px;">
         <amx:panelGroupLayout layout="vertical">
             <amx:outputText value="Se registro el Parte de Ocurrencia" id="ot15"/>
         </amx:panelGroupLayout>

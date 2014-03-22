@@ -5,12 +5,6 @@
     <amx:facet name="header">
       <amx:outputText value="Planificaciones" id="ot1"/>
     </amx:facet>
-    <amx:facet name="primary">
-      <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"/>
-    </amx:facet>
-    <amx:facet name="secondary">
-      <amx:commandButton id="cb2" action="GO_LOGIN" icon="/resources/img/lock.png" iconPosition="trailing"/>
-    </amx:facet>
     <amx:panelGroupLayout id="pgl2" layout="horizontal">
       <amx:commandButton actionListener="#{bindings.getPlanificaciones_WS.execute}" text="Buscar"
                          disabled="#{!bindings.getPlanificaciones_WS.enabled}" id="cb3"/>

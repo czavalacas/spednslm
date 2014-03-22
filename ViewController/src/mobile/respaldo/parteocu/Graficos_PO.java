@@ -65,7 +65,7 @@ public class Graficos_PO {
         return c; 
     }
     
-    public void reset(ActionEvent actionEvent) {
+    public void _reset(){
         lstPie.removeAll(lstPie);
         lstBarra.removeAll(lstBarra);
         AdfmfJavaUtilities.setELValue("#{pageFlowScope.listaBarras}",null);

@@ -69,13 +69,25 @@
                   <url path="application/"/>
                </list>
             </hash>
+            <hash>
+               <list n="pattern-filters">
+                  <string v="+out.png"/>
+                  <string v="+out.png"/>
+               </list>
+               <list n="url-path">
+                  <url path="../ViewController/public_html/resources/img/"/>
+               </list>
+            </hash>
+            <hash>
+               <list n="pattern-filters">
+                  <string v="+*"/>
+               </list>
+               <list n="url-path">
+                  <url path="."/>
+               </list>
+            </hash>
          </list>
-         <list n="pattern-filters">
-            <string v="+*"/>
-         </list>
-         <list n="url-path">
-            <url path="."/>
-         </list>
+         <list n="url-path"/>
       </hash>
    </hash>
    <hash n="oracle.ide.model.TechnologyScopeConfiguration">

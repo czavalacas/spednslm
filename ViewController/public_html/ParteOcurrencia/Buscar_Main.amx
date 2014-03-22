@@ -5,9 +5,6 @@
         <amx:facet name="header">
             <amx:outputText value="Buscar Docente" id="ot1"/>
         </amx:facet>
-        <amx:facet name="primary">
-            <amx:commandButton id="cb1" action="BACK_MAIN" icon="/resources/img/back.png" iconPosition="trailing"/>
-        </amx:facet>
         
         <amx:panelFormLayout labelPosition="topCenter" fieldHalign="start">
             <amx:selectOneChoice label="Sede" id="soc1" value="#{bindings.arg0.inputValue}"

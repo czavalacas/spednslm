@@ -41,10 +41,6 @@ public class bEvaluar {
     private final static String METODO_ITERATOR = "#{bindings.getLstIndicadoresByFichaCriterio_LN_WSIterator}";
     
     private final static String METODO_LEYENDAS = "#{bindings.getLeyendasByCritIndicador_WS}";
-    private final static String METODO_ITERATOR_LEYENDAS = "#{bindings.getLeyendasByCritIndicador_WSIterator}";
-    
-    private final static String METODO_CRITERIOS = "#{bindings.getCriteriosEvaluacion_WS}";
-    private final static String METODO_ITERATOR_CRITERIOS = "#{bindings.getCriteriosEvaluacion_WSIterator}";
     
     private final static String WS_SERVICE = "WS_SPED";
     private final static String FEATURE = "MiApp";
