@@ -64,8 +64,6 @@ public class bMain implements Serializable {
     @EJB
     private LN_C_SFNotificacionLocal ln_C_SFNotificacionLocal;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
-    private String usuario;
-    private String nomUsuario;
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
     private RichImage i2;
@@ -73,10 +71,7 @@ public class bMain implements Serializable {
     public bMain(){
         super();
         try {
-            if (beanUsuario != null) {
-                usuario = beanUsuario.getUsuario() + " - " + beanUsuario.getNombres();
-                nomUsuario = beanUsuario.getUsuario();
-            } else {
+            if(beanUsuario == null) {
                 logoutTarget(LOGIN);
             }
         } catch (Exception e) {
@@ -254,14 +249,6 @@ public class bMain implements Serializable {
     public void actualizarImagen(ActionEvent actionEvent) {
         Utils.addTarget(i2);
     }
-    
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
 
     public void setMenu(RichMenuBar menu) {
         this.menu = menu;
@@ -277,14 +264,6 @@ public class bMain implements Serializable {
 
     public bSessionMain getSessionMain() {
         return sessionMain;
-    }
-
-    public void setNomUsuario(String nomUsuario) {
-        this.nomUsuario = nomUsuario;
-    }
-
-    public String getNomUsuario() {
-        return nomUsuario;
     }
 
     public void setCantNotif(RichOutputLabel cantNotif) {
@@ -334,5 +313,12 @@ public class bMain implements Serializable {
     public RichImage getI2() {
         return i2;
     }
-    
+
+    public void setBeanUsuario(BeanUsuario beanUsuario) {
+        this.beanUsuario = beanUsuario;
+    }
+
+    public BeanUsuario getBeanUsuario() {
+        return beanUsuario;
+    }
 }

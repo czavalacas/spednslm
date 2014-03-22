@@ -6,51 +6,63 @@
         <af:form id="f1" usesUpload="true">
             <af:spacer height="10"/>
             <af:resource type="javascript" source="/recursos/js/utiles.js"/>
-            <af:panelSplitter orientation="vertical" splitterPosition="50" id="ps1">
+            <af:panelSplitter orientation="vertical" splitterPosition="40" id="ps1"
+                                 inlineStyle="margin:-10px 0px 0px 0px;">
                 <f:facet name="first">
-                    <af:panelGridLayout id="pgl1" inlineStyle="border-top-width:thick;">
-                        <af:gridRow marginTop="1px" height="auto" id="gr1">
-                            <af:gridCell marginStart="1px" width="80%" id="gc1">
-                                <af:menuBar id="menu" var="item" binding="#{bMain.menu}"/>
-                            </af:gridCell>
-                            <af:gridCell marginStart="2px" width="20%" marginEnd="10px" id="gc2">
-                                <af:panelGridLayout>
-                                    <af:gridRow>
-                                        <af:gridCell valign="middle" halign="center" >
-                                            <af:outputLabel value="#{sessionScope.sessionMain.cantNotif}" visible="#{sessionScope.sessionMain.cantNotif > 0}"
-                                                              inlineStyle="color:red; font-weight:bold; font-size:large; margin:0px -1px 0px 0px;"
+                    <af:panelStretchLayout id="psl1">
+                        <f:facet name="center">
+                            <af:panelGridLayout id="pgl1" inlineStyle="border-top-width:thick;">
+                                <af:gridRow marginTop="0px" height="auto" id="gr1">
+                                    <af:gridCell marginStart="1px" width="auto" id="gc1">
+                                        <af:menuBar id="menu" var="item" binding="#{bMain.menu}" inlineStyle="margin:5px 0px 0px 0px;"/>
+                                    </af:gridCell>
+                                    <af:gridCell width="100%" id="gc2" halign="end">
+                                        <af:panelGridLayout id="pgl2" dimensionsFrom="parent">
+                                            <af:gridRow>
+                                                <af:gridCell width="auto">
+                                                    <af:outputLabel value="#{sessionScope.sessionMain.cantNotif}"
+                                                                    visible="#{sessionScope.sessionMain.cantNotif > 0}" 
+                                                                    inlineStyle="color:red; font-weight:bold; font-size:large; margin:5px 0px 0px -10px;"
+                                                                    rendered="#{sessionScope.sessionMain.verNotificaciones}"
+                                                                    id="cantNotif" binding="#{bMain.cantNotif}"
+                                                                    styleClass="arriba"/>
+                                                    <af:image source="../recursos/img/usuarios/notifications.png"
+                                                              id="i3"
                                                               rendered="#{sessionScope.sessionMain.verNotificaciones}"
-                                                              id="cantNotif" binding="#{bMain.cantNotif}"/>
-                                            <af:image source="../recursos/img/usuarios/notifications.png" id="i3"
-                                                       rendered="#{sessionScope.sessionMain.verNotificaciones}"
-                                                       inlineStyle="height:20px; width:20px; margin:0px 0px -11px; background-size:inherit; background-repeat:repeat;">
-                                                      <af:showPopupBehavior popupId="popNotif" triggerType="click"
-                                                                               alignId="i3" align="afterStart"/>
-                                            </af:image>
-                                        </af:gridCell>
-                                        <af:gridCell>
-                                            <af:image source="/imageservlet?nomusuario=#{bMain.nomUsuario}" id="i2" inlineStyle="height:45px; width:40px;"
-                                                      binding="#{bMain.i2}">
-                                                <af:showPopupBehavior popupId="popCerrar" triggerType="click"
-                                                                         alignId="i2" align="afterStart"/>
-                                            </af:image>
-                                        </af:gridCell>
-                                        <af:gridCell valign="middle">
-                                        <af:outputLabel value="Bienvenido, #{bMain.usuario}" id="ol1"/>
-                                         </af:gridCell>
-                                   </af:gridRow>
-                                </af:panelGridLayout>
-                            </af:gridCell>
-                        </af:gridRow>
-                        
-                    </af:panelGridLayout>
-                   
+                                                              inlineStyle="height:20px; width:20px; margin:15px 10px 0px -20px; background-size:inherit; background-repeat:repeat;"
+                                                              styleClass="abajo">
+                                                        <af:showPopupBehavior popupId="popNotif" triggerType="click"
+                                                                              alignId="i3" align="afterStart"/>
+                                                    </af:image>
+                                                </af:gridCell>
+                                                <af:gridCell width="auto" halign="stretch" valign="middle">
+                                                    <af:panelFormLayout maxColumns="1" rows="2" inlineStyle="margin:5px 0px 0px 0px;">
+                                                        <af:outputLabel value="#{bMain.beanUsuario.nombres}" id="ol1"/>
+                                                        <af:outputLabel value="#{bMain.beanUsuario.rol.descripcionRol}"/>
+                                                    </af:panelFormLayout>
+                                                </af:gridCell>
+                                                <af:gridCell valign="middle" width="auto" halign="end">
+                                                    <af:image source="/imageservlet?nomusuario=#{bMain.nomUsuario}"
+                                                              id="i2"
+                                                              inlineStyle="height:45px; width:40px; margin:0px 30px 0px 0px;"
+                                                              binding="#{bMain.i2}">
+                                                        <af:showPopupBehavior popupId="popCerrar" triggerType="click"
+                                                                              alignId="i2" align="afterStart"/>
+                                                    </af:image>
+                                                    
+                                                </af:gridCell>
+                                            </af:gridRow>
+                                        </af:panelGridLayout>
+                                    </af:gridCell>
+                                </af:gridRow>
+                            </af:panelGridLayout>
+                        </f:facet>
+                    </af:panelStretchLayout>
                 </f:facet>
                 <f:facet name="second">
                     <af:region value="#{bindings.dynamicRegion1.regionModel}" id="r1"/>
                 </f:facet>
             </af:panelSplitter>
-            
             <af:popup id="popCerrar">
                 <af:noteWindow>
                     <af:panelFormLayout rows="2" maxColumns="1">
@@ -63,21 +75,22 @@
             <af:popup id="popNotif">
                 <af:noteWindow>
                     <af:panelFormLayout rows="2" maxColumns="1">
-                        <af:commandLink text="Ver todas las Notificaciones" rendered="#{sessionScope.sessionMain.cantNotifEvas > 0 &amp;&amp; sessionScope.sessionMain.cantNotifPO > 0}"
-                                        id="clCantAll"
-                                        actionListener="#{bMain.verNotifTodos}" binding="#{bMain.clCantAll}">
+                        <af:commandLink text="Ver todas las Notificaciones"
+                                        rendered="#{sessionScope.sessionMain.cantNotifEvas > 0 &amp;&amp; sessionScope.sessionMain.cantNotifPO > 0}"
+                                        id="clCantAll" actionListener="#{bMain.verNotifTodos}"
+                                        binding="#{bMain.clCantAll}">
                             <f:param value="S" name="evas"/>
                             <f:param value="S" name="pos"/>
                         </af:commandLink>
-                        <af:commandLink text="Hay #{sessionScope.sessionMain.cantNotifEvas} Notificaciones de Evaluaciones" rendered="#{sessionScope.sessionMain.cantNotifEvas > 0}"
-                                        id="clCantEvas" binding="#{bMain.clCantEvas}"
-                                        actionListener="#{bMain.verNotifEvas}">
+                        <af:commandLink text="Hay #{sessionScope.sessionMain.cantNotifEvas} Notificaciones de Evaluaciones"
+                                        rendered="#{sessionScope.sessionMain.cantNotifEvas > 0}" id="clCantEvas"
+                                        binding="#{bMain.clCantEvas}" actionListener="#{bMain.verNotifEvas}">
                             <f:param value="S" name="evas"/>
                             <f:param value="N" name="pos"/>
                         </af:commandLink>
-                        <af:commandLink text="Hay #{sessionScope.sessionMain.cantNotifPO} Notificaciones de Partes de Ocurrencia" rendered="#{sessionScope.sessionMain.cantNotifPO > 0}"
-                                        id="clCantPO" binding="#{bMain.clCantPO}"
-                                        actionListener="#{bMain.verNotifPOs}">
+                        <af:commandLink text="Hay #{sessionScope.sessionMain.cantNotifPO} Notificaciones de Partes de Ocurrencia"
+                                        rendered="#{sessionScope.sessionMain.cantNotifPO > 0}" id="clCantPO"
+                                        binding="#{bMain.clCantPO}" actionListener="#{bMain.verNotifPOs}">
                             <f:param value="N" name="evas"/>
                             <f:param value="S" name="pos"/>
                         </af:commandLink>
@@ -85,19 +98,16 @@
                 </af:noteWindow>
             </af:popup>
             <af:popup id="p1">
-                <af:dialog id="d2"
-                           title="Confirmar" dialogListener="#{bMain.dialogLogoutListener}">
+                <af:dialog id="d2" title="Confirmar" dialogListener="#{bMain.dialogLogoutListener}">
                     <af:outputText value="Desea Cerrar Sesion?" id="ot2"/>
                 </af:dialog>
-            </af:popup>       
-
+            </af:popup>
         </af:form>
         <audio controls="controls" xmlns="http://www.w3.org/1999/xhtml" id="audio" hidden="hidden">
-            <source src="../recursos/sound/buho.mp3"
-                     type="audio/mp3"/>
+            <source src="../recursos/sound/buho.mp3" type="audio/mp3"/>
         </audio>
-       <!-- <a href="javascript: void(0);" onclick="hola();">Click</a>-->
+        <!-- <a href="javascript: void(0);" onclick="hola();">Click</a>-->
         <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
-                  rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
+                 rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
     </af:document>
 </f:view>
