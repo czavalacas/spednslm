@@ -85,7 +85,7 @@
                            binding="#{bConsultaPlanificacion.btnBuscar}"
                            action="#{bConsultaPlanificacion.buscarPlani}"/>
                 <af:spacer width="10" height="10" id="s1"/>
-                <af:button text="Limpiar" id="b2" actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
+                <af:button icon="../recursos/img/usuarios/refresh.png" id="b2" actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
                 <af:spacer width="10" height="10" id="s2"/>
                 <af:button text="Exportar Excel" id="b3">
                         <af:exportCollectionActionListener type="excelHTML" exportedId="t1"
