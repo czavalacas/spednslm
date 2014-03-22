@@ -60,6 +60,7 @@ public class bParteOcurrencia {
     private UIGraph gradar;
     private RichSelectBooleanCheckbox sbc1;
     private RichButton btnRadar;
+    private RichSelectBooleanCheckbox chkbResc;
     private bSessionParteOcurrencia sessionParteOcurrencia;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
@@ -170,6 +171,20 @@ public class bParteOcurrencia {
         }
     }
     
+
+    public void changeRescalar(ValueChangeEvent vce) {
+        boolean val = (Boolean) vce.getNewValue();
+        String rescalar = val == true ? "withRescale" : "withoutRescale";
+        sessionParteOcurrencia.setRescalar(val);
+        if(sessionParteOcurrencia.isRenderedPie()){
+            piePO.setHideAndShowBehavior(rescalar);
+            Utils.addTarget(piePO);
+        }else if(sessionParteOcurrencia.isRenderedBar()){
+            gbarPOs.setHideAndShowBehavior(rescalar);
+            Utils.addTarget(gbarPOs);
+        }
+    }
+    
     public void cambioTipoGrafico(ValueChangeEvent vce) {
         try{
             String tipGraf = (String) vce.getNewValue();
@@ -183,21 +198,19 @@ public class bParteOcurrencia {
                 sessionParteOcurrencia.setRenderedPie(true);
                 piePO.setTabularData(sessionParteOcurrencia.getLstPOsPieG());
                 piePO.setRendered(true);
-                Utils.addTarget(piePO);
                 
                 sessionParteOcurrencia.setRenderedBar(false);
                 gbarPOs.setRendered(false);
-                Utils.addTarget(gbarPOs);
                 
                 sbc1.setRendered(true);
-                Utils.addTarget(sbc1);
+                chkbResc.setRendered(true);
                 
                 sessionParteOcurrencia.setRenderedRadar(false);
                 tbProRr.setRendered(false);
                 gradar.setRendered(false);
                 tbProbs.setRendered(false);
                 btnRadar.setRendered(false);
-                Utils.addTargetMany(sbc1,tbProRr,tbProbs,btnRadar,piePO,gbarPOs,gradar);
+                Utils.addTargetMany(sbc1,chkbResc,tbProRr,tbProbs,btnRadar,piePO,gbarPOs,gradar);
             }else if(tipGraf.equals("B")){
                 setDataBarrasChart(sessionParteOcurrencia.getLstNotifPOs().get(sessionParteOcurrencia.getLstNotifPOs().size()-1).getLstBars());
                 sessionParteOcurrencia.setRenderedBar(true);
@@ -207,6 +220,7 @@ public class bParteOcurrencia {
                 sessionParteOcurrencia.setRenderedPie(false);
                 piePO.setRendered(false);
                 sbc1.setRendered(true);
+                chkbResc.setRendered(true);
                 
                 sessionParteOcurrencia.setRenderedRadar(false);
                 gradar.setRendered(false);
@@ -214,7 +228,7 @@ public class bParteOcurrencia {
                 tbProbs.setRendered(false);
                 btnRadar.setRendered(false);
                 
-                Utils.addTargetMany(sbc1,tbProRr,tbProbs,btnRadar,piePO,gbarPOs,gradar);
+                Utils.addTargetMany(sbc1,chkbResc,tbProRr,tbProbs,btnRadar,piePO,gbarPOs,gradar);
             }else{//R = radar
                 sessionParteOcurrencia.setRenderedBar(false);
                 gbarPOs.setRendered(false);
@@ -230,8 +244,9 @@ public class bParteOcurrencia {
                 tbProbs.setRendered(true);
                 btnRadar.setRendered(true);
                 sbc1.setRendered(false);
+                chkbResc.setRendered(false);
                 
-                Utils.addTargetMany(sbc1,tbProRr,tbProbs,btnRadar,gradar);
+                Utils.addTargetMany(sbc1,tbProRr,tbProbs,btnRadar,gradar,chkbResc);
             }
             Utils.addTarget(ps1);
         }catch(Exception e){
@@ -247,7 +262,19 @@ public class bParteOcurrencia {
     }
     
     public void limpiarPO(ActionEvent actionEvent) {
+        if(sessionParteOcurrencia.getLstNotifPOs() != null){
+            sessionParteOcurrencia.getLstNotifPOs().clear();
+        }
         _limpiarPO();
+        if(sessionParteOcurrencia.isRenderedPie()){
+            setListPieGraph(sessionParteOcurrencia.getLstNotifPOs().get(sessionParteOcurrencia.getLstNotifPOs().size()-1).getLstPies());
+            piePO.setTabularData(sessionParteOcurrencia.getLstPOsPieG());
+            Utils.addTargetMany(piePO,ps1);
+        }else if(sessionParteOcurrencia.isRenderedBar()){
+            setDataBarrasChart(sessionParteOcurrencia.getLstNotifPOs().get(sessionParteOcurrencia.getLstNotifPOs().size()-1).getLstBars());
+            gbarPOs.setTabularData(sessionParteOcurrencia.getLstPOsBarChart());
+            Utils.addTargetMany(gbarPOs,ps1);
+        }
     }
     
     public List<BeanParteOcurrencia> _limpiarPO(){
@@ -467,4 +494,11 @@ public class bParteOcurrencia {
         return btnRadar;
     }
 
+    public void setChkbResc(RichSelectBooleanCheckbox chkbResc) {
+        this.chkbResc = chkbResc;
+    }
+
+    public RichSelectBooleanCheckbox getChkbResc() {
+        return chkbResc;
+    }
 }

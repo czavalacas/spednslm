@@ -123,10 +123,15 @@
                             <af:selectItem label="Grafico de Barras" value="B" id="si2"/>
                             <af:selectItem label="Grafico Tipo Radar" value="R" id="si3"/>
                         </af:selectOneChoice>
+                        
                         <af:selectBooleanCheckbox label="3D" id="sbc1" autoSubmit="true" rendered="#{!sessionScope.sessionParteOcurrencia.renderedRadar}"
                                                       value="#{sessionScope.sessionParteOcurrencia.pie3D}"
                                                       valueChangeListener="#{bParteOcurrencia.change3DPie}"
                                                       binding="#{bParteOcurrencia.sbc1}"/>
+                        <af:selectBooleanCheckbox label="Rescalar?" id="chkbResc" autoSubmit="true"
+                                                      value="#{sessionScope.sessionParteOcurrencia.rescalar}" rendered="#{!sessionScope.sessionParteOcurrencia.renderedRadar}"
+                                                      binding="#{bParteOcurrencia.chkbResc}"
+                                                      valueChangeListener="#{bParteOcurrencia.changeRescalar}"/>
                         <af:table value="#{sessionScope.sessionParteOcurrencia.lstProfesoresRadar}" var="row"
                                   rowBandingInterval="0" id="tbProRr" varStatus="vs" rendered="#{sessionScope.sessionParteOcurrencia.renderedRadar}"
                                   binding="#{bParteOcurrencia.tbProRr}" width="250" columnStretching="column:c2">
@@ -171,7 +176,8 @@
                                             interactiveSliceBehavior="explode explodeAll "
                                             threeDEffect="#{sessionScope.sessionParteOcurrencia.pie3D}"
                                             drillingEnabled="true" inlineStyle="width:920px;"
-                                            rendered="#{sessionParteOcurrencia.renderedPie}">
+                                            rendered="#{sessionParteOcurrencia.renderedPie}"
+                                            hideAndShowBehavior="#{sessionScope.sessionParteOcurrencia.rescalar}">
                                     <dvt:background>
                                         <dvt:specialEffects/>
                                     </dvt:background>
@@ -185,7 +191,7 @@
                              </dvt:pieGraph>
                              <dvt:barGraph id="gbarPOs" subType="BAR_VERT_CLUST" dynamicResize="DYNAMIC_SIZE"
                                              tabularData="#{sessionParteOcurrencia.lstPOsBarChart}"
-                                             hideAndShowBehavior="withRescale" contentDelivery="immediate"
+                                             hideAndShowBehavior="#{sessionScope.sessionParteOcurrencia.rescalar}" contentDelivery="immediate"
                                              timeAxisType="TAT_IRREGULAR" animationOnDataChange="auto"
                                              animationIndicators="ALL" animationOnDisplay="auto"
                                              binding="#{bParteOcurrencia.gbarPOs}" shortDesc="Grafico de Barras"
