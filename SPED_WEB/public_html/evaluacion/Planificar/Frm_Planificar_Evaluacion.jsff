@@ -25,7 +25,8 @@
                                  binding="#{bPlanificarEva.calendar}"
                                  calendarActivityListener="#{bPlanificarEva.abrirPopupEvaluar}"
                                  calendarListener="#{bPlanificarEva.abrirNuevoEvento}"
-                                 inlineStyle="height:550px ;width: inherit">                               
+                                 inlineStyle="height:550px ;width: inherit"
+                                 activityStyles="#{bPlanificarEva.activityStyles}">                               
                                   </af:calendar>
                 </f:facet>
                 <f:facet name="start">

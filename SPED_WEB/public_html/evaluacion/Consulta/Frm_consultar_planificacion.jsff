@@ -94,7 +94,7 @@
             </af:panelGroupLayout>
             <af:panelGroupLayout id="pgl4">
             <!--1200-->
-                <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs" columnStretching="column:c2,c1,c3,c4,c5,c6,c7,c8,c9,c10,c11"
+                <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs" columnStretching="column:c5"
                 inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
                           binding="#{bConsultaPlanificacion.tbPlanificacion}"
                           value="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones}">
