@@ -31,7 +31,6 @@ import org.apache.poi.ss.usermodel.Cell;
 
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAulaRemote;
-import sped.negocio.LNSF.IR.LN_C_SFAulaRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFProfesorRemote;
 import sped.negocio.LNSF.IR.LN_T_SFAreaAcademicaRemoto;

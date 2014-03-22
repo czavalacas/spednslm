@@ -9,6 +9,6 @@ import sped.negocio.entidades.beans.BeanAula;
 
 @Remote
 public interface BDL_C_SFAulaRemote {
-    int getAulaByDescripcion(BeanAula beanAula);
     List<Aula> getAulaFindAll();
+    int getAulaByDescripcion(BeanAula beanAula);
 }
