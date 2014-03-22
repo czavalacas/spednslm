@@ -18,7 +18,11 @@ import javax.faces.model.SelectItem;
 
 import java.text.SimpleDateFormat;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -51,6 +55,10 @@ import oracle.adf.view.rich.model.CalendarActivity;
 
 import oracle.adf.view.rich.render.ClientEvent;
 
+import oracle.adf.view.rich.util.CalendarActivityRamp;
+
+import oracle.adf.view.rich.util.InstanceStyles;
+
 import oracle.binding.BindingContainer;
 import oracle.binding.OperationBinding;
 
@@ -60,6 +68,8 @@ import oracle.jbo.uicli.binding.JUCtrlActionBinding;
 
 import org.apache.myfaces.trinidad.event.AttributeChangeEvent;
 import org.apache.myfaces.trinidad.event.SelectionEvent;
+
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import sped.negocio.BDL.IR.BDL_C_SFAreaAcademicaRemote;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
@@ -168,6 +178,8 @@ public class bPlanificarEva {
     private RichInputText inputComentarioProfesor;
     private RichButton btnSaveComentEvalu;
     private RichButton btnSaveJustificacion;
+    
+    private HashMap activityStyles= new HashMap<Set<String>, InstanceStyles>();      
 
 
     public bPlanificarEva() {
@@ -182,6 +194,7 @@ public class bPlanificarEva {
 
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
+        loadactivityStyles();
         beanUsuario = (BeanUsuario) Utils.getSession("USER");
         sessionPlanificarEva.setNidPlanificador(beanUsuario.getNidUsuario());
         sessionPlanificarEva.setNidRol(beanUsuario.getRol().getNidRol());
@@ -299,9 +312,7 @@ public class bPlanificarEva {
         popupSeleccionBloque.hide();
         return null;
     }
-
-
-  
+         
     public String grabarEvaluacion(int opc) {
         Evaluacion eva = new Evaluacion();
         if (opc == 1) {
@@ -1326,7 +1337,24 @@ public class bPlanificarEva {
         Utils.showPopUpMIDDLE(popupSeleccionBloque);
         return null;
     }
-
+    
+    public void loadactivityStyles() {
+           try{
+             Utils.sysout("entro a style");
+             HashSet setconf = new HashSet<String>();
+             HashSet setnoconf = new HashSet<String>();
+             HashSet setadm = new HashSet<String>();
+             setconf.add("EJECUTADO");
+             setnoconf.add("PENDIENTE");
+             setadm.add("NO EJECUTADO");           
+             activityStyles.put(setconf, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.GREEN));
+             activityStyles.put(setnoconf, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.ORANGE));
+             activityStyles.put(setadm, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.RED));
+           }catch (Exception e) {
+            e.printStackTrace();
+           }
+    }
+    
     public void activarBotonEvaluar(AttributeChangeEvent attributeChangeEvent) {
         System.out.println("Atributte " + choiceTipoVisita.getValue());
     }
@@ -1430,6 +1458,12 @@ public class bPlanificarEva {
     public RichButton getBtnSaveJustificacion() {
         return btnSaveJustificacion;
     }
+           
+    public void setActivityStyles(HashMap activityStyles) {
+        this.activityStyles = activityStyles;
+    }
 
- 
+    public HashMap getActivityStyles() {
+        return activityStyles;
+    }
 }

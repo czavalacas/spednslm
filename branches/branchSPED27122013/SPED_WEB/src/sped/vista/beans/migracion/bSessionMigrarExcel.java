@@ -12,6 +12,9 @@ public class bSessionMigrarExcel implements Serializable {
     private InputStream inputStreamFile;
     private String nombreArchivo;
     private boolean estadoBtnSubArchivo=true;
+    private int tipoMigracion;
+    private boolean estadouploadFile=true;
+    
     public bSessionMigrarExcel() {
     }
 
@@ -54,5 +57,21 @@ public class bSessionMigrarExcel implements Serializable {
 
     public InputStream getInputStreamFile() {
         return inputStreamFile;
+    }
+
+    public void setTipoMigracion(int tipoMigracion) {
+        this.tipoMigracion = tipoMigracion;
+    }
+
+    public int getTipoMigracion() {
+        return tipoMigracion;
+    }
+
+    public void setEstadouploadFile(boolean estadouploadFile) {
+        this.estadouploadFile = estadouploadFile;
+    }
+
+    public boolean isEstadouploadFile() {
+        return estadouploadFile;
     }
 }
