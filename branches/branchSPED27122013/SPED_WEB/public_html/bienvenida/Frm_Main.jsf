@@ -42,7 +42,7 @@
                                                     </af:panelFormLayout>
                                                 </af:gridCell>
                                                 <af:gridCell valign="middle" width="auto" halign="end">
-                                                    <af:image source="/imageservlet?nomusuario=#{bMain.nomUsuario}"
+                                                    <af:image source="/imageservlet?nomusuario=#{bMain.beanUsuario.usuario}"
                                                               id="i2"
                                                               inlineStyle="height:45px; width:40px; margin:0px 30px 0px 0px;"
                                                               binding="#{bMain.i2}">
