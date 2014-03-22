@@ -257,7 +257,7 @@
                 </f:facet>
             </af:panelSplitter>
         </af:panelGroupLayout>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popDetalle"
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popDetalle"
                   binding="#{bDesempenoEvaluador.popDetalle}">
             <af:dialog id="d1" type="none" title="Detalle de Evaluaciones">
                 <af:panelGridLayout id="pgl3">
@@ -323,7 +323,7 @@
                 </af:table>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popDetPie"
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popDetPie"
                   binding="#{bDesempenoEvaluador.popDetPie}">
             <af:dialog id="d2" type="none" title="#{sessionDesempenoEvaluador.titleDialog}">
                 <af:button id="b3" immediate="true" text="Exportar a Excel">
@@ -389,7 +389,7 @@
                 </af:table>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popCorreo"
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCorreo"
                   binding="#{bDesempenoEvaluador.popCorreo}">
             <af:dialog id="d3" dialogListener="#{bDesempenoEvaluador.confirmarCorreo}" title="Mensaje" 
                        type="#{sessionDesempenoEvaluador.typePopUpCorreo}">
@@ -419,7 +419,8 @@
                 </af:panelFormLayout>                
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popKey" binding="#{bDesempenoEvaluador.popKey}">
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popKey" 
+                  binding="#{bDesempenoEvaluador.popKey}">
             <af:dialog id="d4" dialogListener="#{bDesempenoEvaluador.confirmarEnvio}" title="Ingrese contraseña">
                 <af:panelFormLayout id="pfl7">
                     <af:inputText label="Correo" id="it9" labelStyle="text-align: left;" disabled="true"
