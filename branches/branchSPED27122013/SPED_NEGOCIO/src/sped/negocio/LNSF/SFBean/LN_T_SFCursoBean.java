@@ -24,7 +24,8 @@ import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.eval.Evaluacion;
 
 @Stateless(name = "LN_T_SFCurso", mappedName = "map-LN_T_SFCurso")
-public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto, LN_T_SFCursoLocal {
+public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto, 
+                                         LN_T_SFCursoLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -50,7 +51,7 @@ public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto, LN_T_SFCursoLocal {
                 cur.setDescripcionCurso(listaCursos.get(i).getDescripcionCurso());
                 cur.setNidCurso(listaCursos.get(i).getNidCurso());
                 cur.setTipoFichaCurso(listaCursos.get(i).getTipoFichaCurso());                
-                bdl_T_SFCursoLocal.mergeCurso(cur);
+                bdl_T_SFCursoLocal.persistCurso(cur);
             }
         }catch (Exception e) {            
         e.printStackTrace();
@@ -59,7 +60,28 @@ public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto, LN_T_SFCursoLocal {
         error = beanError.getDescripcionError();
         }
         return error;
-        
-    
     }
+    
+    public String grabarCurso(BeanCurso curso){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {            
+            Curso cur=new Curso();
+            AreaAcademica area=new AreaAcademica();
+                area.setNidAreaAcademica(curso.getAreaAcademica().getNidAreaAcademica());
+                cur.setAreaAcademica(area);
+                cur.setDescripcionCurso(curso.getDescripcionCurso());
+                cur.setNidCurso(curso.getNidCurso());
+                cur.setTipoFichaCurso(curso.getTipoFichaCurso());                
+                bdl_T_SFCursoLocal.persistCurso(cur);
+            
+        }catch (Exception e) {            
+        e.printStackTrace();
+        error = "111";
+        beanError = LN_C_SFErrorLocal.getCatalogoErrores(error);
+        error = beanError.getDescripcionError();
+        }
+        return error;
+    }
+    
 }

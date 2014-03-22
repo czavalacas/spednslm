@@ -16,6 +16,7 @@
           <Item Type="title" Value="EstadoEvaluacion"/>
           <Item Type="startTime" Value="StartDate"/>
           <Item Type="endTime" Value="EndDate"/>
+          <Item Value="EstadoEvaluacion" Type="tags"/>
         </AttrNames>
       </nodeDefinition>
     </calendar>

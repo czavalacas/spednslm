@@ -3,7 +3,12 @@ package sped.vista.beans.evaluacion.planificar;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import java.util.Set;
+
+import oracle.adf.view.rich.util.InstanceStyles;
 
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.beans.BeanMain;
@@ -92,8 +97,7 @@ public class sessionPlanificar {
     private String estadoDeEvaluacion;
     private String calendaryActivityID;
     
-                                    
-                                    
+    private HashMap activityStyles= new HashMap<Set<String>, InstanceStyles>();                                
     
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
@@ -702,5 +706,13 @@ public class sessionPlanificar {
 
     public String getCalendaryActivityID() {
         return calendaryActivityID;
+    }
+
+    public void setActivityStyles(HashMap activityStyles) {
+        this.activityStyles = activityStyles;
+    }
+
+    public HashMap getActivityStyles() {
+        return activityStyles;
     }
 }

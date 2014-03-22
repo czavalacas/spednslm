@@ -8,12 +8,18 @@
                 <af:spacer height="10"/>
             </af:panelGroupLayout>
             <af:panelGroupLayout>
-                <!--<af:selectOneChoice label="Sede" id="soc1" binding="#{bMigrarExcel.choiceSede}">
-                    <f:selectItems value="" id="si1"/>
-                </af:selectOneChoice>-->
+                <af:selectOneChoice label="Tipo De Migracion" id="soc1" binding="#{bMigrarExcel.choiceSede}"
+                                    unselectedLabel="::Seleccionar Tipo Migracion::"  value="#{sessionScope.sessionMigrarExcel.tipoMigracion}" autoSubmit="true"
+                                    valueChangeListener="#{bMigrarExcel.seleccionarTipoMigracion}">
+                    <af:selectItem value="1" id="si1"  label="Curso"/>
+                    <af:selectItem value="2" id="si2" label="Area Academica"/>
+                    <af:selectItem value="3" id="si3" label="Aula"/>
+                    <af:selectItem value="4" id="si4" label="Profesor"/>
+                </af:selectOneChoice>
                 <af:inputFile label="Sellecionar Archivo" id="if1" binding="#{bMigrarExcel.inputFileExcel}"
                              autoSubmit="true"
-                              valueChangeListener="#{bMigrarExcel.seleccionaExcel}"/>
+                              valueChangeListener="#{bMigrarExcel.seleccionaExcel}"
+                              disabled="#{sessionScope.sessionMigrarExcel.estadouploadFile}"/>
                 <af:button text="Subir Archivo" id="b1" action="#{bMigrarExcel.migrarExcel}"
                            disabled="#{sessionScope.sessionMigrarExcel.estadoBtnSubArchivo}"
                            binding="#{bMigrarExcel.btnSubirArchivo}"/>
