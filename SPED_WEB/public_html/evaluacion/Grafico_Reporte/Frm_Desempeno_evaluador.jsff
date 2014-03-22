@@ -269,17 +269,18 @@
                         <af:gridCell marginStart="5px" width="50%" id="gc1">
                             <af:panelFormLayout id="pfl2">
                                 <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;" disabled="true"
-                                              value="#{sessionDesempenoEvaluador.evaluador.nombres}"/>
+                                              value="#{sessionDesempenoEvaluador.evaluador == null ? null 
+                                              : sessionDesempenoEvaluador.evaluador.nombres}"/>
                                 <af:inputText label="Rol " id="it2" labelStyle="text-align: left;" disabled="true"
-                                              value="#{sessionDesempenoEvaluador.evaluador.rol.descripcionRol}"/>
+                                              value="#{sessionDesempenoEvaluador.evaluador == null ? null 
+                                              : sessionDesempenoEvaluador.evaluador.rol.descripcionRol}"/>
                                 <af:inputText label="Sede " id="it3" labelStyle="text-align: left;" disabled="true"
-                                              value="#{sessionDesempenoEvaluador.evaluador.sedeNivel.sede.descripcionSede}"
+                                              value="#{sessionDesempenoEvaluador.evaluador == null ? null 
+                                              : sessionDesempenoEvaluador.evaluador.sede.descripcionSede}"
                                               rendered="#{sessionDesempenoEvaluador.renderSede}"/>
-                                <af:inputText label="Nivel " id="it4" labelStyle="text-align: left;" disabled="true"
-                                              value="#{sessionDesempenoEvaluador.evaluador.sedeNivel.nivel.descripcionNivel}"
-                                              rendered="#{sessionDesempenoEvaluador.renderNivel}"/>
                                 <af:inputText label="Area " id="it5" labelStyle="text-align: left;" disabled="true"
-                                              value="#{sessionDesempenoEvaluador.evaluador.areaAcademica.descripcionAreaAcademica}"
+                                              value="#{sessionDesempenoEvaluador.evaluador == null ? null 
+                                              : sessionDesempenoEvaluador.evaluador.areaAcademica.descripcionAreaAcademica}"
                                               rendered="#{sessionDesempenoEvaluador.renderArea}"/>
                                 <af:inputText label="Evaluacion(s) " id="it6" labelStyle="text-align: left;"
                                               disabled="true" value="#{sessionDesempenoEvaluador.estado}"/> 
