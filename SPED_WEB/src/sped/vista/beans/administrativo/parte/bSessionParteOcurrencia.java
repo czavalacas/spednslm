@@ -22,12 +22,21 @@ public class bSessionParteOcurrencia {
     private transient List<Object[]> lstPOsBarChart;
     private transient List<Object[]> lstPOsRadarChart;
     private boolean pie3D;
+    private boolean rescalar;
     private boolean renderedPie;
     private boolean renderedBar;
     private boolean renderedRadar;
     //DragNDroop
     private List<String> lstProfesoresRadar = new ArrayList<String>();
     private List<String> lstProblemasRadar = new ArrayList<String>();
+
+    public void setRescalar(boolean rescalar) {
+        this.rescalar = rescalar;
+    }
+
+    public boolean isRescalar() {
+        return rescalar;
+    }
 
     public void setLstPOsRadarChart(List<Object[]> lstPOsRadarChart) {
         this.lstPOsRadarChart = lstPOsRadarChart;
