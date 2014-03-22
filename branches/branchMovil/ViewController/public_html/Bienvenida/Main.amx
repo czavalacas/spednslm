@@ -4,12 +4,7 @@
           xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
     <amx:panelPage id="pp1">
         <amx:facet name="header">
-            <amx:outputText value="Bienvenido #{pageFlowScope.usuario.nombres} - #{pageFlowScope.usuario.rol.descripcionRol}" id="ot1"/>
-        </amx:facet>
-        <amx:facet name="footer">
-            <amx:commandButton id="cb1" actionListener="#{viewScope.bLogin.salirAplicacion}"
-                               icon="/resources/img/out.png" iconPosition="trailing"/>
-            <amx:commandButton id="cb2" action="GO_LOGIN" icon="/resources/img/lock.png" iconPosition="trailing"/>                  
+            <amx:outputText value="#{pageFlowScope.usuario.nombres} - #{pageFlowScope.usuario.rol.descripcionRol}" id="ot1"/>
         </amx:facet>
 
         <amx:tableLayout id="tl1" shortDesc="features-table" inlineStyle="width:100%;">

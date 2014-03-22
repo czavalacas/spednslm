@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <amx:view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amx="http://xmlns.oracle.com/adf/mf/amx"
           xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
-    <amx:panelPage id="pp1">
+    <amx:panelPage id="pageEvaluar">
         <amx:facet name="header">
             <amx:outputText value="#{viewScope.bEvaluar.titulo}" id="ot1"/>
         </amx:facet>
@@ -11,71 +11,64 @@
                 <amx:setPropertyListener id="spl1" from="pi1" to="#{pageFlowScope.panel}"/>
             </amx:commandButton>
             <amx:commandButton text="" id="btnShowPop" inlineStyle="display:none">
-                <amx:showPopupBehavior id="popMsjBeha" popupId="popMsj" align="after" alignId="cb4"/>
+                <amx:showPopupBehavior id="popMsjBeha" popupId="popMsj" align="overlapTop" alignId="pageEvaluar"/>
             </amx:commandButton>
-        </amx:facet>
-        <amx:facet name="secondary">
-              <amx:commandButton id="cb1" action="BACK_CONSULTAR" icon="/resources/img/back.png" iconPosition="trailing"
-                                 actionListener="#{viewScope.bEvaluar.resetearValoresCriterios}"/>
         </amx:facet>
         <amx:panelSplitter id="ps1" animation="none" selectedItem="#{pageFlowScope.panel}">
             <amx:facet name="navigator">
                 <amx:panelGroupLayout id="pfl1">
-                   
                     <amx:tableLayout halign="center" width="95%" inlineStyle="width:95%;">
                         <amx:rowLayout>
                             <amx:cellFormat halign="center" valign="middle" width="50%" header="true">
-                                 <amx:outputText value="Criterios" id="ot2" styleClass="adfmf-listItem-captionText"
-                                    inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:95%;"/> 
+                                <amx:outputText value="Criterios" id="ot2" styleClass="adfmf-listItem-captionText"
+                                                inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:95%;"/>
                             </amx:cellFormat>
                             <amx:cellFormat halign="center" valign="middle" width="50%" header="true">
                                 <amx:outputText value="Nota Final:" id="ot13"
                                                 inlineStyle="#{viewScope.bEvaluar.notaFinalEscala20 le 10.49 ? 'background-color:red;color:white;' : 
-                                    (viewScope.bEvaluar.notaFinalEscala20 ge 10.50 and viewScope.bEvaluar.notaFinalEscala20 le 15.49 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
-                                    font-size:x-small;white-space:pre-wrap;text-align:center;width:95%;"/>
-                                <amx:outputText value="#{viewScope.bEvaluar.notaFinalEscala20}" 
-                                    inlineStyle="#{viewScope.bEvaluar.notaFinalEscala20 le 10.49 ? 'background-color:red;color:white;' : 
-                                    (viewScope.bEvaluar.notaFinalEscala20 ge 10.50 and viewScope.bEvaluar.notaFinalEscala20 le 15.49 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
-                                    font-size:x-small;white-space:pre-wrap;text-align:center;width:95%;">
+                                                (viewScope.bEvaluar.notaFinalEscala20 ge 10.50 and viewScope.bEvaluar.notaFinalEscala20 le 15.49 ? 'background-color:yellow;color:black;' :
+                                                'background-color:green;color:white;' )}                                     font-size:x-small;white-space:pre-wrap;text-align:center;width:95%;"/>
+                                <amx:outputText value="#{viewScope.bEvaluar.notaFinalEscala20}"
+                                                inlineStyle="#{viewScope.bEvaluar.notaFinalEscala20 le 10.49 ? 'background-color:red;color:white;' : 
+                                                (viewScope.bEvaluar.notaFinalEscala20 ge 10.50 and viewScope.bEvaluar.notaFinalEscala20 le 15.49 ? 'background-color:yellow;color:black;' :
+                                                'background-color:green;color:white;' )}                                     
+                                                font-size:x-small;white-space:pre-wrap;text-align:center;width:95%;">
                                     <amx:convertNumber id="cn1" maxFractionDigits="2"/>
                                 </amx:outputText>
                             </amx:cellFormat>
                         </amx:rowLayout>
                     </amx:tableLayout>
                     <amx:listView var="row" value="#{bindings.Return.collectionModel}"
-                                  fetchSize="#{bindings.Return.rangeSize}" styleClass="adfmf-listView-insetList" id="lv1"
-                                  inlineStyle="width:95%;">
+                                  fetchSize="#{bindings.Return.rangeSize}" styleClass="adfmf-listView-insetList"
+                                  id="lv1" inlineStyle="width:95%;">
                         <amx:listItem id="li1" actionListener="#{viewScope.bEvaluar.getIndicadoresByCriterio}"
                                       inlineStyle="height:10px;">
                             <amx:setPropertyListener id="spl2" from="#{row.nidFicha}" to="#{pageFlowScope.nidFicha}"
-                                                                     type="action"/>
-                            <amx:setPropertyListener id="spl3" from="#{row.nidCriterio}" to="#{pageFlowScope.nidCriterio}"
-                                                                     type="action"/>
+                                                     type="action"/>
+                            <amx:setPropertyListener id="spl3" from="#{row.nidCriterio}"
+                                                     to="#{pageFlowScope.nidCriterio}" type="action"/>
                             <amx:setPropertyListener from="pi2" to="#{pageFlowScope.panel}" type="action"/>
-                            <amx:setPropertyListener from="#{row.cantidadValoresWS}" to="#{pageFlowScope.maxVals}" type="action"/>
+                            <amx:setPropertyListener from="#{row.cantidadValoresWS}" to="#{pageFlowScope.maxVals}"
+                                                     type="action"/>
                             <amx:tableLayout id="tl3" inlineStyle="width:100%;" width="95%">
                                 <amx:rowLayout id="rl3">
                                     <amx:cellFormat id="cf6" inlineStyle="width:95%;">
-                                        <amx:outputText value="#{row.orden}. #{row.descripcionCriterio}" id="ot3" 
+                                        <amx:outputText value="#{row.orden}. #{row.descripcionCriterio}" id="ot3"
                                                         inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;width:95%;"/>
                                         <amx:tableLayout id="tl7" inlineStyle="width:100%;" width="95%">
                                             <amx:rowLayout id="rl8">
                                                 <amx:cellFormat id="cf12" inlineStyle="width:95%;">
-                                                        <amx:outputText value="Nota: " id="ot14" inlineStyle="#{row.nota le 10.49 ? 'background-color:red;color:white;' : 
-                                                                     (row.nota ge 10.50 and row.nota le 15.49 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
-                                                                     font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;"/>
+                                                    <amx:outputText value="Nota: " id="ot14"
+                                                                    inlineStyle="#{row.nota le 10.49 ? 'background-color:red;color:white;' :                                                                       (row.nota ge 10.50 and row.nota le 15.49 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}                                                                      font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;"/>
                                                 </amx:cellFormat>
                                                 <amx:cellFormat id="cf13" inlineStyle="width:95%;">
-                                                          <amx:outputText value="#{row.nota}" id="ot12"
-                                                        inlineStyle="#{row.nota le 10.49 ? 'background-color:red;color:white;' : 
-                                                                     (row.nota ge 10.50 and row.nota le 15.49 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}
-                                                                     font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;">
-                                            <amx:convertNumber id="cn2" maxFractionDigits="2"/>
-                                        </amx:outputText>
+                                                    <amx:outputText value="#{row.nota}" id="ot12"
+                                                                    inlineStyle="#{row.nota le 10.49 ? 'background-color:red;color:white;' :                                                                       (row.nota ge 10.50 and row.nota le 15.49 ? 'background-color:yellow;color:black;' : 'background-color:green;color:white;' )}                                                                      font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;">
+                                                        <amx:convertNumber id="cn2" maxFractionDigits="2"/>
+                                                    </amx:outputText>
                                                 </amx:cellFormat>
                                             </amx:rowLayout>
                                         </amx:tableLayout>
-                                        
                                     </amx:cellFormat>
                                 </amx:rowLayout>
                             </amx:tableLayout>
@@ -88,131 +81,131 @@
             </amx:facet>
             <amx:panelItem id="pi1">
                 <amx:tableLayout id="tl1" halign="center" width="97%" inlineStyle="width:97%;">
-                        <amx:rowLayout >
-                            <amx:cellFormat  header="true">
-                                <amx:outputText value="Evaluador" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value="#{pageFlowScope.evaluador}" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                        <amx:rowLayout >
-                            <amx:cellFormat  header="true">
-                                <amx:outputText value="Planificador" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value=" #{pageFlowScope.planificador}" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                        <amx:rowLayout >
-                            <amx:cellFormat  header="true">
-                                <amx:outputText value="Area" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value="#{pageFlowScope.areaAcademica}" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                        <amx:rowLayout >
-                            <amx:cellFormat  header="true">
-                                <amx:outputText value="Curso" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value="#{pageFlowScope.curso}" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                        <amx:rowLayout >
-                            <amx:cellFormat  header="true">
-                                <amx:outputText value="Visita" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value="#{pageFlowScope.tipoVisita}" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                        <amx:rowLayout >
-                            <amx:cellFormat  header="true">
-                                <amx:outputText value="Fecha" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value="#{pageFlowScope.startDate}" id="ot5" styleClass="adfmf-listItem-captionText">
-                                    <amx:convertDateTime pattern="dd/MM/yyyy"/>
-                                </amx:outputText>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                        <amx:rowLayout >
-                            <amx:cellFormat  header="true">
-                                <amx:outputText value="De" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value="#{pageFlowScope.startDate}" styleClass="adfmf-listItem-captionText">
-                                    <amx:convertDateTime pattern="h:mm a"/>
-                                </amx:outputText>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                        <amx:rowLayout >
-                            <amx:cellFormat  header="true">
-                                <amx:outputText value="Hasta" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value="#{pageFlowScope.endDate}" styleClass="adfmf-listItem-captionText">
-                                    <amx:convertDateTime pattern="h:mm a"/>
-                                </amx:outputText>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                        <amx:rowLayout >
-                            <amx:cellFormat  header="true">
-                                <amx:outputText value="Sede" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value=" #{pageFlowScope.sede}" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                        
-                        <amx:rowLayout id="rl1">
-                            <amx:cellFormat id="cf1" header="true">
-                                <amx:outputText value="Aula" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                            <amx:cellFormat>
-                                <amx:outputText value=" #{pageFlowScope.aula}" styleClass="adfmf-listItem-captionText"/>
-                            </amx:cellFormat>
-                        </amx:rowLayout>
-                      
-                    </amx:tableLayout>
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="Evaluador" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value="#{pageFlowScope.evaluador}" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="Planificador" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value=" #{pageFlowScope.planificador}"
+                                            styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="Area" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value="#{pageFlowScope.areaAcademica}"
+                                            styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="Curso" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value="#{pageFlowScope.curso}" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="Visita" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value="#{pageFlowScope.tipoVisita}"
+                                            styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="Fecha" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value="#{pageFlowScope.startDate}" id="ot5"
+                                            styleClass="adfmf-listItem-captionText">
+                                <amx:convertDateTime pattern="dd/MM/yyyy"/>
+                            </amx:outputText>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="De" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value="#{pageFlowScope.startDate}" styleClass="adfmf-listItem-captionText">
+                                <amx:convertDateTime pattern="h:mm a"/>
+                            </amx:outputText>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="Hasta" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value="#{pageFlowScope.endDate}" styleClass="adfmf-listItem-captionText">
+                                <amx:convertDateTime pattern="h:mm a"/>
+                            </amx:outputText>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="Sede" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value=" #{pageFlowScope.sede}" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                    <amx:rowLayout id="rl1">
+                        <amx:cellFormat id="cf1" header="true">
+                            <amx:outputText value="Aula" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value=" #{pageFlowScope.aula}" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
+                </amx:tableLayout>
             </amx:panelItem>
-            
             <amx:panelItem id="pi2">
                 <amx:tableLayout id="tl4" halign="center" width="97%" inlineStyle="width:97%;">
                     <amx:rowLayout id="rl4">
                         <amx:cellFormat id="cf2" halign="center" valign="middle">
-                             <amx:outputText value="Indicadores" styleClass="adfmf-listItem-captionText"
-                                             inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:99%;"/>
+                            <amx:outputText value="Indicadores" styleClass="adfmf-listItem-captionText"
+                                            inlineStyle="font-size:small;white-space:pre-wrap;text-align:left;width:99%;"/>
                         </amx:cellFormat>
                     </amx:rowLayout>
                 </amx:tableLayout>
-                
-                <amx:listView var="row" value="#{bindings.Return1.collectionModel}"  inlineStyle="width:97%;" 
+                <amx:listView var="row" value="#{bindings.Return1.collectionModel}" inlineStyle="width:97%;"
                               fetchSize="#{bindings.Return1.rangeSize}" styleClass="adfmf-listView-insetList" id="lv2">
                     <amx:listItem id="li2" inlineStyle="background-color:Window;"
                                   actionListener="#{viewScope.bEvaluar.consultarLeyendas}">
                         <amx:setPropertyListener id="spl4" from="#{row.descripcionIndicador}"
-                                                           to="#{pageFlowScope.descIndi}" type="action"/>
-                       <amx:setPropertyListener from="#{row.nidCriterioIndicador}"
-                                                to="#{pageFlowScope.nidCritIndicador}" type="action"/>
-                        <amx:showPopupBehavior id="spb1" popupId="p1" type="action" alignId="cb1"
-                                               align="overlapTop"/>                                                                 
+                                                 to="#{pageFlowScope.descIndi}" type="action"/>
+                        <amx:setPropertyListener from="#{row.nidCriterioIndicador}"
+                                                 to="#{pageFlowScope.nidCritIndicador}" type="action"/>
+                        <amx:showPopupBehavior id="spb1" popupId="p1" type="action" alignId="pageEvaluar"
+                                               align="overlapTop"/>
                         <amx:tableLayout width="100%" id="tl2" inlineStyle="width:100%;">
                             <amx:rowLayout id="rl2">
                                 <amx:cellFormat width="80%" height="10px" id="cf3" valign="top">
-                                    <amx:outputText value="#{row.orden}. #{row.descripcionIndicador}" id="ot4" 
+                                    <amx:outputText value="#{row.orden}. #{row.descripcionIndicador}" id="ot4"
                                                     inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
                                 </amx:cellFormat>
                                 <amx:cellFormat width="20%" id="cf4" height="10px" halign="center" valign="top">
-                                    <amx:outputText value="#{row.valor == null ? 0 : row.valor}" id="ot8" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
-                                    <dvtm:statusMeterGauge id="statusMeterGauge1"
-                                                           animationOnDisplay="auto" minValue="0" maxValue="#{pageFlowScope.maxVals}"
-                                                           value="#{row.valor}" animationDuration="1400"
-                                                           thresholdDisplay="all" indicatorSize="0.4"
-                                                           color="black" borderColor="white" labelDisplay="off"
-                                                           inlineStyle="height:15px;">
+                                    <amx:outputText value="#{row.valor == null ? 0 : row.valor}" id="ot8"
+                                                    inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
+                                    <dvtm:statusMeterGauge id="statusMeterGauge1" animationOnDisplay="auto" minValue="0"
+                                                           maxValue="#{pageFlowScope.maxVals}" value="#{row.valor}"
+                                                           animationDuration="1400" thresholdDisplay="all"
+                                                           indicatorSize="0.4" color="black" borderColor="white"
+                                                           labelDisplay="off" inlineStyle="height:15px;">
                                         <dvtm:threshold maxValue="#{pageFlowScope.maxVals / 3}" color="red"/>
                                         <dvtm:threshold maxValue="#{pageFlowScope.maxVals / 3 * 2}" color="yellow"/>
                                         <dvtm:threshold maxValue="#{pageFlowScope.maxVals}" color="green"/>
@@ -224,35 +217,41 @@
                 </amx:listView>
                 <amx:tableLayout id="tl6" halign="center" width="97%" inlineStyle="width:97%;">
                     <amx:rowLayout id="rl7">
-                        <amx:cellFormat  header="true" width="25%" halign="center">
-                                <amx:outputText value="Nota 0-20" styleClass="adfmf-listItem-captionText" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
+                        <amx:cellFormat header="true" width="25%" halign="center">
+                            <amx:outputText value="Nota 0-20" styleClass="adfmf-listItem-captionText"
+                                            inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
                         </amx:cellFormat>
-                        <amx:cellFormat  header="true" width="25%" halign="center">
-                                <amx:outputText value="Suma" styleClass="adfmf-listItem-captionText" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
+                        <amx:cellFormat header="true" width="25%" halign="center">
+                            <amx:outputText value="Suma" styleClass="adfmf-listItem-captionText"
+                                            inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
                         </amx:cellFormat>
-                          <amx:cellFormat  header="true" width="50%" halign="center">
-                                <amx:outputText value="Grafico" styleClass="adfmf-listItem-captionText" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
+                        <amx:cellFormat header="true" width="50%" halign="center">
+                            <amx:outputText value="Grafico" styleClass="adfmf-listItem-captionText"
+                                            inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
                         </amx:cellFormat>
                     </amx:rowLayout>
+                    <amx:rowLayout></amx:rowLayout>
                     <amx:rowLayout>
-                       
-                    </amx:rowLayout>
-                    <amx:rowLayout>  
-                      <amx:cellFormat id="cf5" width="25%" halign="center">
-                            <amx:outputText value="#{viewScope.bEvaluar.notaEscala20}" id="ot10" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
+                        <amx:cellFormat id="cf5" width="25%" halign="center">
+                            <amx:outputText value="#{viewScope.bEvaluar.notaEscala20}" id="ot10"
+                                            inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
                         </amx:cellFormat>
-                         <amx:cellFormat id="cf7" width="25%" halign="center">
-                            <amx:outputText value="#{viewScope.bEvaluar.sumaByCriterio} / #{viewScope.bEvaluar.maxValByCriterio}" id="ot11" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
+                        <amx:cellFormat id="cf7" width="25%" halign="center">
+                            <amx:outputText value="#{viewScope.bEvaluar.sumaByCriterio} / #{viewScope.bEvaluar.maxValByCriterio}"
+                                            id="ot11"
+                                            inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:center;"/>
                         </amx:cellFormat>
                         <amx:cellFormat id="cf8" width="50%" halign="center">
-                                <dvtm:statusMeterGauge id="statusMeterGauge2" animationOnDisplay="auto" minValue="0" maxValue="#{viewScope.bEvaluar.maxValByCriterio}"
-                                                       value="#{viewScope.bEvaluar.sumaByCriterio}" animationDuration="1400"
-                                                       thresholdDisplay="all" indicatorSize="0.4"
-                                                       color="black" borderColor="white" labelDisplay="on">
+                            <dvtm:statusMeterGauge id="statusMeterGauge2" animationOnDisplay="auto" minValue="0"
+                                                   maxValue="#{viewScope.bEvaluar.maxValByCriterio}"
+                                                   value="#{viewScope.bEvaluar.sumaByCriterio}" animationDuration="1400"
+                                                   thresholdDisplay="all" indicatorSize="0.4" color="black"
+                                                   borderColor="white" labelDisplay="on">
                                 <dvtm:threshold maxValue="#{viewScope.bEvaluar.maxValByCriterio / 3}" color="red"/>
-                                <dvtm:threshold maxValue="#{viewScope.bEvaluar.maxValByCriterio / 3 * 2}" color="yellow"/>
+                                <dvtm:threshold maxValue="#{viewScope.bEvaluar.maxValByCriterio / 3 * 2}"
+                                                color="yellow"/>
                                 <dvtm:threshold maxValue="#{viewScope.bEvaluar.maxValByCriterio}" color="green"/>
-                    </dvtm:statusMeterGauge>
+                            </dvtm:statusMeterGauge>
                         </amx:cellFormat>
                     </amx:rowLayout>
                 </amx:tableLayout>
@@ -268,35 +267,37 @@
                 </amx:tableLayout>
             </amx:panelItem>
         </amx:panelSplitter>
-        
     </amx:panelPage>
-    <amx:popup id="p1" autoDismiss="false" animation="slideDown">
+    <amx:popup id="p1" autoDismiss="false" animation="slideDown"
+               inlineStyle="position:relative;margin-top:#{(deviceScope.hardware.screen.availableHeight-200)/2}px;margin-left:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;                             margin-right:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;width:#{deviceScope.hardware.screen.availableWidth};height:200px;">
         <amx:outputText value="Indicador: #{pageFlowScope.descIndi}" id="ot7"/>
         <amx:tableLayout id="tl5" width="100%" inlineStyle="width:100%;">
             <amx:rowLayout id="rl5">
                 <amx:cellFormat id="cf9" header="true" width="90%" height="12px">
-                    <amx:outputText value="Leyendas" id="ot9" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
+                    <amx:outputText value="Leyendas" id="ot9"
+                                    inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
                 </amx:cellFormat>
                 <amx:cellFormat header="true" width="10%" height="12px">
-                    <amx:outputText value="Valor" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
+                    <amx:outputText value="Valor"
+                                    inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
                 </amx:cellFormat>
             </amx:rowLayout>
             <amx:iterator id="i1" var="row" value="#{bindings.Return2.collectionModel}">
                 <amx:rowLayout id="rl6">
-                    <amx:cellFormat id="cf10" width="90%" height="25px" valign="middle" 
-                                inlineStyle="#{pageFlowScope.pfcvalor == row.valor ? 'background-color:Orange;' : '' }">
-                        <amx:outputText value="#{row.descripcionLeyenda}" inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
+                    <amx:cellFormat id="cf10" width="90%" height="25px" valign="middle"
+                                    inlineStyle="#{pageFlowScope.pfcvalor == row.valor ? 'background-color:Orange;' : '' }">
+                        <amx:outputText value="#{row.descripcionLeyenda}"
+                                        inlineStyle="font-size:xx-small;white-space:pre-wrap;text-align:left;"/>
                     </amx:cellFormat>
-                    <amx:cellFormat id="cf11" width="10%" height="25px" halign="center" valign="middle" 
-                                inlineStyle="#{pageFlowScope.pfcvalor == row.valor ? 'background-color:Orange;' : '' }">
+                    <amx:cellFormat id="cf11" width="10%" height="25px" halign="center" valign="middle"
+                                    inlineStyle="#{pageFlowScope.pfcvalor == row.valor ? 'background-color:Orange;' : '' }">
                         <amx:outputText value="#{row.valor}" styleClass="adfmf-listItem-highlightText">
-                                <amx:convertNumber groupingUsed="false"/>
+                            <amx:convertNumber groupingUsed="false"/>
                         </amx:outputText>
                     </amx:cellFormat>
                 </amx:rowLayout>
             </amx:iterator>
         </amx:tableLayout>
-         
         <amx:panelGroupLayout id="pgl1" layout="horizontal" inlineStyle="width:100%;" landmark="complementary"
                               halign="center">
             <amx:inputNumberSlider id="ins1" minimum="1" maximum="#{pageFlowScope.maxVals}"
@@ -306,9 +307,9 @@
                 <amx:closePopupBehavior id="cpb1" popupId="p1"/>
             </amx:commandButton>
         </amx:panelGroupLayout>
-       
     </amx:popup>
-    <amx:popup id="popMsj">
+    <amx:popup id="popMsj"
+               inlineStyle="position:relative;margin-top:#{(deviceScope.hardware.screen.availableHeight-90)/2}px;margin-left:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;                                         margin-right:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;width:#{deviceScope.hardware.screen.availableWidth};height:90px;">
         <amx:panelGroupLayout layout="vertical">
             <amx:outputText value="Se registro la evaluacion" id="ot15"/>
         </amx:panelGroupLayout>

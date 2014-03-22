@@ -397,7 +397,7 @@
       <property
          name="fromOutcome">graficos</property>
       <property
-         name="sdm:polyPoints">B44,573.5,663.1719,573.5,767.1094,T44</property>
+         name="sdm:polyPoints">B44,573.5,663.1719,573.5,767.1406,T44</property>
    </ControlFlowCase>
    <ControlFlowCase
       islink="true"
@@ -407,6 +407,6 @@
       <property
          name="fromOutcome">_BACK</property>
       <property
-         name="sdm:polyPoints">T56,580.5,767.1094,580.5,663.1719,B56</property>
+         name="sdm:polyPoints">T56,580.5,767.1406,580.5,663.1719,B56</property>
    </ControlFlowCase>
 </SDM>
