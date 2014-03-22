@@ -185,12 +185,12 @@
                        dialogListener="#{bConsultarEvaluacion.confirmarEnvioMensaje}">
                 <af:panelFormLayout id="pfl1">
                     <af:inputText label="Fecha Evaluacion" id="it1" disabled="true"
-                                  value="#{sessionConsultarEvaluacion.evaSelect.endDate}"
+                                  value="#{sessionConsultarEvaluacion.evaSelect == null ? null : sessionConsultarEvaluacion.evaSelect.endDate}"
                                   labelStyle="text-align: left;">
                         <af:convertDateTime pattern="dd/MM/yyyy"/>
                     </af:inputText>
                     <af:inputText label="Evaluador" id="it2" disabled="true"
-                                  value="#{sessionConsultarEvaluacion.evaSelect.nombreEvaluador}"
+                                  value="#{sessionConsultarEvaluacion.evaSelect == null ? null : sessionConsultarEvaluacion.evaSelect.nombreEvaluador}"
                                   labelStyle="text-align: left;"/>                    
                     <af:inputText label="Comentario" id="it4"  maximumLength="30" rows="5"
                                   labelStyle="text-align: left;" value="#{bConsultarEvaluacion.comentarioProf}"/>
