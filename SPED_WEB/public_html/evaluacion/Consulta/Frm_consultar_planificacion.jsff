@@ -133,7 +133,7 @@
                     </af:column>
                     <af:column sortable="false" headerText="Hora" id="c10" width="50">
                         <af:outputText value="#{row.startDate}" id="ot10">
-                        <af:convertDateTime type="date" pattern="HH:mm a"/>
+                        <af:convertDateTime type="date" pattern="hh:mm a"/>
                         </af:outputText>
                     </af:column>
                     <af:column sortable="false" headerText="Estado" id="c11" width="100"

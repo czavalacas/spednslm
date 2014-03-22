@@ -144,12 +144,12 @@
                     </af:column>
                     <af:column sortable="false" headerText="Hora Inicio" id="c7">
                         <af:outputText value="#{row.horaInicio}" id="ot3">
-                            <af:convertDateTime type="date" pattern="HH:mm a"/>
+                            <af:convertDateTime type="date" pattern="hh:mm a"/>
                         </af:outputText>
                     </af:column>
                     <af:column sortable="false" headerText="Hora Fin" id="c10">
                         <af:outputText value="#{row.horaFin}" id="ot11">
-                            <af:convertDateTime type="date" pattern="HH:mm a"/>
+                            <af:convertDateTime type="date" pattern="hh:mm a"/>
                         </af:outputText>
                     </af:column>
                 </af:table>
@@ -175,11 +175,11 @@
                         </af:inputText>
                         <af:inputText label="Hora Inicio" autoSubmit="true" id="it11"
                                       value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true">
-                            <af:convertDateTime type="date" pattern="HH:mm a"/>
+                            <af:convertDateTime type="date" pattern="hh:mm a"/>
                         </af:inputText>
                         <af:inputText label="Hora Fin" autoSubmit="true" id="it22"
                                       value="#{sessionScope.sessionPlanificarEva.horaEvaluacionPopup}" disabled="true">
-                            <af:convertDateTime type="date" pattern="HH:mm a"/>
+                            <af:convertDateTime type="date" pattern="hh:mm a"/>
                         </af:inputText>
                     </af:panelFormLayout>
                 </af:panelBox>
@@ -334,7 +334,7 @@
                                                  <af:inputText label="Hora Inicio" id="it18"
                                               value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
                                               disabled="true">
-                                    <af:convertDateTime type="date" pattern="HH:mm"/>
+                                    <af:convertDateTime type="date" pattern="hh:mm"/>
                                 </af:inputText>
                                  <af:inputText label="Fecha" id="it17"
                                               value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}"
@@ -358,7 +358,7 @@
                                               <af:inputText label="Hora Fin" id="it19"
                                               value="#{sessionScope.sessionPlanificarEva.horaEvaluacionPopup}"
                                               disabled="true">
-                                          <af:convertDateTime type="date" pattern="HH:mm"/>
+                                          <af:convertDateTime type="date" pattern="hh:mm"/>
                                 </af:inputText>
                                 <af:selectOneChoice label="Tipo De Visita" id="soc2"  value="#{sessionScope.sessionPlanificarEva.valorTipoVisita}" autoSubmit="true"
                                                     attributeChangeListener="#{bPlanificarEva.activarBotonEvaluar}"
@@ -379,11 +379,11 @@
                                     <af:panelFormLayout id="pfl8" inlineStyle="color:Red;">
                                         <af:inputText label="Hora Inicio" id="it1" disabled="true"
                                                       value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}">
-                                            <af:convertDateTime type="date" pattern="HH:mm a"/>
+                                            <af:convertDateTime type="date" pattern="hh:mm a"/>
                                         </af:inputText>
                                         <af:inputText label="Hora Fin" id="it21" disabled="true"
                                                       value="#{sessionScope.sessionPlanificarEva.horaPartidaInicio}">
-                                            <af:convertDateTime type="date" pattern="HH:mm a"/>
+                                            <af:convertDateTime type="date" pattern="hh:mm a"/>
                                         </af:inputText>
                                         <af:button text="Asignar" id="b3" action="#{bPlanificarEva.grabarEva1}"
                                                    binding="#{bPlanificarEva.btnBloque1}"
@@ -399,12 +399,12 @@
                                     <af:panelFormLayout id="pfl9">
                                         <af:inputText label="Hora Inicio" id="it3" disabled="true"
                                                       value="#{sessionScope.sessionPlanificarEva.horaPartidaInicio}">
-                                            <af:convertDateTime type="date" pattern="HH:mm a"/>
+                                            <af:convertDateTime type="date" pattern="hh:mm a"/>
                                         </af:inputText>
                                         <af:inputText label="Hora Fin" id="it20"
                                                       value="#{sessionScope.sessionPlanificarEva.horaEvaluacionPopup}"
                                                       disabled="true">
-                                            <af:convertDateTime type="date" pattern="HH:mm a"/>
+                                            <af:convertDateTime type="date" pattern="hh:mm a"/>
                                         </af:inputText>
                                         <af:button text="Asignar" id="b4" action="#{bPlanificarEva.grabarEva2}"
                                                    binding="#{bPlanificarEva.btnBloque2}"
