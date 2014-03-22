@@ -38,26 +38,28 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
         return em.createNamedQuery("Aula.findAll", Aula.class).getResultList();
     }
     
-    public int getAulaByDescripcion(BeanAula beanAula){
-           String ejbQL = "SELECT  a.nidAula FROM Aula a " + 
-                          "WHERE a.descripcionAula = :descripcion " +
-                          "AND a.sede.nidSede = :nidSede ";
-           if(beanAula.getNidNivel() != 0){
-               ejbQL = ejbQL.concat("AND a.gradoNivel.nivel.nidNivel = :nidNivel ");
-           }
-           Query query = em.createQuery(ejbQL);
-           query.setParameter("descripcion", beanAula.getDescripcionAula())
-                .setParameter("nidSede", beanAula.getNidSede());
-           if(beanAula.getNidNivel() != 0){
-               query.setParameter("nidNivel", beanAula.getNidNivel());
-           }
-           List<Object> lstObject = query.getResultList();
-           int nid = 0;
-           System.out.println(lstObject);
-           System.out.println(lstObject.size());
-           if(lstObject.size() > 0){
-               nid = Integer.parseInt(lstObject.get(0).toString());
-           }
-           return nid;
-       }
+    /**
+     * Metodo para buscar el id aula
+     * @param beanAula
+     * @return nidAula
+     */
+    public int getAulaByDescripcion(BeanAula beanAula) {
+        String ejbQL =
+            "SELECT  a.nidAula FROM Aula a " + "WHERE a.descripcionAula = :descripcion " +
+            "AND a.sede.nidSede = :nidSede ";
+        if (beanAula.getNidNivel() != 0) {
+            ejbQL = ejbQL.concat("AND a.gradoNivel.nivel.nidNivel = :nidNivel ");
+        }
+        Query query = em.createQuery(ejbQL);
+        query.setParameter("descripcion", beanAula.getDescripcionAula()).setParameter("nidSede", beanAula.getNidSede());
+        if (beanAula.getNidNivel() != 0) {
+            query.setParameter("nidNivel", beanAula.getNidNivel());
+        }
+        List<Object> lstObject = query.getResultList();
+        int nid = 0;
+        if (lstObject.size() > 0) {
+            nid = Integer.parseInt(lstObject.get(0).toString());
+        }
+        return nid;
+    }
 }

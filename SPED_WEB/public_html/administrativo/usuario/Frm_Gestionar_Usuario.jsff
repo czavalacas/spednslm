@@ -110,8 +110,8 @@
                 </af:column>
             </af:table>
         </af:panelGroupLayout>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popGestionUsuario"
-                  binding="#{bGestionarUsuarios.popGestionUsuario}">
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" 
+                  id="popGestionUsuario" binding="#{bGestionarUsuarios.popGestionUsuario}">
             <af:dialog id="d1" type="none" title="#{sessionGestionarUsuarios.titleDialogGestion}">
                 <af:panelFormLayout id="pfl1" binding="#{bGestionarUsuarios.pfl1}">
                     <af:inputText label="Nombre y Apellidos" id="itNombres" maximumLength="100"
@@ -183,7 +183,8 @@
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="p1" binding="#{bGestionarUsuarios.popConfirmar}">
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p1" 
+                  binding="#{bGestionarUsuarios.popConfirmar}">
             <af:dialog id="d2" title="Mensaje" dialogListener="#{bGestionarUsuarios.confirmaAnular}">
                 <af:outputText value="Desea anular al usuario #{sessionGestionarUsuarios.usuario}" id="ot8"/>
             </af:dialog>

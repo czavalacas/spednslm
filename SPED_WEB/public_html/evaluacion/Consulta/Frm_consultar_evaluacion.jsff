@@ -15,10 +15,14 @@
                         <af:panelFormLayout id="pfl5" labelAlignment="start">
                             <af:inputDate label="Inicio" id="idfechaInicio" columns="8"
                                           value="#{sessionConsultarEvaluacion.fechaP}" labelStyle="text-align: left;"
-                                          binding="#{bConsultarEvaluacion.idFechaInicio}"/>
+                                          binding="#{bConsultarEvaluacion.idFechaInicio}">
+                                <af:convertDateTime pattern="dd/MM/yyyy"/>
+                            </af:inputDate>
                             <af:inputDate label="Fin" id="idfechaIniciofin" columns="8"
                                           value="#{sessionConsultarEvaluacion.fechaPf}" labelStyle="text-align: left;"
-                                          binding="#{bConsultarEvaluacion.idfechaIniciofin}"></af:inputDate>
+                                          binding="#{bConsultarEvaluacion.idfechaIniciofin}">
+                                <af:convertDateTime pattern="dd/MM/yyyy"/>
+                            </af:inputDate>
                         </af:panelFormLayout>
                     </af:showDetail>
                     <af:showDetail disclosed="false" id="sd2" disclosedText="Fecha Evaluación"
@@ -26,10 +30,14 @@
                         <af:panelFormLayout id="pfl6" labelAlignment="start">
                             <af:inputDate label="Inicio" id="idfechaEvaluacion" columns="8" autoSubmit="true"
                                           labelStyle="text-align: left;" value="#{sessionConsultarEvaluacion.fechaF}"
-                                          binding="#{bConsultarEvaluacion.idfechaEvaluacion}"/>
+                                          binding="#{bConsultarEvaluacion.idfechaEvaluacion}">
+                                <af:convertDateTime pattern="dd/MM/yyyy"/>
+                            </af:inputDate>
                             <af:inputDate label="Fin" id="idfechaEvaluacionf" columns="8" autoSubmit="true"
                                           labelStyle="text-align: left;" value="#{sessionConsultarEvaluacion.fechaFf}"
-                                          binding="#{bConsultarEvaluacion.idfechaEvaluacionf}"/>
+                                          binding="#{bConsultarEvaluacion.idfechaEvaluacionf}">
+                                <af:convertDateTime pattern="dd/MM/yyyy"/>
+                            </af:inputDate>
                         </af:panelFormLayout>
                     </af:showDetail>
                     <af:selectOneChoice label="Sede" value="#{sessionConsultarEvaluacion.nidSede}" id="choiceFSede"
@@ -83,14 +91,18 @@
             </af:button>
             <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row"
                       rowBandingInterval="0" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
-                      summary="Tabla de Evaluaciones" fetchSize="50"
+                      summary="Tabla de Evaluaciones" fetchSize="50" columnStretching="column:c9"
                       binding="#{bConsultarEvaluacion.tbEval}">
                 <af:column sortable="true" sortProperty="fechaPlanificacion" headerText="Fecha Planifiación"
                            align="center" id="c12">
-                    <af:outputText value="#{row.fechaPlanificacion}" id="ot12"/>
+                    <af:outputText value="#{row.fechaPlanificacion}" id="ot12">
+                        <af:convertDateTime pattern="dd/MM/yyyy"/>
+                    </af:outputText>
                 </af:column>
                 <af:column sortable="true" sortProperty="endDate" headerText="Fecha Evaluación" align="center" id="c8">
-                    <af:outputText value="#{row.endDate}" id="ot8"/>
+                    <af:outputText value="#{row.endDate}" id="ot8">
+                        <af:convertDateTime pattern="dd/MM/yyyy"/>
+                    </af:outputText>
                 </af:column>
                 <af:column sortable="true" sortProperty="nombreEvaluador" headerText="Evaluador" align="start" id="c9"
                            rendered="#{sessionConsultarEvaluacion.columnEvaluador}">
@@ -167,13 +179,16 @@
                 </af:column>
             </af:table>
         </af:panelGroupLayout>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popCom" binding="#{bConsultarEvaluacion.popCom}">
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCom" 
+                  binding="#{bConsultarEvaluacion.popCom}">
             <af:dialog id="d1" title="Comentario Profesor"
                        dialogListener="#{bConsultarEvaluacion.confirmarEnvioMensaje}">
                 <af:panelFormLayout id="pfl1">
                     <af:inputText label="Fecha Evaluacion" id="it1" disabled="true"
                                   value="#{sessionConsultarEvaluacion.evaSelect.endDate}"
-                                  labelStyle="text-align: left;"/>
+                                  labelStyle="text-align: left;">
+                        <af:convertDateTime pattern="dd/MM/yyyy"/>
+                    </af:inputText>
                     <af:inputText label="Evaluador" id="it2" disabled="true"
                                   value="#{sessionConsultarEvaluacion.evaSelect.nombreEvaluador}"
                                   labelStyle="text-align: left;"/>                    

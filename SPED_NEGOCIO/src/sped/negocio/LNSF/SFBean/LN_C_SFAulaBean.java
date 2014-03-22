@@ -19,10 +19,7 @@ import net.sf.dozer.util.mapping.MapperIF;
 import sped.negocio.BDL.IL.BDL_C_SFAulaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFAulaLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAulaRemote;
-import sped.negocio.LNSF.IR.LN_C_SFAulaRemoto;
-import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Aula;
-import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanAula;
 
 @Stateless(name = "LN_C_SFAula", mappedName = "map-LN_C_SFAula")
