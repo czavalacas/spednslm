@@ -9,6 +9,9 @@
       <variable Type="java.lang.String" Name="autenticarUsuarioLN_arg0" IsQueriable="false"/>
       <variable Type="java.lang.String" Name="autenticarUsuarioLN_arg1" IsQueriable="false"/>
       <variable Type="java.lang.String" Name="autenticarUsuarioLN_arg2" IsQueriable="false"/>
+            <variable Type="java.lang.String" Name="recuperarClave_Return" IsQueriable="false" IsUpdateable="0"
+                DefaultValue="${bindings.recuperarClave.result}"/>
+      <variable Type="java.lang.String" Name="recuperarClave_arg0" IsQueriable="false"/>
     </variableIterator>
    </executables>
   <bindings>
@@ -33,6 +36,21 @@
     <attributeValues IterBinding="variables" id="arg2">
       <AttrNames>
         <Item Value="autenticarUsuarioLN_arg2"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="recuperarClave" RequiresUpdateModel="true" Action="invokeMethod" MethodName="recuperarClave"
+                  IsViewObjectMethod="false" DataControl="WS_SPED" InstanceName="data.WS_SPED"
+                  ReturnName="data.WS_SPED.methodResults.recuperarClave_WS_SPED_recuperarClave_result">
+      <NamedData NDName="arg0" NDType="java.lang.String" NDValue="${bindings.recuperarClave_arg0}"/>
+    </methodAction>
+    <attributeValues IterBinding="variables" id="arg01">
+      <AttrNames>
+        <Item Value="recuperarClave_arg0"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="variables" id="Return">
+      <AttrNames>
+        <Item Value="recuperarClave_Return"/>
       </AttrNames>
     </attributeValues>
   </bindings>
