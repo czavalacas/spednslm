@@ -76,7 +76,12 @@
       <amx:inputText id="it1" hintText="Comentario" value="#{viewScope.bRegistrarPO.comentario}" rows="8"/>
       
     </amx:panelFormLayout>
-    <amx:commandButton text="Registrar" id="cb4" actionListener="#{viewScope.bRegistrarPO.registrarParteOcurrencia}"/>
+    <amx:panelGroupLayout layout="horizontal" halign="end" inlineStyle="margin:0px 18px 0px 0px;">
+            <amx:commandLink actionListener="#{viewScope.bRegistrarPO.registrarParteOcurrencia}">
+                <amx:image source="/resources/img/registr.png"/>
+            </amx:commandLink>
+    </amx:panelGroupLayout>
+
     <amx:commandButton text="" id="btnShowPop" inlineStyle="display:none">
         <amx:showPopupBehavior id="popMsjBeha" popupId="popMsj" align="overlapTop" alignId="pagebRegistrarPO"/>
     </amx:commandButton>

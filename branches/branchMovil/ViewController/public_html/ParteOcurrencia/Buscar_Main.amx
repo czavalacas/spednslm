@@ -19,16 +19,18 @@
             <amx:inputText value="#{bindings.arg2.inputValue}" hintText="Curso" id="it2"/>
             <amx:inputText value="#{bindings.arg3.inputValue}" hintText="Aula" id="it3"/>
         </amx:panelFormLayout>
-        <amx:panelGroupLayout layout="horizontal">
-              <amx:commandButton actionListener="#{bindings.getMainByAttr_WS.execute}" text="Buscar"
-                                 disabled="#{!bindings.getMainByAttr_WS.enabled}" id="cb2"/>
-            <amx:commandButton id="cb3" icon="/resources/img/refresh.png" iconPosition="trailing"
-                               actionListener="#{viewScope.bBuscarMain.refrescarBusqueda}"/>
+        <amx:panelGroupLayout layout="horizontal" halign="end" inlineStyle="margin:0px 18px 0px 0px;">
+            <amx:commandLink actionListener="#{bindings.getMainByAttr_WS.execute}" disabled="#{!bindings.getMainByAttr_WS.enabled}">
+                <amx:image source="/resources/img/buscar.png" inlineStyle="margin:0px 18px 0px 0px;"/>
+            </amx:commandLink>
+            <amx:commandLink actionListener="#{viewScope.bBuscarMain.refrescarBusqueda}">
+                <amx:image source="/resources/img/refresh.png"/>
+            </amx:commandLink>
         </amx:panelGroupLayout>
       
         <amx:listView var="row" value="#{bindings.Return.collectionModel}" fetchSize="#{bindings.Return.rangeSize}"
                       dividerAttribute="profesor" dividerMode="firstLetter" styleClass="adfmf-listView-insetList"
-                      id="lv1">
+                      id="lv1" collapsibleDividers="true" showDividerCount="true">
             <amx:listItem id="li1" action="registrar_parte">
             
                 <amx:setPropertyListener from="#{row.nidMain}" to="#{pageFlowScope._nidMain}" type="action"/>

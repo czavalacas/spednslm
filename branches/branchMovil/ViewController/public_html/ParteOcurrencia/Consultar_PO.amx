@@ -34,20 +34,22 @@
         </amx:selectOneChoice>
       
     </amx:panelFormLayout>
-    <amx:panelGroupLayout layout="horizontal" halign="center">
+    <amx:panelGroupLayout layout="horizontal" halign="end" inlineStyle="margin:0px 18px 0px 0px;">
             <amx:commandLink action="#{bindings.getListaPartesOcurrencia_WS.execute}" disabled="#{!bindings.getListaPartesOcurrencia_WS.enabled}">
-                <amx:image source="/resources/img/buscar.png"/>
+                <amx:image source="/resources/img/buscar.png" inlineStyle="margin:0px 18px 0px 0px;"/>
             </amx:commandLink>
             <amx:commandLink actionListener="#{viewScope.bConsultar_PO.refrescarBusqueda}">
-                <amx:image source="/resources/img/refresh.png"/>
+                <amx:image source="/resources/img/refresh.png" inlineStyle="margin:0px 18px 0px 0px;"/>
             </amx:commandLink>
-             <amx:commandLink actionListener="#{viewScope.bConsultar_PO.mandarPieBarAsParams}" action="graficos">
+            <amx:commandLink actionListener="#{viewScope.bConsultar_PO.mandarPieBarAsParams}"
+                               action="graficos">
                 <amx:image source="/resources/img/vergra.png"/>
             </amx:commandLink>
     </amx:panelGroupLayout>
    
     <amx:listView var="row" value="#{bindings.Return.collectionModel}" fetchSize="#{bindings.Return.rangeSize}"
-                  dividerAttribute="profesor" dividerMode="firstLetter" styleClass="adfmf-listView-insetList" id="lv1">
+                  dividerAttribute="profesor" dividerMode="firstLetter" styleClass="adfmf-listView-insetList" id="lv1"
+                  collapsibleDividers="true" showDividerCount="true">
       <amx:listItem id="li1" action="detalle_po">
       
              <amx:setPropertyListener from="#{row.comentario}" to="#{pageFlowScope._comentario}" type="action"/>
@@ -66,7 +68,7 @@
              <amx:tableLayout width="98%" id="tl1">
                 <amx:rowLayout id="rl1">
                     <amx:cellFormat width="100%" height="30px" id="cf1">
-                            <amx:outputText value="#{row.profesor},  #{row.curso}" id="ot2"/>
+                            <amx:outputText value="#{row.profesor}, #{row.curso}" id="ot2"/>
                     </amx:cellFormat>
                 </amx:rowLayout>
                 
