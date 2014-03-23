@@ -6,6 +6,8 @@ import com.sun.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Map;
+
 import javax.el.ValueExpression;
 
 import mobile.AdfmUtils;
@@ -14,10 +16,15 @@ import mobile.beans.BeanUsuario;
 import oracle.adf.model.datacontrols.device.DeviceManagerFactory;
 
 import oracle.adfmf.amx.event.ActionEvent;
+import oracle.adfmf.framework.api.AdfmfContainerUtilities;
 import oracle.adfmf.framework.api.AdfmfJavaUtilities;
 import oracle.adfmf.framework.api.GenericTypeBeanSerializationHelper;
 import oracle.adfmf.framework.exception.AdfInvocationException;
 import oracle.adfmf.framework.model.AdfELContext;
+import oracle.adfmf.java.beans.PropertyChangeListener;
+import oracle.adfmf.java.beans.PropertyChangeSupport;
+import oracle.adfmf.java.beans.ProviderChangeListener;
+import oracle.adfmf.java.beans.ProviderChangeSupport;
 import oracle.adfmf.util.GenericType;
 import oracle.adfmf.util.Utility;
 
@@ -31,6 +38,9 @@ public class bLogin {
     private String usuario;
     private String clave;
     private String msj;
+    private String claveRecuperar;
+    protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    protected transient ProviderChangeSupport providerChangeSupport = new ProviderChangeSupport(this);
     
     public bLogin(){
     }
@@ -96,6 +106,42 @@ public class bLogin {
         return error;
     }
     
+    public void recuperarClave(ActionEvent actionEvent) {
+        try{
+            if(claveRecuperar != null){
+                if(!claveRecuperar.equals("")){
+                    List pnames = new ArrayList();
+                    List params = new ArrayList();
+                    List ptypes = new ArrayList();
+                    
+                    pnames.add("arg0");
+                    params.add(this.getClaveRecuperar());
+                    ptypes.add(String.class);
+                    AdfmUtils.log("clave: "+claveRecuperar);
+                    String resultado = (String)AdfmfJavaUtilities.invokeDataControlMethod(WEBSERVICE_NAME,
+                                                                                         null, 
+                                                                                         "recuperarClave",
+                                                                                         pnames, 
+                                                                                         params, 
+                                                                                         ptypes);AdfmUtils.log("paso:"+resultado);
+                    AdfmUtils.alert(FEATURE, ALERTA, new Object[] {resultado});
+                }else{
+                    AdfmUtils.alert(FEATURE, 
+                                    ALERTA, 
+                                    new Object[] {"Ingrese su correo"});
+                }
+            }else{
+                AdfmUtils.alert(FEATURE, 
+                                ALERTA, 
+                                new Object[] {"Ingrese su correo"});
+            }
+        }catch(Exception e){
+            AdfmUtils.logStackTrace(e);
+            AdfmUtils.alert(FEATURE, ALERTA, new Object[] { "Hubo un error al insertar. Intentelo nuevamente."});
+        }
+        setClaveRecuperar(null);
+    }
+    
     public void salirAplicacion(ActionEvent e){
         clearScopeVariables();
         AdfmUtils.alert(FEATURE,
@@ -125,6 +171,22 @@ public class bLogin {
         returno = returno + DeviceManagerFactory.getDeviceManager().getScreenDiagonalSize();
      //   AdfmUtils.log("Log: "+returno);
         return returno;
+    }
+    
+    public void addProviderChangeListener(ProviderChangeListener l) {
+        providerChangeSupport.addProviderChangeListener(l);
+    }
+
+    public void removeProviderChangeListener(ProviderChangeListener l) {
+        providerChangeSupport.removeProviderChangeListener(l);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        propertyChangeSupport.addPropertyChangeListener(l);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        propertyChangeSupport.removePropertyChangeListener(l);
     }
     
     public void setListaRoles(List listaRoles) {
@@ -165,5 +227,15 @@ public class bLogin {
 
     public String getMsj() {
         return msj;
+    }
+
+    public void setClaveRecuperar(String claveRecuperar) {
+        String oldclaveRecuperar = this.claveRecuperar;
+        this.claveRecuperar = claveRecuperar;
+        propertyChangeSupport.firePropertyChange("claveRecuperar",oldclaveRecuperar,claveRecuperar);
+    }
+
+    public String getClaveRecuperar() {
+        return claveRecuperar;
     }
 }

@@ -63,12 +63,12 @@
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getPermisosByUsuarioRol_WS">
+                           <operation name="getPlanificaciones_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getPlanificaciones_WS">
+                           <operation name="getPermisosByUsuarioRol_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
@@ -114,6 +114,11 @@
                               <output name=""/>
                            </operation>
                            <operation name="getSedes_WS">
+                              <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+                              <input name=""/>
+                              <output name=""/>
+                           </operation>
+                           <operation name="recuperarClave">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
