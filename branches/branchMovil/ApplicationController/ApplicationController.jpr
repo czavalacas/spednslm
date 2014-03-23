@@ -729,6 +729,15 @@
    <hash n="oracle.jdeveloper.model.J2eeSettings">
       <value n="j2eeWebAppName" v="App-ApplicationController-webapp"/>
       <value n="j2eeWebContextRoot" v="App-ApplicationController-context-root"/>
+      <hash n="webContentSet">
+         <list n="pattern-filters">
+            <string v="-resources/css/"/>
+            <string v="+**"/>
+         </list>
+         <list n="url-path">
+            <url path="public_html/"/>
+         </list>
+      </hash>
    </hash>
    <hash n="oracle.jdeveloper.runner.RunConfigurations">
       <hash n="runConfigurationDefinitions">
