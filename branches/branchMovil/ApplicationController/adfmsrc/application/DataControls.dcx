@@ -24,42 +24,42 @@
             <bean-definition BeanClass="oracle.adf.model.datacontrols.application.ApplicationFeatures"
                              xmlns="http://xmlns.oracle.com/adfm/adapter/bean"/>
         </Source>
-    </AdapterDataControl>        
-  
-  <AdapterDataControl id="WS_SPED" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
-                      ImplDef="oracle.adfinternal.model.adapter.webservice.WSDefinition" SupportsTransactions="false"
-                      SupportsSortCollection="false" SupportsResetState="false" SupportsRangesize="false"
-                      SupportsFindMode="false" SupportsUpdates="true" Definition="application.WS_SPED"
-                      BeanClass="application.WS_SPED" xmlns="http://xmlns.oracle.com/adfm/datacontrol">
-    <Source>
-      <definition xmlns="http://xmlns.oracle.com/adfm/adapter/webservice" name="WS_SPED" version="1.0"
-                  provider="oracle.adfinternal.model.adapter.webservice.provider.soap.SOAPProvider"
-                  wsdl="application/WS_SPEDService.wsdl" ensureKeyAttribute="true" UsePersistedStructure="false">
-        <service name="WS_SPEDService" namespace="http://servicios.webservice.sped/" connection="WS_SPED">
-          <port name="WS_SPEDPort">
-            <operation name="getListaPartesOcurrencia_WS"/>
-            <operation name="getDetalleEvaluacionById_WS"/>
-            <operation name="getPermisosByUsuarioRol_WS"/>
-            <operation name="getEvaluaciones_WS"/>
-            <operation name="getTipoVisita_LN_WS"/>
-            <operation name="getAreasAcademicas_WS"/>
-            <operation name="getPieProfesor_WS"/>
-            <operation name="autenticarUsuarioLN"/>
-            <operation name="getSedes_WS"/>
-            <operation name="getPlanificadores_LN_WS"/>
-            <operation name="evaluarDocente_WS"/>
-            <operation name="getUsuarios_LN_WS"/>
-            <operation name="getLstIndicadoresByFichaCriterio_LN_WS"/>
-            <operation name="getEvaluadores_LN_WS"/>
-            <operation name="getCriteriosEvaluacion_WS"/>
-            <operation name="registrarParteOcurrencia_WS"/>
-            <operation name="getPlanificaciones_WS"/>
-            <operation name="getLeyendasByCritIndicador_WS"/>
-            <operation name="getMainByAttr_WS"/>
-            <operation name="getProblemas_LN_WS"/>
-          </port>
-        </service>
-      </definition>
-    </Source>
-  </AdapterDataControl>
+    </AdapterDataControl>
+    <AdapterDataControl id="WS_SPED" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
+                        ImplDef="oracle.adfinternal.model.adapter.webservice.WSDefinition" SupportsTransactions="false"
+                        SupportsSortCollection="false" SupportsResetState="false" SupportsRangesize="false"
+                        SupportsFindMode="false" SupportsUpdates="true" Definition="application.WS_SPED"
+                        BeanClass="application.WS_SPED" xmlns="http://xmlns.oracle.com/adfm/datacontrol">
+        <Source>
+            <definition xmlns="http://xmlns.oracle.com/adfm/adapter/webservice" name="WS_SPED" version="1.0"
+                        provider="oracle.adfinternal.model.adapter.webservice.provider.soap.SOAPProvider"
+                        wsdl="application/WS_SPEDService.wsdl" ensureKeyAttribute="true" UsePersistedStructure="false">
+                <service name="WS_SPEDService" namespace="http://servicios.webservice.sped/" connection="WS_SPED">
+                    <port name="WS_SPEDPort">
+                        <operation name="getListaPartesOcurrencia_WS"/>
+                        <operation name="getDetalleEvaluacionById_WS"/>
+                        <operation name="getPermisosByUsuarioRol_WS"/>
+                        <operation name="getEvaluaciones_WS"/>
+                        <operation name="getTipoVisita_LN_WS"/>
+                        <operation name="getAreasAcademicas_WS"/>
+                        <operation name="getPieProfesor_WS"/>
+                        <operation name="autenticarUsuarioLN"/>
+                        <operation name="getSedes_WS"/>
+                        <operation name="getPlanificadores_LN_WS"/>
+                        <operation name="evaluarDocente_WS"/>
+                        <operation name="getUsuarios_LN_WS"/>
+                        <operation name="getLstIndicadoresByFichaCriterio_LN_WS"/>
+                        <operation name="getEvaluadores_LN_WS"/>
+                        <operation name="recuperarClave"/>
+                        <operation name="getCriteriosEvaluacion_WS"/>
+                        <operation name="registrarParteOcurrencia_WS"/>
+                        <operation name="getPlanificaciones_WS"/>
+                        <operation name="getLeyendasByCritIndicador_WS"/>
+                        <operation name="getMainByAttr_WS"/>
+                        <operation name="getProblemas_LN_WS"/>
+                    </port>
+                </service>
+            </definition>
+        </Source>
+    </AdapterDataControl>
 </DataControlConfigs>
