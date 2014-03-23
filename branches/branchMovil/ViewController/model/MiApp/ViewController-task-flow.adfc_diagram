@@ -90,7 +90,7 @@
       from="View3"
       to="View6">
       <property
-         name="fromOutcome">consultar_planificacion</property>
+         name="fromOutcome">regeva</property>
       <property
          name="sdm:polyPoints">R22,433.0,267.60938,643.0241,138.17188,L50</property>
    </ControlFlowCase>
@@ -100,7 +100,7 @@
       from="View3"
       to="View7">
       <property
-         name="fromOutcome">consultar_evaluacion</property>
+         name="fromOutcome">coneva</property>
       <property
          name="sdm:polyPoints">R78,433.0,316.60938,635.6335,472.20312,L50</property>
    </ControlFlowCase>
@@ -245,7 +245,7 @@
       from="View3"
       to="View21">
       <property
-         name="fromOutcome">registrar_parteocurr</property>
+         name="fromOutcome">regpo</property>
       <property
          name="sdm:polyPoints">R54,437.16705,295.60938,706.97406,297.60938,L54</property>
    </ControlFlowCase>
@@ -325,7 +325,7 @@
       from="View3"
       to="View28">
       <property
-         name="fromOutcome">consultar_po</property>
+         name="fromOutcome">conpo</property>
       <property
          name="sdm:polyPoints">B44,388.5,348.76184,573.5,555.1719,T44</property>
    </ControlFlowCase>

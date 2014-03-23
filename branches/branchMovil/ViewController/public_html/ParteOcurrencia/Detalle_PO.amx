@@ -3,7 +3,9 @@
           xmlns:dvtm="http://xmlns.oracle.com/adf/mf/amx/dvt">
   <amx:panelPage id="pageDetallePO">
     <amx:facet name="header">
-      <amx:outputText value="#{pageFlowScope.bDetalle_PO.titulo}" id="ot1"/>
+        <amx:panelGroupLayout halign="center" valign="middle">
+            <amx:outputText value="#{pageFlowScope.bDetalle_PO.titulo}" id="ot1" inlineStyle="color:rgb(102,98,96); font-size:small;margin:4px 0px 0px 0px;"/>
+        </amx:panelGroupLayout>
     </amx:facet>
     <amx:tableLayout id="tl1">
       <amx:rowLayout>
