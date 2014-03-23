@@ -20,7 +20,7 @@
         <amx:panelGroupLayout id="pfl1" halign="end" layout="horizontal">
             <amx:commandLink id="cl2" inlineStyle="color:rgb(102,98,96);font-size:small;margin:0px 15px 0px 0px;">
                 <amx:image source="/resources/img/sclave.png" inlineStyle="height:30px; width:30px;
-                                                                           margin:0px 10px 0px 0px;"/>
+                                                                           margin:0px 18px 0px 0px;"/>
                 <amx:showPopupBehavior id="spb1" popupId="popCorreo" align="overlapTop" alignId="login"/>
             </amx:commandLink>
             <amx:commandLink action="#{viewScope.bLogin.autenticarUsuario}">
