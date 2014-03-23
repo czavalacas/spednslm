@@ -104,19 +104,19 @@
         <to-activity-id>inicio</to-activity-id>
       </control-flow-case>
       <control-flow-case id="__7">
-        <from-outcome>consultar_planificacion</from-outcome>
+        <from-outcome>regeva</from-outcome>
         <to-activity-id>Consultar_Planificacion</to-activity-id>
       </control-flow-case>
       <control-flow-case id="__8">
-        <from-outcome>consultar_evaluacion</from-outcome>
+        <from-outcome>coneva</from-outcome>
         <to-activity-id>Consultar_Evaluacion</to-activity-id>
       </control-flow-case>
       <control-flow-case id="__26">
-        <from-outcome>registrar_parteocurr</from-outcome>
+        <from-outcome>regpo</from-outcome>
         <to-activity-id>Buscar_Main</to-activity-id>
       </control-flow-case>
       <control-flow-case id="__35">
-        <from-outcome>consultar_po</from-outcome>
+        <from-outcome>conpo</from-outcome>
         <to-activity-id>Consultar_PO</to-activity-id>
       </control-flow-case>
     </control-flow-rule>

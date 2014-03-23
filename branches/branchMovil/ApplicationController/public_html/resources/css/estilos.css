@@ -1,4 +1,14 @@
 .amx-inputText.imagenfondo{
-    background-image: url("../Resources/out.png");
+    background-image: url("resources/img/lock.png");
     background-color: Aqua;
+}
+
+.img{
+    background-image: url("resources/img/lock.png");
+    background-color: Aqua;
+}
+
+.titulos{
+    color:rgb(102,98,96);
+    font-size:medium;
 }
