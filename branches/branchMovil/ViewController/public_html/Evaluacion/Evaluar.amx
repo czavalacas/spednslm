@@ -8,10 +8,14 @@
             </amx:panelGroupLayout>
         </amx:facet>
         <amx:facet name="primary">
-            <amx:commandButton text="Registrar" id="cb4" actionListener="#{viewScope.bEvaluar.evaluarDocente}"/>
-            <amx:commandButton text="Info" id="cb2">
+            <amx:commandLink>
+                 <amx:image source="/resources/img/coment.png" inlineStyle="width:22px; height:21px;margin:px 10px 0px 0px;"/>
+                 <amx:setPropertyListener from="pi3" to="#{pageFlowScope.panel}" type="action"/>
+            </amx:commandLink>
+            <amx:commandLink>
+                <amx:image source="/resources/img/info.png" inlineStyle="width:22px; height:25px;"/>
                 <amx:setPropertyListener id="spl1" from="pi1" to="#{pageFlowScope.panel}"/>
-            </amx:commandButton>
+            </amx:commandLink>
             <amx:commandButton text="" id="btnShowPop" inlineStyle="display:none">
                 <amx:showPopupBehavior id="popMsjBeha" popupId="popMsj" align="overlapTop" alignId="pageEvaluar"/>
             </amx:commandButton>
@@ -76,13 +80,25 @@
                             </amx:tableLayout>
                         </amx:listItem>
                     </amx:listView>
-                    <amx:commandButton text="Agregar Comentario" id="cb5">
-                        <amx:setPropertyListener from="pi3" to="#{pageFlowScope.panel}" type="action"/>
-                    </amx:commandButton>
+                    <amx:panelGroupLayout layout="horizontal" halign="center" valign="middle">
+                        <amx:commandLink actionListener="#{viewScope.bEvaluar.evaluarDocente}">
+                            <amx:image source="/resources/img/registr.png"/>
+                        </amx:commandLink>
+                      
+                    </amx:panelGroupLayout>
+                    
                 </amx:panelGroupLayout>
             </amx:facet>
             <amx:panelItem id="pi1">
                 <amx:tableLayout id="tl1" halign="center" width="97%" inlineStyle="width:97%;">
+                    <amx:rowLayout>
+                        <amx:cellFormat header="true">
+                            <amx:outputText value="Profesor" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                        <amx:cellFormat>
+                            <amx:outputText value="#{pageFlowScope.profesor}" styleClass="adfmf-listItem-captionText"/>
+                        </amx:cellFormat>
+                    </amx:rowLayout>
                     <amx:rowLayout>
                         <amx:cellFormat header="true">
                             <amx:outputText value="Evaluador" styleClass="adfmf-listItem-captionText"/>
@@ -271,7 +287,8 @@
         </amx:panelSplitter>
     </amx:panelPage>
     <amx:popup id="p1" autoDismiss="false" animation="slideDown"
-               inlineStyle="position:relative;margin-top:#{(deviceScope.hardware.screen.availableHeight-200)/2}px;margin-left:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;                             margin-right:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;width:#{deviceScope.hardware.screen.availableWidth};height:200px;">
+               inlineStyle="position:relative;margin-top:#{(deviceScope.hardware.screen.availableHeight-230)/2}px;margin-left:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;
+               margin-right:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;width:#{deviceScope.hardware.screen.availableWidth};height:230px;">
         <amx:outputText value="Indicador: #{pageFlowScope.descIndi}" id="ot7"/>
         <amx:tableLayout id="tl5" width="100%" inlineStyle="width:100%;">
             <amx:rowLayout id="rl5">
@@ -305,9 +322,11 @@
             <amx:inputNumberSlider id="ins1" minimum="1" maximum="#{pageFlowScope.maxVals}"
                                    value="#{pageFlowScope.pfcvalor}" label="Valor" stepSize="1"/>
             <amx:outputText value="#{pageFlowScope.pfcvalor}" id="ot6"/>
-            <amx:commandButton text="Ok" id="cb3" actionListener="#{viewScope.bEvaluar.aplicarCambioValor}">
+            <amx:commandLink actionListener="#{viewScope.bEvaluar.aplicarCambioValor}">
+                <amx:image source="/resources/img/ok.png"
+                           inlineStyle="height:30px; width:30px; margin:0px 0px 0px 15px;"/>
                 <amx:closePopupBehavior id="cpb1" popupId="p1"/>
-            </amx:commandButton>
+            </amx:commandLink>
         </amx:panelGroupLayout>
     </amx:popup>
     <amx:popup id="popMsj"
@@ -315,8 +334,9 @@
         <amx:panelGroupLayout layout="vertical">
             <amx:outputText value="Se registro la evaluacion" id="ot15"/>
         </amx:panelGroupLayout>
-        <amx:commandButton text="OK" id="btnClose" action="#{viewScope.bEvaluar.redirectEvaluadoPopUp}">
+        <amx:commandLink action="#{viewScope.bEvaluar.redirectEvaluadoPopUp}">
+            <amx:image source="/resources/img/ok.png" inlineStyle="height:30px; width:30px;"/>
             <amx:closePopupBehavior id="cpbOK" popupId="popMsj" type="action"/>
-        </amx:commandButton>
+        </amx:commandLink>
     </amx:popup>
 </amx:view>

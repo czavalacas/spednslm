@@ -7,11 +7,13 @@
             <amx:outputText value="Planificaciones" id="ot1" inlineStyle="color:rgb(102,98,96); font-size:small;margin:4px 0px 0px 0px;"/>
         </amx:panelGroupLayout>
     </amx:facet>
-    <amx:panelGroupLayout id="pgl2" layout="horizontal">
-      <amx:commandButton actionListener="#{bindings.getPlanificaciones_WS.execute}" text="Buscar"
-                         disabled="#{!bindings.getPlanificaciones_WS.enabled}" id="cb3"/>
-      <amx:commandButton  id="cb4" icon="/resources/img/refresh.png" iconPosition="trailing"
-                          actionListener="#{viewScope.bConsultaPlanificacion.refrescarResultado}"/>
+    <amx:panelGroupLayout id="pgl2" layout="horizontal" halign="end" inlineStyle="margin:10px 18px 0px 0px;">
+        <amx:commandLink actionListener="#{bindings.getPlanificaciones_WS.execute}" disabled="#{!bindings.getPlanificaciones_WS.enabled}">
+            <amx:image source="/resources/img/buscar.png"  inlineStyle="margin:0px 18px 0px 0px;"/>
+        </amx:commandLink>
+        <amx:commandLink actionListener="#{viewScope.bConsultaPlanificacion.refrescarResultado}">
+            <amx:image source="/resources/img/refresh.png"/>
+        </amx:commandLink>
     </amx:panelGroupLayout>
     <amx:panelFormLayout id="pfl2" labelPosition="topCenter" fieldHalign="start">
       <amx:inputText value="#{bindings.arg4.inputValue}" id="it3" rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"
@@ -34,8 +36,10 @@
    </amx:panelFormLayout>   
    
     <amx:listView var="row" value="#{bindings.Return1.collectionModel}" fetchSize="#{bindings.Return1.rangeSize}"
-                  dividerAttribute="profesor" dividerMode="firstLetter" styleClass="adfmf-listView-insetList" id="lv1">
+                  dividerAttribute="profesor" dividerMode="firstLetter" styleClass="adfmf-listView-insetList" id="lv1"
+                  collapsibleDividers="true" showDividerCount="true">
       <amx:listItem id="li1" action="evaluar">
+        <amx:setPropertyListener from="#{row.profesor}" to="#{pageFlowScope.profesor}" type="action"/>
         <amx:setPropertyListener from="#{row.evaluador}" to="#{pageFlowScope.evaluador}" type="action"/>
         <amx:setPropertyListener from="#{row.planificador}" to="#{pageFlowScope.planificador}" type="action"/>
         <amx:setPropertyListener from="#{row.areaAcademica}" to="#{pageFlowScope.areaAcademica}" type="action"/>
