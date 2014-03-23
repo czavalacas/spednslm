@@ -20,7 +20,7 @@
         <amx:panelGroupLayout id="pfl1" halign="end" layout="horizontal">
             <amx:commandLink id="cl2" inlineStyle="color:rgb(102,98,96);font-size:small;margin:0px 15px 0px 0px;">
                 <amx:image source="/resources/img/sclave.png" inlineStyle="height:30px; width:30px;
-                                                                           margin:0px 18px 0px 0px;"/>
+                                                                           margin:0px 25px 0px 0px;"/>
                 <amx:showPopupBehavior id="spb1" popupId="popCorreo" align="overlapTop" alignId="login"/>
             </amx:commandLink>
             <amx:commandLink action="#{viewScope.bLogin.autenticarUsuario}">
@@ -29,12 +29,14 @@
         </amx:panelGroupLayout>
     </amx:panelPage>
     
-    <amx:popup id="popCorreo" inlineStyle="position:relative;margin-top:#{(deviceScope.hardware.screen.availableHeight-90)/2}px;margin-left:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;
-                                           margin-right:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;width:#{deviceScope.hardware.screen.availableWidth};height:90px;"
+    <amx:popup id="popCorreo" inlineStyle="position:relative;margin-top:#{(deviceScope.hardware.screen.availableHeight-60)/2}px;margin-left:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;
+                                           margin-right:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;width:#{deviceScope.hardware.screen.availableWidth};height:60px;"
                autoDismiss="true">
-        <amx:panelGroupLayout layout="vertical">
+        <amx:panelGroupLayout layout="horizontal">
             <amx:inputText id="itCorreo" value="#{viewScope.bLogin.claveRecuperar}" hintText="Ingrese su Correo" inputType="email" simple="true"/>
-            <amx:commandButton text="Enviar" id="btnRecuperar" actionListener="#{viewScope.bLogin.recuperarClave}"/>
+            <amx:commandLink actionListener="#{viewScope.bLogin.recuperarClave}">
+                <amx:image source="/resources/img/ok.png" inlineStyle="height:28px; width:26px;"/>
+            </amx:commandLink>
         </amx:panelGroupLayout>
     </amx:popup>
 </amx:view>
