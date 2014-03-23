@@ -2,6 +2,6 @@
 <adfmf-skins xmlns="http://xmlns.oracle.com/adf/mf/skin">
   <skin-addition id="s1">
     <skin-id>spedFX</skin-id>
-    <style-sheet-name>resources/css/estilos.css</style-sheet-name>
+    <style-sheet-name>css/estilos.css</style-sheet-name>
   </skin-addition>
 </adfmf-skins>

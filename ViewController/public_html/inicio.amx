@@ -11,28 +11,20 @@
         <amx:facet name="primary">
         <amx:commandLink id="cl1" actionListener="#{viewScope.bLogin.salirAplicacion}">
             <amx:image id="i1" source="/resources/img/apagar.png" 
-            inlineStyle="height:30px; width:30px;margin:-3px 0px 0px 0px;"/>
+                       inlineStyle="height:30px; width:30px;margin:-3px 0px 0px 0px;"/>
         </amx:commandLink>
-         <!--   <amx:commandButton id="cb1" icon="/resources/img/out.png" iconPosition="trailing"
-                               actionListener="#{viewScope.bLogin.salirAplicacion}"/>-->
         </amx:facet>
-        <amx:panelGroupLayout id="panelGroupLayout2" layout="horizontal">
-            <amx:inputText id="it1" hintText="Usuario" value="#{viewScope.bLogin.usuario}" required="true"
-                            showRequired="true" styleClass="imagenfondo"/>
-        </amx:panelGroupLayout>
-        <amx:panelGroupLayout layout="horizontal">
-             <amx:inputText hintText="Clave" id="it2" value="#{viewScope.bLogin.clave}" secret="true" required="true"
-                            showRequired="true"/>
-        </amx:panelGroupLayout>
-        <amx:panelGroupLayout id="pfl1" halign="center">
+            <amx:panelFormLayout labelPosition="topCenter" fieldHalign="start" inlineStyle="margin:35px 0px 0px 0px;">
+                  <amx:inputText id="it1" value="#{viewScope.bLogin.usuario}" hintText="Usuario" simple="true"/>
+                  <amx:inputText hintText="Clave" id="it2" value="#{viewScope.bLogin.clave}" simple="true" 
+                                 secret="true"/>
+            </amx:panelFormLayout>
+          
+        <amx:panelGroupLayout id="pfl1" halign="end">
             <amx:commandLink action="#{viewScope.bLogin.autenticarUsuario}">
-                <amx:image source="/resources/img/boton.png"/>
+                <amx:image source="/resources/img/ok.png" inlineStyle="height:40px; width:40px;
+                                                                       margin:0px 15px 0px 0px;"/>
             </amx:commandLink>
         </amx:panelGroupLayout>
-        
-        <!--
-        <amx:commandButton text="Ingresar" id="cb2" 
-                           action="#{viewScope.bLogin.autenticarUsuario}"/>
-       -->
     </amx:panelPage>
 </amx:view>

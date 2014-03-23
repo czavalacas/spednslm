@@ -26,6 +26,7 @@
           <Item Value="url"/>
           <Item Value="urlIcono"/>
           <Item Value="shortURL_WS"/>
+          <Item Value="accelerator"/>
         </AttrNames>
       </nodeDefinition>
     </tree>
