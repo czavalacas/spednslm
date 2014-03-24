@@ -110,8 +110,16 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
                               "WHERE f.tipoFicha = :tipFicha " +
                               "AND   f.tipoFichaCurso = :tipFichaCurso " +
                               "AND   f.estadoFicha = '1' ";
-            Ficha ficha = (Ficha) em.createQuery(qlString).setParameter("tipFicha",tipoFicha).setParameter("tipFichaCurso",tipoFichaCurso).getSingleResult();
-            return ficha;
+            List<Ficha> fichas = em.createQuery(qlString).setParameter("tipFicha",tipoFicha).setParameter("tipFichaCurso",tipoFichaCurso).getResultList();
+            if(fichas != null){
+                if(!fichas.isEmpty()){
+                    return fichas.get(0);
+                }else{
+                    return null;
+                }
+            }else{
+                return null;
+            }
         }catch(Exception e){
             e.printStackTrace();
             return null;

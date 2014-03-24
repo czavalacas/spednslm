@@ -113,7 +113,7 @@ public class bMain implements Serializable {
             if (menuItem.getListaHijos().size() > 0) {
                 RichMenu menu2 = new RichMenu();
                 menu2.setId("hijosDe_" + menuItem.getNidPermiso());
-                menu2.setText(menuItem.getDescripcionPermiso());
+                menu2.setText(menuItem.getDescripcionPermiso());menu2.setIcon("/recursos/img/usuarios/comment.png");//menuItem.getUrlIcono()
                 if (hijoDeMBar == 0) { //Es hijo directamente del menubar
                     menu.getChildren().add(menu2);
                 } else if (hijoDeMBar > 0) {
@@ -129,7 +129,7 @@ public class bMain implements Serializable {
             rcni.setText(menuItem.getDescripcionPermiso());
             rcni.setId("menu" + menuItem.getNidPermiso());
             rcni.setShortDesc(menuItem.getUrl());
-            rcni.setImmediate(true);
+            rcni.setImmediate(true);rcni.setIcon("/recursos/img/usuarios/comment.png");//menuItem.getUrlIcono()
             try {
                 if (menuItem.getAccelerator() != null) {
                     if (!menuItem.getAccelerator().equals("")) {

@@ -34,6 +34,8 @@ public class ParteOcurrencia implements Serializable {
     private int nidProblema;
     @Column(name = "nidUsuario", nullable = false)
     private int nidUsuario;
+    @Column(name = "nidSede")
+    private int nidSede;
 
     public ParteOcurrencia() {
     }
@@ -46,6 +48,14 @@ public class ParteOcurrencia implements Serializable {
         this.nidParte = nidParte;
         this.nidProblema = nidProblema;
         this.nidUsuario = nidUsuario;
+    }
+
+    public void setNidSede(int nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public int getNidSede() {
+        return nidSede;
     }
 
     public String getComentario() {

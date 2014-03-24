@@ -24,7 +24,7 @@
                 <af:button text="#{sessionScope.sessionRegistrarFicha.btnRegistrarFicha}" id="btnNewFicha" actionListener="#{bRegistrarFicha.nuevaFicha}"
                             binding="#{bRegistrarFicha.btnNewFicha}"
                             styleClass="#{sessionScope.sessionRegistrarFicha.styleClass}"/>
-                <af:button text="Editar Ficha" id="btnEditFicha" disabled="true" 
+                <af:button text="Ingresar" id="btnEditFicha" disabled="true" 
                             binding="#{bRegistrarFicha.btnEditFicha}" actionListener="#{bRegistrarFicha.editarFicha}"/>
                 <af:button text="Usar como Base" id="btnBase" disabled="true" binding="#{bRegistrarFicha.btnBase}"
                             actionListener="#{bRegistrarFicha.usarComoBase}"/>

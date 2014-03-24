@@ -14,6 +14,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import sped.negocio.LNSF.IL.LN_C_SFAreaAcademicaLocal;
+import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFCriterioIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
@@ -75,6 +76,8 @@ public class WS_SPED {
     private LN_T_SFParteOcurrenciaLocal ln_T_SFParteOcurrenciaLocal;
     @EJB
     private LN_C_SFParteOcurrenciaLocal ln_C_SFParteOcurrenciaLocal;
+    @EJB
+    private LN_C_SFCorreoLocal ln_C_SFCorreoLocal;
 
     @WebMethod
     public BeanUsuario autenticarUsuarioLN(@WebParam(name = "arg0") String usuario,
@@ -168,7 +171,7 @@ public class WS_SPED {
     @WebMethod
     public List<BeanCriterioWS> getCriteriosEvaluacion_WS(@WebParam(name = "arg0") int nidRol,
                                                           @WebParam(name = "arg1") String tipoFichaCurso){
-        int ficha = ln_C_SFFichaLocal.getFichaActivaEvaluacion(nidRol == 4 ? "E" : "S", tipoFichaCurso);
+        int ficha = ln_C_SFFichaLocal.getFichaActivaEvaluacion(nidRol == 2 ? "E" : "S", tipoFichaCurso);
         return ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha_WS(ficha);
     }
 
@@ -266,11 +269,13 @@ public class WS_SPED {
     public String registrarParteOcurrencia_WS(@WebParam(name = "arg0") Integer nidMain,
                                               @WebParam(name = "arg1") String comentario,
                                               @WebParam(name = "arg2") Integer nidProblema,
-                                              @WebParam(name = "arg3") Integer nidUsuario){
+                                              @WebParam(name = "arg3") Integer nidUsuario,
+                                              @WebParam(name = "arg4") Integer nidSede){
         return ln_T_SFParteOcurrenciaLocal.registrarParteOcurrencia_LN(nidMain, 
                                                                            comentario,
                                                                            nidProblema,
-                                                                           nidUsuario);
+                                                                           nidUsuario,
+                                                                           nidSede);
     }
 
     @WebMethod
@@ -311,5 +316,11 @@ public class WS_SPED {
                                                                           dniProfesor,
                                                                           nidSede, 
                                                                           nidUsuario);
+    }
+
+    @WebMethod
+    public String recuperarClave(@WebParam(name = "arg0") String correo){
+        String msj = ln_C_SFCorreoLocal.recuperarClave(correo);
+        return msj.equals("000") ? "Se envio informacion para recuperar su clave a su correo." : "Hubo un error, trate nuevamente o comuniquese con el administrador";
     }
 }
