@@ -11,7 +11,7 @@
         <amx:facet name="primary">
         <amx:commandLink id="cl1" actionListener="#{viewScope.bLogin.salirAplicacion}">
             <amx:image id="i1" source="/resources/img/apagar.png" 
-                       inlineStyle="height:30px; width:30px;margin:-3px 0px 0px 0px;"/>
+                       inlineStyle="height:25px; width:25px;margin:-3px 0px 0px 0px;"/>
         </amx:commandLink>
         </amx:facet>
                   <amx:inputText id="it1" value="#{viewScope.bLogin.usuario}" hintText="Usuario" simple="true" inlineStyle="margin:35px 0px 0px 0px;"/>
@@ -19,12 +19,12 @@
                                  secret="true"/>
         <amx:panelGroupLayout id="pfl1" halign="end" layout="horizontal">
             <amx:commandLink id="cl2" inlineStyle="color:rgb(102,98,96);font-size:small;margin:0px 15px 0px 0px;">
-                <amx:image source="/resources/img/sclave.png" inlineStyle="height:30px; width:30px;
+                <amx:image source="/resources/img/sclave.png" inlineStyle="height:30px; width:24px;
                                                                            margin:0px 25px 0px 0px;"/>
                 <amx:showPopupBehavior id="spb1" popupId="popCorreo" align="overlapTop" alignId="login"/>
             </amx:commandLink>
             <amx:commandLink action="#{viewScope.bLogin.autenticarUsuario}">
-                <amx:image source="/resources/img/ok.png" inlineStyle="height:40px; width:40px;margin:0px 15px 0px 0px;"/>
+                <amx:image source="/resources/img/ok.png" inlineStyle="height:40px; width:51px;margin:0px 15px 0px 0px;"/>
             </amx:commandLink>
         </amx:panelGroupLayout>
     </amx:panelPage>
@@ -35,7 +35,7 @@
         <amx:panelGroupLayout layout="horizontal">
             <amx:inputText id="itCorreo" value="#{viewScope.bLogin.claveRecuperar}" hintText="Ingrese su Correo" inputType="email" simple="true"/>
             <amx:commandLink actionListener="#{viewScope.bLogin.recuperarClave}">
-                <amx:image source="/resources/img/ok.png" inlineStyle="height:28px; width:26px;"/>
+                <amx:image source="/resources/img/enviar.png" inlineStyle="height:28px; width:32px;"/>
             </amx:commandLink>
         </amx:panelGroupLayout>
     </amx:popup>

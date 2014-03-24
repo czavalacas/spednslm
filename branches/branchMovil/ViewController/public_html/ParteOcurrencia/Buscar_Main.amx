@@ -21,10 +21,10 @@
         </amx:panelFormLayout>
         <amx:panelGroupLayout layout="horizontal" halign="end" inlineStyle="margin:0px 18px 0px 0px;">
             <amx:commandLink actionListener="#{bindings.getMainByAttr_WS.execute}" disabled="#{!bindings.getMainByAttr_WS.enabled}">
-                <amx:image source="/resources/img/buscar.png" inlineStyle="margin:0px 18px 0px 0px;"/>
+                <amx:image source="/resources/img/buscar.png" inlineStyle="height:34px; width:35px;margin:0px 18px 0px 0px;"/>
             </amx:commandLink>
             <amx:commandLink actionListener="#{viewScope.bBuscarMain.refrescarBusqueda}">
-                <amx:image source="/resources/img/refresh.png"/>
+                <amx:image source="/resources/img/refresh.png" inlineStyle="height:30px; width:31px;"/>
             </amx:commandLink>
         </amx:panelGroupLayout>
       
@@ -42,6 +42,7 @@
                 <amx:setPropertyListener from="#{row.horaFin}" to="#{pageFlowScope._horaFin}" type="action"/>
                 <amx:setPropertyListener from="#{row.profesor}" to="#{pageFlowScope._profesor}" type="action"/>
                 <amx:setPropertyListener from="#{row.sede}" to="#{pageFlowScope._sede}" type="action"/>
+                <amx:setPropertyListener from="#{row.nidSede}" to="#{pageFlowScope._nidSede}" type="action"/>
                 
                 <amx:tableLayout width="100%" id="tl1">
                     <amx:rowLayout id="rl1">

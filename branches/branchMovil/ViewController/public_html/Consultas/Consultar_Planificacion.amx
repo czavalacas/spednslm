@@ -9,10 +9,10 @@
     </amx:facet>
     <amx:panelGroupLayout id="pgl2" layout="horizontal" halign="end" inlineStyle="margin:10px 18px 0px 0px;">
         <amx:commandLink actionListener="#{bindings.getPlanificaciones_WS.execute}" disabled="#{!bindings.getPlanificaciones_WS.enabled}">
-            <amx:image source="/resources/img/buscar.png"  inlineStyle="margin:0px 18px 0px 0px;"/>
+            <amx:image source="/resources/img/buscar.png"  inlineStyle="height:34px; width:35px;margin:0px 18px 0px 0px;"/>
         </amx:commandLink>
         <amx:commandLink actionListener="#{viewScope.bConsultaPlanificacion.refrescarResultado}">
-            <amx:image source="/resources/img/refresh.png"/>
+            <amx:image source="/resources/img/refresh.png" inlineStyle="height:30px; width:31px;"/>
         </amx:commandLink>
     </amx:panelGroupLayout>
     <amx:panelFormLayout id="pfl2" labelPosition="topCenter" fieldHalign="start">
