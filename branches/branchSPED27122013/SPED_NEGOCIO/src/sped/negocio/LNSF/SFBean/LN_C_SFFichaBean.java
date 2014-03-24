@@ -132,7 +132,11 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
                                          String tipoFichaCurso){
         try{
             Ficha ficha = bdL_C_SFFichaLocal.getFichaEvaluacion(tipoFicha, tipoFichaCurso);
-            return ficha.getNidFicha();
+            if(ficha != null){
+                return ficha.getNidFicha();   
+            }else{
+                return 0;
+            }
         }catch(Exception e){
             e.printStackTrace();
             return 0;

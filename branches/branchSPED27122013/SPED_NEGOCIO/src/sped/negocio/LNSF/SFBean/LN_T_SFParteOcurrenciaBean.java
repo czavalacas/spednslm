@@ -47,7 +47,8 @@ public class LN_T_SFParteOcurrenciaBean implements LN_T_SFParteOcurrenciaRemote,
     public String registrarParteOcurrencia_LN(Integer nidMain,
                                                String comentario,
                                                Integer nidProblema,
-                                               Integer nidUsuario){
+                                               Integer nidUsuario,
+                                               Integer nidSede){
         String error = "000";
        try {
            ParteOcurrencia parteOcurrencia = new ParteOcurrencia();
@@ -56,6 +57,7 @@ public class LN_T_SFParteOcurrenciaBean implements LN_T_SFParteOcurrenciaRemote,
            parteOcurrencia.setNidMain(nidMain);
            parteOcurrencia.setNidProblema(nidProblema);
            parteOcurrencia.setNidUsuario(nidUsuario);
+           parteOcurrencia.setNidSede(nidSede);
            bdL_T_SFParteOcurrenciaLocal.persistParteOcurrencia(parteOcurrencia);
        } catch (Exception e) {
             e.printStackTrace();

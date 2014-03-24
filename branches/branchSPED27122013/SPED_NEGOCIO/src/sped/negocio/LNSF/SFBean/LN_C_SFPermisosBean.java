@@ -143,9 +143,9 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
         List<BeanPermiso> lstPerms = new ArrayList<BeanPermiso>();
         for(Permiso perm : bdL_C_SFPermisoLocal.getHijosByPadre_WS(nidUsuario, nidRol)){
             BeanPermiso bean = (BeanPermiso) mapper.map(perm, BeanPermiso.class);
-            if(perm.getUrl() != null){
+           /* if(perm.getUrl() != null){
                 bean.setUrlIcono(perm.getUrl().substring(perm.getUrl().indexOf("#")+1,perm.getUrl().length()));
-            }
+            }*/
             lstPerms.add(bean);
         }
         return lstPerms;

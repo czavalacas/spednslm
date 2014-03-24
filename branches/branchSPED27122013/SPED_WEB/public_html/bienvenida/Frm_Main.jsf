@@ -6,15 +6,18 @@
         <af:form id="f1" usesUpload="true">
             <af:spacer height="10"/>
             <af:resource type="javascript" source="/recursos/js/utiles.js"/>
-            <af:panelSplitter orientation="vertical" splitterPosition="45" id="ps1"
-                                 inlineStyle="margin:-10px 0px 0px 0px;">
+            <af:panelSplitter orientation="vertical" splitterPosition="56" id="ps1"
+                                 inlineStyle="margin:-10px 0px 0px 0px;" firstBorder="none" secondBorder="none">
                 <f:facet name="first">
-                    <af:panelStretchLayout id="psl1">
-                        <f:facet name="center">
-                            <af:panelGridLayout id="pgl1" inlineStyle="border-top-width:thick;">
+                            <af:panelGridLayout id="pgl1"
+                                                inlineStyle="border-top-width:thick; background-image:url(&quot;../recursos/img/layout/bar.jpg&quot;); background-repeat:repeat-x;">
                                 <af:gridRow marginTop="0px" height="auto" id="gr1">
                                     <af:gridCell marginStart="1px" width="auto" id="gc1">
-                                        <af:menuBar id="menu" var="item" binding="#{bMain.menu}" inlineStyle="margin:5px 0px 0px 0px;"/>
+                                        <af:panelFormLayout maxColumns="2" rows="1" inlineStyle="margin:5px 0px 0px 0px;">
+                                            <af:image source="/recursos/img/layout/logo.png" inlineStyle="margin:0px 0px 0px 40px;" />
+                                            <af:menuBar id="menu" var="item" binding="#{bMain.menu}" inlineStyle="margin:10px -300px 0px 0px;"/>
+                                        </af:panelFormLayout>
+                                        
                                     </af:gridCell>
                                     <af:gridCell width="100%" id="gc2" halign="end">
                                         <af:panelGridLayout id="pgl2" dimensionsFrom="parent">
@@ -44,7 +47,7 @@
                                                 <af:gridCell valign="middle" width="auto" halign="end">
                                                     <af:image source="/imageservlet?nomusuario=#{bMain.beanUsuario.usuario}"
                                                               id="i2"
-                                                              inlineStyle="height:45px; width:40px; margin:0px 30px 0px 0px;"
+                                                              inlineStyle="height:56px; width:50px; margin:0px 30px 0px 0px;"
                                                               binding="#{bMain.i2}">
                                                         <af:showPopupBehavior popupId="popCerrar" triggerType="click"
                                                                               alignId="i2" align="afterStart"/>
@@ -56,8 +59,6 @@
                                     </af:gridCell>
                                 </af:gridRow>
                             </af:panelGridLayout>
-                        </f:facet>
-                    </af:panelStretchLayout>
                 </f:facet>
                 <f:facet name="second">
                     <af:region value="#{bindings.dynamicRegion1.regionModel}" id="r1"/>
