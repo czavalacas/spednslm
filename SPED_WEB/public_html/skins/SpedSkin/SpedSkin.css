@@ -88,7 +88,7 @@ af|button.flechaDown:text-only {
 .abajo{
     position: relative;
 }
-
+/*
 af|menu::bar-item {
     background-color: transparent; 
     border-color: transparent; 
@@ -115,13 +115,13 @@ af|menu::bar-item-text {
 }
 
 af|menu:highlighted::bar-item-text { color: black; }
-af|menu:depressed::bar-item-text { color: black; }
+af|menu:depressed::bar-item-text { color: black; }*/
 /*
 af|menu::bar-item-open-icon-style {
     width: 50px;
     background-image: url("../../recursos/img/usuarios/down.png"); 
 }
-*/
+*//*
 af|menu:highlighted::bar-item-open-icon-style {
     width: 50px;
     background-image: url("../../recursos/img/usuarios/down.png"); 
@@ -133,4 +133,4 @@ af|menu:depressed::bar-item-open-icon-style {
 
 af|menu::submenu-open-icon-style {
     background-image: url("/recursos/img/usuarios/down.png"); 
-}
+}*/
