@@ -90,14 +90,12 @@ public class bConsultaPlanificacion {
            sessionConsultarPlanificacion.setExec(1); 
            sessionConsultarPlanificacion.setNidEstadoPlanificacion("PENDIENTE");
             buscarPlani();
-            System.out.println("Se Ejecuto el post");
         }        
     }    
     
     public ArrayList llenarAreasAcademicas() {
         ArrayList unItems = new ArrayList();
         List<BeanAreaAcademica> roles = ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
-        System.out.println("TAMAÑO AREAS " + roles.size());
         for (BeanAreaAcademica r : roles) {          
             unItems.add(new SelectItem(r.getNidAreaAcademica().toString(), r.getDescripcionAreaAcademica().toString()));
         }
@@ -215,19 +213,15 @@ public class bConsultaPlanificacion {
     public String buscarPlani(){
         BeanEvaluacion beanEvaluacion=new BeanEvaluacion();
         if(sessionConsultarPlanificacion.getFechaMaxPlanificacion()!=null){
-            System.out.println("FECHA MAX" + sessionConsultarPlanificacion.getFechaMaxPlanificacion());
             beanEvaluacion.setFechaMaxPlanificacion(sessionConsultarPlanificacion.getFechaMaxPlanificacion());
         }
         if(sessionConsultarPlanificacion.getFechaMinPlanificacion()!=null){
-            System.out.println("FECHA MIN" + sessionConsultarPlanificacion.getFechaMinPlanificacion());
             beanEvaluacion.setFechaMinPlanificacion(sessionConsultarPlanificacion.getFechaMinPlanificacion());
         }       
         if(sessionConsultarPlanificacion.getNidEvaluadorChoice()!=null){
-            System.out.println("NID EVALUADOR "+sessionConsultarPlanificacion.getNidEvaluadorChoice());
             beanEvaluacion.setNidEvaluador(Integer.parseInt(sessionConsultarPlanificacion.getNidEvaluadorChoice()));
         }
         if(sessionConsultarPlanificacion.getNidSedeChoice()!=null){
-            System.out.println("NID SEDE NO ES NULO");
             beanEvaluacion.setNidSede(Integer.parseInt(sessionConsultarPlanificacion.getNidSedeChoice()));
         }
         if(sessionConsultarPlanificacion.getNidNivelChoice()!=null){
@@ -252,9 +246,7 @@ public class bConsultaPlanificacion {
 
     public void buscarPlanificacion(ActionEvent actionEvent) {
        // buscarPlani();
-        
-     //   tbPlanificacion.setValue(sessionConsultarPlanificacion.getListaPlanificaciones());
-       
+          
     }
     
     
@@ -289,7 +281,6 @@ public class bConsultaPlanificacion {
         if(usuarioEnSesion.getRol().getNidRol()==2){
             sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
             sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
-            System.out.println("NID AREA ACADEMICA USUARIO"+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
             sessionConsultarPlanificacion.setNidAreaAcademicaChoice(""+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
             sessionConsultarPlanificacion.setEstadoChoiceArea(true);
         }

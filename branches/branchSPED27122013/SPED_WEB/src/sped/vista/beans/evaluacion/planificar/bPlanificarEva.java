@@ -107,11 +107,8 @@ import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
-
-
 import sped.vista.Utils.Utils;
 
-import utils.system;
 
 
 /** Clase de Respaldo bPlanificar.java
@@ -435,7 +432,6 @@ public class bPlanificarEva {
          * Siempre y cuando Opcion OTROS sea nidProblema=6   
          * */
         if(choiceProblema.getValue().toString().equals("6")){
-        System.out.println("es otro");
             sessionPlanificarEva.setEstadoDinputJustificacionVisible(true);
         }  else{        
             sessionPlanificarEva.setEstadoDinputJustificacionVisible(false);
@@ -471,7 +467,6 @@ public class bPlanificarEva {
     
 
     public void activarEstadoComentEvalu(ValueChangeEvent valueChangeEvent) {
-        System.out.println("entro11");
         sessionPlanificarEva.setEstadoBtnSaveComentEvalu(true);
         Utils.addTarget(btnSaveComentEvalu);
         }
@@ -1340,27 +1335,27 @@ public class bPlanificarEva {
     
     public void loadactivityStyles() {
            try{
-             Utils.sysout("entro a style");
              HashSet setconf = new HashSet<String>();
              HashSet setnoconf = new HashSet<String>();
              HashSet setadm = new HashSet<String>();
+             HashSet setnojust = new HashSet<String>();
              setconf.add("EJECUTADO");
              setnoconf.add("PENDIENTE");
-             setadm.add("NO EJECUTADO");           
+             setadm.add("NO EJECUTADO");       
+             setnojust.add("NO JUSTIFICADO");
              activityStyles.put(setconf, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.GREEN));
-             activityStyles.put(setnoconf, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.ORANGE));
-             activityStyles.put(setadm, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.RED));
+             activityStyles.put(setnoconf, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.BLUE));
+             activityStyles.put(setadm, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.ORANGE));
+             activityStyles.put(setnojust, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.RED));
            }catch (Exception e) {
             e.printStackTrace();
            }
     }
     
     public void activarBotonEvaluar(AttributeChangeEvent attributeChangeEvent) {
-        System.out.println("Atributte " + choiceTipoVisita.getValue());
     }
 
     public void activarbtnEvaluar(ValueChangeEvent valueChangeEvent) {
-        System.out.println("Value " + choiceTipoVisita.getValue());
     }
 
     public void setBtnBloque1(RichButton btnBloque1) {

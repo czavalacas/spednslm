@@ -28,8 +28,6 @@ import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanMainWS;
 import sped.negocio.entidades.eval.Evaluacion;
 
-import utils.system;
-
 /** Clase SFBDL SFMainBean.java
  * @author czavalacas
  * @since 29.12.2013
@@ -66,39 +64,33 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                 if (beanMain.getCurso().getAreaAcademica().getNidAreaAcademica() != 0) {
                     ejbQl =
                         ejbQl.concat(" and ma.curso.areaAcademica.nidAreaAcademica= " +
-                                     beanMain.getCurso().getAreaAcademica().getNidAreaAcademica());
-                    System.out.println("REPO Valor de Area Academica "+beanMain.getCurso().getAreaAcademica().getNidAreaAcademica());
+                                     beanMain.getCurso().getAreaAcademica().getNidAreaAcademica());                  
                 }
             }
             if (beanMain.getDia() != null) {
                 ejbQl = ejbQl.concat(" and ma.dia= '" + beanMain.getDia() + "'");
             }
             if (beanMain.getProfesor() != null) {
-                ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor= '" + beanMain.getProfesor().getDniProfesor() + "'");
-                System.out.println("REPO Valor de Profesor "+beanMain.getProfesor().getDniProfesor() );
+                ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor= '" + beanMain.getProfesor().getDniProfesor() + "'");                
             }
             if (beanMain.getCurso().getNidCurso() != null) {
                 if (beanMain.getCurso().getNidCurso() != 0) {
                     ejbQl = ejbQl.concat(" and ma.curso.nidCurso=" + beanMain.getCurso().getNidCurso());
-                    System.out.println("REPO Valor de Curso "+beanMain.getCurso().getNidCurso());
                 }
             }
             if (beanMain.getAula().getSede() != null) {
                 if (beanMain.getAula().getSede().getNidSede() != 0) {
-                    ejbQl = ejbQl.concat(" and ma.aula.sede.nidSede=" + beanMain.getAula().getSede().getNidSede());
-                    System.out.println("REPO Valor de Sede "+beanMain.getAula().getSede().getNidSede());
+                    ejbQl = ejbQl.concat(" and ma.aula.sede.nidSede=" + beanMain.getAula().getSede().getNidSede());                    
                 }
             }
             if (beanMain.getAula().getGradoNivel().getGrado() != null) {
                 if (beanMain.getAula().getGradoNivel().getGrado().getNidGrado() != 0) {
-                    ejbQl = ejbQl.concat(" and ma.aula.gradoNivel.grado.nidGrado=" + beanMain.getAula().getGradoNivel().getGrado().getNidGrado());
-                    System.out.println("REPO Valor de Grado "+beanMain.getAula().getGradoNivel().getGrado().getNidGrado());
+                    ejbQl = ejbQl.concat(" and ma.aula.gradoNivel.grado.nidGrado=" + beanMain.getAula().getGradoNivel().getGrado().getNidGrado());               
                 }
             }
             if (beanMain.getAula().getGradoNivel().getNivel() != null) {
                 if (beanMain.getAula().getGradoNivel().getNivel().getNidNivel() != 0) {
-                    ejbQl = ejbQl.concat(" and ma.aula.gradoNivel.nivel.nidNivel=" + beanMain.getAula().getGradoNivel().getNivel().getNidNivel());
-                    System.out.println("REPO Valor de Nivel "+beanMain.getAula().getGradoNivel().getNivel().getNidNivel());
+                    ejbQl = ejbQl.concat(" and ma.aula.gradoNivel.nivel.nidNivel=" + beanMain.getAula().getGradoNivel().getNivel().getNidNivel());                    
                 }
             }
 

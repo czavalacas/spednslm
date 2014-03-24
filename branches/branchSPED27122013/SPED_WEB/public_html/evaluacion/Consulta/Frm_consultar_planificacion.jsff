@@ -93,7 +93,13 @@
                     </af:button>
             </af:panelGroupLayout>
             <af:panelGroupLayout id="pgl4">
-            <!--1200-->
+          <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                         <f:facet name="menus"/>
+                        <f:facet name="toolbar">
+                            <af:toolbar>
+                            </af:toolbar>
+                        </f:facet>
+                        <f:facet name="statusbar"/>
                 <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs" columnStretching="column:c5"
                 inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
                           binding="#{bConsultaPlanificacion.tbPlanificacion}"
@@ -104,7 +110,7 @@
                     <af:column sortable="false" headerText="Planificador" id="c1" width="180">
                         <af:outputText value="#{row.nombrePLanificador}" id="ot1"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Fecha Planificacion" id="c2" width="100">
+                    <af:column sortable="false" headerText="Fecha Planificacion" id="c2" width="100" align="center" sortProperty="fechaPlanificacion">
                         <af:outputText value="#{row.fechaPlanificacion}" id="ot2">
                          <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                     </af:outputText>
@@ -112,7 +118,7 @@
                     <af:column sortable="false" headerText="Evaluador" id="c3" width="180">
                         <af:outputText value="#{row.nombreEvaluador}" id="ot3"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Fecha Evaluacion" id="c4" width="100">
+                    <af:column sortable="false" headerText="Fecha Evaluacion" id="c4" width="100" align="center" sortProperty="startDate">
                         <af:outputText value="#{row.startDate}" id="ot4">
                           <af:convertDateTime type="date" pattern="dd/MM/yyyy"/></af:outputText>
                     </af:column>
@@ -141,6 +147,7 @@
                         <af:outputText value="#{row.estadoEvaluacion}" id="ot11"/>
                     </af:column>
                 </af:table>
+                </af:panelCollection>
             </af:panelGroupLayout>
         </af:subform>
         </af:panelGroupLayout>
