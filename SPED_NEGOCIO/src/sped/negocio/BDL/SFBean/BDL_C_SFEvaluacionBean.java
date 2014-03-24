@@ -21,8 +21,6 @@ import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 
-import utils.system;
-
 /** Clase SFBDL SFMainBean.java
  * @author czavalacas
  * @since 31.12.2013
@@ -740,7 +738,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
     }
 
     public List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros, String fechaHoy) {
-        try{System.out.println("ENTRO QUERY POR INDICADOR"); 
+        try{
             String ejbQl = " SELECT eva " +
                            " FROM Evaluacion eva, Main ma, Aula au"+
                            " WHERE eva.main.nidMain=ma.nidMain"+
@@ -751,25 +749,25 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
               ejbQl = ejbQl.concat(" and eva.startDate BETWEEN :min AND :max ");
             }
              
-            if(beanFiltros.getNidSede() != null){ System.out.println("Hay nidSede");                
+            if(beanFiltros.getNidSede() != null){                
               ejbQl = ejbQl.concat(" and au.sede.nidSede="+beanFiltros.getNidSede());
             }
-            if(beanFiltros.getNidArea()!=null){System.out.println("Hay Area");
+            if(beanFiltros.getNidArea()!=null){
               ejbQl = ejbQl.concat(" and ma.curso.areaAcademica.nidAreaAcademica="+beanFiltros.getNidArea());
             }  
-            if(beanFiltros.getNidCurso()!=null){System.out.println("Hay Curso");
+            if(beanFiltros.getNidCurso()!=null){
               ejbQl = ejbQl.concat(" and ma.curso.nidCurso="+beanFiltros.getNidCurso());
             } 
-            if(beanFiltros.getNidNivele()!=null){System.out.println("Hay Nivel");
+            if(beanFiltros.getNidNivele()!=null){
               ejbQl = ejbQl.concat(" and au.gradoNivel.nivel.nidNivel="+beanFiltros.getNidNivele());
             } 
-            if(beanFiltros.getNidGrado()!=null){System.out.println("Hay Grado");
+            if(beanFiltros.getNidGrado()!=null){
               ejbQl = ejbQl.concat(" and au.gradoNivel.grado.nidGrado="+beanFiltros.getNidGrado());
             } 
-            if(beanFiltros.getDniDocente() != null){ System.out.println("Hay Docente");                
+            if(beanFiltros.getDniDocente() != null){          
               ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor="+beanFiltros.getDniDocente());
             }
-            if(fechaHoy != null){ System.out.println("Hay FechaHoy");                
+            if(fechaHoy != null){            
               ejbQl = ejbQl.concat(" and eva.startDate like '%"+fechaHoy+"%'");
             }            
             if (beanFiltros.getFechaFin() != null &&

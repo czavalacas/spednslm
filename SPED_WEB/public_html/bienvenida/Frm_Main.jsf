@@ -52,7 +52,6 @@
                                                         <af:showPopupBehavior popupId="popCerrar" triggerType="click"
                                                                               alignId="i2" align="afterStart"/>
                                                     </af:image>
-                                                    
                                                 </af:gridCell>
                                             </af:gridRow>
                                         </af:panelGridLayout>

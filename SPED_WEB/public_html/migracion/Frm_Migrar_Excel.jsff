@@ -24,7 +24,7 @@
                            disabled="#{sessionScope.sessionMigrarExcel.estadoBtnSubArchivo}"
                            binding="#{bMigrarExcel.btnSubirArchivo}"/>
             </af:panelGroupLayout>
-               <af:popup id="p4" binding="#{bMigrarExcel.popupConfirmarMigracion}" childCreation="deferred" contentDelivery="immediate">
+               <af:popup  id="p4" binding="#{bMigrarExcel.popupConfirmarMigracion}" childCreation="deferred" contentDelivery="immediate">
             <af:dialog closeIconVisible="false" modal="true" id="pw_deleteAction" styleClass="allertBox" type="none"
                        title="Confirmar Migracion">
                 <af:panelGroupLayout layout="vertical" halign="center" id="pgl2">
