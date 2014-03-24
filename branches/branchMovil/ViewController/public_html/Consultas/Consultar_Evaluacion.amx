@@ -59,12 +59,12 @@
                 </amx:panelFormLayout>
                 <amx:panelGroupLayout layout="horizontal" halign="end" inlineStyle="margin:0px 18px 0px 0px;">
                     <amx:commandLink actionListener="#{bindings.getEvaluaciones_WS.execute}" disabled="#{!bindings.getEvaluaciones_WS.enabled}">
-                        <amx:image source="/resources/img/buscar.png"  inlineStyle="margin:0px 18px 0px 0px;"/>
+                        <amx:image source="/resources/img/buscar.png" inlineStyle="height:34px; width:35px;margin:0px 18px 0px 0px;"/>
                         <amx:setPropertyListener from="pi1" to="#{pageFlowScope.panel}" type="action"/>
                     </amx:commandLink>
                     
                     <amx:commandLink actionListener="#{viewScope.bConsultarEvaluacion.verGraficosInit}">
-                        <amx:image source="/resources/img/vergra.png"/>
+                        <amx:image source="/resources/img/vergra.png" inlineStyle="height:34px; width:35px;"/>
                         <amx:setPropertyListener from="pi2" to="#{pageFlowScope.panel}" type="action"/>
                     </amx:commandLink>
                 </amx:panelGroupLayout>

@@ -9,11 +9,11 @@
         </amx:facet>
         <amx:facet name="primary">
             <amx:commandLink>
-                 <amx:image source="/resources/img/coment.png" inlineStyle="width:22px; height:21px;margin:px 10px 0px 0px;"/>
+                 <amx:image source="/resources/img/coment.png" inlineStyle="width:35px; height:33px;margin:px 10px 0px 0px;"/>
                  <amx:setPropertyListener from="pi3" to="#{pageFlowScope.panel}" type="action"/>
             </amx:commandLink>
             <amx:commandLink>
-                <amx:image source="/resources/img/info.png" inlineStyle="width:22px; height:25px;"/>
+                <amx:image source="/resources/img/info.png" inlineStyle="width:34px; height:34px;"/>
                 <amx:setPropertyListener id="spl1" from="pi1" to="#{pageFlowScope.panel}"/>
             </amx:commandLink>
             <amx:commandButton text="" id="btnShowPop" inlineStyle="display:none">

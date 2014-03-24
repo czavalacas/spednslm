@@ -84,9 +84,11 @@ public class bRegistrarPO {
             if (error.equalsIgnoreCase("000")) {
                 ValueExpression veNidUsu = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.nidUsuario}", Integer.class);
                 ValueExpression veNidMain = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope._nidMain}", Integer.class);
+                ValueExpression veNidSede = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope._nidSede}", Integer.class);
 
                 Integer nidUsu = (Integer)veNidUsu.getValue(adfELContext);
                 Integer nidMain = (Integer)veNidMain.getValue(adfELContext);
+                Integer nidSede = (Integer)veNidSede.getValue(adfELContext);
 
                 List pnames = new ArrayList();
                 List params = new ArrayList();
@@ -96,14 +98,17 @@ public class bRegistrarPO {
                 pnames.add("arg1");
                 pnames.add("arg2");
                 pnames.add("arg3");
+                pnames.add("arg4");
                 
                 params.add(nidMain);
                 params.add(this.getComentario());
                 params.add(this.getIdProblema());
                 params.add(nidUsu);
+                params.add(nidSede);
                 
                 ptypes.add(Integer.class);
                 ptypes.add(String.class);
+                ptypes.add(Integer.class);
                 ptypes.add(Integer.class);
                 ptypes.add(Integer.class);
                 

@@ -41,6 +41,12 @@
   <message name="getAreasAcademicas_WSResponse">
     <part name="parameters" element="tns:getAreasAcademicas_WSResponse"/>
   </message>
+  <message name="getSedes_WS">
+    <part name="parameters" element="tns:getSedes_WS"/>
+  </message>
+  <message name="getSedes_WSResponse">
+    <part name="parameters" element="tns:getSedes_WSResponse"/>
+  </message>
   <message name="evaluarDocente_WS">
     <part name="parameters" element="tns:evaluarDocente_WS"/>
   </message>
@@ -83,12 +89,6 @@
   <message name="getPieProfesor_WSResponse">
     <part name="parameters" element="tns:getPieProfesor_WSResponse"/>
   </message>
-  <message name="getSedes_WS">
-    <part name="parameters" element="tns:getSedes_WS"/>
-  </message>
-  <message name="getSedes_WSResponse">
-    <part name="parameters" element="tns:getSedes_WSResponse"/>
-  </message>
   <message name="recuperarClave">
     <part name="parameters" element="tns:recuperarClave"/>
   </message>
@@ -107,11 +107,11 @@
   <message name="autenticarUsuarioLNResponse">
     <part name="parameters" element="tns:autenticarUsuarioLNResponse"/>
   </message>
-  <message name="getEvaluadores_LN_WS">
-    <part name="parameters" element="tns:getEvaluadores_LN_WS"/>
+  <message name="getPlanificadores_LN_WS">
+    <part name="parameters" element="tns:getPlanificadores_LN_WS"/>
   </message>
-  <message name="getEvaluadores_LN_WSResponse">
-    <part name="parameters" element="tns:getEvaluadores_LN_WSResponse"/>
+  <message name="getPlanificadores_LN_WSResponse">
+    <part name="parameters" element="tns:getPlanificadores_LN_WSResponse"/>
   </message>
   <message name="getProblemas_LN_WS">
     <part name="parameters" element="tns:getProblemas_LN_WS"/>
@@ -125,11 +125,11 @@
   <message name="getUsuarios_LN_WSResponse">
     <part name="parameters" element="tns:getUsuarios_LN_WSResponse"/>
   </message>
-  <message name="getPlanificadores_LN_WS">
-    <part name="parameters" element="tns:getPlanificadores_LN_WS"/>
+  <message name="getEvaluadores_LN_WS">
+    <part name="parameters" element="tns:getEvaluadores_LN_WS"/>
   </message>
-  <message name="getPlanificadores_LN_WSResponse">
-    <part name="parameters" element="tns:getPlanificadores_LN_WSResponse"/>
+  <message name="getEvaluadores_LN_WSResponse">
+    <part name="parameters" element="tns:getEvaluadores_LN_WSResponse"/>
   </message>
   <portType name="WS_SPED">
     <operation name="getPermisosByUsuarioRol_WS">
@@ -167,6 +167,11 @@
              wsam:Action="http://servicios.webservice.sped/WS_SPED/getAreasAcademicas_WSRequest"/>
       <output message="tns:getAreasAcademicas_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getAreasAcademicas_WSResponse"/>
+    </operation>
+    <operation name="getSedes_WS">
+      <input message="tns:getSedes_WS" wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSRequest"/>
+      <output message="tns:getSedes_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSResponse"/>
     </operation>
     <operation name="evaluarDocente_WS">
       <input message="tns:evaluarDocente_WS"
@@ -210,11 +215,6 @@
       <output message="tns:getPieProfesor_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getPieProfesor_WSResponse"/>
     </operation>
-    <operation name="getSedes_WS">
-      <input message="tns:getSedes_WS" wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSRequest"/>
-      <output message="tns:getSedes_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getSedes_WSResponse"/>
-    </operation>
     <operation name="recuperarClave">
       <input message="tns:recuperarClave" wsam:Action="http://servicios.webservice.sped/WS_SPED/recuperarClaveRequest"/>
       <output message="tns:recuperarClaveResponse"
@@ -232,11 +232,11 @@
       <output message="tns:autenticarUsuarioLNResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/autenticarUsuarioLNResponse"/>
     </operation>
-    <operation name="getEvaluadores_LN_WS">
-      <input message="tns:getEvaluadores_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getEvaluadores_LN_WSRequest"/>
-      <output message="tns:getEvaluadores_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getEvaluadores_LN_WSResponse"/>
+    <operation name="getPlanificadores_LN_WS">
+      <input message="tns:getPlanificadores_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSRequest"/>
+      <output message="tns:getPlanificadores_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSResponse"/>
     </operation>
     <operation name="getProblemas_LN_WS">
       <input message="tns:getProblemas_LN_WS"
@@ -250,11 +250,11 @@
       <output message="tns:getUsuarios_LN_WSResponse"
               wsam:Action="http://servicios.webservice.sped/WS_SPED/getUsuarios_LN_WSResponse"/>
     </operation>
-    <operation name="getPlanificadores_LN_WS">
-      <input message="tns:getPlanificadores_LN_WS"
-             wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSRequest"/>
-      <output message="tns:getPlanificadores_LN_WSResponse"
-              wsam:Action="http://servicios.webservice.sped/WS_SPED/getPlanificadores_LN_WSResponse"/>
+    <operation name="getEvaluadores_LN_WS">
+      <input message="tns:getEvaluadores_LN_WS"
+             wsam:Action="http://servicios.webservice.sped/WS_SPED/getEvaluadores_LN_WSRequest"/>
+      <output message="tns:getEvaluadores_LN_WSResponse"
+              wsam:Action="http://servicios.webservice.sped/WS_SPED/getEvaluadores_LN_WSResponse"/>
     </operation>
   </portType>
   <binding name="WS_SPEDPortBinding" type="tns:WS_SPED">
@@ -313,6 +313,15 @@
         <soap:body use="literal"/>
       </output>
     </operation>
+    <operation name="getSedes_WS">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
     <operation name="evaluarDocente_WS">
       <soap:operation soapAction=""/>
       <input>
@@ -376,15 +385,6 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getSedes_WS">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
     <operation name="recuperarClave">
       <soap:operation soapAction=""/>
       <input>
@@ -412,7 +412,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getEvaluadores_LN_WS">
+    <operation name="getPlanificadores_LN_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -439,7 +439,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getPlanificadores_LN_WS">
+    <operation name="getEvaluadores_LN_WS">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>

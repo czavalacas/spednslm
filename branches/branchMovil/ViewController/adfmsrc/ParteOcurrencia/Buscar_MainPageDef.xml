@@ -36,6 +36,7 @@
           <Item Value="horaInicio"/>
           <Item Value="nidMain"/>
           <Item Value="sede"/>
+          <Item Value="nidSede"/>
         </AttrNames>
       </nodeDefinition>
     </tree>
