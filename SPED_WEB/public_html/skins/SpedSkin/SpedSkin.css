@@ -4,12 +4,12 @@
 @namespace dvt "http://xmlns.oracle.com/dss/adf/faces";
 
 af|inputText.login::content {
-    color: rgb(19, 76, 149);
+    color:rgb(43,78,104); 
     font-weight: bold;
 }
 
 .titulos{
-    color:Navy; 
+    color:rgb(43,78,104); 
     font-family:Arial, Helvetica, sans-serif;
     font-weight:bold; 
     text-decoration: none;
@@ -19,6 +19,15 @@ af|inputText.login::content {
     /*margin:0px 0px 0px 42px;*/
    /* margin-top: 20px;*/
 }
+
+/*
+af|button, af|button:text-only {
+    background-image: none;
+    background-color:rgb(43,78,104);
+    color: rgb(255,255,255);
+    border-color:rgb(43,78,104);
+}
+*/
 
 .subTitulos{
     color:Navy; 
@@ -32,14 +41,12 @@ af|inputText.login::content {
 
 af|button.FondoRojoLetraBlanca {
     background-image: none;
-    background-color: rgb(205,0,0);
     color: rgb(255,255,255);
     border-color: rgb(205,0,0);
 }
 
 af|button.FondoVerdeLetraRoja {
     background-image: none;
-    background-color: Green;
     color: rgb(255,255,255);
     font-weight: bold;
     border-color: Green;
@@ -47,7 +54,6 @@ af|button.FondoVerdeLetraRoja {
 
 af|button.FondoRojoLetraVerde{
     background-image: none;
-    background-color: rgb(205,0,0);
     color: rgb(255,255,255);
     font-weight: bold;
     border-color: rgb(205,0,0);
@@ -81,4 +87,50 @@ af|button.flechaDown:text-only {
 
 .abajo{
     position: relative;
+}
+
+af|menu::bar-item {
+    background-color: transparent; 
+    border-color: transparent; 
+}
+
+af|menu::bar-item:depressed {
+    background-color: transparent; 
+}
+
+af|menu::bar-item:highlighted {
+    background-color: transparent; 
+}
+
+.AFBrandingBarItem af|menu::bar-item {
+    background-color: transparent; 
+}
+
+af|menu::bar-item-text[theme="dark"] {
+    color: transparent; 
+}
+
+af|menu::bar-item-text {
+    color: #949494;
+}
+
+af|menu:highlighted::bar-item-text { color: black; }
+af|menu:depressed::bar-item-text { color: black; }
+/*
+af|menu::bar-item-open-icon-style {
+    width: 50px;
+    background-image: url("../../recursos/img/usuarios/down.png"); 
+}
+*/
+af|menu:highlighted::bar-item-open-icon-style {
+    width: 50px;
+    background-image: url("../../recursos/img/usuarios/down.png"); 
+}
+af|menu:depressed::bar-item-open-icon-style {
+    width: 50px;
+    background-image: url("../../recursos/img/usuarios/down.png"); 
+}
+
+af|menu::submenu-open-icon-style {
+    background-image: url("/recursos/img/usuarios/down.png"); 
 }

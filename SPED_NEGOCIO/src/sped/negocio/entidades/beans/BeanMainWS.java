@@ -18,6 +18,7 @@ public class BeanMainWS implements Serializable {
     private String dia;
     private String gradoNivel;
     private String areaAcademica;
+    private Integer nidSede;
     
     public BeanMainWS(){
         
@@ -34,7 +35,8 @@ public class BeanMainWS implements Serializable {
                       String dia,
                       String grado,
                       String nivel,
-                      String areaAcademica){
+                      String areaAcademica,
+                      Integer nidSede){
         this.nidMain = nidMain;
         this.profesor = apellidos+" "+nombres;
         this.curso = curso;
@@ -45,8 +47,17 @@ public class BeanMainWS implements Serializable {
         this.dia = dia;
         this.gradoNivel = grado+ " de "+nivel;
         this.areaAcademica = areaAcademica;
+        this.nidSede = nidSede;
     }
-    
+
+    public void setNidSede(Integer nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public Integer getNidSede() {
+        return nidSede;
+    }
+
     public void setNidMain(int nidMain) {
         this.nidMain = nidMain;
     }

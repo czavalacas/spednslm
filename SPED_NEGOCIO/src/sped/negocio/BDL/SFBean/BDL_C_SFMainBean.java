@@ -173,7 +173,8 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                                                                                  "m.dia," +
                                                                                  "m.aula.gradoNivel.grado.descripcionGrado," +
                                                                                  "m.aula.gradoNivel.nivel.descripcionNivel," +
-                                                                                 "m.curso.areaAcademica.descripcionAreaAcademica) " +
+                                                                                 "m.curso.areaAcademica.descripcionAreaAcademica," +
+                                                                                 "m.aula.sede.nidSede) \n" +
                               "FROM Main m " +
                               "WHERE 1 = 1 ";
            if(nidSede != null){

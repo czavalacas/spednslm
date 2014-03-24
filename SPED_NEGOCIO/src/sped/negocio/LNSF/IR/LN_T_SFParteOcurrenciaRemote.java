@@ -7,5 +7,6 @@ public interface LN_T_SFParteOcurrenciaRemote {
     String registrarParteOcurrencia_LN(Integer nidMain,
                                        String comentario,
                                        Integer nidProblema,
-                                       Integer nidUsuario);
+                                       Integer nidUsuario,
+                                       Integer nidSede);
 }
