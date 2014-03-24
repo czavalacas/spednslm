@@ -67,7 +67,7 @@
             <af:popup id="popCerrar">
                 <af:noteWindow>
                     <af:panelFormLayout rows="2" maxColumns="1">
-                        <af:commandLink text="> Cerrar Sesion" id="txt">
+                        <af:commandLink text="Cerrar Sesion" id="txt">
                             <af:showPopupBehavior popupId="p1" triggerType="action"/>
                         </af:commandLink>
                     </af:panelFormLayout>
