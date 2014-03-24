@@ -85,19 +85,15 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         for(Evaluacion a : lstAreaAcd){
             BeanEvaluacion bean = (BeanEvaluacion) mapper.map(a, BeanEvaluacion.class);
             bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidEvaluador()));
-            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidPlanificador()));
-        //    System.out.println("ESTADO EVALUACION " +bean.getEstadoEvaluacion() );
+            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidPlanificador()));     
             if(bean.getEstadoEvaluacion().equals("EJECUTADO")){
                 bean.setNidEstadoEvaluacion("1");
-             //   System.out.println(" 1 ");
             }
             if(bean.getEstadoEvaluacion().equals("PENDIENTE")){
                 bean.setNidEstadoEvaluacion("2");
-           //     System.out.println(" 2 ");
             }
             if(bean.getEstadoEvaluacion().equals("NO REALIZADO")){
                 bean.setNidEstadoEvaluacion("3");
-               // System.out.println(" 3 ");
             }
             lstBean.add(bean);
         }
@@ -131,7 +127,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
             return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getEvaluacionesByUsuarioBDL(beanUsuario, beanEva));
         }catch(Exception e){
-            System.out.println(e.getMessage());
             return new ArrayList<BeanEvaluacion>();
         }
     }
@@ -539,10 +534,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setNotaFinal(nota);
             lstBeanEvas.add(beanEva);
         }
-    
-          //traer el peso de cada valor de indicador por evaluacion.
-      
-       // System.out.println("RESULTADO DE LOS INDICADORES "+resu);
         return lstBeanEvas;
 }
         /**
@@ -559,7 +550,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         List<BeanEvaluacion_DP> listEvaWS=new ArrayList<BeanEvaluacion_DP>();
         listEvaWS=listaEva_WS;
         for(BeanEvaluacion_DP a: listEvaWS){
-            System.out.println("nota final "+a.getNotaFinal()+" - "+a.getAreaAcademica()+" "+a.getCurso());
             suma=suma+a.getNotaFinal();
         }
         if(listEvaWS!=null){
@@ -582,7 +572,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 for(int i = 0; i < tamano; i++){
                     for(int j=0; j<listaEvaluaciones.get(i).getResultadoLista().size(); j++){
                         if(listaEvaluaciones.get(i).getResultadoLista().get(j).getCriterioIndicador().getIndicador().getNidIndicador()==nidIndicador){
-                        total = total + listaEvaluaciones.get(i).getResultadoLista().get(j).getValor();System.out.println("Valor del indicador "+listaEvaluaciones.get(i).getResultadoLista().get(j).getValor());
+                        total = total + listaEvaluaciones.get(i).getResultadoLista().get(j).getValor();
                    size++;
                     }
                    
@@ -590,7 +580,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 }
                 int r = (int) Math.round( (total/size) * 100);
                 resu = r / 100.0;
-                System.out.println("VALOR RESU "+resu);
             }
             return resu;
         }    

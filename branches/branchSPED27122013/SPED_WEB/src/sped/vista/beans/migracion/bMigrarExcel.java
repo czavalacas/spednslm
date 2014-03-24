@@ -241,7 +241,6 @@ public class bMigrarExcel {
         } else {
             ln_T_SFAreaAcademicaRemoto.grabarAreasNuevas(listAreasAInsertar);
         }
-
         System.out.println("TAMAÑO DE LA LISTA DE CURSOS : " + listAreasAInsertar.size());
     }
     
