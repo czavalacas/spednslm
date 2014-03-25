@@ -636,7 +636,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                             subQuery+" AND x.estadoEvaluacion = 'NO EJECUTADO' AND x.nidProblema = NULL ) ";
             }
             if(tipoBusqueda == 1){
-                strQuery2 = strQuery2.concat(", usu.nombres "+strQuery+" GROUP BY eva.nidEvaluador ");
+                strQuery2 = strQuery2.concat(", usu "+strQuery+" GROUP BY eva.nidEvaluador ");
                 strQuery2 = strQuery2.concat(" ORDER BY eje DESC "); 
             }            
             if(tipoBusqueda == 2 ){

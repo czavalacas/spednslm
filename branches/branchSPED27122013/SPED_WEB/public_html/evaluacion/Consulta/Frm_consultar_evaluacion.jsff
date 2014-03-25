@@ -86,100 +86,113 @@
             </af:subform>
             <af:spacer width="10" height="10" id="s5"/>
             <af:button id="b1" immediate="true" text="Exportar a Excel">
-                <af:exportCollectionActionListener type="excelHTML" exportedId="tbEval"
+                <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:tbEval"
                                                    filename="Consulata_Evaluacion.xls" title="Evaluaciones"/>
             </af:button>
-            <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row"
-                      rowBandingInterval="0" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
-                      summary="Tabla de Evaluaciones" fetchSize="50" columnStretching="column:c9"
-                      binding="#{bConsultarEvaluacion.tbEval}">
-                <af:column sortable="true" sortProperty="fechaPlanificacion" headerText="Fecha Planifiación"
-                           align="center" id="c12">
-                    <af:outputText value="#{row.fechaPlanificacion}" id="ot12">
-                        <af:convertDateTime pattern="dd/MM/yyyy"/>
-                    </af:outputText>
-                </af:column>
-                <af:column sortable="true" sortProperty="endDate" headerText="Fecha Evaluación" align="center" id="c8">
-                    <af:outputText value="#{row.endDate}" id="ot8">
-                        <af:convertDateTime pattern="dd/MM/yyyy"/>
-                    </af:outputText>
-                </af:column>
-                <af:column sortable="true" sortProperty="nombreEvaluador" headerText="Evaluador" align="start" id="c9"
-                           rendered="#{sessionConsultarEvaluacion.columnEvaluador}">
-                    <af:outputText value="#{row.nombreEvaluador}" id="ot9"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="descProblema" headerText="Problema" align="left" id="c15">
-                    <af:outputText value="#{row.descProblema}" id="ot15"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="comentarioEvaluador" headerText="Comentario Problema"
-                           align="left" id="c13">
-                    <af:outputText value="#{row.comentarioEvaluador}" id="ot13" />
-                </af:column>
-                <af:column sortable="true" sortProperty="main.profesor.apellidos" headerText="Profesor" align="start"
-                           id="c1" rendered="#{sessionConsultarEvaluacion.columnProfesor}">
-                    <af:outputText value="#{row.main.profesor.nombres} #{row.main.profesor.apellidos}" id="ot1"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="main.curso.areaAcademica.descripcionAreaAcademica"
-                           headerText="Area" align="start" id="c2" rendered="#{sessionConsultarEvaluacion.columnArea}">
-                    <af:outputText value="#{row.main.curso.areaAcademica.descripcionAreaAcademica}" id="ot2"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="main.curso.descripcionCurso" headerText="Curso" align="start"
-                           id="c3">
-                    <af:outputText value="#{row.main.curso.descripcionCurso}" id="ot3"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="main.aula.sede.descripcionSede" headerText="Sede" align="start"
-                           id="c4" rendered="#{sessionConsultarEvaluacion.columnSede}">
-                    <af:outputText value="#{row.main.aula.sede.descripcionSede}" id="ot4"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="main.aula.gradoNivel.nivel.descripcionNivel" headerText="Nivel"
-                           align="start" id="c5" rendered="#{sessionConsultarEvaluacion.columnNivel}">
-                    <af:outputText value="#{row.main.aula.gradoNivel.nivel.descripcionNivel}" id="ot5"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="main.aula.gradoNivel.grado.descripcionGrado" headerText="Grado"
-                           align="start" id="c6">
-                    <af:outputText value="#{row.main.aula.gradoNivel.grado.descripcionGrado}" id="ot6"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="main.aula.descripcionAula" headerText="Aula" align="start"
-                           id="c7">
-                    <af:outputText value="#{row.main.aula.descripcionAula}" id="ot7"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="comentario_evaluador" headerText="Comentario Evaluador"
-                           align="start" id="c16">
-                    <af:outputText value="#{row.comentario_evaluador}" id="ot16"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="comentario_profesor" headerText="Comentario Profesor"
-                           align="start" id="c17">
-                    <af:button text="Comentar" id="bComenP" rendered="#{!sessionConsultarEvaluacion.columnProfesor == true 
+            <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                <f:facet name="menus"/>
+                <f:facet name="toolbar">
+                    <af:toolbar id="t1"></af:toolbar>
+                </f:facet>
+                <f:facet name="statusbar"/>
+                <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row"
+                          rowBandingInterval="0" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
+                          summary="Tabla de Evaluaciones" fetchSize="50" columnStretching="column:c9"
+                          binding="#{bConsultarEvaluacion.tbEval}">
+                    <af:column sortable="true" sortProperty="fechaPlanificacion" headerText="Fecha Planifiación"
+                               align="center" id="c12">
+                        <af:outputText value="#{row.fechaPlanificacion}" id="ot12">
+                            <af:convertDateTime pattern="dd/MM/yyyy"/>
+                        </af:outputText>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="endDate" headerText="Fecha Evaluación" align="center"
+                               id="c8">
+                        <af:outputText value="#{row.endDate}" id="ot8">
+                            <af:convertDateTime pattern="dd/MM/yyyy"/>
+                        </af:outputText>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="nombreEvaluador" headerText="Evaluador" align="start"
+                               id="c9" rendered="#{sessionConsultarEvaluacion.columnEvaluador}">
+                        <af:outputText value="#{row.nombreEvaluador}" id="ot9"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="descProblema" headerText="Problema" align="left" id="c15">
+                        <af:outputText value="#{row.descProblema}" id="ot15"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="comentarioEvaluador" headerText="Comentario Problema"
+                               align="left" id="c13">
+                        <af:outputText value="#{row.comentarioEvaluador}" id="ot13"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="main.profesor.apellidos" headerText="Profesor"
+                               align="start" id="c1" rendered="#{sessionConsultarEvaluacion.columnProfesor}">
+                        <af:outputText value="#{row.main.profesor.nombres} #{row.main.profesor.apellidos}" id="ot1"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="main.curso.areaAcademica.descripcionAreaAcademica"
+                               headerText="Area" align="start" id="c2"
+                               rendered="#{sessionConsultarEvaluacion.columnArea}">
+                        <af:outputText value="#{row.main.curso.areaAcademica.descripcionAreaAcademica}" id="ot2"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="main.curso.descripcionCurso" headerText="Curso"
+                               align="start" id="c3">
+                        <af:outputText value="#{row.main.curso.descripcionCurso}" id="ot3"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="main.aula.sede.descripcionSede" headerText="Sede"
+                               align="start" id="c4" rendered="#{sessionConsultarEvaluacion.columnSede}">
+                        <af:outputText value="#{row.main.aula.sede.descripcionSede}" id="ot4"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="main.aula.gradoNivel.nivel.descripcionNivel"
+                               headerText="Nivel" align="start" id="c5"
+                               rendered="#{sessionConsultarEvaluacion.columnNivel}">
+                        <af:outputText value="#{row.main.aula.gradoNivel.nivel.descripcionNivel}" id="ot5"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="main.aula.gradoNivel.grado.descripcionGrado"
+                               headerText="Grado" align="start" id="c6">
+                        <af:outputText value="#{row.main.aula.gradoNivel.grado.descripcionGrado}" id="ot6"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="main.aula.descripcionAula" headerText="Aula" align="start"
+                               id="c7">
+                        <af:outputText value="#{row.main.aula.descripcionAula}" id="ot7"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="comentario_evaluador" headerText="Comentario Evaluador"
+                               align="start" id="c16">
+                        <af:outputText value="#{row.comentario_evaluador}" id="ot16"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="comentario_profesor" headerText="Comentario Profesor"
+                               align="start" id="c17">
+                        <af:button text="Comentar" id="bComenP" rendered="#{!sessionConsultarEvaluacion.columnProfesor == true 
                                          and row.comentario_profesor == null ? true : false}"
-                               actionListener="#{bConsultarEvaluacion.comentarEvaluacion}">
-                        <f:setPropertyActionListener value="#{row}" target="#{sessionConsultarEvaluacion.evaSelect}"/>
-                    </af:button>
-                    <af:outputText value="#{row.comentario_profesor}" id="ot17" rendered="#{row.comentario_profesor != null ? true : false}"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="estadoEvaluacion" headerText="Estado Evaluacion" align="start"
-                           id="c10"
-                           inlineStyle="#{row.estadoEvaluacion != 'NO EJECUTADO' ? 'background-color:Green;' : 'background-color:Red;'} color:White; font-weight:bold;text-align:center;">
-                    <af:outputText value="#{row.estadoEvaluacion}" id="ot10"/>
-                </af:column>
-                <af:column sortable="true" sortProperty="resultado" headerText="Resultado" align="center"
-                           inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;"
-                           id="c11">
-                    <af:outputText value="#{row.resultado == 0 ? '-' : row.resultado}" id="ot11">
-                        <af:convertNumber maxFractionDigits="2"/>
-                    </af:outputText>
-                </af:column>
-                <af:column headerText="Evaluacion" align="center" id="c14" width="50">
-                    <af:button id="btnVer" icon="../recursos/img/usuarios/ver.png"
-                               visible="#{(row.estadoEvaluacion == 'EJECUTADO') == true}">
-                        <f:setPropertyActionListener value="#{row}" target="#{sessionConsultarEvaluacion.evaluacion}"/>
-                        <af:fileDownloadActionListener filename="Evaluacion.docx"
-                                                       contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                                       method="#{bConsultarEvaluacion.exportData}"/>
-                    </af:button>
-                </af:column>
-            </af:table>
+                                   actionListener="#{bConsultarEvaluacion.comentarEvaluacion}">
+                            <f:setPropertyActionListener value="#{row}"
+                                                         target="#{sessionConsultarEvaluacion.evaSelect}"/>
+                        </af:button>
+                        <af:outputText value="#{row.comentario_profesor}" id="ot17"
+                                       rendered="#{row.comentario_profesor != null ? true : false}"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="estadoEvaluacion" headerText="Estado Evaluacion"
+                               align="start" id="c10"
+                               inlineStyle="#{row.estadoEvaluacion != 'NO EJECUTADO' ? 'background-color:Green;' : 'background-color:Red;'} color:White; font-weight:bold;text-align:center;">
+                        <af:outputText value="#{row.estadoEvaluacion}" id="ot10"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="resultado" headerText="Resultado" align="center"
+                               inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;"
+                               id="c11">
+                        <af:outputText value="#{row.resultado == 0 ? '-' : row.resultado}" id="ot11">
+                            <af:convertNumber maxFractionDigits="2"/>
+                        </af:outputText>
+                    </af:column>
+                    <af:column headerText="Evaluacion" align="center" id="c14" width="50">
+                        <af:button id="btnVer" icon="../recursos/img/usuarios/ver.png"
+                                   visible="#{(row.estadoEvaluacion == 'EJECUTADO') == true}">
+                            <f:setPropertyActionListener value="#{row}"
+                                                         target="#{sessionConsultarEvaluacion.evaluacion}"/>
+                            <af:fileDownloadActionListener filename="Evaluacion.docx"
+                                                           contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                           method="#{bConsultarEvaluacion.exportData}"/>
+                        </af:button>
+                    </af:column>
+                </af:table>
+            </af:panelCollection>
         </af:panelGroupLayout>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCom" 
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCom"
                   binding="#{bConsultarEvaluacion.popCom}">
             <af:dialog id="d1" title="Comentario Profesor"
                        dialogListener="#{bConsultarEvaluacion.confirmarEnvioMensaje}">
@@ -191,9 +204,9 @@
                     </af:inputText>
                     <af:inputText label="Evaluador" id="it2" disabled="true"
                                   value="#{sessionConsultarEvaluacion.evaSelect == null ? null : sessionConsultarEvaluacion.evaSelect.nombreEvaluador}"
-                                  labelStyle="text-align: left;"/>                    
-                    <af:inputText label="Comentario" id="it4"  maximumLength="30" rows="5"
-                                  labelStyle="text-align: left;" value="#{bConsultarEvaluacion.comentarioProf}"/>
+                                  labelStyle="text-align: left;"/>
+                    <af:inputText label="Comentario" id="it4" maximumLength="30" rows="5" labelStyle="text-align: left;"
+                                  value="#{bConsultarEvaluacion.comentarioProf}"/>
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>

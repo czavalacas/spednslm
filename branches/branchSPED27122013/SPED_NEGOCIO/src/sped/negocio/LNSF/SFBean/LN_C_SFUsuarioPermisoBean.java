@@ -106,12 +106,6 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
     public UsuarioPermiso setUsuarioPermiso(UsuarioPermiso up, 
                                             RolPermiso rolPermiso){
         up.setRolPermiso(rolPermiso);
-       /* if(rolPermiso.getPermiso().getNidPermiso() == 7 ||
-           rolPermiso.getPermiso().getNidPermiso() == 9){
-            up.setIsWS("1");
-        }else{
-            up.setIsWS("0");
-        }*/
         up.setEstado("1");
         return up;
     }     

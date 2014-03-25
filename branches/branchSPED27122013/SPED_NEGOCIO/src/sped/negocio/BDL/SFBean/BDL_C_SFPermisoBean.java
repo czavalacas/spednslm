@@ -96,25 +96,19 @@ public class BDL_C_SFPermisoBean implements BDL_C_SFPermisoRemote,
                     .getResultList();
     }
     
-    public List getHijosByPadreGP(int nidPadre,
-                                  int nidUsuario,
+    public List<Permiso> getHijosByPadreGP(int nidPadre,
                                   int nidRol){
-        String  ejbQL = "SELECT per, uspe.estado, uspe.nidPermisoUsuario " +
+        String  ejbQL = "SELECT per " +
                         "FROM Permiso per, " +
-                        "     RolPermiso up," +
-                        "     UsuarioPermiso uspe "+
+                        "     RolPermiso up " +
                         "WHERE up.permiso.nidPermiso = per.nidPermiso "+
                         "AND up.rol.nidRol = :nidRol "+
                         "AND per.nidPadre = :nidPadre " +
-                        "AND uspe.rolPermiso.permiso.nidPermiso = per.nidPermiso " +
-                        "AND uspe.rolPermiso.rol.nidRol = :nidRol " +
-                        "AND uspe.usuario.nidUsuario = :nidUsuario " +
                         "AND up.permiso.estadoRegistro = 1 " +
                         "ORDER BY per.descripcionPermiso ASC";
         return em.createQuery(ejbQL)
                     .setParameter("nidRol", nidRol)
                     .setParameter("nidPadre", nidPadre)
-                    .setParameter("nidUsuario", nidUsuario)
                     .getResultList();
     }
 }

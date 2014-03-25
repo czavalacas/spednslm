@@ -16,6 +16,8 @@ import sped.negocio.BDL.IR.BDL_C_SFUsuarioPermisoRemote;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.sist.UsuarioPermiso;
 
+import utils.system;
+
 @Stateless(name = "BDL_C_SFUsuarioPermiso", mappedName = "SPED_APP-SPED_NEGOCIO-BDL_C_SFUsuarioPermiso")
 public class BDL_C_SFUsuarioPermisoBean implements BDL_C_SFUsuarioPermisoRemote, 
                                                    BDL_C_SFUsuarioPermisoLocal {
@@ -50,4 +52,22 @@ public class BDL_C_SFUsuarioPermisoBean implements BDL_C_SFUsuarioPermisoRemote,
             throw re;
         }
     }
+    
+    public UsuarioPermiso getUsuarioPermisoByPermiso(int nidUsuario, int nidPermiso){
+        String strsql = "SELECT up " +
+                        "FROM UsuarioPermiso up " +
+                        "WHERE up.usuario.nidUsuario = :nidUsuario " +
+                        "AND up.rolPermiso.permiso.nidPermiso = :nidPermiso";
+        List<UsuarioPermiso> lstObject = em.createQuery(strsql)
+                                           .setParameter("nidUsuario", nidUsuario)
+                                           .setParameter("nidPermiso", nidPermiso)
+                                           .getResultList();
+        UsuarioPermiso up = null;
+        if (lstObject.size() > 0) {
+            up = lstObject.get(0);            
+        }
+        return up;            
+    }
+    
+    
 }

@@ -13,6 +13,8 @@ import javax.naming.InitialContext;
 
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 
+import sped.vista.Utils.Utils;
+
 public class EmailUValidator implements Validator {
     @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
@@ -34,7 +36,13 @@ public class EmailUValidator implements Validator {
         if (dato.length()>0 && !dato.matches("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
             throw new ValidatorException(new FacesMessage("El e-mail tiene formato Incorrecto."));
         }else{
-            int cont = ln_C_SFUtilsRemote.findCountByProperty(dato, true, false);
+            Object dni = Utils.getSession("Correo");
+            int cont = 0;            
+            if(dni.toString().compareTo(dato) == 0){
+                cont = ln_C_SFUtilsRemote.findCountByProperty(dni.toString(), true, true);
+            }else{
+                cont = ln_C_SFUtilsRemote.findCountByProperty(dato, true, false);
+            }
             if(cont > 0){
                 throw new ValidatorException(new FacesMessage("El e-mail ya esta registrado"));                     
             }                   
