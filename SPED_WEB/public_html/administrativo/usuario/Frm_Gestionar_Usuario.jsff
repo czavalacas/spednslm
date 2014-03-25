@@ -78,40 +78,48 @@
                 <af:button text="Anular" id="b3" binding="#{bGestionarUsuarios.b3}" disabled="true"
                            actionListener="#{bGestionarUsuarios.anularUsuario}"/>
             </af:panelGroupLayout>
-            <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" id="t1"
-                      binding="#{bGestionarUsuarios.t1}" rowSelection="single"
-                      inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
-                      fetchSize="50" 
-                      selectionListener="#{bGestionarUsuarios.selecionarUsuario}" columnStretching="column:c1">
-                <af:column sortable="true" headerText="Nombre y Apellidos" align="start" id="c1" sortProperty="nombres">
-                    <af:outputText value="#{row.nombres}" id="ot1"/>
-                </af:column>
-                <af:column sortable="true" headerText="Rol" align="start" id="c5" sortProperty="rol.descripcionRol">
-                    <af:outputText value="#{row.rol.descripcionRol}" id="ot5"/>
-                </af:column>
-                <af:column sortable="true" headerText="Sede" align="start" id="c7" 
-                           sortProperty="sedeNivel.sede.descripcionSede">
-                    <af:outputText value="#{row.sede.descripcionSede}" id="ot7"/>
-                </af:column>
-                <af:column sortable="true" headerText="Area Academica" align="start" id="c3"
-                           sortProperty="areaAcademica.descripcionAreaAcademica">
-                    <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot3"/>
-                </af:column>
-                <af:column sortable="true" headerText="Usuario" align="start" id="c4" sortProperty="usuario">
-                    <af:outputText value="#{row.usuario}" id="ot4"/>
-                </af:column>                
-                <af:column sortable="true" headerText="Correo" align="start" id="c10" sortProperty="correo" width="150">
-                    <af:outputText value="#{row.correo}" id="ot10"/>
-                </af:column>
-                <af:column sortable="true" headerText="Estado" align="start" id="c6"
-                           sortProperty="rol.descripcionEstadoUsuario"
-                           inlineStyle="#{row.estadoUsuario == 1 ? 'background-color:Green;' : 'background-color:Red;'} color:White; font-weight:bold;text-align:center;">
-                    <af:outputText value="#{row.descripcionEstadoUsuario}" id="ot6"/>
-                </af:column>
-            </af:table>
+            <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                <f:facet name="menus"/>
+                <f:facet name="toolbar">
+                    <af:toolbar id="t1"></af:toolbar>
+                </f:facet>
+                <f:facet name="statusbar"/>
+                <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" id="t2"
+                          binding="#{bGestionarUsuarios.t1}" rowSelection="single" fetchSize="50"
+                          inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
+                          selectionListener="#{bGestionarUsuarios.selecionarUsuario}" columnStretching="column:c1">
+                    <af:column sortable="true" headerText="Nombre y Apellidos" align="start" id="c1"
+                               sortProperty="nombres">
+                        <af:outputText value="#{row.nombres}" id="ot1"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Rol" align="start" id="c5" sortProperty="rol.descripcionRol">
+                        <af:outputText value="#{row.rol.descripcionRol}" id="ot5"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Sede" align="start" id="c7"
+                               sortProperty="sedeNivel.sede.descripcionSede">
+                        <af:outputText value="#{row.sede.descripcionSede}" id="ot7"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Area Academica" align="start" id="c3"
+                               sortProperty="areaAcademica.descripcionAreaAcademica">
+                        <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot3"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Usuario" align="start" id="c4" sortProperty="usuario">
+                        <af:outputText value="#{row.usuario}" id="ot4"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Correo" align="start" id="c10" sortProperty="correo"
+                               width="150">
+                        <af:outputText value="#{row.correo}" id="ot10"/>
+                    </af:column>
+                    <af:column sortable="true" headerText="Estado" align="start" id="c6"
+                               sortProperty="rol.descripcionEstadoUsuario"
+                               inlineStyle="#{row.estadoUsuario == 1 ? 'background-color:Green;' : 'background-color:Red;'} color:White; font-weight:bold;text-align:center;">
+                        <af:outputText value="#{row.descripcionEstadoUsuario}" id="ot6"/>
+                    </af:column>
+                </af:table>
+            </af:panelCollection>
         </af:panelGroupLayout>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" 
-                  id="popGestionUsuario" binding="#{bGestionarUsuarios.popGestionUsuario}">
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popGestionUsuario"
+                  binding="#{bGestionarUsuarios.popGestionUsuario}">
             <af:dialog id="d1" type="none" title="#{sessionGestionarUsuarios.titleDialogGestion}">
                 <af:panelFormLayout id="pfl1" binding="#{bGestionarUsuarios.pfl1}">
                     <af:inputText label="Nombre y Apellidos" id="itNombres" maximumLength="100"
@@ -126,15 +134,15 @@
                                   binding="#{bGestionarUsuarios.itDni}">
                         <f:validator validatorId="DniValidator"/>
                     </af:inputText>
-                    <af:inputText label="Correo" id="itCor" labelStyle="text-align: left;" 
+                    <af:inputText label="Correo" id="itCor" labelStyle="text-align: left;"
                                   value="#{sessionGestionarUsuarios.correo}" maximumLength="150" autoSubmit="true"
                                   binding="#{bGestionarUsuarios.itCor}">
-                        <f:validator validatorId="EmailValidator"/>
+                        <f:validator validatorId="EmailUValidator"/>
                     </af:inputText>
                     <af:selectOneChoice label="Tipo Rol" unselectedLabel="::Selecionar Rol::"
                                         value="#{sessionGestionarUsuarios.nidRol}" required="true" id="choiceTipoRol"
                                         autoSubmit="true" labelStyle="text-align: left;"
-                                        binding="#{bGestionarUsuarios.choiceTipoRol}"                                        
+                                        binding="#{bGestionarUsuarios.choiceTipoRol}"
                                         valueChangeListener="#{bGestionarUsuarios.tipoRolChangeListener}"
                                         disabled="#{sessionGestionarUsuarios.disableRol}">
                         <f:selectItems value="#{sessionGestionarUsuarios.lstRolf}" id="si1"
@@ -157,15 +165,15 @@
                                         required="#{sessionScope.sessionGestionarUsuarios.renderSede}">
                         <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstSede}" id="si8"
                                        binding="#{bGestionarUsuarios.si8}"/>
-                    </af:selectOneChoice>                   
+                    </af:selectOneChoice>
                     <af:inputText label="Usuario" id="itUsuario" labelStyle="text-align: left;" required="true"
-                                  value="#{sessionGestionarUsuarios.usuario}" maximumLength="10" 
+                                  value="#{sessionGestionarUsuarios.usuario}" maximumLength="10"
                                   disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
                                   binding="#{bGestionarUsuarios.itUsuario}">
                         <f:validator validatorId="NomUsuarioValidator"/>
                     </af:inputText>
-                    <af:inputText label="Clave" id="itClave" maximumLength="32" required="true" secret="true" 
-                                  labelStyle="text-align: left;"  autoSubmit="true"
+                    <af:inputText label="Clave" id="itClave" maximumLength="32" required="true" secret="true"
+                                  labelStyle="text-align: left;" autoSubmit="true"
                                   value="#{sessionGestionarUsuarios.clave}" binding="#{bGestionarUsuarios.itClave}">
                         <f:validator validatorId="ClaveValidator"/>
                     </af:inputText>
@@ -183,7 +191,7 @@
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p1" 
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p1"
                   binding="#{bGestionarUsuarios.popConfirmar}">
             <af:dialog id="d2" title="Mensaje" dialogListener="#{bGestionarUsuarios.confirmaAnular}">
                 <af:outputText value="Desea anular al usuario #{sessionGestionarUsuarios.usuario}" id="ot8"/>

@@ -10,4 +10,6 @@ import sped.negocio.entidades.sist.RolPermiso;
 @Remote
 public interface BDL_C_SFRolPermisoRemote {
     List<RolPermiso> getPermisosByRolBDL(Rol rol);
+    RolPermiso findRolPermisoById(int nidRol,
+                                  int nidPermiso);
 }

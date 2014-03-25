@@ -177,7 +177,8 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setNidUsuario(usuario.getNidUsuario());
         sessionGestionarUsuarios.setNombres(usuario.getNombres());
         sessionGestionarUsuarios.setCorreo(usuario.getCorreo());
-        sessionGestionarUsuarios.setDni(usuario.getDni());
+        Utils.putSession("Correo", usuario.getCorreo());
+        sessionGestionarUsuarios.setDni(usuario.getDni());        
         sessionGestionarUsuarios.setUsuario(usuario.getUsuario());
         sessionGestionarUsuarios.setClave(usuario.getClave());
         sessionGestionarUsuarios.setNidRol(usuario.getRol().getNidRol());
@@ -211,6 +212,7 @@ public class bGestionarUsuarios {
     public void nuevoUsuario(ActionEvent actionEvent) {
         b2.setDisabled(true);
         b3.setDisabled(true);
+        Utils.removeSession("Correo");
         sessionGestionarUsuarios.setDisabledActualizar(false);
         sessionGestionarUsuarios.setTipoEvento(1);
         sessionGestionarUsuarios.setTitleDialogGestion("Registrar Usuario");

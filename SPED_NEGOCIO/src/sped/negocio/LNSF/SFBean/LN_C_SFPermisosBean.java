@@ -17,11 +17,13 @@ import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
 import sped.negocio.BDL.IL.BDL_C_SFPermisoLocal;
+import sped.negocio.BDL.IL.BDL_C_SFUsuarioPermisoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IR.LN_C_SFPermisosRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.sist.Permiso;
+import sped.negocio.entidades.sist.UsuarioPermiso;
 
 @Stateless(name = "LN_C_SFPermisos", mappedName = "mapLN_C_SFPermisos")
 public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
@@ -32,6 +34,8 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
     private EntityManager em;
     @EJB
     private BDL_C_SFPermisoLocal bdL_C_SFPermisoLocal;
+    @EJB
+    private BDL_C_SFUsuarioPermisoLocal bdL_C_SFUsuarioPermisoLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFPermisosBean() {
@@ -151,17 +155,20 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
         return lstPerms;
     }
     
-    public BeanPermiso setBeanGP(Object[] datos){
-        BeanPermiso bean = (BeanPermiso) mapper.map(datos[0], BeanPermiso.class);
-        if(datos[1].toString().compareTo("1") == 0){
-            bean.setEstado(true);
-        }else{
-            bean.setEstado(false);
-        }
+    public BeanPermiso setBeanGP(Permiso permiso, int nidUsuario){
+        BeanPermiso bean = (BeanPermiso) mapper.map(permiso, BeanPermiso.class);
+        UsuarioPermiso up = bdL_C_SFUsuarioPermisoLocal.getUsuarioPermisoByPermiso(nidUsuario, bean.getNidPermiso());
+        if(up != null){
+            if(up.getEstado().compareTo("1") == 0){
+                bean.setEstado(true);
+            }else{
+                bean.setEstado(false);
+            }            
+            bean.setNidPermisoUsuario(up.getNidPermisoUsuario());
+        }       
         if(bean.getIsWS().compareTo("1") == 0){
             bean.setDescripcionPermiso(bean.getDescripcionPermiso().concat("   (Mobil)"));
-        }
-        bean.setNidPermisoUsuario(Integer.parseInt(datos[2].toString()));
+        }        
         return bean;
     }
     
@@ -171,11 +178,10 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
         aux.setDescripcionPermiso("SPED");
         List<BeanPermiso> permisos = new ArrayList();
         if(nidRol != -1){
-            List lstraiz = bdL_C_SFPermisoLocal.getHijosByPadreGP(0, nidUsuario, nidRol);
+            List<Permiso> lstraiz = bdL_C_SFPermisoLocal.getHijosByPadreGP(0, nidRol);
             aux.setEstado(false);
-            for(Object dato : lstraiz){
-                Object[] datos = (Object[]) dato;
-                BeanPermiso raiz = setBeanGP(datos);
+            for(Permiso permiso : lstraiz){
+                BeanPermiso raiz = setBeanGP(permiso, nidUsuario);
                 if(raiz.isEstado()){
                     aux.setEstado(true);
                 }
@@ -190,12 +196,11 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
     public BeanPermiso crearArbolAuxGP(BeanPermiso raiz,
                                        int nidRol,
                                        int nidUsuario){
-        List raiz_aux = bdL_C_SFPermisoLocal.getHijosByPadreGP(raiz.getNidPermiso(), nidUsuario, nidRol);        
+        List<Permiso> raiz_aux = bdL_C_SFPermisoLocal.getHijosByPadreGP(raiz.getNidPermiso(), nidRol);        
         if(raiz_aux != null){
             List<BeanPermiso> permisos = new ArrayList();
-            for(Object dato : raiz_aux){
-                Object[] datos = (Object[]) dato;
-                BeanPermiso hijo = setBeanGP(datos);
+            for(Permiso permiso : raiz_aux){
+                BeanPermiso hijo = setBeanGP(permiso, nidUsuario);
                 crearArbolAuxGP(hijo, nidRol, nidUsuario);
                 permisos.add(hijo);
             }

@@ -11,4 +11,5 @@ import sped.negocio.entidades.sist.UsuarioPermiso;
 public interface BDL_C_SFUsuarioPermisoRemote {
     List<UsuarioPermiso> getUsuarioPermisoByUsuario(Usuario u);
     UsuarioPermiso findConstrainById(int id);
+    UsuarioPermiso getUsuarioPermisoByPermiso(int nidUsuario, int nidPermiso);
 }

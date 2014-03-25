@@ -17,7 +17,6 @@ public interface BDL_C_SFPermisoRemote {
                                   int nidRol);
     List<Permiso> getHijosByPadre_WS(int nidUsuario,
                                      int nidRol);
-    List getHijosByPadreGP(int nidPadre,
-                           int nidUsuario,
-                           int nidRol);
+    List<Permiso> getHijosByPadreGP(int nidPadre,
+                                    int nidRol);
 }

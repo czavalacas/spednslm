@@ -25,8 +25,6 @@ import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import sped.negocio.LNSF.IR.LN_C_SFPermisosRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioPermisoRemote;
-import sped.negocio.entidades.beans.BeanPermiso;
-
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
@@ -109,7 +107,8 @@ public class bGestionarPermisos {
     public void dialogPermisosListener(DialogEvent dialogEvent) {
         DialogEvent.Outcome outcome = dialogEvent.getOutcome();
         if(outcome == DialogEvent.Outcome.ok){
-            ln_T_SFUsuarioPermisoRemote.gestionPermisoLN(sessionGestionarPermisos.getPermisos());
+            ln_T_SFUsuarioPermisoRemote.gestionPermisoLN(sessionGestionarPermisos.getPermisos(),
+                                                         sessionGestionarPermisos.getBeanUsuario().getNidUsuario());
             Utils.addTarget(pgl1);
             Utils.mostrarMensaje(ctx, 
                                  "Se modifico correctamente los permisos de "+

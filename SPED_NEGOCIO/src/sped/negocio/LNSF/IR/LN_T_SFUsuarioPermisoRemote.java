@@ -6,5 +6,5 @@ import sped.negocio.entidades.beans.BeanPermiso;
 
 @Remote
 public interface LN_T_SFUsuarioPermisoRemote {
-    void gestionPermisoLN(BeanPermiso permiso);
+    void gestionPermisoLN(BeanPermiso permiso, int nidUsuario);
 }
