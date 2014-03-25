@@ -6,5 +6,5 @@ import sped.negocio.entidades.beans.BeanPermiso;
 
 @Local
 public interface LN_T_SFUsuarioPermisoLocal {
-    void gestionPermisoLN(BeanPermiso permiso);
+    void gestionPermisoLN(BeanPermiso permiso, int nidUsuario);
 }

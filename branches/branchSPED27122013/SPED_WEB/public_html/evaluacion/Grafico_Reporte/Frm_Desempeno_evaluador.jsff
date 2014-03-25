@@ -4,7 +4,8 @@
                 xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
         <af:panelGroupLayout layout="scroll" id="pgl1">
-            <af:panelSplitter orientation="horizontal" splitterPosition="250" id="ps1" inlineStyle="margin:0px 0px 0px 30px;">
+            <af:panelSplitter orientation="horizontal" splitterPosition="250" id="ps1"
+                              inlineStyle="margin:0px 0px 0px 30px;">
                 <f:facet name="first">
                     <af:subform id="s2" binding="#{bDesempenoEvaluador.s2}">
                         <h:outputText value="Filtros de Busqueda" id="ot10" styleClass="titulos"/>
@@ -36,12 +37,12 @@
                                 <af:inputDate label="Inicio" id="idfechaPI" columns="8" autoSubmit="true"
                                               value="#{sessionDesempenoEvaluador.fechaPI}"
                                               labelStyle="text-align: left;">
-                                              <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                    <af:convertDateTime pattern="dd/MM/yyyy"/>
                                 </af:inputDate>
                                 <af:inputDate label="Fin" id="idfechaPF" columns="8" autoSubmit="true"
                                               value="#{sessionDesempenoEvaluador.fechaPF}"
                                               labelStyle="text-align: left;">
-                                              <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                    <af:convertDateTime pattern="dd/MM/yyyy"/>
                                 </af:inputDate>
                             </af:panelFormLayout>
                         </af:showDetail>
@@ -51,17 +52,17 @@
                                 <af:inputDate label="Inicio" id="idfechaEvaluacion" columns="8" autoSubmit="true"
                                               labelStyle="text-align: left;"
                                               value="#{sessionDesempenoEvaluador.fechaEI}">
-                                              <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                    <af:convertDateTime pattern="dd/MM/yyyy"/>
                                 </af:inputDate>
                                 <af:inputDate label="Fin" id="idfechaEvaluacionf" columns="8" autoSubmit="true"
                                               labelStyle="text-align: left;"
                                               value="#{sessionDesempenoEvaluador.fechaEF}">
-                                              <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                    <af:convertDateTime pattern="dd/MM/yyyy"/>
                                 </af:inputDate>
                             </af:panelFormLayout>
                         </af:showDetail>
                         <af:showDetail disclosed="true" id="sd3" disclosedText="Graficos"
-                                       binding="#{bDesempenoEvaluador.sd3}">                            
+                                       binding="#{bDesempenoEvaluador.sd3}">
                             <af:panelFormLayout id="pfl4" binding="#{bDesempenoEvaluador.pfl4}">
                                 <af:selectBooleanCheckbox text="Rol(s)" id="sbc1" autoSubmit="true"
                                                           selected="#{sessionDesempenoEvaluador.RGrafRol}"
@@ -194,65 +195,68 @@
                                 </dvt:pieGraph>
                             </af:panelBox>
                         </af:panelDashboard>
-                        <af:button text="Enviar correo" id="bSendM"
-                                   actionListener="#{bDesempenoEvaluador.bSendM}"
+                        <af:button text="Enviar correo" id="bSendM" actionListener="#{bDesempenoEvaluador.bSendM}"
                                    rendered="#{sessionDesempenoEvaluador.renderMensaje}"/>
-                        <af:button text="Exportar Graficos" id="b4" rendered="#{sessionDesempenoEvaluador.renderMensaje}">
+                        <af:button text="Exportar Graficos" id="b4"
+                                   rendered="#{sessionDesempenoEvaluador.renderMensaje}">
                             <af:fileDownloadActionListener filename="Graficos_Desempeño_Evaluador.pdf"
                                                            contentType="application/pdf"
                                                            method="#{bDesempenoEvaluador.exportPdf}"/>
                         </af:button>
                         <af:button id="b1" immediate="true" text="Exportar a Excel">
-                            <af:exportCollectionActionListener type="excelHTML" exportedId="tEva"
+                            <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:tEva"
                                                                filename="Desempeño_Evaluador.xls" title="Desempeño"/>
                         </af:button>
-                        
-                        <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row" rowBandingInterval="0"
-                                  id="tEva" width="inherit;" fetchSize="50" columnStretching="column:c23">
-                            <af:column sortable="true" headerText="Nombre Evaluador" align="start" id="c1"
-                                       sortProperty="nombreEvaluador">
-                                <af:outputText value="#{row.nombreEvaluador}" id="ot1"/>
-                            </af:column>
-                            <af:column sortable="true" headerText="Rol" align="start" id="c24"
-                                       sortProperty="usuario.rol.descripcionRol">
-                                <af:outputText value="#{row.usuario.rol.descripcionRol}" id="ot24"/>
-                            </af:column>
-                            <af:column sortable="true" headerText="Sede" align="start" id="c25"
-                                       sortProperty="usuario.sedeNivel.sede.descripcionSede">
-                                <af:outputText value="#{row.usuario.sedeNivel.sede.descripcionSede}" id="ot25"/>
-                            </af:column>
-                            <af:column sortable="true" headerText="Nivel" align="start" id="c27"
-                                       sortProperty="usuario.sedeNivel.nivel.descripcionNivel">
-                                <af:outputText value="#{row.usuario.sedeNivel.nivel.descripcionNivel}" id="ot27"/>
-                            </af:column>
-                            <af:column sortable="true" headerText="Area" align="start" id="c26"
-                                       sortProperty="usuario.areaAcademica.descripcionAreaAcademica">
-                                <af:outputText value="#{row.usuario.areaAcademica.descripcionAreaAcademica}" id="ot26"/>
-                            </af:column>
-                            <af:column sortable="true" headerText="Ejecutados" align="start" id="c2"
-                                       sortProperty="cantEjecutado">
-                                <af:outputText value="#{row.cantEjecutado}" id="ot2"/>
-                            </af:column>
-                            <af:column sortable="true" headerText="Pendientes" align="start" id="c3"
-                                       sortProperty="cantPendiente">
-                                <af:outputText value="#{row.cantPendiente}" id="ot3"/>
-                            </af:column>
-                            <af:column sortable="true" headerText="No Ejecutados" align="start" id="c4"
-                                       sortProperty="cantNoEjecutado">
-                                <af:outputText value="#{row.cantNoEjecutado}" id="ot4"/>
-                            </af:column>
-                            <af:column sortable="true" headerText="No Justifico" align="start" id="c5"
-                                       sortProperty="cantNoJEjecutado">
-                                <af:outputText value="#{row.cantNoJEjecutado}" id="ot5"/>
-                            </af:column>
-                            <af:column sortable="true" headerText="Desempeño( 0 - 100% )" align="center" id="c23"
-                                       sortProperty="porcentajeDesempeno"
-                                       inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;">
-                                <af:outputText value="#{row.porcentajeDesempeno}" id="ot23">
-                                    <af:convertNumber maxFractionDigits="2"/>
-                                </af:outputText>
-                            </af:column>
-                        </af:table>
+                        <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                            <f:facet name="menus"/>
+                            <f:facet name="toolbar">
+                                <af:toolbar id="t1"></af:toolbar>
+                            </f:facet>
+                            <f:facet name="statusbar"/>
+                            <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row" rowBandingInterval="0"
+                                      id="tEva" width="inherit;" fetchSize="50" columnStretching="column:c23">
+                                <af:column sortable="true" headerText="Nombre Evaluador" align="start" id="c1"
+                                           sortProperty="nombreEvaluador">
+                                    <af:outputText value="#{row.nombreEvaluador}" id="ot1"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Rol" align="start" id="c24"
+                                           sortProperty="usuario.rol.descripcionRol">
+                                    <af:outputText value="#{row.usuario.rol.descripcionRol}" id="ot24"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Sede" align="start" id="c25"
+                                           sortProperty="usuario.sede.descripcionSede">
+                                    <af:outputText value="#{row.usuario.sede.descripcionSede}" id="ot25"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Area" align="start" id="c26"
+                                           sortProperty="usuario.areaAcademica.descripcionAreaAcademica">
+                                    <af:outputText value="#{row.usuario.areaAcademica.descripcionAreaAcademica}"
+                                                   id="ot26"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Ejecutados" align="start" id="c2"
+                                           sortProperty="cantEjecutado">
+                                    <af:outputText value="#{row.cantEjecutado}" id="ot2"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Pendientes" align="start" id="c3"
+                                           sortProperty="cantPendiente">
+                                    <af:outputText value="#{row.cantPendiente}" id="ot3"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="No Ejecutados" align="start" id="c4"
+                                           sortProperty="cantNoEjecutado">
+                                    <af:outputText value="#{row.cantNoEjecutado}" id="ot4"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="No Justifico" align="start" id="c5"
+                                           sortProperty="cantNoJEjecutado">
+                                    <af:outputText value="#{row.cantNoJEjecutado}" id="ot5"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Desempeño( 0 - 100% )" align="center" id="c23"
+                                           sortProperty="porcentajeDesempeno"
+                                           inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;">
+                                    <af:outputText value="#{row.porcentajeDesempeno}" id="ot23">
+                                        <af:convertNumber maxFractionDigits="2"/>
+                                    </af:outputText>
+                                </af:column>
+                            </af:table>
+                        </af:panelCollection>
                     </af:panelGroupLayout>
                 </f:facet>
             </af:panelSplitter>
@@ -268,14 +272,11 @@
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="50%" id="gc1">
                             <af:panelFormLayout id="pfl2">
-                                <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;" disabled="true"
-                                              value="#{sessionDesempenoEvaluador.evaluador == null ? null 
+                                <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;" disabled="true" value="#{sessionDesempenoEvaluador.evaluador == null ? null 
                                               : sessionDesempenoEvaluador.evaluador.nombres}"/>
-                                <af:inputText label="Rol " id="it2" labelStyle="text-align: left;" disabled="true"
-                                              value="#{sessionDesempenoEvaluador.evaluador == null ? null 
+                                <af:inputText label="Rol " id="it2" labelStyle="text-align: left;" disabled="true" value="#{sessionDesempenoEvaluador.evaluador == null ? null 
                                               : sessionDesempenoEvaluador.evaluador.rol.descripcionRol}"/>
-                                <af:inputText label="Sede " id="it3" labelStyle="text-align: left;" disabled="true"
-                                              value="#{sessionDesempenoEvaluador.evaluador == null ? null 
+                                <af:inputText label="Sede " id="it3" labelStyle="text-align: left;" disabled="true" value="#{sessionDesempenoEvaluador.evaluador == null ? null 
                                               : sessionDesempenoEvaluador.evaluador.sede.descripcionSede}"
                                               rendered="#{sessionDesempenoEvaluador.renderSede}"/>
                                 <af:inputText label="Area " id="it5" labelStyle="text-align: left;" disabled="true"
@@ -283,7 +284,7 @@
                                               : sessionDesempenoEvaluador.evaluador.areaAcademica.descripcionAreaAcademica}"
                                               rendered="#{sessionDesempenoEvaluador.renderArea}"/>
                                 <af:inputText label="Evaluacion(s) " id="it6" labelStyle="text-align: left;"
-                                              disabled="true" value="#{sessionDesempenoEvaluador.estado}"/> 
+                                              disabled="true" value="#{sessionDesempenoEvaluador.estado}"/>
                             </af:panelFormLayout>
                         </af:gridCell>
                     </af:gridRow>
@@ -308,8 +309,7 @@
                         <af:outputText value="#{row.main.curso.areaAcademica.descripcionAreaAcademica}" id="ot21"/>
                     </af:column>
                     <af:column sortable="true" headerText="Problema" align="start" id="c30"
-                               rendered="#{sessionDesempenoEvaluador.renderProblema}"
-                               sortProperty="descProblema">
+                               rendered="#{sessionDesempenoEvaluador.renderProblema}" sortProperty="descProblema">
                         <af:outputText value="#{row.descProblema}" id="ot30"/>
                     </af:column>
                     <af:column sortable="true" headerText="Comentario Evaluador" align="start" id="c8"
@@ -348,14 +348,9 @@
                         <af:outputText value="#{row.usuario.rol.descripcionRol}" id="ot17"/>
                     </af:column>
                     <af:column sortable="true" headerText="Sede" align="start" id="c17"
-                               sortProperty="usuario.sedeNivel.sede.descripcionSede"
+                               sortProperty="usuario.sede.descripcionSede"
                                rendered="#{sessionDesempenoEvaluador.renderSede}">
-                        <af:outputText value="#{row.usuario.sedeNivel.sede.descripcionSede}" id="ot18"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Nivel" align="start" id="c18"
-                               sortProperty="usuario.sedeNivel.nivel.descripcionNivel"
-                               rendered="#{sessionDesempenoEvaluador.renderNivel}">
-                        <af:outputText value="#{row.usuario.sedeNivel.nivel.descripcionNivel}" id="ot19"/>
+                        <af:outputText value="#{row.usuario.sede.descripcionSede}" id="ot18"/>
                     </af:column>
                     <af:column sortable="true" headerText="Area" align="start" id="c19"
                                sortProperty="usuario.areaAcademica.descripcionAreaAcademica"
@@ -392,7 +387,7 @@
         </af:popup>
         <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCorreo"
                   binding="#{bDesempenoEvaluador.popCorreo}">
-            <af:dialog id="d3" dialogListener="#{bDesempenoEvaluador.confirmarCorreo}" title="Mensaje" 
+            <af:dialog id="d3" dialogListener="#{bDesempenoEvaluador.confirmarCorreo}" title="Mensaje"
                        type="#{sessionDesempenoEvaluador.typePopUpCorreo}">
                 <af:panelFormLayout id="pfl3" rows="1">
                     <af:inputText label="Correo" id="it7" labelStyle="text-align: left;"
@@ -400,7 +395,7 @@
                         <f:validator validatorId="EmailValidator"/>
                     </af:inputText>
                     <af:button text="Agregar" id="b6" actionListener="#{bDesempenoEvaluador.agregarCorreo}"/>
-                    <af:table var="row" rowBandingInterval="0" id="t1" value="#{sessionDesempenoEvaluador.lstCorreo}">
+                    <af:table var="row" rowBandingInterval="0" id="t3" value="#{sessionDesempenoEvaluador.lstCorreo}">
                         <af:column sortable="true" headerText="Correo" id="c11" width="150">
                             <af:outputText value="#{row}" id="ot12"/>
                         </af:column>
@@ -417,10 +412,10 @@
                     <af:inputText label="Asunto " id="it8" value="#{sessionDesempenoEvaluador.asunto}"/>
                     <af:richTextEditor id="rte1" binding="#{bDesempenoEvaluador.rte1}"
                                        value="#{sessionDesempenoEvaluador.mensaje}"/>
-                </af:panelFormLayout>                
+                </af:panelFormLayout>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popKey" 
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popKey"
                   binding="#{bDesempenoEvaluador.popKey}">
             <af:dialog id="d4" dialogListener="#{bDesempenoEvaluador.confirmarEnvio}" title="Ingrese contraseña">
                 <af:panelFormLayout id="pfl7">
@@ -428,7 +423,7 @@
                                   value="#{bDesempenoEvaluador.correo}"/>
                     <af:inputText label="Contraseña" id="it10" labelStyle="text-align: left;" disabled="false"
                                   value="#{bDesempenoEvaluador.clave}" secret="true" required="true"/>
-                </af:panelFormLayout>                
+                </af:panelFormLayout>
             </af:dialog>
         </af:popup>
     </f:view>

@@ -342,6 +342,24 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBeanEvas.get(lstBeanEvas.size() - 1);
     }
     
+    /**
+     * Metodo para mostrar los graficos de Desempeño Evaluador
+     * @author dangeles
+     * @param tipoBusqueda 
+     * @param nombre
+     * @param estado
+     * @param desProblema
+     * @param desRol
+     * @param lstnidRol
+     * @param lstnidEva
+     * @param lstnidSede
+     * @param lstnidArea
+     * @param fechaPlanifiacion
+     * @param fechaPlanifiacionF
+     * @param fechaEvaluacion
+     * @param fachaEvaluacionF
+     * @return List BeanEvaluacion
+     */
     public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,
                                                                  String nombre,
                                                                  String estado,                                                                 
@@ -394,8 +412,10 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                     bean.setCantNoEjecutado(Integer.parseInt(""+datos[2]));
                     bean.setCantNoJEjecutado(Integer.parseInt(""+datos[3]));
                     desempenoEvaluador(bean);
-                    if(tipoBusqueda == 1){
-                        bean.setNombreEvaluador(""+datos[4]);
+                    if(tipoBusqueda == 1){                        
+                        BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[4], BeanUsuario.class);
+                        bean.setNombreEvaluador(usu.getNombres());
+                        bean.setUsuario(usu);
                     }
                     if(tipoBusqueda == 3){
                         bean.setEndDate((Date)datos[4]);

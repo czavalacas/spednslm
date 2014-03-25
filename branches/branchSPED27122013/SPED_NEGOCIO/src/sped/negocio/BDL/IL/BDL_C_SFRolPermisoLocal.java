@@ -10,4 +10,6 @@ import sped.negocio.entidades.sist.RolPermiso;
 @Local
 public interface BDL_C_SFRolPermisoLocal {
     List<RolPermiso> getPermisosByRolBDL(Rol rol);
+    RolPermiso findRolPermisoById(int nidRol,
+                                  int nidPermiso);
 }
