@@ -66,7 +66,7 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
         List<Profesor> lstAreaAcd = bdl_C_SFMainLocal.findProfesoresPorAreaAcademica(nidAreaAcademica,dia);       
         Iterator it=lstAreaAcd.iterator();
         while(it.hasNext()){
-          Profesor entida=new Profesor();
+          Profesor entida=(Profesor)it.next();
           BeanComboString bean=new BeanComboString();
           bean.setId(entida.getDniProfesor());
           String nombreCompleto=entida.getApellidos()+" "+entida.getNombres();
