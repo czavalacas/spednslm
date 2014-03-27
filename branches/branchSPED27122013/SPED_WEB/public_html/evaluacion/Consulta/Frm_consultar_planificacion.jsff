@@ -88,7 +88,7 @@
                 <af:button icon="../recursos/img/usuarios/refresh.png" id="b2" actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
                 <af:spacer width="10" height="10" id="s2"/>
                 <af:button text="Exportar Excel" id="b3">
-                        <af:exportCollectionActionListener type="excelHTML" exportedId="t1"
+                        <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:t1"
                                                            filename="excel_planificacion.xls"/>
                     </af:button>
             </af:panelGroupLayout>

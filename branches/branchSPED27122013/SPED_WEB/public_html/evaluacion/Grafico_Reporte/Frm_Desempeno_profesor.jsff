@@ -36,7 +36,7 @@
                     <f:facet name="second">                   
                  <af:panelSplitter  splitterPosition="250" >               
                  <f:facet name="first">
-                                <af:panelGroupLayout id="pgl1">
+                                <af:panelGroupLayout id="pgl1" binding="#{bDesempenoProfesor.pgl1}">
                                 <af:panelFormLayout id="pfl1" maxColumns="1">                                
                                     <af:spacer width="10" height="10" id="s7"/>
                                     <h:outputText value="Filtros de Busqueda" id="ot1" styleClass="titulos"/>
@@ -189,14 +189,17 @@
                           
                            <af:spacer width="10" height="10" id="s24"/>  
                            <af:spacer width="10" height="10" id="s25"/>  
-                              <af:button text="Generar PDF" id="b4" action="#{bDesempenoProfesor.rutaPdf}">
+                              <af:button text="Generar PDF" id="b4" action="#{bDesempenoProfesor.rutaPdf}"
+                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaBtnPdf}"
+                                         binding="#{bDesempenoProfesor.btnPDF}">
                               <af:fileDownloadActionListener filename="Graficos_Desempeño_Profesorr.pdf"
                                                            contentType="application/pdf"
                                                            method="#{bDesempenoProfesor.exportPdf}"/>
                               </af:button>
                               <af:button text="Enviar correo" id="bSendM"
                                    actionListener="#{bDesempenoProfesor.bSendM}"
-                                   rendered="true"/>
+                                   rendered="#{sessionScope.sessionDesempenoProfesor.estaBtnEmail}"
+                                         binding="#{bDesempenoProfesor.btnEmail}"/>
                         </af:panelGroupLayout>
                     </f:facet>
                 <f:facet name="second">

@@ -1,5 +1,6 @@
 package sped.negocio.LNSF.IR;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -27,4 +28,5 @@ public interface LN_C_SFUtilsRemote {
     List<BeanCombo> getCursos_LN();
     List<BeanCombo> getGrados_LN();
     List<BeanComboString> getEstadoEvaluacionFromConstraint();
+    List<BeanComboString> getListaEstados(String nombreCampo, String nombreTabla);
 }

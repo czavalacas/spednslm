@@ -184,6 +184,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             if(nidProblema!=null){
                 eva.setNidProblema(Integer.parseInt(nidProblema));
             }
+            eva.setEstadoEvaluacion("NO EJECUTADO");
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
         }catch (Exception e) {            
         e.printStackTrace();

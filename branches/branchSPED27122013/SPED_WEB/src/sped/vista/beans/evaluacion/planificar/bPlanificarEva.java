@@ -96,6 +96,7 @@ import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
@@ -207,96 +208,10 @@ public class bPlanificarEva {
 
     public String popupEvaluadores() {
         sessionPlanificarEva.setListBeanUsua(ln_C_SFUsuarioRemote.getEvaluadores(sessionPlanificarEva.getNidAreaFiltro()));
-        sessionPlanificarEva.setListAreaAcademica(llenarAreasAcademicas());
+        sessionPlanificarEva.setListAreaAcademica(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
         Utils.showPopUpMIDDLE(popupEvalua);
         return null;
-    }
-
-    public ArrayList llenarTipoVisita() {
-        ArrayList unItems = new ArrayList();
-        List<BeanConstraint> roles = ln_C_SFEvaluacionRemoto.getTipoVisitaLN();
-        for (BeanConstraint r : roles) {          
-            unItems.add(new SelectItem(r.getValorCampo().toString(), r.getDescripcionAMostrar().toString()));
-        }
-        return unItems;
-    }
-    
-    public ArrayList llenarTipoProblema() {
-        ArrayList unItems = new ArrayList();
-        List<BeanCombo> roles = ln_C_SFUtilsRemote.getProblemas_LN_WS();
-        for (BeanCombo r : roles) {          
-            unItems.add(new SelectItem(r.getId().toString(), r.getDescripcion().toString()));
-        }
-        return unItems;
-    }
-
-
-    public ArrayList llenarCursos() {
-        ArrayList unItems = new ArrayList();
-        List<BeanCurso> roles =
-            ln_C_SFCursoRemoto.findCursosPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                          sessionPlanificarEva.getDiaDeLaSemana());
-        for (BeanCurso r : roles) {         
-            unItems.add(new SelectItem(r.getNidCurso().toString(), r.getDescripcionCurso().toString()));
-        }
-        return unItems;
-    }
-
-    public ArrayList llenarSedes() {
-        ArrayList unItems = new ArrayList();
-        List<BeanSede> roles =
-            ln_C_SFSedeRemote.findSedePorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                       sessionPlanificarEva.getDiaDeLaSemana());
-        for (BeanSede r : roles) {        
-            unItems.add(new SelectItem(r.getNidSede().toString(), r.getDescripcionSede().toString()));
-        }
-        return unItems;
-    }
-
-    public ArrayList llenarGrados() {
-        ArrayList unItems = new ArrayList();
-        List<BeanGrado> roles =
-            ln_C_SFGradoRemote.findGradoPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                         sessionPlanificarEva.getDiaDeLaSemana());
-        for (BeanGrado r : roles) {          
-            unItems.add(new SelectItem(r.getNidGrado().toString(), r.getDescripcionGrado().toString()));
-        }
-        return unItems;
-    }
-
-    public ArrayList llenarNiveles() {
-        ArrayList unItems = new ArrayList();
-        List<BeanNivel> roles =
-            ln_C_SFNivelRemote.findNivelPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                         sessionPlanificarEva.getDiaDeLaSemana());
-        for (BeanNivel r : roles) {       
-            unItems.add(new SelectItem(r.getNidNivel().toString(), r.getDescripcionNivel().toString()));
-        }
-        return unItems;
-    }
-
-    public ArrayList llenarAreasAcademicas() {
-        ArrayList unItems = new ArrayList();
-        List<BeanAreaAcademica> roles = ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();   
-        for (BeanAreaAcademica r : roles) {          
-            unItems.add(new SelectItem(r.getNidAreaAcademica().toString(), r.getDescripcionAreaAcademica().toString()));
-        }
-        return unItems;
-    }
-
-
-    public ArrayList llenarProfesores() {
-        ArrayList unItems = new ArrayList();
-        List<BeanProfesor> roles =
-            ln_C_SFMainRemote.findProfesoresPorAreaAcademica_LN(sessionPlanificarEva.getNidAreaAcademica(),
-                                                              sessionPlanificarEva.getDiaDeLaSemana());
-        for (BeanProfesor r : roles) {
-           // BeanProfesor bean = new BeanProfesor();
-            r.setNombreCompleto(r.getApellidos() + " " + r.getNombres());
-            unItems.add(new SelectItem(r.getDniProfesor().toString(), r.getNombreCompleto().toString()));
-        }
-        return unItems;
-    }
+    }    
 
     public String grabarEva1() {
         grabarEvaluacion(1);
@@ -354,14 +269,6 @@ public class bPlanificarEva {
         return null;
     }
 
-    public static void setEL(String el, Object val) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ELContext elContext = facesContext.getELContext();
-        ExpressionFactory expressionFactory = facesContext.getApplication().getExpressionFactory();
-        ValueExpression exp = expressionFactory.createValueExpression(elContext, el, Object.class);
-        exp.setValue(elContext, val);
-    }
-
     public void abrirPopupEvaluar(CalendarActivityEvent calendarActivityEvent) {
         CalendarActivity activity = calendarActivityEvent.getCalendarActivity();
         sessionPlanificarEva.setCalendaryActivityID(activity.getId());
@@ -402,8 +309,23 @@ public class bPlanificarEva {
             sessionPlanificarEva.setEstadoBoxComentarios(true);
             sessionPlanificarEva.setEstadoBoxJustificacion(false);
         }
+        if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("NO JUSTIFICADO")){
+            sessionPlanificarEva.setListaProblemas(Utils.llenarCombo(ln_C_SFUtilsRemote.getProblemas_LN_WS()));  
+            sessionPlanificarEva.setEstadoBoxJustificacion(true);
+            sessionPlanificarEva.setEstadoBoxComentarios(false);
+            if(entida.getNidProblema()!=0){               
+                sessionPlanificarEva.setNidProblema(""+entida.getNidProblema());
+                sessionPlanificarEva.setEstadoDisableChoiceProblema(true);
+                sessionPlanificarEva.setEstadoDinputJustificacion(true);
+                sessionPlanificarEva.setEstadoDinputJustificacionVisible(true);
+            }else{
+            sessionPlanificarEva.setNidProblema(null);
+            sessionPlanificarEva.setEstadoDisableChoiceProblema(false);
+            sessionPlanificarEva.setEstadoDinputJustificacion(false);
+            }
+        }
         if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("NO EJECUTADO")){
-            sessionPlanificarEva.setListaProblemas(llenarTipoProblema());  
+            sessionPlanificarEva.setListaProblemas(Utils.llenarCombo(ln_C_SFUtilsRemote.getProblemas_LN_WS()));  
             sessionPlanificarEva.setEstadoBoxJustificacion(true);
             sessionPlanificarEva.setEstadoBoxComentarios(false);
             if(entida.getNidProblema()!=0){               
@@ -449,8 +371,8 @@ public class bPlanificarEva {
         sessionPlanificarEva.setEstadoBtnSaveJustificaEvalu(false);
         sessionPlanificarEva.setEstadoDinputJustificacion(true);
         sessionPlanificarEva.setEstadoDisableChoiceProblema(true);
-        
-        Utils.addTargetMany(btnSaveJustificacion,choiceProblema,inputDescripcionOtros);
+        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
+        Utils.addTargetMany(btnSaveJustificacion,choiceProblema,inputDescripcionOtros,calendar);
         return null;
     }
     
@@ -636,12 +558,17 @@ public class bPlanificarEva {
                 String dia = getDiaDeCalendario(calendarEvent.getTriggerDate().getDay());
                 sessionPlanificarEva.setDiaDeLaSemana(dia);
                 llenarBean();
-                sessionPlanificarEva.setListaProfesores(this.llenarProfesores());
-                sessionPlanificarEva.setListaCursos(this.llenarCursos());
-                sessionPlanificarEva.setListaSedes(this.llenarSedes());
-                sessionPlanificarEva.setListaGrados(this.llenarGrados());
-                sessionPlanificarEva.setListaNiveles(this.llenarNiveles());
-                sessionPlanificarEva.setListAreasAcade(this.llenarAreasAcademicas());
+                sessionPlanificarEva.setListaProfesores(Utils.llenarComboString(ln_C_SFMainRemote.findProfesoresPorAreaAcademica_LN(sessionPlanificarEva.getNidAreaAcademica(),
+                                                              sessionPlanificarEva.getDiaDeLaSemana())));
+                sessionPlanificarEva.setListaCursos(Utils.llenarCombo(ln_C_SFCursoRemoto.findCursosPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                          sessionPlanificarEva.getDiaDeLaSemana())));
+                sessionPlanificarEva.setListaSedes(Utils.llenarCombo(ln_C_SFSedeRemote.findSedePorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                       sessionPlanificarEva.getDiaDeLaSemana())));
+                sessionPlanificarEva.setListaGrados(Utils.llenarCombo(ln_C_SFGradoRemote.findGradoPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                         sessionPlanificarEva.getDiaDeLaSemana())));
+                sessionPlanificarEva.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.findNivelPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                         sessionPlanificarEva.getDiaDeLaSemana())));
+                sessionPlanificarEva.setListAreasAcade(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
                 sessionPlanificarEva.setEstadoAsignarEvaluacion(true);
                 Utils.showPopUpMIDDLE(popupEvento);
             }
@@ -1327,7 +1254,7 @@ public class bPlanificarEva {
 
             }
         
-        sessionPlanificarEva.setListatipoVisita(llenarTipoVisita());
+        sessionPlanificarEva.setListatipoVisita(Utils.llenarComboString(ln_C_SFUtilsRemote.getTipoVisitaFromConstraint()));
         sessionPlanificarEva.setValorTipoVisita("OP");
         Utils.showPopUpMIDDLE(popupSeleccionBloque);
         return null;

@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ import sped.negocio.LNSF.IR.LN_C_SFProfesorRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanProfesor;
 
@@ -41,7 +43,7 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
     public LN_C_SFProfesorBean() {
     }
     
-    public List<BeanProfesor> getProfesoresLN(){        
+    /*public List<BeanProfesor> getProfesoresLN(){        
         List<BeanProfesor> lstBean = new ArrayList();
         List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.getProfesores();
         for(Profesor a : lstProfesores){
@@ -49,33 +51,51 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
             lstBean.add(bean);
         }
         return lstBean;
-    }
+    }*/
     
-    public List<BeanProfesor> getProfesoresLN_PorSede_ByOrden(Object nidSede, Object nidArea, Object nidCurso, Object nidNivel, Object nidGrado){        
-        List<BeanProfesor> lstBean = new ArrayList();
-        String a=null; String b=null; String c=null; String d=null; String e=null;
-        if(nidSede!=null){
-            a=nidSede.toString();
+    public List<BeanComboString> getProfesoresLN(){        
+            List<BeanComboString> lstBean = new ArrayList<BeanComboString>();
+            List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.getProfesores();
+          Iterator it=lstProfesores.iterator();
+          while(it.hasNext()){
+            Profesor entida=(Profesor)it.next();
+            BeanComboString bean=new BeanComboString();
+            bean.setId(entida.getDniProfesor());
+            bean.setDescripcion(entida.getApellidos()+" "+entida.getNombres());
+            lstBean.add(bean);          
+          }
+            return lstBean;
+        }    
+ 
+    public List<BeanComboString> getProfesoresLN_PorSede_ByOrden(Object nidSede, Object nidArea, Object nidCurso, Object nidNivel, Object nidGrado){        
+            List<BeanComboString> lstBean = new ArrayList<BeanComboString>();
+            String a=null; String b=null; String c=null; String d=null; String e=null;
+            if(nidSede!=null){
+                a=nidSede.toString();
+            }
+            if(nidArea!=null){
+                b=nidArea.toString();
+            }
+            if(nidCurso!=null){
+                c=nidCurso.toString();
+            }
+            if(nidNivel!=null){
+                d=nidNivel.toString();
+            }
+            if(nidGrado!=null){
+                e=nidGrado.toString();
+            }
+            List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.findProfesorPorSede_ByOrden(a,b,c,d,e);
+            Iterator it=lstProfesores.iterator();
+            while(it.hasNext()){
+              Profesor entida=(Profesor)it.next();
+              BeanComboString bean=new BeanComboString();
+              bean.setId(entida.getDniProfesor());
+              bean.setDescripcion(entida.getApellidos()+" "+entida.getNombres());
+              lstBean.add(bean);          
+            }
+            return lstBean;
         }
-        if(nidArea!=null){
-            b=nidArea.toString();
-        }
-        if(nidCurso!=null){
-            c=nidCurso.toString();
-        }
-        if(nidNivel!=null){
-            d=nidNivel.toString();
-        }
-        if(nidGrado!=null){
-            e=nidGrado.toString();
-        }
-        List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.findProfesorPorSede_ByOrden(a,b,c,d,e);
-        for(Profesor pro : lstProfesores){
-            BeanProfesor bean = (BeanProfesor) mapper.map(pro, BeanProfesor.class);
-            lstBean.add(bean);
-        }
-        return lstBean;
-    }
     
     public BeanProfesor findConstrainByDni(String dni){
         try{
