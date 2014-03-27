@@ -79,9 +79,9 @@ public class BDL_C_SFNivelBean implements BDL_C_SFNivelRemote,
     public List<Nivel> findNivelesPorSede_ByOrden(String nidSede, String nidArea, String nidCurso) {
         try {
             String  ejbQl =   " SELECT distinct niv from Nivel niv," +
-                              " Sede sed, SedeNivel seni " +
+                              " Sede sed " +
              /**nuevo */      " ,Main ma, Aula au, Curso cu, AreaAcademica aca "+
-                              " where  niv.nidNivel=seni.nivel.nidNivel and seni.sede.nidSede=sed.nidSede " +
+                              " where  niv.nidNivel=au.gradoNivel.nivel.nidNivel " +
                               " and au.sede.nidSede=sed.nidSede and ma.aula.nidAula=au.nidAula" +
                               " and ma.curso.nidCurso=cu.nidCurso and cu.areaAcademica.nidAreaAcademica=aca.nidAreaAcademica ";
             

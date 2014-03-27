@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import sped.negocio.LNSF.IL.LN_C_SFAreaAcademicaLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "LN_C_SFAreaAcademica", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFAreaAcademica")
@@ -48,11 +50,15 @@ public class LN_C_SFAreaAcademicaBean implements LN_C_SFAreaAcademicaRemote,
         return lstBean;
     }
     
-    public List<BeanAreaAcademica> getAreaAcademicaLNPorSede_byOrden(String nidSede){        
-        List<BeanAreaAcademica> lstBean = new ArrayList();
+    public List<BeanCombo> getAreaAcademicaLNPorSede_byOrden(String nidSede){        
+        List<BeanCombo> lstBean = new ArrayList<BeanCombo>();
         List<AreaAcademica> lstAreaAcd = bdL_C_SFAreaAcademicaLocal.findAreasPorSede_ByOrden(nidSede);       
-        for(AreaAcademica a : lstAreaAcd){
-            BeanAreaAcademica bean = (BeanAreaAcademica) mapper.map(a, BeanAreaAcademica.class);
+        Iterator it=lstAreaAcd.iterator();
+        while(it.hasNext()){
+            AreaAcademica entida= (AreaAcademica)it.next();
+            BeanCombo bean=new BeanCombo();
+            bean.setId(entida.getNidAreaAcademica());
+            bean.setDescripcion(entida.getDescripcionAreaAcademica());
             lstBean.add(bean);
         }
         return lstBean;

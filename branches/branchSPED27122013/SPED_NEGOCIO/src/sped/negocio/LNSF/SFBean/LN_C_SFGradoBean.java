@@ -23,6 +23,7 @@ import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Grado;
 import sped.negocio.entidades.admin.Nivel;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanNivel;
@@ -39,20 +40,21 @@ public class LN_C_SFGradoBean implements LN_C_SFGradoRemote,
     BDL_C_SFGradoLocal bdl_C_SFGradoLocal;
     private MapperIF mapper = new DozerBeanMapper();
     public LN_C_SFGradoBean() {
-    }
-    
-    public List<BeanGrado> findGradoPorAreaAcademica(Integer nidAreaAcademica, String dia){
-        List<Grado> listaGrados=bdl_C_SFGradoLocal.findGradpPorAreaAcademica(nidAreaAcademica,dia);
-        List<BeanGrado> list=new ArrayList<BeanGrado>();
-        MapperIF mapper = new DozerBeanMapper();
-        Iterator it=listaGrados.iterator();
-        while(it.hasNext()){
-            Grado entida= (Grado)it.next();
-            BeanGrado bean = (BeanGrado)mapper.map(entida,BeanGrado.class);
-            list.add(bean);
+    }   
+
+    public List<BeanCombo> findGradoPorAreaAcademica(Integer nidAreaAcademica, String dia){
+            List<Grado> listaGrados=bdl_C_SFGradoLocal.findGradpPorAreaAcademica(nidAreaAcademica,dia);
+            List<BeanCombo> list=new ArrayList<BeanCombo>();
+            Iterator it=listaGrados.iterator();
+            while(it.hasNext()){
+                Grado entida= (Grado)it.next();
+                BeanCombo bean = new BeanCombo();
+                bean.setId(entida.getNidGrado());
+                bean.setDescripcion(entida.getDescripcionGrado());
+                list.add(bean);
+            }
+            return list;
         }
-        return list;
-    }
     
     public List<BeanGrado> getGradoLN(){
         List<Grado> listaGrados=bdl_C_SFGradoLocal.getGradoFindAll();
@@ -77,7 +79,7 @@ public class LN_C_SFGradoBean implements LN_C_SFGradoRemote,
         }        
     }
     
-    public List<BeanGrado> getGradoLN_PorNivelByOrden(String nidNivel){
+    /* public List<BeanGrado> getGradoLN_PorNivelByOrden(String nidNivel){
         List<BeanGrado> lstBean = new ArrayList();
         List<Grado> lstNivel = bdl_C_SFGradoLocal.findGradosPorNivel_ByOrden(nidNivel);
         for(Grado n : lstNivel){
@@ -85,5 +87,18 @@ public class LN_C_SFGradoBean implements LN_C_SFGradoRemote,
             lstBean.add(bean);
         }
         return lstBean;
-    }
+    }*/
+    public List<BeanCombo> getGradoLN_PorNivelByOrden(String nidNivel){
+            List<BeanCombo> lstBean = new ArrayList<BeanCombo>();
+            List<Grado> lstNivel = bdl_C_SFGradoLocal.findGradosPorNivel_ByOrden(nidNivel);
+           Iterator it=lstNivel.iterator();
+           while(it.hasNext()){
+              Grado entida= (Grado)it.next();
+               BeanCombo bean=new BeanCombo();
+               bean.setId(entida.getNidGrado());
+               bean.setDescripcion(entida.getDescripcionGrado());
+               lstBean.add(bean);
+           }
+            return lstBean;
+    }    
 }

@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,6 +9,8 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+
+import javax.faces.model.SelectItem;
 
 import javax.persistence.EntityManager;
 
@@ -52,6 +55,20 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
             lstbean.add(bean);
         }
         return lstbean;
+    }
+    
+    public List<BeanComboString> getListaEstados(String nombreCampo, String nombreTabla){
+        List<BeanComboString> list=new ArrayList<BeanComboString>();
+        List<Constraint> listConstraint=bdL_C_SFUtilsLocal.getListaConstraintsBDL(nombreCampo, nombreTabla);
+        Iterator it=listConstraint.iterator();
+        while(it.hasNext()){
+            Constraint entida=(Constraint)it.next();
+            BeanComboString bean=new BeanComboString();           
+            bean.setId(entida.getDescripcionAMostrar());//EL ID SERA EL MISMO QUE LA DESCRIPCION A MOSTRAR...
+            bean.setDescripcion(entida.getDescripcionAMostrar());            
+            list.add(bean);
+        }            
+        return list;
     }
     
     public List<BeanCombo> getPlanificadores_LN_WS(){
@@ -106,6 +123,5 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     
     public List<BeanComboString> getEstadoEvaluacionFromConstraint(){
         return bdL_C_SFUtilsLocal.getEstadosEvaluacion("e.valorCampo", "e.descripcionAMostrar");
-    }
-    
+    }     
 }

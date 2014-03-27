@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -24,6 +25,7 @@ import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -49,12 +51,18 @@ public class LN_C_SFSedeBean implements LN_C_SFSedeRemote,
             return new ArrayList<BeanSede>();
         }            
     }
-    public List<BeanSede> findSedePorAreaAcademica(Integer nidAreaAcademica, String dia) {
-        try{
-            return transformLstSede(bdL_C_SFSedeLocal.findSedePorAreaAcademica(nidAreaAcademica,dia));
-        }catch(Exception e){
-            return new ArrayList<BeanSede>();
-        }  
+    public List<BeanCombo> findSedePorAreaAcademica(Integer nidAreaAcademica, String dia) {
+        List<Sede> listaSedes=bdL_C_SFSedeLocal.findSedePorAreaAcademica(nidAreaAcademica,dia);
+        List<BeanCombo> list=new ArrayList<BeanCombo>();
+        Iterator it=listaSedes.iterator();
+        while(it.hasNext()){
+            Sede entida= (Sede)it.next();
+            BeanCombo bean=new BeanCombo();
+            bean.setId(entida.getNidSede());
+            bean.setDescripcion(entida.getDescripcionSede());
+            list.add(bean);
+        }
+        return list;  
     }
     
     public List<BeanSede> transformLstSede(List<Sede> lstSede){

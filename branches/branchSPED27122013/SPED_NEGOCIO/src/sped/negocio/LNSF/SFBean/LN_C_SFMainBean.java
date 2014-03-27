@@ -25,6 +25,8 @@ import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanAula;
+import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanMainWS;
 import sped.negocio.entidades.beans.BeanProfesor;
@@ -59,13 +61,18 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
         return listaBean;
       }
     
-    public List<BeanProfesor> findProfesoresPorAreaAcademica_LN(Integer nidAreaAcademica, String dia){
-        List<BeanProfesor> lstBean = new ArrayList();
+    public List<BeanComboString> findProfesoresPorAreaAcademica_LN(Integer nidAreaAcademica, String dia){
+        List<BeanComboString> lstBean = new ArrayList();
         List<Profesor> lstAreaAcd = bdl_C_SFMainLocal.findProfesoresPorAreaAcademica(nidAreaAcademica,dia);       
-        for(Profesor a : lstAreaAcd){
-            BeanProfesor bean = (BeanProfesor) mapper.map(a, BeanProfesor.class);
-            lstBean.add(bean);
-        }
+        Iterator it=lstAreaAcd.iterator();
+        while(it.hasNext()){
+          Profesor entida=new Profesor();
+          BeanComboString bean=new BeanComboString();
+          bean.setId(entida.getDniProfesor());
+          String nombreCompleto=entida.getApellidos()+" "+entida.getNombres();
+          bean.setDescripcion(nombreCompleto);        
+          lstBean.add(bean);
+    }
         return lstBean; 
     }
     

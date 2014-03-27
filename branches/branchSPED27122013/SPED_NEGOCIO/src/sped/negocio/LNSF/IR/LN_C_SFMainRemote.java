@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanMainWS;
 import sped.negocio.entidades.beans.BeanProfesor;
@@ -11,7 +12,7 @@ import sped.negocio.entidades.beans.BeanProfesor;
 @Remote
 public interface LN_C_SFMainRemote {
     List<BeanMain> llenarHorario(BeanMain beanMain);
-    List<BeanProfesor> findProfesoresPorAreaAcademica_LN(Integer nidAreaAcademica, String dia);
+    List<BeanComboString> findProfesoresPorAreaAcademica_LN(Integer nidAreaAcademica, String dia);
      /**
       * Metodo que no utiliza mapper sino mapea defrente al bean desde el mismo query, este metodo busca en la entidad 
       * Main, se usa para el WS, movil, para poder buscar profesores y registrarles un PARTE DE OCURRENCIA
