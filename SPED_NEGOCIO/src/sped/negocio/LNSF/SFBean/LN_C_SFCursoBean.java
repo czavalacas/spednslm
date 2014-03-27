@@ -22,6 +22,7 @@ import sped.negocio.LNSF.IL.LN_C_SFCursoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Main;
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanMain;
@@ -43,7 +44,7 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
     public LN_C_SFCursoBean() {
     }
     
-    public List<BeanCurso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia){
+    /*public List<BeanCurso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia){
         List<Curso> listaCursos=bdl_C_SFCursoLocal.findCursosPorAreaAcademica(nidAreaAcademica,dia);
         List<BeanCurso> list=new ArrayList<BeanCurso>();
         MapperIF mapper = new DozerBeanMapper();
@@ -55,20 +56,35 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
         }
         return list;
     }
-    
-    public List<BeanCurso> findCursosPorAreaAcademica_ByOrden(String nidAreaAcademica, String nidSede){
-        List<Curso> listaCursos=bdl_C_SFCursoLocal.findCursosPorAreaAcademica_ByOrden(nidAreaAcademica, nidSede);
-        List<BeanCurso> list=new ArrayList<BeanCurso>();
-        MapperIF mapper = new DozerBeanMapper();      
+    */
+    public List<BeanCombo> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia){
+        List<Curso> listaCursos=bdl_C_SFCursoLocal.findCursosPorAreaAcademica(nidAreaAcademica,dia);
+        List<BeanCombo> list=new ArrayList<BeanCombo>();
         Iterator it=listaCursos.iterator();
         while(it.hasNext()){
             Curso entida= (Curso)it.next();
-            BeanCurso bean = (BeanCurso)mapper.map(entida,BeanCurso.class);
+            BeanCombo bean=new BeanCombo();
+            bean.setId(entida.getNidCurso());
+            bean.setDescripcion(entida.getDescripcionCurso());
             list.add(bean);
         }
-        return list;
-    }
+        return list;  
+    }    
     
+   public List<BeanCombo> findCursosPorAreaAcademica_ByOrden(String nidAreaAcademica, String nidSede){
+           List<Curso> listaCursos=bdl_C_SFCursoLocal.findCursosPorAreaAcademica_ByOrden(nidAreaAcademica, nidSede);
+           List<BeanCombo> list=new ArrayList<BeanCombo>();
+           Iterator it=listaCursos.iterator();
+           while(it.hasNext()){
+               Curso entida= (Curso)it.next();
+               BeanCombo bean=new BeanCombo();
+               bean.setId(entida.getNidCurso());
+               bean.setDescripcion(entida.getDescripcionCurso());
+               list.add(bean);
+           }
+           return list;
+       }
+   
     public List<BeanCurso>  getlistaCursos(){
         List<Curso> listaCursos=bdl_C_SFCursoLocal.getCursoFindAll();
         List<BeanCurso> list=new ArrayList<BeanCurso>();

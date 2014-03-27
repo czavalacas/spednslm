@@ -7,62 +7,39 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import java.awt.Dimension;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import java.net.MalformedURLException;
-
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
-
 import javax.ejb.EJB;
-
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.model.SelectItem;
-
 import javax.servlet.ServletContext;
-
 import oracle.adf.view.faces.bi.component.graph.UIGraph;
-
 import oracle.adf.view.faces.bi.model.GraphDataModel;
-
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectManyCheckbox;
-
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
-
 import oracle.adf.view.rich.component.rich.input.RichTextEditor;
 import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
-
 import oracle.adf.view.rich.event.DialogEvent;
-
 import oracle.dss.dataView.ImageView;
-import oracle.dss.graph.GraphModel;
-
 import org.apache.myfaces.trinidad.event.SelectionEvent;
-import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
-import org.apache.poi.xslf.usermodel.PieChartDemo;
-
-import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCriterioRemote;
@@ -73,29 +50,17 @@ import sped.negocio.LNSF.IR.LN_C_SFIndicadorRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFProfesorRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
-import sped.negocio.entidades.beans.BeanAreaAcademica;
-
-import sped.negocio.entidades.beans.BeanCriterio;
-import sped.negocio.entidades.beans.BeanCurso;
-
-import sped.negocio.entidades.beans.BeanEvaluacion;
-import sped.negocio.entidades.beans.BeanEvaluacionWS;
+import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.entidades.beans.BeanEvaluacion_DP;
 import sped.negocio.entidades.beans.BeanFiltrosGraficos;
-import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanIndicador;
-import sped.negocio.entidades.beans.BeanNivel;
-import sped.negocio.entidades.beans.BeanProfesor;
-import sped.negocio.entidades.beans.BeanSede;
-
 import sped.negocio.entidades.beans.BeanUsuario;
-
-import sped.negocio.entidades.eval.Evaluacion;
-
 import sped.vista.Utils.Utils;
 
-import utils.system;
-
+/** Clase de Respaldo bPlanificar.java
+ * @author czavalacas
+ * @since 15.02.2014
+ */
 public class bDesempenoProfesor {
     
     
@@ -118,7 +83,9 @@ public class bDesempenoProfesor {
     @EJB
     private LN_C_SFIndicadorRemote ln_C_SFIndicadorRemote;
     @EJB
-    private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
+    private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;    
+    @EJB
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote; 
  
     private bSessionDesempenoProfesor sessionDesempenoProfesor;
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -139,15 +106,7 @@ public class bDesempenoProfesor {
     private GraphDataModel graphDataBar;
     private GraphDataModel graphDataBarHorizontal;
     private GraphDataModel graphDataLine;
-    private GraphDataModel graphDataBarNiveles;
-    
-
-    
-  
-    
-    private List<BeanFiltrosGraficos> listBean=new ArrayList();    
-  
-  
+    private GraphDataModel graphDataBarNiveles;     
     private RichSelectOneChoice choiceSedes;
     private RichSelectOneChoice choiceNiveles;
     private RichSelectOneChoice choiceAreas;
@@ -172,6 +131,9 @@ public class bDesempenoProfesor {
     private RichPopup popCorreo;
     private RichTextEditor ret1;
     private RichPopup popKey;
+    private RichButton btnPDF;
+    private RichButton btnEmail;
+    private RichPanelGroupLayout pgl1;
 
 
     public bDesempenoProfesor() {
@@ -185,8 +147,7 @@ public class bDesempenoProfesor {
     
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {           
-        if(sessionDesempenoProfesor.getExec()==0){                  
-            Utils.sysout("1 POST::>> "+sessionDesempenoProfesor.getExec()); 
+        if(sessionDesempenoProfesor.getExec()==0){            
             llenarChoices();
             sessionDesempenoProfesor.setExec(1);     
             sessionDesempenoProfesor.setRelaValueGraficos(llenarListaString());  
@@ -197,120 +158,54 @@ public class bDesempenoProfesor {
     }  
     
     public String llenarChoices(){
-        sessionDesempenoProfesor.setListaSedesFiltro(llenarSedesFiltro());
-        sessionDesempenoProfesor.setListaAreasFiltro(llenarAreasFiltro(ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN()));
-        sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLN()));
-        sessionDesempenoProfesor.setListaCursosFiltro(llenarCursosFiltro(ln_C_SFCursoRemoto.getlistaCursos()));
+        sessionDesempenoProfesor.setListaSedesFiltro(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
+        sessionDesempenoProfesor.setListaAreasFiltro(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
+        sessionDesempenoProfesor.setListaNivelesFiltro(Utils.llenarCombo(ln_C_SFUtilsRemote.getNiveles_LN()));
+        sessionDesempenoProfesor.setListaCursosFiltro(Utils.llenarCombo(ln_C_SFUtilsRemote.getCursos_LN()));
         sessionDesempenoProfesor.setListaGradosFiltro(null);
-        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN()));
-        sessionDesempenoProfesor.setListaCriteriosFiltro(llenarCriteriosFiltro());
+        sessionDesempenoProfesor.setListaProfesoresFiltro(Utils.llenarComboString(ln_C_SFProfesorRemote.getProfesoresLN()));
+      //  sessionDesempenoProfesor.setListaCriteriosFiltro(llenarCriteriosFiltro());
         return null;
     }
     
     public void valoresChoiceGrado(ValueChangeEvent valueChangeEvent) {
-        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue(),choiceNiveles.getValue(),choiceGrados.getValue())));
+        sessionDesempenoProfesor.setListaProfesoresFiltro(Utils.llenarComboString(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue(),choiceNiveles.getValue(),choiceGrados.getValue())));
         Utils.addTargetMany(choiceDocente);
     }
     
     public void valoresChoiceCursos(ValueChangeEvent valueChangeEvent) {
-        sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue())));
-        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue(),choiceNiveles.getValue(),choiceGrados.getValue())));
+        sessionDesempenoProfesor.setListaNivelesFiltro(Utils.llenarCombo(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue())));
+        sessionDesempenoProfesor.setListaProfesoresFiltro(Utils.llenarComboString(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue(),choiceNiveles.getValue(),choiceGrados.getValue())));
         Utils.addTargetMany(choiceNiveles,choiceDocente);
     }
     public void valoresChoiceSede(ValueChangeEvent valueChangeEvent) {  
-        sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(choiceSedes.getValue().toString(),null,null)));
-        sessionDesempenoProfesor.setListaAreasFiltro(llenarAreasFiltro(ln_C_SFAreaAcademicaRemote.getAreaAcademicaLNPorSede_byOrden(choiceSedes.getValue().toString())));
-        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue().toString(),null,null,null,null)));
-        sessionDesempenoProfesor.setListaCursosFiltro(llenarCursosFiltro(ln_C_SFCursoRemoto.findCursosPorAreaAcademica_ByOrden(null,choiceSedes.getValue().toString())));  
+        sessionDesempenoProfesor.setListaNivelesFiltro(Utils.llenarCombo(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(choiceSedes.getValue().toString(),null,null)));
+        sessionDesempenoProfesor.setListaAreasFiltro(Utils.llenarCombo(ln_C_SFAreaAcademicaRemote.getAreaAcademicaLNPorSede_byOrden(choiceSedes.getValue().toString())));
+        sessionDesempenoProfesor.setListaProfesoresFiltro(Utils.llenarComboString(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue().toString(),null,null,null,null)));
+        sessionDesempenoProfesor.setListaCursosFiltro(Utils.llenarCombo(ln_C_SFCursoRemoto.findCursosPorAreaAcademica_ByOrden(null,choiceSedes.getValue().toString())));  
        
         Utils.addTargetMany(choiceAreas,choiceNiveles,choiceCursos,choiceDocente);
         
     }
     public void valoresChoiceArea(ValueChangeEvent valueChangeEvent) {
         if(choiceSedes.getValue()==null){      
-            sessionDesempenoProfesor.setListaCursosFiltro(llenarCursosFiltro(ln_C_SFCursoRemoto.findCursosPorAreaAcademica_ByOrden(choiceAreas.getValue().toString(),null)));
-            sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(null, choiceAreas.getValue().toString(),null)));
-            sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(null, choiceAreas.getValue().toString(),null,null,null)));
+            sessionDesempenoProfesor.setListaCursosFiltro(Utils.llenarCombo(ln_C_SFCursoRemoto.findCursosPorAreaAcademica_ByOrden(choiceAreas.getValue().toString(),null)));
+            sessionDesempenoProfesor.setListaNivelesFiltro(Utils.llenarCombo(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(null, choiceAreas.getValue().toString(),null)));
+            sessionDesempenoProfesor.setListaProfesoresFiltro(Utils.llenarComboString(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(null, choiceAreas.getValue().toString(),null,null,null)));
         }else{
-            sessionDesempenoProfesor.setListaCursosFiltro(llenarCursosFiltro(ln_C_SFCursoRemoto.findCursosPorAreaAcademica_ByOrden(choiceAreas.getValue().toString(),choiceSedes.getValue().toString())));  
-            sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue().toString(), choiceAreas.getValue().toString(),null,null,null)));
-            sessionDesempenoProfesor.setListaNivelesFiltro(llenarNivelesFiltro(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(choiceSedes.getValue().toString(), choiceAreas.getValue().toString(),null)));
+            sessionDesempenoProfesor.setListaCursosFiltro(Utils.llenarCombo(ln_C_SFCursoRemoto.findCursosPorAreaAcademica_ByOrden(choiceAreas.getValue().toString(),choiceSedes.getValue().toString())));  
+            sessionDesempenoProfesor.setListaProfesoresFiltro(Utils.llenarComboString(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue().toString(), choiceAreas.getValue().toString(),null,null,null)));
+            sessionDesempenoProfesor.setListaNivelesFiltro(Utils.llenarCombo(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(choiceSedes.getValue().toString(), choiceAreas.getValue().toString(),null)));
         }
         Utils.addTargetMany(choiceCursos,choiceNiveles,choiceDocente);
     }
     
     public void valoresChoiceNivel(ValueChangeEvent valueChangeEvent) {        
-        sessionDesempenoProfesor.setListaGradosFiltro(llenarGradosFiltro(ln_C_SFGradoRemote.getGradoLN_PorNivelByOrden(choiceNiveles.getValue().toString())));
-        sessionDesempenoProfesor.setListaProfesoresFiltro(llenarProfesoresFiltro(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue(),choiceNiveles.getValue(),choiceGrados.getValue())));
+        sessionDesempenoProfesor.setListaGradosFiltro(Utils.llenarCombo(ln_C_SFGradoRemote.getGradoLN_PorNivelByOrden(choiceNiveles.getValue().toString())));
+        sessionDesempenoProfesor.setListaProfesoresFiltro(Utils.llenarComboString(ln_C_SFProfesorRemote.getProfesoresLN_PorSede_ByOrden(choiceSedes.getValue(), choiceAreas.getValue(), choiceCursos.getValue(),choiceNiveles.getValue(),choiceGrados.getValue())));
         Utils.addTargetMany(choiceGrados,choiceDocente);
-    }
+    }    
     
-    
-    public ArrayList llenarCursosFiltro(List<BeanCurso> listaCursos) {
-        ArrayList unItems = new ArrayList();       
-        List<BeanCurso> roles= listaCursos;;    
-        for (BeanCurso r : roles) {          
-            unItems.add(new SelectItem(r.getNidCurso().toString(), r.getDescripcionCurso().toString()));
-        }
-        return unItems;
-    }
-    
-    
-    public ArrayList llenarProfesoresFiltro(List<BeanProfesor> listProf) {
-        ArrayList unItems = new ArrayList();
-        List<BeanProfesor> roles = listProf;            
-        for (BeanProfesor r : roles) {                
-        String nombreCompleto=r.getApellidos()+" "+r.getNombres();
-            unItems.add(new SelectItem(r.getDniProfesor().toString(), nombreCompleto.toString()));
-        }
-        return unItems;
-    }
-    public ArrayList llenarCriteriosFiltro() {
-        ArrayList unItems = new ArrayList();
-        List<BeanCriterio> roles = ln_C_SFCriterioRemote.getCriteriosByAttr_LN(0,null);       
-        for (BeanCriterio r : roles) {               
-            unItems.add(new SelectItem(r.getNidCriterio().toString(), r.getDescripcionCriterio().toString()));
-        }
-        return unItems;
-    }
-    
-    public ArrayList llenarSedesFiltro() {
-        ArrayList unItems = new ArrayList();
-        List<BeanSede> roles = ln_C_SFSedeRemote.getSedeLN();        
-        for (BeanSede r : roles) {          
-            unItems.add(new SelectItem(r.getNidSede().toString(), r.getDescripcionSede().toString()));
-        }
-        return unItems;
-    }
-    
-    public ArrayList llenarGradosFiltro(List<BeanGrado> listaGrados) {
-        ArrayList unItems = new ArrayList();
-        List<BeanGrado> roles = listaGrados;
-        for (BeanGrado r : roles) {          
-            unItems.add(new SelectItem(r.getNidGrado().toString(), r.getDescripcionGrado().toString()));
-        }
-        return unItems;
-    }
- 
-    public ArrayList llenarAreasFiltro(List<BeanAreaAcademica> listaAreas) {
-        ArrayList unItems = new ArrayList();
-        List<BeanAreaAcademica> roles = listaAreas;
-                        //ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
-        for (BeanAreaAcademica r : roles) {          
-            unItems.add(new SelectItem(r.getNidAreaAcademica().toString(), r.getDescripcionAreaAcademica().toString()));
-        }
-        return unItems;
-    }
-    
-    public ArrayList llenarNivelesFiltro(List<BeanNivel> listaNiveles) {
-        ArrayList unItems = new ArrayList();
-        List<BeanNivel> roles = listaNiveles;
-        for (BeanNivel r : roles) {          
-            unItems.add(new SelectItem(r.getNidNivel().toString(), r.getDescripcionNivel().toString()));
-        }
-        return unItems;
-    }
-
     public String addFiltros(){    
         BeanFiltrosGraficos bean=new BeanFiltrosGraficos();  
         bean.setFechaFin(sessionDesempenoProfesor.getFechaFin());
@@ -373,8 +268,7 @@ public class bDesempenoProfesor {
             mensaje9=fechaConFormato+" - "+fechaConFormato2;
         }
         if(bean.getNidSede()==null && bean.getNidArea()==null && bean.getNidCurso()==null &&bean.getNidNivele()==null&& bean.getNidGrado()==null&&bean.getDniDocente()==null&&bean.getNidCriterio()==null&&bean.getNidIndicador()==null){
-            Utils.sysout("NO HAY ELEJIDO FILTROS");
-        }else{
+       }else{
             bean.setCampoFiltroTrabla(mensaje+mensaje2+mensaje3+mensaje4+mensaje5+mensaje6+mensaje7+mensaje8+mensaje9);                 
             sessionDesempenoProfesor.getListaFiltros().add(bean);   
             if(bean.getNidSede()!=null){//ESTE IF EVITA ACTUALIZAR EL GRAFICO DE SEDES SI NO HAY UN FILTRO DE SEDE ELEGIDO
@@ -400,10 +294,23 @@ public class bDesempenoProfesor {
             }         
        
        
-        }          
+        }         
+        estadoBtnEmailYPdf();
         return null;
     }
     
+    public void estadoBtnEmailYPdf(){
+        if(sessionDesempenoProfesor.getListaFiltros()!=null){
+            sessionDesempenoProfesor.setEstaBtnEmail(true);
+            sessionDesempenoProfesor.setEstaBtnPdf(true);
+            Utils.addTarget(pgl1);
+        }
+        if(sessionDesempenoProfesor.getListaFiltros()==null||sessionDesempenoProfesor.getListaFiltros().size()==0){
+            sessionDesempenoProfesor.setEstaBtnEmail(false);
+            sessionDesempenoProfesor.setEstaBtnPdf(false);
+            Utils.addTarget(pgl1);
+        }
+    }
     public String limpiarComboBoxs(){
         sessionDesempenoProfesor.setNidSede(null);
         sessionDesempenoProfesor.setNidArea(null);
@@ -457,7 +364,7 @@ public class bDesempenoProfesor {
          if(   sessionDesempenoProfesor.getLstEvaDocenteEvaluacionBarChart()!=null){
              sessionDesempenoProfesor.getLstEvaDocenteEvaluacionBarChart().clear();
          }      
-        
+         
          if (tbFiltrosBusqueda != null) {
              Utils.unselectFilas(tbFiltrosBusqueda);
              tbFiltrosBusqueda.setValue(sessionDesempenoProfesor.getListaFiltros());
@@ -470,6 +377,7 @@ public class bDesempenoProfesor {
        limpiarComboBoxs();
        limpiarGraficos();
        limpiarTablaIndicadores();
+        estadoBtnEmailYPdf();
         return null;
     }
     
@@ -529,7 +437,7 @@ public class bDesempenoProfesor {
                            }    
                    }
        }
-        
+        estadoBtnEmailYPdf();
         return null;
     }
     public void seleccionarFiltro(SelectionEvent selectionEvent) {
@@ -603,7 +511,7 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getNombreArea()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR SEDES  A COMPARAR
-             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
+             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),null);
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
             if(listaFiltros.get(i).getNombreSede()!=null){
@@ -637,7 +545,7 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getDniDocente()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR DNI DOCENTE
-            List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
+            List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),null);
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();  
             if(listaFiltros.get(i).getNombreProfesor()!=null){
@@ -691,7 +599,7 @@ public class bDesempenoProfesor {
         List<BeanEvaluacion_DP> listaParaGrfaicoDeBarrasSedes=new ArrayList<BeanEvaluacion_DP>();    
         for(int i=0; i<listaFiltros.size(); i++){
             if(listaFiltros.get(i).getNombreSede()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR SEDES  A COMPARAR
-             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),null);Utils.sysout("num Evalu "+lstEvaluaciones.size());
+             List<BeanEvaluacion_DP> lstEvaluaciones=ln_C_SFEvaluacionRemote.desempenoDocentePorEvaluacion(listaFiltros.get(i),null);
            //UNA LISTA DE EVALUACIONES QUE TIENE
             BeanEvaluacion_DP bean=new BeanEvaluacion_DP();           
             bean.setSede(listaFiltros.get(i).getNombreSede().getDescripcionSede());
@@ -725,8 +633,7 @@ public class bDesempenoProfesor {
             if(listaFiltros.get(i).getNombreIndicador()!=null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR INDICADORES  A COMPARAR
             if(listaFiltros.get(i).getFechaInicio()!=null && listaFiltros.get(i).getFechaFin()!=null){//SI HAY FILTROS FECHAS
                 int num=((listaFiltros.get(i).getFechaFin().getYear()-listaFiltros.get(i).getFechaInicio().getYear())*12)+(listaFiltros.get(i).getFechaFin().getMonth()-listaFiltros.get(i).getFechaInicio().getMonth());
-                System.out.println("num ::: "+num);
-                for(int j=0; j<num+1; j++){               
+                 for(int j=0; j<num+1; j++){               
                          Date hoy=listaFiltros.get(i).getFechaFin();
                          Date fecha1= (Date)hoy.clone();
                          fecha1.setMonth(hoy.getMonth()-((num)-j));
@@ -795,8 +702,7 @@ public class bDesempenoProfesor {
             if(listaFiltros.get(i).getNombreProfesor()!=null && listaFiltros.get(i).getNombreIndicador()==null){//ESTE IF EVITA QUE SE CAIGA AL NO ENCONTRAR PROFESORES
                 if(listaFiltros.get(i).getFechaInicio()!=null && listaFiltros.get(i).getFechaFin()!=null){//SI HAY FILTROS FECHAS
                     int num=((listaFiltros.get(i).getFechaFin().getYear()-listaFiltros.get(i).getFechaInicio().getYear())*12)+(listaFiltros.get(i).getFechaFin().getMonth()-listaFiltros.get(i).getFechaInicio().getMonth());
-                    System.out.println("num ::: "+num);
-                    for(int j=0; j<num+1; j++){               
+                   for(int j=0; j<num+1; j++){               
                              Date hoy=listaFiltros.get(i).getFechaFin();
                              Date fecha1= (Date)hoy.clone();
                              fecha1.setMonth(hoy.getMonth()-((num)-j));
@@ -892,28 +798,27 @@ public class bDesempenoProfesor {
             document.add(img);
           //  addSelectFiltro(document);
             int cont = 0;            
-           
-                   if(sessionDesempenoProfesor.isEstaPanelDocenteEvalua()){
+                   if(sessionDesempenoProfesor.isEstaPanelDocenteEvalua() && sessionDesempenoProfesor.getLstEvaDocenteEvaluacionBarChart().size()!=0){
                         addImagenes(document, "Grafico Evaluacion Docente", exportGrafPNG( barDocenteEvalu, rutaSave+"GR.png"));
                         cont++;
                         addEspacio(cont, document);
                    }
-                    if(sessionDesempenoProfesor.isEstaPanelDesemDocenEvalu()){
-                        addImagenes(document, "Grafico Desempeño Docente", exportGrafPNG(lineaDesempenoGlobal, rutaSave+"GE.png"));
+                    if(sessionDesempenoProfesor.isEstaPanelDesemDocenEvalu()&& sessionDesempenoProfesor.getLstEvaLineGlobalGraph().size()!=0 ){
+                        addImagenes(document, "Grafico Desempeño Docente", exportGrafPNG(lineDesempenoProf, rutaSave+"GE.png"));
                         cont++;
                         addEspacio(cont, document);
                     }
-                   if(sessionDesempenoProfesor.isEstaPanelDocenteIndica()){
+                   if(sessionDesempenoProfesor.isEstaPanelDocenteIndica() && sessionDesempenoProfesor.getLstEvaDocenteIndicadorBarChart().size()!=0){
                         addImagenes(document, "Grafico Evaluacion Docente Indicador", exportGrafPNG(barDocIndicadorGraph, rutaSave+"GL.png"));
                         cont++;
                         addEspacio(cont, document);                    
                     }
-                   if(sessionDesempenoProfesor.isEstaPanelDesemDocenIndi()){
-                        addImagenes(document, "Grafico Desempeño Docente Indicador", exportGrafPNG(lineDesempenoProf, rutaSave+"GP.png"));
+                   if(sessionDesempenoProfesor.isEstaPanelDesemDocenIndi()&& sessionDesempenoProfesor.getLstEvaLineGraph().size()!=0){
+                        addImagenes(document, "Grafico Desempeño Docente Indicador", exportGrafPNG(lineaDesempenoGlobal, rutaSave+"GP.png"));
                         cont++;
                         addEspacio(cont, document);
                    }
-                    if(sessionDesempenoProfesor.isEstaPanelAreas()){
+                    if(sessionDesempenoProfesor.isEstaPanelAreas()&& sessionDesempenoProfesor.getLstEvaAreasBarChart().size()!=0){
                         addImagenes(document, "Grafico Desempeño Areas Academicas", exportGrafPNG(barAreaGraph, rutaSave+"GA.png"));
                     }
                     document.close();
@@ -1223,44 +1128,33 @@ public class bDesempenoProfesor {
     return lista;
     }
     
-    public void seleccionarGraficos(ValueChangeEvent valueChangeEvent) {
-     Utils.sysout("Valores NEW del check BOX : "+valueChangeEvent.getNewValue());       
+    public void seleccionarGraficos(ValueChangeEvent valueChangeEvent) {   
      List<String> objArr = (List<String>)valueChangeEvent.getNewValue();
      if(valueChangeEvent.getNewValue()!=null){      
      int num=0;
          if(objArr.contains("2")){num++;
-             Utils.sysout("contiene 2");
              sessionDesempenoProfesor.setEstaPanelDocenteIndica(true);                                  
          }else{
-             Utils.sysout("no contiene 2");
              sessionDesempenoProfesor.setEstaPanelDocenteIndica(false);     
          }
          if(objArr.contains("3")){num++;
-             Utils.sysout("contiene 3");
              sessionDesempenoProfesor.setEstaPanelDocenteEvalua(true);                 
          }else{
-             Utils.sysout("no contiene 3");
              sessionDesempenoProfesor.setEstaPanelDocenteEvalua(false);   
          }
          if(objArr.contains("4")){num++;
-             Utils.sysout("contiene 4");
              sessionDesempenoProfesor.setEstaPanelDesemDocenIndi(true);                   
          }else{
-             Utils.sysout("no contiene 4");
              sessionDesempenoProfesor.setEstaPanelDesemDocenIndi(false);       
          } 
          if(objArr.contains("5")){num++;
-             Utils.sysout("contiene 5");
              sessionDesempenoProfesor.setEstaPanelDesemDocenEvalu(true);              
          }else{
-             Utils.sysout("no contiene 5");
              sessionDesempenoProfesor.setEstaPanelDesemDocenEvalu(false);  
          } 
          if(objArr.contains("6")){num++;
-             Utils.sysout("contiene 6");
              sessionDesempenoProfesor.setEstaPanelAreas(true);              
          }else{
-             Utils.sysout("no contiene 6");
              sessionDesempenoProfesor.setEstaPanelAreas(false);  
          }  
         sessionDesempenoProfesor.setColumnsDashboard(num == 1 ? 1 : 2);
@@ -1300,14 +1194,11 @@ public class bDesempenoProfesor {
     }
 
     public void confirmarCorreo(DialogEvent dialogEvent) {
-        Utils.sysout("entro 1");
             DialogEvent.Outcome outcome = dialogEvent.getOutcome();        
             if(outcome == DialogEvent.Outcome.ok){
-                Utils.sysout("entro 2");
                 Utils.showPopUpMIDDLE(popKey);   
             }
             if(outcome == DialogEvent.Outcome.no){
-                Utils.sysout("NO entro");
                 Utils.showPopUpMIDDLE(popKey);   
                 sessionDesempenoProfesor.setTypePopUpCorreo("none");
                 sessionDesempenoProfesor.setLstCorreo(new ArrayList());
@@ -1442,5 +1333,29 @@ public class bDesempenoProfesor {
         if(outcome == DialogEvent.Outcome.no){
             Utils.showPopUpMIDDLE(popCorreo);
         }
+    }
+
+    public void setBtnPDF(RichButton btnPDF) {
+        this.btnPDF = btnPDF;
+    }
+
+    public RichButton getBtnPDF() {
+        return btnPDF;
+    }
+
+    public void setBtnEmail(RichButton btnEmail) {
+        this.btnEmail = btnEmail;
+    }
+
+    public RichButton getBtnEmail() {
+        return btnEmail;
+    }
+
+    public void setPgl1(RichPanelGroupLayout pgl1) {
+        this.pgl1 = pgl1;
+    }
+
+    public RichPanelGroupLayout getPgl1() {
+        return pgl1;
     }
 }

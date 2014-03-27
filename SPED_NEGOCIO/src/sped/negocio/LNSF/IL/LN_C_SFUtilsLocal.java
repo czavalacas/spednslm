@@ -1,5 +1,6 @@
 package sped.negocio.LNSF.IL;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -26,5 +27,6 @@ public interface LN_C_SFUtilsLocal {
     List<BeanCombo> getRolEvaluadores_LN();
     List<BeanCombo> getCursos_LN();
     List<BeanCombo> getGrados_LN();
-    List<BeanComboString> getEstadoEvaluacionFromConstraint();
+    List<BeanComboString> getEstadoEvaluacionFromConstraint();    
+    List<BeanComboString> getListaEstados(String nombreCampo, String nombreTabla);
 }

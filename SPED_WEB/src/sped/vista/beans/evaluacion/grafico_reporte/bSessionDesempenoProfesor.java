@@ -63,6 +63,8 @@ public class bSessionDesempenoProfesor implements Serializable {
     
     private List<String> lstCorreo = new ArrayList();
     private Date fechaActual;
+    private boolean estaBtnPdf=false;
+    private boolean estaBtnEmail=false;
     
     public bSessionDesempenoProfesor() {
     }
@@ -419,5 +421,21 @@ public class bSessionDesempenoProfesor implements Serializable {
 
     public Date getFechaActual() {
         return fechaActual;
+    }
+
+    public void setEstaBtnPdf(boolean estaBtnPdf) {
+        this.estaBtnPdf = estaBtnPdf;
+    }
+
+    public boolean isEstaBtnPdf() {
+        return estaBtnPdf;
+    }
+
+    public void setEstaBtnEmail(boolean estaBtnEmail) {
+        this.estaBtnEmail = estaBtnEmail;
+    }
+
+    public boolean isEstaBtnEmail() {
+        return estaBtnEmail;
     }
 }

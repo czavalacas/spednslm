@@ -1,6 +1,7 @@
 package sped.vista.beans.evaluacion.consulta;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -28,7 +29,10 @@ import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
+import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
@@ -37,6 +41,10 @@ import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
+/** Clase de Respaldo bConsultarPlanificacion.java
+ * @author czavalacas
+ * @since 15.01.2014
+ */
 
 public class bConsultaPlanificacion {
     
@@ -92,50 +100,6 @@ public class bConsultaPlanificacion {
             buscarPlani();
         }        
     }    
-    
-    public ArrayList llenarAreasAcademicas() {
-        ArrayList unItems = new ArrayList();
-        List<BeanAreaAcademica> roles = ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
-        for (BeanAreaAcademica r : roles) {          
-            unItems.add(new SelectItem(r.getNidAreaAcademica().toString(), r.getDescripcionAreaAcademica().toString()));
-        }
-        return unItems;
-    }
-    public ArrayList llenarEstadosEvalu() {
-        ArrayList unItems = new ArrayList();
-        List<BeanConstraint> roles = ln_C_SFUtilsRemote.getListaConstraintsLN("estado_evaluacion", "evmeval");
-        
-        for (BeanConstraint r : roles) {          
-            unItems.add(new SelectItem(r.getDescripcionAMostrar().toString(), r.getDescripcionAMostrar().toString()));
-        }
-        return unItems;
-    }
-    
-    public ArrayList llenarEvaluadores() {
-        ArrayList unItems = new ArrayList();
-        List<BeanUsuario> roles = ln_C_SFUsuarioRemote.getEvaluadores(null);
-        for (BeanUsuario r : roles) {      
-            unItems.add(new SelectItem(r.getNidUsuario().toString(), r.getNombres().toString()));
-        }
-        return unItems;
-    }
-    public ArrayList llenarSedes() {
-        ArrayList unItems = new ArrayList();
-        List<BeanSede> roles = ln_C_SFSedeRemote.getSedeLN();
-        for (BeanSede r : roles) {
-            unItems.add(new SelectItem(r.getNidSede().toString(), r.getDescripcionSede().toString()));
-        }
-        return unItems;
-    }
-    public ArrayList llenarNiveles() {
-        ArrayList unItems = new ArrayList();
-        List<BeanNivel> roles = ln_C_SFNivelRemote.getNivelLN();
-        for (BeanNivel r : roles) {
-            unItems.add(new SelectItem(r.getNidNivel().toString(), r.getDescripcionNivel().toString()));
-        }
-        return unItems;
-    }
-    
 
     public void setSessionConsultarPlanificacion(bSessionConsultarPlanificacion sessionConsultarPlanificacion) {
         this.sessionConsultarPlanificacion = sessionConsultarPlanificacion;
@@ -263,11 +227,11 @@ public class bConsultaPlanificacion {
     public String llenarCombos(){
         
         usuarioEnSesion = (BeanUsuario) Utils.getSession("USER");
-        this.setListaEvaludaoresChoice(llenarEvaluadores());
-        this.setListaSedesChoice(llenarSedes());
-        this.setListaNvelesChoice(llenarNiveles());    
-        this.setListaAreasChoice(llenarAreasAcademicas());
-        this.setListaEstadosChoice(llenarEstadosEvalu());
+        this.setListaEvaludaoresChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadores_LN_WS()));
+        this.setListaSedesChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
+        this.setListaNvelesChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getNiveles_LN()));    
+        this.setListaAreasChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
+        this.setListaEstadosChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getListaEstados("estado_evaluacion", "evmeval")));
         if(usuarioEnSesion.getRol().getNidRol()==5){
             sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
             sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);

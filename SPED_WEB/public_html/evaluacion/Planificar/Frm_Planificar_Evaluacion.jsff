@@ -25,7 +25,7 @@
                                  binding="#{bPlanificarEva.calendar}"
                                  calendarActivityListener="#{bPlanificarEva.abrirPopupEvaluar}"
                                  calendarListener="#{bPlanificarEva.abrirNuevoEvento}"
-                                 inlineStyle="height:550px ;width: inherit"
+                                 inlineStyle="height:550px; width:inherit; font-weight:bold;"
                                  activityStyles="#{bPlanificarEva.activityStyles}">                               
                                   </af:calendar>
                 </f:facet>
@@ -116,14 +116,7 @@
                             </af:gridCell>
                         </af:gridRow>
                     </af:panelGridLayout>
-                </af:panelGroupLayout>
-             <af:panelCollection id="pc1" inlineStyle="width:inherit;">
-                         <f:facet name="menus"/>
-                        <f:facet name="toolbar">
-                            <af:toolbar id="to1">
-                            </af:toolbar>
-                        </f:facet>
-                        <f:facet name="statusbar"/>       
+                </af:panelGroupLayout>            
                 <af:table inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" var="row" rowBandingInterval="0" id="t1" binding="#{bPlanificarEva.tbHorario}"
                           value="#{sessionScope.sessionPlanificarEva.listaHorarios}" varStatus="vs"
                           rowSelection="single" selectionListener="#{bPlanificarEva.seleccionarHorario}">
@@ -159,12 +152,15 @@
                         </af:outputText>
                     </af:column>
                 </af:table>
-                </af:panelCollection>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p2" binding="#{bPlanificarEva.popupDetalleEva}">
-            <af:dialog id="d3" title="Detalle de Evaluacion" type="ok">
-                <af:panelBox text="Descripcion de Evaluacion" id="pb7">
+        <af:popup  autoCancel="disabled" id="p2" binding="#{bPlanificarEva.popupDetalleEva}">
+            <af:dialog id="d3" title="Detalle de Evaluacion" type="ok"  inlineStyle="width:600px;">
+                <af:panelGridLayout id="pgl12">
+                    <af:gridRow marginTop="1px" height="auto" marginBottom="1px" id="gr7">
+                        
+                        <af:gridCell marginStart="1px"  id="gc14">
+                         <af:panelBox text="Descripcion de Evaluacion" id="pb7">
                     <af:panelFormLayout id="pfl12">
                         <af:inputText label="Asignado Por" id="it23" autoSubmit="true" disabled="true"
                                       value="#{sessionScope.sessionPlanificarEva.nombrePlanificador}"/>
@@ -174,7 +170,8 @@
                                       value="#{sessionScope.sessionPlanificarEva.tipoEvaluacion}"/>
                     </af:panelFormLayout>
                 </af:panelBox>
-                <af:panelBox text="Fecha y Hora de Evaluacion" id="pb1">
+                  
+                         <af:panelBox text="Fecha y Hora de Evaluacion" id="pb1">
                     <af:panelFormLayout id="pfl3">
                         <af:inputText label="Fecha " id="inputFecha" autoSubmit="true"
                                       value="#{sessionScope.sessionPlanificarEva.fechaEvaluacionPopup}" disabled="true">
@@ -189,8 +186,11 @@
                             <af:convertDateTime type="date" pattern="hh:mm a"/>
                         </af:inputText>
                     </af:panelFormLayout>
-                </af:panelBox>
-                <af:panelBox text="Lugar de Evaluacion" id="pb2">
+                </af:panelBox>   
+           
+                    
+                     
+                    <af:panelBox text="Lugar de Evaluacion" id="pb2">
                     <af:panelFormLayout id="pfl4">
                         <af:inputText label="Sede" autoSubmit="true" id="it6"
                                       value="#{sessionScope.sessionPlanificarEva.sedeEvaluacion}" disabled="true"/>
@@ -198,7 +198,11 @@
                                       value="#{sessionScope.sessionPlanificarEva.aulaEvaluacion}" disabled="true"/>
                     </af:panelFormLayout>
                 </af:panelBox>
-                <af:panelBox text="Curso a Evaluar" id="pb3">
+                      
+                        </af:gridCell>
+                        
+                        <af:gridCell marginStart="5px" marginEnd="1px" id="gc16">
+                        <af:panelBox text="Curso a Evaluar" id="pb3">
                     <af:panelFormLayout id="pfl5">
                         <af:inputText label="Curso" autoSubmit="true" id="it8"
                                       value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}" disabled="true"/>
@@ -208,7 +212,8 @@
                                       value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}" disabled="true"/>
                     </af:panelFormLayout>
                 </af:panelBox>
-                <af:panelBox text="Docente a Evaluar" id="pb4">
+                     
+                       <af:panelBox text="Docente a Evaluar" id="pb4">
                     <af:panelFormLayout id="pfl6">
                         <af:inputText label="Docente" autoSubmit="true" id="it12"
                                       value="#{sessionScope.sessionPlanificarEva.docenteEvaluacion}" disabled="true"/>
@@ -217,7 +222,8 @@
                                       disabled="true"/>
                     </af:panelFormLayout>
                 </af:panelBox>
-                   <af:panelBox text="Comentarios y/o Sugerencias" id="pb8"
+                  
+                       <af:panelBox text="Comentarios y/o Sugerencias" id="pb8"
                                 binding="#{bPlanificarEva.panelBoxComentYSug}"
                                 visible="#{sessionScope.sessionPlanificarEva.estadoBoxComentarios}">
                     <af:panelFormLayout id="pfl22">
@@ -258,6 +264,14 @@
                                    visible="#{sessionScope.sessionPlanificarEva.estadoBtnSaveJustificaEvalu}"/>
                     </af:panelFormLayout>
                 </af:panelBox>
+                        </af:gridCell>
+                        
+                    </af:gridRow>
+                </af:panelGridLayout>
+               
+                        
+                 
+                                 
                 <af:panelFormLayout id="pfl7">
                     <af:panelGridLayout id="pgl1">
                         <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
@@ -302,16 +316,9 @@
                     <f:selectItems value="#{sessionScope.sessionPlanificarEva.listAreaAcademica}" id="si2"/>
                     <f:selectItem id="it2" itemLabel="Todos" itemValue="0"/>
                 </af:selectOneChoice>
-                <af:spacer width="10" height="10" id="s7"/>
-              <af:panelCollection id="pc2" inlineStyle="width:inherit;">
-                         <f:facet name="menus"/>
-                        <f:facet name="toolbar">
-                            <af:toolbar>
-                            </af:toolbar>
-                        </f:facet>
-                        <f:facet name="statusbar"/>  
+                <af:spacer width="10" height="10" id="s7"/>         
                 <af:table var="row" rowBandingInterval="0" id="t2" varStatus="vs" 
-              width="inherit;" 
+                          inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
                           value="#{sessionScope.sessionPlanificarEva.listBeanUsua}" rowSelection="single"
                           selectionListener="#{bPlanificarEva.seleccionarEvaluador}"
                           binding="#{bPlanificarEva.tbEvaluadores}">
@@ -324,8 +331,7 @@
                     <af:column width="140" sortable="false" headerText="Area Academica" id="c11">
                         <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot10"/>
                     </af:column>  
-                </af:table>                
- </af:panelCollection>
+                </af:table>  
             </af:dialog>
         </af:popup>
         <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p5"
