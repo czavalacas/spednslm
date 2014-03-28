@@ -19,6 +19,7 @@ import javax.persistence.PersistenceContext;
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
+import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUtilsLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
@@ -33,7 +34,7 @@ import sped.negocio.entidades.beans.BeanConstraint;
  */
 @Stateless(name = "LN_C_SFUtils", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFUtils")
 public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote, 
-                                            LN_C_SFUtilsLocal {
+                                         LN_C_SFUtilsLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -41,6 +42,8 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     
     @EJB
     private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
+    @EJB
+    private BDL_C_SFUsuarioLocal bdL_C_SFUsuarioLocal;
     MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFUtilsBean() {
@@ -123,5 +126,6 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     
     public List<BeanComboString> getEstadoEvaluacionFromConstraint(){
         return bdL_C_SFUtilsLocal.getEstadosEvaluacion("e.valorCampo", "e.descripcionAMostrar");
-    }     
+    }
+    
 }

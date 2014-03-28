@@ -1,14 +1,8 @@
 package sped.vista.beans.evaluacion.consulta;
 
-import com.rsa.cryptoj.c.N;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import java.io.OutputStreamWriter;
-
-import java.lang.reflect.Method;
 
 import java.math.BigInteger;
 
@@ -23,21 +17,11 @@ import java.util.List;
 
 import java.util.Locale;
 
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
-import javax.el.ELContext;
-
-import javax.el.ExpressionFactory;
-import java.lang.reflect.*;
-import javax.el.ValueExpression;
-
-import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItems;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -46,13 +30,8 @@ import javax.faces.model.SelectItem;
 
 import jxl.write.WriteException;
 
-import oracle.adf.model.BindingContainer;
-import oracle.adf.model.BindingContext;
-import oracle.adf.model.binding.DCBindingContainer;
-import oracle.adf.share.ADFContext;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.RichSubform;
-import oracle.adf.view.rich.component.rich.data.RichColumn;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
@@ -63,57 +42,29 @@ import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 
 import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
 
-import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
-import oracle.adf.view.rich.component.rich.nav.RichGoLink;
-
 import oracle.adf.view.rich.event.DialogEvent;
-
-import oracle.dms.table.Row;
-
-import oracle.jbo.uicli.binding.JUCtrlHierNodeBinding;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.myfaces.trinidad.component.UIXIterator;
-import org.apache.myfaces.trinidad.model.CollectionModel;
-import org.apache.poi.xwpf.usermodel.Borders;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
-import org.apache.poi.xwpf.usermodel.VerticalAlign;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.apache.poi.xwpf.usermodel.XWPFStyles;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
-
 import sped.negocio.LNSF.IL.LN_C_SFValorLocal;
-import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
-import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.LNSF.IR.LN_C_SFFichaCriterioRemote;
-import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
-import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
-import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
+import sped.negocio.LNSF.IR.LN_C_SFProfesorRemote;
+import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFEvaluacionRemote;
-import sped.negocio.Utils.Utiles;
-import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCriterioIndicador;
-import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanFichaCriterio;
-import sped.negocio.entidades.beans.BeanGrado;
-import sped.negocio.entidades.beans.BeanNivel;
-import sped.negocio.entidades.beans.BeanSede;
-import sped.negocio.entidades.beans.BeanSedeNivel;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
-
-import utils.system;
 
 public class bConsultarEvaluacion {
     
@@ -140,14 +91,6 @@ public class bConsultarEvaluacion {
     @EJB
     private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
     @EJB
-    private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
-    @EJB
-    private LN_C_SFSedeRemote ln_C_SFSedeRemote;
-    @EJB
-    private LN_C_SFCursoRemoto ln_C_SFCursoRemoto;
-    @EJB
-    private LN_C_SFGradoRemote ln_C_SFGradoRemote;
-    @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     @EJB
     private LN_C_SFFichaCriterioRemote ln_C_SFFichaCriterioRemote;
@@ -155,6 +98,10 @@ public class bConsultarEvaluacion {
     private LN_C_SFValorLocal ln_C_SFValorLocal;
     @EJB
     private LN_T_SFEvaluacionRemote ln_T_SFEvaluacionRemote;
+    @EJB
+    private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
+    @EJB
+    private LN_C_SFProfesorRemote ln_C_SFProfesorRemote;
     private RichPanelFormLayout pfl7;
     private RichShowDetail sd1;
     private RichShowDetail sd2;
@@ -177,6 +124,10 @@ public class bConsultarEvaluacion {
             sessionConsultarEvaluacion.setLstGrado(Utils.llenarCombo(ln_C_SFUtilsRemote.getGrados_LN()));
             sessionConsultarEvaluacion.setLstEstadoEvaluacion
                         (Utils.llenarComboString(ln_C_SFUtilsRemote.getEstadoEvaluacionFromConstraint()));
+            sessionConsultarEvaluacion.setItemEvaluador
+                        (Utils.llenarListItem(ln_C_SFUsuarioRemote.getEvaluadores_LN()));
+            sessionConsultarEvaluacion.setItemProfesor
+                        (Utils.llenarListItem(ln_C_SFProfesorRemote.getNombreProfesor_LN()));
             llenarTabla();
         }
     }
@@ -198,17 +149,6 @@ public class bConsultarEvaluacion {
         if(nidRol == 3){
             sessionConsultarEvaluacion.setColumnProfesor(false);
         }        
-    }
-    
-    private ArrayList llenarComboEstadoEvaluacion(){
-        ArrayList unItems = new ArrayList();
-        List<BeanConstraint> lstBeanConstraint = ln_C_SFUtilsRemote.getListaConstraintsLN("estado_evaluacion", 
-                                                                                          "evmeval");
-        for(BeanConstraint c : lstBeanConstraint){
-            unItems.add(new SelectItem(c.getValorCampo(),
-                                       c.getDescripcionAMostrar().toString()));
-        }
-        return unItems;
     }
     
     public void buscarByFiltro(ActionEvent actionEvent) {
@@ -466,6 +406,14 @@ public class bConsultarEvaluacion {
         return fechaHora.format(eva.getStartDate())+" - "+Hora.format(eva.getEndDate());
     }
     
+    public List<SelectItem> suggestEvaluador(String string) {        
+        return Utils.getSuggestions(sessionConsultarEvaluacion.getItemEvaluador(), string);
+    }
+    
+    public List<SelectItem> suggestProfesor(String string) {
+        return Utils.getSuggestions(sessionConsultarEvaluacion.getItemProfesor(), string);
+    }
+    
     public void setSessionConsultarEvaluacion(bSessionConsultarEvaluacion sessionConsultarEvaluacion) {
         this.sessionConsultarEvaluacion = sessionConsultarEvaluacion;
     }
@@ -648,5 +596,5 @@ public class bConsultarEvaluacion {
 
     public String getComentarioProf() {
         return comentarioProf;
-    }   
+    }    
 }

@@ -3,6 +3,11 @@ package sped.vista.beans.evaluacion.consulta;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+
+import oracle.adf.view.rich.model.AutoSuggestUIHints;
+
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
@@ -39,6 +44,8 @@ public class bSessionConsultarEvaluacion {
     private int nidGrado;
     private int estadoEvaluacion;
     private BeanEvaluacion evaluacion;
+    private List<SelectItem> itemProfesor;
+    private List<SelectItem> itemEvaluador;
         
     public bSessionConsultarEvaluacion() {
     }
@@ -265,5 +272,21 @@ public class bSessionConsultarEvaluacion {
 
     public BeanEvaluacion getEvaSelect() {
         return evaSelect;
+    }
+
+    public void setItemProfesor(List<SelectItem> itemProfesor) {
+        this.itemProfesor = itemProfesor;
+    }
+
+    public List<SelectItem> getItemProfesor() {
+        return itemProfesor;
+    }
+
+    public void setItemEvaluador(List<SelectItem> itemEvaluador) {
+        this.itemEvaluador = itemEvaluador;
+    }
+
+    public List<SelectItem> getItemEvaluador() {
+        return itemEvaluador;
     }
 }
