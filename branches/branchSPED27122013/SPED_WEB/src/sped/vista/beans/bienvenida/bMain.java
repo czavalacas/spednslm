@@ -67,6 +67,7 @@ public class bMain implements Serializable {
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
     private RichImage i2;
+    private RichImage imgNoti;
 
     public bMain(){
         super();
@@ -113,6 +114,7 @@ public class bMain implements Serializable {
             if (menuItem.getListaHijos().size() > 0) {
                 RichMenu menu2 = new RichMenu();
                 menu2.setId("hijosDe_" + menuItem.getNidPermiso());
+                menu2.setInlineStyle("color:rgb(102,98,96);");
                 menu2.setText(menuItem.getDescripcionPermiso());//menu2.setIcon("/recursos/img/usuarios/comment.png");//menuItem.getUrlIcono()
                 if (hijoDeMBar == 0) { //Es hijo directamente del menubar
                     menu.getChildren().add(menu2);
@@ -128,6 +130,7 @@ public class bMain implements Serializable {
             RichCommandMenuItem rcni = new RichCommandMenuItem();
             rcni.setText(menuItem.getDescripcionPermiso());
             rcni.setId("menu" + menuItem.getNidPermiso());
+            rcni.setInlineStyle("color:rgb(102,98,96);");
             rcni.setShortDesc(menuItem.getUrl());
             rcni.setImmediate(true);//rcni.setIcon("/recursos/img/usuarios/comment.png");//menuItem.getUrlIcono()
             try {
@@ -223,15 +226,18 @@ public class bMain implements Serializable {
                 cantNotif.setVisible(true);
                 if(sessionMain.getCantNotif() != sessionMain.getCantNotifAux()){
                     Utils.llamarJavascript("reproducirNotificacion");
+                    sessionMain.setImagenNoti("../recursos/img/usuarios/ojosO.png");
                     Utils.sysout("play buhoo");
                     sessionMain.setCantNotifAux(sessionMain.getCantNotif());
                 }
             }else{
                 sessionMain.setCantNotif(0);
+                sessionMain.setImagenNoti("../recursos/img/usuarios/ojosU.png");
                 cantNotif.setValue(0);
                 cantNotif.setVisible(false);
             }
-            Utils.addTarget(cantNotif);
+            imgNoti.setSource(sessionMain.getImagenNoti());
+            Utils.addTargetMany(imgNoti,cantNotif);
             if(clCantPO != null){
                 clCantPO.setText("Hay "+sessionMain.getCantNotifPO()+" Notificaciones de Partes de Ocurrencia");
                 Utils.addTarget(clCantPO);
@@ -320,5 +326,13 @@ public class bMain implements Serializable {
 
     public BeanUsuario getBeanUsuario() {
         return beanUsuario;
+    }
+
+    public void setImgNoti(RichImage imgNoti) {
+        this.imgNoti = imgNoti;
+    }
+
+    public RichImage getImgNoti() {
+        return imgNoti;
     }
 }

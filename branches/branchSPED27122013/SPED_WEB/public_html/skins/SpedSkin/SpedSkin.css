@@ -134,3 +134,27 @@ af|menu:depressed::bar-item-open-icon-style {
 af|menu::submenu-open-icon-style {
     background-image: url("/recursos/img/usuarios/down.png"); 
 }*/
+
+af|commandMenuItem::menu-item-text {
+    color: #666361; 
+}
+
+af|commandMenuItem::bar-item-text {
+    color: #666361; 
+}
+
+af|menu::bar-item-text {
+    color: #666361; 
+}
+
+af|menu::bar-item {
+    color: #666361; 
+}
+
+af|commandMenuItem::menu-item {
+    color: #666361; 
+}
+
+af|commandMenuItem::bar-item {
+    color: #666361; 
+}
