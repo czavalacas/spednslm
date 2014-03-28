@@ -13,4 +13,5 @@ public interface BDL_C_SFProfesorRemote {
     List<Profesor> findProfesorPorSede_ByOrden(String nidSede, String nidArea, String nidCurso, String nidNivel, String nidGrado); 
     List<Profesor>  getProfesores();
     int existeDni(String dni);
+    List getNombreProfesor();
 }

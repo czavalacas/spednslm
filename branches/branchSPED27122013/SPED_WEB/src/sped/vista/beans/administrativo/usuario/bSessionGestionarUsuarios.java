@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bSessionGestionarUsuarios implements Serializable {
@@ -48,6 +50,9 @@ public class bSessionGestionarUsuarios implements Serializable {
     private List<BeanUsuario> lstUsuario;
     private List lstSede;
     private List lstNivel;
+    private List<SelectItem> itemDni;
+    private List<SelectItem> itemUsuario;
+    private List<SelectItem> itemNombre;
 
     public bSessionGestionarUsuarios() {
     }
@@ -346,5 +351,29 @@ public class bSessionGestionarUsuarios implements Serializable {
 
     public String getCorreo() {
         return correo;
+    }
+
+    public void setItemDni(List<SelectItem> itemDni) {
+        this.itemDni = itemDni;
+    }
+
+    public List<SelectItem> getItemDni() {
+        return itemDni;
+    }
+
+    public void setItemUsuario(List<SelectItem> itemUsuario) {
+        this.itemUsuario = itemUsuario;
+    }
+
+    public List<SelectItem> getItemUsuario() {
+        return itemUsuario;
+    }
+
+    public void setItemNombre(List<SelectItem> itemNombre) {
+        this.itemNombre = itemNombre;
+    }
+
+    public List<SelectItem> getItemNombre() {
+        return itemNombre;
     }
 }

@@ -27,4 +27,8 @@ public interface LN_C_SFUsuarioRemote {
     BeanUsuario findConstrainByIdLN(int id);
     String getNombresUsuarioByNidUsuario_LN(int nidUsuario);
     List<BeanUsuario> getListUsuarioNoAdminLN();
+    List getEvaluadores_LN();
+    List getDniUsuarios_LN();
+    List getNombresUsuarios_LN();
+    List getUsuarioUsuarios_LN();
 }

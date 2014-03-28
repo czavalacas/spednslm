@@ -2,7 +2,7 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core">
     <f:view>
-        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 30px;">
             <af:panelGroupLayout halign="left">
                 <af:spacer height="10"/>
                 <af:outputText value="Registrar Usuario" id="otTituloU" styleClass="titulos"/>
@@ -14,7 +14,10 @@
                         <af:gridCell marginStart="5px" width="250px" id="gc1">
                             <af:panelFormLayout id="pfl2">
                                 <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;"
-                                              value="#{sessionGestionarUsuarios.FNombres}"/>
+                                              value="#{sessionGestionarUsuarios.FNombres}">
+                                    <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                            suggestedItems="#{bGestionarUsuarios.suggestNombre}"/>
+                                </af:inputText>
                                 <af:selectOneChoice label="Vigencia " value="#{sessionGestionarUsuarios.FNidEstado}"
                                                     id="choiceFTipoEstado" autoSubmit="true"
                                                     labelStyle="text-align: left;"
@@ -28,7 +31,10 @@
                         <af:gridCell marginStart="5px" width="250px" id="gc2">
                             <af:panelFormLayout id="pfl3" binding="#{bGestionarUsuarios.pfl3}">
                                 <af:inputText label="Usuario " id="it2" labelStyle="text-align: left;"
-                                              value="#{sessionScope.sessionGestionarUsuarios.FUsuario}"/>
+                                              value="#{sessionScope.sessionGestionarUsuarios.FUsuario}">
+                                    <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                            suggestedItems="#{bGestionarUsuarios.suggestUsuario}"/>
+                                </af:inputText>
                                 <af:selectOneChoice label="Rol " value="#{sessionGestionarUsuarios.FNidRol}"
                                                     id="choiceFTipoRol" autoSubmit="true" labelStyle="text-align: left;"
                                                     binding="#{bGestionarUsuarios.choiceFTipoRol}"
@@ -49,7 +55,10 @@
                         <af:gridCell marginStart="5px" width="250px" id="gc3">
                             <af:panelFormLayout id="pfl4">
                                 <af:inputText label="Dni " id="it3" labelStyle="text-align: left;"
-                                              value="#{sessionScope.sessionGestionarUsuarios.FDni}"/>
+                                              value="#{sessionScope.sessionGestionarUsuarios.FDni}">
+                                    <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                            suggestedItems="#{bGestionarUsuarios.suggestDni}"/>
+                                </af:inputText>
                                 <af:selectOneChoice label="Area " value="#{sessionGestionarUsuarios.FNidAreaAcademica}"
                                                     id="choiceFTipoArea" autoSubmit="true"
                                                     labelStyle="text-align: left;"
@@ -84,10 +93,10 @@
                     <af:toolbar id="t1"></af:toolbar>
                 </f:facet>
                 <f:facet name="statusbar"/>
-                <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" id="t2"
-                          binding="#{bGestionarUsuarios.t1}" rowSelection="single" fetchSize="50"
-                          inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
-                          selectionListener="#{bGestionarUsuarios.selecionarUsuario}" columnStretching="column:c1">
+                <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" 
+                          id="t2" width="inherit;" fetchSize="50" 
+                          binding="#{bGestionarUsuarios.t1}" rowSelection="single" 
+                          selectionListener="#{bGestionarUsuarios.selecionarUsuario}" >
                     <af:column sortable="true" headerText="Nombre y Apellidos" align="start" id="c1"
                                sortProperty="nombres">
                         <af:outputText value="#{row.nombres}" id="ot1"/>

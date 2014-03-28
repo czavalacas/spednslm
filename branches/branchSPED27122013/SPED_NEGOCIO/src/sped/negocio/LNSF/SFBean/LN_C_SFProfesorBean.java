@@ -111,4 +111,8 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
         return bdl_C_SFProfesorLocal.existeDni(dni) > 0 ? true : false;
     }
     
+    public List getNombreProfesor_LN(){
+        return bdl_C_SFProfesorLocal.getNombreProfesor();
+    }
+    
 }

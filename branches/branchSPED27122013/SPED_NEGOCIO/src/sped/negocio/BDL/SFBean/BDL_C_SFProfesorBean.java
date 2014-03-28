@@ -116,4 +116,16 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
         }   
         }
     
+    public List getNombreProfesor(){
+        try{
+            String ejbQl = " SELECT CONCAT(pro.nombres,' ',pro.apellidos) As Nombre" +
+                           " FROM Profesor pro " +
+                           " ORDER BY Nombre ASC";   
+            List lst = em.createQuery(ejbQl).getResultList();
+            return lst;
+        }catch(Exception e){
+            return null;
+        }
+    }
+    
 }
