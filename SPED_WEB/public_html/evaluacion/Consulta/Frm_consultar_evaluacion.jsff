@@ -68,9 +68,15 @@
                                        binding="#{bConsultarEvaluacion.si4}"/>
                     </af:selectOneChoice>
                     <af:inputText label="Profesor" id="itProfesor"
-                                  value="#{sessionConsultarEvaluacion.nombreProfesor}"/>
+                                  value="#{sessionConsultarEvaluacion.nombreProfesor}">
+                        <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                suggestedItems="#{bConsultarEvaluacion.suggestProfesor}"/>
+                    </af:inputText>
                     <af:inputText label="Evaluador" id="itEvaluador"
-                                  value="#{sessionConsultarEvaluacion.nombreEvaluador}"/>
+                                  value="#{sessionConsultarEvaluacion.nombreEvaluador}">
+                        <af:autoSuggestBehavior  maxSuggestedItems="5"
+                                                 suggestedItems="#{bConsultarEvaluacion.suggestEvaluador}"/>
+                    </af:inputText>
                     <af:selectOneChoice label="Grado" value="#{sessionConsultarEvaluacion.nidGrado}" id="choiceFGrado"
                                         binding="#{bConsultarEvaluacion.choiceFGrado}" autoSubmit="true"
                                         labelStyle="text-align: left;">

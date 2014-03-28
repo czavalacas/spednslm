@@ -118,9 +118,12 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN());
             sessionGestionarUsuarios.setLstRol(this.llenarComboRol(1));
             sessionGestionarUsuarios.setLstRolf(this.llenarComboRol(2));
-            sessionGestionarUsuarios.setLstAreaAcademica(this.llenarComboAreaA());
+            sessionGestionarUsuarios.setLstAreaAcademica(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
             sessionGestionarUsuarios.setLstEstadoUsario(this.llenarComboEstado());
-            sessionGestionarUsuarios.setLstSede(this.llenarComboSede());
+            sessionGestionarUsuarios.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
+            sessionGestionarUsuarios.setItemDni(Utils.llenarListItem(ln_C_SFUsuarioRemote.getDniUsuarios_LN()));
+            sessionGestionarUsuarios.setItemNombre(Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN()));
+            sessionGestionarUsuarios.setItemUsuario(Utils.llenarListItem(ln_C_SFUsuarioRemote.getUsuarioUsuarios_LN()));
         } else {
         }
     }
@@ -138,16 +141,6 @@ public class bGestionarUsuarios {
         return unItems;
     }
     
-    private ArrayList llenarComboAreaA() {
-        ArrayList unItems = new ArrayList();
-        List<BeanAreaAcademica> beanAreaA = ln_C_SFAreaAcademicaRemote.getAreaAcademicaLN();
-        for(BeanAreaAcademica a : beanAreaA){
-            unItems.add(new SelectItem(a.getNidAreaAcademica(), 
-                                       a.getDescripcionAreaAcademica().toString()));
-        }
-        return unItems;
-    }
-    
     private ArrayList llenarComboEstado(){
         ArrayList unItems = new ArrayList();
         List<BeanConstraint> lstbean = ln_C_SFUtilsRemote.getListaConstraintsLN("estado_usuario", "admusua");
@@ -155,16 +148,6 @@ public class bGestionarUsuarios {
             int valorCampo = Integer.parseInt(bc.getValorCampo())+1;//(0 y 1)aumento +1 para poder validar el estado usuario(1 y 2)
             unItems.add(new SelectItem(valorCampo,
                                        bc.getDescripcionAMostrar()));
-        }
-        return unItems;
-    }
-    
-    private ArrayList llenarComboSede(){
-        ArrayList unItems = new ArrayList();
-        List<BeanSede> lstbean = ln_C_SFSedeRemote.getSedeLN();
-        for(BeanSede b : lstbean){            
-            unItems.add(new SelectItem(b.getNidSede(),
-                                       b.getDescripcionSede().toString()));
         }
         return unItems;
     }
@@ -440,6 +423,18 @@ public class bGestionarUsuarios {
             output.close();
     }
 
+    public List<SelectItem> suggestNombre(String string) {
+        return Utils.getSuggestions(sessionGestionarUsuarios.getItemNombre(), string);
+    }
+
+    public List<SelectItem> suggestUsuario(String string) {
+        return Utils.getSuggestions(sessionGestionarUsuarios.getItemUsuario(), string);
+    }
+
+    public List<SelectItem> suggestDni(String string) {
+        return Utils.getSuggestions(sessionGestionarUsuarios.getItemDni(), string);
+    }
+    
     public void setB1(RichButton b1) {
         this.b1 = b1;
     }
@@ -711,4 +706,5 @@ public class bGestionarUsuarios {
     public RichInputText getItCor() {
         return itCor;
     }
+    
 }

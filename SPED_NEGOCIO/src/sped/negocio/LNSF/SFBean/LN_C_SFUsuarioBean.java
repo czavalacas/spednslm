@@ -1,7 +1,6 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +26,10 @@ import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLogLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
-import sped.negocio.Utils.MyBase64;
-import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
-import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanUsuario;
-import sped.negocio.entidades.sist.Log;
 
 /**
  * C;ase de Logica de Negocio que implementa los metodos relacionados con la Entidad Usuario: admusua
@@ -231,5 +226,21 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
         }catch(Exception e){
             return new ArrayList<BeanUsuario>();
         }
-    }    
+    } 
+    
+    public List getEvaluadores_LN(){
+        return bdL_C_SFUsuarioLocal.getEvaluadores();
+    }
+    
+    public List getDniUsuarios_LN(){
+        return bdL_C_SFUsuarioLocal.getDniUsuarios();
+    }
+    
+    public List getNombresUsuarios_LN(){
+        return bdL_C_SFUsuarioLocal.getNombresUsuarios();
+    }   
+
+    public List getUsuarioUsuarios_LN(){
+        return bdL_C_SFUsuarioLocal.getUsuarioUsuarios();
+    }
 }

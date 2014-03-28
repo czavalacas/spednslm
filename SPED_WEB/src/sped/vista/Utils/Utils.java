@@ -300,4 +300,26 @@ public class Utils {
         }
     }
     
+    public static List<SelectItem> llenarListItem(List lst){
+        List<SelectItem> lstItems  = new ArrayList<SelectItem>();
+        for(Object dato : lst){
+            lstItems.add(new SelectItem(dato.toString()));
+        }
+        return lstItems;
+    }
+    
+    public static List<SelectItem> getSuggestions(List<SelectItem> lstSI, String dato){
+        int maxSuggestedItems = 5; //este dato debe ser = al del autoSuggest; sirve para validar lo necesario
+        List<SelectItem> items = new ArrayList<SelectItem>();
+        for(SelectItem item : lstSI){
+            if(item.getLabel().toUpperCase().contains(dato.toUpperCase())){
+                items.add(item);
+            }
+            if(items.size() == maxSuggestedItems){
+                break;
+            } 
+        }
+        return items;
+    }
+    
 }
