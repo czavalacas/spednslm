@@ -18,6 +18,15 @@ public class bSessionMain {
     private boolean verNotificacionesEvas;
     private boolean verNotificacionesPOs;
     private int cantNotifAux;
+    private String imagenNoti =  "../recursos/img/usuarios/ojosU.png";
+
+    public void setImagenNoti(String imagenNoti) {
+        this.imagenNoti = imagenNoti;
+    }
+
+    public String getImagenNoti() {
+        return imagenNoti;
+    }
 
     public void setCantNotifAux(int cantNotifAux) {
         this.cantNotifAux = cantNotifAux;

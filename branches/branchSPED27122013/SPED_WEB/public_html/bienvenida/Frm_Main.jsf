@@ -13,8 +13,9 @@
                                                 inlineStyle="border-top-width:thick; background-image:url(&quot;../recursos/img/layout/bar.jpg&quot;); background-repeat:repeat-x;">
                                 <af:gridRow marginTop="0px" height="auto" id="gr1">
                                     <af:gridCell marginStart="1px" width="auto" id="gc1">
-                                        <af:panelFormLayout maxColumns="2" rows="1" inlineStyle="margin:5px 0px 0px 0px;">
-                                            <af:image source="/recursos/img/layout/logo.png" inlineStyle="margin:0px 0px 0px 40px;" />
+                                        <af:panelFormLayout maxColumns="3" rows="1" inlineStyle="margin:5px 0px 0px 0px;">
+                                            <af:image source="/recursos/img/layout/_logo.png" inlineStyle="height:47px;width:65px;margin:-4px 0px 0px 20px;" />
+                                            <af:image source="/recursos/img/layout/logotipo.png" inlineStyle="height:45px;width:200px;margin:0px 0px 0px -60px;" />
                                             <af:menuBar id="menu" var="item" binding="#{bMain.menu}" inlineStyle="margin:10px -300px 0px 0px;"/>
                                         </af:panelFormLayout>
                                         
@@ -29,19 +30,19 @@
                                                                     rendered="#{sessionScope.sessionMain.verNotificaciones}"
                                                                     id="cantNotif" binding="#{bMain.cantNotif}"
                                                                     styleClass="arriba"/>
-                                                    <af:image source="../recursos/img/usuarios/notifications.png"
-                                                              id="i3"
+                                                    <af:image source="#{sessionScope.sessionMain.imagenNoti}"
+                                                              id="imgNoti"
                                                               rendered="#{sessionScope.sessionMain.verNotificaciones}"
-                                                              inlineStyle="height:20px; width:20px; margin:15px 10px 0px -20px; background-size:inherit; background-repeat:repeat;"
-                                                              styleClass="abajo">
+                                                              inlineStyle="height:26px; width:47px; margin:15px 10px 0px -48px; background-size:inherit; background-repeat:repeat;"
+                                                              styleClass="abajo" binding="#{bMain.imgNoti}">
                                                         <af:showPopupBehavior popupId="popNotif" triggerType="click"
-                                                                              alignId="i3" align="afterStart"/>
+                                                                              alignId="imgNoti" align="afterStart"/>
                                                     </af:image>
                                                 </af:gridCell>
                                                 <af:gridCell width="auto" halign="stretch" valign="middle">
                                                     <af:panelFormLayout maxColumns="1" rows="2" inlineStyle="margin:5px 0px 0px 0px;">
-                                                        <af:outputLabel value="#{bMain.beanUsuario.nombres}" id="ol1"/>
-                                                        <af:outputLabel value="#{bMain.beanUsuario.rol.descripcionRol}"/>
+                                                        <af:outputLabel value="#{bMain.beanUsuario.nombres}" inlineStyle="color:rgb(102,98,96)" id="ol1"/>
+                                                        <af:outputLabel value="#{bMain.beanUsuario.rol.descripcionRol}" inlineStyle="color:rgb(102,98,96)"/>
                                                     </af:panelFormLayout>
                                                 </af:gridCell>
                                                 <af:gridCell valign="middle" width="auto" halign="end">
