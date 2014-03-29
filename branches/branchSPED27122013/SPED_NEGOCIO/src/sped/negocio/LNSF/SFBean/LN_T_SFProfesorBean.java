@@ -12,9 +12,11 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import sped.negocio.BDL.IL.BDL_C_SFRolPermisoLocal;
 import sped.negocio.BDL.IL.BDL_T_SFCursoLocal;
 import sped.negocio.BDL.IL.BDL_T_SFProfesorLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
+import sped.negocio.BDL.IL.BDL_T_SFUsuarioPermisoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFProfesorLocal;
 import sped.negocio.LNSF.IR.LN_T_SFProfesorRemoto;
@@ -25,7 +27,10 @@ import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanProfesor;
+import sped.negocio.entidades.sist.Permiso;
 import sped.negocio.entidades.sist.Rol;
+import sped.negocio.entidades.sist.RolPermiso;
+import sped.negocio.entidades.sist.UsuarioPermiso;
 
 @Stateless(name = "LN_T_SFProfesor", mappedName = "map-LN_T_SFProfesor")
 public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto, 
@@ -40,6 +45,10 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
     private LN_C_SFErrorLocal ln_C_SFErrorLocal;
     @EJB
     private BDL_T_SFUsuarioLocal bdl_T_SFUsuarioLocal;
+    @EJB
+    private BDL_C_SFRolPermisoLocal bdl_C_SFRolPermisoLocal;
+    @EJB
+    private BDL_T_SFUsuarioPermisoLocal bdl_T_SFUsuarioPermisoLocal;
 
     public LN_T_SFProfesorBean() {
     }
@@ -66,6 +75,27 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
                 usua.setEstadoUsuario("1");
                 usua.setClave("123");
                 bdl_T_SFUsuarioLocal.persistUsuario(usua);
+               
+                Rol rol=new Rol();
+                rol.setNidRol(3);
+                List<RolPermiso> lstPermXRoL=bdl_C_SFRolPermisoLocal.getPermisosByRolBDL(rol);
+                for(int j=0; j<lstPermXRoL.size(); j++){ 
+                UsuarioPermiso usrpe=new UsuarioPermiso();
+                Usuario usu=new Usuario();
+                usu.setNidUsuario(usua.getNidUsuario());
+                usrpe.setUsuario(usu);
+                usrpe.setEstado("1");
+                    RolPermiso rope=new RolPermiso();
+                    Rol rol2=new Rol();
+                    rol2.setNidRol(lstPermXRoL.get(j).getRol().getNidRol());
+                    Permiso perm=new Permiso();
+                    perm.setNidPermiso(lstPermXRoL.get(j).getPermiso().getNidPermiso());
+                    rope.setRol(rol2);
+                    rope.setPermiso(perm);                
+                    usrpe.setRolPermiso(rope);
+                    bdl_T_SFUsuarioPermisoLocal.persistUsuarioPermiso(usrpe); 
+              }
+                
             }
         }catch (Exception e) {            
         e.printStackTrace();
