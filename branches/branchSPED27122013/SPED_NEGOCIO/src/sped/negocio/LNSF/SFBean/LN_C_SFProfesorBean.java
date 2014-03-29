@@ -43,7 +43,7 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
     public LN_C_SFProfesorBean() {
     }
     
-    /*public List<BeanProfesor> getProfesoresLN(){        
+    public List<BeanProfesor> getProfesoresLN2(){        
         List<BeanProfesor> lstBean = new ArrayList();
         List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.getProfesores();
         for(Profesor a : lstProfesores){
@@ -51,7 +51,7 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
             lstBean.add(bean);
         }
         return lstBean;
-    }*/
+    }
     
     public List<BeanComboString> getProfesoresLN(){        
             List<BeanComboString> lstBean = new ArrayList<BeanComboString>();

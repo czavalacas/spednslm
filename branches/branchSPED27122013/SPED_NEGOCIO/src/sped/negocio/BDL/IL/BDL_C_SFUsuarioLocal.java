@@ -28,4 +28,5 @@ public interface BDL_C_SFUsuarioLocal {
     List getDniUsuarios();
     List getNombresUsuarios();
     List getUsuarioUsuarios();
+    List<Usuario> getUsuarioTipoProfesor();
 }
