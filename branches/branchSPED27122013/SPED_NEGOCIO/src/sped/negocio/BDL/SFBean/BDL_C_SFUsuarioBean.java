@@ -260,70 +260,82 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     }
     
     /**
-     * Metodo que retorna una lista con los nombres de los evaluadores
-     * @return List
-     */
-    public List getEvaluadores(){
-        try{
-            String qlString = " Select e.nombres FROM Usuario e " +
-                              " WHERE e.rol.nidRol = 2 OR " +
-                              " e.rol.nidRol = 4 OR "+
-                              " e.rol.nidRol = 5 " +
-                              " ORDER BY e.nombres ASC ";
-            List lstUsuarios = em.createQuery(qlString).getResultList();        
-            return lstUsuarios;       
-        }catch(Exception e){
-            e.printStackTrace();  
-            return null;
+         * Metodo que retorna una lista con los nombres de los evaluadores
+         * @return List
+         */
+        public List getEvaluadores(){
+            try{
+                String qlString = " Select e.nombres FROM Usuario e " +
+                                  " WHERE e.rol.nidRol = 2 OR " +
+                                  " e.rol.nidRol = 4 OR "+
+                                  " e.rol.nidRol = 5 " +
+                                  " ORDER BY e.nombres ASC ";
+                List lstUsuarios = em.createQuery(qlString).getResultList();        
+                return lstUsuarios;       
+            }catch(Exception e){
+                e.printStackTrace();  
+                return null;
+            }
         }
-    }
     
     /**
-     * Metodo que retorna una lista con los dni de los usuarios
-     * @return List
-     */
-    public List getDniUsuarios(){
-        try{
-            String qlString = " Select e.dni FROM Usuario e " +
-                              " ORDER BY e.dni ASC ";
-            List lstdni = em.createQuery(qlString).getResultList();        
-            return lstdni;       
-        }catch(Exception e){
-            e.printStackTrace();  
-            return null;
+         * Metodo que retorna una lista con los dni de los usuarios
+         * @return List
+         */
+        public List getDniUsuarios(){
+            try{
+                String qlString = " Select e.dni FROM Usuario e " +
+                                  " ORDER BY e.dni ASC ";
+                List lstdni = em.createQuery(qlString).getResultList();        
+                return lstdni;       
+            }catch(Exception e){
+                e.printStackTrace();  
+                return null;
+            }
         }
-    }
-    
-    /**
-     * Metodo que retorna una lista con los nombres de los usuarios
-     * @return List
-     */
-    public List getNombresUsuarios(){
-        try{
-            String qlString = " Select e.nombres FROM Usuario e " +
-                              " ORDER BY e.nombres ASC ";
-            List lstnom = em.createQuery(qlString).getResultList();        
-            return lstnom;       
-        }catch(Exception e){
-            e.printStackTrace();  
-            return null;
+        
+        /**
+         * Metodo que retorna una lista con los nombres de los usuarios
+         * @return List
+         */
+        public List getNombresUsuarios(){
+            try{
+                String qlString = " Select e.nombres FROM Usuario e " +
+                                  " ORDER BY e.nombres ASC ";
+                List lstnom = em.createQuery(qlString).getResultList();        
+                return lstnom;       
+            }catch(Exception e){
+                e.printStackTrace();  
+                return null;
+            }
         }
-    }
-    
-    /**
-     * Metodo que retorna una lista con los nombres de usuario de los Usuarios
-     * @return List
-     */
-    public List getUsuarioUsuarios(){
-        try{
-            String qlString = " Select e.usuario FROM Usuario e " +
-                              " ORDER BY e.usuario ASC ";
-            List lstnom = em.createQuery(qlString).getResultList();        
-            return lstnom;       
-        }catch(Exception e){
-            e.printStackTrace();  
-            return null;
+        
+        /**
+         * Metodo que retorna una lista con los nombres de usuario de los Usuarios
+         * @return List
+         */
+        public List getUsuarioUsuarios(){
+            try{
+                String qlString = " Select e.usuario FROM Usuario e " +
+                                  " ORDER BY e.usuario ASC ";
+                List lstnom = em.createQuery(qlString).getResultList();        
+                return lstnom;       
+            }catch(Exception e){
+                e.printStackTrace();  
+                return null;
+            }
         }
+        
+    public List<Usuario> getUsuarioTipoProfesor() {
+        List<Usuario> lstUsuario = null;
+        try {
+            String strQuery = "SELECT u " + 
+                              "FROM Usuario u " + 
+                              "where u.rol.nidRol=3";
+            lstUsuario = em.createQuery(strQuery).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lstUsuario;
     }
-    
 }

@@ -28,4 +28,5 @@ public interface BDL_C_SFUsuarioRemote {
     List getDniUsuarios();
     List getNombresUsuarios();
     List getUsuarioUsuarios();
+    List<Usuario> getUsuarioTipoProfesor();
 }
