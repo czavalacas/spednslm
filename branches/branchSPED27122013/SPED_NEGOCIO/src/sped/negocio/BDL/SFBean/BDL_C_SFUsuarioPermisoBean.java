@@ -69,5 +69,4 @@ public class BDL_C_SFUsuarioPermisoBean implements BDL_C_SFUsuarioPermisoRemote,
         return up;            
     }
     
-    
 }
