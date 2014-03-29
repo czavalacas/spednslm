@@ -14,15 +14,18 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_T_SFCursoLocal;
 import sped.negocio.BDL.IL.BDL_T_SFProfesorLocal;
+import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFProfesorLocal;
 import sped.negocio.LNSF.IR.LN_T_SFProfesorRemoto;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Profesor;
+import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanProfesor;
+import sped.negocio.entidades.sist.Rol;
 
 @Stateless(name = "LN_T_SFProfesor", mappedName = "map-LN_T_SFProfesor")
 public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto, 
@@ -35,6 +38,8 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
     private BDL_T_SFProfesorLocal bdl_T_SFProfesorLocal;
     @EJB
     private LN_C_SFErrorLocal ln_C_SFErrorLocal;
+    @EJB
+    private BDL_T_SFUsuarioLocal bdl_T_SFUsuarioLocal;
 
     public LN_T_SFProfesorBean() {
     }
@@ -49,6 +54,18 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
                 prof.setNombres(listaProfesores.get(i).getNombres());
                 prof.setApellidos(listaProfesores.get(i).getApellidos());
                 bdl_T_SFProfesorLocal.persistProfesor(prof);
+                
+                
+           Usuario usua=new Usuario();
+                Rol role=new Rol();
+                role.setNidRol(3);
+                usua.setRol(role);
+                usua.setNombres(listaProfesores.get(i).getNombres()+" "+listaProfesores.get(i).getApellidos());
+                usua.setDni(listaProfesores.get(i).getDniProfesor());
+                usua.setUsuario(listaProfesores.get(i).getDniProfesor());
+                usua.setEstadoUsuario("1");
+                usua.setClave("123");
+                bdl_T_SFUsuarioLocal.persistUsuario(usua);
             }
         }catch (Exception e) {            
         e.printStackTrace();
