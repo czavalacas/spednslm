@@ -37,6 +37,7 @@ import sped.negocio.LNSF.IR.LN_T_SFAreaAcademicaRemoto;
 import sped.negocio.LNSF.IR.LN_T_SFAulaRemoto;
 import sped.negocio.LNSF.IR.LN_T_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_T_SFProfesorRemoto;
+import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanCurso;
@@ -69,6 +70,8 @@ public class bMigrarExcel {
     private LN_C_SFProfesorRemote ln_C_SFProfesorRemote;
     @EJB
     private LN_T_SFProfesorRemoto ln_T_SFProfesorRemoto;
+    @EJB
+    private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
         
     private bSessionMigrarExcel sessionMigrarExcel;
     private RichSelectOneChoice choiceSede;
@@ -297,7 +300,7 @@ public class bMigrarExcel {
     }
     
     private void insertarProfesores(List sheetData) {
-        List<BeanProfesor> listProfesoresAInsertar = new ArrayList<BeanProfesor>();
+        List<BeanProfesor> listProfesoresAInsertar = new ArrayList<BeanProfesor>();        
         for (int i = 0; i < sheetData.size(); i++) {         
             List list = (List) sheetData.get(i);
             if (!list.isEmpty()) {
@@ -311,13 +314,16 @@ public class bMigrarExcel {
                  listProfesoresAInsertar.add(profe);
                 }
             }
-        }
-        List<BeanProfesor> listaActual = ln_C_SFProfesorRemote.getProfesoresLN();
+        }  
+        
+        ln_T_SFUsuarioRemote.cambiarEstadoUsuarioProfesores(listProfesoresAInsertar);
+        
+        List<BeanProfesor> listaActual = ln_C_SFProfesorRemote.getProfesoresLN2();    
         if (listaActual != null) {
             for (int j = 0; j < listaActual.size(); j++) {
                 for (int i = 0; i < listProfesoresAInsertar.size(); i++) {
                     if (listaActual.get(j).getDniProfesor().equals(listProfesoresAInsertar.get(i).getDniProfesor())) {
-                        listProfesoresAInsertar.remove(i);
+                        listProfesoresAInsertar.remove(i);                        
                         System.out.println("QUITO:");
                     }
                 }
@@ -329,7 +335,7 @@ public class bMigrarExcel {
         } else {
             ln_T_SFProfesorRemoto.grabarProfesoresNuevos(listProfesoresAInsertar);
         }
-
+        
         System.out.println("TAMAÑO DE LA LISTA DE CURSOS : " + listProfesoresAInsertar.size());
     }
     
