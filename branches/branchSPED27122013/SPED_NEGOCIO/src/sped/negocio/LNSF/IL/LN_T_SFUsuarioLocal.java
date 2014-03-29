@@ -1,6 +1,10 @@
 package sped.negocio.LNSF.IL;
 
+import java.util.List;
+
 import javax.ejb.Local;
+
+import sped.negocio.entidades.beans.BeanProfesor;
 
 @Local
 public interface LN_T_SFUsuarioLocal {
@@ -19,4 +23,5 @@ public interface LN_T_SFUsuarioLocal {
                                     String clave,
                                     String correo,
                                     String rutaImg);
+    String cambiarEstadoUsuarioProfesores(List<BeanProfesor> listprofesores);
 }

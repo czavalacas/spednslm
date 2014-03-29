@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import javax.ejb.EJB;
@@ -16,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFAreaAcademicaLocal;
+import sped.negocio.BDL.IL.BDL_C_SFProfesorLocal;
 import sped.negocio.BDL.IL.BDL_C_SFRolLocal;
 import sped.negocio.BDL.IL.BDL_C_SFSedeLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
@@ -24,8 +27,11 @@ import sped.negocio.LNSF.IL.LN_C_SFUsuarioPermisoLocal;
 import sped.negocio.LNSF.IL.LN_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.beans.BeanError;
+import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.sist.Rol;
 
 @Stateless(name = "LN_T_SFUsuario", mappedName = "SPED_APP-SPED_NEGOCIO-LN_T_SFUsuario")
@@ -47,7 +53,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
     @EJB
     private BDL_C_SFSedeLocal bdL_C_SFSedeLocal;
     @EJB
-    private LN_C_SFUsuarioPermisoLocal ln_C_SFUsuarioPermisoLocal;
+    private LN_C_SFUsuarioPermisoLocal ln_C_SFUsuarioPermisoLocal;   
 
     public LN_T_SFUsuarioBean() {
     }
@@ -161,5 +167,26 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             Imagen(rutaImg, u);
         }        
         bdL_T_SFUsuarioLocal.mergeUsuario(u);
+    }
+    
+    public String cambiarEstadoUsuarioProfesores(List<BeanProfesor> listprofesores){
+        List<Usuario> listUsuarios=bdL_C_SFUsuarioLocal.getUsuarioTipoProfesor();
+        for(int i=0; i<listprofesores.size(); i++){
+        for(int j=0; j<listUsuarios.size(); j++){            
+            if(listprofesores.get(i).getDniProfesor().equals(listUsuarios.get(j).getDni())){
+                    Usuario usua=listUsuarios.get(j);
+                    usua.setEstadoUsuario("1");
+                    bdL_T_SFUsuarioLocal.mergeUsuario(usua);
+                    listUsuarios.remove(j);                     
+                }
+        }
+        }
+        
+        for(int i=0;i<listUsuarios.size(); i++){
+            Usuario usua=listUsuarios.get(i);
+            usua.setEstadoUsuario("0");
+            bdL_T_SFUsuarioLocal.mergeUsuario(usua);    
+        }
+        return null;
     }
 }
