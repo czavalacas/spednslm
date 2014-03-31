@@ -314,8 +314,7 @@ public class bMigrarExcel {
                  listProfesoresAInsertar.add(profe);
                 }
             }
-        }  
-        
+        }
         ln_T_SFUsuarioRemote.cambiarEstadoUsuarioProfesores(listProfesoresAInsertar);
         
         List<BeanProfesor> listaActual = ln_C_SFProfesorRemote.getProfesoresLN2();    
