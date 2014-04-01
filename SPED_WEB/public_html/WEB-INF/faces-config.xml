@@ -273,4 +273,19 @@
     <managed-bean-class>sped.vista.beans.migracion.bSessionMigrarExcel</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bGestionarHorario</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.horarios.bGestionarHorario</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionGestionarHorario</property-name>
+      <property-class>sped.vista.beans.horarios.bSessionGestionarHorario</property-class>
+      <value>#{sessionGestionarHorario}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionGestionarHorario</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.horarios.bSessionGestionarHorario</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>

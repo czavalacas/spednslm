@@ -128,4 +128,8 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
         return bdL_C_SFUtilsLocal.getEstadosEvaluacion("e.valorCampo", "e.descripcionAMostrar");
     }
     
+    public List<BeanCombo> getAulaByNidSedeNivel(int nidSede, int nidNivel){
+        return bdL_C_SFUtilsLocal.getAulaByNidSedeNivel("e.nidAula", "e.descripcionAula", nidSede, nidNivel);
+    }
+    
 }

@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <f:view>
+        <af:panelGroupLayout id="pgl1" layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+            <af:panelGroupLayout id="pgl2" halign="left">
+                <af:spacer height="10" id="s1"/>
+                <af:outputText value="Consultar Horario" id="ot2" styleClass="titulos"/>
+                <af:spacer height="10" id="s2"/>
+            </af:panelGroupLayout>
+            <af:panelGroupLayout id="pgl3">
+                <af:panelFormLayout id="pfCombox" rows="1" binding="#{bGestionarHorario.pfCombox}">
+                    <af:selectOneChoice label="Sede" value="#{sessionGestionarHorario.nidSede}" id="choiceSede"
+                                        binding="#{bGestionarHorario.choiceSede}" autoSubmit="true"
+                                        valueChangeListener="#{bGestionarHorario.changeListenerSede}">
+                        <f:selectItems value="#{sessionGestionarHorario.lstSede}" id="si1"
+                                       binding="#{bGestionarHorario.si1}"/>
+                    </af:selectOneChoice>
+                    <af:selectOneChoice label="Nivel" value="#{sessionGestionarHorario.nidNivel}" id="choiceNivel"
+                                        binding="#{bGestionarHorario.choiceNivel}" autoSubmit="true"
+                                        valueChangeListener="#{bGestionarHorario.changeListenerNivel}">
+                        <f:selectItems value="#{sessionGestionarHorario.lstNivel}" id="si2"
+                                       binding="#{bGestionarHorario.si2}"/>
+                    </af:selectOneChoice>
+                    <af:selectOneChoice label="Aula" value="#{sessionGestionarHorario.nidAula}" id="choiceAula"
+                                        binding="#{bGestionarHorario.choiceAula}" autoSubmit="true">
+                        <f:selectItems value="#{sessionGestionarHorario.lstAula}" id="si3"
+                                       binding="#{bGestionarHorario.si3}"/>
+                    </af:selectOneChoice>
+                </af:panelFormLayout>
+                <af:spacer height="20" id="s3"/>
+            </af:panelGroupLayout>
+            <af:panelGroupLayout id="pgl4">
+                <af:calendar id="c1"/>
+            </af:panelGroupLayout>
+        </af:panelGroupLayout>
+    </f:view>
+</ui:composition>
