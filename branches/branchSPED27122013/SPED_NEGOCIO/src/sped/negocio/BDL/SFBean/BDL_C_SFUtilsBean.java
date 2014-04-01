@@ -33,7 +33,7 @@ import sped.negocio.entidades.beans.BeanConstraint;
  */
 @Stateless(name = "BDL_C_SFUtils", mappedName = "mapBDL_C_SFUtils")
 public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
-                                             BDL_C_SFUtilsLocal {
+                                          BDL_C_SFUtilsLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -275,6 +275,22 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
                               " ORDER BY e.descripcionAMostrar ASC";
             List<BeanComboString> lstEstado = em.createQuery(qlString).getResultList();        
             return lstEstado;       
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<BeanCombo> getAulaByNidSedeNivel(String id, String desc, int nidSede, int nidNivel){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Aula") +
+                              " WHERE e.sede.nidSede = :nidSede " +
+                              " AND e.gradoNivel.nivel.nidNivel = :nidNivel" +
+                              " ORDER BY e.descripcionAula ASC";
+            List<BeanCombo> lstGrado = em.createQuery(qlString).setParameter("nidSede", nidSede)
+                                                               .setParameter("nidNivel", nidNivel)
+                                                               .getResultList();        
+            return lstGrado;       
         }catch(Exception e){
             e.printStackTrace();
             return null;
