@@ -98,11 +98,7 @@ public class bGestionarUsuarios {
     @EJB
     private LN_C_SFRolRemote ln_C_SFRolRemote;
     @EJB
-    private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
-    @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
-    @EJB
-    private LN_C_SFSedeRemote ln_C_SFSedeRemote;
     private RichSelectOneChoice choiceTipoSede;
     private UISelectItems si8;
     private UISelectItems si9;
@@ -169,11 +165,11 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setRenderImg(true);
         }
         if(usuario.getAreaAcademica() != null){
-            sessionGestionarUsuarios.setNidAreaAcademica(usuario.getAreaAcademica().getNidAreaAcademica());
+            sessionGestionarUsuarios.setNidAreaAcademica(usuario.getAreaAcademica().getNidAreaAcademica().toString());
             sessionGestionarUsuarios.setRenderAreaAcdemica(true);
         }
         if(usuario.getSede()!=null){
-            sessionGestionarUsuarios.setNidSede(usuario.getSede().getNidSede());
+            sessionGestionarUsuarios.setNidSede(usuario.getSede().getNidSede().toString());
             sessionGestionarUsuarios.setRenderSede(true);
         }
         if(usuario.getRol().getNidRol() == 3){
@@ -248,17 +244,19 @@ public class bGestionarUsuarios {
     }
     
     public void btnGestionarUsuario_aux(){
+        int nidSede = sessionGestionarUsuarios.getNidSede() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getNidSede());
+        int nidArea = sessionGestionarUsuarios.getNidAreaAcademica() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getNidAreaAcademica());
         ln_T_SFUsuarioRemote.gestionUsuarioLN(sessionGestionarUsuarios.getTipoEvento(), 
                                               sessionGestionarUsuarios.getNombres(),
                                               sessionGestionarUsuarios.getDni(),
                                               sessionGestionarUsuarios.getCorreo(),
                                               sessionGestionarUsuarios.getNidRol(), 
-                                              sessionGestionarUsuarios.getNidAreaAcademica(), 
+                                              nidArea, 
                                               sessionGestionarUsuarios.getUsuario(), 
                                               sessionGestionarUsuarios.getClave(), 
                                               sessionGestionarUsuarios.getNidUsuario(),
                                               sessionGestionarUsuarios.getRutaImg(),
-                                              sessionGestionarUsuarios.getNidSede());
+                                              nidSede);
         String msj="";
         switch(sessionGestionarUsuarios.getTipoEvento()){
         case 1 : msj =  "Se registro al usuario "; break;
@@ -283,8 +281,8 @@ public class bGestionarUsuarios {
             int nidrol = Integer.parseInt(index);
             sessionGestionarUsuarios.setRenderAreaAcdemica(false);
             sessionGestionarUsuarios.setRenderSede(false);
-            sessionGestionarUsuarios.setNidAreaAcademica(0);
-            sessionGestionarUsuarios.setNidSede(0);
+            sessionGestionarUsuarios.setNidAreaAcademica(null);
+            sessionGestionarUsuarios.setNidSede(null);
             sessionGestionarUsuarios.setNidNivel(0);
             if (nidrol == 2){
                 sessionGestionarUsuarios.setRenderAreaAcdemica(true); 
@@ -308,7 +306,7 @@ public class bGestionarUsuarios {
                 else{
                     sessionGestionarUsuarios.setFbooleanSede(false);
                     sessionGestionarUsuarios.setFNidNivel(0);
-                    sessionGestionarUsuarios.setFNidSede(0);                        
+                    sessionGestionarUsuarios.setFNidSede(null);                        
                 }
                 Utils.addTarget(pfl3);
             }            
@@ -318,13 +316,15 @@ public class bGestionarUsuarios {
     }
 
     public void buscarUsuarioFiltro(ActionEvent actionEvent) {
+        int nidArea = sessionGestionarUsuarios.getFNidAreaAcademica() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getFNidAreaAcademica());
+        int nidSede = sessionGestionarUsuarios.getFNidSede() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getFNidSede());
         sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuariobyByAttrLN(sessionGestionarUsuarios.getFNombres(), 
                                                                                          sessionGestionarUsuarios.getFUsuario(),
                                                                                          sessionGestionarUsuarios.getFDni(),
-                                                                                         sessionGestionarUsuarios.getFNidAreaAcademica(),
+                                                                                         nidArea,
                                                                                          sessionGestionarUsuarios.getFNidRol(),
                                                                                          sessionGestionarUsuarios.getFNidEstado(),
-                                                                                         sessionGestionarUsuarios.getFNidSede(),
+                                                                                         nidSede,
                                                                                          sessionGestionarUsuarios.getFNidNivel()));        
         Utils.unselectFilas(t1);
         b2.setDisabled(true);
@@ -337,11 +337,11 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setFUsuario("");
         sessionGestionarUsuarios.setFDni("");
         sessionGestionarUsuarios.setFNidRol(0);
-        sessionGestionarUsuarios.setFNidAreaAcademica(0);
+        sessionGestionarUsuarios.setFNidAreaAcademica(null);
         sessionGestionarUsuarios.setFNidEstado(0);
         sessionGestionarUsuarios.setFbooleanSede(false);
         sessionGestionarUsuarios.setFNidNivel(0);
-        sessionGestionarUsuarios.setFNidSede(0); 
+        sessionGestionarUsuarios.setFNidSede(null); 
         sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN());
         Utils.addTargetMany(pgl2,t1);
     }
@@ -353,8 +353,8 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setClave("");
         sessionGestionarUsuarios.setRutaImg("");
         sessionGestionarUsuarios.setNidRol(0);        
-        sessionGestionarUsuarios.setNidAreaAcademica(0);
-        sessionGestionarUsuarios.setNidSede(0);
+        sessionGestionarUsuarios.setNidAreaAcademica(null);
+        sessionGestionarUsuarios.setNidSede(null);
         sessionGestionarUsuarios.setNidNivel(0);
         sessionGestionarUsuarios.setRenderAreaAcdemica(false);
         sessionGestionarUsuarios.setRenderSede(false);
