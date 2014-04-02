@@ -60,8 +60,7 @@
                                                             suggestedItems="#{bGestionarUsuarios.suggestDni}"/>
                                 </af:inputText>
                                 <af:selectOneChoice label="Area " value="#{sessionGestionarUsuarios.FNidAreaAcademica}"
-                                                    id="choiceFTipoArea" autoSubmit="true"
-                                                    labelStyle="text-align: left;"
+                                                    id="choiceFTipoArea" autoSubmit="true" labelStyle="text-align: left;"
                                                     binding="#{bGestionarUsuarios.choiceFTipoArea}">
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si5"
                                                    binding="#{bGestionarUsuarios.si5}"/>

@@ -297,6 +297,20 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         }
     }
     
+    public List<BeanCombo> getCursosByArea(String id, String desc, int nidArea){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Curso") +
+                              " WHERE e.areaAcademica.nidAreaAcademica = :nidArea"+
+                              " ORDER BY e.descripcionCurso ASC";
+            List<BeanCombo> lstCurso = em.createQuery(qlString).setParameter("nidArea", nidArea)
+                                                               .getResultList();        
+            return lstCurso;       
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     private String getSelectBasicoBeanCombo(String id,String desc, String entidad){
         return "SELECT NEW sped.negocio.entidades.beans.BeanCombo("+id+","+desc+") " +
                 "FROM "+entidad+" e ";

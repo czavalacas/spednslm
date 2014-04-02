@@ -15,8 +15,8 @@ public class bSessionGestionarUsuarios implements Serializable {
     private int exec;
     private int cod;
     private int nidRol;
-    private int nidAreaAcademica;
-    private int nidSede;
+    private String nidAreaAcademica;
+    private String nidSede;
     private int nidNivel;
     private int nidUsuario;
     private int tipoEvento;
@@ -36,10 +36,10 @@ public class bSessionGestionarUsuarios implements Serializable {
     private String fNombres;
     private String fDni;
     private String fUsuario;
-    private int fNidAreaAcademica;
+    private String fNidAreaAcademica;
     private int fNidRol;
     private int fNidEstado;
-    private int fNidSede;
+    private String fNidSede;
     private int fNidNivel;
     private boolean fbooleanSede = false;
     private String rutaImg;
@@ -65,12 +65,20 @@ public class bSessionGestionarUsuarios implements Serializable {
         return nidRol;
     }
 
-    public void setNidAreaAcademica(int nidAreaAcademica) {
+    public void setNidAreaAcademica(String nidAreaAcademica) {
         this.nidAreaAcademica = nidAreaAcademica;
     }
 
-    public int getNidAreaAcademica() {
+    public String getNidAreaAcademica() {
         return nidAreaAcademica;
+    }
+
+    public void setNidSede(String nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public String getNidSede() {
+        return nidSede;
     }
 
     public void setExec(int exec) {
@@ -192,15 +200,7 @@ public class bSessionGestionarUsuarios implements Serializable {
     public String getFUsuario() {
         return fUsuario;
     }
-
-    public void setFNidAreaAcademica(int fNidAreaAcademica) {
-        this.fNidAreaAcademica = fNidAreaAcademica;
-    }
-
-    public int getFNidAreaAcademica() {
-        return fNidAreaAcademica;
-    }
-
+    
     public void setFNidRol(int fNidRol) {
         this.fNidRol = fNidRol;
     }
@@ -215,14 +215,6 @@ public class bSessionGestionarUsuarios implements Serializable {
 
     public int getFNidEstado() {
         return fNidEstado;
-    }
-
-    public void setFNidSede(int fNidSede) {
-        this.fNidSede = fNidSede;
-    }
-
-    public int getFNidSede() {
-        return fNidSede;
     }
 
     public void setFNidNivel(int fNidNivel) {
@@ -297,14 +289,6 @@ public class bSessionGestionarUsuarios implements Serializable {
         return renderSede;
     }
 
-    public void setNidSede(int nidSede) {
-        this.nidSede = nidSede;
-    }
-
-    public int getNidSede() {
-        return nidSede;
-    }
-
     public void setNidNivel(int nidNivel) {
         this.nidNivel = nidNivel;
     }
@@ -375,5 +359,21 @@ public class bSessionGestionarUsuarios implements Serializable {
 
     public List<SelectItem> getItemNombre() {
         return itemNombre;
+    }
+
+    public void setFNidAreaAcademica(String fNidAreaAcademica) {
+        this.fNidAreaAcademica = fNidAreaAcademica;
+    }
+
+    public String getFNidAreaAcademica() {
+        return fNidAreaAcademica;
+    }
+
+    public void setFNidSede(String fNidSede) {
+        this.fNidSede = fNidSede;
+    }
+
+    public String getFNidSede() {
+        return fNidSede;
     }
 }
