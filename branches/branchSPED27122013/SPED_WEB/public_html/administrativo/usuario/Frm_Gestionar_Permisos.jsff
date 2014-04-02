@@ -47,7 +47,8 @@
                 </af:column>
             </af:treeTable>
         </af:panelGroupLayout>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popUsu" binding="#{bGestionarPermisos.popUsu}">
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popUsu" 
+                  binding="#{bGestionarPermisos.popUsu}">
             <af:dialog id="dialogU" title="Selecionar Usuarios" type="okCancel"
                        dialogListener="#{bGestionarPermisos.confirmarSelecion}">
                 <af:table value="#{sessionGestionarPermisos.lstUsuarios}" var="row" rowBandingInterval="0" id="t1"

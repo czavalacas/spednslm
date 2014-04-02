@@ -30,4 +30,5 @@ public interface LN_C_SFUtilsLocal {
     List<BeanComboString> getEstadoEvaluacionFromConstraint();    
     List<BeanComboString> getListaEstados(String nombreCampo, String nombreTabla);
     List<BeanCombo> getAulaByNidSedeNivel(int nidSede, int nidNivel);
+    List<BeanCombo> getCursosByArea_LN(int nidArea);
 }

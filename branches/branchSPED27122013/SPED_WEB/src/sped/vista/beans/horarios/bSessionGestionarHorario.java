@@ -5,18 +5,23 @@ import java.io.Serializable;
 import java.util.List;
 
 public class bSessionGestionarHorario implements Serializable {
-    @SuppressWarnings("compatibility:-2139419570145049600")
+    @SuppressWarnings("compatibility:6980576281228298030")
     private static final long serialVersionUID = 1L;
 
     private int exec;
-    private int nidSede;
-    private int nidNivel; 
-    private int nidCurso;
-    private int nidAula;
+    private String nidSede;
+    private String nidNivel; 
+    private String nidCurso;
+    private String nidAula;
+    private String nidProfesor;
+    private String nidArea;
     private List lstSede;
     private List lstNivel;
-    private List lstCurso;
     private List lstAula;
+    private List lstProfesor;
+    private List lstCurso;
+    private List lstArea;
+    
 
     public void setExec(int exec) {
         this.exec = exec;
@@ -26,36 +31,53 @@ public class bSessionGestionarHorario implements Serializable {
         return exec;
     }
 
-    public void setNidSede(int nidSede) {
+
+    public void setNidSede(String nidSede) {
         this.nidSede = nidSede;
     }
 
-    public int getNidSede() {
+    public String getNidSede() {
         return nidSede;
     }
 
-    public void setNidNivel(int nidNivel) {
+    public void setNidNivel(String nidNivel) {
         this.nidNivel = nidNivel;
     }
 
-    public int getNidNivel() {
+    public String getNidNivel() {
         return nidNivel;
     }
 
-    public void setNidCurso(int nidCurso) {
+    public void setNidCurso(String nidCurso) {
         this.nidCurso = nidCurso;
     }
 
-    public int getNidCurso() {
+    public String getNidCurso() {
         return nidCurso;
     }
 
-    public void setNidAula(int nidAula) {
+    public void setNidAula(String nidAula) {
         this.nidAula = nidAula;
     }
 
-    public int getNidAula() {
+    public String getNidAula() {
         return nidAula;
+    }
+
+    public void setNidProfesor(String nidProfesor) {
+        this.nidProfesor = nidProfesor;
+    }
+
+    public String getNidProfesor() {
+        return nidProfesor;
+    }
+
+    public void setNidArea(String nidArea) {
+        this.nidArea = nidArea;
+    }
+
+    public String getNidArea() {
+        return nidArea;
     }
 
     public void setLstSede(List lstSede) {
@@ -88,6 +110,22 @@ public class bSessionGestionarHorario implements Serializable {
 
     public List getLstAula() {
         return lstAula;
+    }
+
+    public void setLstProfesor(List lstProfesor) {
+        this.lstProfesor = lstProfesor;
+    }
+
+    public List getLstProfesor() {
+        return lstProfesor;
+    }
+
+    public void setLstArea(List lstArea) {
+        this.lstArea = lstArea;
+    }
+
+    public List getLstArea() {
+        return lstArea;
     }
 
 }
