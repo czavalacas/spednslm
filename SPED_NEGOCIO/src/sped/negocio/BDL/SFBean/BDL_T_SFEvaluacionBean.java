@@ -30,10 +30,10 @@ public class BDL_T_SFEvaluacionBean implements BDL_T_SFEvaluacionRemoto,
     public BDL_T_SFEvaluacionBean() {
     }
 
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+   // @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Evaluacion persistEvaluacion(Evaluacion evaluacion) {
         em.persist(evaluacion);
-        em.flush();
+      //  em.flush();
         return evaluacion;
     }
 

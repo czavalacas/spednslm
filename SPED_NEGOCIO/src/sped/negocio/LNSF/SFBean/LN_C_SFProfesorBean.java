@@ -115,4 +115,8 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
         return bdl_C_SFProfesorLocal.getNombreProfesor();
     }
     
+    public String getDniProfesorPorNombreCompleto(String nombreCompleto){
+        return bdl_C_SFProfesorLocal.getDniProfe(nombreCompleto);
+    }
+    
 }

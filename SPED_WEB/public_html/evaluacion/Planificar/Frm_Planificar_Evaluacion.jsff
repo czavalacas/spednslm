@@ -440,5 +440,123 @@
                 </af:panelGroupLayout>
             </af:dialog>
         </af:popup>
+        
+         <!--POPUP PROVICIONAL-->
+         <af:popup childCreation="deferred" autoCancel="disabled" id="p7" binding="#{bPlanificarEva.popupEvento2}" >
+            <af:dialog id="d7" title="Horarios Disponibles" type="ok" inlineStyle="width:800px;">
+                <af:panelGroupLayout id="pgl17">    
+                    <af:panelGridLayout id="pgl42">
+                        <af:gridRow marginTop="5px" height="auto" id="gr12">
+                            <af:gridCell marginStart="5px" width="34%" id="gc52">
+                                <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidSede}" label="Sede"
+                                                    id="choiceSede2" unselectedLabel="::Seleccionar Sede::" 
+                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceSede}"
+                                                    disabled="#{sessionScope.sessionPlanificarEva.estadoDisableChoiceSede}"
+                                                    valueChangeListener="#{bPlanificarEva.getAulasBysede}">
+                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaSedes}" id="si27"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" id="gc33">
+                              <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidAreaAcademicaChoice}" label="Area"
+                                                    id="choiceAreaAcademica2" unselectedLabel="::Seleccionar Area::"
+                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceAreaAcademicas}"
+                                                  disabled="#{sessionScope.sessionPlanificarEva.estadoDisableChoiceArea}">
+                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listAreasAcade}" id="si88"/>
+                                </af:selectOneChoice>                                 
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc44">
+                               <af:selectOneChoice label="Tipo De Visita" id="soc22"  value="#{sessionScope.sessionPlanificarEva.valorTipoVisita}" autoSubmit="true"
+                                                    attributeChangeListener="#{bPlanificarEva.activarBotonEvaluar}"
+                                                    valueChangeListener="#{bPlanificarEva.activarbtnEvaluar}"
+                                                    binding="#{bPlanificarEva.choiceTipoVisita}">
+                                   <f:selectItems value="#{sessionScope.sessionPlanificarEva.listatipoVisita}" id="si14"/>
+                                    </af:selectOneChoice>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr44">
+                            <af:gridCell marginStart="5px" width="34%" id="gc88">
+                                <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidNivel}" label="Nivel"
+                                                    id="choiceNivel2" unselectedLabel="::Seleccionar Nivel::"
+                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceNivel}"
+                                                    valueChangeListener="#{bPlanificarEva.getNivelesBySede}">
+                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaNiveles}" id="si55"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" id="gc99">
+                                        <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidCurso}" label="Curso"
+                                                    id="choiceCursos2" unselectedLabel="::Seleccionar Curso::"
+                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceCursos}"
+                                                    showRequired="true" required="true">                                    
+                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaCursos}" id="si44"/>
+                                </af:selectOneChoice>               
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc41">
+                              <af:inputDate label="Hora Inicio" id="id1"
+                                              minValue="#{sessionScope.sessionPlanificarEva.fechaMinTemporal}"
+                                              value="#{sessionScope.sessionPlanificarEva.fechaYhoraInicialTemporal}"
+                                              maxValue="#{sessionScope.sessionPlanificarEva.fehcaMaxTemporal}"
+                                              binding="#{bPlanificarEva.horaInicioTemporal}" required="true"
+                                              showRequired="true">
+                                <af:convertDateTime pattern="dd/MM/yyy HH:mm:ss a"/>
+                                </af:inputDate>
+                            </af:gridCell>
+                        </af:gridRow>
+                         <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr34">
+                            <af:gridCell marginStart="5px" width="34%" id="gc78">
+                                <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidAulaTemporal}" label="Aula"
+                                                    id="choiceAulaTempo" unselectedLabel="::Seleccionar Aula::"
+                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceAula}"
+                                                    required="true" showRequired="true">
+                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaAulasTemporal}" id="si75"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" id="gc49">
+                           <!--   <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.dniProfesor}"
+                                                    label="Docente" id="choiceDocente2"
+                                                    unselectedLabel="::Seleccionar Docente::" autoSubmit="true"
+                                                    binding="#{bPlanificarEva.choiceProfesores}">
+                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaProfesores}"
+                                                   id="si33"/>
+                                </af:selectOneChoice>    -->
+                                <af:inputText label="Docente " id="it55" labelStyle="text-align: left;"
+                                              value="#{sessionPlanificarEva.FNombres}">
+                                    <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                            suggestedItems="#{bPlanificarEva.suggestNombreProfesor}"/>
+                                </af:inputText>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc51">                            
+                            <af:inputDate label="Hora Fin" id="id2"
+                                              minValue="#{sessionScope.sessionPlanificarEva.fechaMinTemporal}"
+                                              value="#{sessionScope.sessionPlanificarEva.fechaYhoraFinTemporal}"
+                                              maxValue="#{sessionScope.sessionPlanificarEva.fehcaMaxTemporal}"
+                                          binding="#{bPlanificarEva.horaFinTemporal}" required="true"
+                                          showRequired="true">
+                                <af:convertDateTime pattern="dd/MM/yyy HH:mm:ss a"/>
+                                </af:inputDate>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelGroupLayout>
+                <af:panelGroupLayout id="pgl44">
+                    <af:panelGridLayout id="pgl33">
+                        <af:gridRow marginTop="1px" marginBottom="1px" height="auto" id="gr33">
+                            <af:gridCell marginStart="1px" width="auto" id="gc55">
+                                 <af:button  icon="../recursos/img/usuarios/refresh.png" id="btnLimpiar2" action="#{bPlanificarEva.btnLimpiar}"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="1px" width="auto" id="gc66">
+                              <af:button text="Agregar Evaluacion" id="btnEvaluar2"
+                                           binding="#{bPlanificarEva.btnAsignarEva}"
+                                           action="#{bPlanificarEva.agregarEvaluacionYMainProvicional}"
+                                           styleClass="#{sessionPlanificarEva.styleClass}"
+                                           disabled="false" />
+                            </af:gridCell>
+                            <af:gridCell marginStart="1px" width="auto" id="gc77">                               
+                                          <!-- disabled="#{sessionScope.sessionPlanificarEva.estadoAsignarEvaluacion}-->"
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelGroupLayout>     
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import sped.negocio.entidades.beans.BeanAula;
+import sped.negocio.entidades.beans.BeanCombo;
 
 @Remote
 public interface LN_C_SFAulaRemote {
@@ -12,4 +13,5 @@ public interface LN_C_SFAulaRemote {
                                 int nidNivel, 
                                 String descripcion);
     List<BeanAula> getAreaAulaLN();
+    List<BeanCombo> getAulaPorSedeNivelYGrado(String nidSede, String nidGrado, String nidNivel);
 }

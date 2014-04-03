@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import sped.negocio.entidades.beans.BeanAula;
+import sped.negocio.entidades.beans.BeanCombo;
 
 @Local
 public interface LN_C_SFAulaLocal {
@@ -12,4 +13,5 @@ public interface LN_C_SFAulaLocal {
                                 int nidNivel, 
                                 String descripcion);
     List<BeanAula> getAreaAulaLN();
+    List<BeanCombo> getAulaPorSedeNivelYGrado(String nidSede, String nidGrado, String nidNivel);
 }

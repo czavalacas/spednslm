@@ -14,4 +14,5 @@ public interface BDL_C_SFProfesorRemote {
     List<Profesor>  getProfesores();
     int existeDni(String dni);
     List getNombreProfesor();
+    String getDniProfe(String nombreCompleto);
 }

@@ -20,7 +20,9 @@ import sped.negocio.BDL.IL.BDL_C_SFProfesorLocal;
 import sped.negocio.BDL.IR.BDL_C_SFProfesorRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Profesor;
+import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanCriterio;
+import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Criterio;
 import sped.negocio.entidades.eval.Evaluacion;
 
@@ -127,5 +129,24 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
             return null;
         }
     }
+    
+    public String getDniProfe(String nombreCompleto){
+        try{
+            String ejbQl = " SELECT pro.dniProfesor" +
+                           " FROM Profesor pro " +
+                           " where CONCAT(pro.nombres,' ',pro.apellidos) ='"+nombreCompleto+"'";   
+            Object o = em.createQuery(ejbQl) .getSingleResult();
+            String dni = "";
+            if(o != null){
+                dni = o.toString();
+            }
+            return dni;
+        }catch(Exception e){
+            return null;
+        }
+    }
+    
+    
+ 
     
 }

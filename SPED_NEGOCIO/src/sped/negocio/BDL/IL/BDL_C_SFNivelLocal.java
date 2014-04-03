@@ -12,4 +12,6 @@ public interface BDL_C_SFNivelLocal {
     List<Nivel> findGradpPorAreaAcademica(Integer nidAreaAcademica, String dia);
     Nivel findNivelById(int id);
     List<Nivel> findNivelesPorSede_ByOrden(String nidSede, String nidArea, String nidCurso);
+    /** Temporal getNivelesBySede */
+    List<Nivel> getNivelesBySede(String nidSede);
 }
