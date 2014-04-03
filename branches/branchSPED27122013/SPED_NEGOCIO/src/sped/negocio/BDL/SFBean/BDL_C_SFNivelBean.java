@@ -80,7 +80,7 @@ public class BDL_C_SFNivelBean implements BDL_C_SFNivelRemote,
         try {
             String  ejbQl =   " SELECT distinct niv from Nivel niv," +
                               " Sede sed " +
-             /**nuevo */      " ,Main ma, Aula au, Curso cu, AreaAcademica aca "+
+                              " ,Main ma, Aula au, Curso cu, AreaAcademica aca "+
                               " where  niv.nidNivel=au.gradoNivel.nivel.nidNivel " +
                               " and au.sede.nidSede=sed.nidSede and ma.aula.nidAula=au.nidAula" +
                               " and ma.curso.nidCurso=cu.nidCurso and cu.areaAcademica.nidAreaAcademica=aca.nidAreaAcademica ";
@@ -100,6 +100,30 @@ public class BDL_C_SFNivelBean implements BDL_C_SFNivelRemote,
                     ejbQl = ejbQl.concat(" and cu.nidCurso="+nidCurso);               
             }
                 
+                    ejbQl = ejbQl.concat(" ORDER by niv.descripcionNivel");
+            
+            List<Nivel> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+            }
+    
+    /**Metodo temporal hasta que se complete el modulo Horario*/
+    public List<Nivel> getNivelesBySede(String nidSede) {
+        try {
+            String  ejbQl =   " SELECT distinct niv from Nivel niv," +
+                              " Sede sed, " +
+                              " Aula au "+
+                              " where  niv.nidNivel=au.gradoNivel.nivel.nidNivel " +
+                              " and au.sede.nidSede=sed.nidSede";
+            
+            if (nidSede != null) {               
+                
+                    ejbQl = ejbQl.concat(" and sed.nidSede="+nidSede);               
+            }                
                     ejbQl = ejbQl.concat(" ORDER by niv.descripcionNivel");
             
             List<Nivel> lstMain = em.createQuery(ejbQl).getResultList();

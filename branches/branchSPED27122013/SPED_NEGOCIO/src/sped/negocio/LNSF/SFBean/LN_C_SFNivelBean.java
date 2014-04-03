@@ -22,6 +22,7 @@ import sped.negocio.LNSF.IL.LN_C_SFNivelLocal;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.entidades.admin.Grado;
 import sped.negocio.entidades.admin.Nivel;
+import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanNivel;
@@ -112,4 +113,19 @@ public class LN_C_SFNivelBean implements LN_C_SFNivelRemote,
           }}
            return lstBean;
        }
+   
+   /**Metodo Temporal getAllNivelesBySedes*/
+   public List<BeanCombo> getAllNivelesBySedes(String nidSede) {
+       List<Nivel> listaNiveles=bdL_C_SFNivelLocal.getNivelesBySede(nidSede);
+       List<BeanCombo> list=new ArrayList<BeanCombo>();
+       Iterator it=listaNiveles.iterator();
+       while(it.hasNext()){
+           Nivel entida= (Nivel)it.next();
+           BeanCombo bean=new BeanCombo();
+           bean.setId(entida.getNidNivel());
+           bean.setDescripcion(entida.getDescripcionNivel());
+           list.add(bean);
+       }
+       return list;  
+   }   
 }

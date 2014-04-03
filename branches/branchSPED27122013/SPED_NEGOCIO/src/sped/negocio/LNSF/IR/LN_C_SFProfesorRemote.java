@@ -15,4 +15,5 @@ public interface LN_C_SFProfesorRemote {
     List<BeanComboString> getProfesoresLN_PorSede_ByOrden(Object nidSede, Object nidArea, Object nidCurso, Object nidNivel, Object nidGrado);
     boolean exiteDni_LN(String dni);
     List getNombreProfesor_LN();
+    String getDniProfesorPorNombreCompleto(String nombreCompleto);
 }

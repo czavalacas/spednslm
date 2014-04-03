@@ -18,6 +18,7 @@ import javax.persistence.Query;
 
 import sped.negocio.BDL.IL.BDL_C_SFAulaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFAulaRemote;
+import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Aula;
 import sped.negocio.entidades.beans.BeanAula;
 
@@ -62,4 +63,28 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
         }
         return nid;
     }
+    
+    public List<Aula> getAulaPorSedeNivelYGrado(String nidSede, String nidGrado, String nidNivel) {
+        try {
+            String ejbQl =    " SELECT distinct au from Aula au" +
+                              " where 1=1 ";
+            if (nidSede != null) {               
+                    ejbQl = ejbQl.concat(" and au.sede.nidSede="+nidSede);               
+            }
+            if (nidGrado != null) {               
+                    ejbQl = ejbQl.concat(" and au.gradoNivel.grado.nidGrado="+nidGrado);               
+            }
+            if (nidNivel != null) {               
+                    ejbQl = ejbQl.concat(" and au.gradoNivel.nivel.nidNivel="+nidNivel);               
+            }
+            
+            ejbQl = ejbQl.concat(" ORDER by au.descripcionAula");
+            
+            List<Aula> lstAula = em.createQuery(ejbQl).getResultList();
+            return lstAula;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }}
 }

@@ -13,4 +13,6 @@ public interface LN_C_SFNivelRemote {
     List<BeanCombo> findNivelPorAreaAcademica(Integer nidAreaAcademica, String dia);
     BeanNivel findConstrainByIdLN(int id);
     List<BeanCombo> getNivelLNPorSede_ByOrden(Object nidSede, Object nidArea, Object nidCurso);
+    /**Temporal getAllNivelesBySedes*/
+    List<BeanCombo> getAllNivelesBySedes(String nidSede);
 }

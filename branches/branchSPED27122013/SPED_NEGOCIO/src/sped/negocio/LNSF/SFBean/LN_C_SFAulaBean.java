@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,8 +20,10 @@ import net.sf.dozer.util.mapping.MapperIF;
 import sped.negocio.BDL.IL.BDL_C_SFAulaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFAulaLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAulaRemote;
+import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Aula;
 import sped.negocio.entidades.beans.BeanAula;
+import sped.negocio.entidades.beans.BeanCombo;
 
 @Stateless(name = "LN_C_SFAula", mappedName = "map-LN_C_SFAula")
 public class LN_C_SFAulaBean implements LN_C_SFAulaRemote, 
@@ -55,5 +58,19 @@ public class LN_C_SFAulaBean implements LN_C_SFAulaRemote,
           beanAula.setDescripcionAula(descripcion);
           return bdL_C_SFAulaLocal.getAulaByDescripcion(beanAula);
       }
+    
+    public List<BeanCombo> getAulaPorSedeNivelYGrado(String nidSede, String nidGrado, String nidNivel){        
+        List<BeanCombo> lstBean = new ArrayList<BeanCombo>();
+        List<Aula> lstAula = bdL_C_SFAulaLocal.getAulaPorSedeNivelYGrado(nidSede, nidGrado, nidNivel);      
+        Iterator it=lstAula.iterator();
+        while(it.hasNext()){
+            Aula entida= (Aula)it.next();
+            BeanCombo bean=new BeanCombo();
+            bean.setId(entida.getNidAula());
+            bean.setDescripcion(entida.getDescripcionAula());
+            lstBean.add(bean);
+        }
+        return lstBean;
+    }
     
 }
