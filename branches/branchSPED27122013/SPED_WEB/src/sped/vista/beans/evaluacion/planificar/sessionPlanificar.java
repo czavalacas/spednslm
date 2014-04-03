@@ -8,6 +8,8 @@ import java.util.List;
 
 import java.util.Set;
 
+import javax.faces.model.SelectItem;
+
 import oracle.adf.view.rich.util.InstanceStyles;
 
 import sped.negocio.entidades.admin.AreaAcademica;
@@ -96,8 +98,17 @@ public class sessionPlanificar {
     private boolean estadoBtnSaveJustificaEvalu=false;
     private String estadoDeEvaluacion;
     private String calendaryActivityID;
-    
-    private HashMap activityStyles= new HashMap<Set<String>, InstanceStyles>();                                
+    private HashMap activityStyles= new HashMap<Set<String>, InstanceStyles>();       
+    ///////////////////////////////////////////////////
+    private List listaAulasTemporal;
+    private String nidAulaTemporal;
+    private Date fechaMinTemporal;
+    private Date fehcaMaxTemporal;
+    private Date FechaYhoraInicialTemporal;
+    private Date FechaYhoraFinTemporal;
+    private List<SelectItem> itemNombreProferos;
+    private Integer exec=0;
+    private String fNombres;
     
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
@@ -714,5 +725,77 @@ public class sessionPlanificar {
 
     public HashMap getActivityStyles() {
         return activityStyles;
+    }
+
+    public void setListaAulasTemporal(List listaAulasTemporal) {
+        this.listaAulasTemporal = listaAulasTemporal;
+    }
+
+    public List getListaAulasTemporal() {
+        return listaAulasTemporal;
+    }
+
+    public void setNidAulaTemporal(String nidAulaTemporal) {
+        this.nidAulaTemporal = nidAulaTemporal;
+    }
+
+    public String getNidAulaTemporal() {
+        return nidAulaTemporal;
+    }
+
+    public void setFechaMinTemporal(Date fechaMinTemporal) {
+        this.fechaMinTemporal = fechaMinTemporal;
+    }
+
+    public Date getFechaMinTemporal() {
+        return fechaMinTemporal;
+    }
+
+    public void setFehcaMaxTemporal(Date fehcaMaxTemporal) {
+        this.fehcaMaxTemporal = fehcaMaxTemporal;
+    }
+
+    public Date getFehcaMaxTemporal() {
+        return fehcaMaxTemporal;
+    }
+
+    public void setFechaYhoraInicialTemporal(Date FechaYhoraInicialTemporal) {
+        this.FechaYhoraInicialTemporal = FechaYhoraInicialTemporal;
+    }
+
+    public Date getFechaYhoraInicialTemporal() {
+        return FechaYhoraInicialTemporal;
+    }
+
+    public void setFechaYhoraFinTemporal(Date FechaYhoraFinTemporal) {
+        this.FechaYhoraFinTemporal = FechaYhoraFinTemporal;
+    }
+
+    public Date getFechaYhoraFinTemporal() {
+        return FechaYhoraFinTemporal;
+    }
+
+    public void setExec(Integer exec) {
+        this.exec = exec;
+    }
+
+    public Integer getExec() {
+        return exec;
+    }
+
+    public void setItemNombreProferos(List<SelectItem> itemNombreProferos) {
+        this.itemNombreProferos = itemNombreProferos;
+    }
+
+    public List<SelectItem> getItemNombreProferos() {
+        return itemNombreProferos;
+    }
+
+    public void setFNombres(String fNombres) {
+        this.fNombres = fNombres;
+    }
+
+    public String getFNombres() {
+        return fNombres;
     }
 }

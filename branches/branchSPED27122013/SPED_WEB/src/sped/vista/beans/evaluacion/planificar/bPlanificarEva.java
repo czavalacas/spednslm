@@ -1,6 +1,7 @@
 package sped.vista.beans.evaluacion.planificar;
 
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ import oracle.adf.share.logging.ADFLogger;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichCalendar;
 import oracle.adf.view.rich.component.rich.data.RichTable;
+import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
@@ -76,18 +78,22 @@ import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
 import sped.negocio.BDL.IR.BDL_T_SFEvaluacionRemoto;
+import sped.negocio.BDL.IR.BDL_T_SFMainRemoto;
 import sped.negocio.BDL.IR.BDL_T_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
+import sped.negocio.LNSF.IR.LN_C_SFAulaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
+import sped.negocio.LNSF.IR.LN_C_SFProfesorRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFEvaluacionRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.Aula;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Main;
@@ -140,6 +146,13 @@ public class bPlanificarEva {
     private LN_C_SFNivelRemote ln_C_SFNivelRemote; 
     @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote; 
+    @EJB
+    private LN_C_SFAulaRemote ln_C_SFAulaRemote;
+    @EJB
+    private LN_C_SFProfesorRemote ln_C_SFProfesorRemote;
+    ////// /////////////BDL TEMPORAL
+    @EJB
+    private BDL_T_SFMainRemoto bdl_T_SFMainRemoto;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private sessionPlanificar sessionPlanificarEva;
     private RichCalendar calendar;
@@ -177,7 +190,11 @@ public class bPlanificarEva {
     private RichButton btnSaveComentEvalu;
     private RichButton btnSaveJustificacion;
     
-    private HashMap activityStyles= new HashMap<Set<String>, InstanceStyles>();      
+    private HashMap activityStyles= new HashMap<Set<String>, InstanceStyles>();
+    private RichPopup popupEvento2;
+    private RichSelectOneChoice choiceAula;
+    private RichInputDate horaInicioTemporal;
+    private RichInputDate horaFinTemporal;
 
 
     public bPlanificarEva() {
@@ -203,6 +220,10 @@ public class bPlanificarEva {
        else {
             sessionPlanificarEva.setEstadoChoiceEvaluadores(false);
             sessionPlanificarEva.setNidUsuario(beanUsuario.getNidUsuario().toString());
+        }
+        if(sessionPlanificarEva.getExec()==0){
+            sessionPlanificarEva.setExec(1);
+            sessionPlanificarEva.setItemNombreProferos(Utils.llenarListItem(ln_C_SFProfesorRemote.getNombreProfesor_LN()));            
         }
     }
 
@@ -560,17 +581,44 @@ public class bPlanificarEva {
                 llenarBean();
                 sessionPlanificarEva.setListaProfesores(Utils.llenarComboString(ln_C_SFMainRemote.findProfesoresPorAreaAcademica_LN(sessionPlanificarEva.getNidAreaAcademica(),
                                                               sessionPlanificarEva.getDiaDeLaSemana())));
+                /**Temporalemnte se nulea el dia de la semana de setListaCursos hasta tener el modulo de horarios completo*/
                 sessionPlanificarEva.setListaCursos(Utils.llenarCombo(ln_C_SFCursoRemoto.findCursosPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                          sessionPlanificarEva.getDiaDeLaSemana())));
-                sessionPlanificarEva.setListaSedes(Utils.llenarCombo(ln_C_SFSedeRemote.findSedePorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                       sessionPlanificarEva.getDiaDeLaSemana())));
+                                                         null)));
+                /**Comentado Temporalmente*/
+               /* sessionPlanificarEva.setListaSedes(Utils.llenarCombo(ln_C_SFSedeRemote.findSedePorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                       sessionPlanificarEva.getDiaDeLaSemana())));                
+                  sessionPlanificarEva.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.findNivelPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                        sessionPlanificarEva.getDiaDeLaSemana())));
+                */
+                /*****/
+                
+                sessionPlanificarEva.setListaSedes(Utils.llenarCombo(ln_C_SFSedeRemote.getAllSedes()));/** ESTO NO VA BORRAR LUEGO DE completar modulo de horarios..**/
+                sessionPlanificarEva.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.getAllNivelesBySedes(null))); /** ESTO NO VA BORRAR LUEGO DE completar modulo de horarios..**/
                 sessionPlanificarEva.setListaGrados(Utils.llenarCombo(ln_C_SFGradoRemote.findGradoPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
                                                          sessionPlanificarEva.getDiaDeLaSemana())));
-                sessionPlanificarEva.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.findNivelPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                         sessionPlanificarEva.getDiaDeLaSemana())));
+                
                 sessionPlanificarEva.setListAreasAcade(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
                 sessionPlanificarEva.setEstadoAsignarEvaluacion(true);
-                Utils.showPopUpMIDDLE(popupEvento);
+                //Utils.showPopUpMIDDLE(popupEvento);  ESCONDIDO HASTA QUE HAIGA EL MODULO DE HORARIOS                
+              /**DE AQUI HACIA ABAJO TODO ES TEMPORAL... */
+                sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(ln_C_SFAulaRemote.getAulaPorSedeNivelYGrado(sessionPlanificarEva.getNidSede(), sessionPlanificarEva.getNidGrado(), sessionPlanificarEva.getNidNivel())));
+                Date fechaCalen2 = calendarEvent.getTriggerDate();
+                Date fechaMinTemporal = (Date) fechaCalen2.clone();
+                Date fechaMxxTemporal = (Date) fechaCalen2.clone();
+                fechaMinTemporal.setHours(0);
+                fechaMinTemporal.setMinutes(0);
+                fechaMinTemporal.setSeconds(0);
+                fechaMxxTemporal.setHours(23);
+                fechaMxxTemporal.setMinutes(59);
+                fechaMxxTemporal.setSeconds(59);
+                sessionPlanificarEva.setFechaMinTemporal(fechaMinTemporal);
+                sessionPlanificarEva.setFehcaMaxTemporal(fechaMxxTemporal);
+                sessionPlanificarEva.setListatipoVisita(Utils.llenarComboString(ln_C_SFUtilsRemote.getTipoVisitaFromConstraint()));
+                sessionPlanificarEva.setValorTipoVisita("OP");
+                sessionPlanificarEva.setFechaYhoraInicialTemporal(fechaMinTemporal);
+                sessionPlanificarEva.setFechaYhoraFinTemporal(fechaMinTemporal);
+                sessionPlanificarEva.setNidAulaTemporal(null);
+                Utils.showPopUpMIDDLE(popupEvento2);
             }
         }
 
@@ -647,6 +695,23 @@ public class bPlanificarEva {
     }
 
     public String btnLimpiar() {
+        /**  temporal */
+        if (choiceAula != null) {           
+            sessionPlanificarEva.setNidAulaTemporal(null);
+            choiceAula.resetValue();
+            Utils.addTarget(choiceAula);
+        }
+            if (horaInicioTemporal != null) {           
+                sessionPlanificarEva.setFechaYhoraInicialTemporal(null);
+                horaInicioTemporal.resetValue();
+                Utils.addTarget(horaInicioTemporal);
+            }
+        if (horaFinTemporal != null) {           
+            sessionPlanificarEva.setFechaYhoraFinTemporal(null);
+            horaFinTemporal.resetValue();
+            Utils.addTarget(horaFinTemporal);
+        }
+        /** hasta aqui */
         if (choiceCursos != null) {           
             sessionPlanificarEva.setNidCurso(null);
             choiceCursos.resetValue();
@@ -1388,4 +1453,112 @@ public class bPlanificarEva {
     public HashMap getActivityStyles() {
         return activityStyles;
     }
+
+    public void setPopupEvento2(RichPopup popupEvento2) {
+        this.popupEvento2 = popupEvento2;
+    }
+
+    public RichPopup getPopupEvento2() {
+        return popupEvento2;
+    }
+
+    public void setChoiceAula(RichSelectOneChoice choiceAula) {
+        this.choiceAula = choiceAula;
+    }
+
+    public RichSelectOneChoice getChoiceAula() {
+        return choiceAula;
+    }
+
+    public void getAulasBysede(ValueChangeEvent valueChangeEvent) {
+      
+        sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(ln_C_SFAulaRemote.getAulaPorSedeNivelYGrado(choiceSede.getValue().toString(), null, null)));
+        sessionPlanificarEva.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.getAllNivelesBySedes(choiceSede.getValue().toString())));
+        Utils.addTargetMany(choiceAula,choiceNivel);
+    }
+    
+    public void getNivelesBySede(ValueChangeEvent valueChangeEvent) {
+        if(choiceSede.getValue()!=null){
+            sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(ln_C_SFAulaRemote.getAulaPorSedeNivelYGrado(choiceSede.getValue().toString(), null, choiceNivel.getValue().toString())));
+        }else{
+            sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(ln_C_SFAulaRemote.getAulaPorSedeNivelYGrado(null, null, choiceNivel.getValue().toString())));
+        }  
+      Utils.addTarget(choiceAula);
+    }
+    
+  /***/  public String agregarEvaluacionYMainProvicional(){
+    
+        Evaluacion eva=new Evaluacion();
+        Main main = new Main();
+        Profesor prof=new Profesor();        
+        prof.setDniProfesor(ln_C_SFProfesorRemote.getDniProfesorPorNombreCompleto(sessionPlanificarEva.getFNombres()));
+        main.setProfesor(prof);
+        Aula au=new Aula();
+        au.setNidAula(Integer.parseInt(sessionPlanificarEva.getNidAulaTemporal()));
+        main.setAula(au);
+        Curso cur=new Curso();
+        cur.setNidCurso(Integer.parseInt(sessionPlanificarEva.getNidCurso()));
+        main.setCurso(cur);
+        main.setDia(sessionPlanificarEva.getDiaDeLaSemana());
+        main.setEstado("1");      
+        Date hIni= (Date) horaInicioTemporal.getValue();
+        Time hora=new Time(0);
+        hora.setHours(hIni.getHours());
+        hora.setMinutes(hIni.getMinutes());
+        hora.setSeconds(hIni.getSeconds());        
+        main.setHoraInicio(hora); 
+        Date hFin= (Date) horaFinTemporal.getValue();
+        Time hora2=new Time(0);
+        hora2.setHours(hFin.getHours());
+        hora2.setMinutes(hFin.getMinutes());
+        hora2.setSeconds(hFin.getSeconds());
+        main.setHoraFin(hora2);      
+        
+        long s = sessionPlanificarEva.getFechaYhoraInicialTemporal().getTime();
+        eva.setStartDate(new Timestamp(s));
+        long c = sessionPlanificarEva.getFechaYhoraFinTemporal().getTime();
+        eva.setEndDate(new Timestamp(c));               
+        eva.setMain(main);
+        eva.setNidEvaluador(Integer.parseInt(getSessionPlanificarEva().getNidUsuario()));
+        eva.setDescripcion("");
+        eva.setEstadoEvaluacion("PENDIENTE");
+        String nidDat = generarAlfanumerico();
+        eva.setNidDate(nidDat);
+        //eva.setTipoVisita("OP");
+        eva.setNidPlanificador(sessionPlanificarEva.getNidPlanificador());
+        Date fechaHoy = new Date();
+        long d = fechaHoy.getTime();
+        eva.setFechaPlanificacion(new Timestamp(d));
+        eva.setTipoVisita(sessionPlanificarEva.getValorTipoVisita());
+        eva.setNidProblema(0);
+        List<Evaluacion> lsteva=new ArrayList<Evaluacion>();
+        lsteva.add(eva);
+        main.setEvaluacionLista(lsteva);
+        bdl_T_SFMainRemoto.persistMain(main);        
+        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
+        Utils.addTarget(calendar);
+        popupEvento2.hide();
+        return null;
+    }
+    public List<SelectItem> suggestNombreProfesor(String string) {
+        return Utils.getSuggestions(sessionPlanificarEva.getItemNombreProferos(), string);
+    }
+
+    public void setHoraInicioTemporal(RichInputDate horaInicioTemporal) {
+        this.horaInicioTemporal = horaInicioTemporal;
+    }
+
+    public RichInputDate getHoraInicioTemporal() {
+        return horaInicioTemporal;
+    }
+
+    public void setHoraFinTemporal(RichInputDate horaFinTemporal) {
+        this.horaFinTemporal = horaFinTemporal;
+    }
+
+    public RichInputDate getHoraFinTemporal() {
+        return horaFinTemporal;
+    }
+
+   
 }

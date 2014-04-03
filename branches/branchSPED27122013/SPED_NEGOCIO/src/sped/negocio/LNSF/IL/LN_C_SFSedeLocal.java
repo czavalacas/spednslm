@@ -12,4 +12,7 @@ public interface LN_C_SFSedeLocal {
     List<BeanSede> getSedeLN();
     List<BeanCombo> findSedePorAreaAcademica(Integer nidAreaAcademica, String dia);
     BeanSede findConstrainByIdLN(int id);
+    /** Temporal getAllSedes*/
+    List<BeanCombo> getAllSedes();
+    /*******/
 }

@@ -9,6 +9,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import javax.persistence.TableGenerator;
 
 import sped.negocio.entidades.eval.Evaluacion;
 
@@ -32,8 +36,10 @@ public class Main implements Serializable {
     private Time horaFin;
     @Column(name = "hora_ini")
     private Time horaInicio;
-    @Id
+    @Id        
     @Column(name = "nidMain", nullable = false)
+    @TableGenerator( name = "stmcodi_addmain", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "addmain.nidMain", valueColumnName = "APP_SEQ_VALUE", initialValue = 50, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi_addmain" )
     private int nidMain;
     @OneToMany(mappedBy = "main", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Evaluacion> evaluacionLista;
