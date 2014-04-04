@@ -23,6 +23,7 @@ public class bSessionConsultarPlanificacion {
     private boolean estadoChoiceSede=false;
     private boolean estadoChoiceArea=false;
     private String dniProfesor;
+    private String fechaHoy;
     
     public bSessionConsultarPlanificacion() {
     }
@@ -138,5 +139,13 @@ public class bSessionConsultarPlanificacion {
 
     public String getDniProfesor() {
         return dniProfesor;
+    }
+
+    public void setFechaHoy(String fechaHoy) {
+        this.fechaHoy = fechaHoy;
+    }
+
+    public String getFechaHoy() {
+        return fechaHoy;
     }
 }
