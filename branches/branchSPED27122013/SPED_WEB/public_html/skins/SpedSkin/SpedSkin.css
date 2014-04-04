@@ -87,6 +87,10 @@ af|button.flechaDown:text-only {
     position: absolute;   
     z-index: 999;
 }
+.arriba2{
+    position: absolute;
+    z-index: 999;
+}
 
 .abajo{
     position: relative;
