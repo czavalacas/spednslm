@@ -30,13 +30,16 @@ import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.entidades.admin.Constraint;
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanNivel;
+import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -97,6 +100,14 @@ public class bConsultaPlanificacion {
         if(sessionConsultarPlanificacion.getExec()==0){
            sessionConsultarPlanificacion.setExec(1); 
            sessionConsultarPlanificacion.setNidEstadoPlanificacion("PENDIENTE");
+            usuarioEnSesion = (BeanUsuario) Utils.getSession("USER");
+            if(usuarioEnSesion.getRol().getNidRol()==2 ||usuarioEnSesion.getRol().getNidRol()==4 ||usuarioEnSesion.getRol().getNidRol()==5){
+                sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
+                sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
+            }
+            if(usuarioEnSesion.getRol().getNidRol()==3 ){
+                sessionConsultarPlanificacion.setDniProfesor(usuarioEnSesion.getDni());
+            }
             buscarPlani();
         }        
     }    
@@ -200,7 +211,13 @@ public class bConsultaPlanificacion {
         if(sessionConsultarPlanificacion.getNidEstadoPlanificacion()!=null){
             beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());
         }
-      
+        if(sessionConsultarPlanificacion.getDniProfesor()!=null) {
+            BeanMain main=new BeanMain();
+            BeanProfesor prof=new BeanProfesor();
+            prof.setDniProfesor(sessionConsultarPlanificacion.getDniProfesor());
+            main.setProfesor(prof);
+            beanEvaluacion.setMain(main);
+        }
         sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
         if(tbPlanificacion!=null){
             Utils.addTarget(tbPlanificacion);          
