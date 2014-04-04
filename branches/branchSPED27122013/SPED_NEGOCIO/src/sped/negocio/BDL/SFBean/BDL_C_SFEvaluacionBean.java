@@ -51,12 +51,20 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }
     }
     
-    public List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion){
+    public List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion, String fechaHoy){
         try{
             String ejbQl = "SELECT ev " +
                            "FROM Evaluacion ev " +
                            "WHERE 1 = 1 ";
-                           
+                     
+            if(beanEvaluacion.getMain()!=null){
+                if(beanEvaluacion.getMain().getProfesor()!=null){
+                    if(beanEvaluacion.getMain().getProfesor().getDniProfesor()!=null){
+                        ejbQl = ejbQl.concat(" AND ev.main.profesor.dniProfesor='"+beanEvaluacion.getMain().getProfesor().getDniProfesor()+"' " +
+                                             " AND ev.tipoVisita='OP' OR (ev.tipoVisita='SO' AND ev.startDate like '%"+fechaHoy+"%' )");   
+                    }
+                }
+            }
             if(beanEvaluacion.getFechaMaxPlanificacion() != null && beanEvaluacion.getFechaMinPlanificacion() != null){
                 ejbQl = ejbQl.concat(" AND ev.fechaPlanificacion BETWEEN :min AND :max ");
             }

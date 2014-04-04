@@ -79,9 +79,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     public LN_C_SFEvaluacionBean() {
     }
     
-    public List<BeanEvaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion){
+    public List<BeanEvaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion, String fechaHoy){
         List<BeanEvaluacion> lstBean = new ArrayList();
-        List<Evaluacion> lstAreaAcd = bdL_C_SFEvaluacionLocal.getPlanificacion(beanEvaluacion);
+        List<Evaluacion> lstAreaAcd = bdL_C_SFEvaluacionLocal.getPlanificacion(beanEvaluacion,fechaHoy);
         for(Evaluacion a : lstAreaAcd){
             BeanEvaluacion bean = (BeanEvaluacion) mapper.map(a, BeanEvaluacion.class);
             bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidEvaluador()));
@@ -343,7 +343,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }
     
     /**
-     * Metodo para mostrar los graficos de Desempeño Evaluador
+     * Metodo para mostrar los graficos de Desempeï¿½o Evaluador
      * @author dangeles
      * @param tipoBusqueda 
      * @param nombre

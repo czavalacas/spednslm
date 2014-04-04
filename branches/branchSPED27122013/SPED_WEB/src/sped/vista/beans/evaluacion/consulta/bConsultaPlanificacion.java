@@ -1,6 +1,9 @@
 package sped.vista.beans.evaluacion.consulta;
 
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -106,6 +109,11 @@ public class bConsultaPlanificacion {
                 sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
             }
             if(usuarioEnSesion.getRol().getNidRol()==3 ){
+                Date hoy=new Date();        
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date fechaActual =hoy;
+                String fechaConFormato = sdf.format(fechaActual);
+                sessionConsultarPlanificacion.setFechaHoy(fechaConFormato);
                 sessionConsultarPlanificacion.setDniProfesor(usuarioEnSesion.getDni());
             }
             buscarPlani();
@@ -218,7 +226,7 @@ public class bConsultaPlanificacion {
             main.setProfesor(prof);
             beanEvaluacion.setMain(main);
         }
-        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
+        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion, sessionConsultarPlanificacion.getFechaHoy()));
         if(tbPlanificacion!=null){
             Utils.addTarget(tbPlanificacion);          
         }
