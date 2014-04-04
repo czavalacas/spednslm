@@ -4,43 +4,79 @@
         xmlns:h="http://java.sun.com/jsf/html">
     <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario">
         <af:form id="f1">
-            <af:panelGridLayout id="pgl1">
-                <af:gridRow height="50px" id="gr1">
+            <af:panelGroupLayout halign="right" layout="horizontal">
+                <af:image source="/recursos/img/layout/buhologo.png"
+                          inlineStyle="height:110px; width:80px;margin:0px 0px 0px -120px;" styleClass="arriba2"/>
+            </af:panelGroupLayout>
+            <af:panelGridLayout id="pgl1"
+                                inlineStyle='border-top-width:thick; background-image:url("../recursos/img/layout/bar.jpg"); background-repeat:repeat-x;'>
+                <af:gridRow height="55px" id="gr1">
                     <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc1">
-                        <!-- Header -->
+                        <af:panelFormLayout maxColumns="3" rows="1" inlineStyle="margin:5px 0px 0px 0px;">
+                            <af:image source="/recursos/img/layout/_logo.png"
+                                      inlineStyle="height:47px;width:65px;margin:-4px 0px 0px 20px;"/>
+                            <af:image source="/recursos/img/layout/logotipo.png"
+                                      inlineStyle="height:45px;width:200px;margin:0px 0px 0px -60px;"/>
+                        </af:panelFormLayout>
                     </af:gridCell>
                 </af:gridRow>
                 <af:gridRow height="100%" id="gr2">
                     <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc2">
+                        <af:panelGridLayout>
+                            <af:gridRow>
+                                <af:gridCell width="50%" halign="center" valign="middle">
+                                    <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="33%"
+                                                           bottomHeight="33%">
+                                        <f:facet name="center">
+                                            <af:panelGroupLayout layout="vertical" halign="center">
+                                                <af:panelBox text="Iniciar Sesion" id="pb1">
+                                                    <af:subform id="s1" defaultCommand="btnInicio">
+                                                        <af:panelFormLayout id="pfl1">
+                                                            <af:inputText label="Usuario" id="itUsuario" required="true"
+                                                                          clientComponent="true"
+                                                                          labelStyle="text-align: left;"
+                                                                          styleClass="login" value="#{bLogin.usuario}">
+                                                                <f:converter converterId="lowerconverter"/>
+                                                            </af:inputText>
+                                                            <af:inputText label="Clave" id="itClave" secret="true"
+                                                                          required="true" labelStyle="text-align: left;"
+                                                                          value="#{bLogin.clave}">
+                                                                <f:converter converterId="lowerconverter"/>
+                                                            </af:inputText>
+                                                            <af:button text="Ingresar" id="btnInicio"
+                                                                       actionListener="#{bLogin.autenticarUsuario}"
+                                                                       action="#{bLogin.getRedireccionar}"/>
+                                                            <af:activeOutputText id="otError"
+                                                                                 value="#{requestScope.bLogin.msjError}"
+                                                                                 inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
+                                                                                 binding="#{bLogin.otError}"/>
+                                                            <af:messages id="m1" inline="true"/>
+                                                        </af:panelFormLayout>
+                                                    </af:subform>
+                                                    <af:panelGroupLayout id="pgl2" layout="scroll"
+                                                                         inlineStyle="margin:0px 0px 0px 53px;">
+                                                        <af:link text="¿Has olvidado tu clave?" id="l1"
+                                                                 partialSubmit="true">
+                                                            <af:showPopupBehavior popupId="p1"/>
+                                                        </af:link>
+                                                    </af:panelGroupLayout>
+                                                </af:panelBox>
+                                            </af:panelGroupLayout>
+                                        </f:facet>
+                                        <f:facet name="bottom">
+                                            <af:panelGroupLayout/>
+                                        </f:facet>
+                                        <f:facet name="top">
+                                            <af:panelGroupLayout id="pgl3"/>
+                                        </f:facet>
+                                    </af:panelStretchLayout>
+                                </af:gridCell>
+                                <af:gridCell width="50%" halign="center" valign="middle">
+                                    <af:image source="../recursos/img/layout/pantallas.png" inlineStyle="height:235px;width:417px;" />
+                                </af:gridCell>
+                            </af:gridRow>
+                        </af:panelGridLayout>
                         <!-- Content -->
-                        <af:panelBox text="Iniciar Sesion" id="pb1">
-                            <af:subform id="s1" defaultCommand="btnInicio">
-                                <af:panelFormLayout id="pfl1">
-                                        <af:inputText label="Usuario" id="itUsuario" required="true" clientComponent="true"
-                                                      labelStyle="text-align: left;" styleClass="login"
-                                                      value="#{bLogin.usuario}">
-                                            <f:converter converterId="lowerconverter"/>
-                                        </af:inputText>
-                                        <af:inputText label="Clave" id="itClave" secret="true" required="true"
-                                                      labelStyle="text-align: left;" value="#{bLogin.clave}">
-                                            <f:converter converterId="lowerconverter"/>
-                                        </af:inputText>
-                                        <af:button text="Ingresar" id="btnInicio"
-                                                   actionListener="#{bLogin.autenticarUsuario}"
-                                                   action="#{bLogin.getRedireccionar}"/>
-                                        <af:activeOutputText id="otError"
-                                                                value="#{requestScope.bLogin.msjError}"
-                                                                inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
-                                                                binding="#{bLogin.otError}"/>
-                                <af:messages id="m1" inline="true"/>                                    
-                               </af:panelFormLayout>
-                             </af:subform>
-                            <af:panelGroupLayout id="pgl2" layout="scroll" inlineStyle="margin:0px 0px 0px 53px;">
-                                <af:link text="¿Has olvidado tu clave?" id="l1" partialSubmit="true">
-                                    <af:showPopupBehavior popupId="p1"/>
-                                </af:link>
-                            </af:panelGroupLayout>                            
-                        </af:panelBox>
                     </af:gridCell>
                 </af:gridRow>
             </af:panelGridLayout>
@@ -51,8 +87,8 @@
                     </af:inputText>
                 </af:dialog>
             </af:popup>
-             <af:popup childCreation="deferred" autoCancel="disabled" contentDelivery="immediate" id="popMsj"
-                       binding="#{bLogin.popMsj}">
+            <af:popup childCreation="deferred" autoCancel="disabled" contentDelivery="immediate" id="popMsj"
+                      binding="#{bLogin.popMsj}">
                 <af:dialog title="#{requestScope.bLogin.tituloPopup}" type="ok">
                     <af:outputText value="#{requestScope.bLogin.mensajeCorreo}" id="ot1"/>
                 </af:dialog>
