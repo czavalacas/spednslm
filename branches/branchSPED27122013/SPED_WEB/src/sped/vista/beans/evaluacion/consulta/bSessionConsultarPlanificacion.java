@@ -22,6 +22,8 @@ public class bSessionConsultarPlanificacion {
     private boolean estadoChoiceEvaluador=false;
     private boolean estadoChoiceSede=false;
     private boolean estadoChoiceArea=false;
+    private String dniProfesor;
+    
     public bSessionConsultarPlanificacion() {
     }
 
@@ -128,5 +130,13 @@ public class bSessionConsultarPlanificacion {
 
     public String getNidEstadoPlanificacion() {
         return nidEstadoPlanificacion;
+    }
+
+    public void setDniProfesor(String dniProfesor) {
+        this.dniProfesor = dniProfesor;
+    }
+
+    public String getDniProfesor() {
+        return dniProfesor;
     }
 }
