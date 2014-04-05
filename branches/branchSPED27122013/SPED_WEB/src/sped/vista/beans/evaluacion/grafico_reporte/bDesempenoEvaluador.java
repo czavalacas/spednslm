@@ -40,6 +40,8 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import javax.faces.model.SelectItemGroup;
+
 import javax.servlet.ServletContext;
 
 import oracle.adf.view.faces.bi.component.graph.UIGraph;
@@ -128,7 +130,7 @@ public class bDesempenoEvaluador {
     private String clave;
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
-    public bDesempenoEvaluador() {
+    public bDesempenoEvaluador() {        
         nombreUsuario = beanUsuario.getNombres();
         correo = beanUsuario.getCorreo();
     }
@@ -147,9 +149,35 @@ public class bDesempenoEvaluador {
             sessionDesempenoEvaluador.setFechaEI_aux(sessionDesempenoEvaluador.getFechaAnterior());
             sessionDesempenoEvaluador.setFechaEF(sessionDesempenoEvaluador.getFechaActual());
             sessionDesempenoEvaluador.setFechaEF_aux(sessionDesempenoEvaluador.getFechaActual());
-            setListEvaFiltro_aux();            
+            setListEvaFiltro_aux();
+            validarRol();
             sessionDesempenoEvaluador.setExec(1);
         }        
+    }
+    
+    public void validarRol(){
+        int nidRol = beanUsuario.getRol().getNidRol();                
+        if(nidRol == 2 || nidRol == 4 || nidRol == 5){
+            sessionDesempenoEvaluador.setRenderFRol(true);
+            List lstrol = new ArrayList();
+            lstrol.add(nidRol+"");            
+            sessionDesempenoEvaluador.setSelectedRol(lstrol);
+            List lstseni = new ArrayList();
+            if(nidRol == 2){
+                sessionDesempenoEvaluador.setRenderFArea(true);                
+                lstseni.add(beanUsuario.getAreaAcademica().getNidAreaAcademica()+"");
+                sessionDesempenoEvaluador.setSelectedArea(lstseni);
+            }
+            if(nidRol == 4){
+                sessionDesempenoEvaluador.setRenderFSede(true);                
+                lstseni.add(beanUsuario.getSede().getNidSede()+"");
+                sessionDesempenoEvaluador.setSelectedSede(lstseni);
+            }
+            sessionDesempenoEvaluador.setRenderFEvaluador(true);
+            List lstEva = new ArrayList();
+            lstEva.add(beanUsuario.getNidUsuario()+"");
+            sessionDesempenoEvaluador.setSelectedEvaluador(lstEva);
+        }
     }
     
     public void limpiarFiltro(ActionEvent actionEvent) {
