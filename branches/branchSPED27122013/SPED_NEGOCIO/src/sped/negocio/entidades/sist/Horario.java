@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @NamedQueries({ @NamedQuery(name = "Horario.findAll", query = "select o from Horario o") })
 @Table(name = "\"stmhora\"")
 public class Horario implements Serializable {
+    @SuppressWarnings("compatibility:-7612718888518261632")
     private static final long serialVersionUID = 2215615158515643434L;
     @Column(name = "duracion", nullable = false)
     private Time duracion;
@@ -27,16 +28,19 @@ public class Horario implements Serializable {
     private int nidHorario;
     @Column(name = "nroBloque", nullable = false)
     private int nroBloque;
+    @Column(name = "maxBloque", nullable = false)
+    private int maxBloque;
 
     public Horario() {
     }
 
-    public Horario(Time duracion, Time hora_fin, Time hora_ini, int nidHorario, int nroBloque) {
+    public Horario(Time duracion, Time hora_fin, Time hora_ini, int nidHorario, int nroBloque, int maxBloque) {
         this.duracion = duracion;
         this.hora_fin = hora_fin;
         this.hora_ini = hora_ini;
         this.nidHorario = nidHorario;
         this.nroBloque = nroBloque;
+        this.maxBloque = maxBloque;
     }
 
     public Time getDuracion() {
@@ -77,5 +81,13 @@ public class Horario implements Serializable {
 
     public void setNroBloque(int nroBloque) {
         this.nroBloque = nroBloque;
+    }
+
+    public void setMaxBloque(int maxBloque) {
+        this.maxBloque = maxBloque;
+    }
+
+    public int getMaxBloque() {
+        return maxBloque;
     }
 }

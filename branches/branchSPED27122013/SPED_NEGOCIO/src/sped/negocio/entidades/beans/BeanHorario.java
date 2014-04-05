@@ -5,13 +5,14 @@ import java.io.Serializable;
 import java.sql.Time;
 
 public class BeanHorario implements Serializable {
-    @SuppressWarnings("compatibility:6401770724038289739")
+    @SuppressWarnings("compatibility:-2617463507345312458")
     private static final long serialVersionUID = 1L;
     private Time duracion;
     private Time hora_fin;
     private Time hora_ini;
     private int nidHorario;
     private int nroBloque;
+    private int maxBloque;
 
     public BeanHorario(){}
 
@@ -53,5 +54,13 @@ public class BeanHorario implements Serializable {
 
     public int getNroBloque() {
         return nroBloque;
+    }
+
+    public void setMaxBloque(int maxBloque) {
+        this.maxBloque = maxBloque;
+    }
+
+    public int getMaxBloque() {
+        return maxBloque;
     }
 }
