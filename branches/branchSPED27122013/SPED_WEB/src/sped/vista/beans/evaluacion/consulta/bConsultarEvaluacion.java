@@ -167,11 +167,11 @@ public class bConsultarEvaluacion {
         sessionConsultarEvaluacion.setNombreProfesor(null);
         sessionConsultarEvaluacion.setNombreEvaluador(null);
         sessionConsultarEvaluacion.setDescripcionEstadoEvaluacion(null);
-        sessionConsultarEvaluacion.setNidSede(0);
-        sessionConsultarEvaluacion.setNidNivel(0);
-        sessionConsultarEvaluacion.setNidArea(0);
-        sessionConsultarEvaluacion.setNidCurso(0);
-        sessionConsultarEvaluacion.setNidGrado(0);
+        sessionConsultarEvaluacion.setNidSede(null);
+        sessionConsultarEvaluacion.setNidNivel(null);
+        sessionConsultarEvaluacion.setNidArea(null);
+        sessionConsultarEvaluacion.setNidCurso(null);
+        sessionConsultarEvaluacion.setNidGrado(null);
         sessionConsultarEvaluacion.setEstadoEvaluacion(0);
         sd1.setDisclosed(false);
         sd2.setDisclosed(false);
@@ -182,11 +182,11 @@ public class bConsultarEvaluacion {
     public void llenarTabla(){
         sessionConsultarEvaluacion.setLstBeanEvaluacion(
              ln_C_SFEvaluacionRemote.getEvaluacionesByUsuarioLN(beanUsuario, 
-                                                                sessionConsultarEvaluacion.getNidSede(), 
-                                                                sessionConsultarEvaluacion.getNidNivel(), 
-                                                                sessionConsultarEvaluacion.getNidArea(), 
-                                                                sessionConsultarEvaluacion.getNidCurso(),
-                                                                sessionConsultarEvaluacion.getNidGrado(),
+                                                                transforString(sessionConsultarEvaluacion.getNidSede()), 
+                                                                transforString(sessionConsultarEvaluacion.getNidNivel()), 
+                                                                transforString(sessionConsultarEvaluacion.getNidArea()), 
+                                                                transforString(sessionConsultarEvaluacion.getNidCurso()),
+                                                                transforString(sessionConsultarEvaluacion.getNidGrado()),
                                                                 sessionConsultarEvaluacion.getNombreProfesor(),
                                                                 sessionConsultarEvaluacion.getNombreEvaluador(),
                                                                 sessionConsultarEvaluacion.getFechaP(),
@@ -196,6 +196,10 @@ public class bConsultarEvaluacion {
         if(tbEval != null){
             Utils.addTarget(tbEval);
         }        
+    }
+    
+    public int transforString(String valor){
+        return valor == null ? 0 : Integer.parseInt(valor);
     }
     
     public void changeListenerEstadoEvaluacion(ValueChangeEvent vce) {

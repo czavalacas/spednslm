@@ -351,6 +351,7 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setDni("");
         sessionGestionarUsuarios.setUsuario("");        
         sessionGestionarUsuarios.setClave("");
+        sessionGestionarUsuarios.setCorreo("");
         sessionGestionarUsuarios.setRutaImg("");
         sessionGestionarUsuarios.setNidRol(0);        
         sessionGestionarUsuarios.setNidAreaAcademica(null);
