@@ -1,8 +1,11 @@
 package sped.vista.beans.horarios;
 
-import com.wles.util.Time;
+
+import java.sql.Time;
 
 import java.util.Calendar;
+
+import java.util.GregorianCalendar;
 
 import javax.annotation.PostConstruct;
 
@@ -101,23 +104,26 @@ public class bGestionarHorario {
     
     public void validaHorario(){
         BeanHorario horario = ln_C_SFHorarioRemote.getHorario();
-        long hora = horario.getHora_fin().getTime() - horario.getHora_ini().getTime();
-        Time diferencia;
-        System.out.println(horario.getHora_fin()+"   "+horario.getHora_fin().getTime());
-        System.out.println(horario.getHora_ini()+"   "+horario.getHora_ini().getTime());
-        System.out.println("minutos"+(hora/ (60 * 1000)));
-        System.out.println("segundos"+(hora/ 1000));
-        System.out.println("horas"+(hora/ (60 * 60 * 1000)));
-        Calendar ahoraCal = Calendar.getInstance();
-        Calendar antesCal = Calendar.getInstance();
-        ahoraCal.setTime(horario.getHora_fin());
-        antesCal.setTime(horario.getHora_ini());
-        System.out.println(ahoraCal);
-        System.out.println(antesCal);
-        ahoraCal.add(ahoraCal.HOUR_OF_DAY, -antesCal.HOUR_OF_DAY);
-        ahoraCal.add(ahoraCal.MINUTE, -antesCal.MINUTE);
-        ahoraCal.add(ahoraCal.MILLISECOND, -antesCal.MILLISECOND);
-        System.out.println(ahoraCal);
+        Calendar inicio = new GregorianCalendar();
+        inicio.setTimeInMillis(horario.getHora_ini().getTime());
+        Time suma = new Time(inicio.getTimeInMillis());
+        Time duracion = new Time(horario.getDuracion().getTime());
+        String horas[] = new String[horario.getNroBloque()];
+        for(int i = 0 ; i < horario.getNroBloque(); i++){
+            if(i != 0){
+                inicio.add(Calendar.HOUR, duracion.getHours());
+                inicio.add(Calendar.MINUTE, duracion.getMinutes());
+                suma.setTime(inicio.getTimeInMillis());
+            }
+            horas[i] = suma.toString();
+        }
+        for(int i = 0 ; i < horario.getNroBloque(); i++){
+            System.out.println(horas[i]);
+        }
+    }
+    
+    public void llenarVectorHoras(){
+        
     }
 
     public void setSessionGestionarHorario(bSessionGestionarHorario sessionGestionarHorario) {

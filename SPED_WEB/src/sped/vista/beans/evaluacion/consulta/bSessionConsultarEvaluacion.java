@@ -37,11 +37,11 @@ public class bSessionConsultarEvaluacion {
     private Date fechaF;
     private Date fechaFf;
     private String descripcionEstadoEvaluacion;
-    private int nidSede;
-    private int nidNivel;
-    private int nidArea;
-    private int nidCurso;
-    private int nidGrado;
+    private String nidSede;
+    private String nidNivel;
+    private String nidArea;
+    private String nidCurso;
+    private String nidGrado;
     private int estadoEvaluacion;
     private BeanEvaluacion evaluacion;
     private List<SelectItem> itemProfesor;
@@ -145,39 +145,7 @@ public class bSessionConsultarEvaluacion {
     public List getLstGrado() {
         return lstGrado;
     }
-
-    public void setNidSede(int nidSede) {
-        this.nidSede = nidSede;
-    }
-
-    public int getNidSede() {
-        return nidSede;
-    }
-
-    public void setNidNivel(int nidNivel) {
-        this.nidNivel = nidNivel;
-    }
-
-    public int getNidNivel() {
-        return nidNivel;
-    }
-
-    public void setNidArea(int nidArea) {
-        this.nidArea = nidArea;
-    }
-
-    public int getNidArea() {
-        return nidArea;
-    }
-
-    public void setNidCurso(int nidCurso) {
-        this.nidCurso = nidCurso;
-    }
-
-    public int getNidCurso() {
-        return nidCurso;
-    }
-
+    
     public void setNombreProfesor(String nombreProfesor) {
         this.nombreProfesor = nombreProfesor;
     }
@@ -224,14 +192,6 @@ public class bSessionConsultarEvaluacion {
 
     public String getNombreEvaluador() {
         return nombreEvaluador;
-    }
-
-    public void setNidGrado(int nidGrado) {
-        this.nidGrado = nidGrado;
-    }
-
-    public int getNidGrado() {
-        return nidGrado;
     }
 
     public void setLstEstadoEvaluacion(List lstEstadoEvaluacion) {
@@ -288,5 +248,45 @@ public class bSessionConsultarEvaluacion {
 
     public List<SelectItem> getItemEvaluador() {
         return itemEvaluador;
+    }
+
+    public void setNidSede(String nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public String getNidSede() {
+        return nidSede;
+    }
+
+    public void setNidNivel(String nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public String getNidNivel() {
+        return nidNivel;
+    }
+
+    public void setNidArea(String nidArea) {
+        this.nidArea = nidArea;
+    }
+
+    public String getNidArea() {
+        return nidArea;
+    }
+
+    public void setNidCurso(String nidCurso) {
+        this.nidCurso = nidCurso;
+    }
+
+    public String getNidCurso() {
+        return nidCurso;
+    }
+
+    public void setNidGrado(String nidGrado) {
+        this.nidGrado = nidGrado;
+    }
+
+    public String getNidGrado() {
+        return nidGrado;
     }
 }

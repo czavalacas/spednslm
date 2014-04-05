@@ -21,6 +21,7 @@ public class bSessionGestionarHorario implements Serializable {
     private List lstProfesor;
     private List lstCurso;
     private List lstArea;
+    private String horas[];
     
 
     public void setExec(int exec) {

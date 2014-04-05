@@ -66,6 +66,10 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private String mensaje;
     private String asunto;
     private String typePopUpCorreo = "none";
+    private boolean renderFRol;
+    private boolean renderFSede;
+    private boolean renderFArea;
+    private boolean renderFEvaluador;
     
     public bSessionDesempenoEvaluador() {
     }
@@ -500,5 +504,37 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public List getLstEvaluador() {
         return lstEvaluador;
+    }
+
+    public void setRenderFRol(boolean renderFRol) {
+        this.renderFRol = renderFRol;
+    }
+
+    public boolean isRenderFRol() {
+        return renderFRol;
+    }
+
+    public void setRenderFSede(boolean renderFSede) {
+        this.renderFSede = renderFSede;
+    }
+
+    public boolean isRenderFSede() {
+        return renderFSede;
+    }
+
+    public void setRenderFArea(boolean renderFArea) {
+        this.renderFArea = renderFArea;
+    }
+
+    public boolean isRenderFArea() {
+        return renderFArea;
+    }
+
+    public void setRenderFEvaluador(boolean renderFEvaluador) {
+        this.renderFEvaluador = renderFEvaluador;
+    }
+
+    public boolean isRenderFEvaluador() {
+        return renderFEvaluador;
     }
 }

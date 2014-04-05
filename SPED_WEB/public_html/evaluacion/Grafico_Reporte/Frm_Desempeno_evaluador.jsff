@@ -12,22 +12,26 @@
                         <af:panelFormLayout id="pfl1" maxColumns="1" binding="#{bDesempenoEvaluador.pfl1}">
                             <af:selectManyChoice label="Rol" id="choiceFRol" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFRol}" autoSubmit="true"
-                                                 value="#{sessionDesempenoEvaluador.selectedRol}">
+                                                 value="#{sessionDesempenoEvaluador.selectedRol}"
+                                                 disabled="#{sessionDesempenoEvaluador.renderFRol}">
                                 <f:selectItems value="#{sessionDesempenoEvaluador.lstRol}" id="siRol"/>
                             </af:selectManyChoice>
                             <af:selectManyChoice label="Evaluador" id="choiceFEva" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFEva}" autoSubmit="true"
-                                                 value="#{sessionDesempenoEvaluador.selectedEvaluador}">
+                                                 value="#{sessionDesempenoEvaluador.selectedEvaluador}"
+                                                 disabled="#{sessionDesempenoEvaluador.renderFEvaluador}">
                                 <f:selectItems value="#{sessionDesempenoEvaluador.lstEvaluador}" id="si4"/>
                             </af:selectManyChoice>
                             <af:selectManyChoice label="Sede" id="choiceFSede" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFSede}" autoSubmit="true"
-                                                 value="#{sessionDesempenoEvaluador.selectedSede}">
+                                                 value="#{sessionDesempenoEvaluador.selectedSede}"
+                                                 disabled="#{sessionDesempenoEvaluador.renderFSede}">
                                 <f:selectItems value="#{sessionDesempenoEvaluador.lstSede}" id="si1"/>
                             </af:selectManyChoice>
                             <af:selectManyChoice label="Area" id="choiceFArea" labelStyle="text-align: left;"
                                                  binding="#{bDesempenoEvaluador.choiceFArea}" autoSubmit="true"
-                                                 value="#{sessionDesempenoEvaluador.selectedArea}" valuePassThru="true">
+                                                 value="#{sessionDesempenoEvaluador.selectedArea}" valuePassThru="true"
+                                                 disabled="#{sessionDesempenoEvaluador.renderFArea}">
                                 <f:selectItems value="#{sessionDesempenoEvaluador.lstArea}" id="si2"/>
                             </af:selectManyChoice>
                         </af:panelFormLayout>
