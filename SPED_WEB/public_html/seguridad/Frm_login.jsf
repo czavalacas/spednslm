@@ -4,9 +4,9 @@
         xmlns:h="http://java.sun.com/jsf/html">
     <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario">
         <af:form id="f1">
-            <af:panelGroupLayout halign="right" layout="horizontal">
+           <af:panelGroupLayout halign="right" layout="horizontal">
                 <af:image source="/recursos/img/layout/buhologo.png"
-                          inlineStyle="height:110px; width:80px;margin:0px 0px 0px -120px;" styleClass="arriba2"/>
+                          inlineStyle="height:110px; width:77px;margin:0px 0px 0px -120px;" styleClass="arriba2"/>
             </af:panelGroupLayout>
             
              
@@ -23,18 +23,19 @@
                     </af:gridCell>
                </af:gridRow>     
             </af:panelGridLayout>
-            
-             <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="33%"
+        
+             <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="200px"
                                                            bottomHeight="33%">
                     <f:facet name="center">
                         <af:panelGroupLayout layout="vertical" halign="center">
+                             
             <af:panelGridLayout>
                 <af:gridRow height="100%" id="gr2">
-                    <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc2">
+                    <af:gridCell width="100%" halign="stretch" valign="middle" id="gc2">
                         <af:panelGridLayout>
                             <af:gridRow>
                                 <af:gridCell width="50%" halign="center" valign="middle">
-                                                <af:panelBox text="Iniciar Sesion" id="pb1" showDisclosure="false">
+                                             <!--   <af:panelBox text="Iniciar Sesion" id="pb1" showDisclosure="false">-->
                                                     <af:subform id="s1" defaultCommand="btnInicio">
                                                         <af:panelFormLayout id="pfl1">
                                                             <af:inputText label="Usuario" id="itUsuario" required="true"
@@ -57,7 +58,7 @@
                                                                                  binding="#{bLogin.otError}"/>
                                                             <af:messages id="m1" inline="true"/>
                                                         </af:panelFormLayout>
-                                                    </af:subform>
+                                                   </af:subform>
                                                     <af:panelGroupLayout id="pgl2" layout="scroll"
                                                                          inlineStyle="margin:0px 0px 0px 53px;">
                                                         <af:link text="¿Has olvidado tu clave?" id="l1"
@@ -65,25 +66,38 @@
                                                             <af:showPopupBehavior popupId="p1"/>
                                                         </af:link>
                                                     </af:panelGroupLayout>
-                                                </af:panelBox>
+                                             <!--    </af:panelBox> -->
                                 </af:gridCell>
                                 <af:gridCell width="50%" halign="center" valign="middle">
-                                    <af:panelGroupLayout layout="vertical" halign="center">
-                                         <af:image source="../recursos/img/layout/pantallas.png" inlineStyle="height:235px;width:417px;" />
-                                    <af:outputFormatted value="sdfksdfknsdkfnkjdnfj
-                                    sknfkjwnrkjwenrkjwnk
-                                    wnkwnerkjwnrekwnerkjwnfkjdgnkjdgnf &lt;br>
-                                    gdlgdkfgndkgnkdjgnkdgnkjdgnfkjdfgnkjdgnkjdngkjdfngkjdgd dfk
-                                    gndfkngd dfkgjdlfg dfgndfkng kdnfgdnfg &lt;br>
-                                    lkdfgdklfg ldgldfkmg ldfgdlfkmg dlfkmgdlfmgdlfm ldmgdlgm
-                                    d dflkmgdlgmdlfmgkl dflkmgdlfmg &lt;br>
-                                    dfgmdflgmdlgmdlfm ldkfmgldkfmg  lkdmfglmk dflgmkdlfmg  lkdfglm
-                                    dfg mldgfmlk" inlineStyle="color:rgb(102,98,96)"/>
+                                   <af:panelGroupLayout layout="vertical" halign="right">
+                                        <af:image source="../recursos/img/layout/pantallas.png"
+                                                    inlineStyle="height:235px;width:417px;" />
+                                        <af:spacer height="20"/>
                                     </af:panelGroupLayout>
-                                    <af:panelFormLayout maxColumns="2" rows="1">
-                                        <af:image source="../recursos/img/layout/ag.png" />
-                                        <af:image source="../recursos/img/layout/lm.png" />
+                                    <af:panelGroupLayout layout="vertical" halign="center">
+                                       <af:panelFormLayout inlineStyle="max-width:100px; margin:0px 0px 0px -180px;">
+                                         <h:outputFormat  value=" &lt;p style='text-align: justify;'>  sdfksdfknsdkfnkjdnfj
+                                                sknfkjwnrkjwenrkjwn
+                                                wnkwnerkjwnrekwnerkjwnfkjdgnkjdgnf 
+                                                gdlgdkfgndkgnkdjgnkdgnkjdgnfkjdfgnkjdgnkjdngkjdfngkjdgd dfk
+                                                gndfkngd dfkgjdlfg dfgndfkng kdnfgdnfg 
+                                                lkdfgdklfg ldgldfkmg ldfgdlfkmg dlfkmgdlfmgdlfm ldmgdlgm
+                                                d dflkmgdlgmdlfmgkl dflkmgdlfmg 
+                                                dfgmdflgmdlgmdlfm ldkfmgldkfmg  lkdmfglmk dflgmkdlfmg  lkdfglm
+                                                dfg mldgfmlk &lt;/p>" escape="false" style="color:rgb(102,98,96)"/>
+                                       </af:panelFormLayout>
+                                    </af:panelGroupLayout>
+                                    
+                                    <af:spacer height="20"/>
+                                    <af:panelGroupLayout layout="vertical" halign="right">
+                                     <af:panelFormLayout rows="1" maxColumns="2">
+                                        <af:image source="../recursos/img/layout/ag.png"
+                                                  inlineStyle="width:107px; height:78px; margin:0px 0px 0px 0px;"/>
+                                        <af:image source="../recursos/img/layout/lm.png"
+                                                  inlineStyle="width:80px; height:74px; margin:0px 0px 0px 30px;"/>
                                     </af:panelFormLayout>
+                                    </af:panelGroupLayout>
+                                   
                                 </af:gridCell>
                             </af:gridRow>
                         </af:panelGridLayout>
@@ -91,28 +105,30 @@
                     </af:gridCell>
                 </af:gridRow>
             </af:panelGridLayout>
+                             
                 <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
-                <af:dialog id="d2" title="Recupera tu clave" dialogListener="#{bLogin.recuperarClave}">
-                    <af:inputText label="Correo" id="it1" value="#{bLogin.correo}" required="true">
-                        <f:validator validatorId="EmailValidator"/>
-                    </af:inputText>
-                </af:dialog>
-            </af:popup>
-            <af:popup childCreation="deferred" autoCancel="disabled" contentDelivery="immediate" id="popMsj"
-                      binding="#{bLogin.popMsj}">
-                <af:dialog title="#{requestScope.bLogin.tituloPopup}" type="ok">
-                    <af:outputText value="#{requestScope.bLogin.mensajeCorreo}" id="ot1"/>
-                </af:dialog>
-            </af:popup>
+                    <af:dialog id="d2" title="Recupera tu clave" dialogListener="#{bLogin.recuperarClave}">
+                        <af:inputText label="Correo" id="it1" value="#{bLogin.correo}" required="true">
+                            <f:validator validatorId="EmailValidator"/>
+                        </af:inputText>
+                    </af:dialog>
+                </af:popup>
+                <af:popup childCreation="deferred" autoCancel="disabled" contentDelivery="immediate" id="popMsj"
+                          binding="#{bLogin.popMsj}">
+                    <af:dialog title="#{requestScope.bLogin.tituloPopup}" type="ok">
+                        <af:outputText value="#{requestScope.bLogin.mensajeCorreo}" id="ot1"/>
+                    </af:dialog>
+                </af:popup>
+            
              </af:panelGroupLayout>
-                                        </f:facet>
-                                        <f:facet name="bottom">
-                                            <af:panelGroupLayout/>
-                                        </f:facet>
-                                        <f:facet name="top">
-                                            <af:panelGroupLayout/>
-                                        </f:facet>
-                                    </af:panelStretchLayout>
+                </f:facet>
+              <!--  <f:facet name="bottom">
+                    <af:panelGroupLayout/>
+                </f:facet>-->
+                <f:facet name="top">
+                    <af:panelGroupLayout/>
+                </f:facet>
+            </af:panelStretchLayout>
         
         </af:form>
     </af:document>
