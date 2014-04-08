@@ -26,7 +26,7 @@
                                                 <af:gridCell width="auto">
                                                     <af:outputLabel value="#{sessionScope.sessionMain.cantNotif}"
                                                                     visible="#{sessionScope.sessionMain.cantNotif > 0}" 
-                                                                    inlineStyle="color:red; font-weight:bold; font-size:large; margin:5px 0px 0px -10px;"
+                                                                    inlineStyle="color:white; font-weight:bold; font-size:small; margin:11px 0px 0px -8px;"
                                                                     rendered="#{sessionScope.sessionMain.verNotificaciones}"
                                                                     id="cantNotif" binding="#{bMain.cantNotif}"
                                                                     styleClass="arriba"/>
@@ -37,7 +37,16 @@
                                                               styleClass="abajo" binding="#{bMain.imgNoti}">
                                                         <af:showPopupBehavior popupId="popNotif" triggerType="click"
                                                                               alignId="imgNoti" align="afterStart"/>
-                                                    </af:image>
+                                                     </af:image>
+                                                         <af:image
+                                                                    id="imgBoli"
+                                                                    rendered="#{sessionScope.sessionMain.verNotificaciones}"
+                                                                    visible="#{sessionScope.sessionMain.cantNotif > 0}" 
+                                                                    inlineStyle="height:25px; width:25px; margin:8px 10px 0px -23px; background-size:inherit; background-repeat:repeat;"
+                                                                    styleClass="arriba3"
+                                                                    source="/recursos/img/usuarios/boli.png"
+                                                                    binding="#{bMain.imgBoli}"/>
+                                                   
                                                 </af:gridCell>
                                                 <af:gridCell width="auto" halign="stretch" valign="middle">
                                                     <af:panelFormLayout maxColumns="1" rows="2" inlineStyle="margin:5px 0px 0px 0px;">

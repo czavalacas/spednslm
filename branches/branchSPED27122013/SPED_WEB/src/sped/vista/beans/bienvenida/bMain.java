@@ -68,6 +68,7 @@ public class bMain implements Serializable {
     private FacesContext ctx = FacesContext.getCurrentInstance();
     private RichImage i2;
     private RichImage imgNoti;
+    private RichImage imgBoli;
 
     public bMain(){
         super();
@@ -224,6 +225,8 @@ public class bMain implements Serializable {
             cantNotif.setValue(sessionMain.getCantNotif());
             if(sessionMain.getCantNotif() > 0){
                 cantNotif.setRendered(true);
+                imgBoli.setVisible(true);
+                imgBoli.setRendered(true);
                 sessionMain.setVerNotificaciones(true);
                 cantNotif.setVisible(true);
                 if(sessionMain.getCantNotif() != sessionMain.getCantNotifAux()){
@@ -237,9 +240,10 @@ public class bMain implements Serializable {
                 sessionMain.setImagenNoti("../recursos/img/usuarios/ojosU.png");
                 cantNotif.setValue(0);
                 cantNotif.setVisible(false);
+                imgBoli.setVisible(false);
             }
             imgNoti.setSource(sessionMain.getImagenNoti());
-            Utils.addTargetMany(imgNoti,cantNotif);
+            Utils.addTargetMany(imgNoti,cantNotif,imgBoli);
             if(clCantPO != null){
                 clCantPO.setText("Hay "+sessionMain.getCantNotifPO()+" Notificaciones de Partes de Ocurrencia");
                 Utils.addTarget(clCantPO);
@@ -336,5 +340,13 @@ public class bMain implements Serializable {
 
     public RichImage getImgNoti() {
         return imgNoti;
+    }
+
+    public void setImgBoli(RichImage imgBoli) {
+        this.imgBoli = imgBoli;
+    }
+
+    public RichImage getImgBoli() {
+        return imgBoli;
     }
 }
