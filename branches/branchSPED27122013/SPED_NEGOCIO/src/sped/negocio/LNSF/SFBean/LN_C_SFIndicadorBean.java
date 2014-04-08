@@ -94,4 +94,14 @@ public class LN_C_SFIndicadorBean implements LN_C_SFIndicadorRemote,
     public List<BeanIndicador> getIndicadoresByDescripcion_LN(String Indicador){        
         return transformLstIndicadores(bdL_C_SFIndicadorLocal.getIndicadoresByDescripcion(Indicador));
     }
+    
+    public List getNombreIndicadores_LN(){
+        return bdL_C_SFIndicadorLocal.getNombreIndicadores();
+    }
+    public BeanIndicador getIndicadorByDescripcion(String descripcion){
+        Indicador indicador=bdL_C_SFIndicadorLocal.getIndicadorByDescripcion(descripcion);
+        BeanIndicador beanIndi=new BeanIndicador();
+        beanIndi = (BeanIndicador) mapper.map(indicador,BeanIndicador.class);
+        return beanIndi;
+    }
 }

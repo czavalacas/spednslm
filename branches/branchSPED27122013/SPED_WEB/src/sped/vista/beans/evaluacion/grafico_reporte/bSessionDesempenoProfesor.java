@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 import sped.negocio.entidades.beans.BeanIndicador;
 
@@ -65,6 +67,8 @@ public class bSessionDesempenoProfesor implements Serializable {
     private Date fechaActual;
     private boolean estaBtnPdf=false;
     private boolean estaBtnEmail=false;
+    private String indicador;
+    private List<SelectItem> itemNombreIndicadores;
     
     public bSessionDesempenoProfesor() {
     }
@@ -437,5 +441,21 @@ public class bSessionDesempenoProfesor implements Serializable {
 
     public boolean isEstaBtnEmail() {
         return estaBtnEmail;
+    }
+
+    public void setIndicador(String indicador) {
+        this.indicador = indicador;
+    }
+
+    public String getIndicador() {
+        return indicador;
+    }
+
+    public void setItemNombreIndicadores(List<SelectItem> itemNombreIndicadores) {
+        this.itemNombreIndicadores = itemNombreIndicadores;
+    }
+
+    public List<SelectItem> getItemNombreIndicadores() {
+        return itemNombreIndicadores;
     }
 }
