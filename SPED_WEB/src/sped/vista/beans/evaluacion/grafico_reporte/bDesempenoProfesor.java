@@ -24,6 +24,8 @@ import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
+
 import javax.servlet.ServletContext;
 import oracle.adf.view.faces.bi.component.graph.UIGraph;
 import oracle.adf.view.faces.bi.model.GraphDataModel;
@@ -153,6 +155,7 @@ public class bDesempenoProfesor {
             sessionDesempenoProfesor.setRelaValueGraficos(llenarListaString());  
                 sessionDesempenoProfesor.setFechaActual(Utils.removeTime(cal.getTime()));
                 cal.add(Calendar.MONTH, -1);
+                sessionDesempenoProfesor.setItemNombreIndicadores(Utils.llenarListItem(ln_C_SFIndicadorRemote.getNombreIndicadores_LN()));        
             }
   
     }  
@@ -220,11 +223,15 @@ public class bDesempenoProfesor {
         bean.setDniDocente(sessionDesempenoProfesor.getDniDocente());
         bean.setFechaInicio(sessionDesempenoProfesor.getFechaInicio());
         bean.setFechaFin(sessionDesempenoProfesor.getFechaFin());
-        if(sessionDesempenoProfesor.getBeanIndicador()!=null){
+        if(inputIndicador.getValue()!=null){
+            sessionDesempenoProfesor.setBeanIndicador(ln_C_SFIndicadorRemote.getIndicadorByDescripcion(inputIndicador.getValue().toString()));
+            bean.setNidIndicador(sessionDesempenoProfesor.getBeanIndicador().getNidIndicador().toString());
+        }
+      /*  if(sessionDesempenoProfesor.getBeanIndicador()!=null){
             if(sessionDesempenoProfesor.getBeanIndicador().getNidIndicador()!=null){
                 if(sessionDesempenoProfesor.getBeanIndicador().getNidIndicador()!=0){
         bean.setNidIndicador(sessionDesempenoProfesor.getBeanIndicador().getNidIndicador().toString());}
-            }}
+            }}*/
         String mensaje=""; String mensaje2=""; String mensaje3=""; String mensaje4=""; String mensaje5=""; String mensaje6=""; String mensaje7=""; String mensaje8=""; String mensaje9="";
         
         if(bean.getNidSede()!=null){
@@ -1163,7 +1170,10 @@ public class bDesempenoProfesor {
      }
      
     }
-
+    public List<SelectItem> suggestIndicadores(String string) {
+        return Utils.getSuggestions(sessionDesempenoProfesor.getItemNombreIndicadores(), string);
+    }
+    
     public void setPanelDesemDocenIndi(RichPanelBox panelDesemDocenIndi) {
         this.panelDesemDocenIndi = panelDesemDocenIndi;
     }

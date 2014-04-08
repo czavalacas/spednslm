@@ -1319,6 +1319,7 @@ public class bPlanificarEva {
 
             }
         
+       
         sessionPlanificarEva.setListatipoVisita(Utils.llenarComboString(ln_C_SFUtilsRemote.getTipoVisitaFromConstraint()));
         sessionPlanificarEva.setValorTipoVisita("OP");
         Utils.showPopUpMIDDLE(popupSeleccionBloque);

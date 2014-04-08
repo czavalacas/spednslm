@@ -16,6 +16,7 @@ import javax.persistence.Query;
 
 import sped.negocio.BDL.IL.BDL_C_SFIndicadorLocal;
 import sped.negocio.BDL.IR.BDL_C_SFIndicadorRemote;
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanIndicador;
 import sped.negocio.entidades.eval.Indicador;
@@ -84,4 +85,30 @@ public class BDL_C_SFIndicadorBean implements BDL_C_SFIndicadorRemote,
             return null;
         }
     }
+    
+    public List getNombreIndicadores(){
+        try{
+            String ejbQl = " SELECT indi.descripcionIndicador" +
+                           " FROM Indicador indi " +
+                           " ORDER BY indi.descripcionIndicador ASC";   
+            List lst = em.createQuery(ejbQl).getResultList();
+            return lst;
+        }catch(Exception e){
+            return null;
+        }
+    }
+    
+    public Indicador getIndicadorByDescripcion(String descripcion) {
+        try{
+            String ejbQl = " SELECT ind " +
+                           " FROM Indicador ind" +
+                           " WHERE ind.descripcionIndicador='"+descripcion+"'";   
+                Indicador indicad = (Indicador)em.createQuery(ejbQl).getSingleResult();           
+                return indicad;         
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }   
+        }
+    
 }
