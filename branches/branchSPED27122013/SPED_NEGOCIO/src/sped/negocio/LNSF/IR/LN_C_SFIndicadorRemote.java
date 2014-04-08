@@ -15,4 +15,6 @@ public interface LN_C_SFIndicadorRemote {
                                                 int nidIndicador,
                                                 List<BeanCriterio> lstCritsArbol);
     List<BeanIndicador> getIndicadoresByDescripcion_LN(String Indicador);
+    List getNombreIndicadores_LN();
+    BeanIndicador getIndicadorByDescripcion(String descripcion);
 }
