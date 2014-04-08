@@ -104,9 +104,17 @@
                                    </af:selectOneChoice>
                                        <af:spacer width="10" height="10" id="s16"/>                     
                                    <af:spacer width="10" height="10" id="s12"/>
-                                        <af:inputText label="Indicador" id="it1" autoSubmit="true"
+                                   
+                                    <af:inputText label="Indicador " id="it55" labelStyle="text-align: left;"
+                                              value="#{sessionDesempenoProfesor.indicador}" 
+                                                  binding="#{bDesempenoProfesor.inputIndicador}" >
+                                    <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                            suggestedItems="#{bDesempenoProfesor.suggestIndicadores}"/>
+                                </af:inputText>
+                                
+                                   <!--     <af:inputText label="Indicador" id="it1" autoSubmit="true"
                                                       valueChangeListener="#{bDesempenoProfesor.valoresInputTexIndicador}"
-                                                      binding="#{bDesempenoProfesor.inputIndicador}"/>
+                                                  />
                                         
                                     <af:spacer width="10" height="10" id="s19"/>
                                     </af:panelFormLayout> 
@@ -123,7 +131,7 @@
                                                 <af:outputText value="#{row.descripcionIndicador}" id="ot3"/>
                                             </af:column>
                                         </af:table>
-                                        <af:panelFormLayout>
+                                        <af:panelFormLayout>-->
                                         <af:spacer width="10" height="10" id="s20"/>
                                         <af:inputDate label="Inicio" id="id1"
                                                   binding="#{bDesempenoProfesor.inputFechaInicio}"

@@ -162,8 +162,8 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     public List<BeanComboString> getTipoVisita(String id,String desc){
         try{
             String qlString =  this.getSelectBasicoBeanComboString(id, desc, "Constraint")+
-                               " WHERE e.nombreCampo = 'tipo_visita' ";
-            List<BeanComboString> lstConst = em.createQuery(qlString).getResultList();        
+                               " WHERE e.nombreCampo = 'tipo_visita'";
+            List<BeanComboString> lstConst = em.createQuery(qlString).getResultList(); 
             return lstConst;
         }catch(Exception e){
             e.printStackTrace();
