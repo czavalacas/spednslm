@@ -29,7 +29,10 @@
                                                                     inlineStyle="color:white; font-weight:bold; font-size:small; margin:11px 0px 0px -8px;"
                                                                     rendered="#{sessionScope.sessionMain.verNotificaciones}"
                                                                     id="cantNotif" binding="#{bMain.cantNotif}"
-                                                                    styleClass="arriba"/>
+                                                                    styleClass="arriba">
+                                                        <af:showPopupBehavior popupId="popNotif" triggerType="click"
+                                                                              alignId="imgNoti" align="afterStart"/>
+                                                    </af:outputLabel>
                                                     <af:image source="#{sessionScope.sessionMain.imagenNoti}"
                                                               id="imgNoti"
                                                               rendered="#{sessionScope.sessionMain.verNotificaciones}"
@@ -45,8 +48,10 @@
                                                                     inlineStyle="height:25px; width:25px; margin:8px 10px 0px -23px; background-size:inherit; background-repeat:repeat;"
                                                                     styleClass="arriba3"
                                                                     source="/recursos/img/usuarios/boli.png"
-                                                                    binding="#{bMain.imgBoli}"/>
-                                                   
+                                                                    binding="#{bMain.imgBoli}">
+                                                            <af:showPopupBehavior popupId="popNotif" triggerType="click"
+                                                                              alignId="imgNoti" align="afterStart"/>
+                                                         </af:image>
                                                 </af:gridCell>
                                                 <af:gridCell width="auto" halign="stretch" valign="middle">
                                                     <af:panelFormLayout maxColumns="1" rows="2" inlineStyle="margin:5px 0px 0px 0px;">
