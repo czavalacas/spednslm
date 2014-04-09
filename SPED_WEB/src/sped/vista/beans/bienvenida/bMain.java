@@ -59,6 +59,9 @@ public class bMain implements Serializable {
     private RichCommandLink clCantPO;
     private RichCommandLink clCantAll;
     private RichMedia sonidoBuho;
+    private RichImage i2;
+    private RichImage imgNoti;
+    private RichImage imgBoli;
     @EJB
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     @EJB
@@ -66,9 +69,6 @@ public class bMain implements Serializable {
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
-    private RichImage i2;
-    private RichImage imgNoti;
-    private RichImage imgBoli;
 
     public bMain(){
         super();
@@ -232,7 +232,6 @@ public class bMain implements Serializable {
                 if(sessionMain.getCantNotif() != sessionMain.getCantNotifAux()){
                     Utils.llamarJavascript("reproducirNotificacion");
                     sessionMain.setImagenNoti("../recursos/img/usuarios/ojosO.png");
-                    Utils.sysout("play buhoo");
                     sessionMain.setCantNotifAux(sessionMain.getCantNotif());
                 }
             }else{
