@@ -24,13 +24,13 @@
                 <af:button text="#{sessionScope.sessionRegistrarFicha.btnRegistrarFicha}" id="btnNewFicha" actionListener="#{bRegistrarFicha.nuevaFicha}"
                             binding="#{bRegistrarFicha.btnNewFicha}"
                             styleClass="#{sessionScope.sessionRegistrarFicha.styleClass}"/>
-                <af:button text="Ingresar" id="btnEditFicha" disabled="true" 
+                <af:button text="Ingresar" id="btnEditFicha" disabled="true"  styleClass="FondoGrisLetraGris"
                             binding="#{bRegistrarFicha.btnEditFicha}" actionListener="#{bRegistrarFicha.editarFicha}"/>
                 <af:button text="Usar como Base" id="btnBase" disabled="true" binding="#{bRegistrarFicha.btnBase}"
-                            actionListener="#{bRegistrarFicha.usarComoBase}"/>
+                            actionListener="#{bRegistrarFicha.usarComoBase}" styleClass="FondoGrisLetraGris"/>
                 <af:button id="btnRefresh" icon="../recursos/img/usuarios/refresh.png" immediate="true"
-                            actionListener="#{bRegistrarFicha.refrescarTablaFichas}" />
-                <af:button text="Resetear" id="b7" actionListener="#{bRegistrarFicha.resetar}" immediate="true"/>
+                            actionListener="#{bRegistrarFicha.refrescarTablaFichas}" styleClass="FondoGrisLetraGris"/>
+                <af:button text="Resetear" id="b7" actionListener="#{bRegistrarFicha.resetar}" immediate="true" styleClass="FondoGrisLetraGris"/>
                 <af:button text="#{sessionScope.sessionRegistrarFicha.actDesact}" id="btnActDesact" disabled="true"
                             binding="#{bRegistrarFicha.btnActDesact}" 
                             styleClass="#{sessionScope.sessionRegistrarFicha.actDesEstilo}"
