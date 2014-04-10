@@ -14,6 +14,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
+import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanMain;
+import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.eval.Evaluacion;
 
 import utils.system;
@@ -25,7 +28,7 @@ public class BDL_C_SFEvaluacionRemotoClient {
             BDL_C_SFEvaluacionRemoto bDL_C_SFEvaluacionRemoto =
                 (BDL_C_SFEvaluacionRemoto) context.lookup("map-BDL_C_SFEvaluacion#sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto");
        /* Evaluacion eva=bDL_C_SFEvaluacionRemoto.getEvaluacionById("4316-BBHG-GJGC-QWSP-9224");
-            System.out.println(" ENTIDA"+eva.getNidEvaluacion()+" - "+eva.getStartDate()+" - "+eva.getEndDate());*/
+            System.out.println(" ENTIDA"+eva.getNidEvaluacion()+" - "+eva.getStartDate()+" - "+eva.getEndDate());
             
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
             Date fechaActual = new Date();           
@@ -37,7 +40,23 @@ public class BDL_C_SFEvaluacionRemotoClient {
                 System.out.println(entida.getMain().getNidMain());  
             }
              System.out.println();
-       
+       */
+            Date hoy=new Date();        
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaActual =hoy;
+            String fechaConFormato = sdf.format(fechaActual);
+            System.out.println(fechaConFormato);
+            BeanEvaluacion bean=new BeanEvaluacion();
+            BeanProfesor prof=new BeanProfesor();
+            prof.setDniProfesor("12344321");
+            BeanMain main=new BeanMain();
+            main.setProfesor(prof);
+            bean.setMain(main);            
+            List<Evaluacion> lstevas=bDL_C_SFEvaluacionRemoto.getPlanificacion(bean, fechaConFormato);
+            for(Evaluacion entida: lstevas){
+                System.out.println(entida.getStartDate()+ " - "+new Date());
+            }
+            System.out.println(lstevas.size());  
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());

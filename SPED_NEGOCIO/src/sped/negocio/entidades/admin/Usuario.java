@@ -58,12 +58,16 @@ public class Usuario implements Serializable {
     private List<UsuarioPermiso> usuarioPermisosLista;
     @Column(name = "correo")
     private String correo;
+    @Column(name = "isNuevo")
+    private String isNuevo;
+    @Column(name = "isSupervisor")
+    private String isSupervisor;
 
     public Usuario() {
     }
 
     public Usuario(String clave, String dni, String estadoUsuario, AreaAcademica areaAcademica, Rol rol,
-                   Sede sede, int nidUsuario, String nombres, String usuario) {
+                   Sede sede, int nidUsuario, String nombres, String usuario, String isNuevo, String isSupervisor) {
         this.clave = clave;
         this.dni = dni;
         this.estadoUsuario = estadoUsuario;
@@ -73,6 +77,8 @@ public class Usuario implements Serializable {
         this.nidUsuario = nidUsuario;
         this.nombres = nombres;
         this.usuario = usuario;
+        this.isNuevo = isNuevo;
+        this.isSupervisor = isSupervisor;
     }
 
     public void setUsuarioPermisosLista(List<UsuarioPermiso> usuarioPermisosLista) {
@@ -199,5 +205,21 @@ public class Usuario implements Serializable {
         buffer.append(getUsuario());
         buffer.append(']');
         return buffer.toString();
+    }
+
+    public void setIsNuevo(String isNuevo) {
+        this.isNuevo = isNuevo;
+    }
+
+    public String getIsNuevo() {
+        return isNuevo;
+    }
+
+    public void setIsSupervisor(String isSupervisor) {
+        this.isSupervisor = isSupervisor;
+    }
+
+    public String getIsSupervisor() {
+        return isSupervisor;
     }
 }

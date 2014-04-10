@@ -12,6 +12,7 @@ public class BeanProfesor implements Serializable {
     private String nombres;
     private String nombreCompleto;
     private List<BeanMain> mainLista;
+    private String correo; 
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
@@ -51,5 +52,13 @@ public class BeanProfesor implements Serializable {
 
     public String getNombreCompleto() {
         return nombreCompleto;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCorreo() {
+        return correo;
     }
 }

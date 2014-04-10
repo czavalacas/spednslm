@@ -2,6 +2,8 @@ package sped.negocio.entidades.beans;
 
 import java.util.List;
 
+import javax.persistence.Column;
+
 public class BeanUsuario implements java.io.Serializable{
     @SuppressWarnings("compatibility:-7716331137436807403")
     private static final long serialVersionUID = 1L;
@@ -27,6 +29,8 @@ public class BeanUsuario implements java.io.Serializable{
     private List<Integer> lstPermisos;
     private Integer nidLog;
     private String correo;
+    private String isNuevo;   
+    private String isSupervisor;
 
     public BeanUsuario(){}
 
@@ -197,5 +201,21 @@ public class BeanUsuario implements java.io.Serializable{
 
     public String getCorreo() {
         return correo;
+    }
+
+    public void setIsNuevo(String isNuevo) {
+        this.isNuevo = isNuevo;
+    }
+
+    public String getIsNuevo() {
+        return isNuevo;
+    }
+
+    public void setIsSupervisor(String isSupervisor) {
+        this.isSupervisor = isSupervisor;
+    }
+
+    public String getIsSupervisor() {
+        return isSupervisor;
     }
 }
