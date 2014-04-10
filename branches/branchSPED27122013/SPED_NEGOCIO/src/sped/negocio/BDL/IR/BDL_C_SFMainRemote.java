@@ -31,4 +31,5 @@ public interface BDL_C_SFMainRemote {
                                            String curso,
                                            String aula);
     List<Main> getLstMainByAttr_BDL(BeanMain beanMain);
+    List<Main> getHorariosPorDocente(String dniDocente);
 }

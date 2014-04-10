@@ -23,10 +23,13 @@ import sped.negocio.BDL.IL.BDL_C_SFRolLocal;
 import sped.negocio.BDL.IL.BDL_C_SFSedeLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
+import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
+import sped.negocio.BDL.IR.BDL_T_SFMainRemoto;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioPermisoLocal;
 import sped.negocio.LNSF.IL.LN_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.admin.Usuario;
@@ -54,6 +57,10 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
     private BDL_C_SFSedeLocal bdL_C_SFSedeLocal;
     @EJB
     private LN_C_SFUsuarioPermisoLocal ln_C_SFUsuarioPermisoLocal;   
+    @EJB
+    private BDL_C_SFMainRemote bdl_C_SFMainRemote;
+    @EJB
+    private BDL_T_SFMainRemoto bdl_T_SFMainRemoto;
 
     public LN_T_SFUsuarioBean() {
     }
@@ -181,11 +188,19 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                 }
         }
         }
-        
+        /**Cambia de estado a 0 en usuario a los docentes que no vienen en la nueva carga*/
         for(int i=0;i<listUsuarios.size(); i++){
             Usuario usua=listUsuarios.get(i);
             usua.setEstadoUsuario("0");
-            bdL_T_SFUsuarioLocal.mergeUsuario(usua);    
+            bdL_T_SFUsuarioLocal.mergeUsuario(usua);
+            /**Cambiarle su estado en main a 0 a los docentes que ya no aparecen la nueva carga*/
+            List<Main> listMain=bdl_C_SFMainRemote.getHorariosPorDocente(listUsuarios.get(i).getDni());
+            if(listMain!=null){
+            for(Main entida:listMain){
+                entida.setEstado("0");
+                bdl_T_SFMainRemoto.mergeMain(entida);
+            }
+            }
         }
         return null;
     }
