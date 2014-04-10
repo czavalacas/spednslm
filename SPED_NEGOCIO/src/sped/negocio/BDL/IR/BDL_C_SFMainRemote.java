@@ -30,4 +30,5 @@ public interface BDL_C_SFMainRemote {
                                            String profesor,
                                            String curso,
                                            String aula);
+    List<Main> getLstMainByAttr_BDL(BeanMain beanMain);
 }

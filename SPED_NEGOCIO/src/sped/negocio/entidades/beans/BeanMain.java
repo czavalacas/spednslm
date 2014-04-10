@@ -2,6 +2,8 @@ package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
 
+import java.sql.Time;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,14 +17,22 @@ public class BeanMain implements Serializable {
     
     private String dia;
     private String estado;
-    private Date horaFin;
-    private Date horaInicio;
+    private Time horaFin;
+    private Time horaInicio;
     private int nidMain;
     private List<BeanEvaluacion> evaluacionLista;
     private BeanAula aula;
     private BeanCurso curso;
     private BeanProfesor profesor;
-
+    private int nDia;
+    ////////////////
+    private String dniProfesor;
+    private int nidAula;
+    private int nidCurso;
+    private int nroHoras;
+    private String nombreProfesor;
+    private String nombreCurso;
+    private String nombreArea;
 
     public void setCurso(BeanCurso curso) {
         this.curso = curso;
@@ -57,19 +67,19 @@ public class BeanMain implements Serializable {
         return estado;
     }
 
-    public void setHoraFin(Date horaFin) {
+    public void setHoraFin(Time horaFin) {
         this.horaFin = horaFin;
     }
 
-    public Date getHoraFin() {
+    public Time getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraInicio(Date horaInicio) {
+    public void setHoraInicio(Time horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Date getHoraInicio() {
+    public Time getHoraInicio() {
         return horaInicio;
     }
 
@@ -97,5 +107,67 @@ public class BeanMain implements Serializable {
         return aula;
     }
 
+    public void setNDia(int nDia) {
+        this.nDia = nDia;
+    }
 
+    public int getNDia() {
+        return nDia;
+    }
+
+    public void setDniProfesor(String dniProfesor) {
+        this.dniProfesor = dniProfesor;
+    }
+
+    public String getDniProfesor() {
+        return dniProfesor;
+    }
+
+    public void setNidAula(int nidAula) {
+        this.nidAula = nidAula;
+    }
+
+    public int getNidAula() {
+        return nidAula;
+    }
+
+    public void setNidCurso(int nidCurso) {
+        this.nidCurso = nidCurso;
+    }
+
+    public int getNidCurso() {
+        return nidCurso;
+    }
+
+    public void setNroHoras(int nroHoras) {
+        this.nroHoras = nroHoras;
+    }
+
+    public int getNroHoras() {
+        return nroHoras;
+    }
+
+    public void setNombreProfesor(String nombreProfesor) {
+        this.nombreProfesor = nombreProfesor;
+    }
+
+    public String getNombreProfesor() {
+        return nombreProfesor;
+    }
+
+    public void setNombreCurso(String nombreCurso) {
+        this.nombreCurso = nombreCurso;
+    }
+
+    public String getNombreCurso() {
+        return nombreCurso;
+    }
+
+    public void setNombreArea(String nombreArea) {
+        this.nombreArea = nombreArea;
+    }
+
+    public String getNombreArea() {
+        return nombreArea;
+    }
 }

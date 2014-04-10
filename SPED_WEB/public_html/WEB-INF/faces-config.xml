@@ -288,4 +288,8 @@
     <managed-bean-class>sped.vista.beans.horarios.bSessionGestionarHorario</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <validator>
+    <validator-id>horasMaximo</validator-id>
+    <validator-class>sped.vista.Utils.Validators.horasMaximo</validator-class>
+  </validator>
 </faces-config>

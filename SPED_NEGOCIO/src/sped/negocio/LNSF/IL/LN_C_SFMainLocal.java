@@ -28,4 +28,5 @@ public interface LN_C_SFMainLocal {
                                         String profesor,
                                         String curso,
                                         String aula);
+    List<BeanMain> getLstMainByAttr_LN(String nidAula);
 }
