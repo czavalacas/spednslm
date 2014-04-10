@@ -311,6 +311,18 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         }
     }
     
+    public List<BeanComboString> getProfesor(String id, String desc){
+        try{
+            String qlString = this.getSelectBasicoBeanComboString(id, desc, "Profesor") +
+                              " ORDER BY e.nombres ASC";
+            List<BeanComboString> lstCurso = em.createQuery(qlString).getResultList();        
+            return lstCurso;       
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     private String getSelectBasicoBeanCombo(String id,String desc, String entidad){
         return "SELECT NEW sped.negocio.entidades.beans.BeanCombo("+id+","+desc+") " +
                 "FROM "+entidad+" e ";

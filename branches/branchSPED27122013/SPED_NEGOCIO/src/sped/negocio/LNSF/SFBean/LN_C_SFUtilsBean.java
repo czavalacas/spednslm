@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -135,5 +136,8 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     public List<BeanCombo> getCursosByArea_LN(int nidArea){
         return bdL_C_SFUtilsLocal.getCursosByArea("e.nidCurso", "e.descripcionCurso", nidArea);
     }
-    
+
+    public List<BeanComboString> getProfesor_LN() {
+        return bdL_C_SFUtilsLocal.getProfesor("e.dniProfesor", "e.nombres");
+    }
 }

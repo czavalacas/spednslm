@@ -28,4 +28,5 @@ public interface LN_C_SFMainRemote {
                                          String profesor,
                                          String curso,
                                          String aula);
+    List<BeanMain> getLstMainByAttr_LN(String nidAula);
 }

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import sped.negocio.entidades.beans.BeanMain;
+
 public class bSessionGestionarHorario implements Serializable {
     @SuppressWarnings("compatibility:6980576281228298030")
     private static final long serialVersionUID = 1L;
@@ -22,7 +24,12 @@ public class bSessionGestionarHorario implements Serializable {
     private List lstCurso;
     private List lstArea;
     private String horas[];
-    
+    private List<BeanMain> lstBeanMain;
+    BeanMain horario[][];    
+    private int nroBloque;
+    private String nombreProfesor;
+    private String nombreCurso;
+    private String nombreArea;
 
     public void setExec(int exec) {
         this.exec = exec;
@@ -129,4 +136,59 @@ public class bSessionGestionarHorario implements Serializable {
         return lstArea;
     }
 
+    public void setHoras(String[] horas) {
+        this.horas = horas;
+    }
+
+    public String[] getHoras() {
+        return horas;
+    }
+
+    public void setLstBeanMain(List<BeanMain> lstBeanMain) {
+        this.lstBeanMain = lstBeanMain;
+    }
+
+    public List<BeanMain> getLstBeanMain() {
+        return lstBeanMain;
+    }
+
+    public void setHorario(BeanMain[][] horario) {
+        this.horario = horario;
+    }
+
+    public BeanMain[][] getHorario() {
+        return horario;
+    }
+
+    public void setNroBloque(int nroBloque) {
+        this.nroBloque = nroBloque;
+    }
+
+    public int getNroBloque() {
+        return nroBloque;
+    }
+
+    public void setNombreProfesor(String nombreProfesor) {
+        this.nombreProfesor = nombreProfesor;
+    }
+
+    public String getNombreProfesor() {
+        return nombreProfesor;
+    }
+
+    public void setNombreCurso(String nombreCurso) {
+        this.nombreCurso = nombreCurso;
+    }
+
+    public String getNombreCurso() {
+        return nombreCurso;
+    }
+
+    public void setNombreArea(String nombreArea) {
+        this.nombreArea = nombreArea;
+    }
+
+    public String getNombreArea() {
+        return nombreArea;
+    }
 }
