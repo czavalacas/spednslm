@@ -8,7 +8,6 @@
                 <af:image source="/recursos/img/layout/buhologo.png"
                           inlineStyle="height:110px; width:77px;margin:0px 0px 0px -120px;" styleClass="arriba2"/>
             </af:panelGroupLayout>
-            
              
             <af:panelGridLayout id="pgl1"
                                 inlineStyle='border-top-width:thick; background-image:url("../recursos/img/layout/bar.jpg"); background-repeat:repeat-x;'>
@@ -68,37 +67,6 @@
                                                     </af:panelGroupLayout>
                                                 </af:panelBox>
                                 </af:gridCell>
-                             <!--   <af:gridCell width="50%" halign="center" valign="middle">
-                                   <af:panelGroupLayout layout="vertical" halign="right">
-                                        <af:image source="../recursos/img/layout/pantallas.png"
-                                                    inlineStyle="height:235px;width:417px;" />
-                                        <af:spacer height="20"/>
-                                    </af:panelGroupLayout>
-                                    <af:panelGroupLayout layout="vertical" halign="center">
-                                       <af:panelFormLayout inlineStyle="max-width:100px; margin:0px 0px 0px -180px;">
-                                         <h:outputFormat  value=" &lt;p style='text-align: justify;'>  sdfksdfknsdkfnkjdnfj
-                                                sknfkjwnrkjwenrkjwn
-                                                wnkwnerkjwnrekwnerkjwnfkjdgnkjdgnf 
-                                                gdlgdkfgndkgnkdjgnkdgnkjdgnfkjdfgnkjdgnkjdngkjdfngkjdgd dfk
-                                                gndfkngd dfkgjdlfg dfgndfkng kdnfgdnfg 
-                                                lkdfgdklfg ldgldfkmg ldfgdlfkmg dlfkmgdlfmgdlfm ldmgdlgm
-                                                d dflkmgdlgmdlfmgkl dflkmgdlfmg 
-                                                dfgmdflgmdlgmdlfm ldkfmgldkfmg  lkdmfglmk dflgmkdlfmg  lkdfglm
-                                                dfg mldgfmlk &lt;/p>" escape="false" style="color:rgb(102,98,96)"/>
-                                       </af:panelFormLayout>
-                                    </af:panelGroupLayout>
-                                    
-                                    <af:spacer height="20"/>
-                                    <af:panelGroupLayout layout="vertical" halign="right">
-                                     <af:panelFormLayout rows="1" maxColumns="2">
-                                        <af:image source="../recursos/img/layout/ag.png"
-                                                  inlineStyle="width:107px; height:78px; margin:0px 0px 0px 0px;"/>
-                                        <af:image source="../recursos/img/layout/lm.png"
-                                                  inlineStyle="width:80px; height:74px; margin:0px 0px 0px 30px;"/>
-                                    </af:panelFormLayout>
-                                    </af:panelGroupLayout>
-                                   
-                                </af:gridCell>-->
                             </af:gridRow>
                         </af:panelGridLayout>
                     </af:gridCell>
@@ -122,7 +90,7 @@
              </af:panelGroupLayout>
                 </f:facet>
               <!--  <f:facet name="bottom">
-                    <af:panelGroupLayout/>
+                    <af:panelGroupLayout/> <a href="javascript: void(0);" onclick="tratar();">Click</a>
                 </f:facet>-->
                 <f:facet name="top">
                     <af:panelGroupLayout/>
