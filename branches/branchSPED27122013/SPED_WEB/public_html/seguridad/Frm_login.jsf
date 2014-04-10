@@ -40,7 +40,7 @@
                                                             <af:inputText label="Usuario" id="itUsuario" required="true"
                                                                           clientComponent="true"
                                                                           labelStyle="text-align: left;"
-                                                                          styleClass="login" value="#{bLogin.usuario}">
+                                                                          styleClass="titulos" value="#{bLogin.usuario}">
                                                                 <f:converter converterId="lowerconverter"/>
                                                             </af:inputText>
                                                             <af:inputText label="Clave" id="itClave" secret="true"
@@ -58,9 +58,9 @@
                                                             <af:messages id="m1" inline="true"/>
                                                         </af:panelFormLayout>
                                                    </af:subform>
-                                                    <af:panelGroupLayout id="pgl2" layout="scroll"
+                                                    <af:panelGroupLayout id="pgl2" layout="scroll" 
                                                                          inlineStyle="margin:0px 0px 0px 53px;">
-                                                        <af:link text="¿Has olvidado tu clave?" id="l1"
+                                                        <af:link text="¿Has olvidado tu clave?" id="l1" styleClass="subTitulos2" 
                                                                  partialSubmit="true">
                                                             <af:showPopupBehavior popupId="p1"/>
                                                         </af:link>
