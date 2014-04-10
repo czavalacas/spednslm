@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,7 +38,7 @@ import sped.negocio.entidades.beans.BeanProfesor;
  */
 @Stateless(name = "LN_C_SFMain", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFMain")
 public class LN_C_SFMainBean implements LN_C_SFMainRemote, 
-                                           LN_C_SFMainLocal {
+                                        LN_C_SFMainLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -93,4 +94,25 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
                                                  String aula){
         return bdl_C_SFMainLocal.getMainByAttr_BDL_WS(nidSede,profesor,curso,aula);
     }
+
+    public List<BeanMain> getLstMainByAttr_LN(String nidAula) {
+        BeanMain beanMain = new BeanMain();
+        beanMain.setNidAula(Integer.parseInt(nidAula));        
+        return transformListBeanMain(bdl_C_SFMainLocal.getLstMainByAttr_BDL(beanMain));
+    }
+    
+    public List<BeanMain> transformListBeanMain(List<Main> lstMain){
+        try{
+            List<BeanMain> lstBean = new ArrayList();
+            for(Main m : lstMain){
+                BeanMain beanMain = (BeanMain) mapper.map(m, BeanMain.class);
+                lstBean.add(beanMain);
+            }
+            return lstBean;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 }

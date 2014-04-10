@@ -52,6 +52,8 @@ public class Main implements Serializable {
     @ManyToOne
     @JoinColumn(name = "dniProfesor")
     private Profesor profesor;
+    @Column(name = "nDia")
+    private int nDia;
 
     public Main() {
     }
@@ -153,6 +155,14 @@ public class Main implements Serializable {
 
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
+    }
+
+    public void setNDia(int nDia) {
+        this.nDia = nDia;
+    }
+
+    public int getNDia() {
+        return nDia;
     }
 
     @Override

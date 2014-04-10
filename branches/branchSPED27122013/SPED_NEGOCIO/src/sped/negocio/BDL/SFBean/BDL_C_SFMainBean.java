@@ -150,9 +150,9 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
      * @return List<BeanMainWS>
      */
     public List<BeanMainWS> getMainByAttr_BDL_WS(Integer nidSede,
-                                                  String profesor,
-                                                  String curso,
-                                                  String aula){
+                                                 String profesor,
+                                                 String curso,
+                                                 String aula){
         try {
            String qlString = "SELECT NEW sped.negocio.entidades.beans.BeanMainWS(m.nidMain," +
                                                                                  "m.profesor.apellidos," +
@@ -211,4 +211,22 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
             return null;
         }
     }
+   
+   /**
+     * Metodo para consultar las leciones del aula
+     * @param beanMain
+     * @return LstMain
+     */
+   public List<Main> getLstMainByAttr_BDL(BeanMain beanMain){
+       try{
+           String ejbQl =  " SELECT ma FROM Main ma " +
+                           " WHERE ma.aula.nidAula = :nidAula ";
+           List<Main> lstMain = em.createQuery(ejbQl).setParameter("nidAula", beanMain.getNidAula())
+                                                     .getResultList();
+           return lstMain;
+       }catch(Exception e){
+           e.printStackTrace();
+           return new ArrayList();
+       }
+   }
 }
