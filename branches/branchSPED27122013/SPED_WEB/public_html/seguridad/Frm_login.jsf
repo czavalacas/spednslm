@@ -16,15 +16,15 @@
                     <af:gridCell width="100%" halign="stretch" valign="stretch" id="gc1">
                         <af:panelFormLayout maxColumns="3" rows="1" inlineStyle="margin:5px 0px 0px 0px;">
                             <af:image source="/recursos/img/layout/_logo.png"
-                                      inlineStyle="height:47px;width:65px;margin:-4px 0px 0px 20px;"/>
+                                      inlineStyle="height:37px;width:50px;margin:2px 0px 0px 20px;"/>
                             <af:image source="/recursos/img/layout/logotipo.png"
-                                      inlineStyle="height:45px;width:200px;margin:0px 0px 0px -60px;"/>
+                                      inlineStyle="height:37px;width:185px;margin:1px 0px 0px -55px;"/>
                         </af:panelFormLayout>
                     </af:gridCell>
                </af:gridRow>     
             </af:panelGridLayout>
         
-             <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="200px"
+             <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="300px"
                                                            bottomHeight="33%">
                     <f:facet name="center">
                         <af:panelGroupLayout layout="vertical" halign="center">
@@ -35,7 +35,7 @@
                         <af:panelGridLayout>
                             <af:gridRow>
                                 <af:gridCell width="50%" halign="center" valign="middle">
-                                             <!--   <af:panelBox text="Iniciar Sesion" id="pb1" showDisclosure="false">-->
+                                                <af:panelBox text="Iniciar Sesion" id="pb1" showDisclosure="false">
                                                     <af:subform id="s1" defaultCommand="btnInicio">
                                                         <af:panelFormLayout id="pfl1">
                                                             <af:inputText label="Usuario" id="itUsuario" required="true"
@@ -66,9 +66,9 @@
                                                             <af:showPopupBehavior popupId="p1"/>
                                                         </af:link>
                                                     </af:panelGroupLayout>
-                                             <!--    </af:panelBox> -->
+                                                </af:panelBox>
                                 </af:gridCell>
-                                <af:gridCell width="50%" halign="center" valign="middle">
+                             <!--   <af:gridCell width="50%" halign="center" valign="middle">
                                    <af:panelGroupLayout layout="vertical" halign="right">
                                         <af:image source="../recursos/img/layout/pantallas.png"
                                                     inlineStyle="height:235px;width:417px;" />
@@ -98,10 +98,9 @@
                                     </af:panelFormLayout>
                                     </af:panelGroupLayout>
                                    
-                                </af:gridCell>
+                                </af:gridCell>-->
                             </af:gridRow>
                         </af:panelGridLayout>
-                        <!-- Content -->
                     </af:gridCell>
                 </af:gridRow>
             </af:panelGridLayout>
