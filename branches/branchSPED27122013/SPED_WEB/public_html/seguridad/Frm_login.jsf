@@ -50,7 +50,7 @@
                                                             </af:inputText>
                                                             <af:button text="Ingresar" id="btnInicio"
                                                                        actionListener="#{bLogin.autenticarUsuario}"
-                                                                       action="#{bLogin.getRedireccionar}"/>
+                                                                       action="#{bLogin.getRedireccionar}" styleClass="FondoGrisLetraGris"/>
                                                             <af:activeOutputText id="otError"
                                                                                  value="#{requestScope.bLogin.msjError}"
                                                                                  inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
