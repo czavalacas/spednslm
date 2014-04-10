@@ -84,6 +84,9 @@ public class bMain implements Serializable {
     
     public void createMenus(PhaseEvent phaseEvent) {
         try {
+          //  int a = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+          //  int b = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+            //Utils.sysout("ancho: "+a+" alto: "+b);
             if (sessionMain.getLstPermisos() != null) {
                 sessionMain.getLstPermisos().removeAll(sessionMain.getLstPermisos());
                 sessionMain.getLstPermisos().clear();
