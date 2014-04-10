@@ -17,6 +17,7 @@ import sped.negocio.BDL.IL.BDL_T_SFCursoLocal;
 import sped.negocio.BDL.IL.BDL_T_SFProfesorLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioPermisoLocal;
+import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFProfesorLocal;
 import sped.negocio.LNSF.IR.LN_T_SFProfesorRemoto;
@@ -48,7 +49,7 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
     @EJB
     private BDL_C_SFRolPermisoLocal bdl_C_SFRolPermisoLocal;
     @EJB
-    private BDL_T_SFUsuarioPermisoLocal bdl_T_SFUsuarioPermisoLocal;
+    private BDL_T_SFUsuarioPermisoLocal bdl_T_SFUsuarioPermisoLocal;    
 
     public LN_T_SFProfesorBean() {
     }
@@ -58,14 +59,16 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
         String error = "000";
         try {            
             for(int i=0; i<listaProfesores.size(); i++){
-            Profesor prof=new Profesor();
+                
+                /** Agrega los profesores nuevos a admprof*/
+                Profesor prof=new Profesor();
                 prof.setDniProfesor(listaProfesores.get(i).getDniProfesor());
                 prof.setNombres(listaProfesores.get(i).getNombres());
                 prof.setApellidos(listaProfesores.get(i).getApellidos());
                 bdl_T_SFProfesorLocal.persistProfesor(prof);
                 
-                
-           Usuario usua=new Usuario();
+                /** Crea usuario nuevos de rol Profesor*/
+                Usuario usua=new Usuario();
                 Rol role=new Rol();
                 role.setNidRol(3);
                 usua.setRol(role);
@@ -73,9 +76,12 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
                 usua.setDni(listaProfesores.get(i).getDniProfesor());
                 usua.setUsuario(listaProfesores.get(i).getDniProfesor());
                 usua.setEstadoUsuario("1");
-                usua.setClave("123");
+                usua.setClave(listaProfesores.get(i).getDniProfesor());
+                usua.setIsNuevo("1");
+                usua.setCorreo(listaProfesores.get(i).getCorreo());
                 bdl_T_SFUsuarioLocal.persistUsuario(usua);
                
+                /** Agrega los permisos correspondientes de rol profesor*/
                 Rol rol=new Rol();
                 rol.setNidRol(3);
                 List<RolPermiso> lstPermXRoL=bdl_C_SFRolPermisoLocal.getPermisosByRolBDL(rol);

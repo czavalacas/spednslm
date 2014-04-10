@@ -307,10 +307,11 @@ public class bMigrarExcel {
                 BeanProfesor profe=new BeanProfesor();               
                 Cell cell = (Cell) list.get(0);
                 if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC || cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {                   
-                 Utils.sysout((int) cell.getNumericCellValue()); Utils.sysout(list.get(1).toString()); Utils.sysout(list.get(2).toString());
+                 Utils.sysout((int) cell.getNumericCellValue()); Utils.sysout(list.get(1).toString()); Utils.sysout(list.get(2).toString());Utils.sysout(list.get(3).toString());
                  profe.setDniProfesor(""+(int) cell.getNumericCellValue());
                  profe.setNombres(list.get(1).toString());
                  profe.setApellidos(list.get(2).toString());
+                 profe.setCorreo(list.get(3).toString());
                  listProfesoresAInsertar.add(profe);
                 }
             }
