@@ -511,14 +511,7 @@
                                     <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaAulasTemporal}" id="si75"/>
                                 </af:selectOneChoice>
                             </af:gridCell>
-                            <af:gridCell marginStart="5px" width="33%" id="gc49">
-                           <!--   <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.dniProfesor}"
-                                                    label="Docente" id="choiceDocente2"
-                                                    unselectedLabel="::Seleccionar Docente::" autoSubmit="true"
-                                                    binding="#{bPlanificarEva.choiceProfesores}">
-                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaProfesores}"
-                                                   id="si33"/>
-                                </af:selectOneChoice>    -->
+                            <af:gridCell marginStart="5px" width="33%" id="gc49">                  
                                 <af:inputText label="Docente " id="it55" labelStyle="text-align: left;"
                                               value="#{sessionPlanificarEva.FNombres}" required="true"
                                               showRequired="true">
@@ -535,6 +528,23 @@
                                           showRequired="true">
                                 <af:convertDateTime pattern="dd/MM/yyy HH:mm:ss a"/>
                                 </af:inputDate>
+                            </af:gridCell>
+                        </af:gridRow>
+                            <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr84">
+                            <af:gridCell marginStart="5px" width="34%" id="gc86">
+                         <af:selectOneChoice label="Tipo Ficha Curso" requiredMessageDetail="Seleccione un tipo de ficha curso"
+                                                               value="#{bPlanificarEva.sessionPlanificarEva.tipoFichaCurs}" id="socTipFichaCurs"
+                                                               labelStyle="text-align: left;" autoSubmit="true" 
+                                                              showRequired="true" required="true">
+                                            <f:selectItems  id="si34" value="#{sessionScope.sessionPlanificarEva.lstTiposFichaCurso}"/>
+                                        </af:selectOneChoice>
+
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" id="gc64">                  
+                        
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc81">                            
+                     
                             </af:gridCell>
                         </af:gridRow>
                     </af:panelGridLayout>
