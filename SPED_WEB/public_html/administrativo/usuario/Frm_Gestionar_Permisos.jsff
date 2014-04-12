@@ -53,8 +53,8 @@
                        dialogListener="#{bGestionarPermisos.confirmarSelecion}">
                 <af:table value="#{sessionGestionarPermisos.lstUsuarios}" var="row" rowBandingInterval="0" id="t1"
                           rowSelection="single"  selectionListener="#{bGestionarPermisos.seleccionarUsuario}"
-                          width="526">
-                    <af:column sortable="true" headerText="Nombres" align="start" id="c2" 
+                          width="626">
+                    <af:column sortable="true" headerText="Nombres" align="start" id="c2" width="260" 
                                sortProperty="nombres">
                         <af:outputText value="#{row.nombres}" id="ot3"/>
                     </af:column>
