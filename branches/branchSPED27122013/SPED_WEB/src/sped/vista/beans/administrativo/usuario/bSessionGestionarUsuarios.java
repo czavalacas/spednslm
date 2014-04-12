@@ -20,13 +20,13 @@ public class bSessionGestionarUsuarios implements Serializable {
     private int nidNivel;
     private int nidUsuario;
     private int tipoEvento;
+    private boolean supervisorboolean;
     private String titleDialogGestion;
     private String nomBtnGestion;
     private String nombres;
     private String correo;
     private String dni;
     private String usuario;
-    private String clave;
     private boolean renderAreaAcdemica = false;
     private boolean disabledActualizar = false;
     private boolean disableRol;
@@ -136,15 +136,7 @@ public class bSessionGestionarUsuarios implements Serializable {
     public String getUsuario() {
         return usuario;
     }
-
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
-
-    public String getClave() {
-        return clave;
-    }
-
+    
     public void setTipoEvento(int tipoEvento) {
         this.tipoEvento = tipoEvento;
     }
@@ -376,4 +368,13 @@ public class bSessionGestionarUsuarios implements Serializable {
     public String getFNidSede() {
         return fNidSede;
     }
+
+    public void setSupervisorboolean(boolean supervisorboolean) {
+        this.supervisorboolean = supervisorboolean;
+    }
+
+    public boolean isSupervisorboolean() {
+        return supervisorboolean;
+    }
+
 }

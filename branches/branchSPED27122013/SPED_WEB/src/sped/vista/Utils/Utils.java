@@ -1,5 +1,7 @@
 package sped.vista.Utils;
 
+import java.io.File;
+
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+
+import javax.servlet.ServletContext;
 
 import oracle.adf.model.BindingContext;
 import oracle.adf.view.rich.component.rich.RichPopup;
@@ -320,6 +324,21 @@ public class Utils {
             } 
         }
         return items;
+    }
+    
+    public static String rutaImagenes(){
+        String rutaLocal = "";
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        if(File.separator.equals("/")){
+            rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + 
+                        "usuarios" + File.separator;     
+        }else{
+            rutaLocal = "recursos" + File.separator + "img" + File.separator + 
+                        "usuarios" + File.separator;   
+        }
+        ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
+        String imageDirPath = servletCtx.getRealPath("/");
+        return imageDirPath + rutaLocal;
     }
     
 }

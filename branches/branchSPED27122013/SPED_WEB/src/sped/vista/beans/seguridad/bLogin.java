@@ -73,7 +73,7 @@ public class bLogin implements Serializable {
     public void recuperarClave(DialogEvent dialogEvent) {
         DialogEvent.Outcome outcome = dialogEvent.getOutcome();
         if(outcome == DialogEvent.Outcome.ok){
-            String enviar = ln_C_SFCorreoRemote.recuperarClave(correo);
+            String enviar = ln_C_SFCorreoRemote.recuperarClave(correo, 0, Utils.rutaImagenes());
             if(enviar.equals("000")){
                 setTituloPopup("Revisa tu correo");
                 setMensajeCorreo("Te hemos enviado un correo con tu clave. Recuerda cambiarla por seguridad");

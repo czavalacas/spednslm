@@ -37,8 +37,9 @@ public class EmailUValidator implements Validator {
             throw new ValidatorException(new FacesMessage("El e-mail tiene formato Incorrecto."));
         }else{
             Object dni = Utils.getSession("Correo");
+            System.out.println(dni);
             int cont = 0;            
-            if(dni.toString().compareTo(dato) == 0){
+            if(dni != null && dni.toString().compareTo(dato) == 0){
                 cont = ln_C_SFUtilsRemote.findCountByProperty(dni.toString(), true, true);
             }else{
                 cont = ln_C_SFUtilsRemote.findCountByProperty(dato, true, false);

@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 
 import oracle.adf.view.rich.component.rich.RichMenu;
 import oracle.adf.view.rich.component.rich.RichMenuBar;
+import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.layout.RichGridCell;
 import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
 import oracle.adf.view.rich.component.rich.nav.RichCommandMenuItem;
@@ -36,10 +37,13 @@ import oracle.adf.view.rich.component.rich.output.RichOutputLabel;
 import oracle.adf.view.rich.context.AdfFacesContext;
 import oracle.adf.view.rich.event.DialogEvent;
 
+import oracle.adf.view.rich.event.PopupCanceledEvent;
+
 import org.apache.myfaces.trinidad.event.PollEvent;
 
 import sped.negocio.LNSF.IL.LN_C_SFNotificacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
+import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -66,9 +70,13 @@ public class bMain implements Serializable {
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     @EJB
     private LN_C_SFNotificacionLocal ln_C_SFNotificacionLocal;
+    @EJB
+    private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
+    private RichPopup popNew;
+    private String clave;
 
     public bMain(){
         super();
@@ -108,6 +116,7 @@ public class bMain implements Serializable {
                 int hijoDeMBar = 0;
                 crearHijos(sessionMain.getLstPermisos().get(i), new RichMenu(), hijoDeMBar);
             }
+            isNuevoUsuario();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -260,6 +269,27 @@ public class bMain implements Serializable {
         }
     }
     
+    public void isNuevoUsuario(){
+        if(sessionMain.getExec() == 0 &&
+           beanUsuario.getIsNuevo().compareTo("1") == 0){
+            Utils.showPopUpMIDDLE(popNew);
+            sessionMain.setExec(1);
+        }
+    }
+    
+    public void dialogClaveListener(DialogEvent dialogEvent) {
+        DialogEvent.Outcome outcome = dialogEvent.getOutcome();
+        if(outcome == DialogEvent.Outcome.ok){            
+            ln_T_SFUsuarioRemote.cambiarPrimeraClave(beanUsuario.getNidUsuario(), 
+                                                     clave);
+            Utils.mostrarMensaje(ctx, "Se modifco correctamente su clave", null, 3);
+        }
+    }
+    
+    public void popupCanceledListenerClave(PopupCanceledEvent popupCanceledEvent) {
+        logoutTarget(LOGIN);
+    }
+    
     public void actualizarImagen(ActionEvent actionEvent) {
         Utils.addTarget(i2);
     }
@@ -351,4 +381,20 @@ public class bMain implements Serializable {
     public RichImage getImgBoli() {
         return imgBoli;
     }
+
+    public void setPopNew(RichPopup popNew) {
+        this.popNew = popNew;
+    }
+
+    public RichPopup getPopNew() {
+        return popNew;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getClave() {
+        return clave;
+    }    
 }

@@ -82,7 +82,6 @@ public class bGestionarUsuarios {
     private UISelectItems si5;
     private RichInputText itDni;
     private RichInputText itUsuario;
-    private RichInputText itClave;
     private RichPanelGridLayout pgl2;    
     private RichPanelFormLayout pfl3;
     private RichSelectOneChoice choiceFTipoSede;
@@ -159,7 +158,6 @@ public class bGestionarUsuarios {
         Utils.putSession("Correo", usuario.getCorreo());
         sessionGestionarUsuarios.setDni(usuario.getDni());        
         sessionGestionarUsuarios.setUsuario(usuario.getUsuario());
-        sessionGestionarUsuarios.setClave(usuario.getClave());
         sessionGestionarUsuarios.setNidRol(usuario.getRol().getNidRol());
         if(usuario.getFoto() != null){
             sessionGestionarUsuarios.setRenderImg(true);
@@ -253,10 +251,11 @@ public class bGestionarUsuarios {
                                               sessionGestionarUsuarios.getNidRol(), 
                                               nidArea, 
                                               sessionGestionarUsuarios.getUsuario(), 
-                                              sessionGestionarUsuarios.getClave(), 
                                               sessionGestionarUsuarios.getNidUsuario(),
+                                              Utils.rutaImagenes(),
                                               sessionGestionarUsuarios.getRutaImg(),
-                                              nidSede);
+                                              nidSede,
+                                              sessionGestionarUsuarios.isSupervisorboolean());
         String msj="";
         switch(sessionGestionarUsuarios.getTipoEvento()){
         case 1 : msj =  "Se registro al usuario "; break;
@@ -349,8 +348,7 @@ public class bGestionarUsuarios {
     public void resetValues(){        
         sessionGestionarUsuarios.setNombres("");
         sessionGestionarUsuarios.setDni("");
-        sessionGestionarUsuarios.setUsuario("");        
-        sessionGestionarUsuarios.setClave("");
+        sessionGestionarUsuarios.setUsuario("");     
         sessionGestionarUsuarios.setCorreo("");
         sessionGestionarUsuarios.setRutaImg("");
         sessionGestionarUsuarios.setNidRol(0);        
@@ -368,7 +366,6 @@ public class bGestionarUsuarios {
             choiceTipoArea.resetValue();
             choiceTipoRol.resetValue();
             itUsuario.resetValue();
-            itClave.resetValue();
             fileImg.resetValue();
         }
     }    
@@ -610,14 +607,6 @@ public class bGestionarUsuarios {
 
     public RichInputText getItUsuario() {
         return itUsuario;
-    }
-
-    public void setItClave(RichInputText itClave) {
-        this.itClave = itClave;
-    }
-
-    public RichInputText getItClave() {
-        return itClave;
     }
 
     public void setPgl2(RichPanelGridLayout pgl2) {
