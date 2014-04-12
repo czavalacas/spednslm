@@ -299,6 +299,25 @@ public class bMigrarExcel {
         System.out.println("TAMAÑO DE LA LISTA DE CURSOS : " + listaulasAInsertar.size());
     }
     
+    /**
+     * Metodo que verifica si la celda el DNI tiene 8 caracteres y es numerico
+     * @author dfloresgonz
+     * @since 12.04.2014
+     * @param valorCelda - el valor de la celda
+     * @return si es TRUE = es dni, FALSE = titulo 
+     */
+    public boolean isDNI(String valorCelda){//puede ser el titulo/dni
+        if(Utils.isNumeric(valorCelda)){
+            int len = valorCelda.length();
+            if(len == 8){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+    
     private void insertarProfesores(List sheetData) {
         List<BeanProfesor> listProfesoresAInsertar = new ArrayList<BeanProfesor>();        
         for (int i = 0; i < sheetData.size(); i++) {         
@@ -306,14 +325,27 @@ public class bMigrarExcel {
             if (!list.isEmpty()) {
                 BeanProfesor profe=new BeanProfesor();               
                 Cell cell = (Cell) list.get(0);
-                if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC || cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {                   
+                //dfloresgonz 12.04.2014
+                if(cell.getCellType() == Cell.CELL_TYPE_STRING){
+                    //EDUSYS tiene que mandar la celda como string sino no vendran ls dni con 8 caracteres
+                    if(this.isDNI(cell.getStringCellValue())){
+                        profe.setDniProfesor(cell.getStringCellValue());
+                        profe.setNombres(list.get(1).toString());
+                        profe.setApellidos(list.get(2).toString());
+                        profe.setCorreo(list.get(3).toString());
+                        listProfesoresAInsertar.add(profe);
+                    }
+                }
+                //FIN dfloresgonz 12.04.2014
+                
+               /* if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC || cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {                   
                  Utils.sysout((int) cell.getNumericCellValue()); Utils.sysout(list.get(1).toString()); Utils.sysout(list.get(2).toString());Utils.sysout(list.get(3).toString());
                  profe.setDniProfesor(""+(int) cell.getNumericCellValue());
                  profe.setNombres(list.get(1).toString());
                  profe.setApellidos(list.get(2).toString());
                  profe.setCorreo(list.get(3).toString());
                  listProfesoresAInsertar.add(profe);
-                }
+                }*/
             }
         }
         ln_T_SFUsuarioRemote.cambiarEstadoUsuarioProfesores(listProfesoresAInsertar);
