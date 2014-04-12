@@ -216,7 +216,7 @@ public class bDesempenoEvaluador {
     
     public String rutaPdf() {
         String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
-        String rutaPdf = rutaImagenes() + timePath + "-Reporte.pdf";     
+        String rutaPdf = Utils.rutaImagenes() + timePath + "-Reporte.pdf";     
         try{
             File file = null; 
             FileOutputStream fos;
@@ -236,14 +236,14 @@ public class bDesempenoEvaluador {
     
     public void generarPdf(java.io.OutputStream fos) {
         String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
-        String rutaImg = rutaImagenes();
+        String rutaImg = Utils.rutaImagenes();
         String rutaSave = rutaImg+timePath;
         try{
             Document document = new Document();
             PdfWriter.getInstance(document, fos);
             document.open();
-            Image img = Image.getInstance(rutaImg+"cabecera.png");
-            img.scalePercent(60);
+            Image img = Image.getInstance(rutaImg+"reporgra.png");//cabecera.png
+            img.scalePercent(24);
             img.setAlignment(Image.ALIGN_CENTER);
             document.add(img);
             addSelectFiltro(document);
@@ -904,20 +904,6 @@ public class bDesempenoEvaluador {
         if(pgl2 != null){
             Utils.addTargetMany(pgl2);
         }      
-    }
-    
-    public String rutaImagenes(){
-        String rutaLocal = "";
-        if(File.separator.equals("/")){
-            rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + 
-                        "usuarios" + File.separator;     
-        }else{
-            rutaLocal = "recursos" + File.separator + "img" + File.separator + 
-                        "usuarios" + File.separator;   
-        }
-        ServletContext servletCtx = (ServletContext)ctx.getExternalContext().getContext();
-        String imageDirPath = servletCtx.getRealPath("/");
-        return imageDirPath + rutaLocal;
     }
     
     public void setSessionDesempenoEvaluador(bSessionDesempenoEvaluador sessionDesempenoEvaluador) {

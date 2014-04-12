@@ -6,5 +6,7 @@ import javax.ejb.Remote;
 public interface LN_C_SFCorreoRemote {
     String enviarCorreo(String data[]);
     boolean enviarCorreoHTML(String data[]);
-    String recuperarClave(String correo);
+    String recuperarClave(String correo,
+                          int evento,
+                          String direccion);
 }

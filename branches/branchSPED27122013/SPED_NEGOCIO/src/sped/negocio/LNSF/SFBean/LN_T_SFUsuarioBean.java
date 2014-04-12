@@ -25,15 +25,14 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
 import sped.negocio.BDL.IR.BDL_T_SFMainRemoto;
+import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioPermisoLocal;
 import sped.negocio.LNSF.IL.LN_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Main;
-import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.admin.Usuario;
-import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.sist.Rol;
 
@@ -61,6 +60,8 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
     private BDL_C_SFMainRemote bdl_C_SFMainRemote;
     @EJB
     private BDL_T_SFMainRemoto bdl_T_SFMainRemoto;
+    @EJB
+    private LN_C_SFCorreoLocal ln_C_SFCorreoLocal;
 
     public LN_T_SFUsuarioBean() {
     }
@@ -72,10 +73,11 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                                  int nidRol,
                                  int nidAreaA,
                                  String usuario,
-                                 String clave,
                                  int idUsuario,
+                                 String rutaImagenes,
                                  String rutaImg,
-                                 int nidSede){
+                                 int nidSede,
+                                 boolean isSupervisor){
         Usuario u = new Usuario();
         Rol r = new Rol();
         if(tipoEvento > 1){
@@ -91,19 +93,19 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setSede(sede);
             u.setNombres(nombres);            
             u.setDni(dni);
-            if(correo != null && correo.length() == 0){
-                correo = null;
-            }
             u.setCorreo(correo);
             u.setRol(rol);
             u.setAreaAcademica(area);
-            u.setUsuario(usuario);
-            u.setClave(clave);
+            u.setUsuario(usuario);            
             if(rutaImg != null){
                 Imagen(rutaImg, u);
             }
-            if(tipoEvento == 1){
+            if(tipoEvento == 1){                
                 u.setEstadoUsuario("1");
+                u.setClave(usuario);
+                ln_C_SFCorreoLocal.recuperarClave(correo, 1, rutaImagenes);//envia correo por primera vez
+                u.setIsNuevo("1");
+                u.setIsSupervisor((rol.getNidRol() == 2 && isSupervisor) ? "1" : "0");
                 bdL_T_SFUsuarioLocal.persistUsuario(u);
                 ln_C_SFUsuarioPermisoLocal.insertUsuarioPermisobyUsuario(u, null);
                 return;
@@ -176,6 +178,14 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         bdL_T_SFUsuarioLocal.mergeUsuario(u);
     }
     
+    public void cambiarPrimeraClave(int nidUsuario,
+                                    String clave){
+        Usuario u = bdL_C_SFUsuarioLocal.findConstrainById(nidUsuario);
+        u.setClave(clave);
+        u.setIsNuevo("0");
+        bdL_T_SFUsuarioLocal.mergeUsuario(u);
+    }
+    
     public String cambiarEstadoUsuarioProfesores(List<BeanProfesor> listprofesores){
         List<Usuario> listUsuarios=bdL_C_SFUsuarioLocal.getUsuarioTipoProfesor();
         for(int i=0; i<listprofesores.size(); i++){
@@ -194,7 +204,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             usua.setEstadoUsuario("0");
             bdL_T_SFUsuarioLocal.mergeUsuario(usua);
             /**Cambiarle su estado en main a 0 a los docentes que ya no aparecen la nueva carga*/
-            List<Main> listMain=bdl_C_SFMainRemote.getHorariosPorDocente(listUsuarios.get(i).getDni());
+            List<Main> listMain = bdl_C_SFMainRemote.getHorariosPorDocente(listUsuarios.get(i).getDni());
             if(listMain!=null){
             for(Main entida:listMain){
                 entida.setEstado("0");
