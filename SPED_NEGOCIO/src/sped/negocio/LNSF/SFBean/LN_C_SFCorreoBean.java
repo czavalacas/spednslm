@@ -1,5 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
+import java.io.File;
+
 import java.text.SimpleDateFormat;
 
 import java.util.Calendar;
@@ -31,15 +33,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 
+import javax.activation.DataSource;
+
 import javax.ejb.EJB;
 
+import javax.faces.context.FacesContext;
+
 import javax.mail.MessagingException;
+
+import javax.servlet.ServletContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEmailRemote;
 import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
-import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.sist.Email;
 
@@ -131,8 +138,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
           }else{
               CLAVE = email.getClave();
               EMAIL_QUE_ENVIA = email.getCorreo();
-          }                    
-          Multipart multipart = new MimeMultipart();
+          }
           BodyPart messageBodyPart = new MimeBodyPart();
           Properties props = new Properties();
           props.setProperty("mail.smtp.host", HOST);
@@ -157,6 +163,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
               contenido = contenidoHTML(data);
           }
           messageBodyPart.setContent(contenido, "text/html");
+          Multipart multipart = new MimeMultipart();
           multipart.addBodyPart(messageBodyPart);          
           if(data[7].toString().compareTo("1") == 0){
               BodyPart messageBodyPart2 = new MimeBodyPart();
@@ -164,6 +171,8 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
               messageBodyPart2.setDataHandler(new DataHandler(source));
               messageBodyPart2.setFileName(source.getName());
               multipart.addBodyPart(messageBodyPart2);
+          }else{
+              addCID("img01", data[8]+"recucontr.png", multipart);
           }          
           message.setContent(multipart);
           Transport t = session.getTransport("smtp");
@@ -172,7 +181,6 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
           valida = true;
           t.close();
       }catch (MessagingException ex){
-          ex.printStackTrace();
           return valida;
       }
       return valida;
@@ -192,24 +200,44 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
       return contenido;
     }
     
-    public String contenidoHTML(String data[]){
+    public String contenidoHTML(String data[]){        
       String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";
+      //String rutaimg = "C:/Users/David/AppData/Roaming/JDeveloper/system12.1.2.0.40.66.68/o.j2ee/drs/SPED_APP/SPED_WEBWebApp.war/recursos/img/usuarios/recucontr.png";
       String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
                       .concat("<tbody>")
                       .concat("<p style=\"text-align: center;\">")
-                      .concat("<a><img alt=\"\" src=\""+rutaimg+"\" style=\"width: 690px; height: 61px;\" /></a></p>")
+                      .concat("<a><img alt=\"\" src='cid:img01' style=\"width: 690px; height: 61px;\" /></a></p>")
                       .concat("<p style=\"text-align: right;\">")
                       .concat("<strong>Fecha:</strong> "+data[0]+"</p>")
-                      .concat("<p><h2>\nHola "+data[1]+"</h2>\n<p>")
-                      .concat("Recibimos tu solicitud para recuperar tu cuenta.</p>\n")
+                      .concat("<p><h2>\nHola "+data[1]+"</h2>")
+                      .concat(data[4])
                       .concat("<p style=\"margin-left: 40px;\">\n<strong>Usuario : "+data[5]+"</strong></p>")
                       .concat("<p style=\"margin-left: 40px;\"><strong>Clave : "+data[6]+"</strong></p></p>")
                       .concat("</tbody>")
-                      .concat("</table>");
+                      .concat("</table>");      
       return contenido;
+    }    
+    
+    public void addCID(String cidname,String pathname, Multipart multipart){
+        try{
+            DataSource fds = new FileDataSource(pathname);
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setDataHandler(new DataHandler(fds));
+            messageBodyPart.setHeader("Content-ID","<"+cidname+">");
+            multipart.addBodyPart(messageBodyPart);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
-    public String recuperarClave(String correo){
+    /**
+     * Metodo para enviar recuperar la cuenta del usuario(evento 0) y para enviar mensaje al usuario resgitrado por
+     * primera ves (evento 1)
+     * @param correo
+     * @param evento 0 o 1
+     * @return
+     */
+    public String recuperarClave(String correo, int evento, String ruta){
         if(bd_C_SFUsuarioLocal.countCorreoBDL(correo) != 0){
             Usuario u = bd_C_SFUsuarioLocal.getUsuarioByCorreoBDL(correo);
             if(u != null){
@@ -220,15 +248,21 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                 data[1] = u.getNombres(); //pdf - nombres
                 data[2] = "Recuperar Clave"; //asunto            
                 data[3] = correo;
-                data[4] = null;
+                if(evento == 0){
+                    data[4] = "<p>Recibimos tu solicitud para recuperar tu cuenta.</p>";
+                }else{
+                    data[4] = "<p>Bienvenido a AVANTGARD Sistema de Evaluacion para docentes.\n Le proporcianamos " +
+                              "los siguientes datos </p>";
+                }                
                 data[5] = u.getUsuario();
                 data[6] = u.getClave();
                 data[7] = "0";
+                data[8] = ruta;
                 enviarCorreoHTML(data);
                 return "000";
             }            
         }
         return "001";
-    }
-    
+    }   
+        
 }

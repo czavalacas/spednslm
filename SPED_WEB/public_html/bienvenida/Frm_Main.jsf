@@ -126,5 +126,16 @@
         <!-- <a href="javascript: void(0);" onclick="hola();">Click</a>-->
         <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
                  rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
+        <af:popup childCreation="deferred" id="popNew" binding="#{bMain.popNew}"
+                  popupCanceledListener="#{bMain.popupCanceledListenerClave}">
+            <af:dialog id="d3" title="Cambiar clave" dialogListener="#{bMain.dialogClaveListener}"
+                       closeIconVisible="false">
+                    <af:inputText label="Ingresar nueva clave" id="it5" required="true"
+                                  value="#{bMain.clave}" secret="true" maximumLength="32"
+                                  autoSubmit="true">
+                        <f:validator validatorId="ClaveValidator"/>
+                    </af:inputText>
+            </af:dialog>
+        </af:popup>
     </af:document>
 </f:view>

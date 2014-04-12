@@ -33,7 +33,7 @@ public class LN_C_SFCorreoRemoteClient {
             data[3] = "evento loco";
             data[4] = "  todo esta jodido csm!!";*/
            // lN_C_SFCorreoRemote.enviarCorreo("dfloresgonz@gmail.com", data);
-            String pdf = "C:/Users/David/AppData/Roaming/JDeveloper/system12.1.2.0.40.66.68/o.j2ee/drs/SPED_APP/SPED_WEBWebApp.war/recursos/img/usuarios/prueba.pdf";
+            /* String pdf = "C:/Users/David/AppData/Roaming/JDeveloper/system12.1.2.0.40.66.68/o.j2ee/drs/SPED_APP/SPED_WEBWebApp.war/recursos/img/usuarios/prueba.pdf";
             String[] data = new String[8];
             data[0] = "03/03/2014"; //fecha
             data[1] = pdf; //pdf
@@ -42,8 +42,8 @@ public class LN_C_SFCorreoRemoteClient {
             data[4] = "evento loco"; //mensaje
             data[5] = "siatod2013@gmail.com";//correo del que envia
             data[6] = "taller2013";//contraseña del que envia
-            data[7] = "1";//tipo de correo
-            System.out.println(lN_C_SFCorreoRemote.enviarCorreoHTML(data));
+            data[7] = "0";//tipo de correo */
+            System.out.println(lN_C_SFCorreoRemote.recuperarClave("davidangeleshuaman@gmail.com", 1,"C:/Users/David/AppData/Roaming/JDeveloper/system12.1.2.0.40.66.68/o.j2ee/drs/SPED_APP/SPED_WEBWebApp.war/recursos/img/usuarios/"));
            // System.out.println(msj);
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());

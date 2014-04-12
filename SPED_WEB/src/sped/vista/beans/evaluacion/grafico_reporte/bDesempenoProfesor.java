@@ -799,8 +799,8 @@ public class bDesempenoProfesor {
             Document document = new Document();
             PdfWriter.getInstance(document, fos);
             document.open();
-            Image img = Image.getInstance(rutaImg+"cabecera.png");
-            img.scalePercent(60);
+            Image img = Image.getInstance(rutaImg+"reporgra.png");//cabecera.png
+            img.scalePercent(24);
             img.setAlignment(Image.ALIGN_CENTER);
             document.add(img);
           //  addSelectFiltro(document);

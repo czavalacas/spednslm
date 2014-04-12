@@ -111,6 +111,10 @@
                                sortProperty="areaAcademica.descripcionAreaAcademica">
                         <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot3"/>
                     </af:column>
+                    <af:column id="c2" sortable="true" headerText="Supervisor" align="center"
+                               sortProperty="isSupervisor">
+                        <af:outputText value="#{row.isSupervisor == '1' ? 'Si' : 'No'}" id="ot2"/>
+                    </af:column>
                     <af:column sortable="true" headerText="Usuario" align="start" id="c4" sortProperty="usuario">
                         <af:outputText value="#{row.usuario}" id="ot4"/>
                     </af:column>
@@ -142,7 +146,7 @@
                                   binding="#{bGestionarUsuarios.itDni}">
                         <f:validator validatorId="DniValidator"/>
                     </af:inputText>
-                    <af:inputText label="Correo" id="itCor" labelStyle="text-align: left;"
+                    <af:inputText label="Correo" id="itCor" labelStyle="text-align: left;" required="true"
                                   value="#{sessionGestionarUsuarios.correo}" maximumLength="150" autoSubmit="true"
                                   binding="#{bGestionarUsuarios.itCor}">
                         <f:validator validatorId="EmailUValidator"/>
@@ -165,7 +169,7 @@
                         <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si2"
                                        binding="#{bGestionarUsuarios.si2}"/>
                     </af:selectOneChoice>
-                    <af:selectOneChoice label="Sede" value="#{sessionScope.sessionGestionarUsuarios.nidSede}"
+                    <af:selectOneChoice label="Sede" value="#{sessionGestionarUsuarios.nidSede}"
                                         id="choiceTipoSede" binding="#{bGestionarUsuarios.choiceTipoSede}"
                                         unselectedLabel="::Selecionar Sede::" autoSubmit="true"
                                         labelStyle="text-align: left;"
@@ -174,16 +178,14 @@
                         <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstSede}" id="si8"
                                        binding="#{bGestionarUsuarios.si8}"/>
                     </af:selectOneChoice>
+                    <af:selectBooleanCheckbox text="¿Es supervisor?" id="sbc1" 
+                                              value="#{sessionGestionarUsuarios.supervisorboolean}"
+                                              rendered="#{sessionGestionarUsuarios.renderAreaAcdemica}"/>
                     <af:inputText label="Usuario" id="itUsuario" labelStyle="text-align: left;" required="true"
                                   value="#{sessionGestionarUsuarios.usuario}" maximumLength="10"
                                   disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
                                   binding="#{bGestionarUsuarios.itUsuario}">
                         <f:validator validatorId="NomUsuarioValidator"/>
-                    </af:inputText>
-                    <af:inputText label="Clave" id="itClave" maximumLength="32" required="true" secret="true"
-                                  labelStyle="text-align: left;" autoSubmit="true"
-                                  value="#{sessionGestionarUsuarios.clave}" binding="#{bGestionarUsuarios.itClave}">
-                        <f:validator validatorId="ClaveValidator"/>
                     </af:inputText>
                     <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true"
                                   labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"

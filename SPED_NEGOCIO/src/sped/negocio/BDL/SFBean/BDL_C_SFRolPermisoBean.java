@@ -56,4 +56,30 @@ public class BDL_C_SFRolPermisoBean implements BDL_C_SFRolPermisoRemote,
             throw re;
         }
     }
+    
+    /**
+     * Devuelve una lista con los permisos del supervisor area
+     * @return
+     */
+    public List<RolPermiso> getPermisosSupervisorUsuario(){
+        String permisos[] = {"1","3","4","5","12"};
+        try{
+            String strQuery = "SELECT r " +
+                            "FROM RolPermiso r " +
+                            "WHERE r.rol.nidRol = 2 ";
+            strQuery = strQuery.concat(" AND ( ");
+            for(int i=0 ; i < permisos.length; i++){
+                if(i != 0){
+                    strQuery = strQuery.concat(" OR ");
+                }
+                strQuery = strQuery.concat(" r.permiso.nidPermiso = "+permisos[i]);                    
+            }
+            strQuery = strQuery.concat(" ) ORDER BY r.permiso.nidPermiso");
+            return (List<RolPermiso>) em.createQuery(strQuery).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 }

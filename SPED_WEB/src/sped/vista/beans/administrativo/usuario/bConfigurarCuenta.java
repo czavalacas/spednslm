@@ -160,8 +160,6 @@ public class bConfigurarCuenta {
     }
     
     public String cambiarCorreo() {
-        System.out.println(correo);
-        System.out.println(correoNew);
         if(correo.compareTo(correoNew) != 0){
             if(ln_C_SFUtilsRemote.findCountByProperty(correo, true, true)==0){
                 ln_T_SFUsuarioRemote.configuracionCuentaUsuario(beanUsuario.getNidUsuario(), 

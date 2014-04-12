@@ -12,4 +12,5 @@ public interface BDL_C_SFRolPermisoLocal {
     List<RolPermiso> getPermisosByRolBDL(Rol rol);
     RolPermiso findRolPermisoById(int nidRol,
                                   int nidPermiso);
+    List<RolPermiso> getPermisosSupervisorUsuario();
 }
