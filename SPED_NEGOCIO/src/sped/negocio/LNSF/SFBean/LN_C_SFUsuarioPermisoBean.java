@@ -66,6 +66,7 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
                                                         .getUsuarioPermisoByUsuario(usuario);
             List<RolPermiso> lstRolPermiso = bdL_C_SFRolPermisoLocal
                                                         .getPermisosByRolBDL(usuario.getRol()); 
+            validaSupervisorArea(usuario, lstRolPermiso);
             UsuarioPermiso up_aux = new UsuarioPermiso();
             up_aux.setUsuario(usuario);
             while(valida){
