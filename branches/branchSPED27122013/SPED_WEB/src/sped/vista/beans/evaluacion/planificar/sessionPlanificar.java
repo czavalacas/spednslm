@@ -109,6 +109,8 @@ public class sessionPlanificar {
     private List<SelectItem> itemNombreProferos;
     private Integer exec=0;
     private String fNombres;
+    private String tipoFichaCurs;
+    private List lstTiposFichaCurso;
     
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
@@ -797,5 +799,21 @@ public class sessionPlanificar {
 
     public String getFNombres() {
         return fNombres;
+    }
+
+    public void setTipoFichaCurs(String tipoFichaCurs) {
+        this.tipoFichaCurs = tipoFichaCurs;
+    }
+
+    public String getTipoFichaCurs() {
+        return tipoFichaCurs;
+    }
+
+    public void setLstTiposFichaCurso(List lstTiposFichaCurso) {
+        this.lstTiposFichaCurso = lstTiposFichaCurso;
+    }
+
+    public List getLstTiposFichaCurso() {
+        return lstTiposFichaCurso;
     }
 }

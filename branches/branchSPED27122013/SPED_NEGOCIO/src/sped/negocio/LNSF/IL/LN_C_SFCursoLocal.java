@@ -15,4 +15,5 @@ public interface LN_C_SFCursoLocal {
     BeanCurso findConstrainByIdLN(int id);
     List<BeanCombo> findCursosPorAreaAcademica_ByOrden(String nidAreaAcademica, String nidSede);
     int getNidCursoByDescripcion_LN(String descripcion);
+    List<BeanCombo> findCursosByArea(String nidAreaAcademica);
 }

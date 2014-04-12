@@ -33,6 +33,7 @@ public class BeanMain implements Serializable {
     private String nombreProfesor;
     private String nombreCurso;
     private String nombreArea;
+    private String tipoFicha;
 
     public void setCurso(BeanCurso curso) {
         this.curso = curso;
@@ -169,5 +170,13 @@ public class BeanMain implements Serializable {
 
     public String getNombreArea() {
         return nombreArea;
+    }
+
+    public void setTipoFicha(String tipoFicha) {
+        this.tipoFicha = tipoFicha;
+    }
+
+    public String getTipoFicha() {
+        return tipoFicha;
     }
 }

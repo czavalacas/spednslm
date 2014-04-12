@@ -1,5 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
+import com.rsa.cryptoj.c.u;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -112,4 +114,19 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
     public int getNidCursoByDescripcion_LN(String descripcion){
         return bdl_C_SFCursoLocal.getNidCursoByDescripcion(descripcion);
     }
+    
+    public List<BeanCombo> findCursosByArea(String nidAreaAcademica){
+        System.out.println("entrooo");
+            List<Curso> listaCursos=bdl_C_SFCursoLocal.getCursosbyAreas(nidAreaAcademica);
+            List<BeanCombo> list=new ArrayList<BeanCombo>();
+            Iterator it=listaCursos.iterator();
+            while(it.hasNext()){
+                Curso entida= (Curso)it.next();
+                BeanCombo bean=new BeanCombo();
+                bean.setId(entida.getNidCurso());
+                bean.setDescripcion(entida.getDescripcionCurso());
+                list.add(bean);
+            }
+            return list;
+        }
 }
