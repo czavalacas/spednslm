@@ -84,6 +84,7 @@ import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAulaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
+import sped.negocio.LNSF.IR.LN_C_SFFichaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFGradoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
@@ -153,6 +154,8 @@ public class bPlanificarEva {
     ////// /////////////BDL TEMPORAL
     @EJB
     private BDL_T_SFMainRemoto bdl_T_SFMainRemoto;
+    @EJB
+    private LN_C_SFFichaRemote ln_C_SFFichaRemote;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private sessionPlanificar sessionPlanificarEva;
     private RichCalendar calendar;
@@ -549,6 +552,8 @@ public class bPlanificarEva {
                 sessionPlanificarEva.setNidGrado(null);
                 sessionPlanificarEva.setNidNivel(null);
                 sessionPlanificarEva.setNidAreaAcademicaChoice(null);
+                sessionPlanificarEva.setTipoFichaCurs(null);
+                sessionPlanificarEva.setFNombres(null);
                 if (tbHorario != null) {
                     tbHorario.setValue(null);
                 }
@@ -582,8 +587,12 @@ public class bPlanificarEva {
                 sessionPlanificarEva.setListaProfesores(Utils.llenarComboString(ln_C_SFMainRemote.findProfesoresPorAreaAcademica_LN(sessionPlanificarEva.getNidAreaAcademica(),
                                                               sessionPlanificarEva.getDiaDeLaSemana())));
                 /**Temporalemnte se nulea el dia de la semana de setListaCursos hasta tener el modulo de horarios completo*/
-                sessionPlanificarEva.setListaCursos(Utils.llenarCombo(ln_C_SFCursoRemoto.findCursosPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
-                                                         null)));
+              /*  sessionPlanificarEva.setListaCursos(Utils.llenarCombo(ln_C_SFCursoRemoto.findCursosPorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
+                                                         null)));*/
+                
+                
+                sessionPlanificarEva.setListaCursos(Utils.llenarCombo(ln_C_SFCursoRemoto.findCursosByArea(""+sessionPlanificarEva.getNidAreaAcademica())));
+                
                 /**Comentado Temporalmente*/
                /* sessionPlanificarEva.setListaSedes(Utils.llenarCombo(ln_C_SFSedeRemote.findSedePorAreaAcademica(sessionPlanificarEva.getNidAreaAcademica(),
                                                        sessionPlanificarEva.getDiaDeLaSemana())));                
@@ -601,6 +610,7 @@ public class bPlanificarEva {
                 sessionPlanificarEva.setEstadoAsignarEvaluacion(true);
                 //Utils.showPopUpMIDDLE(popupEvento);  ESCONDIDO HASTA QUE HAIGA EL MODULO DE HORARIOS                
               /**DE AQUI HACIA ABAJO TODO ES TEMPORAL... */
+                sessionPlanificarEva.setLstTiposFichaCurso(Utils.llenarComboString(ln_C_SFFichaRemote.getListaTiposFichaByTipoRol_LN("E")));
                 sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(ln_C_SFAulaRemote.getAulaPorSedeNivelYGrado(sessionPlanificarEva.getNidSede(), sessionPlanificarEva.getNidGrado(), sessionPlanificarEva.getNidNivel())));
                 Date fechaCalen2 = calendarEvent.getTriggerDate();
                 Date fechaMinTemporal = (Date) fechaCalen2.clone();
@@ -1535,6 +1545,7 @@ public class bPlanificarEva {
         List<Evaluacion> lsteva=new ArrayList<Evaluacion>();
         lsteva.add(eva);
         main.setEvaluacionLista(lsteva);
+        main.setTipoFicha(sessionPlanificarEva.getTipoFichaCurs());
         bdl_T_SFMainRemoto.persistMain(main);        
         Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
         Utils.addTarget(calendar);
