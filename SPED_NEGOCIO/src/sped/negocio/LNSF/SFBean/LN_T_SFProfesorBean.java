@@ -35,7 +35,7 @@ import sped.negocio.entidades.sist.UsuarioPermiso;
 
 @Stateless(name = "LN_T_SFProfesor", mappedName = "map-LN_T_SFProfesor")
 public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto, 
-                                            LN_T_SFProfesorLocal {
+                                              LN_T_SFProfesorLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -59,7 +59,6 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
         String error = "000";
         try {            
             for(int i=0; i<listaProfesores.size(); i++){
-                
                 /** Agrega los profesores nuevos a admprof*/
                 Profesor prof=new Profesor();
                 prof.setDniProfesor(listaProfesores.get(i).getDniProfesor());
@@ -68,8 +67,8 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
                 bdl_T_SFProfesorLocal.persistProfesor(prof);
                 
                 /** Crea usuario nuevos de rol Profesor*/
-                Usuario usua=new Usuario();
-                Rol role=new Rol();
+                Usuario usua = new Usuario();
+                Rol role = new Rol();
                 role.setNidRol(3);
                 usua.setRol(role);
                 usua.setNombres(listaProfesores.get(i).getNombres()+" "+listaProfesores.get(i).getApellidos());
@@ -78,36 +77,36 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
                 usua.setEstadoUsuario("1");
                 usua.setClave(listaProfesores.get(i).getDniProfesor());
                 usua.setIsNuevo("1");
+                usua.setIsSupervisor("0");
                 usua.setCorreo(listaProfesores.get(i).getCorreo());
                 bdl_T_SFUsuarioLocal.persistUsuario(usua);
                
                 /** Agrega los permisos correspondientes de rol profesor*/
-                Rol rol=new Rol();
+                Rol rol = new Rol();
                 rol.setNidRol(3);
-                List<RolPermiso> lstPermXRoL=bdl_C_SFRolPermisoLocal.getPermisosByRolBDL(rol);
-                for(int j=0; j<lstPermXRoL.size(); j++){ 
-                UsuarioPermiso usrpe=new UsuarioPermiso();
-                Usuario usu=new Usuario();
-                usu.setNidUsuario(usua.getNidUsuario());
-                usrpe.setUsuario(usu);
-                usrpe.setEstado("1");
-                    RolPermiso rope=new RolPermiso();
-                    Rol rol2=new Rol();
+                List<RolPermiso> lstPermXRoL = bdl_C_SFRolPermisoLocal.getPermisosByRolBDL(rol);
+                for(int j = 0; j<lstPermXRoL.size(); j++){ 
+                    UsuarioPermiso usrpe = new UsuarioPermiso();
+                    Usuario usu=new Usuario();
+                    usu.setNidUsuario(usua.getNidUsuario());
+                    usrpe.setUsuario(usu);
+                    usrpe.setEstado("1");
+                    RolPermiso rope = new RolPermiso();
+                    Rol rol2 = new Rol();
                     rol2.setNidRol(lstPermXRoL.get(j).getRol().getNidRol());
-                    Permiso perm=new Permiso();
+                    Permiso perm = new Permiso();
                     perm.setNidPermiso(lstPermXRoL.get(j).getPermiso().getNidPermiso());
                     rope.setRol(rol2);
                     rope.setPermiso(perm);                
                     usrpe.setRolPermiso(rope);
                     bdl_T_SFUsuarioPermisoLocal.persistUsuarioPermiso(usrpe); 
-              }
-                
+                }
             }
         }catch (Exception e) {            
-        e.printStackTrace();
-        error = "111";
-        beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
-        error = beanError.getDescripcionError();
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
         }
         return error;
     }
@@ -116,16 +115,16 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
         BeanError beanError = new BeanError();
         String error = "000";
         try {      
-                Profesor prof=new Profesor();
-                prof.setDniProfesor(profesor.getDniProfesor());
-                prof.setNombres(profesor.getNombres());
-                prof.setApellidos(profesor.getApellidos());
-                bdl_T_SFProfesorLocal.persistProfesor(prof);         
+            Profesor prof=new Profesor();
+            prof.setDniProfesor(profesor.getDniProfesor());
+            prof.setNombres(profesor.getNombres());
+            prof.setApellidos(profesor.getApellidos());
+            bdl_T_SFProfesorLocal.persistProfesor(prof);         
         }catch (Exception e) {            
-        e.printStackTrace();
-        error = "111";
-        beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
-        error = beanError.getDescripcionError();
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
         }
         return error;
     }
