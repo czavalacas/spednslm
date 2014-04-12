@@ -326,26 +326,15 @@ public class bMigrarExcel {
                 BeanProfesor profe=new BeanProfesor();               
                 Cell cell = (Cell) list.get(0);
                 //dfloresgonz 12.04.2014
-                if(cell.getCellType() == Cell.CELL_TYPE_STRING){
-                    //EDUSYS tiene que mandar la celda como string sino no vendran ls dni con 8 caracteres
-                    if(this.isDNI(cell.getStringCellValue())){
-                        profe.setDniProfesor(cell.getStringCellValue());
-                        profe.setNombres(list.get(1).toString());
-                        profe.setApellidos(list.get(2).toString());
-                        profe.setCorreo(list.get(3).toString());
-                        listProfesoresAInsertar.add(profe);
-                    }
+                //EDUSYS tiene que mandar la celda como string sino no vendran ls dni con 8 caracteres
+                if(this.isDNI(cell.getStringCellValue())){
+                    profe.setDniProfesor(cell.getStringCellValue());
+                    profe.setNombres(list.get(1).toString());
+                    profe.setApellidos(list.get(2).toString());
+                    profe.setCorreo(list.get(3).toString());
+                    listProfesoresAInsertar.add(profe);
                 }
                 //FIN dfloresgonz 12.04.2014
-                
-               /* if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC || cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {                   
-                 Utils.sysout((int) cell.getNumericCellValue()); Utils.sysout(list.get(1).toString()); Utils.sysout(list.get(2).toString());Utils.sysout(list.get(3).toString());
-                 profe.setDniProfesor(""+(int) cell.getNumericCellValue());
-                 profe.setNombres(list.get(1).toString());
-                 profe.setApellidos(list.get(2).toString());
-                 profe.setCorreo(list.get(3).toString());
-                 listProfesoresAInsertar.add(profe);
-                }*/
             }
         }
         ln_T_SFUsuarioRemote.cambiarEstadoUsuarioProfesores(listProfesoresAInsertar);
