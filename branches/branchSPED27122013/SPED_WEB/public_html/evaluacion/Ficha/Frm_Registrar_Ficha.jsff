@@ -3,6 +3,12 @@
                   xmlns:af="http://xmlns.oracle.com/adf/faces/rich" 
                   xmlns:f="http://java.sun.com/jsf/core">
     <f:view><!--beforePhase="#{bRegistrarFicha.agregarColumnas}" -->
+    
+      <af:panelSplitter orientation="vertical" dimensionsFrom="auto"
+                                      splitterPosition="420" inlineStyle="height:inherit;">
+                    <f:facet name="first">
+                    
+                    
            <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
             
             <af:panelGroupLayout halign="left">
@@ -19,6 +25,7 @@
                        }
         </af:resource>
                 </af:panelGroupLayout>
+    
             <af:panelGroupLayout>
                
                 <af:button text="#{sessionScope.sessionRegistrarFicha.btnRegistrarFicha}" id="btnNewFicha" actionListener="#{bRegistrarFicha.nuevaFicha}"
@@ -108,7 +115,13 @@
                 </af:panelGridLayout>
                     
             </af:panelBox>
-            <af:panelGridLayout id="pgl2" dimensionsFrom="parent" visible="#{bRegistrarFicha.sessionRegistrarFicha.visiblePanelBoxPanelBoxFicha}"
+         
+          
+          </af:panelGroupLayout>
+          </f:facet>
+          <f:facet name="second">
+            <af:panelGroupLayout layout="vertical" inlineStyle="margin:0px 0px 0px 43px;">
+                <af:panelGridLayout id="pgl2" dimensionsFrom="parent" visible="#{bRegistrarFicha.sessionRegistrarFicha.visiblePanelBoxPanelBoxFicha}"
                                 binding="#{bRegistrarFicha.pgl2}">
                 <af:gridRow marginTop="2px" height="auto" marginBottom="2px" id="gr2">
                     <af:gridCell marginStart="2px" width="70%" id="gc3" valign="middle">
@@ -129,14 +142,13 @@
                     </af:gridCell>
                 </af:gridRow>
             </af:panelGridLayout>
-            
              <af:treeTable value="#{bRegistrarFicha.permisosTree}" var="row" visible="#{bRegistrarFicha.sessionRegistrarFicha.visiblePanelBoxPanelBoxFicha}"
                                 rowBandingInterval="0" id="treeCriIndi" initiallyExpanded="true"
                                 binding="#{bRegistrarFicha.treeCriIndi}" rowSelection="single"
-                                selectionListener="#{bRegistrarFicha.selectTree}" width="900px">
+                                selectionListener="#{bRegistrarFicha.selectTree}" width="1100px">
                     <f:facet name="nodeStamp">
                         <af:column sortable="false" headerText="Descripcion" id="c9"
-                                   width="500">
+                                   width="700">
                             <af:outputText value="#{row.descripcionCriterio}" id="ot9" shortDesc="#{row.nidCriterio}"/>
                         </af:column>
                     </f:facet>
@@ -165,8 +177,10 @@
                         </af:panelFormLayout>
                     </af:column>
                 </af:treeTable>
-        </af:panelGroupLayout>
+       </af:panelGroupLayout>
         
+             </f:facet>
+             </af:panelSplitter>
         <!-- POPUPS -->
         <af:popup childCreation="deferred" id="popCrits" binding="#{bRegistrarFicha.popCrits}"
                   popupCanceledListener="#{bRegistrarFicha.cancelarPopUpCriterios}" contentDelivery="immediate">

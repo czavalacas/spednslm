@@ -270,8 +270,7 @@ public class bMain implements Serializable {
     }
     
     public void isNuevoUsuario(){
-        if(sessionMain.getExec() == 0 &&
-           beanUsuario.getIsNuevo().compareTo("1") == 0){
+        if(sessionMain.getExec() == 0 && "1".compareTo(beanUsuario.getIsNuevo()) == 0){
             Utils.showPopUpMIDDLE(popNew);
             sessionMain.setExec(1);
         }
