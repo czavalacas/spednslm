@@ -29,7 +29,7 @@ public class BDL_C_SFPermisoBean implements BDL_C_SFPermisoRemote,
 
     public BDL_C_SFPermisoBean() {
     }
-    
+ 
     public List<Permiso> getByNidPermiso(int nidPermiso){
         String ejbQL =  "select o " +
                         "from Permiso o " +
@@ -76,6 +76,33 @@ public class BDL_C_SFPermisoBean implements BDL_C_SFPermisoRemote,
                     .getResultList();
     }
     
+    public int cantidadPermisos(int nidUsuario,
+                                 int nidRol,
+                                 String isWS){
+        String  ejbQL = "SELECT count(per.nidPermiso) " +
+                        "FROM Permiso per, " +
+                        "     RolPermiso up," +
+                        "     UsuarioPermiso uspe "+
+                        "WHERE up.permiso.nidPermiso = per.nidPermiso "+
+                        "AND up.rol.nidRol = :nidRol "+
+                        "AND per.isNodo = 'S' " +
+                        "AND uspe.rolPermiso.permiso.nidPermiso = per.nidPermiso " +
+                        "AND uspe.rolPermiso.rol.nidRol = :nidRol " +
+                        "AND uspe.usuario.nidUsuario = :nidUsuario " +
+                        "AND uspe.estado = '1' "+
+                        "AND per.isWS = :isWS "+
+                        "AND up.permiso.estadoRegistro = 1 " +
+                        "ORDER BY per.descripcionPermiso ASC";
+        List lst = em.createQuery(ejbQL).setParameter("nidRol", nidRol)
+                                        .setParameter("nidUsuario", nidUsuario)
+                                        .setParameter("isWS",isWS).getResultList();
+        if(lst.isEmpty()){
+            return 0;
+        }else{
+            return Integer.parseInt(lst.get(0).toString());
+        }
+    }
+    
     public List<Permiso> getHijosByPadre_WS(int nidUsuario,
                                              int nidRol){
         String  ejbQL = "SELECT per " +
@@ -97,7 +124,7 @@ public class BDL_C_SFPermisoBean implements BDL_C_SFPermisoRemote,
     }
     
     public List<Permiso> getHijosByPadreGP(int nidPadre,
-                                  int nidRol){
+                                            int nidRol){
         String  ejbQL = "SELECT per " +
                         "FROM Permiso per, " +
                         "     RolPermiso up " +

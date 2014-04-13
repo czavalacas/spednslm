@@ -209,5 +209,9 @@ public class LN_C_SFPermisosBean implements LN_C_SFPermisosRemote,
         return raiz;
     }
     
-    
+    public boolean hasPermisos(int nidUsuario,
+                                 int nidRol,
+                                 String isWS){
+        return bdL_C_SFPermisoLocal.cantidadPermisos(nidUsuario, nidRol,isWS) > 0 ? true : false;
+    }
 }
