@@ -54,8 +54,6 @@ public class Main implements Serializable {
     private Profesor profesor;
     @Column(name = "nDia")
     private int nDia;
-    @Column(name = "tipo_ficha_curso")
-    private String tipoFicha;
 
     public Main() {
     }
@@ -70,7 +68,6 @@ public class Main implements Serializable {
         this.aula = aula;
         this.curso = curso;
         this.nidMain = nidMain;
-        this.tipoFicha=tipoFicha;
     }
 
 
@@ -190,13 +187,5 @@ public class Main implements Serializable {
         buffer.append(',');
         buffer.append(']');
         return buffer.toString();
-    }
-
-    public void setTipoFicha(String tipoFicha) {
-        this.tipoFicha = tipoFicha;
-    }
-
-    public String getTipoFicha() {
-        return tipoFicha;
     }
 }
