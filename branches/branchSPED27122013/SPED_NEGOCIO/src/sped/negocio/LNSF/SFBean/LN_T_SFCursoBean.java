@@ -50,7 +50,7 @@ public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto,
                 cur.setAreaAcademica(area);
                 cur.setDescripcionCurso(listaCursos.get(i).getDescripcionCurso());
                 cur.setNidCurso(listaCursos.get(i).getNidCurso());
-                cur.setTipoFichaCurso(listaCursos.get(i).getTipoFichaCurso());                
+                //cur.setTipoFichaCurso(listaCursos.get(i).getTipoFichaCurso());//dfloresgonz 12.04.2014 se comenta x modificacion en BD              
                 bdl_T_SFCursoLocal.persistCurso(cur);
             }
         }catch (Exception e) {            
@@ -72,7 +72,7 @@ public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto,
                 cur.setAreaAcademica(area);
                 cur.setDescripcionCurso(curso.getDescripcionCurso());
                 cur.setNidCurso(curso.getNidCurso());
-                cur.setTipoFichaCurso(curso.getTipoFichaCurso());                
+                //cur.setTipoFichaCurso(curso.getTipoFichaCurso());//dfloresgonz 12.04.2014 se comenta x modificacion en BD  
                 bdl_T_SFCursoLocal.persistCurso(cur);
             
         }catch (Exception e) {            

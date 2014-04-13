@@ -47,6 +47,8 @@ import sped.negocio.entidades.beans.BeanPie;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 
+import sped.vista.Utils.Utils;
+
 @WebService
 public class WS_SPED {
     
@@ -320,7 +322,7 @@ public class WS_SPED {
 
     @WebMethod
     public String recuperarClave(@WebParam(name = "arg0") String correo){
-        String msj = ln_C_SFCorreoLocal.recuperarClave(correo);
+        String msj = ln_C_SFCorreoLocal.recuperarClave(correo,0,Utils.rutaImagenes());
         return msj.equals("000") ? "Se envio informacion para recuperar su clave a su correo." : "Hubo un error, trate nuevamente o comuniquese con el administrador";
     }
 }
