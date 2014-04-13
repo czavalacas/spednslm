@@ -15,4 +15,7 @@ public interface LN_C_SFPermisosLocal {
                                      int nidUsuario);
     BeanPermiso getCrearArbolNuevoGP(int nidRol,
                                      int nidUsuario);
+    boolean hasPermisos(int nidUsuario,
+                         int nidRol,
+                         String isWS);
 }

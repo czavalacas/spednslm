@@ -23,6 +23,7 @@ import net.sf.dozer.util.mapping.MappingException;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
+import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLogLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
@@ -50,6 +51,8 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
     private LN_C_SFErrorLocal ln_C_SFErrorLocal;
     @EJB
     private LN_T_SFLogLocal ln_T_SFLogLocal;
+    @EJB
+    private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFUsuarioBean() {
@@ -64,6 +67,9 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             Usuario user = (Usuario) mapa.get("USUARIO");
             msj   = (String) mapa.get("MSJ");
             if(user != null){
+                if(!ln_C_SFPermisosLocal.hasPermisos(user.getNidUsuario(),user.getRol().getNidRol(),"0")){
+                    msj = "SPED-00005";
+                }
                 if(msj.equals("000")){
                     beanUsuario = (BeanUsuario)mapper.map(user, BeanUsuario.class);
                     if(beanUsuario.getFoto() != null){
@@ -91,6 +97,9 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             Usuario user = (Usuario) mapa.get("USUARIO");
             msj   = (String) mapa.get("MSJ");
             if(user != null){
+                if(!ln_C_SFPermisosLocal.hasPermisos(user.getNidUsuario(),user.getRol().getNidRol(),"1")){
+                    msj = "SPED-00005";
+                }
                 if(msj.equals("000")){
                     beanUsuario = (BeanUsuario)mapper.map(user,BeanUsuario.class);
                     if(beanUsuario.getFoto() != null){
