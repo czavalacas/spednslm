@@ -27,8 +27,18 @@ public class AreaAcademica implements Serializable {
     private List<Usuario> usuarioLista;
     @OneToMany(mappedBy = "areaAcademica", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Curso> cursosLista;
+    @Column(name = "tipo_ficha_curso")
+    private String tipoFichaCurso;
 
     public AreaAcademica() {
+    }
+
+    public void setTipoFichaCurso(String tipoFichaCurso) {
+        this.tipoFichaCurso = tipoFichaCurso;
+    }
+
+    public String getTipoFichaCurso() {
+        return tipoFichaCurso;
     }
 
     public AreaAcademica(String descripcionAreaAcademica, int nidAreaAcademica) {

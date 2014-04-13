@@ -30,8 +30,6 @@ public class Curso implements Serializable {
     @ManyToOne
     @JoinColumn(name = "nidAreaAcademica")
     private AreaAcademica areaAcademica;
-    @Column(name = "tipo_ficha_curso")
-    private String tipoFichaCurso;
     
     public Curso() {
     }
@@ -41,11 +39,7 @@ public class Curso implements Serializable {
         this.areaAcademica = areaAcademica;
         this.nidCurso = nidCurso;
     }
-
-    public String getTipoFichaCurso() {
-        return tipoFichaCurso;
-    }
-
+    
     public String getDescripcionCurso() {
         return descripcionCurso;
     }
@@ -103,9 +97,5 @@ public class Curso implements Serializable {
         buffer.append(getNidCurso());
         buffer.append(']');
         return buffer.toString();
-    }
-
-    public void setTipoFichaCurso(String tipoFichaCurso) {
-        this.tipoFichaCurso = tipoFichaCurso;
     }
 }
