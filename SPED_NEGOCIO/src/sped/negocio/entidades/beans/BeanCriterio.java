@@ -28,6 +28,14 @@ public class BeanCriterio implements Serializable, Cloneable {
     private int cantidadIndicadores;
     private FichaCriterio fichaCriterioAUX;
     private String isRaiz;
+    //
+    private String displaySpinBox;
+    private String displayInput;
+    private String valorInput;
+    private int valorSpinBox;
+    private String estilo;
+    private Integer nidCriterioPadre;
+    private double notaVige;
     
     public Object clone() {
         Object clone = null;
@@ -63,6 +71,62 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+
+    public void setNotaVige(double notaVige) {
+        this.notaVige = notaVige;
+    }
+
+    public double getNotaVige() {
+        return notaVige;
+    }
+
+    public void setNidCriterioPadre(Integer nidCriterioPadre) {
+        this.nidCriterioPadre = nidCriterioPadre;
+    }
+
+    public Integer getNidCriterioPadre() {
+        return nidCriterioPadre;
+    }
+
+    public void setValorInput(String valorInput) {
+        this.valorInput = valorInput;
+    }
+
+    public String getValorInput() {
+        return valorInput;
+    }
+
+    public void setValorSpinBox(int valorSpinBox) {
+        this.valorSpinBox = valorSpinBox;
+    }
+
+    public int getValorSpinBox() {
+        return valorSpinBox;
+    }
+
+    public void setEstilo(String estilo) {
+        this.estilo = estilo;
+    }
+
+    public String getEstilo() {
+        return estilo;
+    }
+
+    public void setDisplaySpinBox(String displaySpinBox) {
+        this.displaySpinBox = displaySpinBox;
+    }
+
+    public String getDisplaySpinBox() {
+        return displaySpinBox;
+    }
+
+    public void setDisplayInput(String displayInput) {
+        this.displayInput = displayInput;
+    }
+
+    public String getDisplayInput() {
+        return displayInput;
     }
 
     public void setIsRaiz(String isRaiz) {

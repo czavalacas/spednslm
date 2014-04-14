@@ -12,4 +12,5 @@ import sped.negocio.entidades.eval.FichaCriterio;
 @Local
 public interface LN_T_SFResultadoCriterioLocal {
     void registrarResultadoCriterios_LN(List<BeanCriterio> lstBCrit,Evaluacion evaluacion);
+    void registrarResultadoCriterios_Web(List<BeanCriterio> lstBCrit,Evaluacion evaluacion);
 }

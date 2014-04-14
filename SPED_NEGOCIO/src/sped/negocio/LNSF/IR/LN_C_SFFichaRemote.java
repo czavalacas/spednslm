@@ -19,4 +19,6 @@ public interface LN_C_SFFichaRemote {
     int getFichaActivaEvaluacion(String tipoFicha,
                                        String tipoFichaCurso);
     List<BeanComboString> getListaTiposFichaByTipoRol_LN(String subDirector);
+    int[] getFichaToEvaluar(String tipFicha,
+                            String tipCursoFicha);
 }

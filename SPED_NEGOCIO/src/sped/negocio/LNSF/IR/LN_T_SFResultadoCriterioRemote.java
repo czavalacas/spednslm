@@ -13,4 +13,5 @@ import sped.negocio.entidades.eval.FichaCriterio;
 public interface LN_T_SFResultadoCriterioRemote {
     
     void registrarResultadoCriterios_LN(List<BeanCriterio> lstBCrit,Evaluacion evaluacion);
+    void registrarResultadoCriterios_Web(List<BeanCriterio> lstBCrit,Evaluacion evaluacion);
 }
