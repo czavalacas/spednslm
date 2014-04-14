@@ -1545,7 +1545,7 @@ public class bPlanificarEva {
         List<Evaluacion> lsteva=new ArrayList<Evaluacion>();
         lsteva.add(eva);
         main.setEvaluacionLista(lsteva);
-        //main.setTipoFicha(sessionPlanificarEva.getTipoFichaCurs());
+//        main.setTipoFicha(sessionPlanificarEva.getTipoFichaCurs());//dfloresgonz 13.04.2014, comentado por cambio en BD
         bdl_T_SFMainRemoto.persistMain(main);        
         Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
         Utils.addTarget(calendar);
