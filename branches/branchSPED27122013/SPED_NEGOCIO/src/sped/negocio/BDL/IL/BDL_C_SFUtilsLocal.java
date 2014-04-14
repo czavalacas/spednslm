@@ -38,4 +38,5 @@ public interface BDL_C_SFUtilsLocal {
     List<BeanCombo> getAulaByNidSedeNivel(String id, String desc, int nidSede, int nidNivel);
     List<BeanCombo> getCursosByArea(String id, String desc, int nidArea);
     List<BeanComboString> getProfesor(String id, String desc);
+    List<BeanCombo> getRolNoAdmin(String id, String desc);
 }

@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import java.util.StringTokenizer;
+
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
@@ -340,5 +342,14 @@ public class Utils {
         String imageDirPath = servletCtx.getRealPath("/");
         return imageDirPath + rutaLocal;
     }
+    
+    public static String quitaEspacios(String texto) {
+        StringTokenizer tokens = new StringTokenizer(texto);
+        StringBuilder buff = new StringBuilder();
+        while (tokens.hasMoreTokens()) {
+            buff.append(" ").append(tokens.nextToken());
+        }
+        return buff.toString().trim();
+    } 
     
 }

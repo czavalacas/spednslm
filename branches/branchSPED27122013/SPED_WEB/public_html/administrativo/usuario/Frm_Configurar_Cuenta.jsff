@@ -8,7 +8,7 @@
         <af:outputText value="Configuración de la Cuenta" id="ot2" styleClass="titulos"/>
         <af:spacer height="10" id="s2"/>
       </af:panelGroupLayout>
-      <af:subform id="s4">
+      <af:subform id="s4" defaultCommand="b1">
         <af:outputText value="Correo" id="ot1" styleClass="subTitulos"/>
         <af:panelFormLayout id="pCoreo" binding="#{bConfigurarCuenta.pcoreo}">
             <af:inputText label="Correo Actual" id="it1" disabled="true" value="#{bConfigurarCuenta.correo}"
@@ -21,7 +21,7 @@
         </af:panelFormLayout>
       </af:subform>
       <af:separator id="s3"/>
-      <af:subform id="s5">
+      <af:subform id="s5" defaultCommand="b2">
         <af:outputText value="Clave" id="ot3" styleClass="subTitulos"/>
         <af:panelFormLayout id="pClave" binding="#{bConfigurarCuenta.pclave}">
           <af:inputText label="Clave Actual" id="it3" labelStyle="text-align: left;" required="true"
@@ -43,7 +43,7 @@
         </af:panelFormLayout>
       </af:subform>
       <af:separator id="s6"/>
-      <af:subform id="s7">
+      <af:subform id="s7" defaultCommand="b3">
         <af:outputText value="Imagen" id="ot4" styleClass="subTitulos"/>
         <af:panelFormLayout id="pImag" binding="#{bConfigurarCuenta.pimag}">
           <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true"

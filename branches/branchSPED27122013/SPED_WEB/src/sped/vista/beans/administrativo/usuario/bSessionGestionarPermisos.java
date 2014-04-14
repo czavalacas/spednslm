@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -20,6 +22,14 @@ public class bSessionGestionarPermisos implements Serializable {
     private int exec;
     private int nidPadre;
     private int validaPermiso;
+    private String nombreF;
+    private String usuarioF;
+    private List<SelectItem> itemNombre;
+    private List<SelectItem> itemUsuario;
+    private String nidRolF;
+    private List listRol;
+    private String typepopUsu = "none";
+    
     
     public void encuentraCheck_aux(String descripcion, boolean estado){
         encuentraCheck(descripcion, permisos, estado);
@@ -136,5 +146,61 @@ public class bSessionGestionarPermisos implements Serializable {
 
     public BeanUsuario getBeanUsuario_aux() {
         return beanUsuario_aux;
+    }
+
+    public void setNombreF(String nombreF) {
+        this.nombreF = nombreF;
+    }
+
+    public String getNombreF() {
+        return nombreF;
+    }
+
+    public void setListRol(List listRol) {
+        this.listRol = listRol;
+    }
+
+    public List getListRol() {
+        return listRol;
+    }
+
+    public void setNidRolF(String nidRolF) {
+        this.nidRolF = nidRolF;
+    }
+
+    public String getNidRolF() {
+        return nidRolF;
+    }
+
+    public void setItemNombre(List<SelectItem> itemNombre) {
+        this.itemNombre = itemNombre;
+    }
+
+    public List<SelectItem> getItemNombre() {
+        return itemNombre;
+    }
+
+    public void setUsuarioF(String usuarioF) {
+        this.usuarioF = usuarioF;
+    }
+
+    public String getUsuarioF() {
+        return usuarioF;
+    }
+
+    public void setItemUsuario(List<SelectItem> itemUsuario) {
+        this.itemUsuario = itemUsuario;
+    }
+
+    public List<SelectItem> getItemUsuario() {
+        return itemUsuario;
+    }
+
+    public void setTypepopUsu(String typepopUsu) {
+        this.typepopUsu = typepopUsu;
+    }
+
+    public String getTypepopUsu() {
+        return typepopUsu;
     }
 }
