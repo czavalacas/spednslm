@@ -116,7 +116,9 @@ public class bMain implements Serializable {
                 int hijoDeMBar = 0;
                 crearHijos(sessionMain.getLstPermisos().get(i), new RichMenu(), hijoDeMBar);
             }
-            isNuevoUsuario();
+            if(sessionMain.getExec() == 0){
+                isNuevoUsuario();
+            }            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -270,10 +272,10 @@ public class bMain implements Serializable {
     }
     
     public void isNuevoUsuario(){
-        if(sessionMain.getExec() == 0 && "1".compareTo(beanUsuario.getIsNuevo()) == 0){
-            Utils.showPopUpMIDDLE(popNew);
-            sessionMain.setExec(1);
+        if("1".compareTo(beanUsuario.getIsNuevo()) == 0){
+            Utils.showPopUpMIDDLE(popNew);            
         }
+        sessionMain.setExec(1);
     }
     
     public void dialogClaveListener(DialogEvent dialogEvent) {

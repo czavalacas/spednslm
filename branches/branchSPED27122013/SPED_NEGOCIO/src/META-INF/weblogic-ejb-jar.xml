@@ -358,7 +358,7 @@
         <ejb-name>LN_C_SFProblema</ejb-name>
         <stateless-session-descriptor>
             <business-interface-jndi-name-map>
-                <business-remote>sped.negocio.LNSF.SFBean.LN_C_SFProblemaRemote</business-remote>
+                <business-remote>sped.negocio.LNSF.IR.LN_C_SFProblemaRemote</business-remote>
                 <jndi-name>mapLN_C_SFProblema</jndi-name>
             </business-interface-jndi-name-map>
         </stateless-session-descriptor>

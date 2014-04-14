@@ -60,5 +60,11 @@ public class LN_C_SFProblemaBean implements LN_C_SFProblemaRemote,
         }
     }
     
+    public boolean existeProblema(String descripcion){
+        return bdL_C_SFProblemaLocal.countProblemaByDescripcion(descripcion) == 0 ? false : true;
+    }
+    
+    
+    
     
 }

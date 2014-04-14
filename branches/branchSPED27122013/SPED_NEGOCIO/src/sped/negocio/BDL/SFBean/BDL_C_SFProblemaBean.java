@@ -49,8 +49,8 @@ public class BDL_C_SFProblemaBean implements BDL_C_SFProblemaRemote,
     
     public int getNidProblemaByDescripcion(String descripcion){
         String ejbQL = "SELECT  p.nidProblema FROM Problema p " 
-                       + "WHERE p.desc_problema = :descripcion ";
-        Object object = em.createQuery(ejbQL).setParameter("descripcion", descripcion)
+                       + "WHERE upper(p.desc_problema) = :descripcion ";
+        Object object = em.createQuery(ejbQL).setParameter("descripcion", descripcion.toUpperCase())
                           .getSingleResult();
         int nidProblema = 0;
         if(object != null){
@@ -66,6 +66,18 @@ public class BDL_C_SFProblemaBean implements BDL_C_SFProblemaRemote,
         }catch(RuntimeException re){
             throw re;
         }
+    }
+    
+    public int countProblemaByDescripcion(String descripcion){
+        String ejbQL = "SELECT count(p) FROM Problema p " 
+                       + "WHERE upper(p.desc_problema) = :descripcion ";
+        Object object = em.createQuery(ejbQL).setParameter("descripcion", descripcion.toUpperCase())
+                          .getSingleResult();
+        int nidProblema = 0;
+        if(object != null){
+            nidProblema = Integer.parseInt(object.toString());
+        }
+        return nidProblema;
     }
     
 }

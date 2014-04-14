@@ -29,6 +29,6 @@ public interface LN_C_SFUsuarioRemote {
     List<BeanUsuario> getListUsuarioNoAdminLN();
     List getEvaluadores_LN();
     List getDniUsuarios_LN();
-    List getNombresUsuarios_LN();
-    List getUsuarioUsuarios_LN();
+    List getNombresUsuarios_LN(int nidArea);
+    List getUsuarioUsuarios_LN(int nidArea);
 }

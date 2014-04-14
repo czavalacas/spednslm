@@ -245,11 +245,11 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
         return bdL_C_SFUsuarioLocal.getDniUsuarios();
     }
     
-    public List getNombresUsuarios_LN(){
-        return bdL_C_SFUsuarioLocal.getNombresUsuarios();
+    public List getNombresUsuarios_LN(int nidArea){
+        return bdL_C_SFUsuarioLocal.getNombresUsuarios(nidArea);
     }   
 
-    public List getUsuarioUsuarios_LN(){
-        return bdL_C_SFUsuarioLocal.getUsuarioUsuarios();
+    public List getUsuarioUsuarios_LN(int nidArea){
+        return bdL_C_SFUsuarioLocal.getUsuarioUsuarios(nidArea);
     }
 }

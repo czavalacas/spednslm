@@ -89,7 +89,7 @@ public class bGestionarUsuarios {
     private UISelectItems si7;
     private RichInputFile fileImg;
     private RichImage i1;    
-    private int cont=0;
+    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     @EJB
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
     @EJB
@@ -116,19 +116,38 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setLstAreaAcademica(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
             sessionGestionarUsuarios.setLstEstadoUsario(this.llenarComboEstado());
             sessionGestionarUsuarios.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
-            sessionGestionarUsuarios.setItemDni(Utils.llenarListItem(ln_C_SFUsuarioRemote.getDniUsuarios_LN()));
-            sessionGestionarUsuarios.setItemNombre(Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN()));
-            sessionGestionarUsuarios.setItemUsuario(Utils.llenarListItem(ln_C_SFUsuarioRemote.getUsuarioUsuarios_LN()));
-        } else {
-        }
+            sessionGestionarUsuarios.setItemDni(Utils.llenarListItem(ln_C_SFUsuarioRemote.getDniUsuarios_LN()));            
+            validaUsuario();            
+        } 
     }
 
+    /**
+     * Metodo que valida al usuario si es supervisor y llena la los suggestedItems
+     */
+    public void validaUsuario(){
+        int nidArea = 0;
+        if(beanUsuario.getRol().getNidRol() == 2 && beanUsuario.getIsSupervisor().compareTo("1") == 0){
+            nidArea = beanUsuario.getAreaAcademica().getNidAreaAcademica();
+            sessionGestionarUsuarios.setFNidAreaAcademica(nidArea+"");
+            sessionGestionarUsuarios.setNidRol(2);
+            sessionGestionarUsuarios.setDisableFArea(true);
+            sessionGestionarUsuarios.setDisableFRol(true);            
+        }
+        sessionGestionarUsuarios.setItemNombre(Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN(nidArea)));
+        sessionGestionarUsuarios.setItemUsuario(Utils.llenarListItem(ln_C_SFUsuarioRemote.getUsuarioUsuarios_LN(nidArea)));
+    }
+    
+    /**
+     * Metodo que llena comboRol si encuentra al profesor lo pone en disable
+     * @param tipo
+     * @return
+     */
     private ArrayList llenarComboRol(int tipo) {
         ArrayList unItems = new ArrayList();
         List<BeanRol> beanrol = ln_C_SFRolRemote.getRolLN();
         for (BeanRol r : beanrol) {
             SelectItem se = new SelectItem(r.getNidRol(), r.getDescripcionRol().toString());
-            if(tipo == 2 && r.getDescripcionRol().compareTo("Profesor") == 0){//1= ComboFiltro 2=Combo gestion usuario
+            if(tipo == 2 && r.getNidRol() == 3){//1= ComboFiltro 2=Combo gestion usuario
                 se.setDisabled(true);
             }
             unItems.add(se);
