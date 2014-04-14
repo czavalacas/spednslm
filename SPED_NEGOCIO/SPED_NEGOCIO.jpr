@@ -56,7 +56,6 @@
    </list>
    <value n="defaultPackage" v="sped.negocio"/>
    <hash n="ejbModuleContainer">
-      <value n="dbConnection" v="SPED_Remoto"/>
       <value n="ejbMetaDataPrefs" v="PREFASANNON"/>
       <value n="ejbVersion" v="3.0"/>
       <value n="ejbVersionMinor" v="0.1"/>
@@ -68,6 +67,7 @@
          <url path="src/sped/negocio/Pruebas/BDL_C_SFAreaAcademicaRemoteClient.java"/>
          <url path="src/sped/negocio/Pruebas/BDL_T_SFEvaluacionRemotoClient.java"/>
          <url path="src/sped/negocio/Pruebas/BDL_C_SFEvaluacionRemotoClient.java"/>
+         <url path="src/sped/negocio/Pruebas/LN_C_SFCorreoRemoteClient.java"/>
       </list>
       <url n="weblogicEjbJarNodeURL" path="src/META-INF/weblogic-ejb-jar.xml"/>
    </hash>
@@ -94,7 +94,7 @@
             <value n="allowInput" v="false"/>
             <value n="compileBeforeRun" v="true"/>
             <value n="custom" v="false"/>
-            <value n="javaOptions" v="-javaagent:C:/Oracle/Middleware/modules/org.eclipse.persistence_1.1.0.0_2-1.jar"/>
+            <value n="javaOptions" v="-javaagent:C:\Oracle\Middleware\Oracle_Home\jdeveloper\../oracle_common/modules/oracle.toplink_12.1.2/eclipselink.jar"/>
             <value n="logCommand" v="true"/>
             <value n="logError" v="true"/>
             <value n="logExit" v="true"/>
@@ -146,6 +146,10 @@
             <value n="id" v="Commons-codec-1.9.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="Geronimo-javamail_1.4_spec-1.7.1.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
       <hash n="internalDefinitions">
          <list n="libraryDefinitions">
@@ -185,6 +189,15 @@
                <value n="id" v="Commons-codec-1.9.jar"/>
                <value n="locked" v="true"/>
             </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="src/META-INF/geronimo-javamail_1.4_spec-1.7.1.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Geronimo-javamail_1.4_spec-1.7.1.jar"/>
+               <value n="id" v="Geronimo-javamail_1.4_spec-1.7.1.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
          </list>
       </hash>
       <list n="libraryReferences">
@@ -218,6 +231,10 @@
          </hash>
          <hash>
             <value n="id" v="Commons-codec-1.9.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Geronimo-javamail_1.4_spec-1.7.1.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>

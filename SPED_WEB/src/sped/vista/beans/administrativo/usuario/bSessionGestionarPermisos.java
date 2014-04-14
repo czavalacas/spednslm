@@ -43,7 +43,6 @@ public class bSessionGestionarPermisos implements Serializable {
                                     permiso.getListaHijos().get(i).setEstado(estado);                                    
                                 }else{//si es falso verifica que los padres tengan hijos con check
                                     checkPadres(permiso.getListaHijos().get(i));
-                                    System.out.print(permiso.getListaHijos().get(i));
                                 }                                
                                 setNidPadre(permiso.getListaHijos().get(i).getNidPadre());
                             }

@@ -292,4 +292,8 @@
     <validator-id>horasMaximo</validator-id>
     <validator-class>sped.vista.Utils.Validators.horasMaximo</validator-class>
   </validator>
+  <validator>
+    <validator-id>ProblemaValidator</validator-id>
+    <validator-class>sped.vista.Utils.Validators.ProblemaValidator</validator-class>
+  </validator>
 </faces-config>

@@ -38,7 +38,8 @@
                                 <af:selectOneChoice label="Rol " value="#{sessionGestionarUsuarios.FNidRol}"
                                                     id="choiceFTipoRol" autoSubmit="true" labelStyle="text-align: left;"
                                                     binding="#{bGestionarUsuarios.choiceFTipoRol}"
-                                                    valueChangeListener="#{bGestionarUsuarios.tipoRolFChangeListener}">
+                                                    valueChangeListener="#{bGestionarUsuarios.tipoRolFChangeListener}"
+                                                    disabled="#{sessionGestionarUsuarios.disableFRol}">
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstRol}" id="si4"
                                                    binding="#{bGestionarUsuarios.si4}"/>
                                 </af:selectOneChoice>
@@ -61,7 +62,8 @@
                                 </af:inputText>
                                 <af:selectOneChoice label="Area " value="#{sessionGestionarUsuarios.FNidAreaAcademica}"
                                                     id="choiceFTipoArea" autoSubmit="true" labelStyle="text-align: left;"
-                                                    binding="#{bGestionarUsuarios.choiceFTipoArea}">
+                                                    binding="#{bGestionarUsuarios.choiceFTipoArea}"
+                                                    disabled="#{sessionGestionarUsuarios.disableFArea}">
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si5"
                                                    binding="#{bGestionarUsuarios.si5}"/>
                                 </af:selectOneChoice>
