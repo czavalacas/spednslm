@@ -219,15 +219,34 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         }
     }
     
-    public List<Usuario> getListUsuarioNoAdmin() {
+    public List<Usuario> getListUsuarioNoAdmin(BeanUsuario usu) {
         List<Usuario> lstUsuario = null;
         try {
             String strQuery = "SELECT u " + 
                               "FROM Usuario u " + 
                               "WHERE u.estadoUsuario = '1' " +
-                              "AND u.rol.nidRol <> 6 " +
-                              "ORDER BY u.nombres ASC";
-            lstUsuario = em.createQuery(strQuery).getResultList();
+                              "AND u.rol.nidRol <> 6 ";
+            if(usu.getNombres() !=  null){
+                strQuery = strQuery.concat(" AND upper(u.nombres) like :nombre");
+            }
+            if(usu.getUsuario() != null){
+                strQuery = strQuery.concat(" AND upper(u.usuario) like :usuario ");
+            }
+            if(usu.getNidRol() != 0){
+                strQuery = strQuery.concat(" AND u.rol.nidRol = :nidRol ");
+            }
+            strQuery = strQuery.concat(" ORDER BY u.nombres ASC ");
+            Query query = em.createQuery(strQuery);
+            if(usu.getNombres() !=  null){
+                query.setParameter("nombre", "%"+usu.getNombres().toUpperCase()+"%");
+            }
+            if(usu.getUsuario() != null){
+                query.setParameter("usuario", "%"+usu.getUsuario().toUpperCase()+"%");
+            }
+            if(usu.getNidRol() != 0){
+                query.setParameter("nidRol", usu.getNidRol());
+            } 
+            lstUsuario = query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         }

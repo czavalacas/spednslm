@@ -7,15 +7,21 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import javax.faces.event.ValueChangeEvent;
 
+import javax.faces.model.SelectItem;
+
+import oracle.adf.view.rich.component.rich.RichDialog;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
 import oracle.adf.view.rich.component.rich.input.RichSelectBooleanCheckbox;
+import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
+import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 
 import oracle.adf.view.rich.event.DialogEvent;
@@ -25,6 +31,7 @@ import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 
 import sped.negocio.LNSF.IR.LN_C_SFPermisosRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioPermisoRemote;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -41,14 +48,38 @@ public class bGestionarPermisos {
     private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
     @EJB
     private LN_T_SFUsuarioPermisoRemote ln_T_SFUsuarioPermisoRemote;
+    @EJB
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     private RichTreeTable treePer;
     private ChildPropertyTreeModel permisosTree;
     private RichPopup popUsu;
     private RichPanelGroupLayout pgl1;
     private RichPopup popConf;
     FacesContext ctx = FacesContext.getCurrentInstance();
+    private RichSelectOneChoice choiceRol;
+    private UISelectItems si1;
+    private RichPanelFormLayout pfl2;
+    private RichTable tusu;
+    private RichDialog dialogU;
 
     public bGestionarPermisos() {
+    }
+    
+    @PostConstruct
+    public void methodInvokeOncedOnPageLoad() {
+        if(sessionGestionarPermisos.getExec() == 0){
+            sessionGestionarPermisos.setListRol(Utils.llenarCombo(ln_C_SFUtilsRemote.getRol_LN()));
+            sessionGestionarPermisos.setItemNombre(Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN(0)));
+            sessionGestionarPermisos.setItemUsuario(Utils.llenarListItem(ln_C_SFUsuarioRemote.getUsuarioUsuarios_LN(0)));
+            buscarUsuarios_aux();
+            sessionGestionarPermisos.setExec(1);
+        }
+    }
+    
+    public void buscarUsuarios_aux(){
+        sessionGestionarPermisos.setLstUsuarios(ln_C_SFUsuarioRemote.getListUsuarioNoAdminLN(sessionGestionarPermisos.getNombreF(),
+                                                                                             sessionGestionarPermisos.getUsuarioF(),
+                                                                                             sessionGestionarPermisos.getNidRolF()));
     }
     
     public void permisoChecked(ValueChangeEvent vce) {
@@ -66,9 +97,6 @@ public class bGestionarPermisos {
     }
     
     public String mostrarUsuarios() {
-        if(sessionGestionarPermisos.getLstUsuarios() == null){
-            sessionGestionarPermisos.setLstUsuarios(ln_C_SFUsuarioRemote.getListUsuarioNoAdminLN());
-        }
         Utils.showPopUpMIDDLE(popUsu);
         return null;
     }
@@ -94,11 +122,15 @@ public class bGestionarPermisos {
     public void seleccionarUsuario(SelectionEvent se) {
         RichTable t = (RichTable) se.getSource();
         sessionGestionarPermisos.setBeanUsuario_aux((BeanUsuario) t.getSelectedRowData());
+        if(sessionGestionarPermisos.getTypepopUsu().compareTo("none") == 0){
+            sessionGestionarPermisos.setTypepopUsu("okCancel");
+            Utils.addTarget(dialogU);
+        }                
     }
     
     public String resetPermisos() {
         mostrarPermisos(sessionGestionarPermisos.getBeanUsuario());
-        Utils.addTarget(pgl1);
+        Utils.addTarget(pgl1);        
         return null;
     }
     
@@ -157,6 +189,30 @@ public class bGestionarPermisos {
         return false;
     }
     
+    public List<SelectItem> suggestNombre(String string) {        
+        return Utils.getSuggestions(sessionGestionarPermisos.getItemNombre(), string);
+    }
+
+    public List<SelectItem> suggestUsuario(String string) {
+        return Utils.getSuggestions(sessionGestionarPermisos.getItemUsuario(), string);
+    }
+    
+    public void actionListenerBuscarUsuario(ActionEvent actionEvent) {
+        buscarUsuarios_aux();
+        Utils.addTarget(tusu);
+    }
+
+    public String limpiarFiltro() {
+        sessionGestionarPermisos.setNombreF(null);
+        sessionGestionarPermisos.setUsuarioF(null);
+        sessionGestionarPermisos.setNidRolF(null);
+        buscarUsuarios_aux();
+        Utils.unselectFilas(tusu);
+        sessionGestionarPermisos.setTypepopUsu("none");
+        Utils.addTarget(popUsu);
+        return null;
+    }
+    
     public void setSessionGestionarPermisos(bSessionGestionarPermisos sessionGestionarPermisos) {
         this.sessionGestionarPermisos = sessionGestionarPermisos;
     }
@@ -211,5 +267,45 @@ public class bGestionarPermisos {
 
     public RichPopup getPopConf() {
         return popConf;
+    }
+
+    public void setChoiceRol(RichSelectOneChoice choiceRol) {
+        this.choiceRol = choiceRol;
+    }
+
+    public RichSelectOneChoice getChoiceRol() {
+        return choiceRol;
+    }
+
+    public void setSi1(UISelectItems si1) {
+        this.si1 = si1;
+    }
+
+    public UISelectItems getSi1() {
+        return si1;
+    }
+
+    public void setPfl2(RichPanelFormLayout pfl2) {
+        this.pfl2 = pfl2;
+    }
+
+    public RichPanelFormLayout getPfl2() {
+        return pfl2;
+    }
+
+    public void setTusu(RichTable tusu) {
+        this.tusu = tusu;
+    }
+
+    public RichTable getTusu() {
+        return tusu;
+    }
+
+    public void setDialogU(RichDialog dialogU) {
+        this.dialogU = dialogU;
+    }
+
+    public RichDialog getDialogU() {
+        return dialogU;
     }
 }

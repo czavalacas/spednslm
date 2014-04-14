@@ -32,4 +32,5 @@ public interface LN_C_SFUtilsRemote {
     List<BeanCombo> getAulaByNidSedeNivel(int nidSede, int nidNivel);
     List<BeanCombo> getCursosByArea_LN(int nidArea);
     List<BeanComboString> getProfesor_LN();
+    List<BeanCombo> getRol_LN();
 }

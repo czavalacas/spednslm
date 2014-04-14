@@ -229,9 +229,13 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
         }      
     }
     
-    public List<BeanUsuario> getListUsuarioNoAdminLN(){
+    public List<BeanUsuario> getListUsuarioNoAdminLN(String nombre, String usuario, String nidRol){
         try{
-            return transformLstUsuario(bdL_C_SFUsuarioLocal.getListUsuarioNoAdmin());
+            BeanUsuario usu = new BeanUsuario();
+            usu.setNombres(nombre);
+            usu.setUsuario(usuario);
+            usu.setNidRol(nidRol == null ? 0 :Integer.parseInt(nidRol));
+            return transformLstUsuario(bdL_C_SFUsuarioLocal.getListUsuarioNoAdmin(usu));
         }catch(Exception e){
             return new ArrayList<BeanUsuario>();
         }

@@ -18,11 +18,9 @@ import net.sf.dozer.util.mapping.MapperIF;
 
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.BDL.IR.BDL_C_SFUtilsRemote;
-import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.ConstraintPK;
-import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
@@ -229,12 +227,17 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         }
     }
     
+    /**
+     * Metodo que retorna el rol de los evaluadores
+     * @param id
+     * @param desc
+     * @return
+     */
     public List<BeanCombo> getRolEvaluadores(String id, String desc){
         try{
             String qlString = this.getSelectBasicoBeanCombo(id, desc, "Rol") +
                                " WHERE e.nidRol = 2 OR " +
-                               " e.nidRol = 4 OR "+
-                               " e.nidRol = 5 " +
+                               " e.nidRol = 4" +
                                "ORDER BY e.descripcionRol ASC";
             List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
             return lstUsuarios;       
@@ -319,6 +322,25 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
             return lstCurso;       
         }catch(Exception e){
             e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /**
+     * Metodo que retorna todos los Rol
+     * @param id
+     * @param desc
+     * @return
+     */
+    public List<BeanCombo> getRolNoAdmin(String id, String desc){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Rol") +
+                               " WHERE e.nidRol <> 6 " +
+                               "ORDER BY e.descripcionRol ASC";
+            List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
+            return lstUsuarios;       
+        }catch(Exception e){
+            e.printStackTrace();  
             return null;
         }
     }
