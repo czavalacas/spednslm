@@ -96,6 +96,9 @@ public class bGestionarProblema {
     
     public void gestionarProblema(){
         int nid = 3;
+        if(sessionGestionarProblema.getEvento() == 1){
+            sessionGestionarProblema.setDescripcion(Utils.quitaEspacios(sessionGestionarProblema.getDescripcion()));
+        }
         String msj = ln_T_SFProblemaRemote.gestionarProblema(sessionGestionarProblema.getEvento(), 
                                                              sessionGestionarProblema.getNidProblema(), 
                                                              sessionGestionarProblema.getDescripcion());
