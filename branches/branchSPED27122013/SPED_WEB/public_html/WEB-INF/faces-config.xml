@@ -292,6 +292,21 @@
     <validator-id>horasMaximo</validator-id>
     <validator-class>sped.vista.Utils.Validators.horasMaximo</validator-class>
   </validator>
+  <managed-bean>
+    <managed-bean-name>bEvaluar</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.evaluar.bEvaluar</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionEvaluar</property-name>
+      <property-class>sped.vista.beans.evaluacion.evaluar.bSessionEvaluar</property-class>
+      <value>#{sessionEvaluar}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionEvaluar</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.evaluar.bSessionEvaluar</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
   <validator>
     <validator-id>ProblemaValidator</validator-id>
     <validator-class>sped.vista.Utils.Validators.ProblemaValidator</validator-class>

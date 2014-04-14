@@ -39,7 +39,7 @@ import sped.negocio.entidades.eval.Resultado;
  */
 @Stateless(name = "LN_T_SFEvaluacion", mappedName = "mapLN_T_SFEvaluacion")
 public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
-                                              LN_T_SFEvaluacionLocal {
+                                                  LN_T_SFEvaluacionLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -68,38 +68,38 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         }
         return null;
     }
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public String registrarEvaluacion_LN(Evaluacion eva){    
+    public String registrarEvaluacion_LN(Evaluacion eva) {
         BeanError beanError = new BeanError();
         String error = "000";
         try {
-            bdL_T_SFEvaluacionLocal.persistEvaluacion(eva);                
-        }catch (Exception e) {
+            bdL_T_SFEvaluacionLocal.persistEvaluacion(eva);
+        } catch (Exception e) {
             e.printStackTrace();
             error = "111";
             beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
             error = beanError.getDescripcionError();
         }
         return error;
-        }
-    
+    }
+
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public String removerEvaluacion_LN(Evaluacion eva){       
+    public String removerEvaluacion_LN(Evaluacion eva) {
         BeanError beanError = new BeanError();
         String error = "000";
         try {
-            bdL_T_SFEvaluacionLocal.removeEvaluacion(eva);      
-        }catch (Exception e) {
+            bdL_T_SFEvaluacionLocal.removeEvaluacion(eva);
+        } catch (Exception e) {
             e.printStackTrace();
             error = "111";
             beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
             error = beanError.getDescripcionError();
         }
         return error;
-        }
-    
-    
+    }
+
+
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public String registrarEvaluacion_LN_WS(List<BeanIndicadorValorWS> lstBeanIndiVal,
                                             Integer nidEvaluacion,
@@ -156,6 +156,47 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         return error;
     }
     
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public String registrarEvaluacion_LN_Web(List<BeanCriterio> lstBeanIndiVal,
+                                              Integer nidEvaluacion,
+                                              Integer nidUsuario,
+                                              String comentarioEvaluador){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            CriterioIndicador ci = null;
+            Resultado resultado = null;
+            Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(nidEvaluacion);
+            for (BeanCriterio _beanIV : lstBeanIndiVal) {
+                for(BeanCriterio beanIV : _beanIV.getLstIndicadores()){
+                    ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCriterio());
+                    _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());
+                    resultado = new Resultado();
+                    resultado.setCriterioIndicador(ci);
+                    resultado.setEvaluacion(eva);
+                    resultado.setNidSede(eva.getMain().getAula().getSede().getNidSede());
+                    resultado.setValor((short) beanIV.getValorSpinBox());
+                    resultado.setNotaVigecimal((beanIV.getValorSpinBox() * 20) / ci.getFichaCriterio().getFicha().getFichaValorLista().size());
+                    // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
+                    resultado.setToNotification(resultado.getNotaVigecimal() <= 10.49 || resultado.getNotaVigecimal() >= 17.00 ? "1" : "0");
+                    bdL_T_SFResultadoLocal.persistResultado(resultado);
+                }
+            }
+            ln_T_SFResultadoCriterioLocal.registrarResultadoCriterios_Web(lstBeanIndiVal,eva);
+            eva.setEstadoEvaluacion("EJECUTADO");
+            eva.setNid_usuario_ws(nidUsuario);
+            eva.setNidProblema(null);
+            eva.setComentario_evaluador(comentarioEvaluador);
+            bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+        }catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+    }
+    
     public String updateEvaluacionbyComentarioProfesor(int idEvaluacion,
                                                        String comentario){
         BeanError beanError = new BeanError();
@@ -172,29 +213,29 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         }
         return error;
     }
-    
-    
-    public String grabarComentariosYJustificacionesDeEvaluacion(String nidDate, String comentEvalu, String descripOtros, String nidProblema){
+
+
+    public String grabarComentariosYJustificacionesDeEvaluacion(String nidDate, 
+                                                                 String comentEvalu, 
+                                                                 String descripOtros,
+                                                                 String nidProblema) {
         BeanError beanError = new BeanError();
         String error = "000";
         try {
             Evaluacion eva = bdL_C_SFEvaluacionLocal.getEvaluacionById(nidDate);
             eva.setComentario_evaluador(comentEvalu);
             eva.setComentarioEvaluador(descripOtros);
-            if(nidProblema!=null){
+            if (nidProblema != null) {
                 eva.setNidProblema(Integer.parseInt(nidProblema));
             }
             eva.setEstadoEvaluacion("NO EJECUTADO");
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
-        }catch (Exception e) {            
-        e.printStackTrace();
-        error = "111";
-        beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
-        error = beanError.getDescripcionError();
+        } catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
         }
         return error;
-        
-    
     }
-    
 }

@@ -360,16 +360,16 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
             }else if(nidRol == 2){//Evaluador x Area
                 qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
-            }else if(nidRol == 1 || nidRol == 5){//Director || Evaluador General
+            }else if(nidRol == 1){//Director
                 //TODOS LOS PERMISOS
             }
             if(nidSedeFiltro != 0){
-                if(nidRol == 1 || nidRol == 2 || nidRol == 5){
+                if(nidRol == 1 || nidRol == 2){
                     qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSedeFiltro ");
                 }
             }
             if(nidAAFiltro != 0){
-                if(nidRol == 1 || nidRol == 4 || nidRol == 5){
+                if(nidRol == 1 || nidRol == 4){
                     qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAAFiltro ");
                 }
             }
@@ -390,12 +390,12 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 query.setParameter("nidAreaAcademica",nidAreaAcademica).setParameter("nidEvaluador",nidUsuario);
             }
             if(nidSedeFiltro != 0){
-                if(nidRol == 1 || nidRol == 2 || nidRol == 5){
+                if(nidRol == 1 || nidRol == 2){
                     query.setParameter("nidSedeFiltro",nidSedeFiltro);
                 }
             }
             if(nidAAFiltro != 0){
-                if(nidRol == 1 || nidRol == 4 || nidRol == 5){
+                if(nidRol == 1 || nidRol == 4){
                     query.setParameter("nidAAFiltro",nidAAFiltro);
                 }
             }

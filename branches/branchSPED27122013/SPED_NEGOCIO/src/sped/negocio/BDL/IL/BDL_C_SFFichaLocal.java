@@ -19,4 +19,6 @@ public interface BDL_C_SFFichaLocal {
     int hayFichasActivas(String tipFicha,String tipCursoFicha);
     Ficha getFichaEvaluacion(String tipoFicha,String tipoFichaCurso);
     List<BeanComboString> getListaTiposFichaByTipoRol(String subDirector);
+    Integer getNidFichaByTipoFichaCurso(String tipFichaCurso,
+                                        String tipoFicha);
 }

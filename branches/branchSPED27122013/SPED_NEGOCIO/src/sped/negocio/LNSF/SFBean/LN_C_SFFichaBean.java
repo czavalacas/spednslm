@@ -49,7 +49,7 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
 
     public LN_C_SFFichaBean() {
     }
-    
+
     public List<BeanFicha> getLstFichasByAttr_LN(){
         try{
             return mapperTransform(bdL_C_SFFichaLocal.getFichaByAttr_BDL());
@@ -145,5 +145,23 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
     
     public List<BeanComboString> getListaTiposFichaByTipoRol_LN(String subDirector){
         return bdL_C_SFFichaLocal.getListaTiposFichaByTipoRol(subDirector);
+    }
+    
+    public int[] getFichaToEvaluar(String tipFicha,
+                                    String tipCursoFicha){
+        int[] valReturn = new int[2];
+        try{
+            Ficha ficha = bdL_C_SFFichaLocal.getFichaEvaluacion(tipFicha,tipCursoFicha);
+            if(ficha != null){
+                valReturn[0] = ficha.getNidFicha();
+                valReturn[1] = ficha.getFichaValorLista().size();
+                return valReturn;
+            }else{
+                return null;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

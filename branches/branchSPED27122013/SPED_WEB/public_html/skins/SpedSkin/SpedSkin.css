@@ -8,14 +8,46 @@ af|inputText.login::content {
     font-weight: bold;
 }
 
+af|inputNumberSpinbox.evaluar::content {
+    color:rgb(43,78,104); 
+    font-weight: bold;
+    text-align:center;
+}
+/*row.nota le 10.49 ? 'background-color:red;color:white;' :        
+(row.nota ge 10.50 and row.nota le 15.49 ? 
+'background-color:yellow;color:black;' : 'background-color:green;color:white;' )} 
+font-size:xx-small;white-space:pre-wrap;text-align:left;width:100%;"/>
+*/
+af|inputText.rojo::content {
+    color:rgb(255,255,255); 
+    font-weight: bold;
+    text-align:center;
+    background-color: red;
+}
+
+af|inputText.amarillo::content {
+    color:black; 
+    font-weight: bold;
+    text-align:center;
+    background-color: yellow;
+}
+
+af|inputText.verde::content {
+    color:White; 
+    font-weight: bold;
+    text-align:center;
+    background-color: green;
+}
+
 .titulos{
     color:rgb(104,100,97);/*rgb(43,78,104); */
     font-family:Arial, Helvetica, sans-serif;
     font-weight:bold; 
     text-decoration: none;
-     border-bottom: 2px solid white;
+    border-bottom: 2px solid white;
     text-align:center;
     font-size:medium;
+    text-align: center;
     /*margin:0px 0px 0px 42px;*/
    /* margin-top: 20px;*/
 }

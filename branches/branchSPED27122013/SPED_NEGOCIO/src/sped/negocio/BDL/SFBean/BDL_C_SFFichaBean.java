@@ -146,4 +146,30 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
             return null;
         }
     }
+    
+    public Integer getNidFichaByTipoFichaCurso(String tipFichaCurso,
+                                                String tipoFicha){
+        try {
+           String qlString = "SELECT f " +
+                             "FROM Ficha f " +
+                             "WHERE f.tipoFicha = :tipFicha " +
+                             "AND   f.tipoFichaCurso = :tipFichaCurso " +
+                             "AND   f.estadoFicha = '1' ";
+           List<Ficha> fichas = em.createQuery(qlString)
+                                    .setParameter("tipFicha",tipoFicha)
+                                    .setParameter("tipFichaCurso",tipFichaCurso).getResultList();
+           if(fichas != null){
+               if(!fichas.isEmpty()){
+                   return fichas.get(0).getNidFicha();
+               }else{
+                   return null;
+               }
+           }else{
+               return null;
+           }
+       } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
