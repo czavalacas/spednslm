@@ -298,10 +298,14 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
          * Metodo que retorna una lista con los nombres de los usuarios
          * @return List
          */
-        public List getNombresUsuarios(){
+        public List getNombresUsuarios(int nidArea){
             try{
                 String qlString = " Select e.nombres FROM Usuario e " +
-                                  " ORDER BY e.nombres ASC ";
+                                  " WHERE 1 = 1 ";
+                if(nidArea != 0){
+                    qlString = qlString.concat(" AND e.areaAcademica.nidAreaAcademica = "+nidArea);
+                }
+                qlString = qlString.concat(" ORDER BY e.nombres ASC");
                 List lstnom = em.createQuery(qlString).getResultList();        
                 return lstnom;       
             }catch(Exception e){
@@ -314,10 +318,14 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
          * Metodo que retorna una lista con los nombres de usuario de los Usuarios
          * @return List
          */
-        public List getUsuarioUsuarios(){
+        public List getUsuarioUsuarios(int nidArea){
             try{
                 String qlString = " Select e.usuario FROM Usuario e " +
-                                  " ORDER BY e.usuario ASC ";
+                                  " WHERE 1 = 1 ";
+                if(nidArea != 0){
+                    qlString = qlString.concat(" AND e.areaAcademica.nidAreaAcademica = "+nidArea);
+                }
+                qlString = qlString.concat(" ORDER BY e.nombres ASC");
                 List lstnom = em.createQuery(qlString).getResultList();        
                 return lstnom;       
             }catch(Exception e){

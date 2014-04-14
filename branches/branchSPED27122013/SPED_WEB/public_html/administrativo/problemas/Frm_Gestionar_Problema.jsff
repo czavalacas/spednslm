@@ -30,6 +30,7 @@
         <af:inputText label="Descripcion " id="itDesc" maximumLength="150"
                       value="#{sessionGestionarProblema.descripcion}" binding="#{bGestionarProblema.itDesc}">
           <f:validator validatorId="LetrasValidator"/>
+          <f:validator validatorId="ProblemaValidator"/>
         </af:inputText>
       </af:dialog>
     </af:popup>

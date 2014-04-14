@@ -53,6 +53,8 @@ public class bSessionGestionarUsuarios implements Serializable {
     private List<SelectItem> itemDni;
     private List<SelectItem> itemUsuario;
     private List<SelectItem> itemNombre;
+    private boolean disableFArea;
+    private boolean disableFRol;
 
     public bSessionGestionarUsuarios() {
     }
@@ -377,4 +379,19 @@ public class bSessionGestionarUsuarios implements Serializable {
         return supervisorboolean;
     }
 
+    public void setDisableFArea(boolean disableFArea) {
+        this.disableFArea = disableFArea;
+    }
+
+    public boolean isDisableFArea() {
+        return disableFArea;
+    }
+
+    public void setDisableFRol(boolean disableFRol) {
+        this.disableFRol = disableFRol;
+    }
+
+    public boolean isDisableFRol() {
+        return disableFRol;
+    }
 }

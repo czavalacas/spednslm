@@ -1,5 +1,6 @@
 package sped.vista.beans.administrativo.usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -25,6 +26,7 @@ import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import sped.negocio.LNSF.IR.LN_C_SFPermisosRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioPermisoRemote;
+import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
@@ -83,6 +85,7 @@ public class bGestionarPermisos {
     public void mostrarPermisos(BeanUsuario usu){
         sessionGestionarPermisos.setPermisos(ln_C_SFPermisosRemote.getCrearArbolNuevoGP(usu.getRol().getNidRol(),
                                                                                         usu.getNidUsuario()));
+        validaSupervisorArea(usu, sessionGestionarPermisos.getPermisos());
         permisosTree = new ChildPropertyTreeModel(sessionGestionarPermisos.getPermisos(),"listaHijos");
         sessionGestionarPermisos.setPermisosTree(permisosTree);
         Utils.addTarget(pgl1);
@@ -117,7 +120,43 @@ public class bGestionarPermisos {
                                  3);
         }
     }
+    
+    /**
+     * Metodo que valida si el usuario pertenece es evaluador area y si no es supervisor le quita los permisos respecttivos
+     * @param usuario
+     * @param permisos
+     */
+    public void validaSupervisorArea(BeanUsuario usuario, BeanPermiso permisos){ 
+        if(usuario.getRol().getNidRol() == 2 && usuario.getIsSupervisor().compareTo("0") == 0){
+            validaSupervisorArea_aux(permisos);
+        }
+        
+    }
 
+    public void validaSupervisorArea_aux(BeanPermiso permisos){
+        if(permisos.getListaHijos() != null){
+            List<BeanPermiso> aux = new ArrayList();
+            for(BeanPermiso p : permisos.getListaHijos()){
+                if(encuentraPermisos(p)){
+                    aux.add(p);                                 
+                }else{
+                    validaSupervisorArea_aux(p);
+                }                
+            }
+            for(BeanPermiso p : aux){
+                permisos.getListaHijos().remove(p);
+            }
+        }
+    }
+    
+    public boolean encuentraPermisos(BeanPermiso permiso){
+        int id = permiso.getNidPermiso();
+        if(id == 1 || id == 4 || id == 12){         
+            return true;
+        }           
+        return false;
+    }
+    
     public void setSessionGestionarPermisos(bSessionGestionarPermisos sessionGestionarPermisos) {
         this.sessionGestionarPermisos = sessionGestionarPermisos;
     }

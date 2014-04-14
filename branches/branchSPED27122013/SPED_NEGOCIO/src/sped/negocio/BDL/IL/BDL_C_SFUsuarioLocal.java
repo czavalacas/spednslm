@@ -26,7 +26,7 @@ public interface BDL_C_SFUsuarioLocal {
     Usuario getUsuarioByCorreoBDL(String correo);
     List getEvaluadores();
     List getDniUsuarios();
-    List getNombresUsuarios();
-    List getUsuarioUsuarios();
+    List getNombresUsuarios(int nidArea);
+    List getUsuarioUsuarios(int nidArea);
     List<Usuario> getUsuarioTipoProfesor();
 }
