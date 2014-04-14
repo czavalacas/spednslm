@@ -80,7 +80,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             criterio = (BeanCriterio) mapper.map(crit, BeanCriterio.class);
             criterio.setDisplay("display:none;");//Mostrar el Ojo que abre el popUp de leyendas
             criterio.setEsIndicador(0);
-            criterio.setLstIndicadores(this.getListaIndicadores(fichaCriterio.getCriterioIndicadorLista()));
+            criterio.setLstIndicadores(this.getListaIndicadores(fichaCriterio.getCriterioIndicadorLista(),criterio.getNidCriterio()));
             criterio.setMostrarBoton(true);//lupita para agregar indicadores
             criterio.setMostrarUpDown(true);
             criterio.setSelected(true);
@@ -90,13 +90,15 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             if(bool){
                 criterio.setNoMostrarDown(true);
             }
+            criterio.setDisplayInput("true");
+            criterio.setDisplaySpinBox("false");
             lstBeanCriterio.add(criterio);
             indx++;
         }
         return lstBeanCriterio;
     }
     
-    public List<BeanCriterio> getListaIndicadores(List<CriterioIndicador> lstCrisIndis){
+    public List<BeanCriterio> getListaIndicadores(List<CriterioIndicador> lstCrisIndis,Integer nidPadre){
         List<BeanCriterio> lstIndis = new ArrayList<BeanCriterio>();
         int indx = 1;
         for(CriterioIndicador critIndi : lstCrisIndis){
@@ -117,6 +119,9 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             if(bool){
                 crit.setNoMostrarDown(true);
             }
+            crit.setDisplayInput("false");
+            crit.setDisplaySpinBox("true");
+            crit.setNidCriterioPadre(nidPadre);
             lstIndis.add(crit);
             indx++;
         }

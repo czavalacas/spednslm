@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="evaluar_docente">
+    <default-activity>Frm_Evaluar</default-activity>
+    <view id="Frm_Evaluar">
+      <page>/evaluacion/Evaluar/Frm_Evaluar.jsff</page>
+    </view>
+    <use-page-fragments/>
+  </task-flow-definition>
+</adfc-config>

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <f:view>
+        <af:panelSplitter orientation="vertical" dimensionsFrom="auto" splitterPosition="200"
+                          inlineStyle="height:inherit;">
+            <f:facet name="first">
+                <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+                    <af:panelGroupLayout halign="left">
+                        <af:spacer height="10"/>
+                        <af:outputText value="Registrar Evaluacion de Docente" id="otTitulo" styleClass="titulos"/>
+                        <af:spacer height="10"/>
+                        <af:resource type="javascript">
+                          function busquedaTecleando(evt) {
+                              var valor = evt.getSource();
+                              //var val = valor.getSubmittedValue(); alert('valor: '+val);
+                              AdfCustomEvent.queue(valor, "teclaEvento", 
+                              {
+                                  fvalue : valor.getSubmittedValue()
+                              },false);
+                              evt.cancel();
+                          }
+                        </af:resource>
+                    </af:panelGroupLayout>
+                      <af:panelGroupLayout>
+                            <af:button text="Evaluar" id="btnRegistrar" disabled="true"
+                                        styleClass="FondoGrisLetraGris" binding="#{bEvaluar.btnRegistrar}"
+                                        actionListener="#{bEvaluar.registrarEvaluacion}"/>
+                      </af:panelGroupLayout>
+                      <af:panelCollection inlineStyle="width:inherit;">
+                        <f:facet name="menus"/>
+                        <f:facet name="toolbar">
+                            <af:toolbar></af:toolbar>
+                        </f:facet>
+                        <f:facet name="statusbar"/>
+                        <af:table value="#{sessionScope.sessionEvaluar.lstPlanificacionesXEvaluar}" var="row"
+                                  rowBandingInterval="0" id="tbPlan" binding="#{bEvaluar.tbPlan}" width="inherit;"
+                                  emptyText="No hay planificaciones para hoy" summary="Listado de Planificaciones"
+                                  varStatus="vs" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" fetchSize="5"
+                                  selectionListener="#{bEvaluar.selectPlanificacion}" rowSelection="single">
+                            <af:column width="18" frozen="true">
+                                <af:outputText value="#{vs.index + 1}"/>
+                            </af:column>
+                            <af:column sortable="true" sortProperty="profesor" headerText="Profesor" align="start" id="c1" width="260">
+                                <af:outputText value="#{row.profesor}" id="ot1"/>
+                            </af:column>
+                            <af:column sortable="true" sortProperty="curso" headerText="Curso" align="start" id="c2" width="170">
+                                <af:outputText value="#{row.curso}" id="ot2"/>
+                            </af:column>
+                            <af:column sortable="true" sortProperty="aula" headerText="Aula" align="start" id="c3" width="170">
+                                <af:outputText value="#{row.aula}" id="ot3"/>
+                            </af:column>
+                            <af:column sortable="true" sortProperty="sede" headerText="Sede" align="start" id="c4">
+                                <af:outputText value="#{row.sede}" id="ot4"/>
+                            </af:column>
+                            <af:column sortable="true" sortProperty="startDate" headerText="Fecha/Hora Inicio" width="160" align="start" id="c5">
+                                <af:outputText value="#{row.startDate}" id="ot5">
+                                    <af:convertDateTime pattern="EEEE, dd/MM/yyyy hh:mm a"/>
+                                </af:outputText>
+                            </af:column>
+                            <af:column sortable="true" sortProperty="endDate" headerText="Hora Fin" align="start">
+                                <af:outputText value="#{row.endDate}">
+                                    <af:convertDateTime pattern="hh:mm a"/>
+                                </af:outputText>
+                            </af:column>
+                            <af:column sortable="false" headerText="Area Academica" align="start" id="c6">
+                                <af:outputText value="#{row.areaAcademica}" id="ot6"/>
+                            </af:column>
+                            <af:column sortable="true" sortProperty="tipoVisita" headerText="Visita" align="start" id="c7">
+                                <af:outputText value="#{row.tipoVisita}" id="ot7"/>
+                            </af:column>
+                            <af:column sortable="true" sortProperty="planificador" width="250" headerText="Planificador" align="start" id="c8">
+                                <af:outputText value="#{row.planificador}" id="ot8"/>
+                            </af:column>
+                         <!--   <af:column width="50" headerText="Test" align="start">
+                                <af:outputText value="#{row.planificador}"/>
+                            </af:column>-->
+                        </af:table>
+                    </af:panelCollection>
+                </af:panelGroupLayout>
+            </f:facet>
+            <f:facet name="second">
+                <af:panelGroupLayout layout="vertical" inlineStyle="margin:0px 0px 0px 43px;">
+                    <af:button text="Grabar Ficha" id="btnGrabar" binding="#{bEvaluar.btnGrabar}" styleClass="FondoRojoLetraBlanca"
+                                 actionListener="#{bEvaluar.grabarEvaluacion}" visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
+                    <af:messages id="msjGen" inline="true" binding="#{bEvaluar.msjGen}"/>
+                    <af:treeTable value="#{bEvaluar.permisosTree}" var="row"
+                                  visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
+                                  rowBandingInterval="0" id="trFich" initiallyExpanded="true"
+                                  rowSelection="single"
+                                  width="900px"
+                                  binding="#{bEvaluar.trFich}" fetchSize="50">
+                        <f:facet name="nodeStamp">
+                            <af:column sortable="false" headerText="Descripcion" id="c9" width="700">
+                                <af:outputText value="#{row.descripcionCriterio}" id="ot9"
+                                                 shortDesc="#{row.nidCriterio}"/>
+                            </af:column>
+                        </f:facet>
+                        <af:column width="70" headerText="Puntaje" align="center">
+                            <af:inputNumberSpinbox id="ins1" columns="2" minimum="1" styleClass="evaluar" autoSubmit="true"
+                                                       rendered="#{row.displaySpinBox}" value="#{row.valorSpinBox}"
+                                                       maximum="#{sessionScope.sessionEvaluar.maxValor}"
+                                                       converter="javax.faces.Integer" 
+                                                       valueChangeListener="#{bEvaluar.cambiarValor}">
+                                   <f:attribute name="idcrit" value="#{row.nidCriterio}"/>
+                                   <f:attribute name="idcritPapa" value="#{row.nidCriterioPadre}"/>
+                            </af:inputNumberSpinbox>
+                            <af:inputText id="it1" rendered="#{row.displayInput}" styleClass="#{row.estilo}" 
+                                                     value="#{row.valorInput}" readOnly="true"/>
+                        </af:column>
+                    </af:treeTable>
+                </af:panelGroupLayout>
+            </f:facet>
+        </af:panelSplitter>
+    </f:view>
+</ui:composition>

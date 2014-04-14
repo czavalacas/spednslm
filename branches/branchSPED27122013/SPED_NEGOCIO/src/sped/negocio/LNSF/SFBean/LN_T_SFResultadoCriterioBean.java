@@ -49,4 +49,20 @@ public class LN_T_SFResultadoCriterioBean implements LN_T_SFResultadoCriterioRem
             e.printStackTrace();
         }
     }
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void registrarResultadoCriterios_Web(List<BeanCriterio> lstBCrit,Evaluacion evaluacion){
+        try {
+            ResultadoCriterio rc = null;
+            for(BeanCriterio bcrit : lstBCrit){
+                rc = new ResultadoCriterio();
+                rc.setEvaluacion(evaluacion);
+                rc.setFichaCriterio(bcrit.getFichaCriterioAUX());
+                rc.setValor(bcrit.getNotaVige());
+                bdL_T_SFResultadoCriterioLocal.persistResultadoCriterio(rc);
+            }
+       } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
