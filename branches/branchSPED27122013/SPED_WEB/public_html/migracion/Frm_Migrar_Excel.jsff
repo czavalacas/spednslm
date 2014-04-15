@@ -15,6 +15,7 @@
                     <af:selectItem value="2" id="si2" label="Area Academica"/>
                     <af:selectItem value="3" id="si3" label="Aula"/>
                     <af:selectItem value="4" id="si4" label="Profesor"/>
+                     <af:selectItem value="5" id="si5" label="Main"/>
                 </af:selectOneChoice>
                 <af:inputFile label="Sellecionar Archivo" id="if1" binding="#{bMigrarExcel.inputFileExcel}"
                              autoSubmit="true"
