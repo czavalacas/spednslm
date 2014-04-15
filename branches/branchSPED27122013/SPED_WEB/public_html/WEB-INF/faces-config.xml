@@ -311,4 +311,19 @@
     <validator-id>ProblemaValidator</validator-id>
     <validator-class>sped.vista.Utils.Validators.ProblemaValidator</validator-class>
   </validator>
+  <managed-bean>
+    <managed-bean-name>bConfiguracion</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.mantenimiento.bConfiguracion</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionConfiguracion</property-name>
+      <property-class>sped.vista.beans.mantenimiento.bSessionConfiguracion</property-class>
+      <value>#{sessionConfiguracion}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionConfiguracion</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.mantenimiento.bSessionConfiguracion</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>
