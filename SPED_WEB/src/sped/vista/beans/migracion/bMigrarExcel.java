@@ -29,6 +29,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import org.apache.poi.ss.usermodel.Cell;
 
+import sped.negocio.BDL.IR.BDL_T_SFMainRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAulaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
@@ -38,6 +39,10 @@ import sped.negocio.LNSF.IR.LN_T_SFAulaRemoto;
 import sped.negocio.LNSF.IR.LN_T_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_T_SFProfesorRemoto;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
+import sped.negocio.entidades.admin.Aula;
+import sped.negocio.entidades.admin.Curso;
+import sped.negocio.entidades.admin.Main;
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanCurso;
@@ -51,6 +56,8 @@ import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.beans.BeanSede;
 
 import sped.vista.Utils.Utils;
+
+import utils.system;
 
 public class bMigrarExcel {
 
@@ -72,6 +79,10 @@ public class bMigrarExcel {
     private LN_T_SFProfesorRemoto ln_T_SFProfesorRemoto;
     @EJB
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
+        
+    /** Temporal  */
+    @EJB
+    private BDL_T_SFMainRemoto bDL_T_SFMainRemoto;
         
     private bSessionMigrarExcel sessionMigrarExcel;
     private RichSelectOneChoice choiceSede;
@@ -167,6 +178,10 @@ public class bMigrarExcel {
         }
         if(sessionMigrarExcel.getTipoMigracion()==4){
             insertarProfesores(sheetData);  
+        }
+        /**Temporal */
+        if(sessionMigrarExcel.getTipoMigracion()==5){
+            insertarMain(sheetData);
         }
     }
 
@@ -361,7 +376,7 @@ public class bMigrarExcel {
     }
     
     public void seleccionarTipoMigracion(ValueChangeEvent valueChangeEvent) {
-        if(choiceSede.getValue()==1||choiceSede.getValue()==2||choiceSede.getValue()==3||choiceSede.getValue()==4){
+        if(choiceSede.getValue()==1||choiceSede.getValue()==2||choiceSede.getValue()==3||choiceSede.getValue()==4||choiceSede.getValue()==5){
             sessionMigrarExcel.setEstadouploadFile(false);
             Utils.addTarget(inputFileExcel);
         }else {
@@ -409,6 +424,34 @@ public class bMigrarExcel {
     public RichInputFile getInputFileExcel() {
         return inputFileExcel;
     }
-
+/** BORRRAR LO DE ABAJO LUEGO DE MIGRAR */
+    
+     private void insertarMain(List sheetData) {
+    try{
+                 for (int i = 0; i < sheetData.size(); i++) {
+                    
+                     List list = (List) sheetData.get(i);
+                     if (!list.isEmpty()) {
+                       
+                             
+                         Main ma=new Main();
+                         Profesor profesor=new Profesor();
+                         profesor.setDniProfesor(list.get(0).toString());
+                         Aula aula=new Aula();
+                         Cell cell = (Cell) list.get(1);
+                         aula.setNidAula((int) cell.getNumericCellValue());
+                         Curso curso=new Curso();
+                         Cell cell2 = (Cell) list.get(2);
+                         curso.setNidCurso((int) cell2.getNumericCellValue());
+                             
+                         ma.setAula(aula);
+                              ma.setCurso(curso);
+                              ma.setProfesor(profesor);
+                              ma.setEstado("1");
+                        bDL_T_SFMainRemoto.persistMain(ma);
+                     }
+             }} catch (Exception e) {
+                  e.printStackTrace();
+         }}
    
 }
