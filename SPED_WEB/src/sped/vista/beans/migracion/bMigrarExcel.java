@@ -29,6 +29,11 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import org.apache.poi.ss.usermodel.Cell;
 
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import sped.negocio.BDL.IR.BDL_T_SFMainRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAulaRemote;
@@ -133,19 +138,42 @@ public class bMigrarExcel {
             } else {
                 sessionMigrarExcel.setEstadoBtnSubArchivo(true);
                 Utils.addTarget(btnSubirArchivo);
-                Utils.mostrarMensaje(ctx, "El archivo no es de tipo excel suba un .xls", " nulo ", 4);
+                Utils.mostrarMensaje(ctx, "El archivo no es de tipo excel suba un xls/xlsx", null, 4);
             }
         } catch (Exception e) {
-            Utils.mostrarMensaje(ctx, "Hubo un error a subir el Archivo ingrese nuevamente", " nulo ", 4);
+            Utils.mostrarMensaje(ctx, "Hubo un error a subir el Archivo ingrese nuevamente", null, 4);
         }
 
     }
-
-    public void leerExcel(InputStream file) throws IOException {
+    
+    public List leerExcelXLSX(InputStream file){
         List sheetData = new ArrayList();
-        try {
+        try{
+            XSSFWorkbook wb = new XSSFWorkbook(file);
+            XSSFSheet sheet = wb.getSheetAt(0);
+            Iterator<Row> rows = sheet.rowIterator();
+            Row row; Cell cell;
+            while (rows.hasNext()) {
+                row = rows.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+                List data = new ArrayList();
+                while (cellIterator.hasNext()) {
+                    cell = cellIterator.next();
+                    data.add(cell);
+                }
+                sheetData.add(data);
+            }
+            return sheetData;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List leerExcelXLS(InputStream file){
+        List sheetData = new ArrayList();
+        try{
             HSSFWorkbook workbook = new HSSFWorkbook(file);
-
             HSSFSheet sheet = workbook.getSheetAt(0);
             Iterator rows = sheet.rowIterator();
             while (rows.hasNext()) {
@@ -159,14 +187,31 @@ public class bMigrarExcel {
                 }
                 sheetData.add(data);
             }
-        } catch (IOException e) {
+            return sheetData;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public void leerExcel(InputStream file) throws IOException {
+        List sheetData = new ArrayList();
+        try {
+            String extension = sessionMigrarExcel.getNombreArchivo().substring(sessionMigrarExcel.getNombreArchivo().lastIndexOf(".") + 1, 
+                                                                               sessionMigrarExcel.getNombreArchivo().length());
+            if (extension.equalsIgnoreCase("xls")){
+                sheetData = leerExcelXLS(file);
+            }else{
+                sheetData = leerExcelXLSX(file);
+            }
+            
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (file != null) {
                 file.close();
             }
-        }
-        
+        }        
         if(sessionMigrarExcel.getTipoMigracion()==1){
             insertarCursos(sheetData);  
         }

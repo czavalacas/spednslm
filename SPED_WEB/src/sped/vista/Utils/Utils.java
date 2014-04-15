@@ -299,7 +299,7 @@ public class Utils {
     
     public static boolean validarExtensionXls(String nombreArchivo){
         String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".") + 1, nombreArchivo.length());
-        if(extension.equalsIgnoreCase("xls")){
+        if(extension.equalsIgnoreCase("xls") || extension.equalsIgnoreCase("xlsx")){
             return true;
         }else{
             return false;
