@@ -29,6 +29,7 @@ import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioPermisoLocal;
 import sped.negocio.LNSF.IL.LN_T_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Sede;
@@ -98,7 +99,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setAreaAcademica(area);
             u.setUsuario(usuario);            
             if(rutaImg != null){
-                Imagen(rutaImg, u);
+                u.setFoto(Utiles.Imagen(rutaImg));
             }
             if(tipoEvento == 1){                
                 u.setEstadoUsuario("1");
@@ -126,41 +127,6 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         
     }
     
-    public static byte[] extractBytes(String ImageName) throws IOException {
-        File archivo = new File(ImageName);
-        byte[] aBytes = null;
-        long tamanoA = archivo.length(); 
-        aBytes = new byte[(int) tamanoA];
-        try{
-            FileInputStream docu = new FileInputStream(archivo);
-            int numBytes = docu.read(aBytes);
-            docu.close();
-            archivo.delete();
-        }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        return aBytes;
-    }
-    
-    public void Imagen(String rutaImg, Usuario u){
-        try{
-            if(rutaImg != null){
-                if(!rutaImg.equals("")){
-                    byte[] byt = extractBytes(rutaImg);
-                    if(byt != null){
-                        u.setFoto(byt);
-                    }
-                }
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    
     public void configuracionCuentaUsuario(int nidUsuario,
                                            String clave,
                                            String correo,
@@ -173,7 +139,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setCorreo(correo);
         }
         if(rutaImg != null){
-            Imagen(rutaImg, u);
+            u.setFoto(Utiles.Imagen(rutaImg));
         }        
         bdL_T_SFUsuarioLocal.mergeUsuario(u);
     }

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <f:view>
+        <af:panelGroupLayout id="pgl1" layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+            <af:panelGroupLayout id="pgl2" halign="left">
+                <af:spacer height="10" id="s1"/>
+                <af:outputText value="Configuración General" id="ot1" styleClass="titulos"/>
+                <af:spacer height="10" id="s2"/>
+            </af:panelGroupLayout>
+            <af:subform id="s3">
+                <af:outputText value="Imagen por defecto" id="ot2" styleClass="subTitulos"/>
+                <af:panelFormLayout id="pimag" binding="#{bConfiguracion.pimag}">
+                    <af:inputFile label="Subir Imagen" id="fileImg" autoSubmit="true"
+                                  labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"
+                                  valueChangeListener="#{bConfiguracion.uploadFileValueChangeEvent}"
+                                  binding="#{bConfiguracion.fileImg}" maximumFiles="1"/>
+                    <af:image id="image" source=""
+                              binding="#{bConfigurarCuenta.image}" inlineStyle="height:175px; width:150px;"/>
+                    <af:button text="Cambiar" id="b1" rendered="#{sessionConfiguracion.rutaImg != null ? true : false}"
+                               action="#{bConfiguracion.cambiarImagen}"/>
+                </af:panelFormLayout>
+            </af:subform>
+        </af:panelGroupLayout>
+    </f:view>
+</ui:composition>

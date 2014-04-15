@@ -415,4 +415,16 @@
         <ejb-name>LN_C_SFHorario</ejb-name>
         <stateless-session-descriptor/>
     </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>BDL_C_SFImagen</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>BDL_T_SFImagen</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_T_SFImagen</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
 </weblogic-ejb-jar>
