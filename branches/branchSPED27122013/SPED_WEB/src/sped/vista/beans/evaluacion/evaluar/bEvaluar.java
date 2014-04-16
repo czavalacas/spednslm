@@ -7,19 +7,24 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
+import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.output.RichMessages;
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaLocal;
+import sped.negocio.LNSF.IL.LN_T_SFEvaluacionLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.entidades.beans.BeanCriterio;
+import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -33,6 +38,8 @@ public class bEvaluar {
     @EJB
     private LN_C_SFFichaCriterioLocal ln_C_SFFichaCriterioLocal;
     @EJB
+    private LN_T_SFEvaluacionLocal ln_T_SFEvaluacionLocal;
+    @EJB
     private LN_C_SFFichaLocal ln_C_SFFichaLocal;
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
     private RichTable tbPlan;
@@ -42,6 +49,7 @@ public class bEvaluar {
     private RichButton btnGrabar;
     private RichMessages msjGen;
     FacesContext ctx = FacesContext.getCurrentInstance();
+    private RichInputText itCmmt;
 
     public bEvaluar() {
     
@@ -73,11 +81,20 @@ public class bEvaluar {
                                                                                                                 0));
             if(tbPlan != null){
                 tbPlan.setValue(sessionEvaluar.getLstPlanificacionesXEvaluar());
-                Utils.addTarget(tbPlan);
+                Utils.unselectFilas(tbPlan);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void refrescarTablaPlanif(ActionEvent actionEvent) {
+        refrescarTablaPlanifAux();
+    }
+    
+    public void refrescarTablaPlanifAux(){
+        mostrarPlanificacionesParaHoy();
+        resetearAfterGrabar();
     }
     
     public void selectPlanificacion(SelectionEvent se) {
@@ -92,9 +109,13 @@ public class bEvaluar {
         if(valoresFicha != null){
             if(valoresFicha[0] != 0){
                 sessionEvaluar.setMaxValor(valoresFicha[1]);
+                btnGrabar.setVisible(true);
+                itCmmt.setVisible(true);
                 sessionEvaluar.setVisiblePanelBoxPanelBoxFicha(true);
+                trFich.setVisible(true);
                 sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(valoresFicha[0]));       
                 buildTree();
+                Utils.addTargetMany(btnGrabar,itCmmt);
             }
         }
     }
@@ -144,7 +165,6 @@ public class bEvaluar {
                     int maxVal = sessionEvaluar.getMaxValor() * hijosSize;
                     while(itH.hasNext()){
                         BeanCriterio indi = (BeanCriterio) itH.next();
-                        //Utils.sysout("hijo: "+indi.getDescripcionCriterio());
                         if(indi.getNidCriterio().compareTo(param) == 0){
                             indi.setValorSpinBox((Integer) vce.getNewValue());
                         }
@@ -191,15 +211,40 @@ public class bEvaluar {
     }
     
     public void grabarEvaluacion(ActionEvent actionEvent) {
-        int severidad = 0;
-        String desc = "";
-        String titulo = "";
-        if(this.isOK()){
-            
-        }else{
-            severidad = 1;
+        boolean reset = true;
+        try {
+            int severidad = 0;
+            BeanError error = new BeanError();
+            if (this.isOK()) {
+                error = ln_T_SFEvaluacionLocal.registrarEvaluacion_LN_Web(sessionEvaluar.getLstCriteriosMultiples(),
+                                                                              sessionEvaluar.getPlanifSelect().getNidEvaluacion(),
+                                                                              usuario.getNidUsuario(),
+                                                                              sessionEvaluar.getComentarioEvaluador());
+                if("000".equalsIgnoreCase(error.getCidError())){
+                    severidad = 3;
+                }else{
+                    severidad = 1;
+                    reset = false;
+                }
+            } else {
+                reset = false;
+                severidad = 1;
+                error.setTituloError("Faltan campos por llenar");
+                error.setDescripcionError("Asigne un valor mayor a cero para todos los indicadores");
+            }
+            msjGen.setText(error.getTituloError());
+            Utils.addTarget(msjGen);
+            Utils.mostrarMensaje(ctx,error.getDescripcionError(),error.getTituloError(), severidad);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msjGen.setText("Error del sistema");
+            Utils.addTarget(msjGen);
+            Utils.mostrarMensaje(ctx,"Error del sistema, comuniquese con el administrador o intente nuevamente","Error del sistema",2);
+        } finally {
+            if(reset){
+                resetearAfterGrabar();   
+            }
         }
-        Utils.mostrarMensaje(ctx,desc,titulo,severidad);
     }
     
     private boolean isOK(){
@@ -216,6 +261,33 @@ public class bEvaluar {
             }
         }
         return true;
+    }
+    
+    public void resetearAfterGrabar(){
+        sessionEvaluar.setVisiblePanelBoxPanelBoxFicha(false);
+        sessionEvaluar.setPlanifSelect(null);
+        sessionEvaluar.setEstiloFinal(null);
+        sessionEvaluar.setNotaFinal(0.0);
+        sessionEvaluar.setComentarioEvaluador(null);
+        btnGrabar.setVisible(false);
+        itCmmt.setVisible(false);
+        trFich.setVisible(false);
+        btnRegistrar.setDisabled(true);
+        try {
+            List<UIComponent> children = null;
+            children = this.trFich.getChildren();
+            if (children != null) {
+                Iterator it = children.iterator();
+                while(it.hasNext()){
+                    UIComponent child = (UIComponent) it.next();
+                    it.remove();   
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Utils.addTargetMany(btnGrabar,itCmmt,trFich,btnRegistrar);
+        mostrarPlanificacionesParaHoy();
     }
     
     public void setSessionEvaluar(bSessionEvaluar sessionEvaluar) {
@@ -280,5 +352,13 @@ public class bEvaluar {
 
     public RichMessages getMsjGen() {
         return msjGen;
+    }
+
+    public void setItCmmt(RichInputText itCmmt) {
+        this.itCmmt = itCmmt;
+    }
+
+    public RichInputText getItCmmt() {
+        return itCmmt;
     }
 }
