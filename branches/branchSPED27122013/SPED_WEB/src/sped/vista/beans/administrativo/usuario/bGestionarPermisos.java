@@ -69,8 +69,8 @@ public class bGestionarPermisos {
     public void methodInvokeOncedOnPageLoad() {
         if(sessionGestionarPermisos.getExec() == 0){
             sessionGestionarPermisos.setListRol(Utils.llenarCombo(ln_C_SFUtilsRemote.getRol_LN()));
-            sessionGestionarPermisos.setItemNombre(Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN(0)));
-            sessionGestionarPermisos.setItemUsuario(Utils.llenarListItem(ln_C_SFUsuarioRemote.getUsuarioUsuarios_LN(0)));
+            sessionGestionarPermisos.setItemNombre(Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN(0,0)));
+            sessionGestionarPermisos.setItemUsuario(Utils.llenarListItem(ln_C_SFUsuarioRemote.getUsuarioUsuarios_LN(0,0)));
             buscarUsuarios_aux();
             sessionGestionarPermisos.setExec(1);
         }

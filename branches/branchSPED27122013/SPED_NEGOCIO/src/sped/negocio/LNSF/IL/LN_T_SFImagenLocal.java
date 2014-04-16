@@ -4,4 +4,5 @@ import javax.ejb.Local;
 
 @Local
 public interface LN_T_SFImagenLocal {
+    void guardarImagen(String rutaImg);
 }

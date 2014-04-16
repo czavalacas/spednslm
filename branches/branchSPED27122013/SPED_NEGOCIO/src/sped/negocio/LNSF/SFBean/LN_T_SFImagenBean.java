@@ -18,7 +18,8 @@ import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.sist.Imagen;
 
 @Stateless(name = "LN_T_SFImagen", mappedName = "mapLN_T_SFImagen")
-public class LN_T_SFImagenBean implements LN_T_SFImagenRemote, LN_T_SFImagenLocal {
+public class LN_T_SFImagenBean implements LN_T_SFImagenRemote, 
+                                          LN_T_SFImagenLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")

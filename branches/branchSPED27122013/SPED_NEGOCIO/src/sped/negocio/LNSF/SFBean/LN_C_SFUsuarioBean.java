@@ -31,6 +31,7 @@ import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanUsuario;
+import sped.negocio.entidades.sist.Rol;
 
 /**
  * C;ase de Logica de Negocio que implementa los metodos relacionados con la Entidad Usuario: admusua
@@ -245,15 +246,15 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
         return bdL_C_SFUsuarioLocal.getEvaluadores();
     }
     
-    public List getDniUsuarios_LN(){
-        return bdL_C_SFUsuarioLocal.getDniUsuarios();
+    public List getDniUsuarios_LN(int nidArea, int nidRol){
+        return bdL_C_SFUsuarioLocal.getDniUsuarios(nidArea, nidRol);
     }
     
-    public List getNombresUsuarios_LN(int nidArea){
-        return bdL_C_SFUsuarioLocal.getNombresUsuarios(nidArea);
+    public List getNombresUsuarios_LN(int nidArea, int nidRol){
+        return bdL_C_SFUsuarioLocal.getNombresUsuarios(nidArea, nidRol);
     }   
 
-    public List getUsuarioUsuarios_LN(int nidArea){
-        return bdL_C_SFUsuarioLocal.getUsuarioUsuarios(nidArea);
+    public List getUsuarioUsuarios_LN(int nidArea, int nidRol){
+        return bdL_C_SFUsuarioLocal.getUsuarioUsuarios(nidArea, nidRol);
     }
 }

@@ -36,19 +36,23 @@ public class ImageServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType(CONTENT_TYPE);
         String nomusuario = request.getParameter("nomusuario");
-        Connection conn = null;        
-        Img(conn, response, nomusuario);
+        Connection conn = null;       
+        if(Utils.isNumeric(nomusuario)){
+            Img(conn, response, Integer.parseInt(nomusuario));
+        }else{
+            Img2(conn, response, 1);
+        }        
     }
     
-    public void Img(Connection conn, HttpServletResponse response, String nomusuario){
+    public void Img(Connection conn, HttpServletResponse response, int nomusuario){
         try {
             OutputStream os = response.getOutputStream();            
             conn = spedDS.getConnection();       
             String sql = "SELECT a.foto " +
-                                     "FROM admusua a " +
-                                     "WHERE a.usuario =?";
+                         "FROM admusua a " +
+                         "WHERE a.nidUsuario =?";
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, nomusuario);
+            statement.setInt(1, nomusuario);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 Blob blob = rs.getBlob("foto");
@@ -61,7 +65,7 @@ public class ImageServlet extends HttpServlet {
                     }
                     os.close();
                 }else{
-                    Img2(conn, response);
+                    Img2(conn, response, 0);
                 }
             }
         } catch (Exception e) {
@@ -77,10 +81,15 @@ public class ImageServlet extends HttpServlet {
         }
     }
     
-    public void Img2(Connection conn, HttpServletResponse response){
+    public void Img2(Connection conn, HttpServletResponse response, int num){
         try {
             OutputStream os = response.getOutputStream();
-            String sql = "SELECT a.foto FROM imagen a WHERE a.descripcion = 'imgdefecto'";
+            if(num == 1){
+                conn = spedDS.getConnection();
+            }
+            String sql = "SELECT a.foto " +
+                         "FROM imagen a " +
+                         "WHERE a.descripcion = 'imgdefecto'";
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {

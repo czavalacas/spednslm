@@ -194,7 +194,7 @@
                                   binding="#{bGestionarUsuarios.fileImg}" maximumFiles="1"
                                   valueChangeListener="#{bGestionarUsuarios.uploadFileValueChangeEvent}"/>
                     <af:image id="i1" binding="#{bGestionarUsuarios.i1}"
-                              source="/imageservlet?nomusuario=#{sessionGestionarUsuarios.usuario}"
+                              source="/imageservlet?nomusuario=#{sessionGestionarUsuarios.nidUsuario}"
                               inlineStyle="height:175px; width:150px;"
                               rendered="#{sessionGestionarUsuarios.renderImg}"/>
                     <af:button text="#{sessionGestionarUsuarios.nomBtnGestion}" id="b4"
