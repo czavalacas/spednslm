@@ -240,4 +240,19 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                return null;
            }
        }
+    
+       public Main getMainByAtrubutes(String nidAula, String nidCurso, String dniProfesor) {
+           try {
+               String ejbQl =  " SELECT ma FROM Main ma " +                            
+                               " WHERE ma.profesor.dniProfesor='"+dniProfesor+"'" +
+                               " and ma.aula.nidAula="+nidAula+"" +
+                               " and ma.curso.nidCurso="+nidCurso;
+               Main main = (Main)em.createQuery(ejbQl).getSingleResult(); 
+               return main;
+           } catch (Exception e) {
+               e.printStackTrace();
+               return null;
+           }
+       }
+
 }

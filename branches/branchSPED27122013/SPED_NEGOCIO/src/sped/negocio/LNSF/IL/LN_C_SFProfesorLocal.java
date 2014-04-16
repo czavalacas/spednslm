@@ -16,4 +16,5 @@ public interface LN_C_SFProfesorLocal {
     boolean exiteDni_LN(String dni);
     List getNombreProfesor_LN();
     String getDniProfesorPorNombreCompleto(String nombreCompleto);
+    List<BeanComboString> getPRofesorPorSedeYNivel(String nidSede, String nidNivel, int nidAreaAcademica);
 }

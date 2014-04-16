@@ -12,4 +12,5 @@ public interface BDL_C_SFAulaRemote {
     List<Aula> getAulaFindAll();
     int getAulaByDescripcion(BeanAula beanAula);
     List<Aula> getAulaPorSedeNivelYGrado(String nidSede, String nidGrado, String nidNivel);
+    List<Aula> getAulaPorSedeNivelProfesorYArea(String nidSede, String nidNivel, String dniProfesor, Integer nidAreaAcademica, String nidCurso);
 }
