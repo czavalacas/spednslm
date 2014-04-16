@@ -8,19 +8,38 @@
                 <af:outputText value="Configuración General" id="ot1" styleClass="titulos"/>
                 <af:spacer height="10" id="s2"/>
             </af:panelGroupLayout>
-            <af:subform id="s3">
+            <af:subform id="s3" defaultCommand="b1">
                 <af:outputText value="Imagen por defecto" id="ot2" styleClass="subTitulos"/>
                 <af:panelFormLayout id="pimag" binding="#{bConfiguracion.pimag}">
                     <af:inputFile label="Subir Imagen" id="fileImg" autoSubmit="true"
                                   labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"
                                   valueChangeListener="#{bConfiguracion.uploadFileValueChangeEvent}"
                                   binding="#{bConfiguracion.fileImg}" maximumFiles="1"/>
-                    <af:image id="image" source=""
-                              binding="#{bConfigurarCuenta.image}" inlineStyle="height:175px; width:150px;"/>
+                    <af:image id="image" source="#{sessionConfiguracion.imgSource}" binding="#{bConfigurarCuenta.image}"
+                              inlineStyle="height:175px; width:150px;"/>
                     <af:button text="Cambiar" id="b1" rendered="#{sessionConfiguracion.rutaImg != null ? true : false}"
-                               action="#{bConfiguracion.cambiarImagen}"/>
+                               action="#{bConfiguracion.cambiarImagen}" actionListener="#{bMain.actualizarImagen}"/>
+                </af:panelFormLayout>
+            </af:subform>
+            <af:subform id="s4" defaultCommand="b2">
+                <af:outputText value="Parametros del Correo" id="ot3" styleClass="subTitulos"/>
+                <af:panelFormLayout id="pfl1">
+                    <af:inputText label="Puerto" id="it1" labelStyle="text-align: left;" required="true"
+                                  value="#{sessionConfiguracion.puerto}"/>
+                    <af:inputText label="Host" id="it2" labelStyle="text-align: left;" required="true"
+                                  value="#{sessionConfiguracion.host}"/>
+                    <af:inputText label="Correo" id="it3" labelStyle="text-align: left;" required="true"
+                                  value="#{sessionConfiguracion.correo}">
+                        <f:validator validatorId="EmailUValidator"/>
+                    </af:inputText>
+                    <af:button text="Cambiar" id="b2" action="#{bConfiguracion.abrirPopUpConfirmacion}"/>
                 </af:panelFormLayout>
             </af:subform>
         </af:panelGroupLayout>
+        <af:popup childCreation="deferred" contentDelivery="immediate" id="popClave" binding="#{bConfiguracion.popClave}">
+            <af:dialog id="d1" title="Mensaje" type="okCancel" dialogListener="#{bConfiguracion.dialogClaveListener}">
+                <af:inputText label="Clave del Correo" id="it4" required="true" value="#{bConfiguracion.clave}"/>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>

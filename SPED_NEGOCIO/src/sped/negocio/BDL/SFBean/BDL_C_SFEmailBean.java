@@ -37,6 +37,11 @@ public class BDL_C_SFEmailBean implements BDL_C_SFEmailRemote,
     
     public Email getEmail(){
         List<Email> lstEmail = getEmailFindAll();
-        return lstEmail.get(0);
+        if(lstEmail == null){
+            return null;
+        }
+        else{
+            return lstEmail.get(0);
+        }        
     }
 }

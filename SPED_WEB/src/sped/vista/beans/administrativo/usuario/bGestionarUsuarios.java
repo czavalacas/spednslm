@@ -109,15 +109,14 @@ public class bGestionarUsuarios {
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
         if (sessionGestionarUsuarios.getExec() == 0) {
-            sessionGestionarUsuarios.setExec(1);
-            sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN());
+            sessionGestionarUsuarios.setExec(1);            
             sessionGestionarUsuarios.setLstRol(this.llenarComboRol(1));
             sessionGestionarUsuarios.setLstRolf(this.llenarComboRol(2));
             sessionGestionarUsuarios.setLstAreaAcademica(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
             sessionGestionarUsuarios.setLstEstadoUsario(this.llenarComboEstado());
-            sessionGestionarUsuarios.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
-            sessionGestionarUsuarios.setItemDni(Utils.llenarListItem(ln_C_SFUsuarioRemote.getDniUsuarios_LN()));            
+            sessionGestionarUsuarios.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));                    
             validaUsuario();            
+            buscarUsuarioFiltro_aux();
         } 
     }
 
@@ -125,16 +124,28 @@ public class bGestionarUsuarios {
      * Metodo que valida al usuario si es supervisor y llena la los suggestedItems
      */
     public void validaUsuario(){
-        int nidArea = 0;
         if(beanUsuario.getRol().getNidRol() == 2 && beanUsuario.getIsSupervisor().compareTo("1") == 0){
-            nidArea = beanUsuario.getAreaAcademica().getNidAreaAcademica();
-            sessionGestionarUsuarios.setFNidAreaAcademica(nidArea+"");
-            sessionGestionarUsuarios.setNidRol(2);
+            sessionGestionarUsuarios.setFNidAreaAcademica(beanUsuario.getAreaAcademica().getNidAreaAcademica()+"");
+            sessionGestionarUsuarios.setFNidRol(2);
             sessionGestionarUsuarios.setDisableFArea(true);
             sessionGestionarUsuarios.setDisableFRol(true);            
         }
-        sessionGestionarUsuarios.setItemNombre(Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN(nidArea)));
-        sessionGestionarUsuarios.setItemUsuario(Utils.llenarListItem(ln_C_SFUsuarioRemote.getUsuarioUsuarios_LN(nidArea)));
+        llenarSuggest();
+    }
+    
+    /**
+     * Metodo que llena la lista para los suggest, esta separado para volver a llenarlas cuando se resgitre un nuevo usuario
+     */
+    public void llenarSuggest(){
+        int nidArea = 0;
+        int nidRol = 0;
+        if(beanUsuario.getRol().getNidRol() == 2 && beanUsuario.getIsSupervisor().compareTo("1") == 0){
+            nidArea = beanUsuario.getAreaAcademica().getNidAreaAcademica();
+            nidRol = beanUsuario.getRol().getNidRol();
+        }
+        sessionGestionarUsuarios.setItemNombre(Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN(nidArea, nidRol)));
+        sessionGestionarUsuarios.setItemUsuario(Utils.llenarListItem(ln_C_SFUsuarioRemote.getUsuarioUsuarios_LN(nidArea, nidRol)));
+        sessionGestionarUsuarios.setItemDni(Utils.llenarListItem(ln_C_SFUsuarioRemote.getDniUsuarios_LN(nidArea, nidRol)));    
     }
     
     /**
@@ -150,7 +161,13 @@ public class bGestionarUsuarios {
             if(tipo == 2 && r.getNidRol() == 3){//1= ComboFiltro 2=Combo gestion usuario
                 se.setDisabled(true);
             }
-            unItems.add(se);
+            if(beanUsuario.getRol().getNidRol() == 2 && beanUsuario.getIsSupervisor().compareTo("1") == 0){
+                if(r.getNidRol() == 2){
+                    unItems.add(se);
+                }
+            }else{
+                unItems.add(se);    
+            }            
         }
         return unItems;
     }
@@ -183,6 +200,7 @@ public class bGestionarUsuarios {
         }
         if(usuario.getAreaAcademica() != null){
             sessionGestionarUsuarios.setNidAreaAcademica(usuario.getAreaAcademica().getNidAreaAcademica().toString());
+            sessionGestionarUsuarios.setSupervisorboolean(usuario.getIsSupervisor().compareTo("1") == 0 ? true : false);
             sessionGestionarUsuarios.setRenderAreaAcdemica(true);
         }
         if(usuario.getSede()!=null){
@@ -193,9 +211,9 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setDisableRol(true);
         }
         if(i1!=null){
-            i1.setSource("/imageservlet?nomusuario="+usuario.getUsuario());
+            i1.setSource("/imageservlet?nomusuario="+usuario.getNidUsuario());
         }        
-        if(Integer.parseInt(usuario.getEstadoUsuario()) != 0){
+        if(usuario.getEstadoUsuario().compareTo("1") == 0){
             b3.setText("Anular");
             b2.setDisabled(false);
         }else{
@@ -277,11 +295,11 @@ public class bGestionarUsuarios {
                                               sessionGestionarUsuarios.isSupervisorboolean());
         String msj="";
         switch(sessionGestionarUsuarios.getTipoEvento()){
-        case 1 : msj =  "Se registro al usuario "; break;
-        case 2 : msj =  "Se modifico al usuario "; break;
+        case 1 : msj =  "Se registro al usuario "; llenarSuggest(); break;
+        case 2 : msj =  "Se modifico al usuario "; llenarSuggest(); break;
         case 3 : msj =  "Se anulo al usuario "; break;
         case 4 : msj =  "Se activo al usuario "; break;
-        } 
+        }         
         Utils.mostrarMensaje(ctx, 
                              msj+sessionGestionarUsuarios.getUsuario(), 
                              "Operacion Correcta", 
@@ -334,6 +352,10 @@ public class bGestionarUsuarios {
     }
 
     public void buscarUsuarioFiltro(ActionEvent actionEvent) {
+        buscarUsuarioFiltro_aux();
+    }
+    
+    public void buscarUsuarioFiltro_aux(){
         int nidArea = sessionGestionarUsuarios.getFNidAreaAcademica() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getFNidAreaAcademica());
         int nidSede = sessionGestionarUsuarios.getFNidSede() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getFNidSede());
         sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuariobyByAttrLN(sessionGestionarUsuarios.getFNombres(), 
@@ -343,24 +365,28 @@ public class bGestionarUsuarios {
                                                                                          sessionGestionarUsuarios.getFNidRol(),
                                                                                          sessionGestionarUsuarios.getFNidEstado(),
                                                                                          nidSede,
-                                                                                         sessionGestionarUsuarios.getFNidNivel()));        
-        Utils.unselectFilas(t1);
-        b2.setDisabled(true);
-        b3.setDisabled(true);
-        Utils.addTargetMany(b2, b3, t1);
+                                                                                         sessionGestionarUsuarios.getFNidNivel())); 
+        if(t1 != null){
+            Utils.unselectFilas(t1);
+            b2.setDisabled(true);
+            b3.setDisabled(true);
+            Utils.addTargetMany(b2, b3, t1);
+        }        
     }
     
     public void refrescarFiltro(ActionEvent actionEvent) {
         sessionGestionarUsuarios.setFNombres("");
         sessionGestionarUsuarios.setFUsuario("");
-        sessionGestionarUsuarios.setFDni("");
-        sessionGestionarUsuarios.setFNidRol(0);
-        sessionGestionarUsuarios.setFNidAreaAcademica(null);
+        sessionGestionarUsuarios.setFDni("");  
         sessionGestionarUsuarios.setFNidEstado(0);
         sessionGestionarUsuarios.setFbooleanSede(false);
         sessionGestionarUsuarios.setFNidNivel(0);
         sessionGestionarUsuarios.setFNidSede(null); 
-        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN());
+        if(beanUsuario.getRol().getNidRol() != 2 && beanUsuario.getIsSupervisor().compareTo("1") != 0){
+            sessionGestionarUsuarios.setFNidRol(0);
+            sessionGestionarUsuarios.setFNidAreaAcademica(null);
+        }
+        buscarUsuarioFiltro_aux();
         Utils.addTargetMany(pgl2,t1);
     }
     
@@ -378,6 +404,7 @@ public class bGestionarUsuarios {
         sessionGestionarUsuarios.setRenderSede(false);
         sessionGestionarUsuarios.setRenderImg(false);
         sessionGestionarUsuarios.setDisableRol(false);
+        sessionGestionarUsuarios.setSupervisorboolean(false);
         if(itNombres!=null){
             itNombres.resetValue();
             itDni.resetValue();

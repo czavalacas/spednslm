@@ -59,6 +59,6 @@
           </af:button>
         </af:panelFormLayout>
       </af:subform>
-    </af:panelGroupLayout>
+    </af:panelGroupLayout>    
   </f:view>
 </ui:composition>

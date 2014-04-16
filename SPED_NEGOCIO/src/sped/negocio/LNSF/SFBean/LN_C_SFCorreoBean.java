@@ -43,16 +43,20 @@ import javax.mail.MessagingException;
 
 import javax.servlet.ServletContext;
 
+import net.sf.dozer.util.mapping.DozerBeanMapper;
+import net.sf.dozer.util.mapping.MapperIF;
+
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEmailRemote;
 import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.beans.BeanMail;
 import sped.negocio.entidades.sist.Email;
 
 @Stateless(name = "LN_C_SFCorreo", mappedName = "mapLN_C_SFCorreo")
 public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote, 
-                                             LN_C_SFCorreoLocal {
+                                          LN_C_SFCorreoLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -61,6 +65,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     private BDL_C_SFUsuarioLocal bd_C_SFUsuarioLocal;
     @EJB
     private BDL_C_SFEmailRemote bd_C_SFEmailRemote;
+    private MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFCorreoBean() {
     }
@@ -159,8 +164,12 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
           String contenido = "";
           if(data[7].toString().compareTo("1") == 0){
               contenido = contenidoHTML2(data);
-          }else{
+          }
+          if(data[7].toString().compareTo("0") == 0){
               contenido = contenidoHTML(data);
+          }
+          if(data[7].toString().compareTo("2") == 0){
+              contenido = contenidoHTMLPrueba(data);
           }
           messageBodyPart.setContent(contenido, "text/html");
           Multipart multipart = new MimeMultipart();
@@ -171,9 +180,10 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
               messageBodyPart2.setDataHandler(new DataHandler(source));
               messageBodyPart2.setFileName(source.getName());
               multipart.addBodyPart(messageBodyPart2);
-          }else{
+          }
+          if(data[7].toString().compareTo("0") == 0){
               addCID("img01", data[8]+"recucontr.png", multipart);
-          }          
+          }         
           message.setContent(multipart);
           Transport t = session.getTransport("smtp");
           t.connect(HOST, EMAIL_QUE_ENVIA, CLAVE);
@@ -187,7 +197,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     }
     
     public String contenidoHTML2(String data[]){
-        String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";
+      String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";
       String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
                       .concat("<tbody>")
                       .concat("<p style=\"text-align: center;\">")
@@ -201,8 +211,6 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     }
     
     public String contenidoHTML(String data[]){        
-      String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";
-      //String rutaimg = "C:/Users/David/AppData/Roaming/JDeveloper/system12.1.2.0.40.66.68/o.j2ee/drs/SPED_APP/SPED_WEBWebApp.war/recursos/img/usuarios/recucontr.png";
       String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
                       .concat("<tbody>")
                       .concat("<p style=\"text-align: center;\">")
@@ -217,6 +225,20 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                       .concat("</table>");      
       return contenido;
     }    
+    
+    public String contenidoHTMLPrueba(String data[]){        
+      String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";
+      String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
+                      .concat("<tbody>")
+                      .concat("<p style=\"text-align: center;\">")
+                      .concat("<a><img alt=\"\" src=\""+rutaimg+"\" style=\"width: 690px; height: 61px;\" /></a></p>")
+                      .concat("<p style=\"text-align: right;\">")
+                      .concat("<strong>Fecha:</strong> "+data[0]+"</p>")
+                      .concat("<p><h2>"+data[4]+"</h2>")
+                      .concat("</tbody>")
+                      .concat("</table>");      
+      return contenido;
+    }
     
     public void addCID(String cidname,String pathname, Multipart multipart){
         try{
@@ -264,5 +286,22 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
         }
         return "001";
     }   
+    
+    public boolean correoPrueba(){
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Email email = bd_C_SFEmailRemote.getEmail();
+        Calendar cal= new GregorianCalendar();
+        String[] data = new String[10];
+        data[0] = formato.format(cal.getTime()); //fecha
+        data[2] = "Correo de Prueba"; //asunto            
+        data[3] = email.getCorreo();
+        data[4] = "<p>Este es un correo de Prueba. Se configuro correctamente el Sistema de Evaluacion para docentes</p>";
+        data[7] = "2";   
+        return enviarCorreoHTML(data);
+    }
+    
+    public BeanMail getMail(){
+        return (BeanMail) mapper.map(bd_C_SFEmailRemote.getEmail(), BeanMail.class);
+    }
         
 }

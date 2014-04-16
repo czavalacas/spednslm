@@ -64,7 +64,7 @@ public class bConfigurarCuenta {
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
         if(sessionConfigurarCuenta.getExec() == 0){
-            sessionConfigurarCuenta.setImgSource("/imageservlet?nomusuario="+beanUsuario.getUsuario());
+            sessionConfigurarCuenta.setImgSource("/imageservlet?nomusuario="+beanUsuario.getNidUsuario());
             sessionConfigurarCuenta.setExec(1);            
         }
     }
@@ -154,7 +154,7 @@ public class bConfigurarCuenta {
                                                         sessionConfigurarCuenta.getRutaImg());
         sessionConfigurarCuenta.setRutaImg(null);
         Utils.mostrarMensaje(ctx,"Se modifico su imagen correctamente",null,3);
-        sessionConfigurarCuenta.setImgSource("/imageservlet?nomusuario="+beanUsuario.getUsuario());
+        sessionConfigurarCuenta.setImgSource("/imageservlet?nomusuario="+beanUsuario.getNidUsuario());
         Utils.addTarget(pimag);
         return null;
     }
