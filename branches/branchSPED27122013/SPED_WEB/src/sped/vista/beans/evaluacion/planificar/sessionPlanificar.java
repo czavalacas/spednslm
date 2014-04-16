@@ -111,6 +111,10 @@ public class sessionPlanificar {
     private String fNombres;
     private String tipoFichaCurs;
     private List lstTiposFichaCurso;
+    private boolean estadoChoiceTemporalNivel=true;
+    private boolean estadoChoiceTemporalDocente=true;
+    private boolean estadoChoiceTemporalCurso=true;
+    private boolean estadoChoiceTemporalAula=true;
     
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
@@ -815,5 +819,37 @@ public class sessionPlanificar {
 
     public List getLstTiposFichaCurso() {
         return lstTiposFichaCurso;
+    }
+
+    public void setEstadoChoiceTemporalNivel(boolean estadoChoiceTemporalNivel) {
+        this.estadoChoiceTemporalNivel = estadoChoiceTemporalNivel;
+    }
+
+    public boolean isEstadoChoiceTemporalNivel() {
+        return estadoChoiceTemporalNivel;
+    }
+
+    public void setEstadoChoiceTemporalDocente(boolean estadoChoiceTemporalDocente) {
+        this.estadoChoiceTemporalDocente = estadoChoiceTemporalDocente;
+    }
+
+    public boolean isEstadoChoiceTemporalDocente() {
+        return estadoChoiceTemporalDocente;
+    }
+
+    public void setEstadoChoiceTemporalCurso(boolean estadoChoiceTemporalCurso) {
+        this.estadoChoiceTemporalCurso = estadoChoiceTemporalCurso;
+    }
+
+    public boolean isEstadoChoiceTemporalCurso() {
+        return estadoChoiceTemporalCurso;
+    }
+
+    public void setEstadoChoiceTemporalAula(boolean estadoChoiceTemporalAula) {
+        this.estadoChoiceTemporalAula = estadoChoiceTemporalAula;
+    }
+
+    public boolean isEstadoChoiceTemporalAula() {
+        return estadoChoiceTemporalAula;
     }
 }
