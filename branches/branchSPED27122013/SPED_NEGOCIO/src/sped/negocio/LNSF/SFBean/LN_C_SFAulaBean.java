@@ -73,4 +73,18 @@ public class LN_C_SFAulaBean implements LN_C_SFAulaRemote,
         return lstBean;
     }
     
+    public List<BeanCombo> getAulaPorSedeNivelProfesorYCurso(String nidSede, String nidNivel, String dniProfesor, int nidAreaAcademica, String nidCurso){        
+        List<BeanCombo> lstBean = new ArrayList<BeanCombo>();
+        List<Aula> lstAula = bdL_C_SFAulaLocal.getAulaPorSedeNivelProfesorYArea(nidSede, nidNivel, dniProfesor, nidAreaAcademica, nidCurso);      
+        Iterator it=lstAula.iterator();
+        while(it.hasNext()){
+            Aula entida= (Aula)it.next();
+            BeanCombo bean=new BeanCombo();
+            bean.setId(entida.getNidAula());
+            bean.setDescripcion(entida.getDescripcionAula());
+            lstBean.add(bean);
+        }
+        return lstBean;
+    }
+    
 }

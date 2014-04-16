@@ -15,4 +15,5 @@ public interface BDL_C_SFProfesorLocal {
     int existeDni(String dni);
     List getNombreProfesor();
     String getDniProfe(String nombreCompleto);
+    List<Profesor> getProfesoresPorSedeNivelYArea(String nidSede, String nidNivel, Integer nidAreaAcademica);
 }

@@ -129,4 +129,18 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
             }
             return list;
         }
+    
+    public List<BeanCombo> getCursoPorSedeNivelyPofesor(String nidSede, String nidNivel, String dniProfesor, int nidAreaAcademica){
+            List<Curso> listaCursos=bdl_C_SFCursoLocal.getCursoPorSedeNivelProfesorYArea(nidSede, nidNivel, dniProfesor, nidAreaAcademica);
+            List<BeanCombo> list=new ArrayList<BeanCombo>();
+            Iterator it=listaCursos.iterator();
+            while(it.hasNext()){
+                Curso entida= (Curso)it.next();
+                BeanCombo bean=new BeanCombo();
+                bean.setId(entida.getNidCurso());
+                bean.setDescripcion(entida.getDescripcionCurso());
+                list.add(bean);
+            }
+            return list;
+        }
 }

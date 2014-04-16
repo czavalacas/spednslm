@@ -18,6 +18,7 @@ import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
 import sped.negocio.BDL.IR.BDL_C_SFCursoRemoto;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.Curso;
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.eval.Criterio;
 
 /** Clase SFBDL SFMainBean.java
@@ -132,4 +133,32 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
             e.printStackTrace();
             return null;
         }}
+    
+    public List<Curso> getCursoPorSedeNivelProfesorYArea(String nidSede, String nidNivel, String dniProfesor, Integer nidAreaAcademica) {
+        try {
+            String ejbQl =    " SELECT distinct cur FROM Main ma, " +
+                              " Curso cur , " +
+                              " Profesor prof," +
+                              " Aula au" +
+                              " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " +
+                              " and ma.aula.nidAula=au.nidAula " +
+                              " and au.gradoNivel.nivel.nidNivel=" +nidNivel+
+                              " and au.sede.nidSede=" +nidSede+
+                              " and ma.curso.nidCurso=cur.nidCurso" +
+                              " and prof.dniProfesor="+dniProfesor;
+
+            if (nidAreaAcademica != null) {
+                if (nidAreaAcademica != 0) {
+                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
+                }
+            }            
+            List<Curso> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 }

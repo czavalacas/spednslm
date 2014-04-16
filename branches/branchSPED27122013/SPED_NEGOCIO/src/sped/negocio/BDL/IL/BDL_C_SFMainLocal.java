@@ -31,5 +31,6 @@ public interface BDL_C_SFMainLocal {
                                            String curso,
                                            String aula);
     List<Main> getLstMainByAttr_BDL(BeanMain beanMain);
-    List<Main> getHorariosPorDocente(String dniDocente);;
+    List<Main> getHorariosPorDocente(String dniDocente);
+    Main getMainByAtrubutes(String nidAula, String nidCurso, String dniProfesor);
 }
