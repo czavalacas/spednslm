@@ -26,7 +26,9 @@
                             <af:button text="Evaluar" id="btnRegistrar" disabled="true"
                                         styleClass="FondoGrisLetraGris" binding="#{bEvaluar.btnRegistrar}"
                                         actionListener="#{bEvaluar.registrarEvaluacion}"/>
-                      </af:panelGroupLayout>
+                            <af:button text="" id="btnRefresh" icon="../recursos/img/usuarios/refresh.png" immediate="true"
+                                        styleClass="FondoGrisLetraGris" actionListener="#{bEvaluar.refrescarTablaPlanif}"/>
+                    </af:panelGroupLayout>
                       <af:panelCollection inlineStyle="width:inherit;">
                         <f:facet name="menus"/>
                         <f:facet name="toolbar">
@@ -97,11 +99,11 @@
                             </af:column>
                         </f:facet>
                         <af:column width="70" headerText="Puntaje" align="center">
-                            <af:inputNumberSpinbox id="ins1" columns="2" minimum="1" styleClass="evaluar" autoSubmit="true"
+                            <af:inputNumberSpinbox id="ins1" columns="1" minimum="0" styleClass="evaluar"
                                                        rendered="#{row.displaySpinBox}" value="#{row.valorSpinBox}"
                                                        maximum="#{sessionScope.sessionEvaluar.maxValor}"
-                                                       converter="javax.faces.Integer" 
-                                                       valueChangeListener="#{bEvaluar.cambiarValor}">
+                                                       converter="javax.faces.Integer" autoSubmit="true"
+                                                       valueChangeListener="#{bEvaluar.cambiarValor}" immediate="true">
                                    <f:attribute name="idcrit" value="#{row.nidCriterio}"/>
                                    <f:attribute name="idcritPapa" value="#{row.nidCriterioPadre}"/>
                             </af:inputNumberSpinbox>
@@ -109,6 +111,10 @@
                                                      value="#{row.valorInput}" readOnly="true"/>
                         </af:column>
                     </af:treeTable>
+                    <af:inputText label="Comentario" id="itCmmt" binding="#{bEvaluar.itCmmt}" rows="15"
+                                    visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
+                                    value="#{sessionScope.sessionEvaluar.comentarioEvaluador}" autoSubmit="true"
+                                    columns="60"/>
                 </af:panelGroupLayout>
             </f:facet>
         </af:panelSplitter>
