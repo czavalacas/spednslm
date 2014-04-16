@@ -48,6 +48,7 @@ import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
+import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.nav.RichCommandButton;
 import oracle.adf.view.rich.event.CalendarActivityEvent;
@@ -195,6 +196,8 @@ public class bPlanificarEva {
     private RichSelectOneChoice choiceAula;
     private RichInputDate horaInicioTemporal;
     private RichInputDate horaFinTemporal;
+    private HtmlOutputText outDatosEva2;
+    private RichPanelGroupLayout pl1;
 
 
     public bPlanificarEva() {
@@ -214,7 +217,7 @@ public class bPlanificarEva {
         sessionPlanificarEva.setNidPlanificador(beanUsuario.getNidUsuario());
         sessionPlanificarEva.setNidRol(beanUsuario.getRol().getNidRol());
         //rol=1 Director // rol=6 Administrador // Podran Asignar Evaluaciones
-        if (beanUsuario.getRol().getNidRol() == 1 || beanUsuario.getRol().getNidRol() == 6) {
+        if (beanUsuario.getRol().getNidRol() == 1 || beanUsuario.getRol().getNidRol() == 6 ||beanUsuario.getRol().getNidRol()==2 && beanUsuario.getIsSupervisor().equals("1")) {
             sessionPlanificarEva.setEstadoChoiceEvaluadores(true);           
         } 
        else {
@@ -804,8 +807,11 @@ public class bPlanificarEva {
             sessionPlanificarEva.setNidUsuario(usu.getNidUsuario().toString());
             sessionPlanificarEva.setNombreEvaluador(usu.getNombres());
             if(usu.getAreaAcademica()!=null ){
-            sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());}                    
-            Utils.addTarget(outDatosEva);
+            sessionPlanificarEva.setAreaEvaluador(usu.getAreaAcademica().getDescripcionAreaAcademica());
+            sessionPlanificarEva.setEstadoOutDatosEva1(true);
+            sessionPlanificarEva.setEstadoOutDatosEva2(true);
+                }                    
+            Utils.addTargetMany(outDatosEva,outDatosEva2,pl1);
             Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
             Utils.addTarget(calendar);
         }
@@ -1585,5 +1591,20 @@ public class bPlanificarEva {
         return horaFinTemporal;
     }
 
-   
+
+    public void setOutDatosEva2(HtmlOutputText outDatosEva2) {
+        this.outDatosEva2 = outDatosEva2;
+    }
+
+    public HtmlOutputText getOutDatosEva2() {
+        return outDatosEva2;
+    }
+
+    public void setPl1(RichPanelGroupLayout pl1) {
+        this.pl1 = pl1;
+    }
+
+    public RichPanelGroupLayout getPl1() {
+        return pl1;
+    }
 }
