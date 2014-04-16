@@ -115,6 +115,8 @@ public class sessionPlanificar {
     private boolean estadoChoiceTemporalDocente=true;
     private boolean estadoChoiceTemporalCurso=true;
     private boolean estadoChoiceTemporalAula=true;
+    private boolean estadoOutDatosEva1=false;
+    private boolean estadoOutDatosEva2=false;
     
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
@@ -851,5 +853,21 @@ public class sessionPlanificar {
 
     public boolean isEstadoChoiceTemporalAula() {
         return estadoChoiceTemporalAula;
+    }
+
+    public void setEstadoOutDatosEva1(boolean estadoOutDatosEva1) {
+        this.estadoOutDatosEva1 = estadoOutDatosEva1;
+    }
+
+    public boolean isEstadoOutDatosEva1() {
+        return estadoOutDatosEva1;
+    }
+
+    public void setEstadoOutDatosEva2(boolean estadoOutDatosEva2) {
+        this.estadoOutDatosEva2 = estadoOutDatosEva2;
+    }
+
+    public boolean isEstadoOutDatosEva2() {
+        return estadoOutDatosEva2;
     }
 }

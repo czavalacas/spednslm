@@ -2,7 +2,7 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
-        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+        <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;" binding="#{bPlanificarEva.pl1}">
             <af:panelGroupLayout halign="left">
                 <af:spacer height="10"/>
                 <af:outputText value="Registro de Asignaciones" id="otTituloU" styleClass="titulos"/>
@@ -11,8 +11,14 @@
             <af:panelFormLayout id="pfl2">
                 <af:button text="Seleccionar Evaluador"  id="b1" action="#{bPlanificarEva.popupEvaluadores}"
                            visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}"/>
-                <h:outputText value="#{sessionScope.sessionPlanificarEva.nombreEvaluador} #{sessionScope.sessionPlanificarEva.areaEvaluador}"
-                              id="ot4" binding="#{bPlanificarEva.outDatosEva}"/>
+                <af:spacer height="10"/>
+                <af:spacer height="10"/>
+                <h:outputText value="Asignar Evaluacion Para: #{sessionScope.sessionPlanificarEva.nombreEvaluador}"
+                              id="ot4" binding="#{bPlanificarEva.outDatosEva}" styleClass="titulos"
+                              rendered="#{sessionScope.sessionPlanificarEva.estadoOutDatosEva1}"/>
+                <h:outputText value="Area Academica : #{sessionScope.sessionPlanificarEva.areaEvaluador}"
+                              id="ot5" styleClass="titulos" binding="#{bPlanificarEva.outDatosEva2}"
+                              rendered="#{sessionScope.sessionPlanificarEva.estadoOutDatosEva2}"/>
             </af:panelFormLayout>
         </af:panelGroupLayout>
         <af:panelFormLayout id="pfl1">
@@ -127,7 +133,7 @@
                         <af:outputText value="#{row.profesor.apellidos} #{row.profesor.nombres}" id="ot1"/>
                     </af:column>
                     <af:column sortable="false" headerText="Curso" id="c5">
-                        <af:outputText value="#{row.curso.descripcionCurso}" id="ot5"/>
+                        <af:outputText value="#{row.curso.descripcionCurso}" id="ot15"/>
                     </af:column>
                     <af:column sortable="false" headerText="Grado" id="c3">
                         <af:outputText value="#{row.aula.gradoNivel.grado.descripcionGrado}" id="ot7"/>
