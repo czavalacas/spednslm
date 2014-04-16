@@ -28,7 +28,7 @@ public interface LN_C_SFUsuarioRemote {
     String getNombresUsuarioByNidUsuario_LN(int nidUsuario);
     List<BeanUsuario> getListUsuarioNoAdminLN(String nombre, String usuario, String nidRol);
     List getEvaluadores_LN();
-    List getDniUsuarios_LN();
-    List getNombresUsuarios_LN(int nidArea);
-    List getUsuarioUsuarios_LN(int nidArea);
+    List getDniUsuarios_LN(int nidArea, int nidRol);
+    List getNombresUsuarios_LN(int nidArea, int nidRol);
+    List getUsuarioUsuarios_LN(int nidArea, int nidRol);
 }

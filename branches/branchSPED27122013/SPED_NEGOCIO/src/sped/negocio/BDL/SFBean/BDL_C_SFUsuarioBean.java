@@ -171,7 +171,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
                     strQuery = strQuery.concat(" AND u.sedeNivel.nivel.nidNivel = :u_nidNivel ");
                 }
             }
-            strQuery = strQuery.concat(" ORDER BY u.nidUsuario DESC ");
+            strQuery = strQuery.concat(" ORDER BY u.estadoUsuario DESC , u.nombres ASC ");
             Query query = em.createQuery(strQuery);
             if(beanUsuario!=null){
                 if(beanUsuario.getNombres() != null){
@@ -301,11 +301,25 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
          * Metodo que retorna una lista con los dni de los usuarios
          * @return List
          */
-        public List getDniUsuarios(){
+        public List getDniUsuarios(int nidArea, int nidRol){
             try{
                 String qlString = " Select e.dni FROM Usuario e " +
-                                  " ORDER BY e.dni ASC ";
-                List lstdni = em.createQuery(qlString).getResultList();        
+                                  " WHERE 1 = 1 ";
+                if(nidArea != 0){
+                    qlString = qlString.concat(" AND e.areaAcademica.nidAreaAcademica = :nidArea ");
+                }
+                if(nidRol != 0){
+                    qlString = qlString.concat(" AND e.rol.nidRol = :nidRol");
+                }
+                qlString = qlString.concat(" ORDER BY e.dni ASC ");
+                Query query = em.createQuery(qlString);
+                if(nidArea != 0){
+                    query.setParameter("nidArea", nidArea);
+                }
+                if(nidRol != 0){
+                    query.setParameter("nidRol", nidRol);
+                }
+                List lstdni = query.getResultList();        
                 return lstdni;       
             }catch(Exception e){
                 e.printStackTrace();  
@@ -317,15 +331,25 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
          * Metodo que retorna una lista con los nombres de los usuarios
          * @return List
          */
-        public List getNombresUsuarios(int nidArea){
+        public List getNombresUsuarios(int nidArea, int nidRol){
             try{
                 String qlString = " Select e.nombres FROM Usuario e " +
                                   " WHERE 1 = 1 ";
                 if(nidArea != 0){
-                    qlString = qlString.concat(" AND e.areaAcademica.nidAreaAcademica = "+nidArea);
+                    qlString = qlString.concat(" AND e.areaAcademica.nidAreaAcademica = :nidArea ");
+                }
+                if(nidRol != 0){
+                    qlString = qlString.concat(" AND e.rol.nidRol = :nidRol");
                 }
                 qlString = qlString.concat(" ORDER BY e.nombres ASC");
-                List lstnom = em.createQuery(qlString).getResultList();        
+                Query query = em.createQuery(qlString);
+                if(nidArea != 0){
+                    query.setParameter("nidArea", nidArea);
+                }
+                if(nidRol != 0){
+                    query.setParameter("nidRol", nidRol);
+                }
+                List lstnom = query.getResultList();        
                 return lstnom;       
             }catch(Exception e){
                 e.printStackTrace();  
@@ -337,15 +361,25 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
          * Metodo que retorna una lista con los nombres de usuario de los Usuarios
          * @return List
          */
-        public List getUsuarioUsuarios(int nidArea){
+        public List getUsuarioUsuarios(int nidArea, int nidRol){
             try{
                 String qlString = " Select e.usuario FROM Usuario e " +
                                   " WHERE 1 = 1 ";
                 if(nidArea != 0){
-                    qlString = qlString.concat(" AND e.areaAcademica.nidAreaAcademica = "+nidArea);
+                    qlString = qlString.concat(" AND e.areaAcademica.nidAreaAcademica = :nidArea ");
                 }
-                qlString = qlString.concat(" ORDER BY e.nombres ASC");
-                List lstnom = em.createQuery(qlString).getResultList();        
+                if(nidRol != 0){
+                    qlString = qlString.concat(" AND e.rol.nidRol = :nidRol");
+                }
+                qlString = qlString.concat(" ORDER BY e.usuario ASC ");
+                Query query = em.createQuery(qlString);
+                if(nidArea != 0){
+                    query.setParameter("nidArea", nidArea);
+                }
+                if(nidRol != 0){
+                    query.setParameter("nidRol", nidRol);
+                }
+                List lstnom = query.getResultList();        
                 return lstnom;       
             }catch(Exception e){
                 e.printStackTrace();  

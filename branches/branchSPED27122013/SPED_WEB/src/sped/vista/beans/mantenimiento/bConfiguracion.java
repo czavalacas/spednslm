@@ -12,6 +12,10 @@ import java.io.OutputStream;
 
 import java.util.GregorianCalendar;
 
+import javax.annotation.PostConstruct;
+
+import javax.ejb.EJB;
+
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
@@ -19,21 +23,56 @@ import javax.imageio.ImageIO;
 
 import javax.servlet.ServletContext;
 
+import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.input.RichInputFile;
 
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 
+import oracle.adf.view.rich.event.DialogEvent;
+
 import org.apache.myfaces.trinidad.model.UploadedFile;
+
+import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
+import sped.negocio.LNSF.IR.LN_T_SFCorreoRemote;
+import sped.negocio.LNSF.IR.LN_T_SFImagenRemote;
+
+import sped.negocio.entidades.beans.BeanMail;
+import sped.negocio.entidades.beans.BeanMain;
 
 import sped.vista.Utils.Utils;
 
 public class bConfiguracion {
+    @EJB
+    private LN_T_SFImagenRemote ln_T_SFImagenRemote;
+    @EJB
+    private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
+    @EJB
+    private LN_T_SFCorreoRemote ln_T_SFCorreoRemote;
     private bSessionConfiguracion sessionConfiguracion;
     private RichInputFile fileImg;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private RichPanelFormLayout pimag;
+    private RichPopup popClave;
+    private String clave;
 
     public bConfiguracion() {
+    }
+    
+    @PostConstruct
+    public void methodInvokeOncedOnPageLoad() {
+        if(sessionConfiguracion.getExec() == 0){
+            sessionConfiguracion.setImgSource("/imageservlet?nomusuario=lol");//pongo un cadena para que el servelet coja la imagen de la tabla por default
+            sessionConfiguracion.setExec(1);
+            llenarCamposCorreo();
+        }
+    }
+    
+    public void llenarCamposCorreo(){
+        BeanMail mail = ln_C_SFCorreoRemote.getMail();
+        sessionConfiguracion.setCorreo(mail.getCorreo());
+        sessionConfiguracion.setPuerto(mail.getPuerto());
+        sessionConfiguracion.setHost(mail.getHost());
+        
     }
     
     public void uploadFileValueChangeEvent(ValueChangeEvent valueChangeEvent) {
@@ -85,6 +124,36 @@ public class bConfiguracion {
             ImageIO.write(dest, "JPG", output);
             output.close();
     }
+    
+    public String cambiarImagen() {
+        ln_T_SFImagenRemote.guardarImagen(sessionConfiguracion.getRutaImg());
+        sessionConfiguracion.setImgSource("/imageservlet?nomusuario=lol");
+        sessionConfiguracion.setRutaImg(null);
+        Utils.mostrarMensaje(ctx,"Se modifico la imagen por default correctamente",null,3);
+        Utils.addTarget(pimag);
+        return null;
+    }
+    
+    public String abrirPopUpConfirmacion() {
+        Utils.showPopUpMIDDLE(popClave);
+        return null;
+    }
+    
+    public void dialogClaveListener(DialogEvent dialogEvent) {
+        DialogEvent.Outcome outcome = dialogEvent.getOutcome();
+        if(outcome == DialogEvent.Outcome.ok){  
+            ln_T_SFCorreoRemote.guardarParametros(sessionConfiguracion.getCorreo(), 
+                                                  clave, 
+                                                  sessionConfiguracion.getHost(), 
+                                                  sessionConfiguracion.getPuerto());
+            if(ln_C_SFCorreoRemote.correoPrueba()){
+                Utils.mostrarMensaje(ctx,"Se modifico los parametros del correo. Se le enviara un correo de Prueba",null,3);
+            }else{
+                Utils.mostrarMensaje(ctx,"Ocurrio un Error. Los datos ingresados son incorrectos. " +
+                                         "Vuelva a configurar los parametros del correo",null,1);
+            } 
+        }
+    }
 
     public void setSessionConfiguracion(bSessionConfiguracion sessionConfiguracion) {
         this.sessionConfiguracion = sessionConfiguracion;
@@ -110,8 +179,19 @@ public class bConfiguracion {
         return pimag;
     }
 
-    public String cambiarImagen() {
-        // Add event code here...
-        return null;
+    public void setPopClave(RichPopup popClave) {
+        this.popClave = popClave;
     }
+
+    public RichPopup getPopClave() {
+        return popClave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getClave() {
+        return clave;
+    }    
 }

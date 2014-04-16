@@ -97,7 +97,8 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             u.setCorreo(correo);
             u.setRol(rol);
             u.setAreaAcademica(area);
-            u.setUsuario(usuario);            
+            u.setUsuario(usuario);   
+            u.setIsSupervisor((rol.getNidRol() == 2 && isSupervisor) ? "1" : "0");
             if(rutaImg != null){
                 u.setFoto(Utiles.Imagen(rutaImg));
             }
@@ -105,8 +106,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                 u.setEstadoUsuario("1");
                 u.setClave(usuario);
                 ln_C_SFCorreoLocal.recuperarClave(correo, 1, rutaImagenes);//envia correo por primera vez
-                u.setIsNuevo("1");
-                u.setIsSupervisor((rol.getNidRol() == 2 && isSupervisor) ? "1" : "0");
+                u.setIsNuevo("1");                
                 bdL_T_SFUsuarioLocal.persistUsuario(u);
                 ln_C_SFUsuarioPermisoLocal.insertUsuarioPermisobyUsuario(u, null);
                 return;
@@ -120,7 +120,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
         }
         if(tipoEvento > 1){
             bdL_T_SFUsuarioLocal.mergeUsuario(u);
-            if(r != u.getRol()){
+            if(tipoEvento == 2){
                 ln_C_SFUsuarioPermisoLocal.updateUsuarioPermisobyUsuario(u);
             }            
         }
