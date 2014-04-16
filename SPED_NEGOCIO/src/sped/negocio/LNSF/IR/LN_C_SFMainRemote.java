@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanMainWS;
@@ -29,4 +30,5 @@ public interface LN_C_SFMainRemote {
                                          String curso,
                                          String aula);
     List<BeanMain> getLstMainByAttr_LN(String nidAula);
+    Main getMainPorSedeNivelYCurso(String nidAula, String nidCurso, String dniProfesor);
 }

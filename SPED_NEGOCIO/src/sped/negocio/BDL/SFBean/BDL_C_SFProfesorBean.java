@@ -146,7 +146,31 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
         }
     }
     
-    
+    public List<Profesor> getProfesoresPorSedeNivelYArea(String nidSede, String nidNivel, Integer nidAreaAcademica) {
+        try {
+            String ejbQl =    " SELECT distinct prof FROM Main ma, " +
+                              " Curso cur , " +
+                              " Profesor prof," +
+                              " Aula au" +
+                              " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " +
+                              " and ma.aula.nidAula=au.nidAula " +
+                              " and au.gradoNivel.nivel.nidNivel=" +nidNivel+
+                              " and au.sede.nidSede=" +nidSede+
+                              " and ma.curso.nidCurso=cur.nidCurso";
+
+            if (nidAreaAcademica != null) {
+                if (nidAreaAcademica != 0) {
+                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
+                }
+            }            
+            List<Profesor> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
  
     
 }

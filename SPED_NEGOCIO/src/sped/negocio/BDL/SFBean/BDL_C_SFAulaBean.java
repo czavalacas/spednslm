@@ -20,6 +20,7 @@ import sped.negocio.BDL.IL.BDL_C_SFAulaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFAulaRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Aula;
+import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.beans.BeanAula;
 
 @Stateless(name = "BDL_C_SFAula", mappedName = "map-BDL_C_SFAula")
@@ -87,4 +88,33 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
             e.printStackTrace();
             return null;
         }}
+    
+    public List<Aula> getAulaPorSedeNivelProfesorYArea(String nidSede, String nidNivel, String dniProfesor, Integer nidAreaAcademica, String nidCurso) {
+        try {
+            String ejbQl =    " SELECT distinct au FROM Main ma, " +
+                              " Curso cur , " +
+                              " Profesor prof," +
+                              " Aula au" +
+                              " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " +
+                              " and ma.aula.nidAula=au.nidAula " +
+                              " and au.gradoNivel.nivel.nidNivel=" +nidNivel+
+                              " and au.sede.nidSede=" +nidSede+
+                              " and ma.curso.nidCurso=cur.nidCurso" +
+                              " and prof.dniProfesor="+dniProfesor+"" +
+                              " and cur.nidCurso="+nidCurso;
+
+            if (nidAreaAcademica != null) {
+                if (nidAreaAcademica != 0) {
+                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
+                }
+            }            
+            List<Aula> lstMain = em.createQuery(ejbQl).getResultList();
+            return lstMain;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 }

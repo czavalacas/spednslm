@@ -119,4 +119,18 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
         return bdl_C_SFProfesorLocal.getDniProfe(nombreCompleto);
     }
     
+    public List<BeanComboString> getPRofesorPorSedeYNivel(String nidSede, String nidNivel, int nidAreaAcademica){        
+            List<BeanComboString> lstBean = new ArrayList<BeanComboString>();
+            List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.getProfesoresPorSedeNivelYArea(nidSede, nidNivel, nidAreaAcademica);
+          Iterator it=lstProfesores.iterator();
+          while(it.hasNext()){
+            Profesor entida=(Profesor)it.next();
+            BeanComboString bean=new BeanComboString();
+            bean.setId(entida.getDniProfesor());
+            bean.setDescripcion(entida.getApellidos()+" "+entida.getNombres());
+            lstBean.add(bean);          
+          }
+            return lstBean;
+        } 
+    
 }

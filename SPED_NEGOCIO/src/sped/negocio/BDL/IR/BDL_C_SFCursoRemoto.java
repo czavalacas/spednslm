@@ -14,4 +14,5 @@ public interface BDL_C_SFCursoRemoto {
     List<Curso> findCursosPorAreaAcademica_ByOrden(String nidAreaAcademica, String nidSede);
     int getNidCursoByDescripcion(String descripcion);
     List<Curso> getCursosbyAreas(String nidAreaAcademica) ;
+    List<Curso> getCursoPorSedeNivelProfesorYArea(String nidSede, String nidNivel, String dniProfesor, Integer nidAreaAcademica);
 }
