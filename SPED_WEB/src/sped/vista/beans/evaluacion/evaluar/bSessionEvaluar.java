@@ -19,6 +19,15 @@ public class bSessionEvaluar {
     private int maxValor;
     private double notaFinal;
     private String estiloFinal;
+    private String comentarioEvaluador;
+
+    public void setComentarioEvaluador(String comentarioEvaluador) {
+        this.comentarioEvaluador = comentarioEvaluador;
+    }
+
+    public String getComentarioEvaluador() {
+        return comentarioEvaluador;
+    }
 
     public void setNotaFinal(double notaFinal) {
         this.notaFinal = notaFinal;

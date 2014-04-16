@@ -157,17 +157,17 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public String registrarEvaluacion_LN_Web(List<BeanCriterio> lstBeanIndiVal,
-                                              Integer nidEvaluacion,
-                                              Integer nidUsuario,
-                                              String comentarioEvaluador){
+    public BeanError registrarEvaluacion_LN_Web(List<BeanCriterio> lstBeanIndiVal,
+                                                 Integer nidEvaluacion,
+                                                 Integer nidUsuario,
+                                                 String comentarioEvaluador){
         BeanError beanError = new BeanError();
         String error = "000";
         try {
             CriterioIndicador ci = null;
-            Resultado resultado = null;
             Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(nidEvaluacion);
             for (BeanCriterio _beanIV : lstBeanIndiVal) {
+                Resultado resultado = null;
                 for(BeanCriterio beanIV : _beanIV.getLstIndicadores()){
                     ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCriterio());
                     _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());
@@ -191,10 +191,9 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         }catch (Exception e) {
             e.printStackTrace();
             error = "111";
-            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
-            error = beanError.getDescripcionError();
         }
-        return error;
+        beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+        return beanError;
     }
     
     public String updateEvaluacionbyComentarioProfesor(int idEvaluacion,
