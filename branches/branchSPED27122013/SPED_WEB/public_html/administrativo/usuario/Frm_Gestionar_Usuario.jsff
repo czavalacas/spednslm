@@ -95,7 +95,8 @@
                 </f:facet>
                 <f:facet name="statusbar"/>
                 <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" 
-                          id="t2" width="inherit;" fetchSize="50" 
+                          id="t2" width="inherit;" fetchSize="25" 
+                          inlineStyle="width:inherit; margin:0px 50px 0px 0px;"
                           binding="#{bGestionarUsuarios.t1}" rowSelection="single" 
                           selectionListener="#{bGestionarUsuarios.selecionarUsuario}" >
                     <af:column sortable="true" headerText="Nombres" align="start" id="c1" width="300"
@@ -114,14 +115,14 @@
                         <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot3"/>
                     </af:column>
                     <af:column id="c2" sortable="true" headerText="Supervisor" align="center"
-                               sortProperty="isSupervisor">
+                               sortProperty="isSupervisor" width="50">
                         <af:outputText value="#{row.isSupervisor == '1' ? 'Si' : 'No'}" id="ot2"/>
                     </af:column>
                     <af:column sortable="true" headerText="Usuario" align="start" id="c4" sortProperty="usuario">
                         <af:outputText value="#{row.usuario}" id="ot4"/>
                     </af:column>
                     <af:column sortable="true" headerText="Correo" align="start" id="c10" sortProperty="correo"
-                               width="150">
+                               width="180">
                         <af:outputText value="#{row.correo}" id="ot10"/>
                     </af:column>
                     <af:column sortable="true" headerText="Estado" align="start" id="c6"
