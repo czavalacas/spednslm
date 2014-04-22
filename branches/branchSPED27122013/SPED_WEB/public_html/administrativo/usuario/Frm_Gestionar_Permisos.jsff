@@ -72,7 +72,7 @@
                 <af:button id="b4" action="#{bGestionarPermisos.limpiarFiltro}" icon="../recursos/img/usuarios/refresh.png"/>
                 <af:spacer height="10" id="s5"/>
                 <af:table value="#{sessionGestionarPermisos.lstUsuarios}" var="row" rowBandingInterval="0" id="tUsu"
-                          rowSelection="single"  selectionListener="#{bGestionarPermisos.seleccionarUsuario}"
+                          rowSelection="single"  selectionListener="#{bGestionarPermisos.seleccionarUsuario}" fetchSize="25"
                           width="710" binding="#{bGestionarPermisos.tusu}">
                     <af:column sortable="true" headerText="Nombres" align="start" id="c2" width="260" 
                                sortProperty="nombres">
