@@ -12,19 +12,19 @@
                 <af:button text="Seleccionar Evaluador"  id="b1" action="#{bPlanificarEva.popupEvaluadores}"
                            visible="#{sessionScope.sessionPlanificarEva.estadoChoiceEvaluadores}"/>
                 <af:spacer height="10"/>
-                <af:spacer height="10"/>
+               <!-- <af:spacer height="10"/>-->
                 <h:outputText value="Asignar Evaluacion Para: #{sessionScope.sessionPlanificarEva.nombreEvaluador}"
-                              id="ot4" binding="#{bPlanificarEva.outDatosEva}" styleClass="titulos"
+                              id="ot4" binding="#{bPlanificarEva.outDatosEva}" styleClass="subTitulos"
                               rendered="#{sessionScope.sessionPlanificarEva.estadoOutDatosEva1}"/>
                 <h:outputText value="Area Academica : #{sessionScope.sessionPlanificarEva.areaEvaluador}"
-                              id="ot5" styleClass="titulos" binding="#{bPlanificarEva.outDatosEva2}"
+                              id="ot5" styleClass="subTitulos" binding="#{bPlanificarEva.outDatosEva2}"
                               rendered="#{sessionScope.sessionPlanificarEva.estadoOutDatosEva2}"/>
             </af:panelFormLayout>
         </af:panelGroupLayout>
         <af:panelFormLayout id="pfl1">
-            <af:panelStretchLayout id="psl1">
+            <af:panelStretchLayout id="psl1" topHeight="10px">
                 <f:facet name="bottom">
-                    <af:spacer width="10" height="10" id="s4"/>
+                  <!--  <af:spacer width="10" height="10" id="s4"/>-->
                 </f:facet>
                 <f:facet name="center">
                     <af:calendar value="#{bindings.EvmevalView1.calendarModel}" id="c1"
@@ -42,7 +42,7 @@
                     <af:spacer width="10" height="10" id="s2"/>
                 </f:facet>
                 <f:facet name="top">
-                    <af:spacer width="10" height="10" id="s1"/>
+                    <af:spacer width="5" height="10" id="s1"/>
                 </f:facet>
             </af:panelStretchLayout>
         </af:panelFormLayout>
@@ -324,7 +324,7 @@
                 </af:selectOneChoice>
                 <af:spacer width="10" height="10" id="s7"/>         
                 <af:table var="row" rowBandingInterval="0" id="t2" varStatus="vs" 
-                          inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
+                          fetchSize="20"
                           value="#{sessionScope.sessionPlanificarEva.listBeanUsua}" rowSelection="single"
                           selectionListener="#{bPlanificarEva.seleccionarEvaluador}"
                           binding="#{bPlanificarEva.tbEvaluadores}">
@@ -563,7 +563,7 @@
                                            disabled="false" />
                             </af:gridCell>
                             <af:gridCell marginStart="1px" width="auto" id="gc77">                               
-                                          <!-- disabled="#{sessionScope.sessionPlanificarEva.estadoAsignarEvaluacion}-->"
+                                          <!-- disabled="#{sessionScope.sessionPlanificarEva.estadoAsignarEvaluacion}"-->
                             </af:gridCell>
                         </af:gridRow>
                     </af:panelGridLayout>

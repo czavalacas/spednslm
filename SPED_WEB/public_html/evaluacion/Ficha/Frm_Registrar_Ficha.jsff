@@ -28,7 +28,7 @@
                                    actionListener="#{bRegistrarFicha.nuevaFicha}"
                                    binding="#{bRegistrarFicha.btnNewFicha}"
                                    styleClass="#{sessionScope.sessionRegistrarFicha.styleClass}"/>
-                        <af:button text="Ingresar" id="btnEditFicha" disabled="true" styleClass="FondoGrisLetraGris"
+                        <af:button text="Editar" id="btnEditFicha" disabled="true" styleClass="FondoGrisLetraGris"
                                    binding="#{bRegistrarFicha.btnEditFicha}"
                                    actionListener="#{bRegistrarFicha.editarFicha}"/>
                         <af:button text="Usar como Base" id="btnBase" disabled="true"
@@ -286,7 +286,7 @@
                 <af:table value="#{sessionScope.sessionRegistrarFicha.lstIndicadoresByCriterio}" var="row"
                           rowBandingInterval="0" id="tbIndCr" rowSelection="single" varStatus="vs"
                           binding="#{bRegistrarFicha.tbIndCr}" emptyText="No hay Indicadores asignados"
-                          selectionListener="#{bRegistrarFicha.selectIndicadorByCriterio}" width="500"
+                          selectionListener="#{bRegistrarFicha.selectIndicadorByCriterio}" 
                           autoHeightRows="0" columnStretching="column:c11">
                     <af:column sortable="true" headerText="Codigo" align="end" id="c10" width="35"
                                sortProperty="nidIndicador">

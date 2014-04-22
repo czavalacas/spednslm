@@ -118,7 +118,8 @@
                 <f:facet name="first">
                     <af:panelFormLayout>
                         <af:selectOneChoice label="Grafico" id="smc1" autoSubmit="true"
-                                            valueChangeListener="#{bParteOcurrencia.cambioTipoGrafico}">
+                                               rendered="#{sessionScope.sessionParteOcurrencia.lstNotifPOs.size() > 0}"
+                                               valueChangeListener="#{bParteOcurrencia.cambioTipoGrafico}">
                             <af:selectItem label="Grafico Torta - Pie" value="P" id="si1"/>
                             <af:selectItem label="Grafico de Barras" value="B" id="si2"/>
                             <af:selectItem label="Grafico Tipo Radar" value="R" id="si3"/>
@@ -214,7 +215,7 @@
                                               rendered="#{sessionScope.sessionParteOcurrencia.renderedRadar}"
                                               binding="#{bParteOcurrencia.gradar}" dataSelection="multiple"
                                               dynamicResize="DYNAMIC_SIZE" drillingEnabled="true"
-                                              inlineStyle="width:920px;">
+                                              inlineStyle="width:920px;" renderImagemap="false">
                                 <dvt:background>
                                     <dvt:specialEffects/>
                                 </dvt:background>
