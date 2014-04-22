@@ -65,16 +65,12 @@ public class LN_C_SFUsuarioPermisoBean implements LN_C_SFUsuarioPermisoRemote,
         }else{
             List<UsuarioPermiso> lstUsuarioPermiso = bdL_C_SFUsuarioPermisoLocal
                                                         .getUsuarioPermisoByUsuario(usuario);
-            System.out.println("Usuarios permisos"+lstUsuarioPermiso.size());
             List<RolPermiso> lstRolPermiso = bdL_C_SFRolPermisoLocal
                                                         .getPermisosByRolBDL(usuario.getRol()); 
-            System.out.println("Permisos ROL 1"+lstRolPermiso.size());
             validaSupervisorArea(usuario, lstRolPermiso);
-            System.out.println("Permisos ROL 2"+lstRolPermiso.size());
             while(valida){
                 int nidUsuarioPermiso = lstUsuarioPermiso.get(0).getRolPermiso().getPermiso().getNidPermiso();
                 int nidRolPermiso = lstRolPermiso.get(0).getPermiso().getNidPermiso();
-                System.out.println("Permiso usuario  "+nidUsuarioPermiso+"  permiso rol"+nidRolPermiso);
                 if(nidUsuarioPermiso == nidRolPermiso){
                     UsuarioPermiso up = lstUsuarioPermiso.get(0);
                     up.setRolPermiso(lstRolPermiso.get(0));
