@@ -237,7 +237,7 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         try{
             String qlString = this.getSelectBasicoBeanCombo(id, desc, "Rol") +
                                " WHERE e.nidRol = 2 OR " +
-                               " e.nidRol = 4" +
+                               " e.nidRol = 4 " +
                                "ORDER BY e.descripcionRol ASC";
             List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
             return lstUsuarios;       
@@ -337,6 +337,27 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
             String qlString = this.getSelectBasicoBeanCombo(id, desc, "Rol") +
                                " WHERE e.nidRol <> 6 " +
                                "ORDER BY e.descripcionRol ASC";
+            List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
+            return lstUsuarios;       
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
+    }
+    
+    /**
+     * Lista de los evaluadores de area por su nidArea
+     * @param id
+     * @param desc
+     * @param nidArea
+     * @return
+     */
+    public List<BeanCombo> getEvaluadoresByArea(String id, String desc, int nidArea){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Usuario") +
+                               " WHERE e.rol.nidRol = 2 " +
+                               " AND e.areaAcademica.nidAreaAcademica = " + nidArea +
+                               " ORDER BY e.nombres ASC ";
             List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
             return lstUsuarios;       
         }catch(Exception e){

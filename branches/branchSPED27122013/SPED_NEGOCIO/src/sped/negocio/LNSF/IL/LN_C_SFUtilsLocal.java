@@ -33,4 +33,5 @@ public interface LN_C_SFUtilsLocal {
     List<BeanCombo> getCursosByArea_LN(int nidArea);
     List<BeanComboString> getProfesor_LN();
     List<BeanCombo> getRol_LN();
+    List<BeanCombo> getEvaluadoresByArea_LN(int nidArea);
 }

@@ -39,5 +39,6 @@ public interface BDL_C_SFUtilsRemote {
     List<BeanCombo> getCursosByArea(String id, String desc, int nidArea);
     List<BeanComboString> getProfesor(String id, String desc);
     List<BeanCombo> getRolNoAdmin(String id, String desc);
+    List<BeanCombo> getEvaluadoresByArea(String id, String desc, int nidArea);
 }
 
