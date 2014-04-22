@@ -140,8 +140,7 @@ public class bDesempenoEvaluador {
         if(sessionDesempenoEvaluador.getExec() == 0) {
             sessionDesempenoEvaluador.setLstRol(Utils.llenarCombo(ln_C_SFUtilsRemote.getRolEvaluadores_LN()));
             sessionDesempenoEvaluador.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
-            sessionDesempenoEvaluador.setLstArea(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));    
-            sessionDesempenoEvaluador.setLstEvaluador(Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadores_LN_WS()));
+            sessionDesempenoEvaluador.setLstArea(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));                
             sessionDesempenoEvaluador.setFechaActual(Utils.removeTime(cal.getTime()));
             cal.add(Calendar.MONTH, -1);
             sessionDesempenoEvaluador.setFechaAnterior(Utils.removeTime(cal.getTime()));                      
@@ -156,7 +155,13 @@ public class bDesempenoEvaluador {
     }
     
     public void validarRol(){
-        int nidRol = beanUsuario.getRol().getNidRol();                
+        int nidRol = beanUsuario.getRol().getNidRol();      
+        if(nidRol == 2){
+            sessionDesempenoEvaluador.setLstEvaluador(
+                Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadoresByArea_LN(beanUsuario.getAreaAcademica().getNidAreaAcademica()))); 
+        }else{
+            sessionDesempenoEvaluador.setLstEvaluador(Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadores_LN_WS()));
+        }
         if(nidRol == 2 || nidRol == 4 || nidRol == 5){
             sessionDesempenoEvaluador.setRenderFRol(true);
             List lstrol = new ArrayList();
@@ -172,8 +177,8 @@ public class bDesempenoEvaluador {
                 sessionDesempenoEvaluador.setRenderFSede(true);                
                 lstseni.add(beanUsuario.getSede().getNidSede()+"");
                 sessionDesempenoEvaluador.setSelectedSede(lstseni);
-            }
-            sessionDesempenoEvaluador.setRenderFEvaluador(true);
+                sessionDesempenoEvaluador.setRenderFEvaluador(true);
+            }            
             List lstEva = new ArrayList();
             lstEva.add(beanUsuario.getNidUsuario()+"");
             sessionDesempenoEvaluador.setSelectedEvaluador(lstEva);
