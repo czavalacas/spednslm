@@ -20,7 +20,7 @@ import sped.negocio.entidades.sist.Rol;
 
 @Stateless(name = "BD_C_SFRol", mappedName = "SPED_APP-SPED_NEGOCIO-BD_C_SFRol")
 public class BDL_C_SFRolBean implements BDL_C_SFRolRemote, 
-                                        BDL_C_SFRolLocal {
+                                           BDL_C_SFRolLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -68,5 +68,30 @@ public class BDL_C_SFRolBean implements BDL_C_SFRolRemote,
             e.printStackTrace();
             return null;
         }        
+    }
+    
+    public boolean isSubDirectorByNidUsuario(Integer nidUsuario){
+        try{
+            String qlString = "SELECT r.nidRol " +
+                              "FROM Rol r," +
+                              "     Usuario u " +
+                              "WHERE u.rol.nidRol = r.nidRol" +
+                              "AND u.nidUsuario = :nidUsuario ";
+            List<Object> nidRol = em.createQuery(qlString)
+                                .setParameter("nidUsuario",nidUsuario)
+                                .getResultList();
+            if(nidRol != null){
+                if(nidRol.size() > 0){
+                    int rol = (Integer) nidRol.get(0);
+                    if(rol == 4){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

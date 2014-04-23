@@ -35,7 +35,7 @@
                </af:gridRow>     
             </af:panelGridLayout>
         
-             <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="200px"
+             <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="150px"
                                                            bottomHeight="33%">
                     <f:facet name="center">
                         <af:panelGroupLayout halign="center" layout="vertical">
@@ -49,15 +49,15 @@
                                                 <af:panelBox text="Iniciar Sesion" id="pb1" showDisclosure="false">
                                                     <af:subform id="s1" defaultCommand="btnInicio">
                                                         <af:panelFormLayout id="pfl1">
-                                                            <af:inputText label="Usuario" id="itUsuario" required="true"
-                                                                          clientComponent="true"
-                                                                          labelStyle="text-align: left;"
-                                                                          styleClass="titulos" value="#{bLogin.usuario}">
+                                                            <af:inputText label="Usuario" id="itUsuario"
+                                                                            clientComponent="true"
+                                                                            labelStyle="text-align: left;"
+                                                                            styleClass="titulos" value="#{bLogin.usuario}">
                                                                 <f:converter converterId="lowerconverter"/>
                                                             </af:inputText>
                                                             <af:inputText label="Clave" id="itClave" secret="true"
-                                                                          required="true" labelStyle="text-align: left;"
-                                                                          value="#{bLogin.clave}">
+                                                                            labelStyle="text-align: left;"
+                                                                            value="#{bLogin.clave}">
                                                                 <f:converter converterId="lowerconverter"/>
                                                             </af:inputText>
                                                             <af:button text="Ingresar" id="btnInicio"
