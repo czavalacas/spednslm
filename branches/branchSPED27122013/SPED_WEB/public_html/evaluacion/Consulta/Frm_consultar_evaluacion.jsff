@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
-                xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:f="http://java.sun.com/jsf/core" >
     <f:view>
         <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;" id="pgl3">
             <af:panelGroupLayout halign="left" id="pgl4">
@@ -91,7 +91,9 @@
                 </af:panelGroupLayout>
             </af:subform>
             <af:spacer width="10" height="10" id="s5"/>
-            <af:button id="b1" immediate="true" text="Exportar a Excel">
+            <af:button id="bExcel" immediate="true" text="Exportar a Excel" 
+                       rendered="#{sessionConsultarEvaluacion.renderExcel}"
+                       binding="#{bConsultarEvaluacion.bexcel}">
                 <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:tbEval"
                                                    filename="Consulata_Evaluacion.xls" title="Evaluaciones"/>
             </af:button>
