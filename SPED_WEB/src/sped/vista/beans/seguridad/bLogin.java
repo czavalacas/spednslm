@@ -55,6 +55,11 @@ public class bLogin implements Serializable {
     }
 
     public void autenticarUsuario(ActionEvent actionEvent) {
+        if(getUsuario() == null || getClave() == null){
+            setMsjError("Ingrese su usuario y clave");
+            Utils.addTarget(otError);
+            return;
+        }
         BeanUsuario beanUsuario = ln_C_SFUsuarioLocal.autenticarUsuarioLN(getUsuario(),getClave());
         if(beanUsuario.getError() != null){
             if(beanUsuario.getError().getCidError().equals("000")){

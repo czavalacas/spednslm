@@ -26,7 +26,7 @@ import sped.negocio.entidades.sist.Rol;
 
 @Stateless(name = "LN_C_SFRol", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFRol")
 public class LN_C_SFRolBean implements LN_C_SFRolRemote, 
-                                       LN_C_SFRolLocal {
+                                          LN_C_SFRolLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -77,5 +77,9 @@ public class LN_C_SFRolBean implements LN_C_SFRolRemote,
             me.printStackTrace();
             return null;
         }  
+    }
+    
+    public boolean isSubDirectorByNidUsuario_LN(Integer nidUsuario){
+        return bdL_C_SFRolLocal.isSubDirectorByNidUsuario(nidUsuario);
     }
 }
