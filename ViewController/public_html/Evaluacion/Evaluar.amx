@@ -82,7 +82,7 @@
                     </amx:listView>
                     <amx:panelGroupLayout layout="horizontal" halign="center" valign="middle">
                         <amx:commandLink actionListener="#{viewScope.bEvaluar.evaluarDocente}">
-                            <amx:image source="/resources/img/registr.png"/>
+                            <amx:image source="/resources/img/regeva2.png" inlineStyle="height:14px; width:70px;"/>
                         </amx:commandLink>
                       
                     </amx:panelGroupLayout>
