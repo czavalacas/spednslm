@@ -12,4 +12,5 @@ public interface BDL_C_SFRolRemote {
     Rol findConstrainById(int id);
     int getIdbyDescripcion(String descripcion);
     List<Rol> getListRolbyNombreBDL(String descripcion);
+    boolean isSubDirectorByNidUsuario(Integer nidUsuario);
 }

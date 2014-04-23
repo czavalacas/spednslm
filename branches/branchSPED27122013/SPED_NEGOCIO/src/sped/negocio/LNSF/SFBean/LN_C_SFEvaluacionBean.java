@@ -29,6 +29,7 @@ import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.BDL.IL.BDL_C_SFValorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
+import sped.negocio.LNSF.IL.LN_C_SFRolLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.AreaAcademica;
@@ -74,6 +75,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     private BDL_C_SFProblemaLocal bdL_C_SFProblemaLocal;
     @EJB
     private BDL_C_SFLeyendaLocal bdL_C_SFLeyendaLocal;
+    @EJB
+    private LN_C_SFRolLocal ln_C_SFRolLocal;
     private MapperIF mapper = new DozerBeanMapper();
 
     public LN_C_SFEvaluacionBean() {
@@ -235,7 +238,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                     eva.getMain().getProfesor().getNombres());
                 beanEva.setCurso(eva.getMain().getCurso().getDescripcionCurso());
                 // beanEva.setTipoFichaCurso(eva.getMain().getCurso().getTipoFichaCurso()); //TODO el tipo_ficha_curso cuando se use horarios
-                beanEva.setTipoFichaCurso(eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso());
+                boolean isSubDirector = ln_C_SFRolLocal.isSubDirectorByNidUsuario_LN(eva.getNidEvaluador());
+                beanEva.setTipoFichaCurso( isSubDirector == true ? "SD" : eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso());
                 beanEva.setStartDate(eva.getStartDate());
                 beanEva.setEndDate(eva.getEndDate());
                 beanEva.setSede(eva.getMain().getAula().getSede().getDescripcionSede());
