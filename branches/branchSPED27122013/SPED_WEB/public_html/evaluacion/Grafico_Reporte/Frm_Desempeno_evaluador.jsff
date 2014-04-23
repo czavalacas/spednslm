@@ -207,7 +207,8 @@
                                                            contentType="application/pdf"
                                                            method="#{bDesempenoEvaluador.exportPdf}"/>
                         </af:button>
-                        <af:button id="b1" immediate="true" text="Exportar a Excel">
+                        <af:button id="b1" immediate="true" text="Exportar a Excel" 
+                                   rendered="#{sessionDesempenoEvaluador.renderExcel}">
                             <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:tEva"
                                                                filename="Desempeño_Evaluador.xls" title="Desempeño"/>
                         </af:button>

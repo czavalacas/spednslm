@@ -281,9 +281,13 @@ public class bMain implements Serializable {
     public void dialogClaveListener(DialogEvent dialogEvent) {
         DialogEvent.Outcome outcome = dialogEvent.getOutcome();
         if(outcome == DialogEvent.Outcome.ok){            
-            ln_T_SFUsuarioRemote.cambiarPrimeraClave(beanUsuario.getNidUsuario(), 
-                                                     clave);
-            Utils.mostrarMensaje(ctx, "Se modifco correctamente su clave", null, 3);
+            if(beanUsuario.getClave().compareTo(clave) == 0){
+                Utils.mostrarMensaje(ctx, "Ingrese una clave diferente", null, 2);
+            }else{
+                ln_T_SFUsuarioRemote.cambiarPrimeraClave(beanUsuario.getNidUsuario(), 
+                                                         clave);
+                Utils.mostrarMensaje(ctx, "Se modifco correctamente su clave", null, 3);
+            }            
         }
     }
     
