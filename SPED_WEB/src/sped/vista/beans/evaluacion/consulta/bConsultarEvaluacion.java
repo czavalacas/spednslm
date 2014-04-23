@@ -42,6 +42,7 @@ import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 
 import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
 
+import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.event.DialogEvent;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -107,6 +108,7 @@ public class bConsultarEvaluacion {
     private RichShowDetail sd2;
     private RichTable tbEval;
     private RichPopup popCom;
+    private RichButton bexcel;
 
     public bConsultarEvaluacion() {
         
@@ -193,8 +195,13 @@ public class bConsultarEvaluacion {
                                                                 sessionConsultarEvaluacion.getFechaPf(),
                                                                 sessionConsultarEvaluacion.getFechaF(),
                                                                 sessionConsultarEvaluacion.getFechaFf()));
+        if(sessionConsultarEvaluacion.getLstBeanEvaluacion().size() == 0){
+            sessionConsultarEvaluacion.setRenderExcel(false);
+        }else{
+            sessionConsultarEvaluacion.setRenderExcel(true);
+        }
         if(tbEval != null){
-            Utils.addTarget(tbEval);
+            Utils.addTargetMany(tbEval, bexcel);
         }        
     }
     
@@ -600,5 +607,13 @@ public class bConsultarEvaluacion {
 
     public String getComentarioProf() {
         return comentarioProf;
-    }    
+    }
+
+    public void setBexcel(RichButton bexcel) {
+        this.bexcel = bexcel;
+    }
+
+    public RichButton getBexcel() {
+        return bexcel;
+    }
 }

@@ -147,9 +147,9 @@ public class bDesempenoEvaluador {
             sessionDesempenoEvaluador.setFechaEI(sessionDesempenoEvaluador.getFechaAnterior());
             sessionDesempenoEvaluador.setFechaEI_aux(sessionDesempenoEvaluador.getFechaAnterior());
             sessionDesempenoEvaluador.setFechaEF(sessionDesempenoEvaluador.getFechaActual());
-            sessionDesempenoEvaluador.setFechaEF_aux(sessionDesempenoEvaluador.getFechaActual());
-            setListEvaFiltro_aux();
+            sessionDesempenoEvaluador.setFechaEF_aux(sessionDesempenoEvaluador.getFechaActual());            
             validarRol();
+            setListEvaFiltro_aux();
             sessionDesempenoEvaluador.setExec(1);
         }        
     }
@@ -454,6 +454,11 @@ public class bDesempenoEvaluador {
     
     public void setListEvaFiltro_aux(){
         List <BeanEvaluacion> lst = desempenoFiltro(1, null, null, null,null);
+        if(lst.size() == 0){
+            sessionDesempenoEvaluador.setRenderExcel(false);
+        }else{
+            sessionDesempenoEvaluador.setRenderExcel(true);
+        }
         sessionDesempenoEvaluador.setLstEvaTable(lst);
         sessionDesempenoEvaluador.setRGrafEvaA(sessionDesempenoEvaluador.isRGrafEva());
         sessionDesempenoEvaluador.setRGrafRolA(sessionDesempenoEvaluador.isRGrafRol());

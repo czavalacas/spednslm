@@ -70,6 +70,7 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private boolean renderFSede;
     private boolean renderFArea;
     private boolean renderFEvaluador;
+    private boolean renderExcel;
     
     public bSessionDesempenoEvaluador() {
     }
@@ -536,5 +537,13 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public boolean isRenderFEvaluador() {
         return renderFEvaluador;
+    }
+
+    public void setRenderExcel(boolean renderExcel) {
+        this.renderExcel = renderExcel;
+    }
+
+    public boolean isRenderExcel() {
+        return renderExcel;
     }
 }

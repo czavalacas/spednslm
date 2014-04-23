@@ -24,6 +24,7 @@ public class bSessionConsultarEvaluacion {
     private boolean columnProfesor = true;
     private boolean columnSede = true;
     private boolean columnNivel = true;
+    private boolean renderExcel;
     private List lstSede;
     private List lstNivel;
     private List lstArea;
@@ -288,5 +289,13 @@ public class bSessionConsultarEvaluacion {
 
     public String getNidGrado() {
         return nidGrado;
+    }
+
+    public void setRenderExcel(boolean renderExcel) {
+        this.renderExcel = renderExcel;
+    }
+
+    public boolean isRenderExcel() {
+        return renderExcel;
     }
 }
