@@ -1,8 +1,11 @@
 package sped.vista.beans.evaluacion.evaluar;
 
+import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -18,6 +21,7 @@ import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
+import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.component.rich.output.RichMessages;
 import oracle.adf.view.rich.event.DialogEvent;
 import oracle.adf.view.rich.render.ClientEvent;
@@ -49,15 +53,18 @@ public class bEvaluar {
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
     private RichTable tbPlan;
     private RichTreeTable trFich;
+    private RichInputText itCmmt;
+    private RichButton btnCalc;
+    private RichPopup popCmt;
+    private RichButton btnCmt;
+    private RichPopup popMsj;
+    private RichActiveOutputText otError;
     private ChildPropertyTreeModel permisosTree;
     private RichButton btnRegistrar;
     private RichButton btnGrabar;
     private RichMessages msjGen;
     FacesContext ctx = FacesContext.getCurrentInstance();
-    private RichInputText itCmmt;
-    private RichButton btnCalc;
-    private RichPopup popCmt;
-    private RichButton btnCmt;
+    private String _error;
 
     public bEvaluar() {
     
@@ -107,9 +114,19 @@ public class bEvaluar {
     
     public void selectPlanificacion(SelectionEvent se) {
         BeanEvaluacionWS planif = (BeanEvaluacionWS) Utils.getRowTable(se);
-        sessionEvaluar.setPlanifSelect(planif);
-        btnRegistrar.setDisabled(false);
-        Utils.addTarget(btnRegistrar);
+        Timestamp hoy = new Timestamp(new Date().getTime());
+        boolean isBetween = hoy.after(planif.getStartDate()) && hoy.before(planif.getEndDate());
+        Utils.sysout("La fecha actual esta entre la fecha de planificacion: "+isBetween);
+        Utils.sysout("hoy: "+hoy+" planif.getStartDate(): "+planif.getStartDate()+" planif.getEndDate(): "+planif.getEndDate());
+        if(isBetween){
+            sessionEvaluar.setPlanifSelect(planif);
+            btnRegistrar.setDisabled(false);
+            Utils.addTarget(btnRegistrar);
+        }else{
+            this.setError("La hora actual no es la indicada para realizar esta evaluacion, o se paso la hora o aun no llega.");
+            Utils.showPopUpMIDDLE(popMsj);
+            Utils.unselectFilas(tbPlan);
+        }
     }
     
     public void registrarEvaluacion(ActionEvent actionEvent) {
@@ -326,6 +343,8 @@ public class bEvaluar {
     
     public void cancelarDialogComment(ClientEvent clientEvent) {
         sessionEvaluar.setComentarioEvaluador(null);
+        itCmmt.resetValue();
+        Utils.addTarget(itCmmt);
         FacesContext fctx = FacesContext.getCurrentInstance();
         fctx.renderResponse();
         popCmt.hide();
@@ -425,5 +444,29 @@ public class bEvaluar {
 
     public RichButton getBtnCmt() {
         return btnCmt;
+    }
+
+    public void setPopMsj(RichPopup popMsj) {
+        this.popMsj = popMsj;
+    }
+
+    public RichPopup getPopMsj() {
+        return popMsj;
+    }
+
+    public void setOtError(RichActiveOutputText otError) {
+        this.otError = otError;
+    }
+
+    public RichActiveOutputText getOtError() {
+        return otError;
+    }
+
+    public void setError(String _error) {
+        this._error = _error;
+    }
+
+    public String getError() {
+        return _error;
     }
 }
