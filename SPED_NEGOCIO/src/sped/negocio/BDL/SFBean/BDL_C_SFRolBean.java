@@ -75,7 +75,7 @@ public class BDL_C_SFRolBean implements BDL_C_SFRolRemote,
             String qlString = "SELECT r.nidRol " +
                               "FROM Rol r," +
                               "     Usuario u " +
-                              "WHERE u.rol.nidRol = r.nidRol" +
+                              "WHERE u.rol.nidRol = r.nidRol " +
                               "AND u.nidUsuario = :nidUsuario ";
             List<Object> nidRol = em.createQuery(qlString)
                                 .setParameter("nidUsuario",nidUsuario)
