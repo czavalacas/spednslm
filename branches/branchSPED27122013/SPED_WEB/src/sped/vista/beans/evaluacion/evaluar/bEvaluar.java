@@ -12,11 +12,16 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+
+import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.output.RichMessages;
+import oracle.adf.view.rich.event.DialogEvent;
+import oracle.adf.view.rich.render.ClientEvent;
+
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
@@ -50,6 +55,9 @@ public class bEvaluar {
     private RichMessages msjGen;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private RichInputText itCmmt;
+    private RichButton btnCalc;
+    private RichPopup popCmt;
+    private RichButton btnCmt;
 
     public bEvaluar() {
     
@@ -110,12 +118,13 @@ public class bEvaluar {
             if(valoresFicha[0] != 0){
                 sessionEvaluar.setMaxValor(valoresFicha[1]);
                 btnGrabar.setVisible(true);
-                itCmmt.setVisible(true);
+                btnCmt.setVisible(true);
+                btnCalc.setVisible(true);
                 sessionEvaluar.setVisiblePanelBoxPanelBoxFicha(true);
                 trFich.setVisible(true);
                 sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(valoresFicha[0]));       
                 buildTree();
-                Utils.addTargetMany(btnGrabar,itCmmt);
+                Utils.addTargetMany(btnGrabar,btnCalc,btnCmt);
             }
         }
     }
@@ -144,6 +153,61 @@ public class bEvaluar {
         return null;
     }
     
+    public void calcularNota(ActionEvent actionEvent) {
+        ChildPropertyTreeModel permisosTree = sessionEvaluar.getPermisosTree();
+        List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) permisosTree.getWrappedData();
+        Iterator it = lstBeanCriterio.get(0).getLstIndicadores().iterator();
+        int sizeCrits = lstBeanCriterio.get(0).getLstIndicadores().size();
+        double notaFinal = 0.0;
+        double notaProm = 0.0;
+        while(it.hasNext()){
+            BeanCriterio crit = (BeanCriterio) it.next();
+            List<BeanCriterio> hijos = crit.getLstIndicadores();
+            Iterator itH = hijos.iterator();
+            String valInput = "";
+            int hijosSize = hijos.size();
+            int sumVal = 0;
+            int maxVal = sessionEvaluar.getMaxValor() * hijosSize;
+            while(itH.hasNext()){
+                BeanCriterio indi = (BeanCriterio) itH.next();
+                sumVal = sumVal + indi.getValorSpinBox();
+            }
+            int pro = sumVal / hijosSize;
+            double vigecimal = (sumVal * 20) / maxVal;
+            String estilo = "";
+            if(vigecimal <= 10.49){
+                estilo = "rojo";
+            }else if(vigecimal >= 10.50 && vigecimal <= 15.49){
+                estilo = "amarillo";
+            }else{
+                estilo = "verde";
+            }
+            crit.setEstilo(estilo);
+            crit.setNotaVige(vigecimal);
+            valInput = "  "+pro + " / "+ vigecimal+"  ";
+            crit.setValorInput(valInput);
+            notaProm = notaProm + crit.getNotaVige();
+        }
+        int r = (int) Math.round( (notaProm/sizeCrits) * 100);
+        notaFinal = r / 100.0;
+        String estilo = "";
+        if(notaFinal <= 10.49){
+            estilo = "rojo";
+        }else if(notaFinal >= 10.50 && notaFinal <= 15.49){
+            estilo = "amarillo";
+        }else{
+            estilo = "verde";
+        }
+        sessionEvaluar.setNotaFinal(notaFinal);
+        sessionEvaluar.setEstiloFinal(estilo);
+        lstBeanCriterio.get(0).setEstilo(estilo);
+        lstBeanCriterio.get(0).setValorInput(notaFinal+"");
+        if(trFich != null){
+            trFich.setValue(sessionEvaluar.getPermisosTree());
+            Utils.addTarget(trFich);
+        }
+    }
+    
     public void cambiarValor(ValueChangeEvent vce) {
         try {
             Integer param = (Integer) vce.getComponent().getAttributes().get("idcrit");
@@ -151,15 +215,11 @@ public class bEvaluar {
             ChildPropertyTreeModel permisosTree = sessionEvaluar.getPermisosTree();
             List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) permisosTree.getWrappedData();
             Iterator it = lstBeanCriterio.get(0).getLstIndicadores().iterator(); //sessionEvaluar.getLstCriteriosMultiples().iterator();
-            int sizeCrits = lstBeanCriterio.get(0).getLstIndicadores().size();//sessionEvaluar.getLstCriteriosMultiples().size();
-            double notaFinal = 0.0;
-            double notaProm = 0.0;
             while(it.hasNext()){
                 BeanCriterio crit = (BeanCriterio) it.next();
                 if(crit.getNidCriterio().compareTo(paramPapa) == 0){
                     List<BeanCriterio> hijos = crit.getLstIndicadores();
                     Iterator itH = hijos.iterator();
-                    String valInput = "";
                     int hijosSize = hijos.size();
                     int sumVal = 0;
                     int maxVal = sessionEvaluar.getMaxValor() * hijosSize;
@@ -170,40 +230,9 @@ public class bEvaluar {
                         }
                         sumVal = sumVal + indi.getValorSpinBox();
                     }
-                    int pro = sumVal / hijosSize;
                     double vigecimal = (sumVal * 20) / maxVal;
-                    String estilo = "";
-                    if(vigecimal <= 10.49){
-                        estilo = "rojo";
-                    }else if(vigecimal >= 10.50 && vigecimal <= 15.49){
-                        estilo = "amarillo";
-                    }else{
-                        estilo = "verde";
-                    }
-                    crit.setEstilo(estilo);
                     crit.setNotaVige(vigecimal);
-                    valInput = "  "+pro + " / "+ vigecimal+"  ";
-                    crit.setValorInput(valInput);
                 }
-                notaProm = notaProm + crit.getNotaVige();
-            }
-            int r = (int) Math.round( (notaProm/sizeCrits) * 100);
-            notaFinal = r / 100.0;
-            String estilo = "";
-            if(notaFinal <= 10.49){
-                estilo = "rojo";
-            }else if(notaFinal >= 10.50 && notaFinal <= 15.49){
-                estilo = "amarillo";
-            }else{
-                estilo = "verde";
-            }
-            sessionEvaluar.setNotaFinal(notaFinal);
-            sessionEvaluar.setEstiloFinal(estilo);
-            lstBeanCriterio.get(0).setEstilo(estilo);
-            lstBeanCriterio.get(0).setValorInput(notaFinal+"");
-            if(trFich != null){
-                trFich.setValue(sessionEvaluar.getPermisosTree());
-                Utils.addTarget(trFich);
             }
         } catch (Exception nfe) {
             nfe.printStackTrace();
@@ -270,7 +299,8 @@ public class bEvaluar {
         sessionEvaluar.setNotaFinal(0.0);
         sessionEvaluar.setComentarioEvaluador(null);
         btnGrabar.setVisible(false);
-        itCmmt.setVisible(false);
+        btnCalc.setVisible(false);
+        btnCmt.setVisible(false);
         trFich.setVisible(false);
         btnRegistrar.setDisabled(true);
         try {
@@ -286,8 +316,19 @@ public class bEvaluar {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Utils.addTargetMany(btnGrabar,itCmmt,trFich,btnRegistrar);
+        Utils.addTargetMany(btnGrabar,trFich,btnRegistrar,btnCalc,btnCmt);
         mostrarPlanificacionesParaHoy();
+    }
+    
+    public void abrirPopCommt(ActionEvent actionEvent) {//btnCmt
+        Utils.showPopUpMIDDLE(popCmt);
+    }
+    
+    public void cancelarDialogComment(ClientEvent clientEvent) {
+        sessionEvaluar.setComentarioEvaluador(null);
+        FacesContext fctx = FacesContext.getCurrentInstance();
+        fctx.renderResponse();
+        popCmt.hide();
     }
     
     public void setSessionEvaluar(bSessionEvaluar sessionEvaluar) {
@@ -360,5 +401,29 @@ public class bEvaluar {
 
     public RichInputText getItCmmt() {
         return itCmmt;
+    }
+
+    public void setBtnCalc(RichButton btnCalc) {
+        this.btnCalc = btnCalc;
+    }
+
+    public RichButton getBtnCalc() {
+        return btnCalc;
+    }
+
+    public void setPopCmt(RichPopup popCmt) {
+        this.popCmt = popCmt;
+    }
+
+    public RichPopup getPopCmt() {
+        return popCmt;
+    }
+
+    public void setBtnCmt(RichButton btnCmt) {
+        this.btnCmt = btnCmt;
+    }
+
+    public RichButton getBtnCmt() {
+        return btnCmt;
     }
 }

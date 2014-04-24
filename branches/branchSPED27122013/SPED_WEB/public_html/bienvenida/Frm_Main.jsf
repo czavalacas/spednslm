@@ -3,9 +3,15 @@
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         beforePhase="#{bMain.createMenus}">
     <af:document title="SPED ©" id="d1">
-        <af:form id="f1" usesUpload="true">
+        <af:form id="frmain" usesUpload="true" binding="#{bMain.frmain}">
             <af:spacer height="10"/>
             <af:resource type="javascript" source="/recursos/js/utiles.js"/>
+                <af:resource type="javascript">
+                    var logoutAction = 0;
+                    function prepareLogout(event) {
+                        logoutAction = 1;
+                    }
+                 </af:resource>
             <af:panelSplitter orientation="vertical" splitterPosition="56" id="ps1"
                               inlineStyle="margin:-10px 0px 0px 0px;" firstBorder="none" secondBorder="none">
                 <f:facet name="first">
@@ -83,8 +89,8 @@
             <af:popup id="popCerrar">
                 <af:noteWindow>
                     <af:panelFormLayout rows="2" maxColumns="1">
-                        <af:commandLink text="Cerrar Sesion" id="txt">
-                            <af:showPopupBehavior popupId="p1" triggerType="action"/>
+                        <af:commandLink text="Cerrar Sesion" id="txt" actionListener="#{bMain.cerrarSessionLink}">
+                           <!-- <af:showPopupBehavior popupId="p1" triggerType="action"/>-->
                         </af:commandLink>
                     </af:panelFormLayout>
                 </af:noteWindow>
