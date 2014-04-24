@@ -185,7 +185,7 @@
                                               value="#{sessionGestionarUsuarios.supervisorboolean}"
                                               rendered="#{sessionGestionarUsuarios.renderAreaAcdemica}"/>
                     <af:inputText label="Usuario" id="itUsuario" labelStyle="text-align: left;" required="true"
-                                  value="#{sessionGestionarUsuarios.usuario}" maximumLength="10"
+                                  value="#{sessionGestionarUsuarios.usuario}" maximumLength="35"
                                   disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
                                   binding="#{bGestionarUsuarios.itUsuario}">
                         <f:validator validatorId="NomUsuarioValidator"/>

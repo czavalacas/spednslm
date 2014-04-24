@@ -32,6 +32,7 @@ import oracle.adf.view.rich.component.rich.layout.RichGridCell;
 import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
 import oracle.adf.view.rich.component.rich.nav.RichCommandMenuItem;
 
+import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.component.rich.output.RichImage;
 import oracle.adf.view.rich.component.rich.output.RichMedia;
 import oracle.adf.view.rich.component.rich.output.RichOutputLabel;
@@ -82,6 +83,8 @@ public class bMain implements Serializable {
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
     private String clave;
+    private RichActiveOutputText otError;
+    private String msjError;
 
     public bMain(){
         super();
@@ -89,6 +92,7 @@ public class bMain implements Serializable {
             if(beanUsuario == null) {
                 logoutTarget(LOGIN);
             }
+            System.out.println("construyo");
         } catch (Exception e) {
             e.printStackTrace();
             logoutTarget(LOGIN);
@@ -120,8 +124,8 @@ public class bMain implements Serializable {
             for (int i = 0; i < sessionMain.getLstPermisos().size(); i++) {
                 int hijoDeMBar = 0;
                 crearHijos(sessionMain.getLstPermisos().get(i), new RichMenu(), hijoDeMBar);
-            }
-            if(sessionMain.getExec() == 0){
+            }           
+            if(sessionMain.getExec() == 0 && popNew.getChildCount() == 0 ){
                 isNuevoUsuario();
             }            
         } catch (Exception e) {
@@ -278,22 +282,28 @@ public class bMain implements Serializable {
     
     public void isNuevoUsuario(){
         if("1".compareTo(beanUsuario.getIsNuevo()) == 0){
-            Utils.showPopUpMIDDLE(popNew);            
-        }
-        sessionMain.setExec(1);
+            Utils.showPopUpMIDDLE(popNew);
+        }else{
+            sessionMain.setExec(1);
+        }        
     }
     
-    public void dialogClaveListener(DialogEvent dialogEvent) {
-        DialogEvent.Outcome outcome = dialogEvent.getOutcome();
-        if(outcome == DialogEvent.Outcome.ok){            
-            if(beanUsuario.getClave().compareTo(clave) == 0){
-                Utils.mostrarMensaje(ctx, "Ingrese una clave diferente", null, 2);
-            }else{
-                ln_T_SFUsuarioRemote.cambiarPrimeraClave(beanUsuario.getNidUsuario(), 
-                                                         clave);
-                Utils.mostrarMensaje(ctx, "Se modifco correctamente su clave", null, 3);
-            }            
+    public void cambioClave(ActionEvent actionEvent) {
+        if(clave == null){
+            msjError = "Ingrese la clave";
+        }else if(clave.length() < 6){
+            msjError = "La clave debe tener 6 digitos como minimo";
+        }else if(beanUsuario.getClave().compareTo(clave) == 0){
+            msjError = "Ingrese una clave diferente";
+        }else{
+            ln_T_SFUsuarioRemote.cambiarPrimeraClave(beanUsuario.getNidUsuario(), 
+                                                     clave);            
+            Utils.mostrarMensaje(ctx, "Se modifco correctamente su clave", null, 3);
+            popNew.hide();
+            sessionMain.setExec(1);
+            return;
         }
+        Utils.addTarget(otError);
     }
     
     public void popupCanceledListenerClave(PopupCanceledEvent popupCanceledEvent) {
@@ -421,4 +431,20 @@ public class bMain implements Serializable {
         service.addScript(ctx, "window.onbeforeunload = function () { if (logoutAction==0) {return ''}; }");
         return frmain;
     }
+
+    public void setOtError(RichActiveOutputText otError) {
+        this.otError = otError;
+    }
+
+    public RichActiveOutputText getOtError() {
+        return otError;
+    }
+
+    public void setMsjError(String msjError) {
+        this.msjError = msjError;
+    }
+
+    public String getMsjError() {
+        return msjError;
+    }    
 }

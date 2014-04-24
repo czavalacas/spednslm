@@ -80,6 +80,11 @@ public class bGestionarPermisos {
         sessionGestionarPermisos.setLstUsuarios(ln_C_SFUsuarioRemote.getListUsuarioNoAdminLN(sessionGestionarPermisos.getNombreF(),
                                                                                              sessionGestionarPermisos.getUsuarioF(),
                                                                                              sessionGestionarPermisos.getNidRolF()));
+        if(tusu != null){
+            Utils.unselectFilas(tusu);
+            sessionGestionarPermisos.setTypepopUsu("none");
+            Utils.addTarget(popUsu);
+        }
     }
     
     public void permisoChecked(ValueChangeEvent vce) {
@@ -206,10 +211,7 @@ public class bGestionarPermisos {
         sessionGestionarPermisos.setNombreF(null);
         sessionGestionarPermisos.setUsuarioF(null);
         sessionGestionarPermisos.setNidRolF(null);
-        buscarUsuarios_aux();
-        Utils.unselectFilas(tusu);
-        sessionGestionarPermisos.setTypepopUsu("none");
-        Utils.addTarget(popUsu);
+        buscarUsuarios_aux();        
         return null;
     }
     
