@@ -125,23 +125,23 @@
                     <af:outputText value="Desea Cerrar Sesion?" id="ot2"/>
                 </af:dialog>
             </af:popup>
+            <af:popup childCreation="deferred" id="popNew" binding="#{bMain.popNew}"
+                      popupCanceledListener="#{bMain.popupCanceledListenerClave}">
+                <af:dialog id="d3" title="Cambiar clave" type="none">
+                    <af:panelFormLayout id="pfl1">
+                        <af:inputText label="Ingresar nueva clave" id="it5" value="#{bMain.clave}" secret="true" maximumLength="32"/>
+                        <af:activeOutputText inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
+                                             id="otError" value="#{bMain.msjError}" binding="#{bMain.otError}" />
+                        <af:button text="Aceptar" id="b1" actionListener="#{bMain.cambioClave}"/>
+                    </af:panelFormLayout>    
+                </af:dialog>
+            </af:popup>
         </af:form>
         <audio controls="controls" xmlns="http://www.w3.org/1999/xhtml" id="audio" hidden="hidden">
             <source src="../recursos/sound/buho.mp3" type="audio/mp3"/>
         </audio>
         <!-- <a href="javascript: void(0);" onclick="hola();">Click</a>-->
         <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
-                 rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
-        <af:popup childCreation="deferred" id="popNew" binding="#{bMain.popNew}"
-                  popupCanceledListener="#{bMain.popupCanceledListenerClave}">
-            <af:dialog id="d3" title="Cambiar clave" dialogListener="#{bMain.dialogClaveListener}"
-                       closeIconVisible="false">
-                    <af:inputText label="Ingresar nueva clave" id="it5" required="true"
-                                  value="#{bMain.clave}" secret="true" maximumLength="32"
-                                  autoSubmit="true">
-                        <f:validator validatorId="ClaveValidator"/>
-                    </af:inputText>
-            </af:dialog>
-        </af:popup>
+                 rendered="#{sessionScope.sessionMain.verNotificaciones}"/>        
     </af:document>
 </f:view>
