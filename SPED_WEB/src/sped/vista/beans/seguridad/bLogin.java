@@ -1,5 +1,6 @@
 package sped.vista.beans.seguridad;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.Locale;
@@ -7,8 +8,12 @@ import java.util.Locale;
 import javax.ejb.EJB;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
@@ -30,10 +35,8 @@ import sped.vista.Utils.Utils;
 public class bLogin implements Serializable {
     @SuppressWarnings("compatibility:3148044224508277483")
     private static final long serialVersionUID = 1L;
-    private String redireccionar = "";
-    private String usuario;
-    private String clave;
-    private String correo;
+    private RichPopup popMsj;
+    private RichActiveOutputText otError;
     FacesContext ctx = FacesContext.getCurrentInstance();
     @EJB
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
@@ -41,17 +44,21 @@ public class bLogin implements Serializable {
     private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
     FacesContext contx = FacesContext.getCurrentInstance();
     private String msjError;
-    private RichActiveOutputText otError;
+    private String redireccionar = "";
+    private String usuario;
+    private String clave;
+    private String correo;
     private String tituloPopup;
     private String mensajeCorreo;
-    private RichPopup popMsj;
+    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
+    private final static String LOGIN = "/faces/Frm_login";
 
     public bLogin(){
         super();
-       // Utils.sysout("locale1: "+Locale.getDefault());
-        //Utils.sysout("locale2: "+contx.getViewRoot().getLocale());
+        if(beanUsuario != null){
+            logoutTarget(LOGIN);
+        }
         Locale.setDefault(contx.getViewRoot().getLocale());
-        //Utils.sysout("locale3: "+Locale.getDefault());
     }
 
     public void autenticarUsuario(ActionEvent actionEvent) {
@@ -90,6 +97,23 @@ public class bLogin implements Serializable {
         }
     }
 
+    public String logoutTarget(String aTarget) {
+        ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletResponse response = (HttpServletResponse)ectx.getResponse();
+        String url = ectx.getRequestContextPath() + aTarget;
+        HttpSession session = (HttpSession)ectx.getSession(false);
+        //close session
+        session.invalidate();
+        try {//@TODO log
+            Utils.sysout("usuario cerro sesion");
+            response.sendRedirect(url);
+            FacesContext.getCurrentInstance().responseComplete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public void setTituloPopup(String tituloPopup) {
         this.tituloPopup = tituloPopup;
     }
