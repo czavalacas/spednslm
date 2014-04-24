@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.servlet.http.HttpSession;
 
+import oracle.adf.view.rich.component.rich.RichForm;
 import oracle.adf.view.rich.component.rich.RichMenu;
 import oracle.adf.view.rich.component.rich.RichMenuBar;
 import oracle.adf.view.rich.component.rich.RichPopup;
@@ -40,6 +41,9 @@ import oracle.adf.view.rich.event.DialogEvent;
 import oracle.adf.view.rich.event.PopupCanceledEvent;
 
 import org.apache.myfaces.trinidad.event.PollEvent;
+
+import org.apache.myfaces.trinidad.render.ExtendedRenderKitService;
+import org.apache.myfaces.trinidad.util.Service;
 
 import sped.negocio.LNSF.IL.LN_C_SFNotificacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
@@ -66,6 +70,8 @@ public class bMain implements Serializable {
     private RichImage i2;
     private RichImage imgNoti;
     private RichImage imgBoli;
+    private RichPopup popNew;
+    private RichForm frmain;
     @EJB
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     @EJB
@@ -75,7 +81,6 @@ public class bMain implements Serializable {
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
-    private RichPopup popNew;
     private String clave;
 
     public bMain(){
@@ -295,6 +300,10 @@ public class bMain implements Serializable {
         logoutTarget(LOGIN);
     }
     
+    public void cerrarSessionLink(ActionEvent actionEvent) {
+        logoutTarget(LOGIN);
+    }
+    
     public void actualizarImagen(ActionEvent actionEvent) {
         Utils.addTarget(i2);
     }
@@ -401,5 +410,15 @@ public class bMain implements Serializable {
 
     public String getClave() {
         return clave;
-    }    
+    }
+
+    public void setFrmain(RichForm frmain) {
+        this.frmain = frmain;
+    }
+
+    public RichForm getFrmain() {
+        ExtendedRenderKitService service = Service.getRenderKitService(ctx, ExtendedRenderKitService.class);
+        service.addScript(ctx, "window.onbeforeunload = function () { if (logoutAction==0) {return ''}; }");
+        return frmain;
+    }
 }

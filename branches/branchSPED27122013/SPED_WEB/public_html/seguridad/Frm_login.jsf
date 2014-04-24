@@ -35,7 +35,7 @@
                </af:gridRow>     
             </af:panelGridLayout>
         
-             <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="150px"
+             <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="100px"
                                                            bottomHeight="33%">
                     <f:facet name="center">
                         <af:panelGroupLayout halign="center" layout="vertical">

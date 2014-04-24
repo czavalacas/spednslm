@@ -20,6 +20,20 @@
                               },false);
                               evt.cancel();
                           }
+                          
+                          function onDialogCmmtCancel(evt){
+                            var outcome = evt.getOutcome();
+                            if(outcome == AdfDialogEvent.OUTCOME_CANCEL){
+                                //call server
+                                var eventSource = evt.getSource();
+                                var immediate = true;
+                                AdfCustomEvent.queue(
+                                eventSource,
+                                "DialogCmmtCancelHandlerEvent",
+                                {},immediate); 
+                                evt.cancel();
+                            }
+                        }
                         </af:resource>
                     </af:panelGroupLayout>
                       <af:panelGroupLayout>
@@ -29,13 +43,8 @@
                             <af:button text="" id="btnRefresh" icon="../recursos/img/usuarios/refresh.png" immediate="true"
                                         styleClass="FondoGrisLetraGris" actionListener="#{bEvaluar.refrescarTablaPlanif}"/>
                     </af:panelGroupLayout>
-                      <af:panelCollection inlineStyle="width:inherit;">
-                        <f:facet name="menus"/>
-                        <f:facet name="toolbar">
-                            <af:toolbar></af:toolbar>
-                        </f:facet>
-                        <f:facet name="statusbar"/>
-                        <af:table value="#{sessionScope.sessionEvaluar.lstPlanificacionesXEvaluar}" var="row"
+                      <af:panelCollection inlineStyle="width:inherit; margin:0px 43px 0px 0px;">
+                          <af:table value="#{sessionScope.sessionEvaluar.lstPlanificacionesXEvaluar}" var="row"
                                   rowBandingInterval="0" id="tbPlan" binding="#{bEvaluar.tbPlan}" width="inherit;"
                                   emptyText="No hay planificaciones para hoy" summary="Listado de Planificaciones"
                                   varStatus="vs" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" fetchSize="5"
@@ -78,13 +87,20 @@
                                 <af:outputText value="#{row.planificador}"/>
                             </af:column>-->
                         </af:table>
-                    </af:panelCollection>
+                      </af:panelCollection>
                 </af:panelGroupLayout>
             </f:facet>
             <f:facet name="second">
                 <af:panelGroupLayout layout="vertical" inlineStyle="margin:0px 0px 0px 43px;">
-                    <af:button text="Grabar Ficha" id="btnGrabar" binding="#{bEvaluar.btnGrabar}" styleClass="FondoRojoLetraBlanca"
-                                 actionListener="#{bEvaluar.grabarEvaluacion}" visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
+                    <af:panelGroupLayout>
+                                <af:button text="Grabar Ficha" id="btnGrabar" binding="#{bEvaluar.btnGrabar}" styleClass="FondoRojoLetraBlanca"
+                                             actionListener="#{bEvaluar.grabarEvaluacion}" visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
+                                <af:button text="Calcular" id="btnCalc" binding="#{bEvaluar.btnCalc}"
+                                             actionListener="#{bEvaluar.calcularNota}" visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
+                                 <af:button text="Comentario" id="btnCmt" binding="#{bEvaluar.btnCmt}" visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
+                                             actionListener="#{bEvaluar.abrirPopCommt}"/>
+                    </af:panelGroupLayout>
+            
                     <af:messages id="msjGen" inline="true" binding="#{bEvaluar.msjGen}"/>
                     <af:treeTable value="#{bEvaluar.permisosTree}" var="row"
                                   visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
@@ -111,12 +127,20 @@
                                                      value="#{row.valorInput}" readOnly="true"/>
                         </af:column>
                     </af:treeTable>
-                    <af:inputText label="Comentario" id="itCmmt" binding="#{bEvaluar.itCmmt}" rows="15"
-                                    visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
-                                    value="#{sessionScope.sessionEvaluar.comentarioEvaluador}" autoSubmit="true"
-                                    columns="60"/>
+                   
                 </af:panelGroupLayout>
             </f:facet>
         </af:panelSplitter>
+        
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popCmt" binding="#{bEvaluar.popCmt}">
+            <af:dialog type="okCancel" title="Ingresar el comentario de la Evaluacion">
+             <af:inputText label="Comentario" id="itCmmt" binding="#{bEvaluar.itCmmt}" rows="15"
+                                    value="#{sessionScope.sessionEvaluar.comentarioEvaluador}" autoSubmit="true"
+                                    columns="60"/>
+            <af:clientListener method="onDialogCmmtCancel" type="dialog"/>
+            <af:serverListener type="DialogCmmtCancelHandlerEvent"
+                                  method="#{bEvaluar.cancelarDialogComment}"/>
+        </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>
