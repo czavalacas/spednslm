@@ -142,5 +142,12 @@
                                   method="#{bEvaluar.cancelarDialogComment}"/>
         </af:dialog>
         </af:popup>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popMsj" binding="#{bEvaluar.popMsj}">
+            <af:dialog id="d1">
+                 <af:activeOutputText id="otError" 
+                                         inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
+                                         binding="#{bEvaluar.otError}" value="#{requestScope.bEvaluar.error}"/>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>
