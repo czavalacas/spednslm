@@ -192,6 +192,51 @@ public class bGestionarHorario {
     
     public void encuentraEspacio(BeanMain horario[][], BeanMain main){
         int hora = (int) Math.round((Math.random()*7)); 
+        int leccion = (int) Math.round((Math.random()*4));
+        System.out.println(main.getNombreCurso()+"   -   "+main.getNroHoras());
+        if(main.getNroHoras() > 1){
+            System.out.println("Horas mayor de 1 horas: "+hora +" leccion: "+leccion);
+            if(horario[hora][leccion] == null){
+                System.out.println("encontro nulo");
+                if(leccion + 1  % 2 == 0){
+                    if(horario[hora - 1][leccion] == null){
+                        horario[hora][leccion] =  main;
+                        horario[hora - 1][leccion] =  main;
+                        main.setNroHoras(main.getNroHoras()-2);
+                        encuentraEspacio(horario, main);
+                    }                    
+                }else if(leccion + 1 % 2 == 1){
+                    if(horario[hora + 1][leccion] == null){
+                        horario[hora][leccion] =  main;
+                        horario[hora + 1][leccion] =  main;
+                        main.setNroHoras(main.getNroHoras()-2);
+                        encuentraEspacio(horario, main);
+                    }  
+                }else{
+                    System.out.println("Esta lleno");
+                    encuentraEspacio(horario, main);
+                }
+            }else{
+                encuentraEspacio(horario, main);
+            }            
+        }
+        if(main.getNroHoras() == 1){
+            System.out.println("Horas = a 1 horas: "+hora +" leccion: "+leccion);
+            if(horario[hora][leccion] == null){
+                horario[hora][leccion] =  main;
+                main.setNroHoras(0);
+            }else{
+                encuentraEspacio(horario, main);
+            }
+        }
+    }
+    
+    public void grabarEspacio(BeanMain horario[][], BeanMain main, int leccion, int... hora){
+        
+    }
+    
+    /* public void encuentraEspacio(BeanMain horario[][], BeanMain main){
+        int hora = (int) Math.round((Math.random()*7)); 
         int leccion = (int) Math.round((Math.random()*4)); 
         if(horario[hora][leccion] == null){
             if(hora +1 % 2 == 0){
@@ -200,9 +245,9 @@ public class bGestionarHorario {
         }else{
             encuentraEspacio(horario, main);
         }
-    }
+    } */
     
-    public void grabarEspacio(BeanMain horario[][], BeanMain main, int hora, int leccion){
+    /* public void grabarEspacio(BeanMain horario[][], BeanMain main, int hora, int leccion){
         int maximo = 2;
         if(main.getNroHoras() > 0){
             if(main.getNroHoras() >= 2){
@@ -224,7 +269,7 @@ public class bGestionarHorario {
                 encuentraEspacio(horario, main);
             }
         }
-    }
+    } */
     
     /**
      * Este metodo llena un vector string con las horas inicio de cada bloque, para luego ser comprado mas rapido
