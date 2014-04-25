@@ -165,7 +165,8 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
                     }else{
                         ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);    
                     }
-            }  }          
+            }  }  
+                    ejbQl = ejbQl.concat(" ORDER BY prof.apellidos");  
             List<Profesor> lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;
 
