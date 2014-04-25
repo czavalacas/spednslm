@@ -125,9 +125,7 @@ public class bConsultarEvaluacion {
             sessionConsultarEvaluacion.setLstCurso(Utils.llenarCombo(ln_C_SFUtilsRemote.getCursos_LN()));
             sessionConsultarEvaluacion.setLstGrado(Utils.llenarCombo(ln_C_SFUtilsRemote.getGrados_LN()));
             sessionConsultarEvaluacion.setLstEstadoEvaluacion
-                        (Utils.llenarComboString(ln_C_SFUtilsRemote.getEstadoEvaluacionFromConstraint()));
-            sessionConsultarEvaluacion.setItemEvaluador
-                        (Utils.llenarListItem(ln_C_SFUsuarioRemote.getEvaluadores_LN()));
+                        (Utils.llenarComboString(ln_C_SFUtilsRemote.getEstadoEvaluacionFromConstraint()));            
             sessionConsultarEvaluacion.setItemProfesor
                         (Utils.llenarListItem(ln_C_SFProfesorRemote.getNombreProfesor_LN()));
             llenarTabla();
@@ -135,12 +133,20 @@ public class bConsultarEvaluacion {
     }
     
     public void renderColumns(int nidRol){
-        if(nidRol == 1){
-            sessionConsultarEvaluacion.setColumnSede(false);
-            sessionConsultarEvaluacion.setColumnNivel(false);
+        if(beanUsuario.getRol().getNidRol() == 2 && beanUsuario.getIsSupervisor().compareTo("1") == 0){            
+            int nidArea = beanUsuario.getAreaAcademica().getNidAreaAcademica();            
+            System.out.println("entro    "+nidRol+"       "+nidArea);
+            sessionConsultarEvaluacion.setItemEvaluador
+                        (Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN(nidArea, nidRol)));
+        }else{
+            System.out.println("No entro");
+            sessionConsultarEvaluacion.setItemEvaluador
+                        (Utils.llenarListItem(ln_C_SFUsuarioRemote.getEvaluadores_LN()));
         }
-        if(nidRol == 2 || nidRol == 4 || nidRol == 5){
-            sessionConsultarEvaluacion.setColumnEvaluador(false);
+        if(nidRol == 2 || nidRol == 4){
+            if(nidRol == 4 || (nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0)){
+                sessionConsultarEvaluacion.setColumnEvaluador(false);
+            }            
             if(nidRol == 2){
                 sessionConsultarEvaluacion.setColumnArea(false);
             }

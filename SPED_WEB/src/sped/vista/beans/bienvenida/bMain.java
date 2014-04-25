@@ -92,7 +92,6 @@ public class bMain implements Serializable {
             if(beanUsuario == null) {
                 logoutTarget(LOGIN);
             }
-            System.out.println("construyo");
         } catch (Exception e) {
             e.printStackTrace();
             logoutTarget(LOGIN);
