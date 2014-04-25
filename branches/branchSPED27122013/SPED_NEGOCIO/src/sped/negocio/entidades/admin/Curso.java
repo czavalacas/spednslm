@@ -30,6 +30,8 @@ public class Curso implements Serializable {
     @ManyToOne
     @JoinColumn(name = "nidAreaAcademica")
     private AreaAcademica areaAcademica;
+    @Column(name = "nidAreaNativa")
+    private int nidAreaNativa;
     
     public Curso() {
     }
@@ -97,5 +99,13 @@ public class Curso implements Serializable {
         buffer.append(getNidCurso());
         buffer.append(']');
         return buffer.toString();
+    }
+
+    public void setNidAreaNativa(int nidAreaNativa) {
+        this.nidAreaNativa = nidAreaNativa;
+    }
+
+    public int getNidAreaNativa() {
+        return nidAreaNativa;
     }
 }

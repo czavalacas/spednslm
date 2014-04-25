@@ -159,10 +159,13 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
                               " and ma.curso.nidCurso=cur.nidCurso";
 
             if (nidAreaAcademica != null) {
-                if (nidAreaAcademica != 0) {
-                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
-                }
-            }            
+                if (nidAreaAcademica != 0){
+                   if(nidAreaAcademica==12 || nidAreaAcademica==13) { //12 = Primer Ciclo 13 = Inicial                   
+                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);    
+                    }else{
+                        ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);    
+                    }
+            }  }          
             List<Profesor> lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;
 
