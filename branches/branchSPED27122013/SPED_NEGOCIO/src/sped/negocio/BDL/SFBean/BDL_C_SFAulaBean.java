@@ -105,8 +105,12 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
 
             if (nidAreaAcademica != null) {
                 if (nidAreaAcademica != 0) {
-                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
-                }
+                   if(nidAreaAcademica==12 || nidAreaAcademica==13) { //12 = Primer Ciclo 13 = Inicial                   
+                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);    
+                    }else{
+                        ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);    
+                    }
+            }
             }            
             List<Aula> lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;

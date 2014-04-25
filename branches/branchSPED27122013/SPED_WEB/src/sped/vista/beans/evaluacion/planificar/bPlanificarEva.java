@@ -569,6 +569,7 @@ public class bPlanificarEva {
                         sessionPlanificarEva.setEstadoDisableChoiceSede(true);
                         sessionPlanificarEva.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.getAllNivelesBySedes(evaluador.getSede().getNidSede().toString())));
                         sessionPlanificarEva.setEstadoChoiceTemporalNivel(false);
+                        sessionPlanificarEva.setEstadoVisibleComboAreaacademica(false);
                     }
                         if(evaluador.getRol().getNidRol()==2){
                             sessionPlanificarEva.setNidAreaAcademicaChoice(""+evaluador.getAreaAcademica().getNidAreaAcademica());
@@ -1496,7 +1497,7 @@ public class bPlanificarEva {
         Utils.addTarget(choiceNivel);
     }
     
-    public void getNivelesBySede(ValueChangeEvent valueChangeEvent) {
+    public void getNivelesBySede(ValueChangeEvent valueChangeEvent) {               
         if(sessionPlanificarEva.getNidAreaAcademicaChoice()!=null){
       sessionPlanificarEva.setListaProfesores(Utils.llenarComboString(ln_C_SFProfesorRemote.getPRofesorPorSedeYNivel(choiceSede.getValue().toString(), choiceNivel.getValue().toString(), Integer.parseInt(sessionPlanificarEva.getNidAreaAcademicaChoice()))));
         }else{

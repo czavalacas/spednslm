@@ -16,7 +16,8 @@ public class BeanCurso implements Serializable {
     private List<BeanMain> mainLista;
     private BeanAreaAcademica areaAcademica;
     private String tipoFichaCurso;
-
+    private int nidAreaNativa;
+    
     public void setDescripcionCurso(String descripcionCurso) {
         this.descripcionCurso = descripcionCurso;
     }
@@ -56,5 +57,13 @@ public class BeanCurso implements Serializable {
 
     public String getTipoFichaCurso() {
         return tipoFichaCurso;
+    }
+
+    public void setNidAreaNativa(int nidAreaNativa) {
+        this.nidAreaNativa = nidAreaNativa;
+    }
+
+    public int getNidAreaNativa() {
+        return nidAreaNativa;
     }
 }

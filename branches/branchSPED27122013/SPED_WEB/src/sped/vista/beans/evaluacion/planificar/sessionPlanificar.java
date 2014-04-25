@@ -117,7 +117,7 @@ public class sessionPlanificar {
     private boolean estadoChoiceTemporalAula=true;
     private boolean estadoOutDatosEva1=false;
     private boolean estadoOutDatosEva2=false;
-    
+    private boolean estadoVisibleComboAreaacademica=true;
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
         this.listaHorarios = listaHorarios;
@@ -869,5 +869,13 @@ public class sessionPlanificar {
 
     public boolean isEstadoOutDatosEva2() {
         return estadoOutDatosEva2;
+    }
+
+    public void setEstadoVisibleComboAreaacademica(boolean estadoVisibleComboAreaacademica) {
+        this.estadoVisibleComboAreaacademica = estadoVisibleComboAreaacademica;
+    }
+
+    public boolean isEstadoVisibleComboAreaacademica() {
+        return estadoVisibleComboAreaacademica;
     }
 }
