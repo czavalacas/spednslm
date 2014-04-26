@@ -52,12 +52,14 @@
                                                             <af:inputText label="Usuario" id="itUsuario"
                                                                             clientComponent="true"
                                                                             labelStyle="text-align: left;"
-                                                                            styleClass="titulos" value="#{bLogin.usuario}">
+                                                                            styleClass="titulos" value="#{bLogin.usuario}"
+                                                                          binding="#{bLogin.itUsuario}">
                                                                 <f:converter converterId="lowerconverter"/>
                                                             </af:inputText>
                                                             <af:inputText label="Clave" id="itClave" secret="true"
                                                                             labelStyle="text-align: left;"
-                                                                            value="#{bLogin.clave}">
+                                                                            value="#{bLogin.clave}"
+                                                                          binding="#{bLogin.itClave}">
                                                                 <f:converter converterId="lowerconverter"/>
                                                             </af:inputText>
                                                             <af:button text="Ingresar" id="btnInicio"
