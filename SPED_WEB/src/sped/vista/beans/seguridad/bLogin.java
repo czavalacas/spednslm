@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
+import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.component.rich.output.RichMessages;
 
@@ -52,6 +53,8 @@ public class bLogin implements Serializable {
     private String mensajeCorreo;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private final static String LOGIN = "/faces/Frm_login";
+    private RichInputText itUsuario;
+    private RichInputText itClave;
 
     public bLogin(){
         super();
@@ -75,10 +78,16 @@ public class bLogin implements Serializable {
             }else{
                 setMsjError(beanUsuario.getError().getDescripcionError());
                 Utils.addTarget(otError);
+                itClave.resetValue();
+                setClave(null);
+                Utils.addTarget(itClave);
             }
         }else{
             setMsjError(beanUsuario.getError().getDescripcionError());
             Utils.addTarget(otError);
+            itClave.resetValue();
+            setClave(null);
+            Utils.addTarget(itClave);
         }
     }
     
@@ -184,5 +193,21 @@ public class bLogin implements Serializable {
 
     public RichPopup getPopMsj() {
         return popMsj;
+    }
+
+    public void setItUsuario(RichInputText itUsuario) {
+        this.itUsuario = itUsuario;
+    }
+
+    public RichInputText getItUsuario() {
+        return itUsuario;
+    }
+
+    public void setItClave(RichInputText itClave) {
+        this.itClave = itClave;
+    }
+
+    public RichInputText getItClave() {
+        return itClave;
     }
 }
