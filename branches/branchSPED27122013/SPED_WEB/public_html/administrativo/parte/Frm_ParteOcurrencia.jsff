@@ -54,14 +54,13 @@
                             <af:button text="Buscar" id="btnBuscarPO"
                                         action="#{bParteOcurrencia.buscarPartesOcurrencia}"/>
                             <af:button icon="../recursos/img/usuarios/refresh.png" immediate="true"
-                                        actionListener="#{bParteOcurrencia.limpiarPO}" visible="#{sessionScope.sessionParteOcurrencia.lstNotifPOs.size() > 0}">
-                            <af:exportCollectionActionListener type="excelHTML" exportedId="::pc1:tbPOs"
+                                        actionListener="#{bParteOcurrencia.limpiarPO}"/>
+                        <af:button text="Exportar Excel" id="btnEExl" visible="#{sessionScope.sessionParteOcurrencia.lstNotifPOs.size() > 0}">
+                             <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:tbPOs"
                                                                filename="parte.ocurrencia.xls"
                                                                title="Reporte de Partes de Ocurrencia"/>
                         </af:button>
-                        <af:button text="Exportar Excel" id="btnEExl"/>
                     </af:panelGroupLayout>
-                    </af:subform>
                      <af:panelCollection id="pc1" inlineStyle="width:inherit;">
                          <f:facet name="menus"/>
                         <f:facet name="toolbar">
@@ -116,6 +115,8 @@
                         </af:dropTarget>
                     </af:table>
                     </af:panelCollection>
+                    </af:subform>
+                    
             
             </af:panelGroupLayout>
             <af:panelSplitter id="ps1" orientation="horizontal" binding="#{bParteOcurrencia.ps1}"
