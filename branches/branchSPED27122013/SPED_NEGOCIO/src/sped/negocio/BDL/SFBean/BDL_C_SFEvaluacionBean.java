@@ -175,10 +175,10 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                                       " WHERE eva.nidEvaluador=usu.nidUsuario " +
                                       " AND upper(eva.estadoEvaluacion) = 'EJECUTADO' ";
                     int nidRol = beanUsuario.getRol().getNidRol();
-                    if(nidRol == 2 || nidRol == 4 || nidRol == 5){
+                    if((nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0) || nidRol == 4){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
                     }
-                    if(nidRol == 4){
+                    if(nidRol == 4){                        
                         strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede ");
                         beanFiltroEva.setNidSede(0);
                     }
@@ -236,7 +236,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                     strQuery = strQuery.concat(" ORDER BY eva.startDate DESC ");
                     Query query = em.createQuery(strQuery);
-                    if(nidRol == 2 || nidRol == 4 || nidRol == 5){
+                        if((nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0) || nidRol == 4){
                         query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
                     }
                     if(nidRol == 4){
