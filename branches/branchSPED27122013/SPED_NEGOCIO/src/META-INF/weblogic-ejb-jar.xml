@@ -447,4 +447,8 @@
         <ejb-name>LN_C_SFConfiguracionHorario</ejb-name>
         <stateless-session-descriptor/>
     </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_C_SFDuracionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
 </weblogic-ejb-jar>
