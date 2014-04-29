@@ -9,7 +9,7 @@ public class BeanConfiguracionHorario {
     private int nidConfig;
     private int nidNivel;
     private int nidSede;
-    private BeanConfiguracionEventoHorario eventoHorario;
+    private BeanConfiguracionEventoHorario stmconfev;
     
     public BeanConfiguracionHorario() {
     }
@@ -54,11 +54,12 @@ public class BeanConfiguracionHorario {
         return nidSede;
     }
 
-    public void setEventoHorario(BeanConfiguracionEventoHorario eventoHorario) {
-        this.eventoHorario = eventoHorario;
+    public void setStmconfev(BeanConfiguracionEventoHorario stmconfev) {
+        this.stmconfev = stmconfev;
     }
 
-    public BeanConfiguracionEventoHorario getEventoHorario() {
-        return eventoHorario;
+    public BeanConfiguracionEventoHorario getStmconfev() {
+        return stmconfev;
     }
+    
 }

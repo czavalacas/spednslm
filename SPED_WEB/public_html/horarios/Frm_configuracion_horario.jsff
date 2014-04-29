@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core">
+  <f:view>
+    <af:panelGroupLayout id="pgl1" layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
+      <af:panelGroupLayout id="pgl2">
+        <af:spacer width="10" height="10" id="s1"/>
+        <af:outputText value="Configurar Horario" id="ot2" styleClass="titulos"/>
+        <af:spacer height="10" id="s2"/>
+      </af:panelGroupLayout>
+      <af:panelGroupLayout id="pgl3">
+        <af:button text="button 1" id="b1" action="#{bConfiguracionHorario.prueba}"/>
+      </af:panelGroupLayout>
+    </af:panelGroupLayout>
+  </f:view>
+</ui:composition>
