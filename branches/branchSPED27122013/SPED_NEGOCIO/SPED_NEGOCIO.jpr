@@ -68,12 +68,14 @@
          <url path="src/sped/negocio/Pruebas/BDL_T_SFEvaluacionRemotoClient.java"/>
          <url path="src/sped/negocio/Pruebas/BDL_C_SFEvaluacionRemotoClient.java"/>
          <url path="src/sped/negocio/Pruebas/LN_C_SFCorreoRemoteClient.java"/>
+         <url path="src/sped/negocio/Pruebas/BDL_C_SFConfiguracionHorarioRemoteClient.java"/>
       </list>
       <url n="weblogicEjbJarNodeURL" path="src/META-INF/weblogic-ejb-jar.xml"/>
    </hash>
    <hash n="oracle.ide.model.TechnologyScopeConfiguration">
       <list n="technologyScope">
          <string v="Database"/>
+         <string v="Database-Modeling"/>
          <string v="EJB"/>
          <string v="Java"/>
          <string v="TopLink"/>

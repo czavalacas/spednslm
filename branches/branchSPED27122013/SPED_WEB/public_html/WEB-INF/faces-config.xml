@@ -326,4 +326,19 @@
     <managed-bean-class>sped.vista.beans.mantenimiento.bSessionConfiguracion</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bConfiguracionHorario</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.horarios.bConfiguracionHorario</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionConfiguracionHorario</property-name>
+      <property-class>sped.vista.beans.horarios.bSessionConfiguracionHorario</property-class>
+      <value>#{sessionConfiguracionHorario}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionConfiguracionHorario</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.horarios.bSessionConfiguracionHorario</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>

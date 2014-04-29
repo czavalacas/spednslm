@@ -40,4 +40,5 @@ public class BDL_C_SFDuracionHorarioBean implements BDL_C_SFDuracionHorarioRemot
             return null;
         }
     }
+
 }
