@@ -435,4 +435,16 @@
         <ejb-name>BDL_T_SFEmail</ejb-name>
         <stateless-session-descriptor/>
     </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>BDL_C_SFConfiguracionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>BDL_C_SFDuracionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_C_SFConfiguracionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
 </weblogic-ejb-jar>
