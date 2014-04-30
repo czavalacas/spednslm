@@ -20,6 +20,8 @@ public class DuracionHorario implements Serializable {
     private Time duracion;
     @Column(name = "hora_inicio")
     private Time hora_inicio;
+    @Column(name = "nro_bloque")
+    private int nro_bloque;
     @Column(name = "max_bloque")
     private int max_bloque;
     @Id
@@ -89,6 +91,14 @@ public class DuracionHorario implements Serializable {
 
     public void setNidSede(int nidSede) {
         this.nidSede = nidSede;
+    }
+
+    public void setNro_bloque(int nro_bloque) {
+        this.nro_bloque = nro_bloque;
+    }
+
+    public int getNro_bloque() {
+        return nro_bloque;
     }
 
     @Override
