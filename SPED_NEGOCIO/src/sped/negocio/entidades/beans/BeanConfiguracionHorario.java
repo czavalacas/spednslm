@@ -1,9 +1,13 @@
 package sped.negocio.entidades.beans;
 
+import java.io.Serializable;
+
 import java.sql.Time;
 
-public class BeanConfiguracionHorario {
-    
+public class BeanConfiguracionHorario implements Serializable{
+    @SuppressWarnings("compatibility:1048397016342994664")
+    private static final long serialVersionUID = 1L;
+
     private Time hora_fin;
     private Time hora_inicio;
     private int nidConfig;
