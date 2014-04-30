@@ -14,6 +14,7 @@ public class BeanDuracionHorario implements Serializable {
 
     private Time duracion;
     private Time hora_inicio;
+    private int nro_bloque;
     private int max_bloque;
     private int nidDura;
     private int nidNivel;
@@ -70,4 +71,11 @@ public class BeanDuracionHorario implements Serializable {
         return nidSede;
     }
 
+    public void setNro_bloque(int nro_bloque) {
+        this.nro_bloque = nro_bloque;
+    }
+
+    public int getNro_bloque() {
+        return nro_bloque;
+    }
 }

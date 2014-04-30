@@ -9,7 +9,9 @@
         <af:spacer height="10" id="s2"/>
       </af:panelGroupLayout>
       <af:panelGroupLayout id="pgl3">
-        <af:button text="button 1" id="b1" action="#{bConfiguracionHorario.prueba}"/>
+      
+      
+      
       </af:panelGroupLayout>
     </af:panelGroupLayout>
   </f:view>

@@ -14,9 +14,5 @@ public class bConfiguracionHorario {
     public bSessionConfiguracionHorario getSessionConfiguracionHorario() {
         return sessionConfiguracionHorario;
     }
-
-    public String prueba() {
-        System.out.println(sessionConfiguracionHorario.getPruebita());
-        return null;
-    }
+    
 }
