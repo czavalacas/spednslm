@@ -32,9 +32,14 @@ public class BDL_C_SFDuracionHorarioBean implements BDL_C_SFDuracionHorarioRemot
             String qlString = "SELECT dh from DuracionHorario dh " +
                               "WHERE dh.nidSede =:nidSede " +
                               "AND dh.nidNivel =:nidNivel " ;
-            return (DuracionHorario)em.createQuery(qlString).setParameter("nidSede", nidSede)
-                                                            .setParameter("nidNivel", nidNivel)
-                                                            .getSingleResult();
+            List<DuracionHorario> lst = em.createQuery(qlString).setParameter("nidSede", nidSede)
+                                                                .setParameter("nidNivel", nidNivel)
+                                                                .getResultList();
+            if(lst.size() != 0){
+                return lst.get(0);
+            }else{
+                return null;   
+            }            
         }catch(Exception e){
             e.printStackTrace();
             return null;

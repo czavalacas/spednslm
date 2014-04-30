@@ -29,10 +29,14 @@ import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 
+import sped.negocio.LNSF.IR.LN_C_SFConfiguracionHorarioRemote;
+import sped.negocio.LNSF.IR.LN_C_SFDuracionHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 
+import sped.negocio.entidades.beans.BeanConfiguracionHorario;
+import sped.negocio.entidades.beans.BeanDuracionHorario;
 import sped.negocio.entidades.beans.BeanHorario;
 
 import sped.negocio.entidades.beans.BeanMain;
@@ -46,6 +50,10 @@ public class bGestionarHorario {
     private LN_C_SFHorarioRemote ln_C_SFHorarioRemote;
     @EJB
     private LN_C_SFMainRemote ln_C_SFMainRemote;
+    @EJB
+    private LN_C_SFConfiguracionHorarioRemote ln_C_SFConfiguracionHorarioRemote;
+    @EJB
+    private LN_C_SFDuracionHorarioRemote ln_C_SFDuracionHorarioRemote;
     private bSessionGestionarHorario sessionGestionarHorario;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private RichSelectOneChoice choiceSede;
@@ -66,6 +74,7 @@ public class bGestionarHorario {
     private int nroHoras;
     private RichInputText itHor;
     private BeanMain beanMain;
+    
 
     public bGestionarHorario() {        
     }
@@ -81,11 +90,69 @@ public class bGestionarHorario {
         }
     } 
     
+    public boolean verificarConfiguracionHorario(int nidSede, int nidNivel){
+        boolean valida = false;
+        BeanDuracionHorario duracion = ln_C_SFDuracionHorarioRemote.getDuracionHorarioBySedeNivel(nidSede, nidNivel);
+        List<BeanConfiguracionHorario> lstCH = ln_C_SFConfiguracionHorarioRemote.getConfiguracionBySedeNivel(nidSede, nidNivel);
+        if(duracion == null){
+            Utils.mostrarMensaje(ctx, "Configure los parametros del horario", "Erro", 2);
+        }else if(lstCH.size() == 0){
+            Utils.mostrarMensaje(ctx, "Configure llas restriciones en el horario", "Erro", 2);
+        }else{
+            valida = true;
+            configuracionHorario(duracion, lstCH);
+        }
+        return valida;
+    }
+    
+    public void configuracionHorario(BeanDuracionHorario duracion, List<BeanConfiguracionHorario> lstConfHorario){
+        Utils.putSession("maxHoras", (duracion.getMax_bloque()*5));//grabamos el maximo permitido por curso
+        String horas[] = new String[duracion.getNro_bloque()];
+        Calendar inicio = new GregorianCalendar();
+        inicio.setTimeInMillis(duracion.getHora_inicio().getTime());
+        Time time_aux = new Time(0);
+        for(int i = 0; i < 5 ; i++){
+            time_aux.setTime(sumaHoras(inicio, duracion.getDuracion()).getTimeInMillis());
+            horas[i] = time_aux.toString();
+        }        
+        for(int i = 0; i < 5 ; i++){
+            System.out.println(horas[i]);
+        }
+    }
+    
+    public Calendar sumaHoras(Calendar inicio, Time agregar){
+        inicio.add(Calendar.HOUR, agregar.getHours());
+        inicio.add(Calendar.MINUTE, agregar.getMinutes());
+        return inicio;
+    }
+    
+    public void llenarVectorHoras(){
+        BeanHorario horario = ln_C_SFHorarioRemote.getHorario();
+        Utils.putSession("maxHoras", (horario.getMaxBloque()*5));
+        sessionGestionarHorario.setNroBloque(horario.getNroBloque());
+        Calendar inicio = new GregorianCalendar();
+        inicio.setTimeInMillis(horario.getHora_ini().getTime());
+        Time suma = new Time(inicio.getTimeInMillis());
+        Time duracion = new Time(horario.getDuracion().getTime());
+        String horas[] = new String[horario.getNroBloque()];
+        for(int i = 0 ; i < horario.getNroBloque(); i++){
+            if(i != 0){
+                inicio.add(Calendar.HOUR, duracion.getHours());
+                inicio.add(Calendar.MINUTE, duracion.getMinutes());
+                suma.setTime(inicio.getTimeInMillis());
+            }
+            horas[i] = suma.toString();
+        }
+        sessionGestionarHorario.setHoras(horas);
+    }
+    
     public String abrirPopGenerarHorario() {
-        Utils.showPopUpMIDDLE(popGHor);        
-        sessionGestionarHorario.setLstBeanMain(new ArrayList());
-        llenarVectorHoras();
-        validaHorario();
+        if(verificarConfiguracionHorario(2, 2)){
+            Utils.showPopUpMIDDLE(popGHor);        
+            sessionGestionarHorario.setLstBeanMain(new ArrayList());
+            //llenarVectorHoras();
+            //validaHorario();
+        }        
         return null;
     }
     
@@ -274,25 +341,7 @@ public class bGestionarHorario {
     /**
      * Este metodo llena un vector string con las horas inicio de cada bloque, para luego ser comprado mas rapido
      */
-    public void llenarVectorHoras(){
-        BeanHorario horario = ln_C_SFHorarioRemote.getHorario();
-        Utils.putSession("maxHoras", (horario.getMaxBloque()*5));
-        sessionGestionarHorario.setNroBloque(horario.getNroBloque());
-        Calendar inicio = new GregorianCalendar();
-        inicio.setTimeInMillis(horario.getHora_ini().getTime());
-        Time suma = new Time(inicio.getTimeInMillis());
-        Time duracion = new Time(horario.getDuracion().getTime());
-        String horas[] = new String[horario.getNroBloque()];
-        for(int i = 0 ; i < horario.getNroBloque(); i++){
-            if(i != 0){
-                inicio.add(Calendar.HOUR, duracion.getHours());
-                inicio.add(Calendar.MINUTE, duracion.getMinutes());
-                suma.setTime(inicio.getTimeInMillis());
-            }
-            horas[i] = suma.toString();
-        }
-        sessionGestionarHorario.setHoras(horas);
-    }
+ 
     
     public void resetValoresPopGenerarHorario(){
         sessionGestionarHorario.setNidProfesor(null);
