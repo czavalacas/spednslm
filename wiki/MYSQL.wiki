@@ -1,6 +1,6 @@
 #Comandos utiles de mysql en el proyecto
 
-*show processlist;
+# show processlist;
 *SET GLOBAL event_scheduler = ON;
 *SHOW EVENTS FROM mmsi_sped;
 *ALTER EVENT demonioEvmeval 
