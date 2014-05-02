@@ -1,0 +1,8 @@
+#Comandos utiles de mysql en el proyecto
+
+show processlist;
+SHOW EVENTS FROM mmsi_sped;
+ALTER EVENT demonioEvmeval 
+        ON SCHEDULE 
+            EVERY 1 HOUR
+   STARTS '2014-05-02 16:00:00' ;
