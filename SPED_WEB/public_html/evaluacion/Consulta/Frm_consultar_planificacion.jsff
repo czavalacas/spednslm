@@ -107,34 +107,34 @@
                     <af:column width="20">
                         <af:outputText value="#{vs.index + 1}"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Planificador" id="c1" width="180">
+                    <af:column sortable="true" headerText="Planificador" id="c1" width="180" sortProperty="nombrePLanificador">
                         <af:outputText value="#{row.nombrePLanificador}" id="ot1"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Fecha Planificacion" id="c2" width="100" align="center" sortProperty="fechaPlanificacion">
+                    <af:column sortable="true" headerText="Fecha Planificacion" id="c2" width="100" align="center" sortProperty="fechaPlanificacion">
                         <af:outputText value="#{row.fechaPlanificacion}" id="ot2">
                          <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                     </af:outputText>
                     </af:column>
-                    <af:column sortable="false" headerText="Evaluador" id="c3" width="180">
+                    <af:column sortable="true" headerText="Evaluador" id="c3" width="180" sortProperty="nombreEvaluador">
                         <af:outputText value="#{row.nombreEvaluador}" id="ot3"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Fecha Evaluacion" id="c4" width="100" align="center" sortProperty="startDate">
+                    <af:column sortable="true" headerText="Fecha Evaluacion" id="c4" width="100" align="center" sortProperty="startDate">
                         <af:outputText value="#{row.startDate}" id="ot4">
                           <af:convertDateTime type="date" pattern="dd/MM/yyyy"/></af:outputText>
                     </af:column>
-                    <af:column sortable="false" headerText="Docente" id="c5" width="180">
+                    <af:column sortable="true" headerText="Docente" id="c5" width="180" sortProperty="main.profesor.apellidos">
                         <af:outputText value="#{row.main.profesor.apellidos} #{row.main.profesor.nombres}" id="ot5"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Curso" id="c6" width="100">
+                    <af:column sortable="true" headerText="Curso" id="c6" width="100" sortProperty="main.curso.descripcionCurso">
                         <af:outputText value="#{row.main.curso.descripcionCurso}" id="ot6"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Grado" id="c7" width="100">
+                    <af:column sortable="true" headerText="Grado" id="c7" width="100" sortProperty="main.aula.gradoNivel.grado.descripcionGrado">
                         <af:outputText value="#{row.main.aula.gradoNivel.grado.descripcionGrado}" id="ot7"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Nivel" id="c8" width="100">
+                    <af:column sortable="true" headerText="Nivel" id="c8" width="100" sortProperty="main.aula.gradoNivel.nivel.descripcionNivel">
                         <af:outputText value="#{row.main.aula.gradoNivel.nivel.descripcionNivel}" id="ot8"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Sede" id="c9" width="100">
+                    <af:column sortable="true" headerText="Sede" id="c9" width="100" sortProperty="main.aula.sede.descripcionSede">
                         <af:outputText value="#{row.main.aula.sede.descripcionSede}" id="ot9"/>
                     </af:column>
                     <af:column sortable="false" headerText="Hora" id="c10" width="50">
@@ -142,7 +142,7 @@
                         <af:convertDateTime type="date" pattern="hh:mm a"/>
                         </af:outputText>
                     </af:column>
-                    <af:column sortable="false" headerText="Estado" id="c11" width="100"
+                    <af:column sortable="true" headerText="Estado" id="c11" width="100" sortProperty="estadoEvaluacion"
                     inlineStyle="color:White; font-weight:bold;text-align:center; #{row.nidEstadoEvaluacion == '1' ? 'background-color:green' : (row.nidEstadoEvaluacion == '2'  ? 'background-color:Orange' :(row.nidEstadoEvaluacion == '3' ? 'background-color:Red' : 'background-color:red'))} ">
                         <af:outputText value="#{row.estadoEvaluacion}" id="ot11"/>
                     </af:column>

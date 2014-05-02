@@ -450,7 +450,7 @@
         -->
          <!--POPUP PROVICIONAL-->
          <af:popup childCreation="deferred" autoCancel="disabled" id="p7" binding="#{bPlanificarEva.popupEvento2}" >
-            <af:dialog id="d7" title="Horarios Disponibles" type="ok" inlineStyle="width:850px;">
+            <af:dialog id="d7" title="Horarios Disponibles" type="none" inlineStyle="width:850px;">
                 <af:panelGroupLayout id="pgl17">    
                     <af:panelGridLayout id="pgl42">
                         <af:gridRow marginTop="5px" height="auto" id="gr12">

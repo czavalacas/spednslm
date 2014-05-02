@@ -98,7 +98,10 @@
                           id="t2" width="inherit;" fetchSize="25" 
                           inlineStyle="width:inherit; margin:0px 50px 0px 0px;"
                           binding="#{bGestionarUsuarios.t1}" rowSelection="single" 
-                          selectionListener="#{bGestionarUsuarios.selecionarUsuario}" >
+                          selectionListener="#{bGestionarUsuarios.selecionarUsuario}" varStatus="vs">
+                    <af:column width="18">
+                        <af:outputText value="#{vs.index + 1}"/>
+                    </af:column>      
                     <af:column sortable="true" headerText="Nombres" align="start" id="c1" width="300"
                                sortProperty="nombres">
                         <af:outputText value="#{row.nombres}" id="ot1"/>
