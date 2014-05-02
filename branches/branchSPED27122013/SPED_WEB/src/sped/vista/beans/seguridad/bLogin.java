@@ -3,6 +3,7 @@ package sped.vista.beans.seguridad;
 import java.io.IOException;
 import java.io.Serializable;
 
+import java.util.Enumeration;
 import java.util.Locale;
 
 import javax.ejb.EJB;
@@ -12,6 +13,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -38,6 +40,8 @@ public class bLogin implements Serializable {
     private static final long serialVersionUID = 1L;
     private RichPopup popMsj;
     private RichActiveOutputText otError;
+    private RichInputText itUsuario;
+    private RichInputText itClave;
     FacesContext ctx = FacesContext.getCurrentInstance();
     @EJB
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
@@ -53,8 +57,7 @@ public class bLogin implements Serializable {
     private String mensajeCorreo;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private final static String LOGIN = "/faces/Frm_login";
-    private RichInputText itUsuario;
-    private RichInputText itClave;
+    ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
 
     public bLogin(){
         super();
@@ -75,6 +78,7 @@ public class bLogin implements Serializable {
             if(beanUsuario.getError().getCidError().equals("000")){
                 Utils.putSession("USER",beanUsuario);
                 setRedireccionar("000");
+                //test();
             }else{
                 setMsjError(beanUsuario.getError().getDescripcionError());
                 Utils.addTarget(otError);
@@ -122,6 +126,28 @@ public class bLogin implements Serializable {
         }
         return null;
     }
+    
+    public void test(){
+           String a = ((HttpServletRequest) ectx.getRequest()).getLocalAddr();
+           String b = ((HttpServletRequest) ectx.getRequest()).getLocalName();
+           int c = ((HttpServletRequest) ectx.getRequest()).getLocalPort();
+           String d = ((HttpServletRequest) ectx.getRequest()).getRemoteHost();
+           String e = ((HttpServletRequest) ectx.getRequest()).getRemoteUser();
+           int f = ((HttpServletRequest) ectx.getRequest()).getRemotePort();
+           String headername = "";
+           for(Enumeration en = ((HttpServletRequest) ectx.getRequest()).getHeaderNames(); en.hasMoreElements();){
+                   headername = (String)en.nextElement();
+               Utils.sysout("headername  "+headername+" : " +((HttpServletRequest) ectx.getRequest()).getHeader(headername));
+           }
+           String clientIpAddress = ((HttpServletRequest) ectx.getRequest()).getRemoteAddr();
+           Utils.sysout("getLocalAddr: "+a);
+           Utils.sysout("getLocalName: "+b);
+           Utils.sysout("getLocalPort: "+c);
+           Utils.sysout("getRemoteHost: "+d);
+           Utils.sysout("getRemoteUser: "+e);
+           Utils.sysout("getRemotePort: "+f);
+           Utils.sysout("clientIpAddress: "+clientIpAddress);
+       }
     
     public void setTituloPopup(String tituloPopup) {
         this.tituloPopup = tituloPopup;

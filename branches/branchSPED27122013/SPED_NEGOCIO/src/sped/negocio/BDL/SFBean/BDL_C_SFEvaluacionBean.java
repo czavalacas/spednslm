@@ -342,16 +342,16 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
      * @param nidUsuario
      * @author dfloresgonz
      * @since 04.02.2014
-     * @return
+     * @return Lista de Entidades de Evmeval para poder escojer una y evaluarla
      */
     public List<Evaluacion> getPlanificaciones_BDL_WS(int nidRol,
-                                                       int nidSede,
-                                                       int nidAreaAcademica,
-                                                       int nidUsuario,
-                                                       String nombreProfesor,
-                                                       String curso,
-                                                       int nidSedeFiltro,
-                                                       int nidAAFiltro){
+                                                      int nidSede,
+                                                      int nidAreaAcademica,
+                                                      int nidUsuario,
+                                                      String nombreProfesor,
+                                                      String curso,
+                                                      int nidSedeFiltro,
+                                                      int nidAAFiltro){
         try{
             String qlString = "SELECT e " +
                               "FROM Evaluacion e " +
@@ -359,7 +359,13 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             if(nidRol == 4){//Evaluador x Sede
                 qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
             }else if(nidRol == 2){//Evaluador x Area
-                qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
+                if (nidAreaAcademica == 12 || nidAreaAcademica == 13) { //12 = Primer Ciclo 13 = Inicial
+                    qlString = qlString.concat(" and e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica ");
+                } else {
+                    qlString = qlString.concat(" and e.main.curso.nidAreaNativa = :nidAreaAcademica ");
+                }
+                qlString = qlString.concat(" AND e.nidEvaluador = :nidEvaluador ");
+            //    qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
             }else if(nidRol == 1){//Director
                 //TODOS LOS PERMISOS
             }
@@ -381,12 +387,13 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 qlString = qlString.concat(" AND upper(e.main.curso.descripcionCurso) like upper(:curso) ");
             }
             qlString = qlString.concat(" AND CAST(e.startDate AS date) = CURRENT_DATE  ");//TODO Fecha de planificaciones solo hoy
-            qlString = qlString.concat(" ORDER BY e.startDate DESC ");
+            qlString = qlString.concat(" ORDER BY e.startDate ASC ");
             //Utiles.sysout("query:" + qlString);
             Query query = em.createQuery(qlString);
             if(nidRol == 4){//Evaluador x Sede
                 query.setParameter("nidSede",nidSede);
             }else if(nidRol == 2){//Evaluador x Area
+                
                 query.setParameter("nidAreaAcademica",nidAreaAcademica).setParameter("nidEvaluador",nidUsuario);
             }
             if(nidSedeFiltro != 0){
