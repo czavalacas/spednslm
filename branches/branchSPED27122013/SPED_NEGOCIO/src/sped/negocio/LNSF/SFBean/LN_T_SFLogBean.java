@@ -1,5 +1,9 @@
 package sped.negocio.LNSF.SFBean;
 
+import java.sql.Timestamp;
+
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import javax.ejb.EJB;
@@ -48,6 +52,8 @@ public class LN_T_SFLogBean implements LN_T_SFLogRemote,
             log.setDevice_screendpi(array1[11]);
             log.setDevice_diagonalsize(array1[12]);
             log.setNid_usuario(nidUsuario);
+            log.setFechaConexion(new Timestamp(new Date().getTime()));
+            log.setFechaEvento(new Timestamp(new Date().getTime()));
             log = bdL_T_SFLogLocal.persistLog(log);
             return log.getNidLog();
         }catch(Exception e){
