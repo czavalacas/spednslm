@@ -81,11 +81,12 @@ public class bLogin {
                     }else{
                         error = beanUsuario.getError().getDescripcionError();
                     }
-                }catch (AdfInvocationException ex) {
+                }catch (AdfInvocationException ex) {AdfmUtils.logStackTrace(ex);
                     error = "m_0002";
                 } catch (Exception e) {
                     e.printStackTrace();
                     //AdfmUtils.log("error!: "+e.getMessage());
+                    AdfmUtils.logStackTrace(e);
                     error = "m_0003";
                 }
                 if(!error.equals("000")){
@@ -117,13 +118,13 @@ public class bLogin {
                     pnames.add("arg0");
                     params.add(this.getClaveRecuperar());
                     ptypes.add(String.class);
-                    AdfmUtils.log("clave: "+claveRecuperar);
+                    //AdfmUtils.log("clave: "+claveRecuperar);
                     String resultado = (String)AdfmfJavaUtilities.invokeDataControlMethod(WEBSERVICE_NAME,
                                                                                          null, 
                                                                                          "recuperarClave",
                                                                                          pnames, 
                                                                                          params, 
-                                                                                         ptypes);AdfmUtils.log("paso:"+resultado);
+                                                                                         ptypes);//AdfmUtils.log("paso:"+resultado);
                     AdfmUtils.alert(FEATURE, ALERTA, new Object[] {resultado});
                 }else{
                     AdfmUtils.alert(FEATURE, 
@@ -136,8 +137,8 @@ public class bLogin {
                                 new Object[] {"Ingrese su correo"});
             }
         }catch(Exception e){
-            AdfmUtils.logStackTrace(e);
-            AdfmUtils.alert(FEATURE, ALERTA, new Object[] { "Hubo un error al insertar. Intentelo nuevamente."});
+            //AdfmUtils.logStackTrace(e);
+            AdfmUtils.alert(FEATURE, ALERTA, new Object[] { "Hubo un error con la conexion. Intentelo nuevamente."});
         }
         setClaveRecuperar(null);
     }

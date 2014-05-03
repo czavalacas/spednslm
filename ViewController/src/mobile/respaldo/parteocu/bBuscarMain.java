@@ -38,7 +38,7 @@ public class bBuscarMain {
         ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.rol.nidRol}", Integer.class);
         Integer rol = (Integer)ve1.getValue(adfELContext);
 
-        ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.sedeNivel.sede.nidSede}", Integer.class);
+        ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.sede.nidSede}", Integer.class);
         Integer sede = (Integer)ve2.getValue(adfELContext);
         
         if(rol.intValue() == 1 || rol.intValue() == 2 || rol.intValue() == 5){

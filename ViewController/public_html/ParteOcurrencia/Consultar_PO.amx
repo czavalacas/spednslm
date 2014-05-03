@@ -18,7 +18,7 @@
      
       <amx:inputText value="#{bindings.arg3.inputValue}" id="it4" hintText="Profesor"/>
        <amx:selectOneChoice label="Sede" id="socSedes" value="#{bindings.arg4.inputValue}"
-                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2}"
                                          valueChangeListener="#{viewScope.bConsultar_PO.cambioEnSede}"
                                          simple="true">
             <amx:selectItem value="0" label="Seleccionar Sede"/>
@@ -26,7 +26,7 @@
         </amx:selectOneChoice>
       
       <amx:selectOneChoice label="Usuarios" id="socUsus" value="#{bindings.arg5.inputValue}"
-                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2}"
                                          valueChangeListener="#{viewScope.bConsultar_PO.cambioEnUsuario}"
                                          simple="true">
             <amx:selectItem value="0" label="Seleccionar Usuario"/>
