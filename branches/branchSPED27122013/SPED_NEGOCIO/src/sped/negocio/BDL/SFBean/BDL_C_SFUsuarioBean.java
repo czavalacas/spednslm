@@ -165,10 +165,10 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
                     strQuery = strQuery.concat(" AND u.estadoUsuario = :u_estadoUsuario ");
                 }
                 if(beanUsuario.getNidSede() != 0){
-                    strQuery = strQuery.concat(" AND u.sedeNivel.sede.nidSede = :u_nidSede ");
+                    strQuery = strQuery.concat(" AND u.sede.nidSede = :u_nidSede ");
                 }
                 if(beanUsuario.getNidNivel() != 0){
-                    strQuery = strQuery.concat(" AND u.sedeNivel.nivel.nidNivel = :u_nidNivel ");
+                    strQuery = strQuery.concat(" AND u.nivel.nidNivel = :u_nidNivel ");
                 }
             }
             strQuery = strQuery.concat(" ORDER BY u.estadoUsuario DESC , u.nombres ASC ");
