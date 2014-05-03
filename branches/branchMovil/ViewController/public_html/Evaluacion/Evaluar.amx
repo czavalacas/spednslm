@@ -287,8 +287,8 @@
         </amx:panelSplitter>
     </amx:panelPage>
     <amx:popup id="p1" autoDismiss="false" animation="slideDown"
-               inlineStyle="position:relative;margin-top:#{(deviceScope.hardware.screen.availableHeight-230)/2}px;margin-left:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;
-               margin-right:#{(deviceScope.hardware.screen.availableHeight*10)/100}px;width:#{deviceScope.hardware.screen.availableWidth};height:230px;">
+               inlineStyle="position:relative;margin-top:#{(deviceScope.hardware.screen.availableHeight-266)/2}px;margin-left:#{(deviceScope.hardware.screen.availableHeight*10)/160}px;
+               margin-right:#{(deviceScope.hardware.screen.availableHeight*10)/160}px;width:#{deviceScope.hardware.screen.availableWidth};height:266px;">
         <amx:outputText value="Indicador: #{pageFlowScope.descIndi}" id="ot7"/>
         <amx:tableLayout id="tl5" width="100%" inlineStyle="width:100%;">
             <amx:rowLayout id="rl5">

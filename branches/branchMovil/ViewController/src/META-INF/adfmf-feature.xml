@@ -43,5 +43,12 @@
         </adfmf:includes>
       </adfmf:amx>
     </adfmf:content>
+    <adfmf:content id="MiApp.ConsPlanif.7">
+      <adfmf:amx file="Consultas/Consultar_Planificacion.amx">
+        <adfmf:includes>
+          <adfmf:include type="JavaScript" file="resources/js/ScriptUtiles.js" id="i7"/>
+        </adfmf:includes>
+      </adfmf:amx>
+    </adfmf:content>
   </adfmf:feature>
 </adfmf:features>

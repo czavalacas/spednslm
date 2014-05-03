@@ -2,7 +2,14 @@ package mobile.respaldo.Consultas;
 
 import com.sun.util.logging.Level;
 import com.sun.util.logging.Logger;
+
+import java.sql.Timestamp;
+
+import java.util.Date;
+
 import javax.el.ValueExpression;
+
+import mobile.AdfmUtils;
 
 import mobile.beans.BeanPlanificacion;
 
@@ -20,6 +27,8 @@ public class bConsultaPlanificacion {
     AdfELContext adfELContext = AdfmfJavaUtilities.getAdfELContext();
     private final static String METODO = "#{bindings.getPlanificaciones_WS}";
     private final static String METODO_ITERATOR = "#{bindings.getPlanificaciones_WSIterator}";
+    private final static String FEATURE = "MiApp";
+    private final static String ALERTA = "mostrarMensaje";
 
     public bConsultaPlanificacion() {
 
@@ -62,7 +71,7 @@ public class bConsultaPlanificacion {
         ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.rol.nidRol}", Integer.class);
         Integer rol = (Integer)ve1.getValue(adfELContext);
 
-        ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.sedeNivel.sede.nidSede}", Integer.class);
+        ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.sede.nidSede}", Integer.class);
         Integer sede = (Integer)ve2.getValue(adfELContext);
 
         ValueExpression ve3 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.usuario.areaAcademica.nidAreaAcademica}",Integer.class);
@@ -79,11 +88,11 @@ public class bConsultaPlanificacion {
         method.getParamsMap().put("arg4", null);
         AdfmfJavaUtilities.setELValue("#{bindings.arg5.inputValue}", null);
         method.getParamsMap().put("arg5", null);
-        if(rol.intValue() == 1 || rol.intValue() == 2 || rol.intValue() == 5){
+        if(rol.intValue() == 1 || rol.intValue() == 2){//Director || Area
             AdfmfJavaUtilities.setELValue("#{bindings.arg6.inputValue}", new Integer(0));
             method.getParamsMap().put("arg6", new Integer(0));
         }
-        if(rol.intValue() == 1 || rol.intValue() == 4 || rol.intValue() == 5){
+        if(rol.intValue() == 1 || rol.intValue() == 4){//Director || Area
             AdfmfJavaUtilities.setELValue("#{bindings.arg7.inputValue}", new Integer(0));
             method.getParamsMap().put("arg7", new Integer(0));
         }
@@ -99,5 +108,25 @@ public class bConsultaPlanificacion {
 
     public void cambioCurso(ValueChangeEvent vce) {
         actualizarSegunSOC("arg5", vce);
+    }
+
+    public String selectPlanif() {
+        ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.startDate}", Date.class);
+        ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.endDate}", Date.class);
+        
+        Date fecInicio = (Date)ve1.getValue(adfELContext);
+        Date fecFin =    (Date)ve2.getValue(adfELContext);
+        
+        AdfmUtils.log("fecInicio: "+fecInicio.getTime()+" fecFin: "+fecFin.getTime());
+        Timestamp ts_fecI = new Timestamp(fecInicio.getTime());
+        Timestamp ts_fecF = new Timestamp(fecFin.getTime());AdfmUtils.log("ts_fecI: "+ts_fecI+" ts_fecF: "+ts_fecF);
+        Timestamp hoy = new Timestamp(new Date().getTime());AdfmUtils.log("hoy:"+hoy);
+        boolean isBetween = hoy.after(ts_fecI) && hoy.before(ts_fecF);AdfmUtils.log("isbet: "+isBetween);
+        if(isBetween){
+            return "evaluar";
+        }else{
+            AdfmUtils.alert(FEATURE, ALERTA, new Object[] {"La hora actual no es la indicada para realizar esta evaluacion, o se paso la hora o aun no llega."});
+        }
+        return null;
     }
 }

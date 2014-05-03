@@ -16,7 +16,7 @@ public class BeanUsuario implements Serializable {
     private String usuario;
     private BeanRol rol;
     private int nidRol;
-    private BeanSedeNivel sedeNivel;   
+    private BeanSede sede; 
     private int nidSede;
     private int nidNivel;
     private BeanAreaAcademica areaAcademica;
@@ -99,14 +99,6 @@ public class BeanUsuario implements Serializable {
         return nidRol;
     }
 
-    public void setSedeNivel(BeanSedeNivel sedeNivel) {
-        this.sedeNivel = sedeNivel;
-    }
-
-    public BeanSedeNivel getSedeNivel() {
-        return sedeNivel;
-    }
-
     public void setNidSede(int nidSede) {
         this.nidSede = nidSede;
     }
@@ -177,5 +169,13 @@ public class BeanUsuario implements Serializable {
 
     public Integer getNidLog() {
         return nidLog;
+    }
+
+    public void setSede(BeanSede sede) {
+        this.sede = sede;
+    }
+
+    public BeanSede getSede() {
+        return sede;
     }
 }

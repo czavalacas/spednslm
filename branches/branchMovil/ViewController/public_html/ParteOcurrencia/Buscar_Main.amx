@@ -10,7 +10,7 @@
         
         <amx:panelFormLayout labelPosition="topCenter" fieldHalign="start">
             <amx:selectOneChoice label="Sede" id="soc1" value="#{bindings.arg0.inputValue}"
-                                 rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                 rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2}"
                                  simple="true" valueChangeListener="#{viewScope.bBuscarMain.cambioEnSede}">
                 <amx:selectItem value="0" label="Seleccionar Sede"/>
                 <amx:selectItems value="#{viewScope.bMain.listaSedes}"/>

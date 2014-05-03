@@ -21,15 +21,15 @@
                      simple="true"/>
       <amx:inputText value="#{bindings.arg5.inputValue}" id="it4" simple="true"
                      valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioCurso}" hintText="Curso"/>
-      <amx:selectOneChoice  label="Sede" id="soc1" value="#{bindings.arg6.inputValue}"
-                            rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
-                            valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioEnSede}" simple="true">
+      <amx:selectOneChoice label="Sede" id="soc1" value="#{bindings.arg6.inputValue}"
+                           rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2}"
+                           valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioEnSede}" simple="true">
         <amx:selectItem value="0" label="Seleccionar Sede"/>
         <amx:selectItems value="#{viewScope.bMain.listaSedes}"/>
       </amx:selectOneChoice> 
-      <amx:selectOneChoice  label="Area" id="soc2" value="#{bindings.arg7.inputValue}"
-                            rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 4 || pageFlowScope.usuario.rol.nidRol == 5}"
-                            valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioEnArea}" simple="true">
+      <amx:selectOneChoice label="Area" id="soc2" value="#{bindings.arg7.inputValue}"
+                           rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 4}"
+                           valueChangeListener="#{viewScope.bConsultaPlanificacion.cambioEnArea}" simple="true">
         <amx:selectItem value="0" label="Seleccionar Area"/>
         <amx:selectItems value="#{viewScope.bMain.listaAreas}"/>
       </amx:selectOneChoice>
@@ -38,7 +38,7 @@
     <amx:listView var="row" value="#{bindings.Return1.collectionModel}" fetchSize="#{bindings.Return1.rangeSize}"
                   dividerAttribute="profesor" dividerMode="firstLetter" styleClass="adfmf-listView-insetList" id="lv1"
                   collapsibleDividers="true" showDividerCount="true">
-      <amx:listItem id="li1" action="evaluar">
+      <amx:listItem id="li1" action="#{viewScope.bConsultaPlanificacion.selectPlanif}">
         <amx:setPropertyListener from="#{row.profesor}" to="#{pageFlowScope.profesor}" type="action"/>
         <amx:setPropertyListener from="#{row.evaluador}" to="#{pageFlowScope.evaluador}" type="action"/>
         <amx:setPropertyListener from="#{row.planificador}" to="#{pageFlowScope.planificador}" type="action"/>
