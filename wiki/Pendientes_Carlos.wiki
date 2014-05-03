@@ -1,5 +1,6 @@
 #summary Pendientes de Carlos
 
-*arreglar el backing de planificar, se esta llamando a entidades!. Va contra la arquitectura.
-*En planificar se llama al getSession(USER) en metodos, deberia estar arriba en la declaracion.
-*En consultar planificaciones se esta usando IF innecesarios.
+Pendientes:
+  * arreglar el backing de planificar, se esta llamando a entidades!. Va contra la arquitectura. 
+  * En planificar se llama al getSession(USER) en metodos, deberia estar arriba en la declaracion. 
+  * En consultar planificaciones se esta usando IF innecesarios.
