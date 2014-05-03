@@ -130,7 +130,7 @@ public class bEvaluar {
     }
     
     public void registrarEvaluacion(ActionEvent actionEvent) {
-        String tipoFicha = getUsuario().getRol().getNidRol() == 4 ? "SD" : getUsuario().getRol().getNidRol() == 2 ? "E" : "";
+        String tipoFicha = getUsuario().getRol().getNidRol() == 4 ? "S" : getUsuario().getRol().getNidRol() == 2 ? "E" : "";Utils.sysout("tip: "+tipoFicha);
         int valoresFicha[] = ln_C_SFFichaLocal.getFichaToEvaluar(tipoFicha,sessionEvaluar.getPlanifSelect().getTipoFichaCurso());
         if(valoresFicha != null){
             if(valoresFicha[0] != 0){
