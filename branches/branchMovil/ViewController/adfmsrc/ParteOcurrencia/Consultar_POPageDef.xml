@@ -27,8 +27,8 @@
       <NamedData NDName="arg1" NDType="java.sql.Date" NDValue="${bindings.getListaPartesOcurrencia_WS_arg1}"/>
       <NamedData NDName="arg2" NDType="java.lang.Integer" NDValue="${bindings.getListaPartesOcurrencia_WS_arg2}"/>
       <NamedData NDName="arg3" NDType="java.lang.String" NDValue="${bindings.getListaPartesOcurrencia_WS_arg3}"/>
-      <NamedData NDName="arg4" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1  || pageFlowScope.usuario.rol.nidRol == 5 ? bindings.getListaPartesOcurrencia_WS_arg4 : pageFlowScope.usuario.sedeNivel.sede.nidSede}"/>
-      <NamedData NDName="arg5" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1  || pageFlowScope.usuario.rol.nidRol == 5 ? bindings.getListaPartesOcurrencia_WS_arg5 : pageFlowScope.usuario.nidUsuario}"/>
+      <NamedData NDName="arg4" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1 ? bindings.getListaPartesOcurrencia_WS_arg4 : pageFlowScope.usuario.sede.nidSede}"/>
+      <NamedData NDName="arg5" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1 ? bindings.getListaPartesOcurrencia_WS_arg5 : pageFlowScope.usuario.nidUsuario}"/>
     </methodAction>
     <attributeValues IterBinding="variables" id="arg0">
       <AttrNames>

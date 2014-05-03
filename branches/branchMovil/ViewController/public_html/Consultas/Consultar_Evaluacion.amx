@@ -14,14 +14,14 @@
                                    rendered="#{pageFlowScope.usuario.rol.nidRol != 3}"/>
                     <amx:inputText value="#{bindings.arg5.inputValue}" id="it9" hintText="Curso"/>
                     <amx:selectOneChoice label="Sede" id="soc1" value="#{bindings.arg6.inputValue}"
-                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2}"
                                          valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnSede}"
                                          simple="true">
                         <amx:selectItem value="0" label="Seleccionar Sede"/>
                         <amx:selectItems value="#{viewScope.bMain.listaSedes}"/>
                     </amx:selectOneChoice>
                     <amx:selectOneChoice label="Area" id="soc2" value="#{bindings.arg7.inputValue}"
-                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 4 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 4}"
                                          valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnArea}"
                                          simple="true">
                         <amx:selectItem value="0" label="Seleccionar Area"/>
@@ -43,14 +43,14 @@
                         <amx:selectItems value="#{viewScope.bConsultarEvaluacion.listTipoVisita}"/>
                     </amx:selectOneChoice>
                     <amx:selectOneChoice id="socPlani" value="#{bindings.arg12.inputValue}"
-                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1}"
                                          valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnPlanificador}"
                                          simple="true">
                         <amx:selectItem value="0" label="Seleccionar Planificador"/>
                         <amx:selectItems value="#{viewScope.bConsultarEvaluacion.listPlanificadores}"/>
                     </amx:selectOneChoice>
                     <amx:selectOneChoice id="socEva" value="#{bindings.arg13.inputValue}"
-                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 5}"
+                                         rendered="#{pageFlowScope.usuario.rol.nidRol == 1}"
                                          valueChangeListener="#{viewScope.bConsultarEvaluacion.cambioEnEvaluador}"
                                          simple="true">
                         <amx:selectItem value="0" label="Seleccionar Evaluador"/>

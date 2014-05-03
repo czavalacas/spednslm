@@ -34,7 +34,7 @@
                   InstanceName="data.WS_SPED"
                   ReturnName="data.WS_SPED.methodResults.getEvaluaciones_WS_WS_SPED_getEvaluaciones_WS_result">
       <NamedData NDName="arg0" NDValue="#{pageFlowScope.usuario.rol.nidRol}" NDType="java.lang.Integer"/>
-      <NamedData NDName="arg1" NDValue="#{pageFlowScope.usuario.sedeNivel.sede.nidSede}" NDType="java.lang.Integer"/>
+      <NamedData NDName="arg1" NDValue="#{pageFlowScope.usuario.sede.nidSede}" NDType="java.lang.Integer"/>
       <NamedData NDName="arg2" NDValue="#{pageFlowScope.usuario.areaAcademica.nidAreaAcademica}" NDType="java.lang.Integer"/>
       <NamedData NDName="arg3" NDValue="#{pageFlowScope.usuario.nidUsuario}" NDType="java.lang.Integer"/>
       <NamedData NDName="arg4" NDValue="${bindings.getEvaluaciones_WS_arg4}" NDType="java.lang.String"/>
