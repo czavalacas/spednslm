@@ -123,14 +123,15 @@ public class bEvaluar {
             btnRegistrar.setDisabled(false);
             Utils.addTarget(btnRegistrar);
         }else{
-            this.setError("La hora actual no es la indicada para realizar esta evaluacion, o se paso la hora o aun no llega.");
+            this.setError("La hora actual no es la indicada para realizar esta evaluacion, o se paso la hora o aun no llega");
             Utils.showPopUpMIDDLE(popMsj);
             Utils.unselectFilas(tbPlan);
         }
     }
     
     public void registrarEvaluacion(ActionEvent actionEvent) {
-        int valoresFicha[] = ln_C_SFFichaLocal.getFichaToEvaluar("E",sessionEvaluar.getPlanifSelect().getTipoFichaCurso());
+        String tipoFicha = getUsuario().getRol().getNidRol() == 4 ? "SD" : getUsuario().getRol().getNidRol() == 2 ? "E" : "";
+        int valoresFicha[] = ln_C_SFFichaLocal.getFichaToEvaluar(tipoFicha,sessionEvaluar.getPlanifSelect().getTipoFichaCurso());
         if(valoresFicha != null){
             if(valoresFicha[0] != 0){
                 sessionEvaluar.setMaxValor(valoresFicha[1]);

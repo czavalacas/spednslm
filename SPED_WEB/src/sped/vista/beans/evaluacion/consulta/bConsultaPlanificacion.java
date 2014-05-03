@@ -47,37 +47,17 @@ import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
+
 /** Clase de Respaldo bConsultarPlanificacion.java
  * @author czavalacas
  * @since 15.01.2014
  */
-
 public class bConsultaPlanificacion {
-    
-    @EJB
-    private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
-    @EJB
-    private LN_C_SFSedeRemote ln_C_SFSedeRemote;
-    @EJB
-    private LN_C_SFNivelRemote ln_C_SFNivelRemote;
-    @EJB
-    private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
-    @EJB
-    private LN_C_SFAreaAcademicaRemote ln_C_SFAreaAcademicaRemote;
-    @EJB
-    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
-    
-    private bSessionConsultarPlanificacion sessionConsultarPlanificacion;
-    
     private List listaEvaludaoresChoice;
     private List listaSedesChoice;
     private List listaNvelesChoice;   
     private List listaAreasChoice;
     private List listaEstadosChoice;
-    private BeanUsuario usuarioEnSesion;
-    
-    
-    
     private RichTable tbPlanificacion;
     private RichSelectOneChoice choiceEvaluadores;
     private RichSelectOneChoice choiceSedes;
@@ -88,30 +68,33 @@ public class bConsultaPlanificacion {
     private RichInputDate inputFechaMax;
     private RichSelectOneChoice choiceAreaAcademica;
     private RichSelectOneChoice choiceEstado;
-
-
+    private RichButton btnExp;
+    @EJB
+    private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
+    @EJB
+    private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
+    @EJB
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
+    private bSessionConsultarPlanificacion sessionConsultarPlanificacion;
+    private BeanUsuario usuarioEnSesion = (BeanUsuario) Utils.getSession("USER");;
+    
     public bConsultaPlanificacion() {
-        try {
-        
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
+    
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {   
         llenarCombos();        
         if(sessionConsultarPlanificacion.getExec()==0){
            sessionConsultarPlanificacion.setExec(1); 
            sessionConsultarPlanificacion.setNidEstadoPlanificacion("PENDIENTE");
-            usuarioEnSesion = (BeanUsuario) Utils.getSession("USER");
-            if(usuarioEnSesion.getRol().getNidRol()==2 ||usuarioEnSesion.getRol().getNidRol()==4 ||usuarioEnSesion.getRol().getNidRol()==5){
+            if(usuarioEnSesion.getRol().getNidRol() == 2 ||usuarioEnSesion.getRol().getNidRol() == 4){
                 sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
                 sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
             }
-            if(usuarioEnSesion.getRol().getNidRol()==3 ){
-                Date hoy=new Date();        
+            if(usuarioEnSesion.getRol().getNidRol()== 3){
+                Date hoy = new Date();        
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                Date fechaActual =hoy;
+                Date fechaActual = hoy;
                 String fechaConFormato = sdf.format(fechaActual);
                 sessionConsultarPlanificacion.setFechaHoy(fechaConFormato);
                 sessionConsultarPlanificacion.setDniProfesor(usuarioEnSesion.getDni());
@@ -119,6 +102,84 @@ public class bConsultaPlanificacion {
             buscarPlani();
         }        
     }    
+
+    public String buscarPlani(){
+        BeanEvaluacion beanEvaluacion = new BeanEvaluacion();
+        if(sessionConsultarPlanificacion.getFechaMaxPlanificacion() != null){
+            beanEvaluacion.setFechaMaxPlanificacion(sessionConsultarPlanificacion.getFechaMaxPlanificacion());
+        }
+        if(sessionConsultarPlanificacion.getFechaMinPlanificacion() != null){
+            beanEvaluacion.setFechaMinPlanificacion(sessionConsultarPlanificacion.getFechaMinPlanificacion());
+        }       
+        if(sessionConsultarPlanificacion.getNidEvaluadorChoice() != null){
+            beanEvaluacion.setNidEvaluador(Integer.parseInt(sessionConsultarPlanificacion.getNidEvaluadorChoice()));
+        }
+        if(sessionConsultarPlanificacion.getNidSedeChoice() != null){
+            beanEvaluacion.setNidSede(Integer.parseInt(sessionConsultarPlanificacion.getNidSedeChoice()));
+        }
+        if(sessionConsultarPlanificacion.getNidNivelChoice() != null){
+            beanEvaluacion.setNidNivel(Integer.parseInt(sessionConsultarPlanificacion.getNidNivelChoice()));
+        }
+        if(sessionConsultarPlanificacion.getApellidosDocente() != null){
+            beanEvaluacion.setApellidosDocentes(sessionConsultarPlanificacion.getApellidosDocente());
+        }
+        if(sessionConsultarPlanificacion.getNidAreaAcademicaChoice() != null){
+            beanEvaluacion.setNidArea(Integer.parseInt(sessionConsultarPlanificacion.getNidAreaAcademicaChoice()));
+        }
+        if(sessionConsultarPlanificacion.getNidEstadoPlanificacion() != null){
+            beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());
+        }
+        if(sessionConsultarPlanificacion.getDniProfesor() != null) {
+            BeanMain main = new BeanMain();
+            BeanProfesor prof = new BeanProfesor();
+            prof.setDniProfesor(sessionConsultarPlanificacion.getDniProfesor());
+            main.setProfesor(prof);
+            beanEvaluacion.setMain(main);
+        }
+        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion, sessionConsultarPlanificacion.getFechaHoy()));
+        if(btnExp != null){
+            Utils.addTarget(btnExp);
+        }
+        if(tbPlanificacion != null){
+            Utils.addTarget(tbPlanificacion);          
+        }
+        return null;
+    }
+
+    public String llenarCombos(){
+        this.setListaEvaludaoresChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadores_LN_WS()));
+        this.setListaSedesChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
+        this.setListaNvelesChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getNiveles_LN()));    
+        this.setListaAreasChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
+        this.setListaEstadosChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getListaEstados("estado_evaluacion", "evmeval")));
+        if(usuarioEnSesion.getRol().getNidRol() ==4){
+            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
+            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
+            sessionConsultarPlanificacion.setNidSedeChoice(""+usuarioEnSesion.getSede().getNidSede());
+            sessionConsultarPlanificacion.setEstadoChoiceSede(true);
+        }
+        if(usuarioEnSesion.getRol().getNidRol() == 2){
+            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
+            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
+            sessionConsultarPlanificacion.setNidAreaAcademicaChoice(""+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
+            sessionConsultarPlanificacion.setEstadoChoiceArea(true);
+        }
+        return null;   
+    }
+    
+    public void limpiarPlanificacion(ActionEvent actionEvent) {
+      sessionConsultarPlanificacion.setApellidosDocente(null);
+      sessionConsultarPlanificacion.setFechaMaxPlanificacion(null);
+      sessionConsultarPlanificacion.setFechaMinPlanificacion(null);
+      sessionConsultarPlanificacion.setNidEvaluadorChoice(null);
+      sessionConsultarPlanificacion.setNidNivelChoice(null);
+      sessionConsultarPlanificacion.setNidSedeChoice(null);
+      sessionConsultarPlanificacion.setNidAreaAcademicaChoice(null);
+      sessionConsultarPlanificacion.setNidEstadoPlanificacion(null);       
+      llenarCombos();
+      Utils.addTargetMany(choiceEvaluadores, choiceAreaAcademica,choiceEstado,choiceNivel,choiceSedes,inputFechaMax,inputFechaMin,inputProfesor);
+      buscarPlani();
+    }
 
     public void setSessionConsultarPlanificacion(bSessionConsultarPlanificacion sessionConsultarPlanificacion) {
         this.sessionConsultarPlanificacion = sessionConsultarPlanificacion;
@@ -192,54 +253,10 @@ public class bConsultaPlanificacion {
     public List getListaNvelesChoice() {
         return listaNvelesChoice;
     }
-    
-    public String buscarPlani(){
-        BeanEvaluacion beanEvaluacion=new BeanEvaluacion();
-        if(sessionConsultarPlanificacion.getFechaMaxPlanificacion()!=null){
-            beanEvaluacion.setFechaMaxPlanificacion(sessionConsultarPlanificacion.getFechaMaxPlanificacion());
-        }
-        if(sessionConsultarPlanificacion.getFechaMinPlanificacion()!=null){
-            beanEvaluacion.setFechaMinPlanificacion(sessionConsultarPlanificacion.getFechaMinPlanificacion());
-        }       
-        if(sessionConsultarPlanificacion.getNidEvaluadorChoice()!=null){
-            beanEvaluacion.setNidEvaluador(Integer.parseInt(sessionConsultarPlanificacion.getNidEvaluadorChoice()));
-        }
-        if(sessionConsultarPlanificacion.getNidSedeChoice()!=null){
-            beanEvaluacion.setNidSede(Integer.parseInt(sessionConsultarPlanificacion.getNidSedeChoice()));
-        }
-        if(sessionConsultarPlanificacion.getNidNivelChoice()!=null){
-            beanEvaluacion.setNidNivel(Integer.parseInt(sessionConsultarPlanificacion.getNidNivelChoice()));
-        }
-        if(sessionConsultarPlanificacion.getApellidosDocente()!=null){
-            beanEvaluacion.setApellidosDocentes(sessionConsultarPlanificacion.getApellidosDocente());
-        }
-        if(sessionConsultarPlanificacion.getNidAreaAcademicaChoice()!=null){
-            beanEvaluacion.setNidArea(Integer.parseInt(sessionConsultarPlanificacion.getNidAreaAcademicaChoice()));
-        }
-        if(sessionConsultarPlanificacion.getNidEstadoPlanificacion()!=null){
-            beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());
-        }
-        if(sessionConsultarPlanificacion.getDniProfesor()!=null) {
-            BeanMain main=new BeanMain();
-            BeanProfesor prof=new BeanProfesor();
-            prof.setDniProfesor(sessionConsultarPlanificacion.getDniProfesor());
-            main.setProfesor(prof);
-            beanEvaluacion.setMain(main);
-        }
-        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion, sessionConsultarPlanificacion.getFechaHoy()));
-        if(tbPlanificacion!=null){
-            Utils.addTarget(tbPlanificacion);          
-        }
-        return null;
-    }
 
     public void buscarPlanificacion(ActionEvent actionEvent) {
-       // buscarPlani();
-          
+       // buscarPlani();     
     }
-    
-    
-    
 
     public void setBtnBuscar(RichButton btnBuscar) {
         this.btnBuscar = btnBuscar;
@@ -247,47 +264,6 @@ public class bConsultaPlanificacion {
 
     public RichButton getBtnBuscar() {
         return btnBuscar;
-    }
-
-    public String llenarCombos(){
-        
-        usuarioEnSesion = (BeanUsuario) Utils.getSession("USER");
-        this.setListaEvaludaoresChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadores_LN_WS()));
-        this.setListaSedesChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
-        this.setListaNvelesChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getNiveles_LN()));    
-        this.setListaAreasChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
-        this.setListaEstadosChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getListaEstados("estado_evaluacion", "evmeval")));
-        if(usuarioEnSesion.getRol().getNidRol()==5){
-            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
-            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
-        }
-        if(usuarioEnSesion.getRol().getNidRol()==4){
-            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
-            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
-            sessionConsultarPlanificacion.setNidSedeChoice(""+usuarioEnSesion.getSede().getNidSede());
-            sessionConsultarPlanificacion.setEstadoChoiceSede(true);
-        }
-        if(usuarioEnSesion.getRol().getNidRol()==2){
-            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
-            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
-            sessionConsultarPlanificacion.setNidAreaAcademicaChoice(""+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
-            sessionConsultarPlanificacion.setEstadoChoiceArea(true);
-        }
-     return null;   
-    }
-    
-    public void limpiarPlanificacion(ActionEvent actionEvent) {
-      sessionConsultarPlanificacion.setApellidosDocente(null);
-      sessionConsultarPlanificacion.setFechaMaxPlanificacion(null);
-      sessionConsultarPlanificacion.setFechaMinPlanificacion(null);
-      sessionConsultarPlanificacion.setNidEvaluadorChoice(null);
-      sessionConsultarPlanificacion.setNidNivelChoice(null);
-      sessionConsultarPlanificacion.setNidSedeChoice(null);
-      sessionConsultarPlanificacion.setNidAreaAcademicaChoice(null);
-      sessionConsultarPlanificacion.setNidEstadoPlanificacion(null);       
-      llenarCombos();
-      Utils.addTargetMany(choiceEvaluadores, choiceAreaAcademica,choiceEstado,choiceNivel,choiceSedes,inputFechaMax,inputFechaMin,inputProfesor);
-      buscarPlani();
     }
 
     public void setInputFechaMin(RichInputDate inputFechaMin) {
@@ -352,5 +328,13 @@ public class bConsultaPlanificacion {
 
     public List getListaEstadosChoice() {
         return listaEstadosChoice;
+    }
+
+    public void setBtnExp(RichButton btnExp) {
+        this.btnExp = btnExp;
+    }
+
+    public RichButton getBtnExp() {
+        return btnExp;
     }
 }

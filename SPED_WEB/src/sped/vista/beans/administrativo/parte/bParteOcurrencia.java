@@ -68,6 +68,7 @@ public class bParteOcurrencia {
     private LN_C_SFUtilsLocal ln_C_SFUtilsLocal;
     @EJB
     private LN_C_SFParteOcurrenciaLocal ln_C_SFParteOcurrenciaLocal;
+    private RichButton btnEExl;
 
     public bParteOcurrencia(){
         
@@ -106,15 +107,18 @@ public class bParteOcurrencia {
                sessionParteOcurrencia.setCidProblema("0");
            }
            sessionParteOcurrencia.setLstNotifPOs(ln_C_SFParteOcurrenciaLocal.getListaPartesOcurrencia_LN(sessionParteOcurrencia.getFecMinPO(),
-                                                                                                                 sessionParteOcurrencia.getFecMaxPO(),
-                                                                                                                 new Integer(sessionParteOcurrencia.getCidProblema()),
-                                                                                                                 sessionParteOcurrencia.getDocentePO(),
-                                                                                                                 new Integer(sessionParteOcurrencia.getCidSedePO()),
-                                                                                                                 idUsuario));
+                                                                                                         sessionParteOcurrencia.getFecMaxPO(),
+                                                                                                         new Integer(sessionParteOcurrencia.getCidProblema()),
+                                                                                                         sessionParteOcurrencia.getDocentePO(),
+                                                                                                         new Integer(sessionParteOcurrencia.getCidSedePO()),
+                                                                                                         idUsuario));
            if(tbPOs != null){
                tbPOs.setValue(sessionParteOcurrencia.getLstNotifPOs());
                Utils.addTarget(tbPOs);
            }
+            if(btnEExl != null){
+                Utils.addTarget(btnEExl);
+            }
        } catch (Exception e) {
             e.printStackTrace();
        }
@@ -500,5 +504,13 @@ public class bParteOcurrencia {
 
     public RichSelectBooleanCheckbox getChkbResc() {
         return chkbResc;
+    }
+
+    public void setBtnEExl(RichButton btnEExl) {
+        this.btnEExl = btnEExl;
+    }
+
+    public RichButton getBtnEExl() {
+        return btnEExl;
     }
 }

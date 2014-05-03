@@ -55,7 +55,8 @@
                                         action="#{bParteOcurrencia.buscarPartesOcurrencia}"/>
                             <af:button icon="../recursos/img/usuarios/refresh.png" immediate="true"
                                         actionListener="#{bParteOcurrencia.limpiarPO}"/>
-                        <af:button text="Exportar Excel" id="btnEExl" visible="#{sessionScope.sessionParteOcurrencia.lstNotifPOs.size() > 0}">
+                        <af:button text="Exportar Excel" id="btnEExl" visible="#{sessionScope.sessionParteOcurrencia.lstNotifPOs.size() > 0}"
+                                   binding="#{bParteOcurrencia.btnEExl}">
                              <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:tbPOs"
                                                                filename="parte.ocurrencia.xls"
                                                                title="Reporte de Partes de Ocurrencia"/>

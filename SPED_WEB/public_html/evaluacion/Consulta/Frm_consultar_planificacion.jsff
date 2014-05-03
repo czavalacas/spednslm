@@ -87,7 +87,8 @@
                 <af:spacer width="10" height="10" id="s1"/>
                 <af:button icon="../recursos/img/usuarios/refresh.png" id="b2" actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
                 <af:spacer width="10" height="10" id="s2"/>
-                <af:button text="Exportar Excel" id="b3">
+                <af:button text="Exportar Excel" id="btnExp" visible="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones.size() > 0}"
+                           binding="#{bConsultaPlanificacion.btnExp}">
                         <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:t1"
                                                            filename="excel_planificacion.xls"/>
                     </af:button>
@@ -101,7 +102,7 @@
                         </f:facet>
                         <f:facet name="statusbar"/>
                 <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs" columnStretching="column:c5"
-                inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
+                          inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
                           binding="#{bConsultaPlanificacion.tbPlanificacion}"
                           value="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones}">
                     <af:column width="20">
@@ -137,8 +138,13 @@
                     <af:column sortable="true" headerText="Sede" id="c9" width="100" sortProperty="main.aula.sede.descripcionSede">
                         <af:outputText value="#{row.main.aula.sede.descripcionSede}" id="ot9"/>
                     </af:column>
-                    <af:column sortable="false" headerText="Hora" id="c10" width="50">
+                    <af:column sortable="false" headerText="Hora Inicio" id="c10" width="50" align="center">
                         <af:outputText value="#{row.startDate}" id="ot10">
+                        <af:convertDateTime type="date" pattern="hh:mm a"/>
+                        </af:outputText>
+                    </af:column>
+                    <af:column sortable="false" headerText="Hora Fin" width="50">
+                        <af:outputText value="#{row.endDate}">
                         <af:convertDateTime type="date" pattern="hh:mm a"/>
                         </af:outputText>
                     </af:column>

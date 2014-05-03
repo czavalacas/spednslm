@@ -61,7 +61,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 if(beanEvaluacion.getMain().getProfesor()!=null){
                     if(beanEvaluacion.getMain().getProfesor().getDniProfesor()!=null){
                         ejbQl = ejbQl.concat(" AND ev.main.profesor.dniProfesor='"+beanEvaluacion.getMain().getProfesor().getDniProfesor()+"' " +
-                                             " AND ev.tipoVisita='OP' OR (ev.tipoVisita='SO' AND ev.startDate like '%"+fechaHoy+"%' )");   
+                                             " AND ev.tipoVisita='OP' OR (ev.tipoVisita='SO' AND CAST(ev.startDate AS date) = CURRENT_DATE  )");//like '%"+fechaHoy+"%'
                     }
                 }
             }
@@ -136,7 +136,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                           "     Main ma, " +
                           "     Curso cu," +
                           "     AreaAcademica ac " +
-                                   " WHERE ev.startDate like '%"+fechaHoy+"%'" +
+                                   " WHERE CAST(ev.startDate AS date) = CURRENT_DATE " + //like '%"+fechaHoy+"%'"
                                    " AND ma.nidMain=ev.main.nidMain" +
                                    " AND ma.curso.nidCurso=cu.nidCurso" +
                                    " AND cu.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica"+                                  
