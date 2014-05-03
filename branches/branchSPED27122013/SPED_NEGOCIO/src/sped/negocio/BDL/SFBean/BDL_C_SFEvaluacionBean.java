@@ -669,6 +669,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             }
             if(tipoBusqueda == 4){
                 strQuery2 = strQuery2.concat("SELECT COUNT(DISTINCT eva) AS cont , eva.nidProblema" +strQuery);
+                strQuery2 = strQuery2.concat(" AND eva.nidProblema != 0 ");//ultima restircion ingresa xq el nidproblema != 0
                 strQuery2 = strQuery2.concat(" AND eva.nidProblema != NULL GROUP BY eva.nidProblema ORDER BY cont ASC ");
             }
             if(tipoBusqueda == 5){
