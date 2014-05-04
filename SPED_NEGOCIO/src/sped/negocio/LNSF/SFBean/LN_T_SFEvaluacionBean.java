@@ -170,7 +170,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                 Resultado resultado = null;
                 for(BeanCriterio beanIV : _beanIV.getLstIndicadores()){
                     ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCriterio());
-                    _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());
+                    _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());//TODO error al registrar el subdirector
                     resultado = new Resultado();
                     resultado.setCriterioIndicador(ci);
                     resultado.setEvaluacion(eva);
