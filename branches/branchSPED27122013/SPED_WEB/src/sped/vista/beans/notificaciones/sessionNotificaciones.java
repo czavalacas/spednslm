@@ -13,6 +13,7 @@ public class sessionNotificaciones implements Serializable{
     private static final long serialVersionUID = 1L;
 
     private List<BeanNotificacionEvaluacion> lstNotifEvaluaciones = new ArrayList<BeanNotificacionEvaluacion>();
+    private List<BeanNotificacionEvaluacion> lstNotifEvaluacionesDetalle = new ArrayList<BeanNotificacionEvaluacion>();
     private int exec = 0;
     private boolean mostrarNotifEvas;
     private boolean mostrarNotifPOs;
@@ -36,9 +37,26 @@ public class sessionNotificaciones implements Serializable{
     private String estadoLeidoPO;
     private Date fecMinPO;   
     private Date fecMaxPO;
+    private int nidEvaluacionSelected;
     
     public sessionNotificaciones(){
         
+    }
+
+    public void setLstNotifEvaluacionesDetalle(List<BeanNotificacionEvaluacion> lstNotifEvaluacionesDetalle) {
+        this.lstNotifEvaluacionesDetalle = lstNotifEvaluacionesDetalle;
+    }
+
+    public List<BeanNotificacionEvaluacion> getLstNotifEvaluacionesDetalle() {
+        return lstNotifEvaluacionesDetalle;
+    }
+
+    public void setNidEvaluacionSelected(int nidEvaluacionSelected) {
+        this.nidEvaluacionSelected = nidEvaluacionSelected;
+    }
+
+    public int getNidEvaluacionSelected() {
+        return nidEvaluacionSelected;
     }
 
     public void setLstProblemas(List lstProblemas) {
