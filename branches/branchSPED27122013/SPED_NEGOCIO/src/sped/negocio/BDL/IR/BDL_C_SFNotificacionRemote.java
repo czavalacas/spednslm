@@ -27,4 +27,5 @@ public interface BDL_C_SFNotificacionRemote {
                                                                               Date fecMin,
                                                                               Date fecMax,
                                                                               Integer nidUsuario);
+    List<BeanNotificacionEvaluacion> getListaNotificaciones_Detalle_ByEval_ByAttr_BDL(int nidEvaluacion);
 }

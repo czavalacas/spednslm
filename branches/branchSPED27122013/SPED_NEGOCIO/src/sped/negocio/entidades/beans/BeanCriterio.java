@@ -36,6 +36,8 @@ public class BeanCriterio implements Serializable, Cloneable {
     private String estilo;
     private Integer nidCriterioPadre;
     private double notaVige;
+    //dfloresgonz 03.05.2014 se agrega porque salia error al evaluar con Subdirector rol = 4
+    private int nidCriterioIndicador;
     
     public Object clone() {
         Object clone = null;
@@ -271,5 +273,13 @@ public class BeanCriterio implements Serializable, Cloneable {
 
     public boolean isSelected() {
         return selected;
+    }
+
+    public void setNidCriterioIndicador(int nidCriterioIndicador) {
+        this.nidCriterioIndicador = nidCriterioIndicador;
+    }
+
+    public int getNidCriterioIndicador() {
+        return nidCriterioIndicador;
     }
 }

@@ -10,11 +10,18 @@ import javax.faces.context.FacesContext;
 
 import javax.faces.event.ActionEvent;
 
+import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
+
+import oracle.adf.view.rich.component.rich.nav.RichButton;
+
+import oracle.adf.view.rich.event.DialogEvent;
+
+import org.apache.myfaces.trinidad.event.SelectionEvent;
 
 import sped.negocio.LNSF.IL.LN_C_SFNotificacionLocal;
 
@@ -56,6 +63,9 @@ public class bNotificaciones {
     @EJB
     private LN_T_SFUtilsLocal ln_T_SFUtilsLocal;
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
+    private RichPopup popDet;
+    private RichTable tbEvDet;
+    private RichButton btnDet;
 
     public bNotificaciones() {
     }
@@ -123,12 +133,12 @@ public class bNotificaciones {
                }
            }
            sessionNoti.setLstNotifEvaluaciones(ln_C_SFNotificacionLocal.getListaNotificacionesByAttr_BDL(sessionNoti.getDocente(), 
-                                                                                                              sessionNoti.getIndicador(), 
-                                                                                                              new Integer(sessionNoti.getCidSede()),
-                                                                                                              sessionNoti.getEstadoLeido(),
-                                                                                                              sessionNoti.getFecMin(),
-                                                                                                              sessionNoti.getFecMax(),
-                                                                                                              usuario.getNidUsuario()));
+                                                                                                         sessionNoti.getIndicador(), 
+                                                                                                         new Integer(sessionNoti.getCidSede()),
+                                                                                                         sessionNoti.getEstadoLeido(),
+                                                                                                         sessionNoti.getFecMin(),
+                                                                                                         sessionNoti.getFecMax(),
+                                                                                                         usuario.getNidUsuario()));
             //actualizar a LEIDOS
            ln_T_SFUtilsLocal.cambiarALeidoNotificacion_LN("stmnoti",usuario.getNidUsuario());
            if(tbEvas != null){
@@ -170,6 +180,41 @@ public class bNotificaciones {
             e.printStackTrace();
        }
         return null;
+    }
+    
+    public void selectNotif_Evaluacion(SelectionEvent se) {
+        try {
+            BeanNotificacionEvaluacion beanEvaNoti = (BeanNotificacionEvaluacion) Utils.getRowTable(se);
+            sessionNoti.setNidEvaluacionSelected(beanEvaNoti.getNidEvaluacion());
+            btnDet.setDisabled(false);
+            Utils.unselectFilas(tbEvDet);
+            Utils.addTarget(btnDet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void btnVerDetalle(ActionEvent actionEvent) {
+        try {
+            if (sessionNoti.getNidEvaluacionSelected() != 0) {
+                sessionNoti.setLstNotifEvaluacionesDetalle(ln_C_SFNotificacionLocal.getListaNotificaciones_Detalle_ByEval_ByAttr_LN(sessionNoti.getNidEvaluacionSelected()));
+                if (tbEvDet != null) {
+                    tbEvDet.setValue(sessionNoti.getLstNotifEvaluacionesDetalle());
+                    Utils.addTarget(tbEvDet);
+                }
+                Utils.showPopUpMIDDLE(popDet);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void diagOK_VerDetalle(DialogEvent dialogEvent) {
+        if (dialogEvent.getOutcome() == DialogEvent.Outcome.ok){
+            btnDet.setDisabled(true);
+            Utils.addTarget(btnDet);
+            sessionNoti.setNidEvaluacionSelected(0);
+        }
     }
     
     public void limpiar(ActionEvent actionEvent) {
@@ -343,5 +388,29 @@ public class bNotificaciones {
 
     public RichTable getTbPOs() {
         return tbPOs;
+    }
+
+    public void setPopDet(RichPopup popDet) {
+        this.popDet = popDet;
+    }
+
+    public RichPopup getPopDet() {
+        return popDet;
+    }
+
+    public void setTbEvDet(RichTable tbEvDet) {
+        this.tbEvDet = tbEvDet;
+    }
+
+    public RichTable getTbEvDet() {
+        return tbEvDet;
+    }
+
+    public void setBtnDet(RichButton btnDet) {
+        this.btnDet = btnDet;
+    }
+
+    public RichButton getBtnDet() {
+        return btnDet;
     }
 }

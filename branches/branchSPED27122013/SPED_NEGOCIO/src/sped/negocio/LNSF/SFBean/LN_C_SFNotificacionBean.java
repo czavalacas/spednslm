@@ -27,7 +27,7 @@ import sped.negocio.entidades.beans.BeanParteOcurrencia;
  */
 @Stateless(name = "LN_C_SFNotificacion", mappedName = "mapLN_C_SFNotificacion")
 public class LN_C_SFNotificacionBean implements LN_C_SFNotificacionRemote, 
-                                                   LN_C_SFNotificacionLocal {
+                                                LN_C_SFNotificacionLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -72,5 +72,9 @@ public class LN_C_SFNotificacionBean implements LN_C_SFNotificacionRemote,
                                                                                        Date fecMax,
                                                                                        Integer nidUsuario){
          return bdL_C_SFNotificacionLocal.getListaNotificacionesPartesOcurrenciaByAttr_BDL(docente, nidProblema, sede, estadoLeido, fecMin, fecMax, nidUsuario);
+    }
+    
+    public List<BeanNotificacionEvaluacion> getListaNotificaciones_Detalle_ByEval_ByAttr_LN(int nidEvaluacion){
+        return bdL_C_SFNotificacionLocal.getListaNotificaciones_Detalle_ByEval_ByAttr_BDL(nidEvaluacion);
     }
 }

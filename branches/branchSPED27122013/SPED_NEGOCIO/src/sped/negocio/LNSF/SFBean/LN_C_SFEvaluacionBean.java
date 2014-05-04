@@ -55,7 +55,7 @@ import sped.negocio.entidades.eval.ResultadoCriterio;
 
 @Stateless(name = "LN_C_SFEvaluacion", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFEvaluacion")
 public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote, 
-                                                 LN_C_SFEvaluacionLocal {
+                                              LN_C_SFEvaluacionLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")

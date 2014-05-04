@@ -40,17 +40,7 @@ import sped.negocio.entidades.beans.BeanUsuario;
 import sped.vista.Utils.Utils;
 
 public class bEvaluar {
-    
-    private bSessionEvaluar sessionEvaluar;
-    @EJB
-    private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
-    @EJB
-    private LN_C_SFFichaCriterioLocal ln_C_SFFichaCriterioLocal;
-    @EJB
-    private LN_T_SFEvaluacionLocal ln_T_SFEvaluacionLocal;
-    @EJB
-    private LN_C_SFFichaLocal ln_C_SFFichaLocal;
-    private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
+
     private RichTable tbPlan;
     private RichTreeTable trFich;
     private RichInputText itCmmt;
@@ -65,6 +55,16 @@ public class bEvaluar {
     private RichMessages msjGen;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private String _error;
+    private bSessionEvaluar sessionEvaluar;
+    @EJB
+    private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
+    @EJB
+    private LN_C_SFFichaCriterioLocal ln_C_SFFichaCriterioLocal;
+    @EJB
+    private LN_T_SFEvaluacionLocal ln_T_SFEvaluacionLocal;
+    @EJB
+    private LN_C_SFFichaLocal ln_C_SFFichaLocal;
+    private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
 
     public bEvaluar() {
     
@@ -130,7 +130,7 @@ public class bEvaluar {
     }
     
     public void registrarEvaluacion(ActionEvent actionEvent) {
-        String tipoFicha = getUsuario().getRol().getNidRol() == 4 ? "S" : getUsuario().getRol().getNidRol() == 2 ? "E" : "";Utils.sysout("tip: "+tipoFicha);
+        String tipoFicha = getUsuario().getRol().getNidRol() == 4 ? "S" : getUsuario().getRol().getNidRol() == 2 ? "E" : "";
         int valoresFicha[] = ln_C_SFFichaLocal.getFichaToEvaluar(tipoFicha,sessionEvaluar.getPlanifSelect().getTipoFichaCurso());
         if(valoresFicha != null){
             if(valoresFicha[0] != 0){
@@ -264,9 +264,9 @@ public class bEvaluar {
             BeanError error = new BeanError();
             if (this.isOK()) {
                 error = ln_T_SFEvaluacionLocal.registrarEvaluacion_LN_Web(sessionEvaluar.getLstCriteriosMultiples(),
-                                                                              sessionEvaluar.getPlanifSelect().getNidEvaluacion(),
-                                                                              usuario.getNidUsuario(),
-                                                                              sessionEvaluar.getComentarioEvaluador());
+                                                                          sessionEvaluar.getPlanifSelect().getNidEvaluacion(),
+                                                                          usuario.getNidUsuario(),
+                                                                          sessionEvaluar.getComentarioEvaluador());
                 if("000".equalsIgnoreCase(error.getCidError())){
                     severidad = 3;
                 }else{
