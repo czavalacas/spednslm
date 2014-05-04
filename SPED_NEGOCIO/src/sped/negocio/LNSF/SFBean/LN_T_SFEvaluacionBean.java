@@ -158,9 +158,9 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public BeanError registrarEvaluacion_LN_Web(List<BeanCriterio> lstBeanIndiVal,
-                                                 Integer nidEvaluacion,
-                                                 Integer nidUsuario,
-                                                 String comentarioEvaluador){
+                                                Integer nidEvaluacion,
+                                                Integer nidUsuario,
+                                                String comentarioEvaluador){
         BeanError beanError = new BeanError();
         String error = "000";
         try {
@@ -169,8 +169,8 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             for (BeanCriterio _beanIV : lstBeanIndiVal) {
                 Resultado resultado = null;
                 for(BeanCriterio beanIV : _beanIV.getLstIndicadores()){
-                    ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCriterio());
-                    _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());//TODO error al registrar el subdirector
+                    ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCriterioIndicador());
+                    _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());
                     resultado = new Resultado();
                     resultado.setCriterioIndicador(ci);
                     resultado.setEvaluacion(eva);

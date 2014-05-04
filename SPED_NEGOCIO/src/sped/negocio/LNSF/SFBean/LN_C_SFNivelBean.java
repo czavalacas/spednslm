@@ -88,31 +88,27 @@ public class LN_C_SFNivelBean implements LN_C_SFNivelRemote,
             return null;
         }        
     }
-    
-   public List<BeanCombo> getNivelLNPorSede_ByOrden(Object nidSede, Object nidArea, Object nidCurso){
-           List<BeanCombo> lstBean = new ArrayList<BeanCombo>();
-           String a=null;String b=null;String c=null;
-           if(nidSede!=null){
-               a=nidSede.toString();;
-           }
-           if(nidArea!=null){
-               b=nidArea.toString();;
-           }
-           if(nidCurso!=null){
-               c=nidCurso.toString();;
-           }
-          List<Nivel> lstNivel = bdL_C_SFNivelLocal.findNivelesPorSede_ByOrden(a, b, c);
-          if(lstNivel!=null){
-          Iterator it=lstNivel.iterator();
-          while(it.hasNext()){
-              Nivel entida=(Nivel)it.next();
-              BeanCombo bean=new BeanCombo();
-              bean.setId(entida.getNidNivel());
-              bean.setDescripcion(entida.getDescripcionNivel());
-              lstBean.add(bean);
-          }}
-           return lstBean;
-       }
+
+    public List<BeanCombo> getNivelLNPorSede_ByOrden(Object nidSede, 
+                                                     Object nidArea, 
+                                                     Object nidCurso) {
+        List<BeanCombo> lstBean = new ArrayList<BeanCombo>();
+        List<Nivel> lstNivel = bdL_C_SFNivelLocal.findNivelesPorSede_ByOrden((nidSede != null ? nidSede.toString() : null), 
+                                                                             (nidArea != null ? nidArea.toString() : null), 
+                                                                             (nidCurso != null ? nidCurso.toString() : null));
+        if (lstNivel != null) {
+            Iterator it = lstNivel.iterator();
+            BeanCombo beanCombo = null;
+            while (it.hasNext()) {
+                Nivel entida = (Nivel) it.next();
+                beanCombo = new BeanCombo();
+                beanCombo.setId(entida.getNidNivel());
+                beanCombo.setDescripcion(entida.getDescripcionNivel());
+                lstBean.add(beanCombo);
+            }
+        }
+        return lstBean;
+    }
    
    /**Metodo Temporal getAllNivelesBySedes*/
    public List<BeanCombo> getAllNivelesBySedes(String nidSede) {

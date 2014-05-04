@@ -26,4 +26,5 @@ public interface LN_C_SFNotificacionRemote {
                                                                                Date fecMin,
                                                                                Date fecMax,
                                                                                Integer nidUsuario);
+    List<BeanNotificacionEvaluacion> getListaNotificaciones_Detalle_ByEval_ByAttr_LN(int nidEvaluacion);
 }

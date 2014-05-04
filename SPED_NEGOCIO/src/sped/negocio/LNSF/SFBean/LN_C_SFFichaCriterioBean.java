@@ -45,8 +45,6 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
     private LN_C_SFResultadoCriterioLocal ln_C_SFResultadoCriterioLocal;
     @EJB
     private LN_C_SFCriterioIndicadorLocal ln_C_SFCriterioIndicadorLocal;
-    @EJB
-    private BDL_C_SFValorRemote bdL_C_SFValorRemote;
     private MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFFichaCriterioBean() {
@@ -112,6 +110,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setNidCriterio(critIndi.getIndicador().getNidIndicador());
             crit.setOrden(critIndi.getOrden());
             crit.setSelected(true);
+            crit.setNidCriterioIndicador(critIndi.getNidCriterioIndicador());
             boolean bool = false;
             if(indx == lstCrisIndis.size()){
                 bool = true;
@@ -143,14 +142,11 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
         List<FichaCriterio> lstFC = bdL_C_SFFichaCriterioLocal.getLstFichaCriteriosByEvaluacion(nidEvaluacion);
         for(FichaCriterio fc : lstFC){
             BeanFichaCriterio bean = (BeanFichaCriterio) mapper.map(fc, BeanFichaCriterio.class);
-            bean.setResultadoCriterio(ln_C_SFResultadoCriterioLocal.getResCriByFichaEvaLN(nidEvaluacion, 
-                                                                                          fc));
-            bean.setLstcriterioIndicador(ln_C_SFCriterioIndicadorLocal.
-                                         transformLstCriterioIndicador(fc.getCriterioIndicadorLista(),
-                                                                       nidEvaluacion));
+            bean.setResultadoCriterio(ln_C_SFResultadoCriterioLocal.getResCriByFichaEvaLN(nidEvaluacion,fc));
+            bean.setLstcriterioIndicador(ln_C_SFCriterioIndicadorLocal.transformLstCriterioIndicador(fc.getCriterioIndicadorLista(),
+                                                                                                     nidEvaluacion));
             lstBeanFC.add(bean);
         }
         return lstBeanFC;
     }
-    
 }

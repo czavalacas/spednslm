@@ -62,6 +62,8 @@
                                        action="#{bNotificaciones.buscarNotificacionesEvaluaciones}"/>
                             <af:button icon="../recursos/img/usuarios/refresh.png" immediate="true" id="b2"
                                        actionListener="#{bNotificaciones.limpiar}"/>
+                            <af:button text="Ver Detalle" id="btnDet" binding="#{bNotificaciones.btnDet}"
+                                       disabled="true" actionListener="#{bNotificaciones.btnVerDetalle}"/>
                         </af:panelGroupLayout>
                     </af:subform>
                          <af:panelCollection id="pc2" inlineStyle="width:inherit;">
@@ -72,9 +74,9 @@
                         </f:facet>
                         <f:facet name="statusbar"/>
                                 <af:table var="row" rowBandingInterval="0" id="tbEvas" binding="#{bNotificaciones.tbEvas}"
-                                  varStatus="vs" emptyText="No hay Notificaciones" width="inherit;"
-                                  inlineStyle="width:inherit;" rowSelection="single"
-                                  value="#{sessionScope.sessionNoti.lstNotifEvaluaciones}" columnStretching="column:c3">
+                                          varStatus="vs" emptyText="No hay Notificaciones" width="inherit;"
+                                          inlineStyle="width:inherit;" rowSelection="single" selectionListener="#{bNotificaciones.selectNotif_Evaluacion}"
+                                          value="#{sessionScope.sessionNoti.lstNotifEvaluaciones}" columnStretching="column:c3">
                                 <af:column width="18" frozen="true">
                                     <af:outputText value="#{vs.index + 1}"/>
                                 </af:column>
@@ -88,7 +90,7 @@
                                         <af:convertDateTime pattern="dd/MM/yyyy"/>
                                     </af:outputText>
                                 </af:column>
-                                <af:column sortable="true" headerText="Indicador" id="c3" sortProperty="indicador" align="start"
+                                <!--<af:column sortable="true" headerText="Indicador" id="c3" sortProperty="indicador" align="start"
                                            width="350">
                                     <af:outputText value="#{row.indicador}" id="ot3"/>
                                 </af:column>
@@ -101,13 +103,13 @@
                                     <af:outputText value="#{row.puntaje20}">
                                         <af:convertNumber maxFractionDigits="2"/>
                                     </af:outputText>
-                                </af:column>
+                                </af:column>-->
                                 <af:column sortable="true" headerText="Ficha" id="c4" sortProperty="versionFicha" align="start"
                                            width="90">
                                     <af:outputText value="#{row.versionFicha}" id="ot4"/>
                                 </af:column>
                                 <af:column sortable="true" headerText="Curso" id="c5" sortProperty="curso" align="start"
-                                           width="100">
+                                           width="160">
                                     <af:outputText value="#{row.curso}" id="ot5"/>
                                 </af:column>
                                 <af:column sortable="true" headerText="Area" sortProperty="area" align="start" width="100">
@@ -231,5 +233,37 @@
                 </af:panelBox>
             </af:panelGroupLayout>
         </af:panelGroupLayout>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popDet" binding="#{bNotificaciones.popDet}">
+            <af:dialog id="diaDet" type="ok" dialogListener="#{bNotificaciones.diagOK_VerDetalle}"
+                       closeIconVisible="false">
+                 <af:table var="row" rowBandingInterval="0" id="tbEvDet" 
+                           varStatus="vs" emptyText="No hay Notificaciones"
+                           rowSelection="single"
+                           value="#{sessionScope.sessionNoti.lstNotifEvaluacionesDetalle}" 
+                           binding="#{bNotificaciones.tbEvDet}">
+                                <af:column width="18" frozen="true">
+                                    <af:outputText value="#{vs.index + 1}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Docente" sortProperty="docente" align="start"
+                                           width="170">
+                                    <af:outputText value="#{row.docente}" />
+                                </af:column>
+                                <af:column sortable="true" headerText="Indicador" id="c3" sortProperty="indicador" align="start"
+                                           width="350">
+                                    <af:outputText value="#{row.indicador}" id="ot3"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Puntaje" sortProperty="puntaje" align="center" width="50"
+                                           inlineStyle="#{row.inlineStiloPuntaje}">
+                                    <af:outputText value="#{row.puntaje}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Vigesimal" sortProperty="puntaje20" align="center"
+                                           width="50" inlineStyle="#{row.inlineStiloPuntaje20}">
+                                    <af:outputText value="#{row.puntaje20}">
+                                        <af:convertNumber maxFractionDigits="2"/>
+                                    </af:outputText>
+                                </af:column>
+                        </af:table>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>

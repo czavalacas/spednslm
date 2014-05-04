@@ -239,8 +239,8 @@ public class bMain implements Serializable {
         try {
             int vec[] = new int[3];
             vec = ln_C_SFNotificacionLocal.getCantidadAMostrarNotificaciones(beanUsuario.getNidUsuario(),
-                                                                                 sessionMain.isVerNotificacionesEvas(),
-                                                                                 sessionMain.isVerNotificacionesPOs());
+                                                                             sessionMain.isVerNotificacionesEvas(),
+                                                                             sessionMain.isVerNotificacionesPOs());
             sessionMain.setCantNotifEvas(vec[0]);
             sessionMain.setCantNotifPO(vec[1]); 
             sessionMain.setCantNotif(vec[2]);

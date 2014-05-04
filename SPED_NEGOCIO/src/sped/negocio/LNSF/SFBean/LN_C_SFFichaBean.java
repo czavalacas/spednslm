@@ -129,7 +129,7 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int getFichaActivaEvaluacion(String tipoFicha,
-                                         String tipoFichaCurso){
+                                        String tipoFichaCurso){
         try{
             Ficha ficha = bdL_C_SFFichaLocal.getFichaEvaluacion(tipoFicha, tipoFichaCurso);
             if(ficha != null){
@@ -148,7 +148,7 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
     }
     
     public int[] getFichaToEvaluar(String tipFicha,
-                                    String tipCursoFicha){
+                                   String tipCursoFicha){
         int[] valReturn = new int[2];
         try{
             Ficha ficha = bdL_C_SFFichaLocal.getFichaEvaluacion(tipFicha,tipCursoFicha);

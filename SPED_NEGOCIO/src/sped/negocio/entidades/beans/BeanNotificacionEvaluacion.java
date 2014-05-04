@@ -45,10 +45,6 @@ public class BeanNotificacionEvaluacion implements Serializable {
                                       String area,
                                       String aula,
                                       Object evaluador,
-                                      String indicador,
-                                      String criterio,
-                                      short puntaje,
-                                      double puntaje20,
                                       String cidNotificacion){
         this.nidEvaluacion = nidEvaluacion;
         this.versionFicha = versionFicha;
@@ -61,11 +57,23 @@ public class BeanNotificacionEvaluacion implements Serializable {
         this.area = area;
         this.aula = aula;
         this.evaluador = (String)evaluador;
+        this.cidNotificacion = cidNotificacion;
+    }
+    
+    public BeanNotificacionEvaluacion(String apellidos,
+                                      String nombres,
+                                      String indicador,
+                                      String criterio,
+                                      short valor,
+                                      double puntaje20,
+                                      String cidNotificacion){
+        this.docente = apellidos+" "+nombres;
+        this.evaluador = (String)evaluador;
+        this.cidNotificacion = cidNotificacion;
         this.indicador = indicador;
         this.criterio = criterio;
-        this.puntaje = puntaje;
+        this.puntaje = valor;
         this.puntaje20 = puntaje20;
-        this.cidNotificacion = cidNotificacion;
         if(puntaje20 <= 10.49){
             this.setInlineStiloPuntaje("background-color:red; color:white; font-weight:bold;text-align:center;");
             this.setInlineStiloPuntaje20("background-color:red; color:white; font-weight:bold;text-align:center;");
