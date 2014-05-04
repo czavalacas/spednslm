@@ -18,7 +18,7 @@
     <methodAction id="getMainByAttr_WS" RequiresUpdateModel="true" Action="invokeMethod" MethodName="getMainByAttr_WS"
                   IsViewObjectMethod="false" DataControl="WS_SPED" InstanceName="data.WS_SPED"
                   ReturnName="data.WS_SPED.methodResults.getMainByAttr_WS_WS_SPED_getMainByAttr_WS_result">
-      <NamedData NDName="arg0" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 || pageFlowScope.usuario.rol.nidRol == 5 ? bindings.getMainByAttr_WS_arg0 : pageFlowScope.usuario.sedeNivel.sede.nidSede}"/>
+      <NamedData NDName="arg0" NDType="java.lang.Integer" NDValue="#{pageFlowScope.usuario.rol.nidRol == 1 || pageFlowScope.usuario.rol.nidRol == 2 ? bindings.getMainByAttr_WS_arg0 : pageFlowScope.usuario.sede.nidSede}"/>
       <NamedData NDName="arg1" NDType="java.lang.String" NDValue="${bindings.getMainByAttr_WS_arg1}"/>
       <NamedData NDName="arg2" NDType="java.lang.String" NDValue="${bindings.getMainByAttr_WS_arg2}"/>
       <NamedData NDName="arg3" NDType="java.lang.String" NDValue="${bindings.getMainByAttr_WS_arg3}"/>
