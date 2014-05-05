@@ -94,14 +94,34 @@ public class bGestionarHorario {
         }
     } 
     
+    public String abrirPopGenerarHorario() {
+        if(verificarConfiguracionHorario(2, 2)){//debe ir del nidsede y nidnivel
+            if(!llenarHorario()){
+                Utils.mostrarMensaje(ctx, "El horario registrado no coincide con la configuracion del horario", "Error", 2); 
+                return null;
+            }
+            Utils.showPopUpMIDDLE(popGHor);        
+            sessionGestionarHorario.setLstBeanMain(new ArrayList());
+        }else{
+            Utils.mostrarMensaje(ctx, "Las restriciones no coinciden con el horario", "Error", 2);
+        }        
+        return null;
+    }
+    
+    /**
+     * verifica que exista restriciones para la configuracion de  horario
+     * @param nidSede
+     * @param nidNivel
+     * @return
+     */
     public boolean verificarConfiguracionHorario(int nidSede, int nidNivel){
         boolean valida = false;
         BeanDuracionHorario duracion = ln_C_SFDuracionHorarioRemote.getDuracionHorarioBySedeNivel(nidSede, nidNivel);
         List<BeanConfiguracionHorario> lstCH = ln_C_SFConfiguracionHorarioRemote.getConfiguracionBySedeNivel(nidSede, nidNivel);
         if(duracion == null){
-            Utils.mostrarMensaje(ctx, "Configure los parametros del horario", "Erro", 2);
+            Utils.mostrarMensaje(ctx, "Configure los parametros del horario", "Error", 2);
         }else if(lstCH.size() == 0){
-            Utils.mostrarMensaje(ctx, "Configure llas restriciones en el horario", "Erro", 2);
+            Utils.mostrarMensaje(ctx, "Configure llas restriciones en el horario", "Error", 2);
         }else{
             valida = validaConfiguracionHorario(duracion, lstCH);
         }
@@ -117,6 +137,7 @@ public class bGestionarHorario {
     public boolean validaConfiguracionHorario(BeanDuracionHorario duracion, List<BeanConfiguracionHorario> lstConfHorario){
         try{
             Utils.putSession("maxHoras", (duracion.getMax_bloque()*5));//grabamos el maximo permitido por curso
+            sessionGestionarHorario.setNroBloque(duracion.getNro_bloque());//guardo el numero de bloques al dia permitido
             String horas[] = new String[duracion.getNro_bloque()];
             Calendar inicio = new GregorianCalendar();
             inicio.setTime(duracion.getHora_inicio());
@@ -151,101 +172,39 @@ public class bGestionarHorario {
             if(lstConfHorario.size() != 0){//valida si se validaron todas las restriciones
                 return false;
             }
+            sessionGestionarHorario.setHoras(horas);
             return true;  
         }catch(Exception e){            
             e.printStackTrace();
             return false;
         }
-    }
+    }  
     
-    /**
-     * Metodo para agregar tiempo a una fecha
-     * @param inicio
-     * @param agregar
-     * @return
-     */
-    public Date sumaHoras(Calendar inicio, Time agregar){
-        inicio.add(Calendar.HOUR, agregar.getHours());
-        inicio.add(Calendar.MINUTE, agregar.getMinutes());
-        return inicio.getTime();
-    }
-    
-    public void llenarVectorHoras(){
-        BeanHorario horario = ln_C_SFHorarioRemote.getHorario();
-        Utils.putSession("maxHoras", (horario.getMaxBloque()*5));
-        sessionGestionarHorario.setNroBloque(horario.getNroBloque());
-        Calendar inicio = new GregorianCalendar();
-        inicio.setTimeInMillis(horario.getHora_ini().getTime());
-        Time suma = new Time(inicio.getTimeInMillis());
-        Time duracion = new Time(horario.getDuracion().getTime());
-        String horas[] = new String[horario.getNroBloque()];
-        for(int i = 0 ; i < horario.getNroBloque(); i++){
-            if(i != 0){
-                inicio.add(Calendar.HOUR, duracion.getHours());
-                inicio.add(Calendar.MINUTE, duracion.getMinutes());
-                suma.setTime(inicio.getTimeInMillis());
-            }
-            horas[i] = suma.toString();
-        }
-        sessionGestionarHorario.setHoras(horas);
-    }
-    
-    public String abrirPopGenerarHorario() {
-        System.out.println("Entre en el metodo");
-        if(verificarConfiguracionHorario(2, 2)){
-            System.out.println("Verfifique");
-            Utils.showPopUpMIDDLE(popGHor);        
-            sessionGestionarHorario.setLstBeanMain(new ArrayList());
-            //llenarVectorHoras();
-            //validaHorario();
-        }        
-        return null;
-    }
-    
-    public void abrirPopGenerar(ActionEvent actionEvent) {
-        System.out.println("Entre en el metodo");
-        if(verificarConfiguracionHorario(2, 2)){
-            
-        }        
-    }
-    
-    public void validaHorario(){
-        BeanMain horario[][] = new BeanMain[sessionGestionarHorario.getNroBloque()][5];
-        int horas_libres = sessionGestionarHorario.getNroBloque()*5;
-        List<BeanMain> lstLecciones = ln_C_SFMainRemote.getLstMainByAttr_LN(sessionGestionarHorario.getNidAula());
-        if(lstLecciones != null){
-            for(BeanMain main : lstLecciones){
-                int dia = main.getNDia();
-                int hora = encuentraHora(main.getHoraInicio());
-                if(hora != -1){
-                    horario[hora][dia] = main;
-                    horas_libres --;
-                }                
+    public boolean llenarHorario(){
+        BeanMain horario[][] = new BeanMain[sessionGestionarHorario.getNroBloque()][5];//5 si es solo 5 dias a la semana
+        int horasFree = sessionGestionarHorario.getNroBloque()*5;
+        List<BeanMain> lstLecciones = ln_C_SFMainRemote.getLstMainByAttr_LN("2");// reemplazar el "2" por sessionGestionarHorario.getNidAula()
+        List<BeanMain> lst_defecto = new ArrayList();
+        for(BeanMain main : lstLecciones){
+            int hora = encuentraHora(main.getHoraInicio());
+            if(hora != 1){
+                horario[hora][main.getNDia()] = main;
+                horasFree--;
+            }else{
+                lst_defecto.add(main);
             }
         }
-        Utils.putSession("Horas", horas_libres);
-        sessionGestionarHorario.setHorario(horario);
-        //////////////imprimo para ver como va
-        for(int i = 0 ; i < sessionGestionarHorario.getNroBloque(); i++){
-            for(int j = 0; j < 5 ; j++){
-                if(horario[i][j] != null){
-                    System.out.print("X ");
-                }else{
-                    System.out.print("O ");
-                }
-            }
-            System.out.println("");
-        }
+        if(lstLecciones.size() > 0){
+            return false;
+        }else{
+            Utils.putSession("Horas", horasFree);
+            sessionGestionarHorario.setHorario(horario);
+            metodoProbarVector();///////////////////////////////////////////////////////borar al final
+            return true;
+        }  
     }
     
-    public int encuentraHora(Time time){
-        for(int i = 0; i < sessionGestionarHorario.getHoras().length; i++){
-            if(time.toString().compareTo(sessionGestionarHorario.getHoras()[i]) == 0){
-                return i;
-            }
-        }
-        return -1;
-    }
+    ///////////////// DE AQUI PARA ARRIBA QUEDA /////////////// LUEGO BORRARE ESTA LINEA ... SI ES QUE SE JUNTA CON LA DE ABAJO XD
    
     /**
      * Se almacena las lecciones para luego generar el horario
@@ -391,10 +350,46 @@ public class bGestionarHorario {
         }
     } */
     
+    public void metodoProbarVector(){
+        BeanMain horario[][] = sessionGestionarHorario.getHorario();
+        for(int i = 0 ; i < sessionGestionarHorario.getNroBloque(); i++){
+            for(int j = 0; j < 5 ; j++){
+                if(horario[i][j] != null){
+                    System.out.print("X ");
+                }else{
+                    System.out.print("O ");
+                }
+            }
+            System.out.println("");
+        }
+    }
+////////////////////////////////METODOS QUE QUEDAN//////////////    --Luego borrare esta linea si se junta con la de arriba XD
+    
     /**
-     * Este metodo llena un vector string con las horas inicio de cada bloque, para luego ser comprado mas rapido
+     * Valida la hora de inicio de una leccion con un vector tipo string
+     * @param time
+     * @return
      */
- 
+    public int encuentraHora(Time time){
+        for(int i = 0; i < sessionGestionarHorario.getHoras().length; i++){
+            if(time.toString().compareTo(sessionGestionarHorario.getHoras()[i]) == 0){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    /**
+     * Metodo para agregar tiempo a una fecha
+     * @param inicio
+     * @param agregar
+     * @return
+     */
+    public Date sumaHoras(Calendar inicio, Time agregar){
+        inicio.add(Calendar.HOUR, agregar.getHours());
+        inicio.add(Calendar.MINUTE, agregar.getMinutes());
+        return inicio.getTime();
+    }
     
     public void resetValoresPopGenerarHorario(){
         sessionGestionarHorario.setNidProfesor(null);
