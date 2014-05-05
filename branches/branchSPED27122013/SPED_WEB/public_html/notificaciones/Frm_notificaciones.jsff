@@ -245,11 +245,11 @@
                                     <af:outputText value="#{vs.index + 1}"/>
                                 </af:column>
                                 <af:column sortable="true" headerText="Docente" sortProperty="docente" align="start"
-                                           width="170">
+                                           width="180">
                                     <af:outputText value="#{row.docente}" />
                                 </af:column>
                                 <af:column sortable="true" headerText="Indicador" id="c3" sortProperty="indicador" align="start"
-                                           width="350">
+                                           width="450">
                                     <af:outputText value="#{row.indicador}" id="ot3"/>
                                 </af:column>
                                 <af:column sortable="true" headerText="Puntaje" sortProperty="puntaje" align="center" width="50"

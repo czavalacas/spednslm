@@ -41,18 +41,13 @@ public class BDL_C_SFEvaluacionRemotoClient {
             }
              System.out.println();
        */
-            Date hoy=new Date();        
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date fechaActual =hoy;
-            String fechaConFormato = sdf.format(fechaActual);
-            System.out.println(fechaConFormato);
-            BeanEvaluacion bean=new BeanEvaluacion();
-            BeanProfesor prof=new BeanProfesor();
+            BeanEvaluacion bean = new BeanEvaluacion();
+            BeanProfesor prof = new BeanProfesor();
             prof.setDniProfesor("12344321");
             BeanMain main=new BeanMain();
             main.setProfesor(prof);
             bean.setMain(main);            
-            List<Evaluacion> lstevas=bDL_C_SFEvaluacionRemoto.getPlanificacion(bean, fechaConFormato);
+            List<Evaluacion> lstevas = bDL_C_SFEvaluacionRemoto.getPlanificacion(bean);
             for(Evaluacion entida: lstevas){
                 System.out.println(entida.getStartDate()+ " - "+new Date());
             }

@@ -148,6 +148,19 @@
                         <af:convertDateTime type="date" pattern="hh:mm a"/>
                         </af:outputText>
                     </af:column>
+                    <af:column headerText="Problema" align="left" id="c15">
+                        <af:button text="Problema" id="btnProb"
+                                   actionListener="#{bConsultaPlanificacion.abrirPopUpProblema}">
+                            <f:setPropertyActionListener value="#{row.nidEvaluacion}"
+                                                         target="#{sessionConsultarPlanificacion.nidEvaluacion}"/>
+                            <f:setPropertyActionListener value="#{row.comentarioEvaluador}"
+                                                         target="#{requestScope.bConsultaPlanificacion.descripcionProblema}"/>
+                            <f:setPropertyActionListener value="#{row.nidProblema}"
+                                                         target="#{sessionConsultarPlanificacion.i_nidProblema}"/>
+                            <f:setPropertyActionListener value="#{row}"
+                                                         target="#{sessionConsultarPlanificacion.evaSelect}"/>
+                        </af:button>
+                    </af:column>
                     <af:column sortable="true" headerText="Estado" id="c11" width="100" sortProperty="estadoEvaluacion"
                     inlineStyle="color:White; font-weight:bold;text-align:center; #{row.nidEstadoEvaluacion == '1' ? 'background-color:green' : (row.nidEstadoEvaluacion == '2'  ? 'background-color:Orange' :(row.nidEstadoEvaluacion == '3' ? 'background-color:Red' : 'background-color:red'))} ">
                         <af:outputText value="#{row.estadoEvaluacion}" id="ot11"/>
@@ -157,5 +170,23 @@
             </af:panelGroupLayout>
         </af:subform>
         </af:panelGroupLayout>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popProb"
+                  binding="#{bConsultaPlanificacion.popProb}">
+            <af:dialog id="diagProb" dialogListener="#{bConsultaPlanificacion.diagRegistrarProblema}">
+                <af:panelFormLayout>
+                    <af:selectOneChoice label="Problema" requiredMessageDetail="Seleccionar un problema" id="socProb"
+                                        value="#{sessionScope.sessionConsultarPlanificacion.nidProblema}" autoSubmit="true"
+                                        disabled="#{sessionConsultarPlanificacion.columnProfesor == false || (sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'PENDIENTE' 
+                                        || sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'EJECUTADO')}"
+                                        unselectedLabel=":: Seleccionar Problema ::">
+                        <f:selectItems value="#{sessionScope.sessionConsultarPlanificacion.listaProblemas}" />
+                    </af:selectOneChoice>
+                    <af:inputText label="Cuentanos que paso" id="itDescProb" columns="60" rows="6"
+                                  disabled="#{sessionConsultarPlanificacion.columnProfesor == false || (sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'PENDIENTE' 
+                                  || sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'EJECUTADO')}"
+                                  value="#{requestScope.bConsultaPlanificacion.descripcionProblema}"/>
+                </af:panelFormLayout>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>

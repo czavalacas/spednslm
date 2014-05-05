@@ -50,7 +50,7 @@ public class bSessionConsultarEvaluacion {
         
     public bSessionConsultarEvaluacion() {
     }
-    
+
     public void setExec(int exec) {
         this.exec = exec;
     }

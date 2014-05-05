@@ -24,10 +24,72 @@ public class bSessionConsultarPlanificacion {
     private boolean estadoChoiceArea=false;
     private String dniProfesor;
     private String fechaHoy;
+    private List listaProblemas;
+    private String nidProblema;
+    private int nidEvaluacion;
+    private int i_nidProblema;
+    private BeanEvaluacion evaSelect;
+    private boolean columnProfesor = true;
+    private String descripcionProblema;
     
     public bSessionConsultarPlanificacion() {
     }
 
+    public void setDescripcionProblema(String descripcionProblema) {
+        this.descripcionProblema = descripcionProblema;
+    }
+
+    public String getDescripcionProblema() {
+        return descripcionProblema;
+    }
+
+    public void setColumnProfesor(boolean columnProfesor) {
+        this.columnProfesor = columnProfesor;
+    }
+
+    public boolean isColumnProfesor() {
+        return columnProfesor;
+    }
+
+    public void setEvaSelect(BeanEvaluacion evaSelect) {
+        this.evaSelect = evaSelect;
+    }
+
+    public BeanEvaluacion getEvaSelect() {
+        return evaSelect;
+    }
+
+    public void setListaProblemas(List listaProblemas) {
+        this.listaProblemas = listaProblemas;
+    }
+
+    public List getListaProblemas() {
+        return listaProblemas;
+    }
+
+    public void setNidProblema(String nidProblema) {
+        this.nidProblema = nidProblema;
+    }
+
+    public String getNidProblema() {
+        return nidProblema;
+    }
+
+    public void setNidEvaluacion(int nidEvaluacion) {
+        this.nidEvaluacion = nidEvaluacion;
+    }
+
+    public int getNidEvaluacion() {
+        return nidEvaluacion;
+    }
+
+    public void setI_nidProblema(int i_nidProblema) {
+        this.i_nidProblema = i_nidProblema;
+    }
+
+    public int getI_nidProblema() {
+        return i_nidProblema;
+    }
 
     public void setNidEvaluadorChoice(String nidEvaluadorChoice) {
         this.nidEvaluadorChoice = nidEvaluadorChoice;

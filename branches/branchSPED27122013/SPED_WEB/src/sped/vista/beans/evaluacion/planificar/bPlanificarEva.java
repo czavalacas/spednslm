@@ -374,14 +374,7 @@ public class bPlanificarEva {
     
     
     public void seleccionarProblema(ValueChangeEvent valueChangeEvent) {
-        /** 
-         * Siempre y cuando Opcion OTROS sea nidProblema=6   
-         * */
-        if(choiceProblema.getValue().toString().equals("6")){
-            sessionPlanificarEva.setEstadoDinputJustificacionVisible(true);
-        }  else{        
-            sessionPlanificarEva.setEstadoDinputJustificacionVisible(false);
-        }
+        //dfloresgonz 04.05.2014 - Quite la validacion para mostrar el inputtext de descripcion porque se debe permitir para todos.
         sessionPlanificarEva.setEstadoBtnSaveJustificaEvalu(true);
         Utils.addTargetMany(inputDescripcionOtros,btnSaveJustificacion);
     }

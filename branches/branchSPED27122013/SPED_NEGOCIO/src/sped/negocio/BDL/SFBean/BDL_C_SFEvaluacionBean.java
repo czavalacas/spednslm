@@ -51,7 +51,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }
     }
     
-    public List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion, String fechaHoy){
+    public List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion){
         try{
             String ejbQl = "SELECT ev " +
                            "FROM Evaluacion ev " +
