@@ -203,6 +203,30 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         try {
             Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(idEvaluacion);
             eva.setComentario_profesor(comentario);
+            eva.setNotificacionEvaluadorComentarioProfesor("1");
+            bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+        }catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+    }
+    
+    /**
+     * Metodo para cambiar la nofiticacion a Leido cuando el usuario abre el popup para leer el comentario del profesor
+     * @author dfloresgonz
+     * @since 04.05.2014
+     * @param idEvaluacion
+     * @return Codigo de error
+     */
+    public String updateEvaluacionbyComentarioProfesor_Leido_LN(int idEvaluacion){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(idEvaluacion);
+            eva.setNotificacionEvaluadorComentarioProfesor("0");
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
         }catch (Exception e) {
             e.printStackTrace();

@@ -14,11 +14,20 @@ public class bSessionMain {
     private int cantNotif;
     private int cantNotifEvas;
     private int cantNotifPO;
+    private int cantRptaProfesor;
     private boolean verNotificaciones;
     private boolean verNotificacionesEvas;
     private boolean verNotificacionesPOs;
     private int cantNotifAux;
     private String imagenNoti =  "../recursos/img/usuarios/ojosU.png";
+
+    public void setCantRptaProfesor(int cantRptaProfesor) {
+        this.cantRptaProfesor = cantRptaProfesor;
+    }
+
+    public int getCantRptaProfesor() {
+        return cantRptaProfesor;
+    }
 
     public void setImagenNoti(String imagenNoti) {
         this.imagenNoti = imagenNoti;
