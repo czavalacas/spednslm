@@ -95,9 +95,15 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
         return bdl_C_SFMainLocal.getMainByAttr_BDL_WS(nidSede,profesor,curso,aula);
     }
 
+    /**
+     * Metodo que trae lista main dependiendo del aula
+     * @author angeles
+     * @param nidAula
+     * @return
+     */
     public List<BeanMain> getLstMainByAttr_LN(String nidAula) {
         BeanMain beanMain = new BeanMain();
-        beanMain.setNidAula(Integer.parseInt(nidAula));        
+        beanMain.setNidAula(Integer.parseInt(nidAula));//paso el nidAula a un bean por si despues vuelvo utilizar este metodo
         return transformListBeanMain(bdl_C_SFMainLocal.getLstMainByAttr_BDL(beanMain));
     }
     

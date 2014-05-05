@@ -92,13 +92,7 @@ public class BeanMain implements Serializable {
         return nidMain;
     }
 
-    public void setEvaluacionLista(List<BeanEvaluacion> evaluacionLista) {
-        this.evaluacionLista = evaluacionLista;
-    }
 
-    public List<BeanEvaluacion> getEvaluacionLista() {
-        return evaluacionLista;
-    }
 
     public void setAula(BeanAula aula) {
         this.aula = aula;
