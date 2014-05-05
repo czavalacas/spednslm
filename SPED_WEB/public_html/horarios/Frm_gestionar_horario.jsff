@@ -27,7 +27,8 @@
                         <f:selectItems value="#{sessionGestionarHorario.lstAula}" id="si3"
                                        binding="#{bGestionarHorario.si3}"/>
                     </af:selectOneChoice>
-                    <af:button text="Generar Horario" id="b1" action="#{bGestionarHorario.abrirPopGenerarHorario}"/>
+                    <af:button text="Generar Horario" id="bGenerar" action="#{bGestionarHorario.abrirPopGenerarHorario}"
+                               binding="#{bGestionarHorario.bgenerar}"/>
                 </af:panelFormLayout>
                 <af:spacer height="20" id="s3"/>
             </af:panelGroupLayout>
