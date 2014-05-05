@@ -37,18 +37,20 @@ public class LN_C_SFNotificacionBean implements LN_C_SFNotificacionRemote,
 
     public LN_C_SFNotificacionBean() {
     }
-    
-    public int[] getCantidadAMostrarNotificaciones(int nidUsuario,boolean verNotifEvas,boolean verNotifPOs){
-        int vec[] = new int[3];
+
+    public int[] getCantidadAMostrarNotificaciones(int nidUsuario, boolean verNotifEvas, boolean verNotifPOs) {
+        int vec[] = new int[4];
         vec[0] = 0;
         vec[1] = 0;
         vec[2] = 0;
+        vec[3] = 0;
         try {
-            vec[0] = (verNotifEvas == true ? bdL_C_SFNotificacionLocal.getCantidadNotificacionesEvaluaciones_BDL(nidUsuario)    : 0);
-            vec[1] = (verNotifPOs ==  true ? bdL_C_SFNotificacionLocal.getCantidadNotificacionesParteOcurrencia_BDL(nidUsuario) : 0);
-            vec[2] = vec[0] + vec[1];
+            vec[0] = (verNotifEvas == true ? bdL_C_SFNotificacionLocal.getCantidadNotificacionesEvaluaciones_BDL(nidUsuario) : 0);
+            vec[1] = (verNotifPOs == true ? bdL_C_SFNotificacionLocal.getCantidadNotificacionesParteOcurrencia_BDL(nidUsuario) : 0);
+            vec[2] = bdL_C_SFNotificacionLocal.getCantidadNotificacionesEvaluacionesComentarioProfesor_BDL(nidUsuario);
+            vec[3] = vec[0] + vec[1] + vec[2];
             return vec;
-       } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return vec;
         }

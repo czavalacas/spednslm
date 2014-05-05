@@ -50,4 +50,12 @@ public interface LN_T_SFEvaluacionLocal {
     String updateEvaluacionProblemaEvaluador(int idEvaluacion,
                                              int nidProblema,
                                              String descProblema);
+    /**
+     * Metodo para cambiar la nofiticacion a Leido cuando el usuario abre el popup para leer el comentario del profesor
+     * @author dfloresgonz
+     * @since 04.05.2014
+     * @param idEvaluacion
+     * @return Codigo de error
+     */
+    String updateEvaluacionbyComentarioProfesor_Leido_LN(int idEvaluacion);
 }

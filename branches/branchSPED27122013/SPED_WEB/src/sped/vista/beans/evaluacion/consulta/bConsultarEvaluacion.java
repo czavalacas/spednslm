@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 
+import java.util.Iterator;
 import java.util.List;
 
 import java.util.Locale;
@@ -377,6 +378,20 @@ public class bConsultarEvaluacion {
     
     public void comentarEvaluacion(ActionEvent actionEvent) {
         this.setComentarioProf(sessionConsultarEvaluacion.getEvaSelect().getComentario_profesor());
+        ln_T_SFEvaluacionRemote.updateEvaluacionbyComentarioProfesor_Leido_LN(sessionConsultarEvaluacion.getEvaSelect().getNidEvaluacion());
+        Iterator it = sessionConsultarEvaluacion.getLstBeanEvaluacion().iterator();
+        BeanEvaluacion beanEva = null;
+        while(it.hasNext()){
+            beanEva = (BeanEvaluacion) it.next();
+            if(sessionConsultarEvaluacion.getEvaSelect().getNidEvaluacion().compareTo(beanEva.getNidEvaluacion()) == 0){
+                beanEva.setNotificacionEvaluadorComentarioProfesor("0");
+                break;
+            }
+        }
+        if(tbEval != null){
+            tbEval.setValue(sessionConsultarEvaluacion.getLstBeanEvaluacion());
+            Utils.addTargetMany(tbEval, bexcel);
+        } 
         Utils.showPopUpMIDDLE(popCom);
     }
     
@@ -387,11 +402,11 @@ public class bConsultarEvaluacion {
     
     public void confirmarEnvioMensaje(DialogEvent dialogEvent) {
         if(beanUsuario.getRol().getNidRol() == 3){//SOLO EL PROFESOR PUEDE REGISTRAR COMENTARIO
-            DialogEvent.Outcome outcome = dialogEvent.getOutcome();        
+            DialogEvent.Outcome outcome = dialogEvent.getOutcome();
             String detalle = "Error";
             String error = "Operacion Incorrecta, vuelva intentarlo";
             int severidad = 2;
-            if(outcome == DialogEvent.Outcome.ok){            
+            if(outcome == DialogEvent.Outcome.ok){
                 if(sessionConsultarEvaluacion.getEvaSelect() != null){
                     error = ln_T_SFEvaluacionRemote.updateEvaluacionbyComentarioProfesor(sessionConsultarEvaluacion.getEvaSelect().getNidEvaluacion(),
                                                                                          comentarioProf);
@@ -401,14 +416,10 @@ public class bConsultarEvaluacion {
                         severidad = 3;
                         llenarTabla();
                         Utils.addTarget(pfl7);
-                    }                
+                    }
                 }
-                Utils.mostrarMensaje(ctx, 
-                                     error, 
-                                     detalle, 
-                                     severidad);
-                
-            }   
+                Utils.mostrarMensaje(ctx,error,detalle,severidad);
+            }
         }
     }
     
@@ -431,11 +442,7 @@ public class bConsultarEvaluacion {
                         Utils.addTarget(pfl7);
                     }                
                 }
-                Utils.mostrarMensaje(ctx, 
-                                     error, 
-                                     detalle, 
-                                     severidad);
-                
+                Utils.mostrarMensaje(ctx,error, detalle,severidad);
             }   
         }
     }

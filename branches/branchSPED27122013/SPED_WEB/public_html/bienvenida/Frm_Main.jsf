@@ -117,6 +117,9 @@
                             <f:param value="N" name="evas"/>
                             <f:param value="S" name="pos"/>
                         </af:commandLink>
+                        <af:commandLink text="Hay #{sessionScope.sessionMain.cantRptaProfesor} Respuesta(s) de Docente(s)"
+                                        rendered="#{sessionScope.sessionMain.cantRptaProfesor > 0}" id="clCantRptaProf"
+                                        actionListener="#{bMain.verNotifProfesorRpta}" binding="#{bMain.clCantRptaProf}"/>
                     </af:panelFormLayout>
                 </af:noteWindow>
             </af:popup>

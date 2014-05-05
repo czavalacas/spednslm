@@ -85,6 +85,7 @@ public class bMain implements Serializable {
     private String clave;
     private RichActiveOutputText otError;
     private String msjError;
+    private RichCommandLink clCantRptaProf;
 
     public bMain(){
         super();
@@ -234,16 +235,25 @@ public class bMain implements Serializable {
         Utils._redireccionar(ctx,"/WEB-INF/notificaciones.xml#notificaciones");
     }
 
+    public void verNotifProfesorRpta(ActionEvent actionEvent) {
+        if(Utils.getSession("url") != null){
+            if(Utils.getSession("url").equals("/WEB-INF/consultar_evaluacion.xml#consultar_evaluacion")){
+                return;
+            }
+        }
+        Utils._redireccionarConsultarEvas(ctx,"/WEB-INF/consultar_evaluacion.xml#consultar_evaluacion");
+    }
 
     public void getNumeroNotificacionesAll(PollEvent pe) {
         try {
-            int vec[] = new int[3];
+            int vec[] = new int[4];
             vec = ln_C_SFNotificacionLocal.getCantidadAMostrarNotificaciones(beanUsuario.getNidUsuario(),
                                                                              sessionMain.isVerNotificacionesEvas(),
                                                                              sessionMain.isVerNotificacionesPOs());
             sessionMain.setCantNotifEvas(vec[0]);
-            sessionMain.setCantNotifPO(vec[1]); 
-            sessionMain.setCantNotif(vec[2]);
+            sessionMain.setCantNotifPO(vec[1]);
+            sessionMain.setCantRptaProfesor(vec[2]);
+            sessionMain.setCantNotif(vec[3]);
             cantNotif.setValue(sessionMain.getCantNotif());
             if(sessionMain.getCantNotif() > 0){
                 cantNotif.setRendered(true);
@@ -272,6 +282,10 @@ public class bMain implements Serializable {
             if(clCantEvas != null){
                 clCantEvas.setText("Hay "+sessionMain.getCantNotifEvas()+" Notificaciones de Evaluaciones");
                 Utils.addTarget(clCantEvas);
+            }
+            if(clCantRptaProf != null){
+                clCantRptaProf.setText("Hay "+sessionMain.getCantRptaProfesor()+" Respuesta(s) de Docente(s)");
+                Utils.addTarget(clCantRptaProf);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -445,5 +459,13 @@ public class bMain implements Serializable {
 
     public String getMsjError() {
         return msjError;
-    }    
+    }
+
+    public void setClCantRptaProf(RichCommandLink clCantRptaProf) {
+        this.clCantRptaProf = clCantRptaProf;
+    }
+
+    public RichCommandLink getClCantRptaProf() {
+        return clCantRptaProf;
+    }
 }

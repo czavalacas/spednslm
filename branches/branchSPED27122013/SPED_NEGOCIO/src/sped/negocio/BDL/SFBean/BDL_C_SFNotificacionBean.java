@@ -55,6 +55,24 @@ public class BDL_C_SFNotificacionBean implements BDL_C_SFNotificacionRemote,
         }
     }
     
+    public int getCantidadNotificacionesEvaluacionesComentarioProfesor_BDL(int nidUsuario){
+        try {
+            String qlString = "SELECT count(n.nidEvaluacion) " +
+                              "FROM Evaluacion n " +
+                              "WHERE n.notificacionEvaluadorComentarioProfesor = '1' " +
+                              "AND n.nidEvaluador = :nidUsuario ";
+           List lst = em.createQuery(qlString).setParameter("nidUsuario",nidUsuario).getResultList();
+           if(lst.isEmpty()){
+               return 0;
+           }else{
+               return Integer.parseInt(lst.get(0).toString());
+           }
+       } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    
     public int getCantidadNotificacionesParteOcurrencia_BDL(int nidUsuario){
         try {
             String qlString = "SELECT count(n.cidNotificacion) " +
