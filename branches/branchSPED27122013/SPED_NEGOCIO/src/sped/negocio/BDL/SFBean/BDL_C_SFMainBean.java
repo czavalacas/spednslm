@@ -214,14 +214,17 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
    
    /**
      * Metodo para consultar las leciones del aula
+     * @author angeles
      * @param beanMain
      * @return LstMain
      */
    public List<Main> getLstMainByAttr_BDL(BeanMain beanMain){
        try{
            String ejbQl =  " SELECT ma FROM Main ma " +
-                           " WHERE ma.aula.nidAula = :nidAula ";
+                           " WHERE ma.aula.nidAula = :nidAula " +
+                           " AND ma.estado = :estado";
            List<Main> lstMain = em.createQuery(ejbQl).setParameter("nidAula", beanMain.getNidAula())
+                                                     .setParameter("estado", "1")
                                                      .getResultList();
            return lstMain;
        }catch(Exception e){
