@@ -32,7 +32,7 @@ public class BDL_C_SFConfiguracionHorarioBean implements BDL_C_SFConfiguracionHo
             String ejbQl = "SELECT ch from ConfiguracionHorario ch " +
                            "WHERE ch.nidSede =:nidSede " +
                            "AND ch.nidNivel =:nidNivel " +
-                           "ORDER BY ch.stmconfev.nidConfev ASC";
+                           "ORDER BY ch.hora_inicio ASC";
             return em.createQuery(ejbQl).setParameter("nidSede", nidSede)
                                         .setParameter("nidNivel", nidNivel)
                                         .getResultList();
