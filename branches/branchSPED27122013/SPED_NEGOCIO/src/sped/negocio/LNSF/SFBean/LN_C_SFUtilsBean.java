@@ -56,12 +56,12 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     }
     
     public List<BeanComboString> getListaEstados(String nombreCampo, String nombreTabla){
-        List<BeanComboString> list=new ArrayList<BeanComboString>();
-        List<Constraint> listConstraint=bdL_C_SFUtilsLocal.getListaConstraintsBDL(nombreCampo, nombreTabla);
-        Iterator it=listConstraint.iterator();
+        List<BeanComboString> list = new ArrayList<BeanComboString>();
+        List<Constraint> listConstraint = bdL_C_SFUtilsLocal.getListaConstraintsBDL(nombreCampo, nombreTabla);
+        Iterator it = listConstraint.iterator();
         while(it.hasNext()){
-            Constraint entida=(Constraint)it.next();
-            BeanComboString bean=new BeanComboString();           
+            Constraint entida = (Constraint)it.next();
+            BeanComboString bean = new BeanComboString();           
             bean.setId(entida.getDescripcionAMostrar());//EL ID SERA EL MISMO QUE LA DESCRIPCION A MOSTRAR...
             bean.setDescripcion(entida.getDescripcionAMostrar());            
             list.add(bean);

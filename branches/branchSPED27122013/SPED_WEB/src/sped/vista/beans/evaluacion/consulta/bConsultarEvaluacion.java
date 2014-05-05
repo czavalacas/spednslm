@@ -69,10 +69,6 @@ import sped.vista.Utils.Utils;
 
 public class bConsultarEvaluacion {
     
-    private bSessionConsultarEvaluacion sessionConsultarEvaluacion;
-    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
-    FacesContext ctx = FacesContext.getCurrentInstance();
-    private String comentarioProf;
     private RichSelectOneChoice choiceFSede;
     private UISelectItems si1;
     private RichSelectOneChoice choiceFNivel;
@@ -89,6 +85,14 @@ public class bConsultarEvaluacion {
     private RichSubform s1;
     private RichSelectOneChoice choiceFEstado;
     private UISelectItems si4;
+    private RichPanelFormLayout pfl7;
+    private RichShowDetail sd1;
+    private RichShowDetail sd2;
+    private RichTable tbEval;
+    private RichPopup popCom;
+    private RichButton bexcel;
+    private RichPopup popComEva;
+    private RichPopup popProb;
     @EJB
     private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
     @EJB
@@ -103,12 +107,11 @@ public class bConsultarEvaluacion {
     private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
     @EJB
     private LN_C_SFProfesorRemote ln_C_SFProfesorRemote;
-    private RichPanelFormLayout pfl7;
-    private RichShowDetail sd1;
-    private RichShowDetail sd2;
-    private RichTable tbEval;
-    private RichPopup popCom;
-    private RichButton bexcel;
+    private bSessionConsultarEvaluacion sessionConsultarEvaluacion;
+    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
+    FacesContext ctx = FacesContext.getCurrentInstance();
+    private String comentarioProf;
+    private String comentarioEvaluador;
 
     public bConsultarEvaluacion() {
         
@@ -124,39 +127,33 @@ public class bConsultarEvaluacion {
             sessionConsultarEvaluacion.setLstArea(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
             sessionConsultarEvaluacion.setLstCurso(Utils.llenarCombo(ln_C_SFUtilsRemote.getCursos_LN()));
             sessionConsultarEvaluacion.setLstGrado(Utils.llenarCombo(ln_C_SFUtilsRemote.getGrados_LN()));
-            sessionConsultarEvaluacion.setLstEstadoEvaluacion
-                        (Utils.llenarComboString(ln_C_SFUtilsRemote.getEstadoEvaluacionFromConstraint()));            
-            sessionConsultarEvaluacion.setItemProfesor
-                        (Utils.llenarListItem(ln_C_SFProfesorRemote.getNombreProfesor_LN()));
+            sessionConsultarEvaluacion.setLstEstadoEvaluacion(Utils.llenarComboString(ln_C_SFUtilsRemote.getEstadoEvaluacionFromConstraint()));            
+            sessionConsultarEvaluacion.setItemProfesor(Utils.llenarListItem(ln_C_SFProfesorRemote.getNombreProfesor_LN()));
             llenarTabla();
         }
     }
     
     public void renderColumns(int nidRol){
-        if(beanUsuario.getRol().getNidRol() == 2 && beanUsuario.getIsSupervisor().compareTo("1") == 0){            
-            int nidArea = beanUsuario.getAreaAcademica().getNidAreaAcademica();            
-            System.out.println("entro    "+nidRol+"       "+nidArea);
-            sessionConsultarEvaluacion.setItemEvaluador
-                        (Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN(nidArea, nidRol)));
+        if(beanUsuario.getRol().getNidRol() == 2 && "1".compareTo(beanUsuario.getIsSupervisor()) == 0){
+            int nidArea = beanUsuario.getAreaAcademica().getNidAreaAcademica();
+            sessionConsultarEvaluacion.setItemEvaluador(Utils.llenarListItem(ln_C_SFUsuarioRemote.getNombresUsuarios_LN(nidArea, nidRol)));
         }else{
-            System.out.println("No entro");
-            sessionConsultarEvaluacion.setItemEvaluador
-                        (Utils.llenarListItem(ln_C_SFUsuarioRemote.getEvaluadores_LN()));
+            sessionConsultarEvaluacion.setItemEvaluador(Utils.llenarListItem(ln_C_SFUsuarioRemote.getEvaluadores_LN()));
         }
         if(nidRol == 2 || nidRol == 4){
-            if(nidRol == 4 || (nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0)){
+            if(nidRol == 4 || (nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0)){
                 sessionConsultarEvaluacion.setColumnEvaluador(false);
-            }            
+            }
             if(nidRol == 2){
                 sessionConsultarEvaluacion.setColumnArea(false);
             }
             if(nidRol == 4){
                 sessionConsultarEvaluacion.setColumnSede(false);
             }
-        }        
+        }
         if(nidRol == 3){
             sessionConsultarEvaluacion.setColumnProfesor(false);
-        }        
+        }
     }
     
     public void buscarByFiltro(ActionEvent actionEvent) {
@@ -188,19 +185,18 @@ public class bConsultarEvaluacion {
     }
     
     public void llenarTabla(){
-        sessionConsultarEvaluacion.setLstBeanEvaluacion(
-             ln_C_SFEvaluacionRemote.getEvaluacionesByUsuarioLN(beanUsuario, 
-                                                                transforString(sessionConsultarEvaluacion.getNidSede()), 
-                                                                transforString(sessionConsultarEvaluacion.getNidNivel()), 
-                                                                transforString(sessionConsultarEvaluacion.getNidArea()), 
-                                                                transforString(sessionConsultarEvaluacion.getNidCurso()),
-                                                                transforString(sessionConsultarEvaluacion.getNidGrado()),
-                                                                sessionConsultarEvaluacion.getNombreProfesor(),
-                                                                sessionConsultarEvaluacion.getNombreEvaluador(),
-                                                                sessionConsultarEvaluacion.getFechaP(),
-                                                                sessionConsultarEvaluacion.getFechaPf(),
-                                                                sessionConsultarEvaluacion.getFechaF(),
-                                                                sessionConsultarEvaluacion.getFechaFf()));
+        sessionConsultarEvaluacion.setLstBeanEvaluacion(ln_C_SFEvaluacionRemote.getEvaluacionesByUsuarioLN(beanUsuario, 
+                                                        transforString(sessionConsultarEvaluacion.getNidSede()), 
+                                                        transforString(sessionConsultarEvaluacion.getNidNivel()), 
+                                                        transforString(sessionConsultarEvaluacion.getNidArea()), 
+                                                        transforString(sessionConsultarEvaluacion.getNidCurso()),
+                                                        transforString(sessionConsultarEvaluacion.getNidGrado()),
+                                                        sessionConsultarEvaluacion.getNombreProfesor(),
+                                                        sessionConsultarEvaluacion.getNombreEvaluador(),
+                                                        sessionConsultarEvaluacion.getFechaP(),
+                                                        sessionConsultarEvaluacion.getFechaPf(),
+                                                        sessionConsultarEvaluacion.getFechaF(),
+                                                        sessionConsultarEvaluacion.getFechaFf()));
         if(sessionConsultarEvaluacion.getLstBeanEvaluacion().size() == 0){
             sessionConsultarEvaluacion.setRenderExcel(false);
         }else{
@@ -325,9 +321,9 @@ public class bConsultarEvaluacion {
     }
     
     public void XWPFRunStyle(XWPFRun paragraph, 
-                               boolean Bold, 
-                               int size, 
-                               String texto){
+                             boolean Bold, 
+                             int size, 
+                             String texto){
         if(texto != null){
             paragraph.setText(texto);            
         }
@@ -366,7 +362,7 @@ public class bConsultarEvaluacion {
     }
     
     public String colorNota(double nota){
-        String color="";
+        String color = "";
         if(nota <= 5){
             color = "ff0000";
         }else if(nota <= 10){
@@ -380,35 +376,68 @@ public class bConsultarEvaluacion {
     }
     
     public void comentarEvaluacion(ActionEvent actionEvent) {
+        this.setComentarioProf(sessionConsultarEvaluacion.getEvaSelect().getComentario_profesor());
         Utils.showPopUpMIDDLE(popCom);
     }
     
+    public void comentarEvaluacionByEvaluador(ActionEvent actionEvent) {
+        this.setComentarioEvaluador(sessionConsultarEvaluacion.getEvaSelect().getComentario_evaluador());
+        Utils.showPopUpMIDDLE(popComEva);
+    }
+    
     public void confirmarEnvioMensaje(DialogEvent dialogEvent) {
-        DialogEvent.Outcome outcome = dialogEvent.getOutcome();        
-        String detalle = "Error";
-        String error = "Operacion Incorrecta, vuelva intentarlo";
-        int severidad = 2;
-        if(outcome == DialogEvent.Outcome.ok){            
-            if(sessionConsultarEvaluacion.getEvaSelect() != null){
-                System.out.println(sessionConsultarEvaluacion.getEvaSelect().getNidEvaluacion()+"   "+comentarioProf);
-                error = ln_T_SFEvaluacionRemote.updateEvaluacionbyComentarioProfesor(
-                                                        sessionConsultarEvaluacion.getEvaSelect().getNidEvaluacion(),
-                                                        comentarioProf);
-                if(error.compareTo("000") == 0){
-                    detalle = "Se registro el comentario";
-                    error = "Operacion Realizada Correctamente";
-                    severidad = 3;
-                    llenarTabla();
-                    Utils.addTarget(pfl7);
-                }                
-            }
-            Utils.mostrarMensaje(ctx, 
-                                 error, 
-                                 detalle, 
-                                 severidad);
-            
+        if(beanUsuario.getRol().getNidRol() == 3){//SOLO EL PROFESOR PUEDE REGISTRAR COMENTARIO
+            DialogEvent.Outcome outcome = dialogEvent.getOutcome();        
+            String detalle = "Error";
+            String error = "Operacion Incorrecta, vuelva intentarlo";
+            int severidad = 2;
+            if(outcome == DialogEvent.Outcome.ok){            
+                if(sessionConsultarEvaluacion.getEvaSelect() != null){
+                    error = ln_T_SFEvaluacionRemote.updateEvaluacionbyComentarioProfesor(sessionConsultarEvaluacion.getEvaSelect().getNidEvaluacion(),
+                                                                                         comentarioProf);
+                    if("000".compareTo(error) == 0){
+                        detalle = "Se registro el comentario";
+                        error = "Operacion Realizada Correctamente";
+                        severidad = 3;
+                        llenarTabla();
+                        Utils.addTarget(pfl7);
+                    }                
+                }
+                Utils.mostrarMensaje(ctx, 
+                                     error, 
+                                     detalle, 
+                                     severidad);
+                
+            }   
         }
-        
+    }
+    
+    public void confirmarEnvioMensajeEvaluador(DialogEvent dialogEvent) {
+        if(beanUsuario.getNidUsuario().compareTo(sessionConsultarEvaluacion.getEvaSelect().getNidEvaluador()) == 0 &&
+           beanUsuario.getRol().getNidRol() != 3){//SOLO EL MISMO EVALUADOR PUEDE EDITAR SU COMENTARIO
+            DialogEvent.Outcome outcome = dialogEvent.getOutcome();        
+            String detalle = "Error";
+            String error = "Operacion Incorrecta, vuelva intentarlo";
+            int severidad = 2;
+            if(outcome == DialogEvent.Outcome.ok){            
+                if(sessionConsultarEvaluacion.getEvaSelect() != null){
+                    error = ln_T_SFEvaluacionRemote.updateEvaluacionbyComentarioEvaluador(sessionConsultarEvaluacion.getEvaSelect().getNidEvaluacion(),
+                                                                                          comentarioEvaluador);
+                    if("000".compareTo(error) == 0){
+                        detalle = "Se registro el comentario";
+                        error = "Operacion Realizada Correctamente";
+                        severidad = 3;
+                        llenarTabla();
+                        Utils.addTarget(pfl7);
+                    }                
+                }
+                Utils.mostrarMensaje(ctx, 
+                                     error, 
+                                     detalle, 
+                                     severidad);
+                
+            }   
+        }
     }
     
     public String Pnota(double nota){
@@ -422,7 +451,7 @@ public class bConsultarEvaluacion {
         DateFormat Hora = new SimpleDateFormat("hh:mm a", Locale.US);
         return fechaHora.format(eva.getStartDate())+" - "+Hora.format(eva.getEndDate());
     }
-    
+
     public List<SelectItem> suggestEvaluador(String string) {        
         return Utils.getSuggestions(sessionConsultarEvaluacion.getItemEvaluador(), string);
     }
@@ -445,6 +474,14 @@ public class bConsultarEvaluacion {
 
     public RichSelectOneChoice getChoiceFSede() {
         return choiceFSede;
+    }
+
+    public void setComentarioEvaluador(String comentarioEvaluador) {
+        this.comentarioEvaluador = comentarioEvaluador;
+    }
+
+    public String getComentarioEvaluador() {
+        return comentarioEvaluador;
     }
 
     public void setSi1(UISelectItems si1) {
@@ -621,5 +658,21 @@ public class bConsultarEvaluacion {
 
     public RichButton getBexcel() {
         return bexcel;
+    }
+
+    public void setPopComEva(RichPopup popComEva) {
+        this.popComEva = popComEva;
+    }
+
+    public RichPopup getPopComEva() {
+        return popComEva;
+    }
+
+    public void setPopProb(RichPopup popProb) {
+        this.popProb = popProb;
+    }
+
+    public RichPopup getPopProb() {
+        return popProb;
     }
 }

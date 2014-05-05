@@ -28,4 +28,26 @@ public interface LN_T_SFEvaluacionLocal {
                                          Integer nidEvaluacion,
                                          Integer nidUsuario,
                                          String comentarioEvaluador);
+    /**
+     * Metodo que registra el comentario del evaluador
+     * @author dfloresgonz
+     * @since 04.05.2014
+     * @param idEvaluacion - nidEvaluacion en evmeval
+     * @param comentario - descripcion textual
+     * @return -codigo de error
+     */
+    String updateEvaluacionbyComentarioEvaluador(int idEvaluacion,
+                                                 String comentario);
+    /**
+     * Metodo para actualizar el problema a una planificacion que no se realizo.
+     * @author dfloresgonz
+     * @since 04.05.2014
+     * @param idEvaluacion
+     * @param nidProblema
+     * @param descProblema
+     * @return
+     */
+    String updateEvaluacionProblemaEvaluador(int idEvaluacion,
+                                             int nidProblema,
+                                             String descProblema);
 }

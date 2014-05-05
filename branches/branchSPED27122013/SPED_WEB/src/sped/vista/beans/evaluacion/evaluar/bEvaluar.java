@@ -87,13 +87,13 @@ public class bEvaluar {
     private void mostrarPlanificacionesParaHoy(){
         try {
             sessionEvaluar.setLstPlanificacionesXEvaluar(ln_C_SFEvaluacionRemote.getPlanificaciones_LN_WS(usuario.getRol().getNidRol(),
-                                                                                                                usuario.getRol().getNidRol() == 4 ? usuario.getSede().getNidSede() : 0,
-                                                                                                                usuario.getRol().getNidRol() == 2 ? usuario.getAreaAcademica().getNidAreaAcademica() : 0,
-                                                                                                                usuario.getNidUsuario(),
-                                                                                                                null, 
-                                                                                                                null,
-                                                                                                                0,
-                                                                                                                0));
+                                                                                                          usuario.getRol().getNidRol() == 4 ? usuario.getSede().getNidSede() : 0,
+                                                                                                          usuario.getRol().getNidRol() == 2 ? usuario.getAreaAcademica().getNidAreaAcademica() : 0,
+                                                                                                          usuario.getNidUsuario(),
+                                                                                                          null, 
+                                                                                                          null,
+                                                                                                          0,
+                                                                                                          0));
             if(tbPlan != null){
                 tbPlan.setValue(sessionEvaluar.getLstPlanificacionesXEvaluar());
                 Utils.unselectFilas(tbPlan);

@@ -254,17 +254,16 @@
                                    visible="#{sessionScope.sessionPlanificarEva.estadoBoxJustificacion}">
                     <af:panelFormLayout id="pfl21">
                          <af:selectOneChoice value="#{sessionScope.sessionPlanificarEva.nidProblema}" label="Problema"
-                                                    id="choiseProblema" unselectedLabel="::Seleccionar Problema::"
-                                                    autoSubmit="true" binding="#{bPlanificarEva.choiceProblema}"
-                                                    disabled="#{sessionScope.sessionPlanificarEva.estadoDisableChoiceProblema}"
+                                             id="choiseProblema" unselectedLabel="::Seleccionar Problema::"
+                                             autoSubmit="true" binding="#{bPlanificarEva.choiceProblema}"
+                                             disabled="#{sessionScope.sessionPlanificarEva.estadoDisableChoiceProblema}"
                                              valueChangeListener="#{bPlanificarEva.seleccionarProblema}">
-                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaProblemas}" id="si17"/>
-                                </af:selectOneChoice>
+                            <f:selectItems value="#{sessionScope.sessionPlanificarEva.listaProblemas}" id="si17"/>
+                        </af:selectOneChoice>
                         <af:inputText label="Especificar" autoSubmit="true" id="it41"
                                       value="#{sessionScope.sessionPlanificarEva.justificacionProfesor}"
                                       disabled="#{sessionScope.sessionPlanificarEva.estadoDinputJustificacion}"
-                                      visible="#{sessionScope.sessionPlanificarEva.estadoDinputJustificacionVisible}"
-                                      binding="#{bPlanificarEva.inputDescripcionOtros}" rows="2"/>
+                                      binding="#{bPlanificarEva.inputDescripcionOtros}" rows="6"/>
                         <af:button text="Guardar" id="b6" binding="#{bPlanificarEva.btnSaveJustificacion}"
                                    action="#{bPlanificarEva.guardarJustificacion}"
                                    visible="#{sessionScope.sessionPlanificarEva.estadoBtnSaveJustificaEvalu}"/>

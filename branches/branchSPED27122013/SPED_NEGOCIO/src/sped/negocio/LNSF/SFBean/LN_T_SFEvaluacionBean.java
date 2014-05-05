@@ -39,7 +39,7 @@ import sped.negocio.entidades.eval.Resultado;
  */
 @Stateless(name = "LN_T_SFEvaluacion", mappedName = "mapLN_T_SFEvaluacion")
 public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
-                                                  LN_T_SFEvaluacionLocal {
+                                              LN_T_SFEvaluacionLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -212,7 +212,60 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         }
         return error;
     }
-
+    
+    /**
+     * Metodo que registra el comentario del evaluador
+     * @author dfloresgonz
+     * @since 04.05.2014
+     * @param idEvaluacion - nidEvaluacion en evmeval
+     * @param comentario - descripcion textual
+     * @return -codigo de error
+     */
+    public String updateEvaluacionbyComentarioEvaluador(int idEvaluacion,
+                                                        String comentario){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(idEvaluacion);
+            eva.setComentario_evaluador(comentario);
+            bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+        }catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+    }
+    
+    /**
+     * Metodo para actualizar el problema a una planificacion que no se realizo.
+     * @author dfloresgonz
+     * @since 04.05.2014
+     * @param idEvaluacion
+     * @param nidProblema
+     * @param descProblema
+     * @return
+     */
+    public String updateEvaluacionProblemaEvaluador(int idEvaluacion,
+                                                    int nidProblema,
+                                                    String descProblema){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(idEvaluacion);
+            eva.setNidProblema(nidProblema);
+            eva.setComentarioEvaluador(descProblema);
+            eva.setEstadoEvaluacion("NO EJECUTADO");
+            bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+        }catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+    }
 
     public String grabarComentariosYJustificacionesDeEvaluacion(String nidDate, 
                                                                  String comentEvalu, 
