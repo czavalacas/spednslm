@@ -47,7 +47,7 @@ public class BDL_C_SFNotificacionBean implements BDL_C_SFNotificacionRemote,
            if(lst.isEmpty()){
                return 0;
            }else{
-               return Integer.parseInt(lst.get(0).toString());
+               return lst.size();
            }
        } catch (Exception e) {
             e.printStackTrace();

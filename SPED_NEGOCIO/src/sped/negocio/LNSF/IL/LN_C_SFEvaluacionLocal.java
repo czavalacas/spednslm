@@ -27,7 +27,7 @@ public interface LN_C_SFEvaluacionLocal {
                                                     Date fechaPlanifiacionF,
                                                     Date fechaEvaluacion,
                                                     Date fachaEvaluacionF);
-    List<BeanEvaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion, String fechaHoy);
+    List<BeanEvaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion);
     /**
      * Metodo de Logica que retorna las planificaciones para el usuario Movil (WS)
      * @param nidRol

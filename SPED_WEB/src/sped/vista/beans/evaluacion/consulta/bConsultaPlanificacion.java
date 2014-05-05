@@ -11,12 +11,14 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
+import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
@@ -25,6 +27,8 @@ import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
+import oracle.adf.view.rich.event.DialogEvent;
+
 import sped.negocio.BDL.IR.BDL_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
@@ -32,6 +36,7 @@ import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
+import sped.negocio.LNSF.IR.LN_T_SFEvaluacionRemote;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
@@ -69,6 +74,7 @@ public class bConsultaPlanificacion {
     private RichSelectOneChoice choiceAreaAcademica;
     private RichSelectOneChoice choiceEstado;
     private RichButton btnExp;
+    private RichPopup popProb;
     @EJB
     private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
     @EJB
@@ -76,8 +82,12 @@ public class bConsultaPlanificacion {
     @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     private bSessionConsultarPlanificacion sessionConsultarPlanificacion;
-    private BeanUsuario usuarioEnSesion = (BeanUsuario) Utils.getSession("USER");;
-    
+    private BeanUsuario usuarioEnSesion = (BeanUsuario) Utils.getSession("USER");
+    private String descripcionProblema;
+    @EJB
+    private LN_T_SFEvaluacionRemote ln_T_SFEvaluacionRemote;
+    FacesContext ctx = FacesContext.getCurrentInstance();
+
     public bConsultaPlanificacion() {
     }
     
@@ -100,6 +110,9 @@ public class bConsultaPlanificacion {
                 sessionConsultarPlanificacion.setDniProfesor(usuarioEnSesion.getDni());
             }
             buscarPlani();
+            if(usuarioEnSesion.getNidRol() == 3){
+                sessionConsultarPlanificacion.setColumnProfesor(false);
+            }
         }        
     }    
 
@@ -136,7 +149,7 @@ public class bConsultaPlanificacion {
             main.setProfesor(prof);
             beanEvaluacion.setMain(main);
         }
-        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion, sessionConsultarPlanificacion.getFechaHoy()));
+        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
         if(btnExp != null){
             Utils.addTarget(btnExp);
         }
@@ -181,6 +194,36 @@ public class bConsultaPlanificacion {
       buscarPlani();
     }
 
+    public void abrirPopUpProblema(ActionEvent actionEvent) {
+        sessionConsultarPlanificacion.setNidProblema(String.valueOf(sessionConsultarPlanificacion.getI_nidProblema()));
+        sessionConsultarPlanificacion.setListaProblemas(Utils.llenarCombo(ln_C_SFUtilsRemote.getProblemas_LN_WS()));
+        Utils.showPopUpMIDDLE(popProb);
+    }
+    
+    public void diagRegistrarProblema(DialogEvent de) {
+        if(usuarioEnSesion.getNidUsuario().compareTo(sessionConsultarPlanificacion.getEvaSelect().getNidEvaluador()) == 0 &&
+           usuarioEnSesion.getRol().getNidRol() != 3){//SOLO EL MISMO EVALUADOR PUEDE EDITAR SU COMENTARIO
+            DialogEvent.Outcome outcome = de.getOutcome();        
+            String detalle = "Error";
+            String error = "Operacion Incorrecta, vuelva intentarlo";
+            int severidad = 2;
+            if(outcome == DialogEvent.Outcome.ok){            
+                if(sessionConsultarPlanificacion.getEvaSelect() != null){
+                    error = ln_T_SFEvaluacionRemote.updateEvaluacionProblemaEvaluador(sessionConsultarPlanificacion.getEvaSelect().getNidEvaluacion(),
+                                                                                      sessionConsultarPlanificacion.getI_nidProblema(),
+                                                                                      descripcionProblema);
+                    if("000".compareTo(error) == 0){
+                        detalle = "Se registro el comentario";
+                        error = "Operacion Realizada Correctamente";
+                        severidad = 3;
+                        buscarPlani();
+                    }                
+                }
+                Utils.mostrarMensaje(ctx,error,detalle,severidad);
+            }
+        }
+    }
+    
     public void setSessionConsultarPlanificacion(bSessionConsultarPlanificacion sessionConsultarPlanificacion) {
         this.sessionConsultarPlanificacion = sessionConsultarPlanificacion;
     }
@@ -206,6 +249,14 @@ public class bConsultaPlanificacion {
         return ln_C_SFUsuarioRemote;
     }
 
+    public void setDescripcionProblema(String descripcionProblema) {
+        this.descripcionProblema = descripcionProblema;
+    }
+
+    public String getDescripcionProblema() {
+        return descripcionProblema;
+    }
+    
     public void setListaEvaludaoresChoice(List listaEvaludaoresChoice) {
         this.listaEvaludaoresChoice = listaEvaludaoresChoice;
     }
@@ -336,5 +387,13 @@ public class bConsultaPlanificacion {
 
     public RichButton getBtnExp() {
         return btnExp;
+    }
+
+    public void setPopProb(RichPopup popProb) {
+        this.popProb = popProb;
+    }
+
+    public RichPopup getPopProb() {
+        return popProb;
     }
 }
