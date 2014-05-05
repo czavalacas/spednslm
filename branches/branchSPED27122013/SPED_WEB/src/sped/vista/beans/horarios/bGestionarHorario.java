@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import java.util.List;
@@ -28,6 +29,8 @@ import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
+
+import oracle.adf.view.rich.component.rich.nav.RichButton;
 
 import sped.negocio.LNSF.IR.LN_C_SFConfiguracionHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFDuracionHorarioRemote;
@@ -74,7 +77,8 @@ public class bGestionarHorario {
     private int nroHoras;
     private RichInputText itHor;
     private BeanMain beanMain;
-    
+    private RichButton bgenerar;
+
 
     public bGestionarHorario() {        
     }
@@ -99,31 +103,71 @@ public class bGestionarHorario {
         }else if(lstCH.size() == 0){
             Utils.mostrarMensaje(ctx, "Configure llas restriciones en el horario", "Erro", 2);
         }else{
-            valida = true;
-            configuracionHorario(duracion, lstCH);
+            valida = validaConfiguracionHorario(duracion, lstCH);
         }
         return valida;
     }
     
-    public void configuracionHorario(BeanDuracionHorario duracion, List<BeanConfiguracionHorario> lstConfHorario){
-        Utils.putSession("maxHoras", (duracion.getMax_bloque()*5));//grabamos el maximo permitido por curso
-        String horas[] = new String[duracion.getNro_bloque()];
-        Calendar inicio = new GregorianCalendar();
-        inicio.setTimeInMillis(duracion.getHora_inicio().getTime());
-        Time time_aux = new Time(0);
-        for(int i = 0; i < 5 ; i++){
-            time_aux.setTime(sumaHoras(inicio, duracion.getDuracion()).getTimeInMillis());
-            horas[i] = time_aux.toString();
-        }        
-        for(int i = 0; i < 5 ; i++){
-            System.out.println(horas[i]);
+    /**
+     * Metodo para verificar la configuracion del horario
+     * @param duracion
+     * @param lstConfHorario
+     * @return
+     */
+    public boolean validaConfiguracionHorario(BeanDuracionHorario duracion, List<BeanConfiguracionHorario> lstConfHorario){
+        try{
+            Utils.putSession("maxHoras", (duracion.getMax_bloque()*5));//grabamos el maximo permitido por curso
+            String horas[] = new String[duracion.getNro_bloque()];
+            Calendar inicio = new GregorianCalendar();
+            inicio.setTime(duracion.getHora_inicio());
+            Time time_aux = new Time(inicio.getTimeInMillis());
+            int cont = 1;
+            boolean restr = false;
+            horas[0] = time_aux.toString();
+            while(cont < duracion.getNro_bloque()){
+                if(lstConfHorario.size() > 0){
+                    for(BeanConfiguracionHorario configuracionH : lstConfHorario){                       
+                        if(configuracionH.getHora_inicio().equals(time_aux)){
+                            cont--;     
+                            inicio.setTime(configuracionH.getHora_fin());
+                            horas[cont] = time_aux.toString();         
+                            lstConfHorario.remove(configuracionH);
+                            cont++;     
+                            restr = lstConfHorario.size() ==  0 && cont < duracion.getNro_bloque() ? false : true;
+                            break;
+                        }
+                        if(configuracionH.getHora_inicio().after(time_aux)){ 
+                            restr = false;
+                            break;
+                        }
+                    }
+                }
+                if(!restr){
+                    time_aux.setTime(sumaHoras(inicio, duracion.getDuracion()).getTime());
+                    horas[cont] = time_aux.toString();                
+                    cont++;
+                }                     
+            }    // fin de la validacion
+            if(lstConfHorario.size() != 0){//valida si se validaron todas las restriciones
+                return false;
+            }
+            return true;  
+        }catch(Exception e){            
+            e.printStackTrace();
+            return false;
         }
     }
     
-    public Calendar sumaHoras(Calendar inicio, Time agregar){
+    /**
+     * Metodo para agregar tiempo a una fecha
+     * @param inicio
+     * @param agregar
+     * @return
+     */
+    public Date sumaHoras(Calendar inicio, Time agregar){
         inicio.add(Calendar.HOUR, agregar.getHours());
         inicio.add(Calendar.MINUTE, agregar.getMinutes());
-        return inicio;
+        return inicio.getTime();
     }
     
     public void llenarVectorHoras(){
@@ -147,13 +191,22 @@ public class bGestionarHorario {
     }
     
     public String abrirPopGenerarHorario() {
+        System.out.println("Entre en el metodo");
         if(verificarConfiguracionHorario(2, 2)){
+            System.out.println("Verfifique");
             Utils.showPopUpMIDDLE(popGHor);        
             sessionGestionarHorario.setLstBeanMain(new ArrayList());
             //llenarVectorHoras();
             //validaHorario();
         }        
         return null;
+    }
+    
+    public void abrirPopGenerar(ActionEvent actionEvent) {
+        System.out.println("Entre en el metodo");
+        if(verificarConfiguracionHorario(2, 2)){
+            
+        }        
     }
     
     public void validaHorario(){
@@ -565,5 +618,18 @@ public class bGestionarHorario {
 
     public BeanMain getBeanMain() {
         return beanMain;
+    }
+
+    public String metodoPrueba() {
+        System.out.println("funciono");
+        return null;
+    }
+
+    public void setBgenerar(RichButton bgenerar) {
+        this.bgenerar = bgenerar;
+    }
+
+    public RichButton getBgenerar() {
+        return bgenerar;
     }
 }

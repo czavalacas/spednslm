@@ -51,26 +51,28 @@
                   binding="#{bGestionarPermisos.popUsu}">
             <af:dialog id="dialogU" title="Selecionar Usuarios" type="#{sessionGestionarPermisos.typepopUsu}"
                        dialogListener="#{bGestionarPermisos.confirmarSelecion}" binding="#{bGestionarPermisos.dialogU}">
-                <af:panelFormLayout id="pfl2" rows="1" binding="#{bGestionarPermisos.pfl2}">
-                    <af:inputText label="Nombre" id="it4" value="#{sessionGestionarPermisos.nombreF}">
-                        <af:autoSuggestBehavior maxSuggestedItems="5"
-                                                suggestedItems="#{bGestionarPermisos.suggestNombre}"/>
-                    </af:inputText>
-                    <af:inputText label="Usuario" id="it5" value="#{sessionGestionarPermisos.usuarioF}">
-                        <af:autoSuggestBehavior maxSuggestedItems="5"
-                                                suggestedItems="#{bGestionarPermisos.suggestUsuario}"/>
-                    </af:inputText>
-                    <af:selectOneChoice label="Rol" value="#{sessionGestionarPermisos.nidRolF}" id="choiceRol"
-                                        binding="#{bGestionarPermisos.choiceRol}" autoSubmit="true"
-                                        labelStyle="text-align: left;" >
-                        <f:selectItems value="#{sessionGestionarPermisos.listRol}" id="si1"
-                                       binding="#{bGestionarPermisos.si1}"/>
-                    </af:selectOneChoice>
-                </af:panelFormLayout>
-                <af:spacer height="10" id="s4"/>
-                <af:button text="Buscar" id="b1" actionListener="#{bGestionarPermisos.actionListenerBuscarUsuario}"/>
-                <af:button id="b4" action="#{bGestionarPermisos.limpiarFiltro}" icon="../recursos/img/usuarios/refresh.png"/>
-                <af:spacer height="10" id="s5"/>
+                <af:subform id="s6" defaultCommand="b1">
+                    <af:panelFormLayout id="pfl2" rows="1" binding="#{bGestionarPermisos.pfl2}">
+                        <af:inputText label="Nombre" id="it4" value="#{sessionGestionarPermisos.nombreF}">
+                            <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                    suggestedItems="#{bGestionarPermisos.suggestNombre}"/>
+                        </af:inputText>
+                        <af:inputText label="Usuario" id="it5" value="#{sessionGestionarPermisos.usuarioF}">
+                            <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                    suggestedItems="#{bGestionarPermisos.suggestUsuario}"/>
+                        </af:inputText>
+                        <af:selectOneChoice label="Rol" value="#{sessionGestionarPermisos.nidRolF}" id="choiceRol"
+                                            binding="#{bGestionarPermisos.choiceRol}" autoSubmit="true"
+                                            labelStyle="text-align: left;" >
+                            <f:selectItems value="#{sessionGestionarPermisos.listRol}" id="si1"
+                                           binding="#{bGestionarPermisos.si1}"/>
+                        </af:selectOneChoice>
+                    </af:panelFormLayout>
+                    <af:spacer height="10" id="s4"/>
+                    <af:button text="Buscar" id="b1" actionListener="#{bGestionarPermisos.actionListenerBuscarUsuario}"/>
+                    <af:button id="b4" action="#{bGestionarPermisos.limpiarFiltro}" icon="../recursos/img/usuarios/refresh.png"/>
+                    <af:spacer height="10" id="s5"/>
+                </af:subform> 
                 <af:table value="#{sessionGestionarPermisos.lstUsuarios}" var="row" rowBandingInterval="0" id="tUsu"
                           rowSelection="single"  selectionListener="#{bGestionarPermisos.seleccionarUsuario}" fetchSize="25"
                           width="710" binding="#{bGestionarPermisos.tusu}">
