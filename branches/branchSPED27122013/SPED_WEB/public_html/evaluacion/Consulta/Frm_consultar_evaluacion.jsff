@@ -167,7 +167,15 @@
                     </af:column>
                     <af:column sortable="true" sortProperty="comentario_profesor" headerText="Comentario Profesor"
                                align="start" id="c17">
-                      <!--  <af:button text="Comentar" id="bComenP" rendered="#{!sessionConsultarEvaluacion.columnProfesor == true 
+                        <af:panelGroupLayout id="pgl1">
+                            <af:image source="/recursos/img/usuarios/msj.png" id="i1" rendered="#{row.notificacionEvaluadorComentarioProfesor == '1'}"/>
+                            <af:button text="Comentario" id="btnCmtDoce" actionListener="#{bConsultarEvaluacion.comentarEvaluacion}">
+                            <f:setPropertyActionListener value="#{row}"
+                                                         target="#{sessionConsultarEvaluacion.evaSelect}"/>
+                        </af:button>
+                        </af:panelGroupLayout>
+                        
+                        <!--  <af:button text="Comentar" id="bComenP" rendered="#{!sessionConsultarEvaluacion.columnProfesor == true 
                                          and row.comentario_profesor == null ? true : false}"
                                    actionListener="#{bConsultarEvaluacion.comentarEvaluacion}">
                             <f:setPropertyActionListener value="#{row}"
@@ -175,10 +183,6 @@
                         </af:button>
                         <af:outputText value="#{row.comentario_profesor}" id="ot17"
                                        rendered="#{row.comentario_profesor != null ? true : false}"/>-->
-                        <af:button text="Comentario" id="btnCmtDoce" actionListener="#{bConsultarEvaluacion.comentarEvaluacion}">
-                            <f:setPropertyActionListener value="#{row}"
-                                                         target="#{sessionConsultarEvaluacion.evaSelect}"/>
-                        </af:button>
                     </af:column>
                     <af:column sortable="true" sortProperty="estadoEvaluacion" headerText="Estado Evaluacion"
                                align="start" id="c10"

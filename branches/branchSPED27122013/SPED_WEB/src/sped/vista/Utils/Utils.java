@@ -224,6 +224,17 @@ public class Utils {
         actionEvent.queue();
     }
     
+    public static void _redireccionarConsultarEvas(FacesContext ctx,String taskFLowId){
+        UIComponent component = findComponent(ctx.getViewRoot(),"menu19");
+        RichCommandMenuItem rcl = (RichCommandMenuItem) component;
+        rcl.setShortDesc(taskFLowId);
+      //  rcl.setShortDesc(taskFLowId);
+        putSession("url",taskFLowId);
+        putSession("override","1");
+        ActionEvent actionEvent = new ActionEvent(rcl);
+        actionEvent.queue();
+    }
+    
     /**
      * FacesContext fctx = FacesContext.getCurrentInstance();
      * UIViewRoot root = fctx.getViewRoot();

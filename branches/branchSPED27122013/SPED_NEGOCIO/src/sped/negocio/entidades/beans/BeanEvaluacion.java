@@ -9,49 +9,59 @@ public class BeanEvaluacion implements Serializable {
     @SuppressWarnings("compatibility:-9034418511481595866")
     private static final long serialVersionUID = 1L;
         
-        private String descripcion;    
-        private Date endDate;    
-        private String estadoEvaluacion; 
-        private String nidEstadoEvaluacion;
-        private String nidDate;
-        private Integer nidEvaluacion;    
-        private Integer nidEvaluador;
-        private double resultado;
-        private String colorResultado;
-        private String nombreEvaluador;
-        private String nombrePLanificador;
-        private String apellidosDocentes;
-        private String tipoVisita;
-        private Date startDate;      
-        private BeanMain main;
-        private Integer nidPlanificador;       
-        private List<BeanResultado> resultadoLista;
-        private String comentarioEvaluador;
-        private int nidProblema;
-        private String comentario_evaluador; 
-        private String comentario_profesor;
-        ///atributos para la busqueda filtro///
-        private Integer nidSede;
-        private Integer nidNivel;
-        private Integer nidArea;
-        private Integer nidCurso;
-        private Integer nidGrado;
-        private Date fechaPlanificacion; 
-        private Date fechaMinEvaluacion;
-        private Date fechaMaxEvaluacion;
-        private Date fechaMinPlanificacion;
-        private Date fechaMaxPlanificacion;
-        private List<BeanResultadoCriterio> resultadoCriterioList;
-        //valores para el desempeño evaluador
-        private Integer cantEjecutado;
-        private Integer cantPendiente;
-        private Integer cantNoEjecutado;
-        private Integer cantNoJEjecutado;
-        private Integer cantProblema;
-        private String descProblema;
-        private String descRol;
-        private double porcentajeDesempeno;
-        private BeanUsuario usuario;
+    private String descripcion;    
+    private Date endDate;    
+    private String estadoEvaluacion; 
+    private String nidEstadoEvaluacion;
+    private String nidDate;
+    private Integer nidEvaluacion;    
+    private Integer nidEvaluador;
+    private double resultado;
+    private String colorResultado;
+    private String nombreEvaluador;
+    private String nombrePLanificador;
+    private String apellidosDocentes;
+    private String tipoVisita;
+    private Date startDate;      
+    private BeanMain main;
+    private Integer nidPlanificador;       
+    private List<BeanResultado> resultadoLista;
+    private String comentarioEvaluador;
+    private int nidProblema;
+    private String comentario_evaluador; 
+    private String comentario_profesor;
+    ///atributos para la busqueda filtro///
+    private Integer nidSede;
+    private Integer nidNivel;
+    private Integer nidArea;
+    private Integer nidCurso;
+    private Integer nidGrado;
+    private Date fechaPlanificacion; 
+    private Date fechaMinEvaluacion;
+    private Date fechaMaxEvaluacion;
+    private Date fechaMinPlanificacion;
+    private Date fechaMaxPlanificacion;
+    private List<BeanResultadoCriterio> resultadoCriterioList;
+    //valores para el desempeño evaluador
+    private Integer cantEjecutado;
+    private Integer cantPendiente;
+    private Integer cantNoEjecutado;
+    private Integer cantNoJEjecutado;
+    private Integer cantProblema;
+    private String descProblema;
+    private String descRol;
+    private double porcentajeDesempeno;
+    private BeanUsuario usuario;
+    //dfloresgonz 04.05.2014 agregado para notificaciones
+    private String notificacionEvaluadorComentarioProfesor;
+
+    public void setNotificacionEvaluadorComentarioProfesor(String notificacionEvaluadorComentarioProfesor) {
+        this.notificacionEvaluadorComentarioProfesor = notificacionEvaluadorComentarioProfesor;
+    }
+
+    public String getNotificacionEvaluadorComentarioProfesor() {
+        return notificacionEvaluadorComentarioProfesor;
+    }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
