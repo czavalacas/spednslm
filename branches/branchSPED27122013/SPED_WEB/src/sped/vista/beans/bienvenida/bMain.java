@@ -265,6 +265,7 @@ public class bMain implements Serializable {
                     Utils.llamarJavascript("reproducirNotificacion");
                     sessionMain.setImagenNoti("../recursos/img/usuarios/ojosO.png");
                     sessionMain.setCantNotifAux(sessionMain.getCantNotif());
+                    actualizarComponentes();
                 }
             }else{
                 sessionMain.setCantNotif(0);
@@ -272,24 +273,31 @@ public class bMain implements Serializable {
                 cantNotif.setValue(0);
                 cantNotif.setVisible(false);
                 imgBoli.setVisible(false);
-            }
-            imgNoti.setSource(sessionMain.getImagenNoti());
-            Utils.addTargetMany(imgNoti,cantNotif,imgBoli);
-            if(clCantPO != null){
-                clCantPO.setText("Hay "+sessionMain.getCantNotifPO()+" Notificaciones de Partes de Ocurrencia");
-                Utils.addTarget(clCantPO);
-            }
-            if(clCantEvas != null){
-                clCantEvas.setText("Hay "+sessionMain.getCantNotifEvas()+" Notificaciones de Evaluaciones");
-                Utils.addTarget(clCantEvas);
-            }
-            if(clCantRptaProf != null){
-                clCantRptaProf.setText("Hay "+sessionMain.getCantRptaProfesor()+" Respuesta(s) de Docente(s)");
-                Utils.addTarget(clCantRptaProf);
+                if(sessionMain.getCantNotif() != sessionMain.getCantNotifAux()){
+                    actualizarComponentes();
+                }
+                sessionMain.setCantNotifAux(0);
             }
         } catch (Exception e) {
             e.printStackTrace();
             return;
+        }
+    }
+    
+    public void actualizarComponentes(){
+        imgNoti.setSource(sessionMain.getImagenNoti());
+        Utils.addTargetMany(imgNoti,cantNotif,imgBoli);
+        if(clCantPO != null){
+            clCantPO.setText("Hay "+sessionMain.getCantNotifPO()+" Notificaciones de Partes de Ocurrencia");
+            Utils.addTarget(clCantPO);
+        }
+        if(clCantEvas != null){
+            clCantEvas.setText("Hay "+sessionMain.getCantNotifEvas()+" Notificaciones de Evaluaciones");
+            Utils.addTarget(clCantEvas);
+        }
+        if(clCantRptaProf != null){
+            clCantRptaProf.setText("Hay "+sessionMain.getCantRptaProfesor()+" Respuesta(s) de Docente(s)");
+            Utils.addTarget(clCantRptaProf);
         }
     }
     

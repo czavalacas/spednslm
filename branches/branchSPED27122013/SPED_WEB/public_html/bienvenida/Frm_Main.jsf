@@ -31,7 +31,7 @@
                             <af:gridCell width="100%" id="gc2" halign="end">
                                 <af:panelGridLayout id="pgl2" dimensionsFrom="parent">
                                     <af:gridRow>
-                                        <af:gridCell width="auto">
+                                        <af:gridCell id="ceNo">
                                             <af:outputLabel value="#{sessionScope.sessionMain.cantNotif}"
                                                             visible="#{sessionScope.sessionMain.cantNotif > 0}"
                                                             inlineStyle="color:white; font-weight:bold; font-size:small; margin:11px 0px 0px -8px;"
@@ -58,7 +58,7 @@
                                                                       alignId="imgNoti" align="afterStart"/>
                                             </af:image>
                                         </af:gridCell>
-                                        <af:gridCell width="auto" halign="stretch" valign="middle">
+                                        <af:gridCell width="auto" halign="start" valign="middle" id="ceNo2">
                                             <af:panelFormLayout maxColumns="1" rows="2"
                                                                 inlineStyle="margin:5px 0px 0px 0px;">
                                                 <af:outputLabel value="#{bMain.beanUsuario.nombres}"
@@ -67,7 +67,7 @@
                                                                 inlineStyle="color:rgb(102,98,96)"/>
                                             </af:panelFormLayout>
                                         </af:gridCell>
-                                        <af:gridCell valign="middle" width="auto" halign="end">
+                                        <af:gridCell valign="middle" width="auto" halign="end" id="ceNo3">
                                             <af:image source="/imageservlet?nomusuario=#{bMain.beanUsuario.nidUsuario}"
                                                       id="i2"
                                                       inlineStyle="height:56px; width:50px; margin:0px 30px 0px 0px;"
