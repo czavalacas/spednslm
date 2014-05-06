@@ -1,22 +1,33 @@
 #summary Comandos utiles de mysql en el proyecto
+
 <code>
 show processlist;
+</code>
 
+<code>
 SET GLOBAL event_scheduler = ON;
+</code>
 
+<code>
 SHOW EVENTS FROM mmsi_sped;
+</code>
 
---Alterar un Event
+*Alterar un Event*
+<code>
 ALTER EVENT demonioEvmeval 
 ON SCHEDULE 
 EVERY 1 HOUR
 STARTS '2014-05-02 16:00:00' ;
+</code>
 
---Ver los eventos de un determinado esquema
+*Ver los eventos de un determinado esquema*
+<code>
 SELECT * FROM INFORMATION_SCHEMA.EVENTS
 WHERE EVENT_SCHEMA='mmsi_sped';
+</code>
 
---Para agregar minutos u horas a un datetime
+*Para agregar minutos u horas a un datetime*
+<code>
 SELECT DATE_ADD(end_Date,INTERVAL 59 MINUTE) 
 FROM evmevale
 WHERE e.nidEvaluacion = 27;
