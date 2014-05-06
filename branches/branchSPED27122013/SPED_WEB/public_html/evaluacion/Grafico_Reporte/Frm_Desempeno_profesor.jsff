@@ -4,115 +4,115 @@
           xmlns:h="http://java.sun.com/jsf/html">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <f:view>
-        <af:panelStretchLayout id="psl1">
-            <f:facet name="center">            
-                <af:panelSplitter id="ps1" orientation="vertical" splitterPosition="250">
-                   <f:facet name="first">
-                   <af:panelSplitter >
-                   <f:facet name="first">
-                      <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST" shortDesc="Desempeno Global"
-                                      dynamicResize="DYNAMIC_SIZE" binding="#{bDesempenoProfesor.barGraph}"
-                                      
-                                      hideAndShowBehavior="withRescale"  contentDelivery="immediate"
-                                       animationOnDataChange="auto"
-                                      animationIndicators="ALL" animationOnDisplay="auto"
-                                    tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaBarChart}"
-                                    emptyText="Seleccione un tipo de Filtro Sedes">
-                            <dvt:background>
-                                <dvt:specialEffects/>
-                            </dvt:background>
-                            <dvt:graphPlotArea/>
-                            <dvt:seriesSet>
-                                <dvt:series/>
-                            </dvt:seriesSet>
-                            <dvt:o1Axis/>
-                            <dvt:y1Axis/>
-                            <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                        </dvt:barGraph>
-                   </f:facet>
-                   
-                   </af:panelSplitter>
-                   </f:facet>
-                    <f:facet name="second">                   
-                 <af:panelSplitter  splitterPosition="250" >               
-                 <f:facet name="first">
-                                <af:panelGroupLayout id="pgl1" binding="#{bDesempenoProfesor.pgl1}">
-                                <af:panelFormLayout id="pfl1" maxColumns="1">                                
-                                    <af:spacer width="10" height="10" id="s7"/>
-                                    <h:outputText value="Filtros de Busqueda" id="ot1" styleClass="titulos"/>
-                                    <af:spacer width="10" height="10" id="s5"/>
-                                <af:spacer width="10" height="10" id="s6"/>
-                                     <af:selectOneChoice  label="Sede" id="smc1"
-                                                           value="#{sessionDesempenoProfesor.nidSede}"
-                                                           autoSubmit="true"
-                                                           valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
-                                                           binding="#{bDesempenoProfesor.choiceSedes}"
-                                                         unselectedLabel="::Seleccionar Sede::">
-                                        <f:selectItems value="#{sessionDesempenoProfesor.listaSedesFiltro}" id="si1"/>
-                                    </af:selectOneChoice>                                  
-                                    <af:spacer width="10" height="10" id="s3"/>
-                                    <af:spacer width="10" height="10" id="s4"/>
-                                     <af:selectOneChoice label="Area" id="smc3"
-                                                           value="#{sessionDesempenoProfesor.nidArea}"
-                                                           autoSubmit="true"
-                                                         valueChangeListener="#{bDesempenoProfesor.valoresChoiceArea}"
-                                                            binding="#{bDesempenoProfesor.choiceAreas}"
-                                                         unselectedLabel="::Seleccionar Area::">
-                                        <f:selectItems value="#{sessionDesempenoProfesor.listaAreasFiltro}" id="si3"/>
-                                    </af:selectOneChoice>
-                                      <af:spacer width="10" height="10" id="s9"/>
-                                    <af:spacer width="10" height="10" id="s8"/>
-                                     <af:selectOneChoice  label="Curso" id="smc4"
-                                                           value="#{sessionDesempenoProfesor.nidCurso}"
-                                                           autoSubmit="true"                                                          
-                                                            binding="#{bDesempenoProfesor.choiceCursos}"
-                                                         unselectedLabel="::Seleccionar Curso::"
-                                                         valueChangeListener="#{bDesempenoProfesor.valoresChoiceCursos}">
-                                        <f:selectItems value="#{sessionDesempenoProfesor.listaCursosFiltro}" id="si4"/>
-                                    </af:selectOneChoice>
-                                      <af:spacer width="10" height="10" id="s1"/>
-                                    <af:spacer width="10" height="10" id="s2"/>
-                                        <af:selectOneChoice  label="Nivel" id="smc2"
-                                                           value="#{sessionDesempenoProfesor.nidNivele}"
-                                                           autoSubmit="true"
-                                                          
-                                                               binding="#{bDesempenoProfesor.choiceNiveles}"
-                                                            unselectedLabel="::Seleccionar Nivel::"
-                                                            valueChangeListener="#{bDesempenoProfesor.valoresChoiceNivel}">
-                                        <f:selectItems value="#{sessionDesempenoProfesor.listaNivelesFiltro}" id="si2"/>
-                                   </af:selectOneChoice>
-                                    <af:spacer width="10" height="10" id="s10"/>
-                                     <af:spacer width="10" height="10" id="s11"/>
-                                        <af:selectOneChoice  label="Grado" id="smc10"
-                                                           value="#{sessionDesempenoProfesor.nidGrado}"
-                                                           autoSubmit="true"
-                                                           
-                                                               binding="#{bDesempenoProfesor.choiceGrados}"
-                                                            unselectedLabel="::Seleccionar Grado::"
-                                                            valueChangeListener="#{bDesempenoProfesor.valoresChoiceGrado}">
-                                        <f:selectItems value="#{sessionDesempenoProfesor.listaGradosFiltro}" id="si10"/>
-                                   </af:selectOneChoice>
-                                      <af:spacer width="10" height="10" id="s15"/>
-                                     <af:spacer width="10" height="10" id="s13"/>
-                                        <af:selectOneChoice  label="Docente" id="smc13"
-                                                           value="#{sessionDesempenoProfesor.dniDocente}"
-                                                           autoSubmit="true"
-                                                          
-                                                            binding="#{bDesempenoProfesor.choiceDocente}"
-                                                            unselectedLabel="::Seleccionar Docente::">
-                                        <f:selectItems value="#{sessionDesempenoProfesor.listaProfesoresFiltro}" id="si13"/>
-                                   </af:selectOneChoice>
-                                       <af:spacer width="10" height="10" id="s16"/>                     
-                                   <af:spacer width="10" height="10" id="s12"/>
-                                   
-                                    <af:inputText label="Indicador " id="it55" labelStyle="text-align: left;"
-                                              value="#{sessionDesempenoProfesor.indicador}" 
-                                                  binding="#{bDesempenoProfesor.inputIndicador}" >
-                                    <af:autoSuggestBehavior maxSuggestedItems="5"
-                                                            suggestedItems="#{bDesempenoProfesor.suggestIndicadores}"/>
-                                </af:inputText>
-                                
-                                   <!--     <af:inputText label="Indicador" id="it1" autoSubmit="true"
+        <af:panelGroupLayout>
+            <af:panelStretchLayout id="psl1">
+                <f:facet name="center">
+                    <af:panelSplitter id="ps1" orientation="vertical" splitterPosition="250">
+                        <f:facet name="first">
+                            <af:panelSplitter>
+                                <f:facet name="first">
+                                    <dvt:barGraph id="graph1" subType="BAR_VERT_CLUST" shortDesc="Desempeno Global"
+                                                  dynamicResize="DYNAMIC_SIZE" binding="#{bDesempenoProfesor.barGraph}"
+                                                  hideAndShowBehavior="withRescale" contentDelivery="immediate"
+                                                  animationOnDataChange="auto" animationIndicators="ALL"
+                                                  animationOnDisplay="auto"
+                                                  tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaBarChart}"
+                                                  emptyText="Seleccione un tipo de Filtro Sedes">
+                                        <dvt:background>
+                                            <dvt:specialEffects/>
+                                        </dvt:background>
+                                        <dvt:graphPlotArea/>
+                                        <dvt:seriesSet>
+                                            <dvt:series/>
+                                        </dvt:seriesSet>
+                                        <dvt:o1Axis/>
+                                        <dvt:y1Axis/>
+                                        <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                    </dvt:barGraph>
+                                </f:facet>
+                            </af:panelSplitter>
+                        </f:facet>
+                        <f:facet name="second">
+                            <af:panelSplitter splitterPosition="250">
+                                <f:facet name="first">
+                                    <af:panelGroupLayout id="pgl1" binding="#{bDesempenoProfesor.pgl1}">
+                                        <af:panelFormLayout id="pfl1" maxColumns="1">
+                                            <af:spacer width="10" height="10" id="s7"/>
+                                            <h:outputText value="Filtros de Busqueda" id="ot1" styleClass="titulos"/>
+                                            <af:spacer width="10" height="10" id="s5"/>
+                                            <af:spacer width="10" height="10" id="s6"/>
+                                            <af:selectOneChoice label="Sede" id="smc1"
+                                                                value="#{sessionDesempenoProfesor.nidSede}"
+                                                                autoSubmit="true"
+                                                                valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
+                                                                binding="#{bDesempenoProfesor.choiceSedes}"
+                                                                unselectedLabel="::Seleccionar Sede::">
+                                                <f:selectItems value="#{sessionDesempenoProfesor.listaSedesFiltro}"
+                                                               id="si1"/>
+                                            </af:selectOneChoice>
+                                            <af:spacer width="10" height="10" id="s3"/>
+                                            <af:spacer width="10" height="10" id="s4"/>
+                                            <af:selectOneChoice label="Area" id="smc3"
+                                                                value="#{sessionDesempenoProfesor.nidArea}"
+                                                                autoSubmit="true"
+                                                                valueChangeListener="#{bDesempenoProfesor.valoresChoiceArea}"
+                                                                binding="#{bDesempenoProfesor.choiceAreas}"
+                                                                unselectedLabel="::Seleccionar Area::">
+                                                <f:selectItems value="#{sessionDesempenoProfesor.listaAreasFiltro}"
+                                                               id="si3"/>
+                                            </af:selectOneChoice>
+                                            <af:spacer width="10" height="10" id="s9"/>
+                                            <af:spacer width="10" height="10" id="s8"/>
+                                            <af:selectOneChoice label="Curso" id="smc4"
+                                                                value="#{sessionDesempenoProfesor.nidCurso}"
+                                                                autoSubmit="true"
+                                                                binding="#{bDesempenoProfesor.choiceCursos}"
+                                                                unselectedLabel="::Seleccionar Curso::"
+                                                                valueChangeListener="#{bDesempenoProfesor.valoresChoiceCursos}">
+                                                <f:selectItems value="#{sessionDesempenoProfesor.listaCursosFiltro}"
+                                                               id="si4"/>
+                                            </af:selectOneChoice>
+                                            <af:spacer width="10" height="10" id="s1"/>
+                                            <af:spacer width="10" height="10" id="s2"/>
+                                            <af:selectOneChoice label="Nivel" id="smc2"
+                                                                value="#{sessionDesempenoProfesor.nidNivele}"
+                                                                autoSubmit="true"
+                                                                binding="#{bDesempenoProfesor.choiceNiveles}"
+                                                                unselectedLabel="::Seleccionar Nivel::"
+                                                                valueChangeListener="#{bDesempenoProfesor.valoresChoiceNivel}">
+                                                <f:selectItems value="#{sessionDesempenoProfesor.listaNivelesFiltro}"
+                                                               id="si2"/>
+                                            </af:selectOneChoice>
+                                            <af:spacer width="10" height="10" id="s10"/>
+                                            <af:spacer width="10" height="10" id="s11"/>
+                                            <af:selectOneChoice label="Grado" id="smc10"
+                                                                value="#{sessionDesempenoProfesor.nidGrado}"
+                                                                autoSubmit="true"
+                                                                binding="#{bDesempenoProfesor.choiceGrados}"
+                                                                unselectedLabel="::Seleccionar Grado::"
+                                                                valueChangeListener="#{bDesempenoProfesor.valoresChoiceGrado}">
+                                                <f:selectItems value="#{sessionDesempenoProfesor.listaGradosFiltro}"
+                                                               id="si10"/>
+                                            </af:selectOneChoice>
+                                            <af:spacer width="10" height="10" id="s15"/>
+                                            <af:spacer width="10" height="10" id="s13"/>
+                                            <af:selectOneChoice label="Docente" id="smc13"
+                                                                value="#{sessionDesempenoProfesor.dniDocente}"
+                                                                autoSubmit="true"
+                                                                binding="#{bDesempenoProfesor.choiceDocente}"
+                                                                unselectedLabel="::Seleccionar Docente::">
+                                                <f:selectItems value="#{sessionDesempenoProfesor.listaProfesoresFiltro}"
+                                                               id="si13"/>
+                                            </af:selectOneChoice>
+                                            <af:spacer width="10" height="10" id="s16"/>
+                                            <af:spacer width="10" height="10" id="s12"/>
+                                            <af:inputText label="Indicador " id="it55" labelStyle="text-align: left;"
+                                                          value="#{sessionDesempenoProfesor.indicador}"
+                                                          binding="#{bDesempenoProfesor.inputIndicador}">
+                                                <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                                        suggestedItems="#{bDesempenoProfesor.suggestIndicadores}"/>
+                                            </af:inputText>
+                                            <!--     <af:inputText label="Indicador" id="it1" autoSubmit="true"
                                                       valueChangeListener="#{bDesempenoProfesor.valoresInputTexIndicador}"
                                                   />
                                         
@@ -132,248 +132,249 @@
                                             </af:column>
                                         </af:table>
                                         <af:panelFormLayout>-->
-                                        <af:spacer width="10" height="10" id="s20"/>
-                                        <af:inputDate label="Inicio" id="id1"
-                                                  binding="#{bDesempenoProfesor.inputFechaInicio}"
-                                                      value="#{sessionScope.sessionDesempenoProfesor.fechaInicio}">
-                                                        <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-                                                      </af:inputDate>
-                                    <af:spacer width="10" height="10" id="s17"/>
-                                    <af:inputDate label="Fin" id="id2" binding="#{bDesempenoProfesor.inputFechaFin}"
-                                                  value="#{sessionScope.sessionDesempenoProfesor.fechaFin}">
-                                                    <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-                                                  </af:inputDate>
-                                    
-                                  <af:spacer width="10" height="10" id="s18"/>                                              
-                                        
-                                    </af:panelFormLayout> 
-                                     <af:panelGridLayout id="pgl2">
+                                            <af:spacer width="10" height="10" id="s20"/>
+                                            <af:inputDate label="Inicio" id="id1"
+                                                          binding="#{bDesempenoProfesor.inputFechaInicio}"
+                                                          value="#{sessionScope.sessionDesempenoProfesor.fechaInicio}">
+                                                <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </af:inputDate>
+                                            <af:spacer width="10" height="10" id="s17"/>
+                                            <af:inputDate label="Fin" id="id2"
+                                                          binding="#{bDesempenoProfesor.inputFechaFin}"
+                                                          value="#{sessionScope.sessionDesempenoProfesor.fechaFin}">
+                                                <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                            </af:inputDate>
+                                            <af:spacer width="10" height="10" id="s18"/>
+                                        </af:panelFormLayout>
+                                        <af:panelGridLayout id="pgl2">
                                             <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
                                                 <af:gridCell marginStart="5px" width="60px" id="gc1">
-                                                <af:button text="Agregar" id="b1" action="#{bDesempenoProfesor.addFiltros}"
-                                                binding="#{bDesempenoProfesor.btnAgregarFiltro}"/></af:gridCell>
-                                                <af:gridCell marginStart="5px" width="60px" id="gc2">                                               
-                                                 <af:button text="Eliminar" id="b2"
-                                                            action="#{bDesempenoProfesor.deleteFiltros}"/></af:gridCell>                                                 
+                                                    <af:button text="Agregar" id="b1"
+                                                               action="#{bDesempenoProfesor.addFiltros}"
+                                                               binding="#{bDesempenoProfesor.btnAgregarFiltro}"/>
+                                                </af:gridCell>
+                                                <af:gridCell marginStart="5px" width="60px" id="gc2">
+                                                    <af:button text="Eliminar" id="b2"
+                                                               action="#{bDesempenoProfesor.deleteFiltros}"/>
+                                                </af:gridCell>
                                                 <af:gridCell marginStart="5px" width="1px" marginEnd="5px" id="gc3">
-                                                <af:button text="Limpiar" id="b3"
-                                                           action="#{bDesempenoProfesor.btnLimpiarFiltros}"/>
+                                                    <af:button text="Limpiar" id="b3"
+                                                               action="#{bDesempenoProfesor.btnLimpiarFiltros}"/>
                                                 </af:gridCell>
                                             </af:gridRow>
                                         </af:panelGridLayout>
-                         <af:table var="row" rowBandingInterval="0" id="t1"  width="inherit" inlineStyle="height: 150px" emptyText="Seleccione Fitros de Busqueda"
-                                   value="#{sessionScope.sessionDesempenoProfesor.listaFiltros}"
-                                   binding="#{bDesempenoProfesor.tbFiltrosBusqueda}" rowSelection="single"
-                                   selectionListener="#{bDesempenoProfesor.seleccionarFiltro}"> 
-                                        <af:column sortable="false" headerText="Filtro de Busqueda" id="c1" width="600px">
-                                            <af:outputText value="#{row.campoFiltroTrabla}" id="ot2">
-                                               <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-                                            </af:outputText>
-                                        </af:column>
-                                    </af:table>
-                                
-                                
-                                <!--FILTROS DE BUSQUEDA-->
-                                  <af:spacer width="10" height="10" id="s22"/>         <af:spacer width="10" height="10" id="s23"/>       
-                                  <af:showDetail disclosed="true" id="sd3" disclosedText="Graficos"
-                                     >                            
-                            <af:panelFormLayout id="pfl4" >
-                                            <af:selectManyCheckbox id="smc5"
-                                                                   autoSubmit="true"
-                                                                   binding="#{bDesempenoProfesor.checksGraficos}"
-                                                                   valueChangeListener="#{bDesempenoProfesor.seleccionarGraficos}"
-                                                                   value="#{sessionScope.sessionDesempenoProfesor.relaValueGraficos}">
-                                             <!--   <af:selectItem value="1" id="si5" label="Sede"/>-->
-                                                <af:selectItem value="2" id="si6" label="Docente Inidicador"/>
-                                                <af:selectItem value="3" id="si7" label="Docente Evaluacion"/>
-                                                <af:selectItem value="4" id="si8"
-                                                              label="Desempe&#241;o Docente Indicador"/>
-                                                <af:selectItem value="5" id="si9"
-                                                              label="Dsempe&#241;o Docente Evaluador"/>
-                                                <af:selectItem value="6" id="si11" label="Areas"/>
-                                            </af:selectManyCheckbox>
-                                        </af:panelFormLayout>
-                        </af:showDetail>
-                          
-                           <af:spacer width="10" height="10" id="s24"/>  
-                           <af:spacer width="10" height="10" id="s25"/>  
-                              <af:button text="Generar PDF" id="b4" action="#{bDesempenoProfesor.rutaPdf}"
-                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaBtnPdf}"
-                                         binding="#{bDesempenoProfesor.btnPDF}">
-                              <af:fileDownloadActionListener filename="Graficos_Desempeño_Profesorr.pdf"
-                                                           contentType="application/pdf"
-                                                           method="#{bDesempenoProfesor.exportPdf}"/>
-                              </af:button>
-                              <af:button text="Enviar correo" id="bSendM"
-                                   actionListener="#{bDesempenoProfesor.bSendM}"
-                                   rendered="#{sessionScope.sessionDesempenoProfesor.estaBtnEmail}"
-                                         binding="#{bDesempenoProfesor.btnEmail}"/>
-                        </af:panelGroupLayout>
-                    </f:facet>
-                <f:facet name="second">
-                 <af:panelGroupLayout id="pgl4" binding="#{bDesempenoProfesor.pgl4}">
-                 
-                        <af:panelDashboard id="pd1" columns="#{sessionScope.sessionDesempenoProfesor.columnsDashboard}"
-                                           rowHeight="#{sessionScope.sessionDesempenoProfesor.rowHeightDashboard}" >
-                            <af:panelBox text="Desempeño Docente Indicador " id="pb1" showDisclosure="false"
-                                         binding="#{bDesempenoProfesor.panelDesemDocenIndi}"
-                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDesemDocenIndi}">
-                                <af:componentDragSource/>
-                                <dvt:lineGraph id="graph3" subType="LINE_VERT_ABS" shortDesc="line"
-                                               dynamicResize="DYNAMIC_SIZE"
-                                               tabularData="#{sessionDesempenoProfesor.lstEvaLineGraph}"
-                                               binding="#{bDesempenoProfesor.lineaDesempenoGlobal}"
-                                               emptyText="Selecion un tipo de Filtro Docente con Indicador Durante un periodo">
-                                    <dvt:background>
-                                        <dvt:specialEffects/>
-                                    </dvt:background>
-                                    <dvt:graphPlotArea/>
-                                    <dvt:seriesSet>
-                                        <dvt:series/>
-                                    </dvt:seriesSet>
-                                    <dvt:o1Axis/>
-                                    <dvt:y1Axis/>
-                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                                </dvt:lineGraph>
-                            </af:panelBox>           
-                             <af:panelBox text="Docente Indicador" id="pb5" type="stretch"
-                                          rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDocenteIndica}">
-                                <f:facet name="toolbar"/>
-                                <af:componentDragSource/>
-                                <dvt:barGraph id="graph5" subType="BAR_VERT_CLUST" shortDesc="r"
-                                              dynamicResize="DYNAMIC_SIZE"
-                                              tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteIndicadorBarChart}"
-                                              binding="#{bDesempenoProfesor.barDocIndicadorGraph}"
-                                              emptyText="Selecion un tipo de Filtro Docente con Indicador Durante un periodo">
-                                    <dvt:background>
-                                        <dvt:specialEffects/>
-                                    </dvt:background>
-                                    <dvt:graphPlotArea/>
-                                    <dvt:seriesSet>
-                                        <dvt:series/>
-                                    </dvt:seriesSet>
-                                    <dvt:o1Axis/>
-                                    <dvt:y1Axis/>
-                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                                </dvt:barGraph>
-                            </af:panelBox>                          
-                            <af:panelBox text="Desempeño Docente Evaluacion" id="pb4" showDisclosure="false" type="stretch"
-                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDesemDocenEvalu}">
-                                <f:facet name="toolbar"/>
-                                <af:componentDragSource/>
-                               
-                                             <dvt:lineGraph id="graph6" subType="LINE_VERT_ABS" shortDesc="line"
-                                               dynamicResize="DYNAMIC_SIZE"
-                                               tabularData="#{sessionDesempenoProfesor.lstEvaLineGlobalGraph}"
-                                               binding="#{bDesempenoProfesor.lineDesempenoProf}"
-                                                            emptyText="Selecion un tipo de Filtro Docente Durante un periodo">
-                                    <dvt:background>
-                                        <dvt:specialEffects/>
-                                    </dvt:background>
-                                    <dvt:graphPlotArea/>
-                                    <dvt:seriesSet>
-                                        <dvt:series/>
-                                    </dvt:seriesSet>
-                                    <dvt:o1Axis/>
-                                    <dvt:y1Axis/>
-                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                                </dvt:lineGraph>
-                                    </af:panelBox>
-                           
-                               <af:panelBox text="Docente Evaluacion" id="pb2" showDisclosure="false" type="stretch"
-                                            rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDocenteEvalua}">
-                                <f:facet name="toolbar"/>
-                                <af:componentDragSource/>
-                                  <dvt:barGraph id="graph7" subType="BAR_VERT_CLUST" shortDesc="r"
-                                              dynamicResize="DYNAMIC_SIZE"
-                                              tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteEvaluacionBarChart}"
-                                              binding="#{bDesempenoProfesor.barDocenteEvalu}"
-                                                emptyText="Selecion un tipo de Filtro Docente Durante un periodo">
-                                    <dvt:background>
-                                        <dvt:specialEffects/>
-                                    </dvt:background>
-                                    <dvt:graphPlotArea/>
-                                    <dvt:seriesSet>
-                                        <dvt:series/>
-                                    </dvt:seriesSet>
-                                    <dvt:o1Axis/>
-                                    <dvt:y1Axis/>
-                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                                </dvt:barGraph>
-                            </af:panelBox>
-                              <af:panelBox text="Grafico de Areas" id="pb3" showDisclosure="false" type="stretch"
-                                           rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelAreas}">
-                                <f:facet name="toolbar"/>
-                                <af:componentDragSource/>
-                                <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_CLUST" shortDesc="lin"
-                                                        dynamicResize="DYNAMIC_SIZE"
-                                                        tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaAreasBarChart}"
-                                                        binding="#{bDesempenoProfesor.barAreaGraph}"
-                                                        emptyText="Selecion un tipo de Filtro Areas">
-                                    
-                                    <dvt:background>
-                                    <dvt:specialEffects/>
-                                    </dvt:background>
-                                    <dvt:graphPlotArea/>
-                                    <dvt:seriesSet>
-                                    <dvt:series/>
-                                    </dvt:seriesSet>
-                                    <dvt:o1Axis/>
-                                    <dvt:y1Axis/>
-                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
-                                </dvt:horizontalBarGraph>
-                            </af:panelBox>
-                        </af:panelDashboard>
-             
-               </af:panelGroupLayout>
+                                        <af:table var="row" rowBandingInterval="0" id="t1" width="inherit"
+                                                  inlineStyle="height: 150px" emptyText="Seleccione Fitros de Busqueda"
+                                                  value="#{sessionScope.sessionDesempenoProfesor.listaFiltros}"
+                                                  binding="#{bDesempenoProfesor.tbFiltrosBusqueda}"
+                                                  rowSelection="single"
+                                                  selectionListener="#{bDesempenoProfesor.seleccionarFiltro}">
+                                            <af:column sortable="false" headerText="Filtro de Busqueda" id="c1"
+                                                       width="600px">
+                                                <af:outputText value="#{row.campoFiltroTrabla}" id="ot2">
+                                                    <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                                </af:outputText>
+                                            </af:column>
+                                        </af:table>
+                                        <!--FILTROS DE BUSQUEDA-->
+                                        <af:spacer width="10" height="10" id="s22"/>
+                                        <af:spacer width="10" height="10" id="s23"/>
+                                        <af:showDetail disclosed="true" id="sd3" disclosedText="Graficos">
+                                            <af:panelFormLayout id="pfl4">
+                                                <af:selectManyCheckbox id="smc5" autoSubmit="true"
+                                                                       binding="#{bDesempenoProfesor.checksGraficos}"
+                                                                       valueChangeListener="#{bDesempenoProfesor.seleccionarGraficos}"
+                                                                       value="#{sessionScope.sessionDesempenoProfesor.relaValueGraficos}">
+                                                    <!--   <af:selectItem value="1" id="si5" label="Sede"/>-->
+                                                    <af:selectItem value="2" id="si6" label="Docente Inidicador"/>
+                                                    <af:selectItem value="3" id="si7" label="Docente Evaluacion"/>
+                                                    <af:selectItem value="4" id="si8"
+                                                                   label="Desempe&#241;o Docente Indicador"/>
+                                                    <af:selectItem value="5" id="si9"
+                                                                   label="Dsempe&#241;o Docente Evaluador"/>
+                                                    <af:selectItem value="6" id="si11" label="Areas"/>
+                                                </af:selectManyCheckbox>
+                                            </af:panelFormLayout>
+                                        </af:showDetail>
+                                        <af:spacer width="10" height="10" id="s24"/>
+                                        <af:spacer width="10" height="10" id="s25"/>
+                                        <af:button text="Generar PDF" id="b4" action="#{bDesempenoProfesor.rutaPdf}"
+                                                   rendered="#{sessionScope.sessionDesempenoProfesor.estaBtnPdf}"
+                                                   binding="#{bDesempenoProfesor.btnPDF}">
+                                            <af:fileDownloadActionListener filename="Graficos_Desempe&#241;o_Profesorr.pdf"
+                                                                           contentType="application/pdf"
+                                                                           method="#{bDesempenoProfesor.exportPdf}"/>
+                                        </af:button>
+                                        <af:button text="Enviar correo" id="bSendM"
+                                                   actionListener="#{bDesempenoProfesor.bSendM}"
+                                                   rendered="#{sessionScope.sessionDesempenoProfesor.estaBtnEmail}"
+                                                   binding="#{bDesempenoProfesor.btnEmail}"/>
+                                    </af:panelGroupLayout>
+                                </f:facet>
+                                <f:facet name="second">
+                                    <af:panelGroupLayout id="pgl4" binding="#{bDesempenoProfesor.pgl4}">
+                                        <af:panelDashboard id="pd1"
+                                                           columns="#{sessionScope.sessionDesempenoProfesor.columnsDashboard}"
+                                                           rowHeight="#{sessionScope.sessionDesempenoProfesor.rowHeightDashboard}">
+                                            <af:panelBox text="Desempe&#241;o Docente Indicador " id="pb1"
+                                                         showDisclosure="false"
+                                                         binding="#{bDesempenoProfesor.panelDesemDocenIndi}"
+                                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDesemDocenIndi}">
+                                                <af:componentDragSource/>
+                                                <dvt:lineGraph id="graph3" subType="LINE_VERT_ABS" shortDesc="line"
+                                                               dynamicResize="DYNAMIC_SIZE"
+                                                               tabularData="#{sessionDesempenoProfesor.lstEvaLineGraph}"
+                                                               binding="#{bDesempenoProfesor.lineaDesempenoGlobal}"
+                                                               emptyText="Selecion un tipo de Filtro Docente con Indicador Durante un periodo">
+                                                    <dvt:background>
+                                                        <dvt:specialEffects/>
+                                                    </dvt:background>
+                                                    <dvt:graphPlotArea/>
+                                                    <dvt:seriesSet>
+                                                        <dvt:series/>
+                                                    </dvt:seriesSet>
+                                                    <dvt:o1Axis/>
+                                                    <dvt:y1Axis/>
+                                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                                </dvt:lineGraph>
+                                            </af:panelBox>
+                                            <af:panelBox text="Docente Indicador" id="pb5" type="stretch"
+                                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDocenteIndica}">
+                                                <f:facet name="toolbar"/>
+                                                <af:componentDragSource/>
+                                                <dvt:barGraph id="graph5" subType="BAR_VERT_CLUST" shortDesc="r"
+                                                              dynamicResize="DYNAMIC_SIZE"
+                                                              tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteIndicadorBarChart}"
+                                                              binding="#{bDesempenoProfesor.barDocIndicadorGraph}"
+                                                              emptyText="Selecion un tipo de Filtro Docente con Indicador Durante un periodo">
+                                                    <dvt:background>
+                                                        <dvt:specialEffects/>
+                                                    </dvt:background>
+                                                    <dvt:graphPlotArea/>
+                                                    <dvt:seriesSet>
+                                                        <dvt:series/>
+                                                    </dvt:seriesSet>
+                                                    <dvt:o1Axis/>
+                                                    <dvt:y1Axis/>
+                                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                                </dvt:barGraph>
+                                            </af:panelBox>
+                                            <af:panelBox text="Desempe&#241;o Docente Evaluacion" id="pb4"
+                                                         showDisclosure="false" type="stretch"
+                                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDesemDocenEvalu}">
+                                                <f:facet name="toolbar"/>
+                                                <af:componentDragSource/>
+                                                <dvt:lineGraph id="graph6" subType="LINE_VERT_ABS" shortDesc="line"
+                                                               dynamicResize="DYNAMIC_SIZE"
+                                                               tabularData="#{sessionDesempenoProfesor.lstEvaLineGlobalGraph}"
+                                                               binding="#{bDesempenoProfesor.lineDesempenoProf}"
+                                                               emptyText="Selecion un tipo de Filtro Docente Durante un periodo">
+                                                    <dvt:background>
+                                                        <dvt:specialEffects/>
+                                                    </dvt:background>
+                                                    <dvt:graphPlotArea/>
+                                                    <dvt:seriesSet>
+                                                        <dvt:series/>
+                                                    </dvt:seriesSet>
+                                                    <dvt:o1Axis/>
+                                                    <dvt:y1Axis/>
+                                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                                </dvt:lineGraph>
+                                            </af:panelBox>
+                                            <af:panelBox text="Docente Evaluacion" id="pb2" showDisclosure="false"
+                                                         type="stretch"
+                                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelDocenteEvalua}">
+                                                <f:facet name="toolbar"/>
+                                                <af:componentDragSource/>
+                                                <dvt:barGraph id="graph7" subType="BAR_VERT_CLUST" shortDesc="r"
+                                                              dynamicResize="DYNAMIC_SIZE"
+                                                              tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaDocenteEvaluacionBarChart}"
+                                                              binding="#{bDesempenoProfesor.barDocenteEvalu}"
+                                                              emptyText="Selecion un tipo de Filtro Docente Durante un periodo">
+                                                    <dvt:background>
+                                                        <dvt:specialEffects/>
+                                                    </dvt:background>
+                                                    <dvt:graphPlotArea/>
+                                                    <dvt:seriesSet>
+                                                        <dvt:series/>
+                                                    </dvt:seriesSet>
+                                                    <dvt:o1Axis/>
+                                                    <dvt:y1Axis/>
+                                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                                </dvt:barGraph>
+                                            </af:panelBox>
+                                            <af:panelBox text="Grafico de Areas" id="pb3" showDisclosure="false"
+                                                         type="stretch"
+                                                         rendered="#{sessionScope.sessionDesempenoProfesor.estaPanelAreas}">
+                                                <f:facet name="toolbar"/>
+                                                <af:componentDragSource/>
+                                                <dvt:horizontalBarGraph id="graph4" subType="BAR_HORIZ_CLUST"
+                                                                        shortDesc="lin" dynamicResize="DYNAMIC_SIZE"
+                                                                        tabularData="#{sessionScope.sessionDesempenoProfesor.lstEvaAreasBarChart}"
+                                                                        binding="#{bDesempenoProfesor.barAreaGraph}"
+                                                                        emptyText="Selecion un tipo de Filtro Areas">
+                                                    <dvt:background>
+                                                        <dvt:specialEffects/>
+                                                    </dvt:background>
+                                                    <dvt:graphPlotArea/>
+                                                    <dvt:seriesSet>
+                                                        <dvt:series/>
+                                                    </dvt:seriesSet>
+                                                    <dvt:o1Axis/>
+                                                    <dvt:y1Axis/>
+                                                    <dvt:legendArea automaticPlacement="AP_NEVER"/>
+                                                </dvt:horizontalBarGraph>
+                                            </af:panelBox>
+                                        </af:panelDashboard>
+                                    </af:panelGroupLayout>
+                                </f:facet>
+                            </af:panelSplitter>
+                        </f:facet>
+                    </af:panelSplitter>
                 </f:facet>
-                   </af:panelSplitter>
-                        
-                   </f:facet> 
-                </af:panelSplitter>
-            </f:facet>            
-        </af:panelStretchLayout>
-          <af:popup childCreation="deferred" autoCancel="disabled" id="popCorreo"
-                  binding="#{bDesempenoProfesor.popCorreo}">
-            <af:dialog id="d3" dialogListener="#{bDesempenoProfesor.confirmarCorreo}" title="Mensaje" 
-                       type="#{sessionDesempenoProfesor.typePopUpCorreo}">
-                <af:panelFormLayout id="pfl3" rows="1">
-                    <af:inputText label="Correo" id="it7" labelStyle="text-align: left;"
-                                  value="#{sessionDesempenoProfesor.correo}" columns="15">
-                        <f:validator validatorId="EmailValidator"/>
-                    </af:inputText>
-                    <af:button text="Agregar" id="b6" actionListener="#{bDesempenoProfesor.agregarCorreo}"/>
-                    <af:table var="row" rowBandingInterval="0" id="t3" value="#{sessionDesempenoProfesor.lstCorreo}">
-                        <af:column sortable="true" headerText="Correo" id="c11" width="150">
-                            <af:outputText value="#{row}" id="ot12"/>
-                        </af:column>
-                        <af:column sortable="false" headerText="Eliminar" id="c20" align="center" width="50">
-                            <af:button id="b7" icon="../recursos/img/usuarios/borrar.png"
-                                       actionListener="#{bDesempenoProfesor.removeCorreo}">
-                                <f:setPropertyActionListener value="#{row}"
-                                                             target="#{bDesempenoProfesor.correoDelete}"/>
-                            </af:button>
-                        </af:column>
-                    </af:table>
-                </af:panelFormLayout>
-                <af:panelFormLayout id="pfl8">
-                    <af:inputText label="Asunto " id="it8" value="#{sessionDesempenoProfesor.asunto}"/>
-                    <af:richTextEditor id="rte1" binding="#{bDesempenoProfesor.ret1}"
-                                       value="#{sessionDesempenoProfesor.mensaje}"/>
-                </af:panelFormLayout>                
-            </af:dialog>
-             </af:popup>
-              <af:popup childCreation="deferred" autoCancel="disabled" id="popKey"
-                        binding="#{bDesempenoProfesor.popKey}">
-            <af:dialog id="d4" dialogListener="#{bDesempenoProfesor.confirmarEnvio}" title="Ingrese contraseña">
-                <af:panelFormLayout id="pfl7">
-                    <af:inputText label="Correo" id="it9" labelStyle="text-align: left;" disabled="true"
-                                  value="#{bDesempenoProfesor.correo}"/>
-                    <af:inputText label="Contraseña" id="it10" labelStyle="text-align: left;" disabled="false"
-                                  value="#{bDesempenoProfesor.clave}" secret="true" required="true"/>
-                </af:panelFormLayout>                
-            </af:dialog>
-        </af:popup>
-       
+            </af:panelStretchLayout>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popCorreo"
+                      binding="#{bDesempenoProfesor.popCorreo}">
+                <af:dialog id="d3" dialogListener="#{bDesempenoProfesor.confirmarCorreo}" title="Mensaje"
+                           type="#{sessionDesempenoProfesor.typePopUpCorreo}">
+                    <af:panelFormLayout id="pfl3" rows="1">
+                        <af:inputText label="Correo" id="it7" labelStyle="text-align: left;"
+                                      value="#{sessionDesempenoProfesor.correo}" columns="15">
+                            <f:validator validatorId="EmailValidator"/>
+                        </af:inputText>
+                        <af:button text="Agregar" id="b6" actionListener="#{bDesempenoProfesor.agregarCorreo}"/>
+                        <af:table var="row" rowBandingInterval="0" id="t3"
+                                  value="#{sessionDesempenoProfesor.lstCorreo}">
+                            <af:column sortable="true" headerText="Correo" id="c11" width="150">
+                                <af:outputText value="#{row}" id="ot12"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Eliminar" id="c20" align="center" width="50">
+                                <af:button id="b7" icon="../recursos/img/usuarios/borrar.png"
+                                           actionListener="#{bDesempenoProfesor.removeCorreo}">
+                                    <f:setPropertyActionListener value="#{row}"
+                                                                 target="#{bDesempenoProfesor.correoDelete}"/>
+                                </af:button>
+                            </af:column>
+                        </af:table>
+                    </af:panelFormLayout>
+                    <af:panelFormLayout id="pfl8">
+                        <af:inputText label="Asunto " id="it8" value="#{sessionDesempenoProfesor.asunto}"/>
+                        <af:richTextEditor id="rte1" binding="#{bDesempenoProfesor.ret1}"
+                                           value="#{sessionDesempenoProfesor.mensaje}"/>
+                    </af:panelFormLayout>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popKey" binding="#{bDesempenoProfesor.popKey}">
+                <af:dialog id="d4" dialogListener="#{bDesempenoProfesor.confirmarEnvio}"
+                           title="Ingrese contrase&#241;a">
+                    <af:panelFormLayout id="pfl7">
+                        <af:inputText label="Correo" id="it9" labelStyle="text-align: left;" disabled="true"
+                                      value="#{bDesempenoProfesor.correo}"/>
+                        <af:inputText label="Contrase&#241;a" id="it10" labelStyle="text-align: left;" disabled="false"
+                                      value="#{bDesempenoProfesor.clave}" secret="true" required="true"/>
+                    </af:panelFormLayout>
+                </af:dialog>
+            </af:popup>
+        </af:panelGroupLayout>
     </f:view>
 </jsp:root>

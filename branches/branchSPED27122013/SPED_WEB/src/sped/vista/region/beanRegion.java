@@ -31,6 +31,7 @@ public class beanRegion implements Serializable {
         Utils.removeSession("sessionNoti");
         Utils.removeSession("sessionParteOcurrencia");
         Utils.removeSession("sessionEvaluar");
+        Utils.removeSession("sessionConsultarEvaluacion");                                          
     }
     
     public TaskFlowId getDynamicTaskFlowId() {
