@@ -3,10 +3,16 @@
 show processlist;
 SET GLOBAL event_scheduler = ON;
 SHOW EVENTS FROM mmsi_sped;
+--Alterar un Event
 ALTER EVENT demonioEvmeval 
 ON SCHEDULE 
 EVERY 1 HOUR
 STARTS '2014-05-02 16:00:00' ;
+--Ver los eventos de un determinado esquema
 SELECT * FROM INFORMATION_SCHEMA.EVENTS
 WHERE EVENT_SCHEMA='mmsi_sped';
+--Para agregar minutos u horas a un datetime
+SELECT DATE_ADD(end_Date,INTERVAL 59 MINUTE) 
+FROM evmevale
+WHERE e.nidEvaluacion = 27;
 </code>
