@@ -32,6 +32,6 @@ WHERE EVENT_SCHEMA='mmsi_sped';
 *Para agregar minutos u horas a un datetime*
 <code>
 SELECT DATE_ADD(end_Date,INTERVAL 59 MINUTE) 
-FROM evmevale
+FROM evmeval e
 WHERE e.nidEvaluacion = 27;
 </code>
