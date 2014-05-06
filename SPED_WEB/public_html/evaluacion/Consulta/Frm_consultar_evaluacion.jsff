@@ -74,8 +74,8 @@
                     </af:inputText>
                     <af:inputText label="Evaluador" id="itEvaluador"
                                   value="#{sessionConsultarEvaluacion.nombreEvaluador}">
-                        <af:autoSuggestBehavior  maxSuggestedItems="5"
-                                                 suggestedItems="#{bConsultarEvaluacion.suggestEvaluador}"/>
+                        <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                suggestedItems="#{bConsultarEvaluacion.suggestEvaluador}"/>
                     </af:inputText>
                     <af:selectOneChoice label="Grado" value="#{sessionConsultarEvaluacion.nidGrado}" id="choiceFGrado"
                                         binding="#{bConsultarEvaluacion.choiceFGrado}" autoSubmit="true"
@@ -208,8 +208,8 @@
                     </af:column>
                 </af:table>
             </af:panelCollection>
-        </af:panelGroupLayout>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCom"
+            
+             <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCom"
                   binding="#{bConsultarEvaluacion.popCom}">
             <af:dialog id="diagCmtProf" title="Comentario Profesor"
                        dialogListener="#{bConsultarEvaluacion.confirmarEnvioMensaje}">
@@ -226,8 +226,7 @@
                                   value="#{bConsultarEvaluacion.comentarioProf}" disabled="#{sessionConsultarEvaluacion.columnProfesor == true}"/>
                 </af:panelFormLayout>
             </af:dialog>
-        </af:popup>
-        
+        </af:popup>      
         <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popComEva"
                   binding="#{bConsultarEvaluacion.popComEva}">
             <af:dialog id="diagCmtEva" title="Comentario del Evaluador"
@@ -238,6 +237,7 @@
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>
-        
+        </af:panelGroupLayout>
+
     </f:view>
 </ui:composition>
