@@ -1,13 +1,16 @@
 #summary Comandos utiles de mysql en el proyecto
 
+*Ver la lista de procesos corriendo en la BD*
 <code>
 show processlist;
 </code>
 
+*Activar la variable para que se ejecuten los Events o demonios*
 <code>
 SET GLOBAL event_scheduler = ON;
 </code>
 
+*Otra forma de ver los eventos de un determinado esquema*
 <code>
 SHOW EVENTS FROM mmsi_sped;
 </code>
