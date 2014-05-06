@@ -1,4 +1,4 @@
-#summary Pendientes de Carlos
+#summary Pendientes de Carlos, darle mayor importancia a los que estan en BOLD
 
 Pendientes:
   # *Si el usuario es un subdirector y entra al dash de desempeno de profsores, le permite elegir en el combo de sedes cualquier sede, debe bloquearse con su respectiva sede.
