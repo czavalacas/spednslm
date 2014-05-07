@@ -15,10 +15,10 @@
       <property
          name="exceptionHandler">false</property>
       <property
-         name="y">341.44824</property>
+         name="y">-489.5205</property>
+      <property
+         name="x">314.70117</property>
       <property
          name="pageFragment">true</property>
-      <property
-         name="x">661.7012</property>
    </View>
 </SDM>
