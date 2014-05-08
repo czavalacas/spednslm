@@ -40,8 +40,8 @@ public class LN_C_SFIndicadorBean implements LN_C_SFIndicadorRemote,
     }
     
     public List<BeanIndicador> getIndicadoresByAttr_LN(String descIndicador, 
-                                                        int nidIndicador,// HashSet<BeanCriterio> lstCritsArbol
-                                                        List<BeanCriterio> lstCritsArbol){
+                                                       int nidIndicador,// HashSet<BeanCriterio> lstCritsArbol
+                                                       List<BeanCriterio> lstCritsArbol){
         try{
             BeanIndicador beanIndicador = new BeanIndicador();
             beanIndicador.setDescripcionIndicador(descIndicador);

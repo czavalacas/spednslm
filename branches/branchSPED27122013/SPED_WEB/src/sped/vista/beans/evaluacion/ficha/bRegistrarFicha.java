@@ -86,6 +86,9 @@ public class bRegistrarFicha {
     private RichButton btnNewFicha;
     private RichMessages msjGen;
     private RichButton btnBase;
+    private RichButton btnActDesact;
+    private RichPopup popActDes;
+    private RichPanelGridLayout pgl2;
     private bSessionRegistrarFicha sessionRegistrarFicha;
     @EJB
     private LN_C_SFFichaRemote ln_C_SFFichaRemote;
@@ -104,9 +107,6 @@ public class bRegistrarFicha {
     @EJB
     private LN_C_SFFichaCriterioLocal ln_C_SFFichaCriterioLocal;
     FacesContext ctx = FacesContext.getCurrentInstance();
-    private RichButton btnActDesact;
-    private RichPopup popActDes;
-    private RichPanelGridLayout pgl2;
 
     public bRegistrarFicha() {
         
@@ -761,7 +761,7 @@ public class bRegistrarFicha {
     
     public String buscarCriterios(){
         sessionRegistrarFicha.setLstCriterios(ln_C_SFCriterioRemote.getCriteriosByAttr_LN(sessionRegistrarFicha.getNidCriterio(),
-                                                                                                sessionRegistrarFicha.getDescCriterio()));
+                                                                                          sessionRegistrarFicha.getDescCriterio()));
         if(sessionRegistrarFicha.getLstCriteriosMultiples() != null && sessionRegistrarFicha.getLstCriterios() != null){
             Iterator it = sessionRegistrarFicha.getLstCriterios().iterator();
             while(it.hasNext()){
@@ -791,15 +791,22 @@ public class bRegistrarFicha {
     
     public String buscarIndicadores(){
         sessionRegistrarFicha.setLstIndicadores(ln_C_SFIndicadorRemote.getIndicadoresByAttr_LN(sessionRegistrarFicha.getDescIndicador(),
-                                                                                                     sessionRegistrarFicha.getNidIndicador(),
-                                                                                                     sessionRegistrarFicha.getLstCriteriosMultiples()));
+                                                                                               sessionRegistrarFicha.getNidIndicador(),
+                                                                                               sessionRegistrarFicha.getLstCriteriosMultiples()));
         Utils.unselectFilas(tbIndis);
         return null;
     }
     
     public void busquedaConTecla(ClientEvent ce){
-        //String message = (String) ce.getParameters().get("fvalue");
+        String message = (String) ce.getParameters().get("fvalue");
+        sessionRegistrarFicha.setDescCriterio(message);
         buscarCriterios();
+    }
+    
+    public void busquedaConTeclaIndicadores(ClientEvent ce){
+        String message = (String) ce.getParameters().get("fvalue");
+        sessionRegistrarFicha.setDescIndicador(message);
+        buscarIndicadores();
     }
     
     public String resetCrits(){
