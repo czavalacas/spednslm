@@ -14,7 +14,8 @@
                         <af:resource type="javascript">
                           function busquedaTecleando(evt) {
                               var valor = evt.getSource();
-                              //var val = valor.getSubmittedValue(); alert('valor: '+val);
+                              //var val = valor.getSubmittedValue(); 
+                              //alert('valor: '+val);
                               AdfCustomEvent.queue(valor, "teclaEvento", 
                               {
                                   fvalue : valor.getSubmittedValue()
@@ -193,7 +194,7 @@
             </f:facet>
         </af:panelSplitter>
         <!-- POPUPS -->
-        <af:popup childCreation="deferred" id="popCrits" binding="#{bRegistrarFicha.popCrits}"
+        <af:popup id="popCrits" binding="#{bRegistrarFicha.popCrits}"
                   popupCanceledListener="#{bRegistrarFicha.cancelarPopUpCriterios}" contentDelivery="immediate">
             <af:dialog id="dialog_popCrits" type="none" title="Criterios"
                        dialogListener="#{bRegistrarFicha.dialogOkCriterios}">
@@ -204,8 +205,8 @@
                         <af:inputText label="Criterio" id="it1" labelStyle="text-align: left;" autoSubmit="true"
                                       value="#{bRegistrarFicha.sessionRegistrarFicha.descCriterio}"
                                       binding="#{bRegistrarFicha.itDescCrit}" rows="3" columns="80">
-                            <!--<af:clientListener method="busquedaTecleando" type="keyUp"/>
-                                <af:serverListener type="teclaEvento" method="#{bRegistrarFicha.busquedaConTecla}"/>-->
+                                <af:clientListener method="busquedaTecleando" type="keyUp"/>
+                                <af:serverListener type="teclaEvento" method="#{bRegistrarFicha.busquedaConTecla}"/>
                         </af:inputText>
                         <af:messages id="msjCrit" inline="true" binding="#{bRegistrarFicha.mensaje}"/>
                         <af:panelGroupLayout id="pgl3">
@@ -236,7 +237,7 @@
                 </af:table>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popIndis" contentDelivery="immediate"
+        <af:popup autoCancel="disabled" id="popIndis" 
                   binding="#{bRegistrarFicha.popIndis}">
             <af:dialog id="dialog_popIndis" title="Indicadores" type="none">
                 <af:subform defaultCommand="btnBuscarIndis">
@@ -245,7 +246,10 @@
                                                value="#{bRegistrarFicha.sessionRegistrarFicha.nidIndicador}"/>-->
                         <af:inputText label="Indicador" id="itDescIndi" labelStyle="text-align: left;"
                                       value="#{bRegistrarFicha.sessionRegistrarFicha.descIndicador}" autoSubmit="true"
-                                      binding="#{bRegistrarFicha.itDescIndi}" rows="3" columns="80"/>
+                                      binding="#{bRegistrarFicha.itDescIndi}" rows="3" columns="80">
+                            <af:clientListener method="busquedaTecleando" type="keyUp"/>
+                            <af:serverListener type="teclaEvento" method="#{bRegistrarFicha.busquedaConTeclaIndicadores}"/>              
+                        </af:inputText>
                         <af:messages id="msjIndi" inline="true" binding="#{bRegistrarFicha.mensajeIndicador}"/>
                         <af:panelGroupLayout id="pgl4">
                             <af:button text="Buscar" id="btnBuscarIndis" action="#{bRegistrarFicha.buscarIndicadores}"/>
@@ -267,15 +271,14 @@
                                sortProperty="nidIndicador">
                         <af:outputText value="#{row.nidIndicador}" id="ot7"/>
                     </af:column>
-                    <af:column sortable="true" headerText="Indicador" align="start" id="c8" width="250"
+                    <af:column sortable="true" headerText="Indicador" align="start" id="c8" width="350"
                                sortProperty="descripcionIndicador">
                         <af:outputText value="#{row.descripcionIndicador}" id="ot8"/>
                     </af:column>
                 </af:table>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" id="popIndByCrit" contentDelivery="immediate"
-                  binding="#{bRegistrarFicha.popIndByCrit}">
+        <af:popup id="popIndByCrit" binding="#{bRegistrarFicha.popIndByCrit}">
             <af:dialog id="diaIndByCrit"
                        title="Indicadores del Criterio: #{sessionScope.sessionRegistrarFicha.descCriterioSeleccionado}"
                        type="none">
@@ -302,7 +305,7 @@
                 </af:table>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" id="popLey" binding="#{bRegistrarFicha.popLey}" contentDelivery="immediate">
+        <af:popup id="popLey" binding="#{bRegistrarFicha.popLey}">
             <af:dialog type="none" title="Leyenda por valor">
                 <af:subform defaultCommand="btnAsigLey">
                     <af:panelFormLayout id="pflpopLey">
@@ -320,7 +323,7 @@
                 </af:subform>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popActDes" binding="#{bRegistrarFicha.popActDes}">
+        <af:popup autoCancel="disabled" id="popActDes" binding="#{bRegistrarFicha.popActDes}">
             <af:dialog type="okCancel" title="Activar la Ficha - Advertencia"
                        dialogListener="#{bRegistrarFicha.dialogOKReactivarFicha}">
                 <af:outputText value="#{sessionScope.sessionRegistrarFicha.advertenciaSPED0004}" id="ot15"/>

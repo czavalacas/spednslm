@@ -40,7 +40,7 @@ public class LN_C_SFCriterioBean implements LN_C_SFCriterioRemote,
     }
     
     public List<BeanCriterio> getCriteriosByAttr_LN(int nidCriterio,
-                                                     String descCriterio){
+                                                    String descCriterio){
         try{
             BeanCriterio beanCriterio = new BeanCriterio();
             beanCriterio.setDescripcionCriterio(descCriterio);
