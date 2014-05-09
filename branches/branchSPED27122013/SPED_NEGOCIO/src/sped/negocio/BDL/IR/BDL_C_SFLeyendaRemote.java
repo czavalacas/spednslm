@@ -21,8 +21,6 @@ public interface BDL_C_SFLeyendaRemote {
      */
     List<Leyenda> getLeyendasByCriterioIndicador_BDL_WS(int nidCriterioIndicador);
     String getLeyendabyEvaluacion_BDL(int nidCriterioIndicador,
-                                     /*int nidCriterio,
-                                     int nidIndicador,*/
                                      int nidFicha,
                                      int valorValoracion);
 }
