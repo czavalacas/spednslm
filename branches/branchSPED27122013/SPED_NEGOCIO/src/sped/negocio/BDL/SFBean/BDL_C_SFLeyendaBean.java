@@ -84,8 +84,8 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
                                              int nidFicha,
                                              int valorValoracion*/){        
         try{
-            /*Utiles.sysout("nidCriterio: "+nidCriterio);
-            Utiles.sysout("nidIndicador: "+nidIndicador);
+            Utiles.sysout("nidCriterioIndicador: "+nidCriterioIndicador);
+            /*Utiles.sysout("nidIndicador: "+nidIndicador);
             Utiles.sysout("nidFicha: "+nidFicha);
             Utiles.sysout("valorValoracion: "+valorValoracion);*/
             String strQuery = "SELECT o.descripcionLeyenda " +
