@@ -292,9 +292,9 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     }
 
     public String grabarComentariosYJustificacionesDeEvaluacion(String nidDate, 
-                                                                 String comentEvalu, 
-                                                                 String descripOtros,
-                                                                 String nidProblema) {
+                                                                String comentEvalu, 
+                                                                String descripOtros,
+                                                                String nidProblema) {
         BeanError beanError = new BeanError();
         String error = "000";
         try {

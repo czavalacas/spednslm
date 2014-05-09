@@ -90,10 +90,10 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
                               "AND o.fichaValor.ficha.nidFicha = :nid_Ficha " +
                               "AND o.fichaValor.valor.valor = :valor";
             String obj = (String)em.createQuery(strQuery).setParameter("nidIndicador",nidIndicador)
-                                                             .setParameter("nid_Ficha", nidFicha)
-                                                             .setParameter("nidCriterio",nidCriterio)
-                                                             .setParameter("valor", valorValoracion)
-                                                             .getSingleResult();
+                                                         .setParameter("nid_Ficha", nidFicha)
+                                                         .setParameter("nidCriterio",nidCriterio)
+                                                         .setParameter("valor", valorValoracion)
+                                                         .getSingleResult();
             String desc = obj;
             return desc;
         }catch(Exception e){
