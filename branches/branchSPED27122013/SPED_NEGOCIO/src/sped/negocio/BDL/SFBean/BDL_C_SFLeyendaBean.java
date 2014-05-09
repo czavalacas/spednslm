@@ -90,11 +90,11 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
             Utiles.sysout("valorValoracion: "+valorValoracion);*/
             String strQuery = "SELECT o.descripcionLeyenda " +
                               "FROM Leyenda o " +
-                              "WHERE o.criterioIndicador.nidCriterioIndicador = :nidCriterioIndicador ";
+                              "WHERE o.criterioIndicador.nidCriterioIndicador = :nidCriterioIndicador "+
                             /*  "WHERE o.criterioIndicador.indicador.nidIndicador = :nidIndicador " +
-                              "AND o.criterioIndicador.fichaCriterio.criterio.nidCriterio = :nidCriterio "+
+                              "AND o.criterioIndicador.fichaCriterio.criterio.nidCriterio = :nidCriterio "+*/
                               "AND o.fichaValor.ficha.nidFicha = :nid_Ficha " +
-                              "AND o.fichaValor.valor.valor = :valor";*/
+                              "AND o.fichaValor.valor.valor = :valor";
             String obj = (String)em.createQuery(strQuery)/*.setParameter("nidIndicador",nidIndicador)
                                                          .setParameter("nid_Ficha", nidFicha)
                                                          .setParameter("nidCriterio",nidCriterio)
