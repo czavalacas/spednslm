@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import sped.negocio.entidades.beans.BeanDia;
 import sped.negocio.entidades.beans.BeanMain;
 
 public class bSessionGestionarHorario implements Serializable {
-    @SuppressWarnings("compatibility:6980576281228298030")
+    @SuppressWarnings("compatibility:204896294902743203")
     private static final long serialVersionUID = 1L;
 
     private int exec;
@@ -25,8 +26,10 @@ public class bSessionGestionarHorario implements Serializable {
     private List lstArea;
     private String horas[];
     private List<BeanMain> lstBeanMain;
+    List<BeanDia> lstDia;
     BeanMain horario[][];    
     private int nroBloque;
+    private int maxBloque;
     private String nombreProfesor;
     private String nombreCurso;
     private String nombreArea;
@@ -190,5 +193,21 @@ public class bSessionGestionarHorario implements Serializable {
 
     public String getNombreArea() {
         return nombreArea;
+    }
+
+    public void setLstDia(List<BeanDia> lstDia) {
+        this.lstDia = lstDia;
+    }
+
+    public List<BeanDia> getLstDia() {
+        return lstDia;
+    }
+
+    public void setMaxBloque(int maxBloque) {
+        this.maxBloque = maxBloque;
+    }
+
+    public int getMaxBloque() {
+        return maxBloque;
     }
 }
