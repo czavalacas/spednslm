@@ -78,7 +78,7 @@ public class bLogin implements Serializable {
             if(beanUsuario.getError().getCidError().equals("000")){
                 Utils.putSession("USER",beanUsuario);
                 setRedireccionar("000");
-                //test();
+                test();
             }else{
                 setMsjError(beanUsuario.getError().getDescripcionError());
                 Utils.addTarget(otError);
