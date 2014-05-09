@@ -1,11 +1,15 @@
 package sped.vista.beans.horarios;
 
 
+import java.io.Serializable;
+
 import java.sql.Time;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -39,6 +43,7 @@ import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 
 import sped.negocio.entidades.beans.BeanConfiguracionHorario;
+import sped.negocio.entidades.beans.BeanDia;
 import sped.negocio.entidades.beans.BeanDuracionHorario;
 import sped.negocio.entidades.beans.BeanHorario;
 
@@ -138,6 +143,7 @@ public class bGestionarHorario {
         try{
             Utils.putSession("maxHoras", (duracion.getMax_bloque()*5));//grabamos el maximo permitido por curso
             sessionGestionarHorario.setNroBloque(duracion.getNro_bloque());//guardo el numero de bloques al dia permitido
+            sessionGestionarHorario.setMaxBloque(duracion.getMax_bloque());
             String horas[] = new String[duracion.getNro_bloque()];
             Calendar inicio = new GregorianCalendar();
             inicio.setTime(duracion.getHora_inicio());
@@ -185,16 +191,18 @@ public class bGestionarHorario {
         int horasFree = sessionGestionarHorario.getNroBloque()*5;
         List<BeanMain> lstLecciones = ln_C_SFMainRemote.getLstMainByAttr_LN("2");// reemplazar el "2" por sessionGestionarHorario.getNidAula()
         List<BeanMain> lst_defecto = new ArrayList();
+        llenarLstDias(5); //llena una lista auxiliar, se usara en generarHorario
         for(BeanMain main : lstLecciones){
             int hora = encuentraHora(main.getHoraInicio());
-            if(hora != 1){
+            if(hora > -1){
                 horario[hora][main.getNDia()] = main;
+                modicarHorasBeanDias(main.getNDia(), 1);//resto a los dias las horas que se encuentran grabadas
                 horasFree--;
             }else{
                 lst_defecto.add(main);
             }
         }
-        if(lstLecciones.size() > 0){
+        if(lst_defecto.size() > 0){
             return false;
         }else{
             Utils.putSession("Horas", horasFree);
@@ -204,8 +212,6 @@ public class bGestionarHorario {
         }  
     }
     
-    ///////////////// DE AQUI PARA ARRIBA QUEDA /////////////// LUEGO BORRARE ESTA LINEA ... SI ES QUE SE JUNTA CON LA DE ABAJO XD
-   
     /**
      * Se almacena las lecciones para luego generar el horario
      * @return
@@ -250,8 +256,66 @@ public class bGestionarHorario {
         return null;
     }
     
-    
+    ///////////////// DE AQUI PARA ARRIBA QUEDA /////////////// LUEGO BORRARE ESTA LINEA ... SI ES QUE SE JUNTA CON LA DE ABAJO XD
+   
     public void generarHorario(ActionEvent actionEvent) {
+        BeanMain horario[][] = sessionGestionarHorario.getHorario();
+        List<BeanMain> lst = sessionGestionarHorario.getLstBeanMain();
+        int maxBloque = sessionGestionarHorario.getMaxBloque();
+        for(BeanMain main : lst){
+            ubicaMain(main, horario, null, maxBloque);
+        }
+        metodoProbarVector();
+    }
+
+    public void ubicaMain(BeanMain main, BeanMain horario[][], List<BeanDia> dias, int maxBloque) {
+        if(dias == null){
+            dias = ordenarLstDiasByHoras();
+        }
+        if(main.getNroHoras() == 0){
+            return;
+        }
+        if(main.getNroHoras() % maxBloque == 0){
+            encuentraEspacio(horario, main, dias, maxBloque);
+        }else{            
+            //ubicaMain(main, horario, dias, maxBloque);
+        }
+        
+    }
+    
+    public void encuentraEspacio(BeanMain horario[][], BeanMain main, List<BeanDia> dias, int maxBloque){
+        int hora = -1;
+        try{
+            hora = (int) Math.round((Math.random()*((sessionGestionarHorario.getNroBloque() / maxBloque) - 1)));
+            if(validarRango(horario, main, (hora * maxBloque), dias.get(0).getNDia(), maxBloque)){
+                main.setNroHoras(main.getNroHoras() - maxBloque);
+                modicarHorasBeanDias(dias.get(0).getNDia(), maxBloque);
+                dias.remove(dias.get(0));
+                ubicaMain(main, horario, dias, maxBloque);
+            }else{
+               encuentraEspacio(horario, main, dias, maxBloque);
+            } 
+        }catch(Exception e){
+            System.out.println(hora);
+            e.printStackTrace();
+        }
+    }
+    
+    public boolean validarRango(BeanMain horario[][], BeanMain main,int hora, int dia, int maxBloque){
+        for(int i = hora ; i < hora + maxBloque; i++){            
+            if(horario[i][dia] != null){
+                return false;
+            }
+        }
+        /////si paso significa que esos dias esas horas estan libres
+        for(int i = hora ; i < hora + maxBloque; i++){
+            horario[i][dia] = main;
+        }
+        return true;
+    }
+    
+    
+    /* public void generarHorario(ActionEvent actionEvent) {
         BeanMain horario[][] = sessionGestionarHorario.getHorario();
         List<BeanMain> lst = sessionGestionarHorario.getLstBeanMain();
         for(int i = 0; i < lst.size(); i++){
@@ -267,9 +331,9 @@ public class bGestionarHorario {
             }
             System.out.println("");
         }
-    }
+    } */
     
-    public void encuentraEspacio(BeanMain horario[][], BeanMain main){
+    /*  public void encuentraEspacio(BeanMain horario[][], BeanMain main){
         int hora = (int) Math.round((Math.random()*7)); 
         int leccion = (int) Math.round((Math.random()*4));
         System.out.println(main.getNombreCurso()+"   -   "+main.getNroHoras());
@@ -308,7 +372,7 @@ public class bGestionarHorario {
                 encuentraEspacio(horario, main);
             }
         }
-    }
+    } */
     
     public void grabarEspacio(BeanMain horario[][], BeanMain main, int leccion, int... hora){
         
@@ -364,6 +428,47 @@ public class bGestionarHorario {
         }
     }
 ////////////////////////////////METODOS QUE QUEDAN//////////////    --Luego borrare esta linea si se junta con la de arriba XD
+    
+    //-------- Metodos auxiliares ------///
+    
+    public void llenarLstDias(int dias){
+        List<BeanDia> lstDias = new ArrayList();
+        int nro_bloque = sessionGestionarHorario.getNroBloque();
+        for(int i = 0 ; i < dias; i++){
+            BeanDia dia = new BeanDia();
+            dia.setNDia(i);
+            dia.setHoras(nro_bloque);
+            lstDias.add(dia);
+        }
+        sessionGestionarHorario.setLstDia(lstDias);        
+    }
+    
+    public void modicarHorasBeanDias(int ndia, int hora){
+        int nHora = sessionGestionarHorario.getLstDia().get(ndia).getHoras();
+        sessionGestionarHorario.getLstDia().get(ndia).setHoras(nHora - hora);        
+    }
+    
+    public List<BeanDia> ordenarLstDiasByHoras(){
+        List<BeanDia> lst_aux = new ArrayList<>(sessionGestionarHorario.getLstDia());
+        Collections.sort(lst_aux, new Comparator(){
+            @Override
+            public int compare(Object object, Object object2) {
+                BeanDia dia1 = (BeanDia) object;
+                BeanDia dia2 = (BeanDia) object2;
+                return dia2.getHoras().compareTo(dia1.getHoras());
+            }
+        });
+        return lst_aux;
+    }
+    
+    //////////////metodo que luego sera pasado a borrar//////////////////////////
+    public void mostrarListDias(){
+        for(BeanDia dia : sessionGestionarHorario.getLstDia()){
+            System.out.println("Dia: "+dia.getNDia()+"   Horas: "+dia.getHoras());
+        }
+    }
+    
+    //-------- FIN Metodos auxiliares ------///
     
     /**
      * Valida la hora de inicio de una leccion con un vector tipo string
@@ -626,5 +731,5 @@ public class bGestionarHorario {
 
     public RichButton getBgenerar() {
         return bgenerar;
-    }
+    }    
 }

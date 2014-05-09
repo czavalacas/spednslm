@@ -104,7 +104,15 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
     public List<BeanMain> getLstMainByAttr_LN(String nidAula) {
         BeanMain beanMain = new BeanMain();
         beanMain.setNidAula(Integer.parseInt(nidAula));//paso el nidAula a un bean por si despues vuelvo utilizar este metodo
-        return transformListBeanMain(bdl_C_SFMainLocal.getLstMainByAttr_BDL(beanMain));
+        List<BeanMain> lstBean = new ArrayList();
+        for(Main main : bdl_C_SFMainLocal.getLstMainByAttr_BDL(beanMain)){
+            BeanMain bean = new BeanMain();
+            bean.setHoraInicio(main.getHoraInicio());
+            bean.setHoraFin(main.getHoraFin());
+            bean.setNDia(main.getNDia());
+            lstBean.add(bean);
+        }
+        return lstBean;
     }
     
     public List<BeanMain> transformListBeanMain(List<Main> lstMain){
