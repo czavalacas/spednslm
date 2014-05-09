@@ -222,7 +222,8 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
        try{
            String ejbQl =  " SELECT ma FROM Main ma " +
                            " WHERE ma.aula.nidAula = :nidAula " +
-                           " AND ma.estado = :estado";
+                           " AND ma.estado = :estado " +
+                           " ORDER BY ma.horaInicio ASC";
            List<Main> lstMain = em.createQuery(ejbQl).setParameter("nidAula", beanMain.getNidAula())
                                                      .setParameter("estado", "1")
                                                      .getResultList();
