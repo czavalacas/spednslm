@@ -16,8 +16,8 @@ public class BDL_C_SFLeyendaRemoteClient {
         try {
             final Context context = getInitialContext();
             BDL_C_SFLeyendaRemote bdL_C_SFLeyendaRemote = (BDL_C_SFLeyendaRemote) context.lookup("mapBDL_C_SFLeyenda#sped.negocio.BDL.IR.BDL_C_SFLeyendaRemote");
-            String s = bdL_C_SFLeyendaRemote.getLeyendabyEvaluacion_BDL(3,9,4,5);
-            System.out.println("s:"+s);
+            //String s = bdL_C_SFLeyendaRemote.getLeyendabyEvaluacion_BDL(3,9,4,5);
+          //  System.out.println("s:"+s);
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());
