@@ -78,16 +78,16 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
      * @param valorValoracion
      * @return
      */
-    public String getLeyendabyEvaluacion_BDL(int nidCriterioIndicador
+    public String getLeyendabyEvaluacion_BDL(int nidCriterioIndicador,
                                              /*int nidCriterio,
-                                             int nidIndicador,
+                                             int nidIndicador,*/
                                              int nidFicha,
-                                             int valorValoracion*/){        
+                                             int valorValoracion){        
         try{
             Utiles.sysout("nidCriterioIndicador: "+nidCriterioIndicador);
-            /*Utiles.sysout("nidIndicador: "+nidIndicador);
+            /*Utiles.sysout("nidIndicador: "+nidIndicador);*/
             Utiles.sysout("nidFicha: "+nidFicha);
-            Utiles.sysout("valorValoracion: "+valorValoracion);*/
+            Utiles.sysout("valorValoracion: "+valorValoracion);
             String strQuery = "SELECT o.descripcionLeyenda " +
                               "FROM Leyenda o " +
                               "WHERE o.criterioIndicador.nidCriterioIndicador = :nidCriterioIndicador "+
@@ -95,10 +95,10 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
                               "AND o.criterioIndicador.fichaCriterio.criterio.nidCriterio = :nidCriterio "+*/
                               "AND o.fichaValor.ficha.nidFicha = :nid_Ficha " +
                               "AND o.fichaValor.valor.valor = :valor";
-            String obj = (String)em.createQuery(strQuery)/*.setParameter("nidIndicador",nidIndicador)
+            String obj = (String)em.createQuery(strQuery)/*.setParameter("nidIndicador",nidIndicador)*/
                                                          .setParameter("nid_Ficha", nidFicha)
-                                                         .setParameter("nidCriterio",nidCriterio)
-                                                         .setParameter("valor", valorValoracion)*/
+                                                        // .setParameter("nidCriterio",nidCriterio)
+                                                         .setParameter("valor", valorValoracion)
                                                          .setParameter("nidCriterioIndicador", nidCriterioIndicador)
                                                          .getSingleResult();
             String desc = obj;
