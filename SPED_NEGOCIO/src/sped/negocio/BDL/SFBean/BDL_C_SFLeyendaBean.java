@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFLeyendaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFLeyendaRemote;
-import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.eval.CriterioIndicador;
 import sped.negocio.entidades.eval.Leyenda;
 
@@ -79,25 +78,15 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
      * @return
      */
     public String getLeyendabyEvaluacion_BDL(int nidCriterioIndicador,
-                                             /*int nidCriterio,
-                                             int nidIndicador,*/
                                              int nidFicha,
                                              int valorValoracion){        
         try{
-            Utiles.sysout("nidCriterioIndicador: "+nidCriterioIndicador);
-            /*Utiles.sysout("nidIndicador: "+nidIndicador);*/
-            Utiles.sysout("nidFicha: "+nidFicha);
-            Utiles.sysout("valorValoracion: "+valorValoracion);
             String strQuery = "SELECT o.descripcionLeyenda " +
                               "FROM Leyenda o " +
                               "WHERE o.criterioIndicador.nidCriterioIndicador = :nidCriterioIndicador "+
-                            /*  "WHERE o.criterioIndicador.indicador.nidIndicador = :nidIndicador " +
-                              "AND o.criterioIndicador.fichaCriterio.criterio.nidCriterio = :nidCriterio "+*/
                               "AND o.fichaValor.ficha.nidFicha = :nid_Ficha " +
                               "AND o.fichaValor.valor.valor = :valor";
-            String obj = (String)em.createQuery(strQuery)/*.setParameter("nidIndicador",nidIndicador)*/
-                                                         .setParameter("nid_Ficha", nidFicha)
-                                                        // .setParameter("nidCriterio",nidCriterio)
+            String obj = (String)em.createQuery(strQuery).setParameter("nid_Ficha", nidFicha)
                                                          .setParameter("valor", valorValoracion)
                                                          .setParameter("nidCriterioIndicador", nidCriterioIndicador)
                                                          .getSingleResult();
