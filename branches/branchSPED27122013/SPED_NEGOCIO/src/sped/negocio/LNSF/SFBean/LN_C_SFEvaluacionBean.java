@@ -528,7 +528,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                                                  resultados.get(j).getCriterioIndicador().getIndicador().getNidIndicador(), 
                                                                                  rc.getFichaCriterio().getFicha().getNidFicha(), 
                                                                                  resultados.get(j).getValor())*/
-                bindi.setLeyenda(bdL_C_SFLeyendaLocal.getLeyendabyEvaluacion_BDL(resultados.get(j).getCriterioIndicador().getNidCriterioIndicador()));
+                bindi.setLeyenda(bdL_C_SFLeyendaLocal.getLeyendabyEvaluacion_BDL(resultados.get(j).getCriterioIndicador().getNidCriterioIndicador(),
+                                                                                 rc.getFichaCriterio().getFicha().getNidFicha(),
+                                                                                 resultados.get(j).getValor()));
                 indicadoresVec[j] = bindi;
             }
             bcws.setIndicadoresVec(indicadoresVec);
