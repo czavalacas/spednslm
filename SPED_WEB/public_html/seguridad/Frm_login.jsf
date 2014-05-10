@@ -11,6 +11,7 @@
           function getWidth() {
               return document.documentElement.clientWidth;
           }
+          
           var BrowserDetect = {
               init : function () {
                   this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
@@ -44,13 +45,19 @@ string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", vers
           BrowserDetect.init();
           
           function getBrowser() {
-              return BrowserDetect.browser + "-" + BrowserDetect.version;
+              return BrowserDetect.browser + " - " + BrowserDetect.version;
           }
           
           function getOS(){
-              return BrowserDetect.OS;
+              return BrowserDetect.OS+' - '+navigator.platform;
           }
-      
+
+          function te(){
+              var appName =  window.navigator.userProfile;
+              return appName;
+          }
+       
+          
           function clientListenerMethod(evt) {
               var sourceComponent = AdfPage.PAGE.findComponentByAbsoluteId('s1:btnInicio');
               var parameter = {
@@ -158,5 +165,6 @@ string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", vers
                 </f:facet>
             </af:panelStretchLayout>
         </af:form>
+       <!-- <iframe src="http://www.whatismybrowser.com/feature/iframe?capabilities=true&#38;screen=true"  width="600" height="410"></iframe> -->
     </af:document>
 </f:view>

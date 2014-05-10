@@ -20,6 +20,7 @@ import oracle.adf.view.rich.event.DialogEvent;
 import oracle.adf.view.rich.render.ClientEvent;
 
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLogLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.vista.Utils.Utils;
@@ -41,6 +42,8 @@ public class bLogin implements Serializable {
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
     @EJB
     private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
+    @EJB
+    private LN_T_SFLogLocal ln_T_SFLogLocal;
     FacesContext contx = FacesContext.getCurrentInstance();
     private String msjError;
     private String redireccionar = "";
@@ -52,6 +55,7 @@ public class bLogin implements Serializable {
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private final static String LOGIN = "/faces/Frm_login";
     ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
+    private String[] vecData = new String[7];
 
     public bLogin(){
         super();
@@ -70,9 +74,9 @@ public class bLogin implements Serializable {
         BeanUsuario beanUsuario = ln_C_SFUsuarioLocal.autenticarUsuarioLN(getUsuario(),getClave());
         if(beanUsuario.getError() != null){
             if(beanUsuario.getError().getCidError().equals("000")){
+                beanUsuario.setNidLog(ln_T_SFLogLocal.grabarLogLogInWeb_LN(vecData,beanUsuario.getNidUsuario()));
                 Utils.putSession("USER",beanUsuario);
                 setRedireccionar("000");
-                test();
             }else{
                 setMsjError(beanUsuario.getError().getDescripcionError());
                 Utils.addTarget(otError);
@@ -121,38 +125,24 @@ public class bLogin implements Serializable {
         return null;
     }
     
-    public void test(){
-           String a = ((HttpServletRequest) ectx.getRequest()).getLocalAddr();
-           String b = ((HttpServletRequest) ectx.getRequest()).getLocalName();
-           int c = ((HttpServletRequest) ectx.getRequest()).getLocalPort();
-           String d = ((HttpServletRequest) ectx.getRequest()).getRemoteHost();
-           String e = ((HttpServletRequest) ectx.getRequest()).getRemoteUser();
-           int f = ((HttpServletRequest) ectx.getRequest()).getRemotePort();
-           String headername = "";
-           for(Enumeration en = ((HttpServletRequest) ectx.getRequest()).getHeaderNames(); en.hasMoreElements();){
-                   headername = (String)en.nextElement();
-               Utils.sysout("headername  "+headername+" : " +((HttpServletRequest) ectx.getRequest()).getHeader(headername));
-           }
-           String clientIpAddress = ((HttpServletRequest) ectx.getRequest()).getRemoteAddr();
-           Utils.sysout("getLocalAddr: "+a);
-           Utils.sysout("getLocalName: "+b);
-           Utils.sysout("getLocalPort: "+c);
-           Utils.sysout("getRemoteHost: "+d);
-           Utils.sysout("getRemoteUser: "+e);
-           Utils.sysout("getRemotePort: "+f);
-           Utils.sysout("clientIpAddress: "+clientIpAddress);
-    }
-    
     public void traerData(ClientEvent ce){
-        Utils.sysout("browser:"+ce.getParameters().get("browser"));
-        Utils.sysout("os:"+ce.getParameters().get("os"));
-        Utils.sysout("altura:"+ce.getParameters().get("altura"));
-        Utils.sysout("anchura:"+ce.getParameters().get("anchura"));
-        int a = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
-        int b = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
-        Utils.sysout("ancho: "+a+" alto: "+b);
+        vecData[0] = (String) ce.getParameters().get("browser");
+        vecData[1] = (String) ce.getParameters().get("os");
+        vecData[2] = String.valueOf(ce.getParameters().get("altura"));
+        vecData[3] = String.valueOf(ce.getParameters().get("anchura"));
+        vecData[4] = String.valueOf(java.awt.Toolkit.getDefaultToolkit().getScreenSize().width);
+        vecData[5] = String.valueOf(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height);
+        vecData[6] =  ((HttpServletRequest) ectx.getRequest()).getRemoteAddr();
     }
-    
+
+    public void setVecData(String[] vecData) {
+        this.vecData = vecData;
+    }
+
+    public String[] getVecData() {
+        return vecData;
+    }
+
     public void setTituloPopup(String tituloPopup) {
         this.tituloPopup = tituloPopup;
     }
