@@ -1,8 +1,6 @@
 package sped.vista.beans.horarios;
 
 
-import java.io.Serializable;
-
 import java.sql.Time;
 
 import java.util.ArrayList;
@@ -29,6 +27,7 @@ import javax.faces.model.SelectItem;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
 
+import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
@@ -38,14 +37,13 @@ import oracle.adf.view.rich.component.rich.nav.RichButton;
 
 import sped.negocio.LNSF.IR.LN_C_SFConfiguracionHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFDuracionHorarioRemote;
-import sped.negocio.LNSF.IR.LN_C_SFHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 
+import sped.negocio.LNSF.IR.LN_T_SFMainRemote;
 import sped.negocio.entidades.beans.BeanConfiguracionHorario;
 import sped.negocio.entidades.beans.BeanDia;
 import sped.negocio.entidades.beans.BeanDuracionHorario;
-import sped.negocio.entidades.beans.BeanHorario;
 
 import sped.negocio.entidades.beans.BeanMain;
 
@@ -55,13 +53,13 @@ public class bGestionarHorario {
     @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     @EJB
-    private LN_C_SFHorarioRemote ln_C_SFHorarioRemote;
-    @EJB
     private LN_C_SFMainRemote ln_C_SFMainRemote;
     @EJB
     private LN_C_SFConfiguracionHorarioRemote ln_C_SFConfiguracionHorarioRemote;
     @EJB
     private LN_C_SFDuracionHorarioRemote ln_C_SFDuracionHorarioRemote;
+    @EJB
+    private LN_T_SFMainRemote ln_T_SFMainRemote;
     private bSessionGestionarHorario sessionGestionarHorario;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private RichSelectOneChoice choiceSede;
@@ -83,6 +81,7 @@ public class bGestionarHorario {
     private RichInputText itHor;
     private BeanMain beanMain;
     private RichButton bgenerar;
+    private RichTable thoras;
 
 
     public bGestionarHorario() {        
@@ -144,20 +143,20 @@ public class bGestionarHorario {
             Utils.putSession("maxHoras", (duracion.getMax_bloque()*5));//grabamos el maximo permitido por curso
             sessionGestionarHorario.setNroBloque(duracion.getNro_bloque());//guardo el numero de bloques al dia permitido
             sessionGestionarHorario.setMaxBloque(duracion.getMax_bloque());
-            String horas[] = new String[duracion.getNro_bloque()];
+            Time horas[] = new Time[duracion.getNro_bloque()];
             Calendar inicio = new GregorianCalendar();
             inicio.setTime(duracion.getHora_inicio());
             Time time_aux = new Time(inicio.getTimeInMillis());
             int cont = 1;
             boolean restr = false;
-            horas[0] = time_aux.toString();
+            horas[0] = new Time(time_aux.getTime());
             while(cont < duracion.getNro_bloque()){
                 if(lstConfHorario.size() > 0){
                     for(BeanConfiguracionHorario configuracionH : lstConfHorario){                       
                         if(configuracionH.getHora_inicio().equals(time_aux)){
                             cont--;     
                             inicio.setTime(configuracionH.getHora_fin());
-                            horas[cont] = time_aux.toString();         
+                            horas[cont] = new Time(time_aux.getTime());      
                             lstConfHorario.remove(configuracionH);
                             cont++;     
                             restr = lstConfHorario.size() ==  0 && cont < duracion.getNro_bloque() ? false : true;
@@ -171,10 +170,13 @@ public class bGestionarHorario {
                 }
                 if(!restr){
                     time_aux.setTime(sumaHoras(inicio, duracion.getDuracion()).getTime());
-                    horas[cont] = time_aux.toString();                
+                    horas[cont] = new Time(time_aux.getTime());               
                     cont++;
                 }                     
             }    // fin de la validacion
+            for(int i = 0 ; i < horas.length; i++){
+                System.out.println(horas[i]);
+            }
             if(lstConfHorario.size() != 0){//valida si se validaron todas las restriciones
                 return false;
             }
@@ -236,11 +238,12 @@ public class bGestionarHorario {
             }
         }
         if(main != null){
+            main.setEstado("1");
             sessionGestionarHorario.getLstBeanMain().add(main);
             int horas_libres = Integer.parseInt(Utils.getSession("Horas").toString()) - main.getNroHoras();        
             Utils.putSession("Horas", horas_libres);
-        }                
-        Utils.addTarget(pfGHor);
+            Utils.addTarget(thoras);
+        }
         return null;
     }
     
@@ -252,7 +255,7 @@ public class bGestionarHorario {
         int horas_libres = Integer.parseInt(Utils.getSession("Horas").toString()) + beanMain.getNroHoras();        
         Utils.putSession("Horas", horas_libres);
         sessionGestionarHorario.getLstBeanMain().remove(beanMain);
-        Utils.addTarget(pfGHor);
+        Utils.addTarget(thoras);
         return null;
     }
     
@@ -284,9 +287,8 @@ public class bGestionarHorario {
     }
     
     public void encuentraEspacio(BeanMain horario[][], BeanMain main, List<BeanDia> dias, int maxBloque){
-        int hora = -1;
         try{
-            hora = (int) Math.round((Math.random()*((sessionGestionarHorario.getNroBloque() / maxBloque) - 1)));
+            int hora = (int) Math.round((Math.random()*((sessionGestionarHorario.getNroBloque() / maxBloque) - 1)));
             if(validarRango(horario, main, (hora * maxBloque), dias.get(0).getNDia(), maxBloque)){
                 main.setNroHoras(main.getNroHoras() - maxBloque);
                 modicarHorasBeanDias(dias.get(0).getNDia(), maxBloque);
@@ -296,7 +298,6 @@ public class bGestionarHorario {
                encuentraEspacio(horario, main, dias, maxBloque);
             } 
         }catch(Exception e){
-            System.out.println(hora);
             e.printStackTrace();
         }
     }
@@ -477,7 +478,7 @@ public class bGestionarHorario {
      */
     public int encuentraHora(Time time){
         for(int i = 0; i < sessionGestionarHorario.getHoras().length; i++){
-            if(time.toString().compareTo(sessionGestionarHorario.getHoras()[i]) == 0){
+            if(time.equals(sessionGestionarHorario.getHoras()[i])){
                 return i;
             }
         }
@@ -544,6 +545,7 @@ public class bGestionarHorario {
             sessionGestionarHorario.setLstCurso(Utils.llenarCombo(
                 ln_C_SFUtilsRemote.getCursosByArea_LN(Integer.parseInt(valueChangeEvent.getNewValue().toString()))));
             sessionGestionarHorario.setNombreArea(Utils.getChoiceLabel(valueChangeEvent));
+            choiceCurso.setRendered(true);
             Utils.addTarget(pfGHor);
         }
     }
@@ -731,5 +733,13 @@ public class bGestionarHorario {
 
     public RichButton getBgenerar() {
         return bgenerar;
-    }    
+    }
+
+    public void setThoras(RichTable thoras) {
+        this.thoras = thoras;
+    }
+
+    public RichTable getThoras() {
+        return thoras;
+    }
 }

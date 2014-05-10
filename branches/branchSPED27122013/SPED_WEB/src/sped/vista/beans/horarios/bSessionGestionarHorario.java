@@ -2,6 +2,8 @@ package sped.vista.beans.horarios;
 
 import java.io.Serializable;
 
+import java.sql.Time;
+
 import java.util.List;
 
 import sped.negocio.entidades.beans.BeanDia;
@@ -24,7 +26,7 @@ public class bSessionGestionarHorario implements Serializable {
     private List lstProfesor;
     private List lstCurso;
     private List lstArea;
-    private String horas[];
+    private Time horas[];
     private List<BeanMain> lstBeanMain;
     List<BeanDia> lstDia;
     BeanMain horario[][];    
@@ -139,11 +141,11 @@ public class bSessionGestionarHorario implements Serializable {
         return lstArea;
     }
 
-    public void setHoras(String[] horas) {
+    public void setHoras(Time[] horas) {
         this.horas = horas;
     }
 
-    public String[] getHoras() {
+    public Time[] getHoras() {
         return horas;
     }
 
