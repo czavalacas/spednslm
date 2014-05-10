@@ -2,12 +2,16 @@ package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
 
+import java.sql.Time;
+
 public class BeanConfiguracionEventoHorario implements Serializable {
     @SuppressWarnings("compatibility:-3637455508338985716")
     private static final long serialVersionUID = 1L;
 
     private String descripcion;
     private int nidConfev;
+    private String horaInicio;
+    private String horaFin;
     
     public BeanConfiguracionEventoHorario() {
     }
@@ -27,5 +31,22 @@ public class BeanConfiguracionEventoHorario implements Serializable {
     public int getNidConfev() {
         return nidConfev;
     }
-    
+
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public String getHoraInicio() {
+        return horaInicio;
+    }
+
+    public void setHoraFin(String horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public String getHoraFin() {
+        return horaFin;
+    }
+
+
 }

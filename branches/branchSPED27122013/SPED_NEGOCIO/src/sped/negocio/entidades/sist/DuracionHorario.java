@@ -6,10 +6,13 @@ import java.sql.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "DuracionHorario.findAll", query = "select o from DuracionHorario o") })
@@ -25,6 +28,8 @@ public class DuracionHorario implements Serializable {
     @Column(name = "max_bloque")
     private int max_bloque;
     @Id
+    @TableGenerator( name = "geneDura", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "stmdura.nidDura", valueColumnName = "APP_SEQ_VALUE", initialValue = 50, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "geneDura" )        
     @Column(name = "nidDura", nullable = false)
     private int nidDura;
     @Column(name = "nidNivel")
