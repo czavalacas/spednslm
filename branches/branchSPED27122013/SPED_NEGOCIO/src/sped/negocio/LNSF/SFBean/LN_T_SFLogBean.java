@@ -22,7 +22,7 @@ import sped.negocio.entidades.sist.Log;
 
 @Stateless(name = "LN_T_SFLog", mappedName = "mapLN_T_SFLog")
 public class LN_T_SFLogBean implements LN_T_SFLogRemote, 
-                                          LN_T_SFLogLocal {
+                                       LN_T_SFLogLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -51,6 +51,28 @@ public class LN_T_SFLogBean implements LN_T_SFLogRemote,
             log.setDevice_avai_scrheight(array1[10]);
             log.setDevice_screendpi(array1[11]);
             log.setDevice_diagonalsize(array1[12]);
+            log.setNid_usuario(nidUsuario);
+            log.setFechaConexion(new Timestamp(new Date().getTime()));
+            log.setFechaEvento(new Timestamp(new Date().getTime()));
+            log = bdL_T_SFLogLocal.persistLog(log);
+            return log.getNidLog();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public Integer grabarLogLogInWeb_LN(String[] cadenaData,Integer nidUsuario){
+        try{
+            Log log = new Log();
+            log.setNid_evento(new Integer(3));
+            log.setNavegadorWeb(cadenaData[0]);
+            log.setSistemaOperativo(cadenaData[1]);
+            log.setDevice_avai_scrheight(cadenaData[2]);
+            log.setDevice_avai_scrwidth(cadenaData[3]);
+            log.setDevice_screenheight(cadenaData[4]);
+            log.setDevice_screenwidth(cadenaData[5]);
+            log.setIpPublica(cadenaData[6]);
             log.setNid_usuario(nidUsuario);
             log.setFechaConexion(new Timestamp(new Date().getTime()));
             log.setFechaEvento(new Timestamp(new Date().getTime()));
