@@ -41,7 +41,7 @@ public class BDL_C_SFUsuarioRemoteClient {
         System.out.println("rol           = " + usuario.getRol().getDescripcionRol());
         //System.out.println("Nivel         = " + usuario.getSedeNivel().getNivel().getDescripcionNivel());
         //System.out.println("Sede          = " + usuario.getSedeNivel().getSede().getDescripcionSede());
-        System.out.println("areaAcademica = " + usuario.getAreaAcademica().getDescripcionAreaAcademica());
+//        System.out.println("areaAcademica = " + usuario.getAreaAcademica().getDescripcionAreaAcademica());
     }
 
     private static Context getInitialContext() throws NamingException {
