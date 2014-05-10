@@ -2,32 +2,26 @@ package sped.vista.beans.seguridad;
 
 import java.io.IOException;
 import java.io.Serializable;
-
 import java.util.Enumeration;
 import java.util.Locale;
-
 import javax.ejb.EJB;
-
-import javax.faces.application.FacesMessage;
+import org.apache.myfaces.trinidad.context.Agent;
+import org.apache.myfaces.trinidad.context.RequestContext;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
-import oracle.adf.view.rich.component.rich.output.RichMessages;
-
 import oracle.adf.view.rich.event.DialogEvent;
+import oracle.adf.view.rich.render.ClientEvent;
 
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.entidades.beans.BeanUsuario;
-
 import sped.vista.Utils.Utils;
 
 /** Clase de respaldo Login del JSF Frm_login, ejecuta la logica de negocio necesaria para autenticar y autorizar a los
@@ -147,7 +141,17 @@ public class bLogin implements Serializable {
            Utils.sysout("getRemoteUser: "+e);
            Utils.sysout("getRemotePort: "+f);
            Utils.sysout("clientIpAddress: "+clientIpAddress);
-       }
+    }
+    
+    public void traerData(ClientEvent ce){
+        Utils.sysout("browser:"+ce.getParameters().get("browser"));
+        Utils.sysout("os:"+ce.getParameters().get("os"));
+        Utils.sysout("altura:"+ce.getParameters().get("altura"));
+        Utils.sysout("anchura:"+ce.getParameters().get("anchura"));
+        int a = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+        int b = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+        Utils.sysout("ancho: "+a+" alto: "+b);
+    }
     
     public void setTituloPopup(String tituloPopup) {
         this.tituloPopup = tituloPopup;
