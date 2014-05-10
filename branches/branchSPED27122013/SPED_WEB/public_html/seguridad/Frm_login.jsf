@@ -3,24 +3,68 @@
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         xmlns:h="http://java.sun.com/jsf/html">
     <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario">
-     <af:resource type="javascript">
-               function getHeight(){
-                   var h = document.documentElement.clientHeight;
-                  // var w = document.documentElement.clientWidth;
-                   return h;
-               }
-               function getWidth(){
-                   //var h = document.documentElement.clientHeight;
-                   var w = document.documentElement.clientWidth;
-                   return w;
-               }
-            </af:resource>
+        <af:resource type="javascript">
+          function getHeight() {
+              return document.documentElement.clientHeight;
+          }
+
+          function getWidth() {
+              return document.documentElement.clientWidth;
+          }
+          var BrowserDetect = {
+              init : function () {
+                  this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+                  this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "an unknown version";
+                  this.OS = this.searchString(this.dataOS) || "an unknown OS";
+              },
+              searchString : function (data) {
+                  for (var i = 0;i &lt; data.length;i++) {
+                      var dataString = data[i].string;
+                      var dataProp = data[i].prop;
+                      this.versionSearchString = data[i].versionSearch || data[i].identity;
+                      if (dataString) {
+                          if (dataString.indexOf(data[i].subString) !=  - 1)
+                              return data[i].identity;
+                      }
+                      else if (dataProp)
+                          return data[i].identity;
+                  }
+              },
+              searchVersion : function (dataString) {
+                  var index = dataString.indexOf(this.versionSearchString);
+                  if (index ==  - 1)
+                      return;
+                  return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
+              },
+              dataBrowser : [{string : navigator.userAgent, subString : "Chrome", identity : "Chrome"},{string : navigator.userAgent, subString : "OmniWeb", versionSearch : "OmniWeb/", identity : "OmniWeb"},{string : navigator.vendor, subString : "Apple", identity : "Safari", versionSearch : "Version"},{prop : window.opera, identity : "Opera", versionSearch : "Version"},{string : navigator.vendor, subString : "iCab", identity : "iCab"},{string : navigator.vendor, subString : "KDE", identity : "Konqueror"},{string : navigator.userAgent, subString : "Firefox", identity : "Firefox"},{string : navigator.vendor, subString : "Camino", identity : "Camino"},{// for newer Netscapes (6+)
+string : navigator.userAgent, subString : "Netscape", identity : "Netscape"},{string : navigator.userAgent, subString : "MSIE", identity : "Explorer", versionSearch : "MSIE"},{string : navigator.userAgent, subString : "Gecko", identity : "Mozilla", versionSearch : "rv"},{// for older Netscapes (4-)
+string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", versionSearch : "Mozilla"}], dataOS : [{string : navigator.platform, subString : "Win", identity : "Windows"},{string : navigator.platform, subString : "Mac", identity : "Mac"},{string : navigator.userAgent, subString : "iPhone", identity : "iPhone/iPod"},{string : navigator.platform, subString : "Linux", identity : "Linux"}]
+
+          };
+          BrowserDetect.init();
+          
+          function getBrowser() {
+              return BrowserDetect.browser + "-" + BrowserDetect.version;
+          }
+          
+          function getOS(){
+              return BrowserDetect.OS;
+          }
+      
+          function clientListenerMethod(evt) {
+              var sourceComponent = AdfPage.PAGE.findComponentByAbsoluteId('s1:btnInicio');
+              var parameter = {
+                  browser : getBrowser(), os : getOS(), altura : getHeight(), anchura : getWidth()
+              };
+              AdfCustomEvent.queue(sourceComponent, "MyCustomServerEvent", parameter, true);
+              event.cancel();
+          }
+        </af:resource>
         <af:form id="f1">
-           <af:panelGroupLayout halign="right" layout="horizontal">
+            <af:panelGroupLayout halign="right" layout="horizontal">
                 <af:image source="/recursos/img/layout/buhologo.png"
                           inlineStyle="height:110px; width:77px;margin:0px 0px 0px -120px;" styleClass="arriba2"/>
             </af:panelGroupLayout>
-             
             <af:panelGridLayout id="pgl1"
                                 inlineStyle='border-top-width:thick; background-image:url("../recursos/img/layout/bar.jpg"); background-repeat:repeat-x;'>
                 <af:gridRow height="55px" id="gr1">
@@ -32,86 +76,87 @@
                                       inlineStyle="height:37px;width:185px;margin:1px 0px 0px -55px;"/>
                         </af:panelFormLayout>
                     </af:gridCell>
-               </af:gridRow>     
+                </af:gridRow>
             </af:panelGridLayout>
-        
-             <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="100px"
-                                                           bottomHeight="33%">
-                    <f:facet name="center">
-                        <af:panelGroupLayout halign="center" layout="vertical">
-                             
-            <af:panelGridLayout dimensionsFrom="parent">
-                <af:gridRow height="100%" id="gr2">
-                    <af:gridCell width="100%" halign="stretch" valign="middle" id="gc2">
-                        <af:panelGridLayout>
-                            <af:gridRow>
-                                <af:gridCell width="50%" halign="center" valign="middle">
+            <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="100px" bottomHeight="33%">
+                <f:facet name="center">
+                    <af:panelGroupLayout halign="center" layout="vertical">
+                        <af:panelGridLayout dimensionsFrom="parent">
+                            <af:gridRow height="100%" id="gr2">
+                                <af:gridCell width="100%" halign="stretch" valign="middle" id="gc2">
+                                    <af:panelGridLayout>
+                                        <af:gridRow>
+                                            <af:gridCell width="50%" halign="center" valign="middle">
                                                 <af:panelBox text="Iniciar Sesion" id="pb1" showDisclosure="false">
                                                     <af:subform id="s1" defaultCommand="btnInicio">
                                                         <af:panelFormLayout id="pfl1">
                                                             <af:inputText label="Usuario" id="itUsuario"
-                                                                            clientComponent="true"
-                                                                            labelStyle="text-align: left;"
-                                                                            styleClass="titulos" value="#{bLogin.usuario}"
+                                                                          autoSubmit="true" clientComponent="true"
+                                                                          labelStyle="text-align: left;"
+                                                                          styleClass="titulos" value="#{bLogin.usuario}"
                                                                           binding="#{bLogin.itUsuario}">
                                                                 <f:converter converterId="lowerconverter"/>
                                                             </af:inputText>
                                                             <af:inputText label="Clave" id="itClave" secret="true"
-                                                                            labelStyle="text-align: left;"
-                                                                            value="#{bLogin.clave}"
+                                                                          labelStyle="text-align: left;"
+                                                                          value="#{bLogin.clave}"
                                                                           binding="#{bLogin.itClave}">
                                                                 <f:converter converterId="lowerconverter"/>
                                                             </af:inputText>
                                                             <af:button text="Ingresar" id="btnInicio"
                                                                        actionListener="#{bLogin.autenticarUsuario}"
-                                                                       action="#{bLogin.getRedireccionar}" styleClass="FondoGrisLetraGris"/>
+                                                                       action="#{bLogin.getRedireccionar}"
+                                                                       styleClass="FondoGrisLetraGris">
+                                                                <af:serverListener type="MyCustomServerEvent"
+                                                                                   method="#{bLogin.traerData}"/>
+                                                                <af:clientListener method="clientListenerMethod"
+                                                                                   type="action"/>
+                                                            </af:button>
                                                             <af:activeOutputText id="otError"
                                                                                  value="#{requestScope.bLogin.msjError}"
                                                                                  inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
                                                                                  binding="#{bLogin.otError}"/>
                                                             <af:messages id="m1" inline="true"/>
                                                         </af:panelFormLayout>
-                                                   </af:subform>
-                                                    <af:panelGroupLayout id="pgl2" layout="scroll" 
+                                                    </af:subform>
+                                                    <af:panelGroupLayout id="pgl2" layout="scroll"
                                                                          inlineStyle="margin:0px 0px 0px 53px;">
-                                                        <af:link text="¿Has olvidado tu clave?" id="l1" styleClass="subTitulos2" 
-                                                                 partialSubmit="true">
+                                                        <af:link text="¿Has olvidado tu clave?" id="l1"
+                                                                 styleClass="subTitulos2" partialSubmit="true">
                                                             <af:showPopupBehavior popupId="p1"/>
                                                         </af:link>
-                                                       <!--  <a href="javascript: void(0);" onclick="alert(getHeight()+' width:'+getWidth());">Click</a>-->
+                                                        <!--  <a href="javascript: void(0);" onclick="alert(getHeight()+' width:'+getWidth());">Click</a>-->
                                                     </af:panelGroupLayout>
                                                 </af:panelBox>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                    </af:panelGridLayout>
                                 </af:gridCell>
                             </af:gridRow>
                         </af:panelGridLayout>
-                    </af:gridCell>
-                </af:gridRow>
-            </af:panelGridLayout>
-                             
-                <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
-                    <af:dialog id="d2" title="Recupera tu clave" dialogListener="#{bLogin.recuperarClave}">
-                        <af:inputText label="Correo" id="it1" value="#{bLogin.correo}" required="true">
-                            <f:validator validatorId="EmailValidator"/>
-                        </af:inputText>
-                    </af:dialog>
-                </af:popup>
-                <af:popup childCreation="deferred" autoCancel="disabled" contentDelivery="immediate" id="popMsj"
-                          binding="#{bLogin.popMsj}">
-                    <af:dialog title="#{requestScope.bLogin.tituloPopup}" type="ok">
-                        <af:outputText value="#{requestScope.bLogin.mensajeCorreo}" id="ot1"/>
-                    </af:dialog>
-                </af:popup>
-            
-             </af:panelGroupLayout>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
+                            <af:dialog id="d2" title="Recupera tu clave" dialogListener="#{bLogin.recuperarClave}">
+                                <af:inputText label="Correo" id="it1" value="#{bLogin.correo}" required="true">
+                                    <f:validator validatorId="EmailValidator"/>
+                                </af:inputText>
+                            </af:dialog>
+                        </af:popup>
+                        <af:popup childCreation="deferred" autoCancel="disabled" contentDelivery="immediate" id="popMsj"
+                                  binding="#{bLogin.popMsj}">
+                            <af:dialog title="#{requestScope.bLogin.tituloPopup}" type="ok">
+                                <af:outputText value="#{requestScope.bLogin.mensajeCorreo}" id="ot1"/>
+                            </af:dialog>
+                        </af:popup>
+                    </af:panelGroupLayout>
                 </f:facet>
                 <f:facet name="bottom">
-                    <af:panelGroupLayout id="pgl3"/><!-- <a href="javascript: void(0);" onclick="tratar();">Click</a>-->
+                    <af:panelGroupLayout id="pgl3"/>
+                    <!-- <a href="javascript: void(0);" onclick="tratar();">Click</a>-->
                 </f:facet>
                 <f:facet name="top">
                     <af:panelGroupLayout id="pgl4"/>
                 </f:facet>
             </af:panelStretchLayout>
-        
         </af:form>
     </af:document>
 </f:view>
