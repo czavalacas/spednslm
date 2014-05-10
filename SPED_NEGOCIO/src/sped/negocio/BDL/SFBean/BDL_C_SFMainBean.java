@@ -34,13 +34,27 @@ import sped.negocio.entidades.eval.Evaluacion;
  */
 @Stateless(name = "BDL_C_SFMain", mappedName = "map-BDL_C_SFMain")
 public class BDL_C_SFMainBean implements BDL_C_SFMainRemote, 
-                                            BDL_C_SFMainLocal {
+                                         BDL_C_SFMainLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
     private EntityManager em;
 
     public BDL_C_SFMainBean() {
+    }
+    
+    /**
+     * @author angeles
+     * @param id
+     * @return
+     */
+    public Main findMainById(int id){
+        try{
+            Main instance = em.find(Main.class, id);
+            return instance;
+        }catch(RuntimeException re){
+            throw re;
+        }    
     }
 
     public List<Main> findHorariosByAttributes(BeanMain beanMain) {

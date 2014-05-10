@@ -30,7 +30,6 @@ public class BDL_T_SFMainBean implements BDL_T_SFMainRemoto,
     
     public Main persistMain(Main main) {
         em.persist(main);
-       // em.flush();
         return main;
     }
 

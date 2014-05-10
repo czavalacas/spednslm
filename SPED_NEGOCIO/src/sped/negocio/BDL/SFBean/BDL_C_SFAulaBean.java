@@ -40,6 +40,15 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
         return em.createNamedQuery("Aula.findAll", Aula.class).getResultList();
     }
     
+    public Aula findAulaById(int nidAula){
+        try{
+            Aula instance = em.find(Aula.class, nidAula);
+            return instance;
+        }catch(RuntimeException re){
+            throw re;
+        }
+    }
+    
     /**
      * Metodo para buscar el id aula
      * @param beanAula

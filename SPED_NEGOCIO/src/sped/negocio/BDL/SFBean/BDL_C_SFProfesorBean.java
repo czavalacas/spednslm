@@ -43,13 +43,21 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
         return em.createNamedQuery("Profesor.findAll", Profesor.class).getResultList();
     }
     
+    /**
+     * Metodo que devuelve Profesor por DNI. 
+     * Modificado el metodo 9/5/14. Angeles 
+     * @param dni
+     * @return
+     */
     public Profesor getProfesorBydni(String dni) {
         try{
-            String ejbQl = " SELECT ma " +
+            Profesor instance = em.find(Profesor.class, dni);
+            return instance;
+            /* String ejbQl = " SELECT ma " +
                            " FROM Profesor ma " +
                            " WHERE ma.dniProfesor='"+dni+"'";   
                 Profesor eva = (Profesor)em.createQuery(ejbQl).getSingleResult();           
-                return eva;         
+                return eva;  */        
         }catch(Exception e){
             e.printStackTrace();  
             return null;
