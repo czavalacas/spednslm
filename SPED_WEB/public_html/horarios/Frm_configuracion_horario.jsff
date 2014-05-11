@@ -8,16 +8,15 @@
                 <af:outputText value="Configurar Horario" id="ot2" styleClass="titulos"/>
             </af:panelGroupLayout>
             <af:panelGroupLayout id="pgl5">
-                         <af:spacer width="40" height="40" id="s2"/>    
-                <af:panelGridLayout id="pgl7">
-                    <af:gridRow marginTop="5px" height="auto" id="gr2">
-                        <af:gridCell marginStart="5px" width="34%" id="gc2">
+                         <af:spacer width="40" height="40" id="s2"/>   
+                         
+                           
                            <af:panelGroupLayout id="pgl18" layout="vertical">
-                            <af:outputText value="Seleccion Sede y Nivel" id="ot4" styleClass="titulos"/>
+                            <af:outputText value="Seleccionar Sede y Nivel" id="ot4" styleClass="titulos"/>
                             <af:panelFormLayout id="pfl1">
                                 <af:selectOneChoice value="#{sessionScope.sessionConfiguracionHorario.nidSedeChoice}" label="Sede" id="choiceSede"
                                                     unselectedLabel="::Seleccionar Sede::" autoSubmit="true"
-                                                    disabled="false" binding="#{bConfiguracionHorario.choiceSede}"
+                                                    disabled="#{sessionConfiguracionHorario.estadoDisableChoiceSede}" binding="#{bConfiguracionHorario.choiceSede}"
                                                     valueChangeListener="#{bConfiguracionHorario.getNivelesBySede}"
                                                     required="true" showRequired="true">
                                     <f:selectItems value="#{sessionConfiguracionHorario.listaSedesChoice}" id="si7"/>
@@ -26,27 +25,43 @@
                                 <af:selectOneChoice value="#{sessionScope.sessionConfiguracionHorario.nidNivelChoice}" label="Nivel" id="choiceSede2"
                                                     unselectedLabel="::Seleccionar Nivel::" autoSubmit="true"
                                                     disabled="#{sessionScope.sessionConfiguracionHorario.estadoDisableChoiceNive}" binding="#{bConfiguracionHorario.choiceNivel}"
-                                                    showRequired="true" required="true">
+                                                    showRequired="true" required="true"
+                                                    valueChangeListener="#{bConfiguracionHorario.eventoChoiceNivel}">
                                     <f:selectItems value="#{sessionConfiguracionHorario.listaNivelesChoice}" id="si8"/>
                                 </af:selectOneChoice>
-                            </af:panelFormLayout>
-                            <af:spacer width="10" height="10" />
+                            </af:panelFormLayout>                            
+                              <af:spacer width="80" height="10" />                               
+                              <af:panelGroupLayout id="pgl19" layout="horizontal">
+                                <af:spacer width="70" height="10" /> 
+                            <af:button text="BUSQUEDA" id="b3"
+                                       action="#{bConfiguracionHorario.realizarBusquedaDeRestricciones}"/>
+                            <af:button text="EDITAR" id="b11"
+                                          action="#{bConfiguracionHorario.editarConfiguracion}"
+                                            disabled="#{sessionScope.sessionConfiguracionHorario.estadoBtnEditarRestriccion}"
+                                       binding="#{bConfiguracionHorario.btnEditarRestriccion}"/>
+                          
+                            </af:panelGroupLayout>
+                        <af:spacer width="80" height="50" /> 
                         </af:panelGroupLayout>     
-                         <af:spacer width="80" height="10" />                                               
-                            <af:button text="NEXT" id="b3"/>
-                        </af:gridCell>
+                       
+                <af:panelGridLayout id="pgl7">
+                    <af:gridRow marginTop="5px" height="auto" id="gr2">                    
                         <af:gridCell marginStart="5px" width="33%" id="gc3">
                            <af:panelGroupLayout id="pgl17" layout="vertical">
                         <af:outputText value="Definir Restricciones" id="ot3" styleClass="titulos"/>
+                     <af:spacer width="70" height="10" /> 
                         <af:selectOneChoice value="#{sessionConfiguracionHorario.nidEventoHorario}" label="Restriccion" id="choiceSede4"
-                                            unselectedLabel="::Seleccionar Restriccion::" autoSubmit="true" disabled="false"
-                                            binding="#{bConfiguracionHorario.choiceEventoHorario}">
+                                            unselectedLabel="::Seleccionar Restriccion::" autoSubmit="true" disabled="#{sessionConfiguracionHorario.estadoDisableChoiceRestriccion}"
+                                            binding="#{bConfiguracionHorario.choiceEventoHorario}"
+                                            valueChangeListener="#{bConfiguracionHorario.seleccionaRestriccion}">
                             <f:selectItems value="#{sessionConfiguracionHorario.listaEventosHorariosChoice}" id="si12"/>
                         </af:selectOneChoice>
                         <af:spacer width="5" height="5"/>
                         <af:panelGroupLayout id="pgl6" layout="horizontal">
                             <af:inputText label="Hora Inicio" id="time" contentStyle="width:30px;" maximumLength="5"
-                                         value="#{sessionScope.sessionConfiguracionHorario.inputHoraInicioEventoHorario}" >
+                                         value="#{sessionScope.sessionConfiguracionHorario.inputHoraInicioEventoHorario}" 
+                                         disabled="#{sessionConfiguracionHorario.estadoinPutHoraInicioRestriccion}"
+                                          binding="#{bConfiguracionHorario.inputHoraInicioRestriccion}">
                                        
                                 <af:validateRegExp pattern="([01][0-9]|2[0-3]):[0-5][0-9]"
                                                    messageDetailNoMatch="Time Format must match HH:MM"
@@ -54,7 +69,9 @@
                             </af:inputText>
                             <af:spacer width="50" height="5"/>
                             <af:inputText label="Hora Fin" id="time2" contentStyle="width:30px;" maximumLength="5"
-                                          value="#{sessionScope.sessionConfiguracionHorario.inputHoraFinEventoHorario}">
+                                          value="#{sessionScope.sessionConfiguracionHorario.inputHoraFinEventoHorario}"
+                                          disabled="#{sessionConfiguracionHorario.estadoinPutHoraFinRestriccion}"
+                                          binding="#{bConfiguracionHorario.inputHoraFinRestriccion}">
                                 <af:validateRegExp pattern="([01][0-9]|2[0-3]):[0-5][0-9]"
                                                    messageDetailNoMatch="Time Format must match HH:MM"
                                                    hint="Time Format: HH:MM"/>
@@ -64,9 +81,12 @@
                          <af:panelGroupLayout id="pgl11" layout="horizontal">
                                     <af:button text="Agregar" id="b1"
                                                binding="#{bConfiguracionHorario.btnAgregarEventoHorario}"
-                                               action="#{bConfiguracionHorario.agregarEventoHorario}"/>
+                                               action="#{bConfiguracionHorario.agregarEventoHorario}"
+                                               disabled="#{sessionConfiguracionHorario.estadoBtnAgregarRestriccion}"/>
                                     <af:spacer width="5" height="5"/>
-                                    <af:button text="Remover" id="b2"/>
+                                    <af:button text="Remover" id="b2" 
+                                    disabled="#{sessionConfiguracionHorario.estadobBtnRemoverRestriccion}"
+                                               binding="#{bConfiguracionHorario.btnRemoverEventoHorario}"/>
                                 </af:panelGroupLayout>
                                 <af:table var="row" rowBandingInterval="0" id="t1" rowSelection="single" varStatus="vs"
                                 width="inherit" inlineStyle="height: 70px" emptyText="Ingrese Restricciones"
@@ -76,47 +96,58 @@
                                                 <af:outputText value="#{vs.index + 1}"/>
                                             </af:column>
                                     <af:column width="80" sortable="false" headerText="Restriccion" id="c1">
-                                        <af:outputText value="#{row.descripcion}" id="ot1"/>
+                                        <af:outputText value="#{row.stmconfev.descripcion}" id="ot1"/>
                                     </af:column>
                                     <af:column width="80" sortable="false" headerText="Inicio" id="c2">
-                                        <af:outputText value="#{row.horaInicio}" id="ot5"/>
+                                        <af:outputText value="#{row.horaInicio}" id="ot5">                                  
+                                        </af:outputText>
+                                    
                                     </af:column>
                                     <af:column width="80" sortable="false" headerText="Fin" id="c3">
-                                        <af:outputText value="#{row.horaFin}" id="ot6"/>
+                                        <af:outputText value="#{row.horaFin}" id="ot6">                                        
+                                        </af:outputText>
                                     </af:column>
                                 </af:table>
                                 <af:spacer width="15" height="15" id="s14"/> 
                             </af:panelGroupLayout>
-                             <af:spacer width="70" height="5" id="s12"/>
+                         <!--    <af:spacer width="70" height="5" id="s12"/>
                              <af:button text="BACK" id="b4"/>
                              <af:spacer width="15" height="15" id="s17"/> 
-                             <af:button text="NEXT" id="b5"/>
+                             <af:button text="NEXT" id="b5"/>-->
                         </af:gridCell>
                          <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc4">
                         <af:panelGroupLayout id="pgl9" layout="vertical">
                         <af:outputText value="Definir Horas y bloques" styleClass="titulos"/>
+                               <af:spacer width="70" height="10" /> 
                                 <af:panelFormLayout id="pfl2">
                                         <af:inputText label="Hora de Inicio de Clases" id="time3" contentStyle="width:30px;"
-                                      maximumLength="5"
-                                                      value="#{sessionScope.sessionConfiguracionHorario.inputHoraInicioClases}">
+                                      maximumLength="5" value="#{sessionScope.sessionConfiguracionHorario.inputHoraInicioClases}"
+                                      disabled="#{sessionConfiguracionHorario.estadoHoraInicioClases}"
+                                                      binding="#{bConfiguracionHorario.inputHoraInicioClases}">
                             <af:validateRegExp pattern="([01][0-9]|2[0-3]):[0-5][0-9]"
                                                messageDetailNoMatch="Time Format must match HH:MM"
                                                hint="Time Format: HH:MM"/>
                         </af:inputText>
                         <af:spacer width="50" height="5"/>
                         <af:inputNumberSpinbox label="Numero de Bloques" id="ins1" minimum="1" maximum="12"
-                                               value="#{sessionScope.sessionConfiguracionHorario.numeroDeBloques}"/>
+                                               value="#{sessionScope.sessionConfiguracionHorario.numeroDeBloques}"
+                                               disabled="#{sessionConfiguracionHorario.estadoNumBloques}"
+                                               binding="#{bConfiguracionHorario.inputNumeroBloques}"/>
                         <af:spacer width="5" height="5" id="s19"/>
                         <af:inputText label="Duracion por Bloque" id="time4" contentStyle="width:30px;"
                                       maximumLength="5"
-                                      value="#{sessionScope.sessionConfiguracionHorario.duracionPorBloque}">
+                                      value="#{sessionScope.sessionConfiguracionHorario.duracionPorBloque}"
+                                      disabled="#{sessionConfiguracionHorario.estadoDuracionPorBloque}"
+                                      binding="#{bConfiguracionHorario.inputDuracionXBloque}">
                             <af:validateRegExp pattern="([0][0-1]):[0-5][0-9]"
                                                messageDetailNoMatch="Time Format must match HH:MM"
                                                hint="Time Format: HH:MM"/>
                         </af:inputText>
                         <af:spacer width="5" height="5" id="s8"/>
                         <af:inputNumberSpinbox label="Max. bloques por Curso" id="ins2" minimum="1" maximum="4"
-                                               value="#{sessionScope.sessionConfiguracionHorario.maxBloquesPorCurso}"/>
+                                               value="#{sessionScope.sessionConfiguracionHorario.maxBloquesPorCurso}"
+                                               disabled="#{sessionConfiguracionHorario.estadoMaxBloquesXCurso}"
+                                               binding="#{bConfiguracionHorario.inputMaxBloquesXCurs}"/>
                                    
                                    
                                 </af:panelFormLayout>
@@ -124,15 +155,40 @@
                                                <af:spacer width="15" height="15" /> 
                     </af:panelGroupLayout>
                      <af:spacer width="70" height="5" />
-                             <af:button text="BACK" id="b6"/>
-                             <af:spacer width="15" height="15" /> 
-                             <af:button text="SAVE" id="b7"
+                            <!-- <af:button text="BACK" id="b6"/>
+                             <af:spacer width="15" height="15" />--> 
+                             <af:button text="GUARDAR" id="b7"
                                         action="#{bConfiguracionHorario.guardarConfiguracionDeHorario}"
-                                        binding="#{bConfiguracionHorario.btnGuardar}"/>
+                                        binding="#{bConfiguracionHorario.btnGuardar}"
+                                        disabled="#{sessionConfiguracionHorario.estadoDisableBtnGuardar}"/>
                          </af:gridCell>
                     </af:gridRow>
                 </af:panelGridLayout>
             </af:panelGroupLayout>
         </af:panelGroupLayout>
+         <af:popup childCreation="deferred" contentDelivery="immediate" id="p4"
+                   binding="#{bConfiguracionHorario.popupConfigurarNuevaRestriccion}">
+            <af:dialog closeIconVisible="false" modal="true" id="pw_deleteAction" styleClass="allertBox" type="none"
+                       title="Agregar Restriccion">
+                <af:panelGroupLayout layout="vertical" halign="center" id="pgl12">
+                    <af:spacer width="1" height="10" id="s5"/>
+                    <af:outputLabel value="No se encontraron registros para la sede y nivel seleccionadas, Desea Realizar un nuevo registro de Restricciones?"
+                                    inlineStyle="font-size:medium; color:Red;" id="ol1"/>
+                    <af:spacer width="1" height="10" id="s6"/>
+                </af:panelGroupLayout>
+                <f:facet name="buttonBar">
+                    <af:panelGroupLayout id="pgl16" layout="vertical" halign="right">
+                        <af:panelGroupLayout layout="horizontal" id="pg18">
+                            <af:commandButton text="Si" id="cb1"
+                                              action="#{bConfiguracionHorario.realizarNuevaRestriccion}"/>
+                            <af:commandButton text="Cancelar" id="cb2"
+                                              action="#{bConfiguracionHorario.cancelarNuevaRestriccion}">
+                                <af:resetActionListener/>
+                            </af:commandButton>
+                        </af:panelGroupLayout>
+                    </af:panelGroupLayout>
+                </f:facet>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>
