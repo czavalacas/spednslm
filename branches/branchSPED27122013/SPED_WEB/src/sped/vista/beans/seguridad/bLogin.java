@@ -1,7 +1,10 @@
 package sped.vista.beans.seguridad;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.StringWriter;
+
 import java.util.Enumeration;
 import java.util.Locale;
 import javax.ejb.EJB;
@@ -21,6 +24,7 @@ import oracle.adf.view.rich.render.ClientEvent;
 
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLogLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.vista.Utils.Utils;
@@ -44,6 +48,8 @@ public class bLogin implements Serializable {
     private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
     @EJB
     private LN_T_SFLogLocal ln_T_SFLogLocal;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
     FacesContext contx = FacesContext.getCurrentInstance();
     private String msjError;
     private String redireccionar = "";
@@ -77,6 +83,20 @@ public class bLogin implements Serializable {
                 beanUsuario.setNidLog(ln_T_SFLogLocal.grabarLogLogInWeb_LN(vecData,beanUsuario.getNidUsuario()));
                 Utils.putSession("USER",beanUsuario);
                 setRedireccionar("000");
+                /*try {
+                    int a = 4 / 0;
+                } catch (Exception e) {
+                    StringWriter stringWriter = new StringWriter();
+                    String stackTrace = null;
+                    e.printStackTrace(new PrintWriter(stringWriter));
+                    stackTrace = stringWriter.toString();
+                    ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(),
+                                                                  "OTR", 
+                                                                  "sped.vista.beans.seguridad.bLogin",
+                                                                  "autenticarUsuario(ActionEvent actionEvent)",
+                                                                  "Error al realizar division", 
+                                                                  stackTrace);
+                }*/
             }else{
                 setMsjError(beanUsuario.getError().getDescripcionError());
                 Utils.addTarget(otError);

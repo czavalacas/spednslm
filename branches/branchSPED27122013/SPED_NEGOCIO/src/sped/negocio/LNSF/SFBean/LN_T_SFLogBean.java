@@ -25,8 +25,6 @@ public class LN_T_SFLogBean implements LN_T_SFLogRemote,
                                        LN_T_SFLogLocal {
     @Resource
     SessionContext sessionContext;
-    @PersistenceContext(unitName = "SPED_NEGOCIO")
-    private EntityManager em;
     @EJB
     private BDL_T_SFLogLocal bdL_T_SFLogLocal;
 
