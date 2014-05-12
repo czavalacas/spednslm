@@ -282,4 +282,20 @@ public class bSessionConfiguracionHorario implements Serializable {
     public int getAccionPersist() {
         return accionPersist;
     }
+
+    public void setBeanDuracionHorario(BeanDuracionHorario beanDuracionHorario) {
+        this.beanDuracionHorario = beanDuracionHorario;
+    }
+
+    public BeanDuracionHorario getBeanDuracionHorario() {
+        return beanDuracionHorario;
+    }
+
+    public void setListaBeanConfiguracionHorario(List<BeanConfiguracionHorario> listaBeanConfiguracionHorario) {
+        this.listaBeanConfiguracionHorario = listaBeanConfiguracionHorario;
+    }
+
+    public List<BeanConfiguracionHorario> getListaBeanConfiguracionHorario() {
+        return listaBeanConfiguracionHorario;
+    }
 }
