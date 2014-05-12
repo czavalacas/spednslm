@@ -4,15 +4,15 @@
                   xmlns="http://xmlns.oracle.com/weblogic/jdbc-data-source">
     <name>SPED_Remoto</name>
     <jdbc-driver-params>
-        <url>jdbc:mysql://localhost:3306/sped</url>
+        <url>jdbc:mysql://181.224.241.221:3999/mmsi_sped</url>
         <driver-name>com.mysql.jdbc.Driver</driver-name>
         <properties>
             <property>
                 <name>user</name>
-                <value>root</value>
+                <value>mmsi_sped</value>
             </property>
         </properties>
-        <password-encrypted>EB06669B8F72C62CD8FA944D7AC3A91B</password-encrypted>
+        <password-encrypted>9E11BF05DFFE91BD34528A7125940B288B81278B4105287C42AB22A0D570276C</password-encrypted>
     </jdbc-driver-params>
     <jdbc-connection-pool-params>
         <test-table-name>SQL SELECT 1</test-table-name>
