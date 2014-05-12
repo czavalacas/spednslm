@@ -21,10 +21,13 @@ import sped.negocio.BDL.IR.BDL_T_SFConfiguracionHorarioRemoto;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFConfiguracionHorarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFConfiguracionHorarioRemoto;
+import sped.negocio.entidades.beans.BeanConfiguracionHorario;
+import sped.negocio.entidades.beans.BeanDuracionHorario;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.eval.Evaluacion;
 import sped.negocio.entidades.sist.ConfiguracionEventoHorario;
 import sped.negocio.entidades.sist.ConfiguracionHorario;
+import sped.negocio.entidades.sist.DuracionHorario;
 
 /** Clase que implementa la logica para poder invocar e insertar la configuracion de horario
  * @author czavalacas
@@ -83,4 +86,34 @@ public class LN_T_SFConfiguracionHorarioBean implements LN_T_SFConfiguracionHora
         }
         return error;
     }
+    
+    public String actualizarConfiguracionHorario_LN(BeanConfiguracionHorario beanConfi, 
+                                                    int accion){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            ConfiguracionHorario confi=new ConfiguracionHorario();
+            confi.setNidConfig(beanConfi.getNidConfig());
+            confi.setHora_inicio(beanConfi.getHora_inicio());
+            confi.setHora_fin(beanConfi.getHora_fin());
+            confi.setNidNivel(beanConfi.getNidNivel());
+            confi.setNidSede(beanConfi.getNidSede());
+            ConfiguracionEventoHorario conEv=new ConfiguracionEventoHorario();
+            conEv.setNidConfev(beanConfi.getStmconfev().getNidConfev());
+            confi.setStmconfev(conEv);                   
+            if(accion==1){           
+            BDL_T_SFConfiguracionHorarioRemoto.mergeConfiguracionHorario(confi);
+            }
+            if(accion==2){
+            BDL_T_SFConfiguracionHorarioRemoto.removeConfiguracionHorario(confi);
+            }            
+        } catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+    }    
+    
 }

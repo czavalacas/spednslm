@@ -10,9 +10,9 @@ public class BeanConfiguracionEventoHorario implements Serializable {
 
     private String descripcion;
     private int nidConfev;
-    private String horaInicio;
+  /*  private String horaInicio;
     private String horaFin;
-    
+    */
     public BeanConfiguracionEventoHorario() {
     }
 
@@ -32,7 +32,7 @@ public class BeanConfiguracionEventoHorario implements Serializable {
         return nidConfev;
     }
 
-    public void setHoraInicio(String horaInicio) {
+  /*  public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
@@ -47,6 +47,6 @@ public class BeanConfiguracionEventoHorario implements Serializable {
     public String getHoraFin() {
         return horaFin;
     }
-
+*/
 
 }
