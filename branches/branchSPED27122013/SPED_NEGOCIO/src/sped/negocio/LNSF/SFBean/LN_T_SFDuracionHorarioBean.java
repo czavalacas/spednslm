@@ -20,6 +20,7 @@ import sped.negocio.BDL.IR.BDL_T_SFConfiguracionHorarioRemoto;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFDuracionHorarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFDuracionHorarioRemoto;
+import sped.negocio.entidades.beans.BeanDuracionHorario;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.sist.ConfiguracionEventoHorario;
 import sped.negocio.entidades.sist.ConfiguracionHorario;
@@ -80,5 +81,29 @@ public class LN_T_SFDuracionHorarioBean implements LN_T_SFDuracionHorarioRemoto,
             error = beanError.getDescripcionError();
         }
         return error;
-    }
+    }    
+    
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public String actualizarDuracionHorario_LN(BeanDuracionHorario beanDura){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            DuracionHorario dura=new DuracionHorario();
+            dura.setNidDura(beanDura.getNidDura());
+            dura.setHora_inicio(beanDura.getHora_inicio());
+            dura.setDuracion(beanDura.getDuracion());
+            dura.setMax_bloque(beanDura.getMax_bloque());
+            dura.setNidNivel(beanDura.getNidNivel());
+            dura.setNidSede(beanDura.getNidSede());
+            dura.setNro_bloque(beanDura.getNro_bloque());        
+            bdl_T_SFDuracionHorarioLocal.mergeDuracionHorario(dura);  
+        } catch (Exception e) {
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+    }    
+
 }
