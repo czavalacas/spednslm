@@ -5,7 +5,7 @@
 El log de errores es utilizado para registrar en la BDatos los eventos desafortunados ocurridos en nuestro codigo ya sea por las sgtes razones:
   * Mala programacion.
   * Logica inesperada.
-  * TimeOut, no hay conexion
+  * TimeOut - no hay conexion
   * Logica condicional, que se desea conocer 
 
 == Mala programacion ==
@@ -16,13 +16,12 @@ La mala programacion es cuando no hemos tomado en cuenta bien nuestro algoritmos
 
 Una condicional que no tuvimos en cuenta a la hora de programar y salto cuando no lo pensabamos, aqui podremos darnos cuenta de lo sucedido.
 
-== TimeOut, no hay conexion ==
+== TimeOut - no hay conexion ==
 Quizas un metodo toma mucho tiempo o se cae la conexion al servidor por algun motivo, aqui se registrara ese evento y podremos darnos cuenta
 
 == Logica condicional, que se desea conocer  ==
 
 Una logica de negocio que queremos registrar para conocer los errores controlados, como por ejemplo, si una poliza excede el monto dicho por SUNAT, se puede conocer que se excedio pero el sistema lo controlo.
-= Details =
 
 Basicamente este patron nos registra eventos anomalos en nuestro sistema.
 Se registran en la tabla stmlogger
@@ -73,11 +72,17 @@ Para el tipo de errores NO CONTROLADOS se pondran en el catch
 try{
    int a = 20 / 0; //saltara un error
 }catch(Exception e)
-StringWriter stringWriter = new StringWriter();
-                    String stackTrace = null;
-                    e.printStackTrace(new PrintWriter(stringWriter));
-                    stackTrace = stringWriter.toString();                 ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(),
-"OTR", "sped.vista.beans.seguridad.bLogin",                                                                  "autenticarUsuario(ActionEvent actionEvent)",                                                                  "Error al realizar division",                                       stackTrace);
+    StringWriter stringWriter = new StringWriter();
+    String stackTrace = null;
+    e.printStackTrace(new PrintWriter(stringWriter));
+    stackTrace = stringWriter.toString();
+  ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(),
+   "OTR", 
+   "sped.vista.beans.seguridad.bLogin",
+   "autenticarUsuario(ActionEvent actionEvent)",
+   "Error al realizar division",
+   stackTrace);
+
 </code>
 
 == Tipos ==
