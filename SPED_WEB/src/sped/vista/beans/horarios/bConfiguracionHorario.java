@@ -112,7 +112,26 @@ public class bConfiguracionHorario {
                                                                  sessionConfiguracionHorario.getNumeroDeBloques());
         }
         if(sessionConfiguracionHorario.getAccionPersist()==2){//merge && remove
-        
+            for(int i=0; i<sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++){
+                for(int j=0; j<sessionConfiguracionHorario.getListaBeanConfiguracionHorario().size(); j++){
+                    if(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getNidConfig()==sessionConfiguracionHorario.getListaBeanConfiguracionHorario().get(j).getNidConfig()){
+                 //       ln_T_SFConfiguracionHorarioRemoto.actualizarConfiguracionHorario_LN(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i), 1);//actualiza
+                        sessionConfiguracionHorario.getListaBeanConfiguracionHorario().remove(j);                        
+                    }else{
+                        ln_T_SFConfiguracionHorarioRemoto.registrarConfiguracionHorario_LN(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), 
+                                                                                           Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()), 
+                                                                                           Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio()+":00"), 
+                                                                                           Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin()+":00"), 
+                                                                                           sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getStmconfev().getNidConfev()); //inserta        
+                    }
+                }
+            }            
+            if(sessionConfiguracionHorario.getListaBeanConfiguracionHorario().size()!=0){
+                for(int i=0; i<sessionConfiguracionHorario.getListaBeanConfiguracionHorario().size(); i++){
+                    ln_T_SFConfiguracionHorarioRemoto.actualizarConfiguracionHorario_LN(sessionConfiguracionHorario.getListaBeanConfiguracionHorario().get(i), 2);//remove
+                }
+            }
+            
         }
         return null;
     }
@@ -165,12 +184,9 @@ public class bConfiguracionHorario {
     }
     
     public void llenarCombos(){
-        sessionConfiguracionHorario.setListaSedesChoice(Utils.llenarCombo(ln_C_SFSedeRemote.getAllSedes()));
-        
+        sessionConfiguracionHorario.setListaSedesChoice(Utils.llenarCombo(ln_C_SFSedeRemote.getAllSedes()));        
         sessionConfiguracionHorario.setListaEventosHorariosChoice(Utils.llenarCombo(ln_C_SFConfiguracionEventoHorarioRemoto.getAllEventosDeHorario()));
     }
-
-    
 
     public String realizarNuevaRestriccion() {
         sessionConfiguracionHorario.setEstadoDisableChoiceRestriccion(false);     
@@ -217,9 +233,10 @@ public class bConfiguracionHorario {
 
     public String realizarBusquedaDeRestricciones() {
          BeanDuracionHorario beanDura= ln_C_SFDuracionHorarioRemote.getDuracionHorarioBySedeNivel(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()));
-         
+         sessionConfiguracionHorario.setBeanDuracionHorario(beanDura);
          if(beanDura!=null){
              List<BeanConfiguracionHorario> listBeanConf=ln_C_SFConfiguracionHorarioRemote.getConfiguracionBySedeNivel(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()));
+             sessionConfiguracionHorario.setListaBeanConfiguracionHorario(listBeanConf);
              for(int i=0; i<listBeanConf.size(); i++){                
                /**AL NO SER DATETIME  NO PUEDO DARLE UN CONVERTDATETIME EN LA VISTA POR LO QUE HAY QUE FORMATEAR LAS FECHAS A HH:MM PARA 
                  * LA VISUALIZACION CORRECTA**/
