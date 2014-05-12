@@ -11,6 +11,7 @@ import oracle.adf.view.rich.component.rich.RichPopup;
 
 import sped.negocio.entidades.beans.BeanConfiguracionEventoHorario;
 import sped.negocio.entidades.beans.BeanConfiguracionHorario;
+import sped.negocio.entidades.beans.BeanDuracionHorario;
 
 public class bSessionConfiguracionHorario implements Serializable {
     @SuppressWarnings("compatibility:-6373971498140473254")
@@ -42,7 +43,10 @@ public class bSessionConfiguracionHorario implements Serializable {
     private boolean estadoDisableBtnGuardar=true;
     private boolean estadoDisableChoiceSede=false;
     private boolean estadoBtnEditarRestriccion=true;
-
+    private int accionPersist=0;
+    private BeanDuracionHorario beanDuracionHorario=new BeanDuracionHorario();
+    private  List<BeanConfiguracionHorario> listaBeanConfiguracionHorario=new ArrayList<>();
+        
     public bSessionConfiguracionHorario() {
     }
 
@@ -269,5 +273,13 @@ public class bSessionConfiguracionHorario implements Serializable {
 
     public boolean isEstadoBtnEditarRestriccion() {
         return estadoBtnEditarRestriccion;
+    }
+
+    public void setAccionPersist(int accionPersist) {
+        this.accionPersist = accionPersist;
+    }
+
+    public int getAccionPersist() {
+        return accionPersist;
     }
 }
