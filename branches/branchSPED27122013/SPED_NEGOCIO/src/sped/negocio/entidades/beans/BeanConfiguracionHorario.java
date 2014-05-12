@@ -14,6 +14,8 @@ public class BeanConfiguracionHorario implements Serializable{
     private int nidNivel;
     private int nidSede;
     private BeanConfiguracionEventoHorario stmconfev;
+    private String horaInicio;//para vista
+    private String horaFin;//para vista
     
     public BeanConfiguracionHorario() {
     }
@@ -65,5 +67,21 @@ public class BeanConfiguracionHorario implements Serializable{
     public BeanConfiguracionEventoHorario getStmconfev() {
         return stmconfev;
     }
-    
+
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public String getHoraInicio() {
+        return horaInicio;
+    }
+
+    public void setHoraFin(String horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public String getHoraFin() {
+        return horaFin;
+    }
+
 }
