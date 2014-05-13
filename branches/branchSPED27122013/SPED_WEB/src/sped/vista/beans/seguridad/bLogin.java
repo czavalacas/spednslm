@@ -55,6 +55,7 @@ public class bLogin implements Serializable {
     private final static String LOGIN = "/faces/Frm_login";
     ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
     private String[] vecData = new String[7];
+    private static final String CLASE = "sped.vista.beans.seguridad.bLogin";
 
     public bLogin(){
         super();
@@ -73,7 +74,7 @@ public class bLogin implements Serializable {
             }
             BeanUsuario beanUsuario = ln_C_SFUsuarioLocal.autenticarUsuarioLN(getUsuario(), getClave());
             if (beanUsuario.getError() != null) {
-                if (beanUsuario.getError().getCidError().equals("000")) {
+                if ("000".equals(beanUsuario.getError().getCidError())) {
                     beanUsuario.setNidLog(ln_T_SFLogLocal.grabarLogLogInWeb_LN(vecData, beanUsuario.getNidUsuario()));
                     Utils.putSession("USER", beanUsuario);
                     setRedireccionar("000");
@@ -94,7 +95,7 @@ public class bLogin implements Serializable {
         } catch (Exception e) {
             ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
                                                           "BAC",
-                                                          "sped.vista.beans.seguridad.bLogin", 
+                                                          CLASE, 
                                                           "autenticarUsuario(ActionEvent actionEvent)",
                                                           "Error Inesperado Logear al usuario",Utils.getStack(e));
         }
@@ -104,7 +105,7 @@ public class bLogin implements Serializable {
         DialogEvent.Outcome outcome = dialogEvent.getOutcome();
         if(outcome == DialogEvent.Outcome.ok){
             String enviar = ln_C_SFCorreoRemote.recuperarClave(correo, 0, Utils.rutaImagenes());
-            if(enviar.equals("000")){
+            if("000".equals(enviar)){
                 setTituloPopup("Revisa tu correo");
                 setMensajeCorreo("Te hemos enviado un correo con tu clave. Recuerda cambiarla por seguridad");
             }else{
@@ -129,7 +130,7 @@ public class bLogin implements Serializable {
         } catch (IOException e) {
             ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
                                                           "BAC",
-                                                          "sped.vista.beans.seguridad.bLogin", 
+                                                          CLASE, 
                                                           "logoutTarget(String aTarget)",
                                                           "Error Inesperado Cerrar Sesion",Utils.getStack(e));
         }
