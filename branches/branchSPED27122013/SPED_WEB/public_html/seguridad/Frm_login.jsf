@@ -3,145 +3,7 @@
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         xmlns:h="http://java.sun.com/jsf/html">
     <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario">
-        <script type="text/javascript" src="../recursos/js/ua-parser.min.js"></script>
-        <af:resource type="javascript">
-          function getUserAgent(){
-            var ua = navigator.userAgent;
-            return ua;
-          }
-          function getHeight() {
-              return document.documentElement.clientHeight;
-          }
 
-          function getWidth() {
-              return document.documentElement.clientWidth;
-          }
-          
-          var BrowserDetect = {
-              init : function () {
-                  this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
-                  this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "an unknown version";
-                  this.OS = this.searchString(this.dataOS) || "an unknown OS";
-              },
-              searchString : function (data) {
-                  for (var i = 0;i &lt; data.length;i++) {
-                      var dataString = data[i].string;
-                      var dataProp = data[i].prop;
-                      this.versionSearchString = data[i].versionSearch || data[i].identity;
-                      if (dataString) {
-                          if (dataString.indexOf(data[i].subString) !=  - 1)
-                              return data[i].identity;
-                      }
-                      else if (dataProp)
-                          return data[i].identity;
-                  }
-              },
-              searchVersion : function (dataString) {
-                  var index = dataString.indexOf(this.versionSearchString);
-                  if (index ==  - 1)
-                      return;
-                  return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
-              },
-              dataBrowser : [{string : navigator.userAgent, subString : "Chrome", identity : "Chrome"},{string : navigator.userAgent, subString : "OmniWeb", versionSearch : "OmniWeb/", identity : "OmniWeb"},{string : navigator.vendor, subString : "Apple", identity : "Safari", versionSearch : "Version"},{prop : window.opera, identity : "Opera", versionSearch : "Version"},{string : navigator.vendor, subString : "iCab", identity : "iCab"},{string : navigator.vendor, subString : "KDE", identity : "Konqueror"},{string : navigator.userAgent, subString : "Firefox", identity : "Firefox"},{string : navigator.vendor, subString : "Camino", identity : "Camino"},{// for newer Netscapes (6+)
-string : navigator.userAgent, subString : "Netscape", identity : "Netscape"},{string : navigator.userAgent, subString : "MSIE", identity : "Explorer", versionSearch : "MSIE"},{string : navigator.userAgent, subString : "Gecko", identity : "Mozilla", versionSearch : "rv"},{// for older Netscapes (4-)
-string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", versionSearch : "Mozilla"}], dataOS : [{string : navigator.platform, subString : "Win", identity : "Windows"},{string : navigator.platform, subString : "Mac", identity : "Mac"},{string : navigator.userAgent, subString : "iPhone", identity : "iPhone/iPod"},{string : navigator.platform, subString : "Linux", identity : "Linux"}]
-
-          };
-          BrowserDetect.init();
-          
-          function getBrowser() {
-              return BrowserDetect.browser + " - " + BrowserDetect.version;
-          }
-          
-          function getOS(){
-              return BrowserDetect.OS+' - '+navigator.platform;
-          }
-
-          function te(){
-              var appName =  window.navigator.userProfile;
-              return appName;
-          }
-          
-          // NOTE: window.RTCPeerConnection is "not a constructor" in FF22/23
-          var RTCPeerConnection = /*window.RTCPeerConnection ||*/
-          window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
-
-          if (RTCPeerConnection)(function () {
-              var rtc = new RTCPeerConnection( {
-                  iceServers : []
-              });
-              if (window.mozRTCPeerConnection) {
-                  // FF needs a channel/stream to proceed
-                  rtc.createDataChannel('', 
-                  {
-                      reliable : false
-                  });
-              };
-
-              rtc.onicecandidate = function (evt) {
-                  if (evt.candidate)
-                  grepSDP(evt.candidate.candidate);
-              };
-              rtc.createOffer(function (offerDesc) {
-                  grepSDP(offerDesc.sdp);
-                  rtc.setLocalDescription(offerDesc);
-              },
-              function (e) {
-                  console.warn("offer failed", e);
-              });
-
-              var addrs = Object.create(null);
-              addrs["0.0.0.0"] = false;
-
-              function updateDisplay(newAddr) {
-                  if (newAddr in addrs)
-                  return;
-                  else 
-                  addrs[newAddr] = true;
-                  var displayAddrs = Object.keys(addrs).filter(function (k) {
-                      return addrs[k];
-                  });
-                  document.getElementById('list').value = displayAddrs.join(" | ") || "n/a";
-              }
-
-              function grepSDP(sdp) {
-                  var hosts = [];
-                  sdp.split('\r\n').forEach(function (line) {
-                      // c.f. http://tools.ietf.org/html/rfc4566#page-39
-                      if (~line.indexOf("a=candidate")) {
-                          // http://tools.ietf.org/html/rfc4566#section-5.13
-                          var parts = line.split(' '), // http://tools.ietf.org/html/rfc5245#section-15.1
-                          addr = parts[4], type = parts[7];
-                          if (type === 'host')
-                          updateDisplay(addr);
-                      }
-                      else if (~line.indexOf("c=")) {
-                          // http://tools.ietf.org/html/rfc4566#section-5.7
-                          var parts = line.split(' '), addr = parts[2];
-                          updateDisplay(addr);
-                      }
-                  });
-              }
-          })();
-          else {
-              document.getElementById('list').value = "&lt;code>ifconfig | grep inet | grep -v inet6 | cut -d\" \" -f2 | tail -n1 &lt;/code>";
-              document.getElementById('list').nextSibling.textContent = "In Chrome and Firefox your IP should display automatically, by the power of WebRTCskull.";
-          }
-          function getIPLocal(){
-             var ipLocal = document.getElementById('list').value;
-             return ipLocal;
-          }
-          
-          function clientListenerMethod(evt) {
-              var sourceComponent = AdfPage.PAGE.findComponentByAbsoluteId('s1:btnInicio');
-              var parameter = {
-                  browser : getBrowser(), os : getOS(), altura : getHeight(), anchura : getWidth(),
-                  iplocal : getIPLocal() , ua : getUserAgent()
-              };
-              AdfCustomEvent.queue(sourceComponent, "MyCustomServerEvent", parameter, true);
-              event.cancel();
-          }
-        </af:resource>
         <af:form id="f1">
             <af:panelGroupLayout halign="right" layout="horizontal">
                 <af:image source="/recursos/img/layout/buhologo.png"
@@ -243,5 +105,137 @@ string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", vers
             </af:panelStretchLayout>
         </af:form>
        <!-- <iframe src="http://www.whatismybrowser.com/feature/iframe?capabilities=true&#38;screen=true"  width="600" height="410"></iframe> -->
+      <af:resource type="javascript">
+          function getUserAgent(){
+            var ua = navigator.userAgent;
+            return ua;
+          }
+          function getHeight() {
+              return document.documentElement.clientHeight;
+          }
+
+          function getWidth() {
+              return document.documentElement.clientWidth;
+          }
+          
+          var BrowserDetect = {
+              init : function () {
+                  this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+                  this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "an unknown version";
+                  this.OS = this.searchString(this.dataOS) || "an unknown OS";
+              },
+              searchString : function (data) {
+                  for (var i = 0;i &lt; data.length;i++) {
+                      var dataString = data[i].string;
+                      var dataProp = data[i].prop;
+                      this.versionSearchString = data[i].versionSearch || data[i].identity;
+                      if (dataString) {
+                          if (dataString.indexOf(data[i].subString) !=  - 1)
+                              return data[i].identity;
+                      }
+                      else if (dataProp)
+                          return data[i].identity;
+                  }
+              },
+              searchVersion : function (dataString) {
+                  var index = dataString.indexOf(this.versionSearchString);
+                  if (index ==  - 1)
+                      return;
+                  return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
+              },
+              dataBrowser : [{string : navigator.userAgent, subString : "Chrome", identity : "Chrome"},{string : navigator.userAgent, subString : "OmniWeb", versionSearch : "OmniWeb/", identity : "OmniWeb"},{string : navigator.vendor, subString : "Apple", identity : "Safari", versionSearch : "Version"},{prop : window.opera, identity : "Opera", versionSearch : "Version"},{string : navigator.vendor, subString : "iCab", identity : "iCab"},{string : navigator.vendor, subString : "KDE", identity : "Konqueror"},{string : navigator.userAgent, subString : "Firefox", identity : "Firefox"},{string : navigator.vendor, subString : "Camino", identity : "Camino"},{// for newer Netscapes (6+)
+string : navigator.userAgent, subString : "Netscape", identity : "Netscape"},{string : navigator.userAgent, subString : "MSIE", identity : "Explorer", versionSearch : "MSIE"},{string : navigator.userAgent, subString : "Gecko", identity : "Mozilla", versionSearch : "rv"},{// for older Netscapes (4-)
+string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", versionSearch : "Mozilla"}], dataOS : [{string : navigator.platform, subString : "Win", identity : "Windows"},{string : navigator.platform, subString : "Mac", identity : "Mac"},{string : navigator.userAgent, subString : "iPhone", identity : "iPhone/iPod"},{string : navigator.platform, subString : "Linux", identity : "Linux"}]
+
+          };
+          BrowserDetect.init();
+          
+          function getBrowser() {
+              return BrowserDetect.browser + " - " + BrowserDetect.version;
+          }
+          
+          function getOS(){
+              return BrowserDetect.OS+' - '+navigator.platform;
+          }
+
+          function te(){
+              var appName =  window.navigator.userProfile;
+              return appName;
+          }
+          
+          // NOTE: window.RTCPeerConnection is "not a constructor" in FF22/23
+          var RTCPeerConnection = /*window.RTCPeerConnection ||*/
+          window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+
+          if (RTCPeerConnection)(function () {
+              var rtc = new RTCPeerConnection( {
+                  iceServers : []
+              });
+              if (window.mozRTCPeerConnection) {
+                  // FF needs a channel/stream to proceed
+                  rtc.createDataChannel('', 
+                  {
+                      reliable : false
+                  });
+              };
+
+              rtc.onicecandidate = function (evt) {
+                  if (evt.candidate) grepSDP(evt.candidate.candidate);
+              };
+              rtc.createOffer(function (offerDesc) {
+                  grepSDP(offerDesc.sdp);
+                  rtc.setLocalDescription(offerDesc);
+              },function (e) { console.warn("offer failed", e);});
+
+              var addrs = Object.create(null);
+              addrs["0.0.0.0"] = false;
+
+              function updateDisplay(newAddr) {
+                  if (newAddr in addrs) return;
+                  else addrs[newAddr] = true;
+                  var displayAddrs = Object.keys(addrs).filter(function (k) { return addrs[k]; });
+                  document.getElementById('list').value = displayAddrs.join(" | ") || "n/a";
+              }
+
+              function grepSDP(sdp) {
+                  var hosts = [];
+                  sdp.split('\r\n').forEach(function (line) {
+                      // c.f. http://tools.ietf.org/html/rfc4566#page-39
+                      if (~line.indexOf("a=candidate")) {
+                          // http://tools.ietf.org/html/rfc4566#section-5.13
+                          var parts = line.split(' '), // http://tools.ietf.org/html/rfc5245#section-15.1
+                          addr = parts[4], 
+                          type = parts[7];
+                          if (type === 'host')
+                          updateDisplay(addr);
+                      }else if (~line.indexOf("c=")) {
+                          // http://tools.ietf.org/html/rfc4566#section-5.7
+                          var parts = line.split(' '),
+                          addr = parts[2];
+                          updateDisplay(addr);
+                      }
+                  });
+              }
+          })();
+          else {
+              document.getElementById('list').value = "&lt;code>ifconfig | grep inet | grep -v inet6 | cut -d\" \" -f2 | tail -n1 &lt;/code>";
+              document.getElementById('list').nextSibling.textContent = "In Chrome and Firefox your IP should display automatically, by the power of WebRTCskull.";
+          }
+          
+          function getIPLocal(){
+             var ipLocal = document.getElementById('list').value;
+             return ipLocal;
+          }
+          
+          function clientListenerMethod(evt) {
+              var sourceComponent = AdfPage.PAGE.findComponentByAbsoluteId('s1:btnInicio');
+              var parameter = {
+                  browser : getBrowser(), os : getOS(), altura : getHeight(), anchura : getWidth(),
+                  iplocal : getIPLocal() , ua : getUserAgent()
+              };
+              AdfCustomEvent.queue(sourceComponent, "MyCustomServerEvent", parameter, true);
+              event.cancel();
+          }
+        </af:resource>
     </af:document>
 </f:view>
