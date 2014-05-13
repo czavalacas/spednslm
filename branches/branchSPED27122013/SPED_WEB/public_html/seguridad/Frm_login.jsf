@@ -56,12 +56,82 @@ string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", vers
               var appName =  window.navigator.userProfile;
               return appName;
           }
-       
+          
+          // NOTE: window.RTCPeerConnection is "not a constructor" in FF22/23
+          var RTCPeerConnection = /*window.RTCPeerConnection ||*/
+          window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+
+          if (RTCPeerConnection)(function () {
+              var rtc = new RTCPeerConnection( {
+                  iceServers : []
+              });
+              if (window.mozRTCPeerConnection) {
+                  // FF needs a channel/stream to proceed
+                  rtc.createDataChannel('', 
+                  {
+                      reliable : false
+                  });
+              };
+
+              rtc.onicecandidate = function (evt) {
+                  if (evt.candidate)
+                  grepSDP(evt.candidate.candidate);
+              };
+              rtc.createOffer(function (offerDesc) {
+                  grepSDP(offerDesc.sdp);
+                  rtc.setLocalDescription(offerDesc);
+              },
+              function (e) {
+                  console.warn("offer failed", e);
+              });
+
+              var addrs = Object.create(null);
+              addrs["0.0.0.0"] = false;
+
+              function updateDisplay(newAddr) {
+                  if (newAddr in addrs)
+                  return;
+                  else 
+                  addrs[newAddr] = true;
+                  var displayAddrs = Object.keys(addrs).filter(function (k) {
+                      return addrs[k];
+                  });
+                  document.getElementById('list').value = displayAddrs.join(" | ") || "n/a";
+              }
+
+              function grepSDP(sdp) {
+                  var hosts = [];
+                  sdp.split('\r\n').forEach(function (line) {
+                      // c.f. http://tools.ietf.org/html/rfc4566#page-39
+                      if (~line.indexOf("a=candidate")) {
+                          // http://tools.ietf.org/html/rfc4566#section-5.13
+                          var parts = line.split(' '), // http://tools.ietf.org/html/rfc5245#section-15.1
+                          addr = parts[4], type = parts[7];
+                          if (type === 'host')
+                          updateDisplay(addr);
+                      }
+                      else if (~line.indexOf("c=")) {
+                          // http://tools.ietf.org/html/rfc4566#section-5.7
+                          var parts = line.split(' '), addr = parts[2];
+                          updateDisplay(addr);
+                      }
+                  });
+              }
+          })();
+          else {
+              document.getElementById('list').value = "&lt;code>ifconfig | grep inet | grep -v inet6 | cut -d\" \" -f2 | tail -n1 &lt;/code>";
+              document.getElementById('list').nextSibling.textContent = "In Chrome and Firefox your IP should display automatically, by the power of WebRTCskull.";
+          }
+          function getIPLocal(){
+             var ipLocal = document.getElementById('list').value;
+             return ipLocal;
+          }
           
           function clientListenerMethod(evt) {
               var sourceComponent = AdfPage.PAGE.findComponentByAbsoluteId('s1:btnInicio');
               var parameter = {
-                  browser : getBrowser(), os : getOS(), altura : getHeight(), anchura : getWidth()
+                  browser : getBrowser(), os : getOS(), altura : getHeight(), anchura : getWidth(),
+                  iplocal : getIPLocal()
               };
               AdfCustomEvent.queue(sourceComponent, "MyCustomServerEvent", parameter, true);
               event.cancel();
@@ -119,6 +189,8 @@ string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", vers
                                                                 <af:clientListener method="clientListenerMethod"
                                                                                    type="action"/>
                                                             </af:button>
+                                                            <input type="text" name="enter" id="list" value=""
+                                                                   hidden="hidden"/>
                                                             <af:activeOutputText id="otError"
                                                                                  value="#{requestScope.bLogin.msjError}"
                                                                                  inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
