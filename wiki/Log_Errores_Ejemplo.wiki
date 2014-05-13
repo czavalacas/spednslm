@@ -67,13 +67,14 @@ Para el tipo de errores NO CONTROLADOS se pondran en el catch
 <code>
  @EJB
  private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
+ private static final String CLASE = "sped.vista.beans.seguridad.bLogin";
 
 try {
    int a = 4 / 0;
 } catch (Exception e) {
    ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
                                                  "OTR",
-                                                 "sped.vista.beans.seguridad.bLogin", 
+                                                 CLASE, 
                                                  "autenticarUsuario(ActionEvent actionEvent)",
                                                  "Error al realizar division",Utils.getStack(e));
  }
