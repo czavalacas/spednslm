@@ -73,6 +73,8 @@ public class bMain implements Serializable {
     private RichImage imgBoli;
     private RichPopup popNew;
     private RichForm frmain;
+    private RichCommandLink clCantRptaProf;
+    private RichActiveOutputText otError;
     @EJB
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
     @EJB
@@ -83,9 +85,7 @@ public class bMain implements Serializable {
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
     private String clave;
-    private RichActiveOutputText otError;
     private String msjError;
-    private RichCommandLink clCantRptaProf;
 
     public bMain(){
         super();
