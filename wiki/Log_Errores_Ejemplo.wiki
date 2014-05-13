@@ -68,20 +68,15 @@ Para el tipo de errores NO CONTROLADOS se pondran en el catch
  @EJB
  private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
 
-
-try{
-   int a = 20 / 0; //saltara un error
-}catch(Exception e)
-    StringWriter stringWriter = new StringWriter();
-    String stackTrace = null;
-    e.printStackTrace(new PrintWriter(stringWriter));
-    stackTrace = stringWriter.toString();
-  ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(),
-   "OTR", 
-   "sped.vista.beans.seguridad.bLogin",
-   "autenticarUsuario(ActionEvent actionEvent)",
-   "Error al realizar division",
-   stackTrace);
+try {
+   int a = 4 / 0;
+} catch (Exception e) {
+   ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
+                                                 "OTR",
+                                                 "sped.vista.beans.seguridad.bLogin", 
+                                                 "autenticarUsuario(ActionEvent actionEvent)",
+                                                 "Error al realizar division",Utils.getStack(e));
+ }
 
 </code>
 
