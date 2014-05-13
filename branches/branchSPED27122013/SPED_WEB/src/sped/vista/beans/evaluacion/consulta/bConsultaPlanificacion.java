@@ -110,7 +110,7 @@ public class bConsultaPlanificacion {
                 sessionConsultarPlanificacion.setDniProfesor(usuarioEnSesion.getDni());
             }
             buscarPlani();
-            if(usuarioEnSesion.getNidRol() == 3){
+            if(usuarioEnSesion.getRol().getNidRol() == 3){
                 sessionConsultarPlanificacion.setColumnProfesor(false);
             }
         }        
