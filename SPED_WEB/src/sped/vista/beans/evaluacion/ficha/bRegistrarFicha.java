@@ -44,6 +44,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoLocal;
 import sped.negocio.LNSF.IL.LN_T_SFFichaLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCriterioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFFichaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFIndicadorRemote;
@@ -54,6 +55,8 @@ import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.beans.BeanIndicador;
 import sped.negocio.entidades.beans.BeanLeyenda;
+import sped.negocio.entidades.beans.BeanUsuario;
+
 import sped.vista.Utils.Utils;
 
 /** Clase de Respaldo de Frm_Registrar_Ficha.jsff
@@ -106,7 +109,11 @@ public class bRegistrarFicha {
     private LN_C_SFResultadoLocal ln_C_SFResultadoLocal;
     @EJB
     private LN_C_SFFichaCriterioLocal ln_C_SFFichaCriterioLocal;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
     FacesContext ctx = FacesContext.getCurrentInstance();
+    private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
+    private static final String CLASE = "sped.vista.beans.evaluacion.ficha.bRegistrarFicha";
 
     public bRegistrarFicha() {
         
@@ -171,6 +178,11 @@ public class bRegistrarFicha {
             Utils.addTargetMany(btnBase,btnActDesact,btnEditFicha);
         }catch(Exception e){
             e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(), 
+                                                          "BAC",
+                                                          CLASE, 
+                                                          "selectFicha(SelectionEvent se)",
+                                                          "Error al seleccionar la Ficha",Utils.getStack(e));
         }
     }
     
@@ -1427,106 +1439,124 @@ public class bRegistrarFicha {
     }
     
     public void activarDesactivar(ActionEvent ae) {
-        if(sessionRegistrarFicha.getFichaEditarClon() != null){
-            if(sessionRegistrarFicha.getFichaEditarClon().getEstadoFicha().equals("0")){//VA A ACTIVAR
-                BeanFicha beanFicha = ln_C_SFFichaRemote.checkSiSePuedeActivar(sessionRegistrarFicha.getFichaEditarClon().getTipoFicha(),
-                                                                                 sessionRegistrarFicha.getFichaEditarClon().getTipoFichaCurso());
-                if (beanFicha.getBeanError() != null) {
-                    BeanError error = beanFicha.getBeanError();
-                    int severidad = 0;
-                    if (error.getCidError().equals("000")) {
-                        BeanFicha beanFicha2 = ln_T_SFFichaLocal.desactivarActivarFicha(sessionRegistrarFicha.getFichaEditarClon().getNidFicha(),"1");
-                        if (beanFicha.getBeanError() != null) {
-                            BeanError error2 = beanFicha2.getBeanError();
-                            int severidad2 = 0;
-                            if (error2.getCidError().equals("000")) {
-                                severidad2 = 3;
-                                Utils.sysout("Activo la Ficha");
+        try {
+            if (sessionRegistrarFicha.getFichaEditarClon() != null) {
+                if (sessionRegistrarFicha.getFichaEditarClon().getEstadoFicha().equals("0")) { //VA A ACTIVAR
+                    BeanFicha beanFicha = ln_C_SFFichaRemote.checkSiSePuedeActivar(sessionRegistrarFicha.getFichaEditarClon().getTipoFicha(),
+                                                                                   sessionRegistrarFicha.getFichaEditarClon().getTipoFichaCurso());
+                    if (beanFicha.getBeanError() != null) {
+                        BeanError error = beanFicha.getBeanError();
+                        int severidad = 0;
+                        if ("000".equals(error.getCidError())) {
+                            BeanFicha beanFicha2 = ln_T_SFFichaLocal.desactivarActivarFicha(sessionRegistrarFicha.getFichaEditarClon().getNidFicha(),"1");
+                            if (beanFicha.getBeanError() != null) {
+                                BeanError error2 = beanFicha2.getBeanError();
+                                int severidad2 = 0;
+                                if ("000".equals(error2.getCidError())) {
+                                    severidad2 = 3;
+                                    Utils.sysout("Activo la Ficha");
+                                } else {
+                                    severidad2 = 1;
+                                }
+                                msjGen.setText(error2.getTituloError());
+                                Utils.addTarget(msjGen);
+                                Utils.mostrarMensaje(ctx, error2.getDescripcionError(), error2.getTituloError(),severidad2);
                             } else {
-                                severidad2 = 1;
+                                msjGen.setText("Error Inesperado");
+                                Utils.addTarget(msjGen);
+                                Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
                             }
-                            msjGen.setText(error2.getTituloError());
-                            Utils.addTarget(msjGen);
-                            Utils.mostrarMensaje(ctx, error2.getDescripcionError(), error2.getTituloError(), severidad2);
+                        } else if ("SPED-00004".equals(error.getCidError())) {
+                            sessionRegistrarFicha.setAdvertenciaSPED0004(error.getDescripcionError());
+                            Utils.showPopUpMIDDLE(popActDes);
                         } else {
-                            msjGen.setText("Error Inesperado");
-                            Utils.addTarget(msjGen);
-                            Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
+                            severidad = 1;
                         }
-                    } else if(error.getCidError().equals("SPED-00004")){
-                        sessionRegistrarFicha.setAdvertenciaSPED0004(error.getDescripcionError());
-                        Utils.showPopUpMIDDLE(popActDes);
-                    }else{
-                        severidad = 1;
+                        if (!"SPED-00004".equals(error.getCidError())) {
+                            msjGen.setText(error.getTituloError());
+                            Utils.addTarget(msjGen);
+                            Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
+                        }
+                        refrescarTablaFichasAux();
+                    } else {
+                        msjGen.setText("Error Inesperado");
+                        Utils.addTarget(msjGen);
+                        Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
                     }
-                    if(!error.getCidError().equals("SPED-00004")){
+                } else { //VA A DESACTIVAR
+                    BeanFicha beanFicha = ln_T_SFFichaLocal.desactivarActivarFicha(sessionRegistrarFicha.getFichaEditarClon().getNidFicha(),"0");
+                    if (beanFicha.getBeanError() != null) {
+                        BeanError error = beanFicha.getBeanError();
+                        int severidad = 0;
+                        if ("000".equals(error.getCidError())) {
+                            severidad = 3;
+                            Utils.sysout("Desactivo la Ficha");
+                        } else {
+                            severidad = 1;
+                        }
                         msjGen.setText(error.getTituloError());
                         Utils.addTarget(msjGen);
                         Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
-                    }
-                    refrescarTablaFichasAux();
-                } else {
-                    msjGen.setText("Error Inesperado");
-                    Utils.addTarget(msjGen);
-                    Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
-                }
-            }else{//VA A DESACTIVAR
-                BeanFicha beanFicha = ln_T_SFFichaLocal.desactivarActivarFicha(sessionRegistrarFicha.getFichaEditarClon().getNidFicha(),"0");
-                if (beanFicha.getBeanError() != null) {
-                    BeanError error = beanFicha.getBeanError();
-                    int severidad = 0;
-                    if (error.getCidError().equals("000")) {
-                        severidad = 3;
-                        Utils.sysout("Desactivo la Ficha");
+                        refrescarTablaFichasAux();
                     } else {
-                        severidad = 1;
+                        msjGen.setText("Error Inesperado");
+                        Utils.addTarget(msjGen);
+                        Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
                     }
-                    msjGen.setText(error.getTituloError());
-                    Utils.addTarget(msjGen);
-                    Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
-                    refrescarTablaFichasAux();
-                } else {
-                    msjGen.setText("Error Inesperado");
-                    Utils.addTarget(msjGen);
-                    Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
                 }
+                btnBase.setDisabled(true);
+                btnActDesact.setDisabled(true);
+                btnActDesact.setStyleClass(null);
+                sessionRegistrarFicha.setActDesEstilo(null);
+                Utils.addTargetMany(btnBase, btnActDesact);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(),
+                                                          "BAC",
+                                                          CLASE,
+                                                          "void activarDesactivar(ActionEvent ae)",
+                                                          "Error al activar/desactivar la Ficha",Utils.getStack(e));
+        }
+    }
+    
+    public void dialogOKReactivarFicha(DialogEvent dialogEvent) {
+        try {
+            BeanFicha beanFicha =  ln_T_SFFichaLocal.desactivarActivarFicha(sessionRegistrarFicha.getFichaEditarClon().getNidFicha(), "1");
+            ln_T_SFFichaLocal.reactivarFichaYDesactivarElResto(sessionRegistrarFicha.getFichaEditarClon().getTipoFicha(),
+                                                               sessionRegistrarFicha.getFichaEditarClon().getTipoFichaCurso(),
+                                                               sessionRegistrarFicha.getFichaEditarClon().getNidFicha());
+            if (beanFicha.getBeanError() != null) {
+                BeanError error = beanFicha.getBeanError();
+                int severidad = 0;
+                if (error.getCidError().equals("000")) {
+                    severidad = 3;
+                    Utils.sysout("Reactivo la Ficha y desactivo el resto");
+                } else {
+                    severidad = 1;
+                }
+                msjGen.setText(error.getTituloError());
+                Utils.addTarget(msjGen);
+                Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
+                refrescarTablaFichasAux();
+            } else {
+                msjGen.setText("Error Inesperado");
+                Utils.addTarget(msjGen);
+                Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
             }
             btnBase.setDisabled(true);
             btnActDesact.setDisabled(true);
             btnActDesact.setStyleClass(null);
             sessionRegistrarFicha.setActDesEstilo(null);
-            Utils.addTargetMany(btnBase,btnActDesact);
+            Utils.addTargetMany(btnBase, btnActDesact);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(),
+                                                          "BAC",
+                                                          CLASE,
+                                                          "dialogOKReactivarFicha(DialogEvent dialogEvent)",
+                                                          "Error al reactivar la Ficha",Utils.getStack(e));
         }
-    }
-    
-    public void dialogOKReactivarFicha(DialogEvent dialogEvent) {
-        BeanFicha beanFicha = ln_T_SFFichaLocal.desactivarActivarFicha(sessionRegistrarFicha.getFichaEditarClon().getNidFicha(),"1");
-        ln_T_SFFichaLocal.reactivarFichaYDesactivarElResto(sessionRegistrarFicha.getFichaEditarClon().getTipoFicha(),
-                                                             sessionRegistrarFicha.getFichaEditarClon().getTipoFichaCurso(),
-                                                             sessionRegistrarFicha.getFichaEditarClon().getNidFicha());
-        if (beanFicha.getBeanError() != null) {
-            BeanError error = beanFicha.getBeanError();
-            int severidad = 0;
-            if (error.getCidError().equals("000")) {
-                severidad = 3;
-                Utils.sysout("Reactivo la Ficha y desactivo el resto");
-            } else {
-                severidad = 1;
-            }
-            msjGen.setText(error.getTituloError());
-            Utils.addTarget(msjGen);
-            Utils.mostrarMensaje(ctx, error.getDescripcionError(), error.getTituloError(), severidad);
-            refrescarTablaFichasAux();
-        } else {
-            msjGen.setText("Error Inesperado");
-            Utils.addTarget(msjGen);
-            Utils.mostrarMensaje(ctx, "Error Inesperado", "Error", 1);
-        }
-        btnBase.setDisabled(true);
-        btnActDesact.setDisabled(true);
-        btnActDesact.setStyleClass(null);
-        sessionRegistrarFicha.setActDesEstilo(null);
-        Utils.addTargetMany(btnBase,btnActDesact);
     }
     
     public void changeLeyendasGenerales(ValueChangeEvent vce) {
@@ -1553,7 +1583,15 @@ public class bRegistrarFicha {
                 }
             }
     }
-    
+
+    public void setUsuario(BeanUsuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public BeanUsuario getUsuario() {
+        return usuario;
+    }
+
     public void setTbFichas(RichTable tbFichas) {
         this.tbFichas = tbFichas;
     }
