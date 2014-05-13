@@ -72,6 +72,7 @@ public class LN_T_SFLogBean implements LN_T_SFLogRemote,
             log.setDevice_screenwidth(cadenaData[5]);
             log.setIpPublica(cadenaData[6]);
             log.setIpPrivada(cadenaData[7]);
+            log.setDetalle(cadenaData[8]);//User Agent
             log.setNid_usuario(nidUsuario);
             log.setFechaConexion(new Timestamp(new Date().getTime()));
             log.setFechaEvento(new Timestamp(new Date().getTime()));

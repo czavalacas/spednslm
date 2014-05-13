@@ -54,7 +54,7 @@ public class bLogin implements Serializable {
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private final static String LOGIN = "/faces/Frm_login";
     ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
-    private String[] vecData = new String[8];
+    private String[] vecData = new String[9];
     private static final String CLASE = "sped.vista.beans.seguridad.bLogin";
 
     public bLogin(){
@@ -146,6 +146,7 @@ public class bLogin implements Serializable {
         vecData[5] = String.valueOf(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height);
         vecData[6] =  ((HttpServletRequest) ectx.getRequest()).getRemoteAddr();
         vecData[7] = (String) ce.getParameters().get("iplocal");
+        vecData[8] = (String) ce.getParameters().get("ua");
     }
 
     public void setVecData(String[] vecData) {
