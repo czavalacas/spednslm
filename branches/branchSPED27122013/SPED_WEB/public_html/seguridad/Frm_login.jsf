@@ -3,7 +3,12 @@
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         xmlns:h="http://java.sun.com/jsf/html">
     <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario">
+        <script type="text/javascript" src="../recursos/js/ua-parser.min.js"></script>
         <af:resource type="javascript">
+          function getUserAgent(){
+            var ua = navigator.userAgent.split(/\s*[;)(]\s*/);
+            return ua;
+          }
           function getHeight() {
               return document.documentElement.clientHeight;
           }
@@ -131,7 +136,7 @@ string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", vers
               var sourceComponent = AdfPage.PAGE.findComponentByAbsoluteId('s1:btnInicio');
               var parameter = {
                   browser : getBrowser(), os : getOS(), altura : getHeight(), anchura : getWidth(),
-                  iplocal : getIPLocal()
+                  iplocal : getIPLocal() , ua : getUserAgent()
               };
               AdfCustomEvent.queue(sourceComponent, "MyCustomServerEvent", parameter, true);
               event.cancel();
