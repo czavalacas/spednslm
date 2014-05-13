@@ -96,7 +96,7 @@ public class bLogin implements Serializable {
                                                           "BAC",
                                                           "sped.vista.beans.seguridad.bLogin", 
                                                           "autenticarUsuario(ActionEvent actionEvent)",
-                                                          "Error al realizar division",Utils.getStack(e));
+                                                          "Error Inesperado Logear al usuario",Utils.getStack(e));
         }
     }
     
@@ -127,7 +127,11 @@ public class bLogin implements Serializable {
             response.sendRedirect(url);
             FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException e) {
-            e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
+                                                          "BAC",
+                                                          "sped.vista.beans.seguridad.bLogin", 
+                                                          "logoutTarget(String aTarget)",
+                                                          "Error Inesperado Cerrar Sesion",Utils.getStack(e));
         }
         return null;
     }

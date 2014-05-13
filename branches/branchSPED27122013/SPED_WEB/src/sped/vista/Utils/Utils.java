@@ -354,8 +354,12 @@ public class Utils {
     } 
     
     public static String getStack(Exception e){
-        StringWriter stringWriter = new StringWriter();
-        e.printStackTrace(new PrintWriter(stringWriter));
-        return stringWriter.toString();
+        try {
+            StringWriter stringWriter = new StringWriter();
+            e.printStackTrace(new PrintWriter(stringWriter));
+            return stringWriter.toString();
+        } catch (Exception e1) {
+            return null;
+        }
     }
 }
