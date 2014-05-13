@@ -65,39 +65,38 @@ public class bLogin implements Serializable {
     }
 
     public void autenticarUsuario(ActionEvent actionEvent) {
-        if(getUsuario() == null || getClave() == null){
-            setMsjError("Ingrese su usuario y clave");
-            Utils.addTarget(otError);
-            return; 
-        }
-        BeanUsuario beanUsuario = ln_C_SFUsuarioLocal.autenticarUsuarioLN(getUsuario(),getClave());
-        if(beanUsuario.getError() != null){
-            if(beanUsuario.getError().getCidError().equals("000")){
-                beanUsuario.setNidLog(ln_T_SFLogLocal.grabarLogLogInWeb_LN(vecData,beanUsuario.getNidUsuario()));
-                Utils.putSession("USER",beanUsuario);
-                setRedireccionar("000");
-                try {
-                    int a = 4 / 0;
-                } catch (Exception e) {
-                    ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
-                                                                  "OTR",
-                                                                  "sped.vista.beans.seguridad.bLogin", 
-                                                                  "autenticarUsuario(ActionEvent actionEvent)",
-                                                                  "Error al realizar division",Utils.getStack(e));
+        try {
+            if (getUsuario() == null || getClave() == null) {
+                setMsjError("Ingrese su usuario y clave");
+                Utils.addTarget(otError);
+                return;
+            }
+            BeanUsuario beanUsuario = ln_C_SFUsuarioLocal.autenticarUsuarioLN(getUsuario(), getClave());
+            if (beanUsuario.getError() != null) {
+                if (beanUsuario.getError().getCidError().equals("000")) {
+                    beanUsuario.setNidLog(ln_T_SFLogLocal.grabarLogLogInWeb_LN(vecData, beanUsuario.getNidUsuario()));
+                    Utils.putSession("USER", beanUsuario);
+                    setRedireccionar("000");
+                } else {
+                    setMsjError(beanUsuario.getError().getDescripcionError());
+                    Utils.addTarget(otError);
+                    itClave.resetValue();
+                    setClave(null);
+                    Utils.addTarget(itClave);
                 }
-            }else{
+            } else {
                 setMsjError(beanUsuario.getError().getDescripcionError());
                 Utils.addTarget(otError);
                 itClave.resetValue();
                 setClave(null);
                 Utils.addTarget(itClave);
             }
-        }else{
-            setMsjError(beanUsuario.getError().getDescripcionError());
-            Utils.addTarget(otError);
-            itClave.resetValue();
-            setClave(null);
-            Utils.addTarget(itClave);
+        } catch (Exception e) {
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
+                                                          "BAC",
+                                                          "sped.vista.beans.seguridad.bLogin", 
+                                                          "autenticarUsuario(ActionEvent actionEvent)",
+                                                          "Error al realizar division",Utils.getStack(e));
         }
     }
     
