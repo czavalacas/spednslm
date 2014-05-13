@@ -1,15 +1,9 @@
 package sped.vista.beans.seguridad;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Serializable;
-import java.io.StringWriter;
-
-import java.util.Enumeration;
 import java.util.Locale;
 import javax.ejb.EJB;
-import org.apache.myfaces.trinidad.context.Agent;
-import org.apache.myfaces.trinidad.context.RequestContext;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -21,7 +15,6 @@ import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.event.DialogEvent;
 import oracle.adf.view.rich.render.ClientEvent;
-
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLogLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
@@ -83,20 +76,15 @@ public class bLogin implements Serializable {
                 beanUsuario.setNidLog(ln_T_SFLogLocal.grabarLogLogInWeb_LN(vecData,beanUsuario.getNidUsuario()));
                 Utils.putSession("USER",beanUsuario);
                 setRedireccionar("000");
-                /*try {
+                try {
                     int a = 4 / 0;
                 } catch (Exception e) {
-                    StringWriter stringWriter = new StringWriter();
-                    String stackTrace = null;
-                    e.printStackTrace(new PrintWriter(stringWriter));
-                    stackTrace = stringWriter.toString();
-                    ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(),
-                                                                  "OTR", 
-                                                                  "sped.vista.beans.seguridad.bLogin",
+                    ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
+                                                                  "OTR",
+                                                                  "sped.vista.beans.seguridad.bLogin", 
                                                                   "autenticarUsuario(ActionEvent actionEvent)",
-                                                                  "Error al realizar division", 
-                                                                  stackTrace);
-                }*/
+                                                                  "Error al realizar division",Utils.getStack(e));
+                }
             }else{
                 setMsjError(beanUsuario.getError().getDescripcionError());
                 Utils.addTarget(otError);

@@ -1,22 +1,21 @@
 package sped.vista.Utils;
 
 import java.io.File;
-
-import java.math.BigDecimal;
-
+import java.io.PrintWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import java.util.StringTokenizer;
-
+import javax.ejb.EJB;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
-
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -26,35 +25,26 @@ import javax.faces.el.MethodBinding;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
-
 import javax.servlet.ServletContext;
-
-import oracle.adf.model.BindingContext;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
-import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
 import oracle.adf.view.rich.component.rich.nav.RichCommandMenuItem;
 import oracle.adf.view.rich.context.AdfFacesContext;
-
-import oracle.binding.BindingContainer;
-import oracle.binding.OperationBinding;
-
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 import org.apache.myfaces.trinidad.render.ExtendedRenderKitService;
 import org.apache.myfaces.trinidad.util.Service;
-
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboString;
-import sped.negocio.entidades.beans.BeanUsuario;
 
 /** Clase Utils contiene metodos reutilizables
  * @author dfloresgonz
  * @since 26.12.2013
  */
 public class Utils {
-
+    
     /**
      *
      * @author dfloresgonz
@@ -363,4 +353,9 @@ public class Utils {
         return buff.toString().trim();
     } 
     
+    public static String getStack(Exception e){
+        StringWriter stringWriter = new StringWriter();
+        e.printStackTrace(new PrintWriter(stringWriter));
+        return stringWriter.toString();
+    }
 }
