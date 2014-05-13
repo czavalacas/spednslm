@@ -29,4 +29,6 @@ public interface BDL_C_SFUsuarioLocal {
     List getNombresUsuarios(int nidArea, int nidRol);
     List getUsuarioUsuarios(int nidArea, int nidRol);
     List<Usuario> getUsuarioTipoProfesor();
+    boolean testClave(int nidUsuario,
+                      String clave);
 }

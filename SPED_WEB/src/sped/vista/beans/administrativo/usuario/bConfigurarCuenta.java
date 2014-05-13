@@ -32,6 +32,7 @@ import oracle.adf.view.rich.component.rich.output.RichImage;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
 
+import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -46,6 +47,8 @@ public class bConfigurarCuenta {
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
     @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
+    @EJB
+    private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
     private String correo;
     private String correoNew;
     private String claveActual;
@@ -70,10 +73,10 @@ public class bConfigurarCuenta {
     }
     
     public String cambiarClave() {
-        if(claveActual.compareTo(beanUsuario.getClave()) == 0){
+        if(ln_C_SFUsuarioLocal.testClave_LN(beanUsuario.getNidUsuario(), claveActual)){//dfloresgonz 13.05.2014 
+        //if(claveActual.compareTo(beanUsuario.getClave()) == 0){
             if(claveNew.compareTo(claveConf) == 0){
                 if(claveActual.compareTo(claveNew) != 0){
-                    System.out.println("Clave nueva  "+claveNew);
                     ln_T_SFUsuarioRemote.configuracionCuentaUsuario(beanUsuario.getNidUsuario(), 
                                                                     claveNew, 
                                                                     null, 
