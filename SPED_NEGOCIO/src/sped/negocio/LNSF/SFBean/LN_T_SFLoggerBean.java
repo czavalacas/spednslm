@@ -51,7 +51,7 @@ public class LN_T_SFLoggerBean implements LN_T_SFLoggerRemote,
            if(nidLogeo > 0){
                logger.setNid_log(nidLogeo);
            }
-           logger.setStacktrace(stackTrace);
+           logger.setStacktrace((stackTrace != null ? ((stackTrace.length() > 6000) ? stackTrace.substring(0,6000) : stackTrace) : null ));
            logger.setTipo_error(tipo);
            bdL_T_SFLoggerLocal.persistLogger(logger);
        } catch (Exception e) {
