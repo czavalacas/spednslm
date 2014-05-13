@@ -31,4 +31,6 @@ public interface LN_C_SFUsuarioRemote {
     List getDniUsuarios_LN(int nidArea, int nidRol);
     List getNombresUsuarios_LN(int nidArea, int nidRol);
     List getUsuarioUsuarios_LN(int nidArea, int nidRol);
+    boolean testClave_LN(int nidUsuario,
+                         String clave);
 }

@@ -39,7 +39,7 @@ import sped.negocio.entidades.sist.Rol;
  */
 @Stateless(name = "LN_C_SFUsuario", mappedName = "mapLN_C_SFUsuario")
 public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote, 
-                                              LN_C_SFUsuarioLocal {
+                                           LN_C_SFUsuarioLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -73,11 +73,11 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                 }
                 if(msj.equals("000")){
                     beanUsuario = (BeanUsuario)mapper.map(user, BeanUsuario.class);
-                    if(beanUsuario.getFoto() != null){
+                    /*if(beanUsuario.getFoto() != null){
                         String encoded = Base64.encodeBase64String(beanUsuario.getFoto());
                         //String encoded = MyBase64.encode(beanUsuario.getFoto());
                         beanUsuario.setImg(encoded);
-                    }
+                    }*/
                 }
             }
         }catch(Exception e){
@@ -103,11 +103,11 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                 }
                 if(msj.equals("000")){
                     beanUsuario = (BeanUsuario)mapper.map(user,BeanUsuario.class);
-                    if(beanUsuario.getFoto() != null){
+                    /*if(beanUsuario.getFoto() != null){
                         String encoded = Base64.encodeBase64String(beanUsuario.getFoto());
                         //String encoded = MyBase64.encode(beanUsuario.getFoto());
                         beanUsuario.setImg(encoded);
-                    }
+                    }*/
                     beanUsuario.setNidLog(ln_T_SFLogLocal.grabarLogLogInWS_LN(cadenaPhoneData,user.getNidUsuario()));
                 }
             }
@@ -256,5 +256,10 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
 
     public List getUsuarioUsuarios_LN(int nidArea, int nidRol){
         return bdL_C_SFUsuarioLocal.getUsuarioUsuarios(nidArea, nidRol);
+    }
+    
+    public boolean testClave_LN(int nidUsuario,
+                                String clave){
+        return bdL_C_SFUsuarioLocal.testClave(nidUsuario, clave);
     }
 }

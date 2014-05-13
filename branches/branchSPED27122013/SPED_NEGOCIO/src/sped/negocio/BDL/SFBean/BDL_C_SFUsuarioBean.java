@@ -22,12 +22,13 @@ import javax.persistence.Query;
 
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "BDL_C_SFUsuario", mappedName = "mapBDL_C_SFUsuario")
 public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote, 
-                                               BDL_C_SFUsuarioLocal {
+                                            BDL_C_SFUsuarioLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -42,6 +43,27 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         return em.createNamedQuery("Usuario.findAll", Usuario.class).getResultList();
     }
     
+    public boolean testClave(int nidUsuario,
+                             String clave){
+        try {
+            String strQuery = "SELECT COUNT(1) " +
+                              "FROM Usuario o " +
+                              "WHERE o.nidUsuario = :nidUsuario  "+
+                              "AND o.clave = FUNC('AES_ENCRYPT',:clave,:clave) ";
+            List lstClaves = em.createQuery(strQuery).setParameter("nidUsuario",nidUsuario).
+                                                      setParameter("clave",clave).
+                                                      getResultList();Utiles.sysout("lstClaves> "+lstClaves);
+           if(lstClaves.isEmpty()){
+               return false;
+           }else{Utiles.sysout("Integer.parseInt(lstClaves.get(0).toString())> "+Integer.parseInt(lstClaves.get(0).toString()));
+               return Integer.parseInt(lstClaves.get(0).toString()) > 0 ? true : false ;
+           }
+       } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+       }
+    }
+    
     public Map autenticarUsuarioBDL(String user, String clave){
         String error = "000";
         Map mapa = new HashMap();
@@ -49,13 +71,14 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
             String strQuery = "SELECT o " +
                               "FROM Usuario o " +
                               "WHERE o.usuario = :usuario " +
-                              "AND o.clave = :clave " +
+                              "AND o.clave = FUNC('AES_ENCRYPT',:clave,:clave) " +
+                              //"AND o.clave = :clave " +
                               "AND o.estadoUsuario = 1 ";
             Usuario usuario = (Usuario) em.createQuery(strQuery).setParameter("usuario",user).
                                                                  setParameter("clave",clave).
                                                                  getSingleResult();
             if(usuario != null){
-                mapa.put("USUARIO",usuario);   
+                mapa.put("USUARIO",usuario);
             }else{
                 error = "SPED-00001";
             }
