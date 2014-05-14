@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class Utiles {
 
@@ -61,5 +62,14 @@ public class Utiles {
         return null;
     }
     
-    
+    static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static Random rnd = new Random();
+
+    public static String getRandomClave(){
+       StringBuilder sb = new StringBuilder(8);
+       for( int i = 0; i < 8; i++ ){
+          sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+       }
+       return sb.toString();
+    }
 }

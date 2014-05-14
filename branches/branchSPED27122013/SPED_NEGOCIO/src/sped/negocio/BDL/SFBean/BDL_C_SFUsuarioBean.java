@@ -52,10 +52,10 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
                               "AND o.clave = FUNC('AES_ENCRYPT',:clave,:clave) ";
             List lstClaves = em.createQuery(strQuery).setParameter("nidUsuario",nidUsuario).
                                                       setParameter("clave",clave).
-                                                      getResultList();Utiles.sysout("lstClaves> "+lstClaves);
+                                                      getResultList();
            if(lstClaves.isEmpty()){
                return false;
-           }else{Utiles.sysout("Integer.parseInt(lstClaves.get(0).toString())> "+Integer.parseInt(lstClaves.get(0).toString()));
+           }else{
                return Integer.parseInt(lstClaves.get(0).toString()) > 0 ? true : false ;
            }
        } catch (Exception e) {

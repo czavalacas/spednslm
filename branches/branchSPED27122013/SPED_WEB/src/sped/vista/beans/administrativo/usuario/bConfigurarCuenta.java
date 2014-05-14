@@ -73,7 +73,7 @@ public class bConfigurarCuenta {
     }
     
     public String cambiarClave() {
-        if(ln_C_SFUsuarioLocal.testClave_LN(beanUsuario.getNidUsuario(), claveActual)){//dfloresgonz 13.05.2014 
+        if(ln_C_SFUsuarioLocal.testClave_LN(beanUsuario.getNidUsuario(), claveActual)){//dfloresgonz 13.05.2014 Se cambia de chequeo de clave
         //if(claveActual.compareTo(beanUsuario.getClave()) == 0){
             if(claveNew.compareTo(claveConf) == 0){
                 if(claveActual.compareTo(claveNew) != 0){
@@ -103,7 +103,6 @@ public class bConfigurarCuenta {
     public void uploadFileValueChangeEvent(ValueChangeEvent valueChangeEvent) {
         try{
             UploadedFile file = (UploadedFile)valueChangeEvent.getNewValue();            
-            long fileSize = file.getLength() / (1024 * 1024);//megabytes
             if(file.getLength() > 1048576){
                 Utils.mostrarMensaje(ctx, "El archivo no puede ser de mas de 1 MB.", "Error", 4);
                 return;
@@ -141,13 +140,13 @@ public class bConfigurarCuenta {
     }
     
     public void resize(InputStream input, OutputStream output, int width, int height) throws Exception {
-            BufferedImage src = ImageIO.read(input);
-            BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g = dest.createGraphics();
-            AffineTransform at = AffineTransform.getScaleInstance((double) width / src.getWidth(), (double) height / src.getHeight());
-            g.drawRenderedImage(src, at);
-            ImageIO.write(dest, "JPG", output);
-            output.close();
+        BufferedImage src = ImageIO.read(input);
+        BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = dest.createGraphics();
+        AffineTransform at = AffineTransform.getScaleInstance((double) width / src.getWidth(), (double) height / src.getHeight());
+        g.drawRenderedImage(src, at);
+        ImageIO.write(dest, "JPG", output);
+        output.close();
     }
     
     public String cambiarImagen() {        
