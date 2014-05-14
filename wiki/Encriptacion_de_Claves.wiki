@@ -33,4 +33,13 @@ FOR EACH ROW
 DELIMITER;
 </code>
 
+<code>
+ALTER TABLE `mmsi_sped`.`stdlogg` 
+CHANGE COLUMN `ip_privada` `ip_privada` VARCHAR(100) NULL DEFAULT NULL ,
+CHANGE COLUMN `ip_publica` `ip_publica` VARCHAR(100) NULL DEFAULT NULL ,
+CHANGE COLUMN `sistema_operativo` `sistema_operativo` VARCHAR(100) NULL DEFAULT NULL ,
+CHANGE COLUMN `navegador_web` `navegador_web` VARCHAR(100) NULL DEFAULT NULL ;
+
+</code>
+
 Si se olvidan una clave y quieren modificarla para que no les este llegando al correo del usuario, solo modifiquen en la BD de frente los triggers se encargaran de encriptarlos.
