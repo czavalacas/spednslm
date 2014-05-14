@@ -231,7 +231,7 @@ string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", vers
           }
           
           function getip(json) {
-              document.getElementById('list').value = json.ip;
+              document.getElementById('list2').value = json.ip;
           }
           
           function getRemote(){
