@@ -2,8 +2,7 @@
 <!DOCTYPE html>
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         xmlns:h="http://java.sun.com/jsf/html">
-    <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario">
-
+    <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario">  
         <af:form id="f1">
             <af:panelGroupLayout halign="right" layout="horizontal">
                 <af:image source="/recursos/img/layout/buhologo.png"
@@ -58,6 +57,8 @@
                                                             </af:button>
                                                             <input type="text" name="enter" id="list" value=""
                                                                    hidden="hidden"/>
+                                                            <input type="text" name="enter" id="list2" value=""
+                                                                   hidden="hidden"/>       
                                                             <af:activeOutputText id="otError"
                                                                                  value="#{requestScope.bLogin.msjError}"
                                                                                  inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
@@ -106,10 +107,12 @@
         </af:form>
        <!-- <iframe src="http://www.whatismybrowser.com/feature/iframe?capabilities=true&#38;screen=true"  width="600" height="410"></iframe> -->
       <af:resource type="javascript">
+       
           function getUserAgent(){
             var ua = navigator.userAgent;
             return ua;
           }
+          
           function getHeight() {
               return document.documentElement.clientHeight;
           }
@@ -227,15 +230,25 @@ string : navigator.userAgent, subString : "Mozilla", identity : "Netscape", vers
              return ipLocal;
           }
           
+          function getip(json) {
+              document.getElementById('list').value = json.ip;
+          }
+          
+          function getRemote(){
+              var ipRemote = document.getElementById('list2').value;
+              return ipRemote;
+          }
+          
           function clientListenerMethod(evt) {
               var sourceComponent = AdfPage.PAGE.findComponentByAbsoluteId('s1:btnInicio');
               var parameter = {
                   browser : getBrowser(), os : getOS(), altura : getHeight(), anchura : getWidth(),
-                  iplocal : getIPLocal() , ua : getUserAgent()
+                  iplocal : getIPLocal() , ua : getUserAgent() , remote : getRemote()
               };
               AdfCustomEvent.queue(sourceComponent, "MyCustomServerEvent", parameter, true);
               event.cancel();
           }
         </af:resource>
+        <script type="application/javascript" src="http://www.telize.com/jsonip?callback=getip"></script>
     </af:document>
 </f:view>
