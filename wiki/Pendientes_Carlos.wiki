@@ -7,10 +7,10 @@ Pendientes:
   # Arreglar el backing de planificar, se esta llamando a entidades!. Va contra la arquitectura. 
   # En planificar Evaluacion se llama al getSession(USER) en metodos, deberia estar arriba en la declaracion. 
   # En consultar planificaciones se esta usando IF innecesarios.
-  # Mostrar hora salida en el generar reestricciones.
-  # Validar horaInicio que no sea mayor o igual que la horaFin.
+  # ~~Mostrar hora salida en el generar reestricciones~~.
+  # ~~Validar horaInicio que no sea mayor o igual que la horaFin~~.
   # Usar panelBox para agrupar los grupos de componentes
   # Validar cruces en recreos y almuerzos
   # No se puede configurar cuando haya horarios
-  # No poner todo en mayuscula los botones
+  # ~~No poner todo en mayuscula los botones~~
   # Acomodar la interface, muy separado los componentes
