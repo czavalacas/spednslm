@@ -34,6 +34,7 @@ DELIMITER;
 </code>
 
 <code>
+UPDATE mmsi_sped.admusua u set u.clave = u.clave;
 ALTER TABLE `mmsi_sped`.`stdlogg` 
 CHANGE COLUMN `ip_privada` `ip_privada` VARCHAR(100) NULL DEFAULT NULL ,
 CHANGE COLUMN `ip_publica` `ip_publica` VARCHAR(100) NULL DEFAULT NULL ,
