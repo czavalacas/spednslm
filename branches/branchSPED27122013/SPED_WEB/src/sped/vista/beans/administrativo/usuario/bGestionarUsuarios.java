@@ -124,7 +124,7 @@ public class bGestionarUsuarios {
      * Metodo que valida al usuario si es supervisor y llena la los suggestedItems
      */
     public void validaUsuario(){
-        if(beanUsuario.getRol().getNidRol() == 2 && beanUsuario.getIsSupervisor().compareTo("1") == 0){
+        if(beanUsuario.getRol().getNidRol() == 2 && "1".compareTo(beanUsuario.getIsSupervisor()) == 0){
             sessionGestionarUsuarios.setFNidAreaAcademica(beanUsuario.getAreaAcademica().getNidAreaAcademica()+"");
             sessionGestionarUsuarios.setFNidRol(2);
             sessionGestionarUsuarios.setDisableFArea(true);
@@ -139,7 +139,7 @@ public class bGestionarUsuarios {
     public void llenarSuggest(){
         int nidArea = 0;
         int nidRol = 0;
-        if(beanUsuario.getRol().getNidRol() == 2 && beanUsuario.getIsSupervisor().compareTo("1") == 0){
+        if(beanUsuario.getRol().getNidRol() == 2 && "1".compareTo(beanUsuario.getIsSupervisor()) == 0){
             nidArea = beanUsuario.getAreaAcademica().getNidAreaAcademica();
             nidRol = beanUsuario.getRol().getNidRol();
         }
@@ -161,7 +161,7 @@ public class bGestionarUsuarios {
             if(tipo == 2 && r.getNidRol() == 3){//1= ComboFiltro 2=Combo gestion usuario
                 se.setDisabled(true);
             }
-            if(beanUsuario.getRol().getNidRol() == 2 && beanUsuario.getIsSupervisor().compareTo("1") == 0){
+            if(beanUsuario.getRol().getNidRol() == 2 && "1".compareTo(beanUsuario.getIsSupervisor()) == 0){
                 if(r.getNidRol() == 2){
                     unItems.add(se);
                 }
@@ -200,10 +200,10 @@ public class bGestionarUsuarios {
         }
         if(usuario.getAreaAcademica() != null){
             sessionGestionarUsuarios.setNidAreaAcademica(usuario.getAreaAcademica().getNidAreaAcademica().toString());
-            sessionGestionarUsuarios.setSupervisorboolean(usuario.getIsSupervisor().compareTo("1") == 0 ? true : false);
+            sessionGestionarUsuarios.setSupervisorboolean("1".compareTo(usuario.getIsSupervisor()) == 0 ? true : false);
             sessionGestionarUsuarios.setRenderAreaAcdemica(true);
         }
-        if(usuario.getSede()!=null){
+        if(usuario.getSede() != null){
             sessionGestionarUsuarios.setNidSede(usuario.getSede().getNidSede().toString());
             sessionGestionarUsuarios.setRenderSede(true);
         }
@@ -213,7 +213,7 @@ public class bGestionarUsuarios {
         if(i1!=null){
             i1.setSource("/imageservlet?nomusuario="+usuario.getNidUsuario());
         }        
-        if(usuario.getEstadoUsuario().compareTo("1") == 0){
+        if("1".compareTo(usuario.getEstadoUsuario()) == 0){
             b3.setText("Anular");
             b2.setDisabled(false);
         }else{
@@ -242,11 +242,10 @@ public class bGestionarUsuarios {
         b3.setDisabled(true);
         sessionGestionarUsuarios.setTipoEvento(2);
         sessionGestionarUsuarios.setDisabledActualizar(true);
-        sessionGestionarUsuarios.setTitleDialogGestion("Modificar usuario : "+
-                                                       sessionGestionarUsuarios.getNombres());
+        sessionGestionarUsuarios.setTitleDialogGestion("Modificar usuario : "+sessionGestionarUsuarios.getNombres());
         sessionGestionarUsuarios.setNomBtnGestion("Actualizar");
         Utils.unselectFilas(t1);        
-        if(i1!=null){
+        if(i1 != null){
             Utils.addTarget(i1);
         }
         Utils.showPopUpMIDDLE(popGestionUsuario);
@@ -295,10 +294,10 @@ public class bGestionarUsuarios {
                                               sessionGestionarUsuarios.isSupervisorboolean());
         String msj="";
         switch(sessionGestionarUsuarios.getTipoEvento()){
-        case 1 : msj =  "Se registro al usuario "; llenarSuggest(); break;
-        case 2 : msj =  "Se modifico al usuario "; llenarSuggest(); break;
-        case 3 : msj =  "Se anulo al usuario "; break;
-        case 4 : msj =  "Se activo al usuario "; break;
+            case 1 : msj =  "Se registro al usuario "; llenarSuggest(); break;
+            case 2 : msj =  "Se modifico al usuario "; llenarSuggest(); break;
+            case 3 : msj =  "Se anulo al usuario "; break;
+            case 4 : msj =  "Se activo al usuario "; break;
         }         
         Utils.mostrarMensaje(ctx, 
                              msj+sessionGestionarUsuarios.getUsuario(), 
@@ -419,7 +418,6 @@ public class bGestionarUsuarios {
     public void uploadFileValueChangeEvent(ValueChangeEvent valueChangeEvent) {
         try{
             UploadedFile file = (UploadedFile)valueChangeEvent.getNewValue();            
-            long fileSize = file.getLength() / (1024 * 1024);//megabytes
             if(file.getLength() > 1048576){
                 Utils.mostrarMensaje(ctx, "El archivo no puede ser de mas de 1 MB.", "Error", 4);
                 return;
@@ -458,13 +456,13 @@ public class bGestionarUsuarios {
     }
     
     public void resize(InputStream input, OutputStream output, int width, int height) throws Exception {
-            BufferedImage src = ImageIO.read(input);
-            BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g = dest.createGraphics();
-            AffineTransform at = AffineTransform.getScaleInstance((double) width / src.getWidth(), (double) height / src.getHeight());
-            g.drawRenderedImage(src, at);
-            ImageIO.write(dest, "JPG", output);
-            output.close();
+        BufferedImage src = ImageIO.read(input);
+        BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = dest.createGraphics();
+        AffineTransform at = AffineTransform.getScaleInstance((double) width / src.getWidth(), (double) height / src.getHeight());
+        g.drawRenderedImage(src, at);
+        ImageIO.write(dest, "JPG", output);
+        output.close();
     }
 
     public List<SelectItem> suggestNombre(String string) {

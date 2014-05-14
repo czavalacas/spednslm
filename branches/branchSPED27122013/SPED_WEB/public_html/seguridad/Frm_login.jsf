@@ -45,7 +45,7 @@
                                                                           labelStyle="text-align: left;"
                                                                           value="#{bLogin.clave}"
                                                                           binding="#{bLogin.itClave}">
-                                                                <f:converter converterId="lowerconverter"/>
+                                                              <!--  <f:converter converterId="lowerconverter"/>-->
                                                             </af:inputText>
                                                             <af:button text="Ingresar" id="btnInicio"
                                                                        actionListener="#{bLogin.autenticarUsuario}"

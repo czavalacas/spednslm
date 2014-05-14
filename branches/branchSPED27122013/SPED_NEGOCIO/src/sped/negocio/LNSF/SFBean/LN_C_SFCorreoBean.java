@@ -47,9 +47,11 @@ import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
+import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEmailRemote;
 import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanMail;
 import sped.negocio.entidades.sist.Email;
@@ -65,6 +67,8 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     private BDL_C_SFUsuarioLocal bd_C_SFUsuarioLocal;
     @EJB
     private BDL_C_SFEmailRemote bd_C_SFEmailRemote;
+    @EJB
+    private BDL_T_SFUsuarioLocal bdL_T_SFUsuarioLocal;
     private MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFCorreoBean() {
@@ -263,6 +267,10 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
         if(bd_C_SFUsuarioLocal.countCorreoBDL(correo) != 0){
             Usuario u = bd_C_SFUsuarioLocal.getUsuarioByCorreoBDL(correo);
             if(u != null){
+                String clave = Utiles.getRandomClave();
+                u.setClave(clave);
+                u.setIsNuevo("1");
+                bdL_T_SFUsuarioLocal.mergeUsuario(u);
                 SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                 Calendar cal= new GregorianCalendar();
                 String[] data = new String[10];
@@ -271,13 +279,13 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                 data[2] = "Recuperar Clave"; //asunto            
                 data[3] = correo;
                 if(evento == 0){
-                    data[4] = "<p>Recibimos tu solicitud para recuperar tu cuenta.</p>";
+                    data[4] = "<p>Recibimos tu solicitud para recuperar tu cuenta. Se genero una nueva clave, tendra que cambiarla cuando entre al sistema.</p>";
                 }else{
                     data[4] = "<p>Bienvenido a AVANTGARD Sistema de Evaluacion para docentes.\n Le proporcianamos " +
-                              "los siguientes datos </p>";
+                              "los siguientes datos. Se genero una nueva clave, tendra que cambiarla cuando entre al sistema. </p>";
                 }                
                 data[5] = u.getUsuario();
-                data[6] = u.getClave();
+                data[6] = clave;
                 data[7] = "0";
                 data[8] = ruta;
                 enviarCorreoHTML(data);
