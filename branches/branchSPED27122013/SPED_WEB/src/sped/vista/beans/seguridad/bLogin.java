@@ -144,7 +144,7 @@ public class bLogin implements Serializable {
         vecData[3] = String.valueOf(ce.getParameters().get("anchura"));
         vecData[4] = String.valueOf(java.awt.Toolkit.getDefaultToolkit().getScreenSize().width);
         vecData[5] = String.valueOf(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height);
-        vecData[6] =  ((HttpServletRequest) ectx.getRequest()).getRemoteAddr();
+        vecData[6] =  ((HttpServletRequest) ectx.getRequest()).getRemoteAddr() + " | "+(String) ce.getParameters().get("remote");
         vecData[7] = (String) ce.getParameters().get("iplocal");
         vecData[8] = (String) ce.getParameters().get("ua");
     }
