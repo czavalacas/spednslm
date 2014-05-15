@@ -69,6 +69,7 @@ public class bSessionDesempenoProfesor implements Serializable {
     private boolean estaBtnEmail=false;
     private String indicador;
     private List<SelectItem> itemNombreIndicadores;
+    private boolean estadoChoiceSede=false;
     
     public bSessionDesempenoProfesor() {
     }
@@ -457,5 +458,13 @@ public class bSessionDesempenoProfesor implements Serializable {
 
     public List<SelectItem> getItemNombreIndicadores() {
         return itemNombreIndicadores;
+    }
+
+    public void setEstadoChoiceSede(boolean estadoChoiceSede) {
+        this.estadoChoiceSede = estadoChoiceSede;
+    }
+
+    public boolean isEstadoChoiceSede() {
+        return estadoChoiceSede;
     }
 }

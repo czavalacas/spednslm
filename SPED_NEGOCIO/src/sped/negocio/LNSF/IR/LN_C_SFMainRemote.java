@@ -30,5 +30,9 @@ public interface LN_C_SFMainRemote {
                                          String curso,
                                          String aula);
     List<BeanMain> getLstMainByAttr_LN(String nidAula);
-    Main getMainPorSedeNivelYCurso(String nidAula, String nidCurso, String dniProfesor);
+    Main getMainPorSedeNivelYCurso(String nidAula, 
+                                   String nidCurso, 
+                                   String dniProfesor);
+    int buscarHorariosBySedeYNivel(int nidSede,                                              
+                                   int nidNivel);
 }

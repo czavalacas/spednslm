@@ -155,7 +155,11 @@ public class bDesempenoProfesor {
             sessionDesempenoProfesor.setRelaValueGraficos(llenarListaString());  
             sessionDesempenoProfesor.setFechaActual(Utils.removeTime(cal.getTime()));
             cal.add(Calendar.MONTH, -1);
-            sessionDesempenoProfesor.setItemNombreIndicadores(Utils.llenarListItem(ln_C_SFIndicadorRemote.getNombreIndicadores_LN()));        
+            sessionDesempenoProfesor.setItemNombreIndicadores(Utils.llenarListItem(ln_C_SFIndicadorRemote.getNombreIndicadores_LN()));   
+            if(beanUsuario.getRol().getNidRol()==4){
+                sessionDesempenoProfesor.setNidSede(""+beanUsuario.getSede().getNidSede());
+                sessionDesempenoProfesor.setEstadoChoiceSede(true);
+            }
         }
     }  
     
