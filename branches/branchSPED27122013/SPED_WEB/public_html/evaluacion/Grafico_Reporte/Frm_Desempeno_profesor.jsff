@@ -46,7 +46,8 @@
                                                                 autoSubmit="true"
                                                                 valueChangeListener="#{bDesempenoProfesor.valoresChoiceSede}"
                                                                 binding="#{bDesempenoProfesor.choiceSedes}"
-                                                                unselectedLabel="::Seleccionar Sede::">
+                                                                unselectedLabel="::Seleccionar Sede::"
+                                                                disabled="#{sessionScope.sessionDesempenoProfesor.estadoChoiceSede}">
                                                 <f:selectItems value="#{sessionDesempenoProfesor.listaSedesFiltro}"
                                                                id="si1"/>
                                             </af:selectOneChoice>

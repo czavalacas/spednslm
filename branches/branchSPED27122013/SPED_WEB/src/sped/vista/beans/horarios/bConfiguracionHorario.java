@@ -6,13 +6,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
@@ -23,9 +27,12 @@ import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
+import org.apache.myfaces.trinidad.event.SelectionEvent;
+
 import sped.negocio.LNSF.IR.LN_C_SFConfiguracionEventoHorarioRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFConfiguracionHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFDuracionHorarioRemote;
+import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 
@@ -34,6 +41,7 @@ import sped.negocio.LNSF.IR.LN_T_SFDuracionHorarioRemoto;
 import sped.negocio.entidades.beans.BeanConfiguracionEventoHorario;
 import sped.negocio.entidades.beans.BeanConfiguracionHorario;
 import sped.negocio.entidades.beans.BeanDuracionHorario;
+import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
@@ -41,7 +49,7 @@ import sped.vista.Utils.Utils;
 public class bConfiguracionHorario {
     
     private bSessionConfiguracionHorario sessionConfiguracionHorario;
-    
+    FacesContext ctx = FacesContext.getCurrentInstance();
     @EJB
     private LN_C_SFSedeRemote ln_C_SFSedeRemote;
     @EJB
@@ -56,6 +64,8 @@ public class bConfiguracionHorario {
     private LN_C_SFDuracionHorarioRemote ln_C_SFDuracionHorarioRemote;
     @EJB
     private LN_C_SFConfiguracionHorarioRemote ln_C_SFConfiguracionHorarioRemote;
+    @EJB
+    private LN_C_SFMainRemote ln_C_SFMainRemote;
     
     private RichSelectOneChoice choiceSede;
     private RichSelectOneChoice choiceNivel;
@@ -72,6 +82,8 @@ public class bConfiguracionHorario {
     private RichInputNumberSpinbox inputMaxBloquesXCurs;
     private RichPopup popupConfigurarNuevaRestriccion;
     private RichButton btnEditarRestriccion;
+    private RichInputText inputHoraFinClases;
+    private RichPopup popupExisteHorario;
 
     public bConfiguracionHorario() {
 
@@ -94,64 +106,123 @@ public class bConfiguracionHorario {
        
     }
     
-    public String guardarConfiguracionDeHorario() {
-        if(sessionConfiguracionHorario.getAccionPersist()==1){///persist        
-        for(int i=0; i<sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++){
-            ln_T_SFConfiguracionHorarioRemoto.registrarConfiguracionHorario_LN(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), 
-                                                                               Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()), 
-                                                                               Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio()+":00"), 
-                                                                               Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin()+":00"), 
-                                                                               sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getStmconfev().getNidConfev());
-        }
-        
-        ln_T_SFDuracionHorarioRemoto.registrarDuracionHorario_LN(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), 
-                                                                 Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()), 
-                                                                 Time.valueOf(sessionConfiguracionHorario.getInputHoraInicioClases()+":00"),
-                                                                 Time.valueOf(sessionConfiguracionHorario.getDuracionPorBloque()+":00"), 
-                                                                 sessionConfiguracionHorario.getMaxBloquesPorCurso(), 
-                                                                 sessionConfiguracionHorario.getNumeroDeBloques());
-        }
-        if(sessionConfiguracionHorario.getAccionPersist()==2){//merge && remove
-            for(int i=0; i<sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++){
-                for(int j=0; j<sessionConfiguracionHorario.getListaBeanConfiguracionHorario().size(); j++){
-                    if(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getNidConfig()==sessionConfiguracionHorario.getListaBeanConfiguracionHorario().get(j).getNidConfig()){
-                 //       ln_T_SFConfiguracionHorarioRemoto.actualizarConfiguracionHorario_LN(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i), 1);//actualiza
-                        sessionConfiguracionHorario.getListaBeanConfiguracionHorario().remove(j);                        
-                    }else{
-                        ln_T_SFConfiguracionHorarioRemoto.registrarConfiguracionHorario_LN(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), 
+    public String guardarConfiguracionDeHorario() {        
+        BeanDuracionHorario duracion=new BeanDuracionHorario();
+        duracion.setNidSede(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()));
+        duracion.setNidNivel(Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()));
+        duracion.setHora_inicio(Time.valueOf(sessionConfiguracionHorario.getInputHoraInicioClases()+":00"));
+        duracion.setMax_bloque(sessionConfiguracionHorario.getMaxBloquesPorCurso());
+        duracion.setNro_bloque(sessionConfiguracionHorario.getNumeroDeBloques());
+        duracion.setDuracion(Time.valueOf(sessionConfiguracionHorario.getDuracionPorBloque()+":00"));       
+       
+        List<BeanConfiguracionHorario> lstConfHorario =  new ArrayList<BeanConfiguracionHorario>();
+            for(int i = 0; i<sessionConfiguracionHorario.getListaEventosHorarioTabla().size() ; i++){
+                BeanConfiguracionHorario bean=new BeanConfiguracionHorario();
+                bean.setNidSede(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()));
+                bean.setNidNivel(Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()));
+                bean.setHora_inicio(Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio()+":00"));
+                bean.setHora_fin(Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin()+":00"));
+                lstConfHorario.add(bean);
+                }
+            
+            if(validaConfiguracionHorario(duracion, lstConfHorario)==true){      
+                
+              if(sessionConfiguracionHorario.getAccionPersist()==1){///ACCION 1 = NUEVO REGISTRO
+                  for(int i = 0; i<sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++){
+                     ln_T_SFConfiguracionHorarioRemoto.registrarConfiguracionHorario_LN(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), 
+                                                                                   Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()), 
+                                                                                   Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio()+":00"), 
+                                                                                   Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin()+":00"), 
+                                                                                   sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getStmconfev().getNidConfev());
+               }         
+            
+                      ln_T_SFDuracionHorarioRemoto.registrarDuracionHorario_LN(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), 
+                                                                     Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()), 
+                                                                     Time.valueOf(sessionConfiguracionHorario.getInputHoraInicioClases()+":00"),
+                                                                     Time.valueOf(sessionConfiguracionHorario.getDuracionPorBloque()+":00"), 
+                                                                     sessionConfiguracionHorario.getMaxBloquesPorCurso(), 
+                                                                     sessionConfiguracionHorario.getNumeroDeBloques());
+             }
+            
+            if(sessionConfiguracionHorario.getAccionPersist()==2){//ACCION 2 = EDICION DE REGISTRO EXISTENTE
+            List <BeanConfiguracionHorario> listaBD=ln_C_SFConfiguracionHorarioRemote.getConfiguracionBySedeNivel(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), 
+                                                                                                                  Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()));
+              for (int i = 0; i < sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++){
+                   for(int j = 0; j < listaBD.size(); j++){
+                       if(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getNidConfig()==
+                         listaBD.get(j).getNidConfig()){
+                         listaBD.remove(j);//Removemos los elementos que existan en la tabla para eliminar los que quedan es decir los que ya no estan.
+                        }
+                        }
+                    }
+                
+                    if(listaBD.size()!=0){//la lista a eliminar
+                       for(int j = 0; j < listaBD.size(); j++){
+                          ln_T_SFConfiguracionHorarioRemoto.actualizarConfiguracionHorario_LN(listaBD.get(j), 2);                
+                       }
+                    }
+                    
+            List <BeanConfiguracionHorario> listaBD2=ln_C_SFConfiguracionHorarioRemote.getConfiguracionBySedeNivel(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), 
+            /* Volvemos a llenar la lista ya que la anterior se modifico */                                        Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()));
+                for(int i = 0; i < listaBD2.size(); i++){
+                    for(int j = 0; j < sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); j++){     
+                        if(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(j).getNidConfig()==
+                           listaBD2.get(i).getNidConfig()){   
+                           sessionConfiguracionHorario.getListaEventosHorarioTabla().remove(j);//removemos los elementos que que existen en la bd para insertar solo los que quedan es decir los nuevos                       
+                           }
+                        }                
+                    }
+                    
+                    if(sessionConfiguracionHorario.getListaEventosHorarioTabla().size()!=0){ //lista con los items nuevos a insertar
+                       for(int i = 0; i < sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++){
+                           ln_T_SFConfiguracionHorarioRemoto.registrarConfiguracionHorario_LN(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), 
                                                                                            Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()), 
                                                                                            Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio()+":00"), 
                                                                                            Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin()+":00"), 
-                                                                                           sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getStmconfev().getNidConfev()); //inserta        
-                    }
-                }
-            }            
-            if(sessionConfiguracionHorario.getListaBeanConfiguracionHorario().size()!=0){
-                for(int i=0; i<sessionConfiguracionHorario.getListaBeanConfiguracionHorario().size(); i++){
-                    ln_T_SFConfiguracionHorarioRemoto.actualizarConfiguracionHorario_LN(sessionConfiguracionHorario.getListaBeanConfiguracionHorario().get(i), 2);//remove
-                }
-            }
+                                                                                           sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getStmconfev().getNidConfev()); //inserta    
+                          }
+                     }
+              }
             
-        }
+            /** Limpiar campos y reanudar todo****/
+            sessionConfiguracionHorario.setNidNivelChoice(null);
+            sessionConfiguracionHorario.setNidSedeChoice(null);
+            Utils.addTargetMany(choiceNivel,choiceSede);
+            reanudar();       
+            Utils.mostrarMensaje(ctx,"Operacion Realizada Con Exito","Confirmacion",0);
+            } else{
+            Utils.mostrarMensaje(ctx,"Los datos ingresados no son validos para la generacion de Horarios, porfavor ingrese datos que tengan relacion","Error",1);
+            }
+
         return null;
     }
     
     public String agregarEventoHorario() throws ParseException {
         if(choiceEventoHorario.getValue()!=null){
-        BeanConfiguracionEventoHorario beanConfEv=ln_C_SFConfiguracionEventoHorarioRemoto.getEventoHorarioByID(Integer.parseInt(choiceEventoHorario.getValue().toString()));
-        BeanConfiguracionHorario beanConHora=new BeanConfiguracionHorario();
-        beanConHora.setStmconfev(beanConfEv);
-        beanConHora.setHoraInicio(sessionConfiguracionHorario.getInputHoraInicioEventoHorario());
-        beanConHora.setHoraFin(sessionConfiguracionHorario.getInputHoraFinEventoHorario());
-        sessionConfiguracionHorario.setNidEventoHorario(null);
-        sessionConfiguracionHorario.setInputHoraInicioEventoHorario(null);
-        sessionConfiguracionHorario.setInputHoraFinEventoHorario(null);
-        sessionConfiguracionHorario.getListaEventosHorarioTabla().add(beanConHora);
-        sessionConfiguracionHorario.setEstadoinPutHoraInicioRestriccion(true);
-        sessionConfiguracionHorario.setEstadoinPutHoraFinRestriccion(true);    
-        estadosPanel2(false);
-        }
-        Utils.addTargetMany(choiceEventoHorario,inputHoraInicioRestriccion,inputHoraFinRestriccion,tbEventoHorario);
+            if(Time.valueOf(sessionConfiguracionHorario.getInputHoraFinEventoHorario()+":00").before(Time.valueOf(sessionConfiguracionHorario.getInputHoraInicioEventoHorario()+":00")) ){
+                Utils.mostrarMensaje(ctx,"Hora Fin de evento no puedo ser antes de la Hora inicio, porfavor ingrese datos correctos","Error",1);
+            }else{
+                BeanConfiguracionEventoHorario beanConfEv=ln_C_SFConfiguracionEventoHorarioRemoto.getEventoHorarioByID(Integer.parseInt(choiceEventoHorario.getValue().toString()));
+                BeanConfiguracionHorario beanConHora=new BeanConfiguracionHorario();
+                beanConHora.setStmconfev(beanConfEv);
+                beanConHora.setHoraInicio(sessionConfiguracionHorario.getInputHoraInicioEventoHorario());
+                beanConHora.setHoraFin(sessionConfiguracionHorario.getInputHoraFinEventoHorario());  
+                sessionConfiguracionHorario.getListaEventosHorarioTabla().add(beanConHora);
+                sessionConfiguracionHorario.setNidEventoHorario(null);
+                sessionConfiguracionHorario.setInputHoraInicioEventoHorario(null);
+                sessionConfiguracionHorario.setInputHoraFinEventoHorario(null);
+                sessionConfiguracionHorario.setEstadoinPutHoraInicioRestriccion(true);
+                sessionConfiguracionHorario.setEstadoinPutHoraFinRestriccion(true);    
+                estadosPanel2(false);
+                }
+                System.out.println(inputHoraInicioClases.getValue());
+                Utils.addTargetMany(choiceEventoHorario,inputHoraInicioRestriccion,inputHoraFinRestriccion,tbEventoHorario);
+            }        
+        return null;
+    }
+    
+    public String aceptaExisteHorarios() {
+     popupExisteHorario.hide();
         return null;
     }
     
@@ -168,18 +239,30 @@ public class bConfiguracionHorario {
     }
     
     public void eventoChoiceNivel(ValueChangeEvent valueChangeEvent) {
-       limpiarTodosLosCampos();
-       estadosPanel2(true);
-       estadosPanel1(true);
-       sessionConfiguracionHorario.setEstadoDisableChoiceRestriccion(true);
-       sessionConfiguracionHorario.setEstadoBtnEditarRestriccion(true);       
-       Utils.addTargetMany(choiceEventoHorario,btnEditarRestriccion);
+      reanudar();
     }
-
+    
+    public String reanudar(){
+        limpiarTodosLosCampos();
+        estadosPanel2(true);
+        estadosPanel1(true);
+        sessionConfiguracionHorario.setEstadoDisableChoiceRestriccion(true);
+        sessionConfiguracionHorario.setEstadoBtnEditarRestriccion(true);      
+        sessionConfiguracionHorario.setEstadobBtnRemoverRestriccion(true);
+        sessionConfiguracionHorario.setSeleccionTable(0);
+        Utils.addTargetMany(choiceEventoHorario,btnEditarRestriccion,btnRemoverEventoHorario);        
+        return null;
+    }
+    
     public String editarConfiguracion() {
-       sessionConfiguracionHorario.setEstadoDisableChoiceRestriccion(false);
-       estadosPanel2(false);
-       Utils.addTarget(choiceEventoHorario);
+       if(ln_C_SFMainRemote.buscarHorariosBySedeYNivel(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()),Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()))==0){//Si no existen horarios permite editar
+            sessionConfiguracionHorario.setEstadoDisableChoiceRestriccion(false);
+            estadosPanel2(false);
+            Utils.addTarget(choiceEventoHorario); 
+            sessionConfiguracionHorario.setSeleccionTable(1);//editable al seleccionar  
+        } else{
+            Utils.showPopUpMIDDLE(popupExisteHorario);    
+        }       
        return null;
     }
     
@@ -191,8 +274,8 @@ public class bConfiguracionHorario {
     public String realizarNuevaRestriccion() {
         sessionConfiguracionHorario.setEstadoDisableChoiceRestriccion(false);     
         Utils.addTargetMany(choiceEventoHorario);
-        sessionConfiguracionHorario.setAccionPersist(1);//persist
-        /**Estado remover restriccion disablear al seleccionar una restriccion de la tabla*/        
+        sessionConfiguracionHorario.setAccionPersist(1);//persist     
+        sessionConfiguracionHorario.setSeleccionTable(1);//table editable
         return null;
     }
     
@@ -222,8 +305,9 @@ public class bConfiguracionHorario {
         sessionConfiguracionHorario.setInputHoraInicioClases(null);
         sessionConfiguracionHorario.setNumeroDeBloques(0);
         sessionConfiguracionHorario.setDuracionPorBloque(null);
+        sessionConfiguracionHorario.setHoraFinClases(null);
         sessionConfiguracionHorario.setMaxBloquesPorCurso(0);
-        Utils.addTargetMany(choiceEventoHorario,inputDuracionXBloque,inputHoraFinRestriccion,inputHoraInicioClases,inputHoraInicioRestriccion,inputNumeroBloques,tbEventoHorario,inputMaxBloquesXCurs);
+        Utils.addTargetMany(inputHoraFinClases,choiceEventoHorario,inputDuracionXBloque,inputHoraFinRestriccion,inputHoraInicioClases,inputHoraInicioRestriccion,inputNumeroBloques,tbEventoHorario,inputMaxBloquesXCurs);
         return null;
     }
     public String cancelarNuevaRestriccion() {
@@ -236,10 +320,7 @@ public class bConfiguracionHorario {
          sessionConfiguracionHorario.setBeanDuracionHorario(beanDura);
          if(beanDura!=null){
              List<BeanConfiguracionHorario> listBeanConf=ln_C_SFConfiguracionHorarioRemote.getConfiguracionBySedeNivel(Integer.parseInt(sessionConfiguracionHorario.getNidSedeChoice()), Integer.parseInt(sessionConfiguracionHorario.getNidNivelChoice()));
-             sessionConfiguracionHorario.setListaBeanConfiguracionHorario(listBeanConf);
-             for(int i=0; i<listBeanConf.size(); i++){                
-               /**AL NO SER DATETIME  NO PUEDO DARLE UN CONVERTDATETIME EN LA VISTA POR LO QUE HAY QUE FORMATEAR LAS FECHAS A HH:MM PARA 
-                 * LA VISUALIZACION CORRECTA**/
+             for(int i=0; i<listBeanConf.size(); i++){     
                 listBeanConf.get(i).setHoraInicio(formatearTime(listBeanConf.get(i).getHora_inicio()));
                 listBeanConf.get(i).setHoraFin(formatearTime(listBeanConf.get(i).getHora_fin()));     
             }
@@ -250,12 +331,25 @@ public class bConfiguracionHorario {
               sessionConfiguracionHorario.setDuracionPorBloque(formatearTime(beanDura.getDuracion()));             
               sessionConfiguracionHorario.setEstadoBtnEditarRestriccion(false);
               sessionConfiguracionHorario.setAccionPersist(2);//merge
+              calculaHoraFinDeClases();           
              Utils.addTargetMany(tbEventoHorario,inputDuracionXBloque,inputHoraInicioClases,inputMaxBloquesXCurs,inputNumeroBloques,btnEditarRestriccion);
         }else{
             Utils.showPopUpMIDDLE(popupConfigurarNuevaRestriccion);
         }
         return null;
     }
+    
+    public void seleccionarRestriccionTAbla(SelectionEvent selectionEvent) {
+        RichTable t = (RichTable) selectionEvent.getSource();
+        Object _selectedRowData = t.getSelectedRowData();
+        BeanConfiguracionHorario config = (BeanConfiguracionHorario) _selectedRowData;
+        sessionConfiguracionHorario.setBeanconfiguracionHorario(config); 
+        if(sessionConfiguracionHorario.getSeleccionTable()==1){
+            sessionConfiguracionHorario.setEstadobBtnRemoverRestriccion(false);
+            Utils.addTarget(btnRemoverEventoHorario);   
+        }      
+    }
+    
     public String formatearTime(Time hora){
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         Date fechaActual = hora;
@@ -263,6 +357,126 @@ public class bConfiguracionHorario {
         return fechaConFormato;
     }
 
+    public String removerEventoHorarioTabla() {
+        for(int i = 0; i < sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++){
+            if(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin().equals(sessionConfiguracionHorario.getBeanconfiguracionHorario().getHoraFin()) &&
+               sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio().equals(sessionConfiguracionHorario.getBeanconfiguracionHorario().getHoraInicio()) && 
+               sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getStmconfev().equals(sessionConfiguracionHorario.getBeanconfiguracionHorario().getStmconfev())) {
+               sessionConfiguracionHorario.getListaEventosHorarioTabla().remove(i);               
+                            }
+            }
+        Utils.addTarget(tbEventoHorario);
+        return null;
+    }
+    
+    public boolean validaConfiguracionHorario(BeanDuracionHorario duracion, List<BeanConfiguracionHorario> lstConfHorario){
+        try{
+            Utils.putSession("maxHoras", (duracion.getMax_bloque()*5));//grabamos el maximo permitido por curso
+            sessionConfiguracionHorario.setNroBloque(duracion.getNro_bloque());//guardo el numero de bloques al dia permitido
+            sessionConfiguracionHorario.setMaxBloque(duracion.getMax_bloque());
+            Time horas[] = new Time[duracion.getNro_bloque()];
+            Calendar inicio = new GregorianCalendar();
+            inicio.setTime(duracion.getHora_inicio());
+            Time time_aux = new Time(inicio.getTimeInMillis());
+            int cont = 1;
+            boolean restr = false;
+            horas[0] = new Time(time_aux.getTime());
+            while(cont < duracion.getNro_bloque()){
+                if(lstConfHorario.size() > 0){
+                    for(BeanConfiguracionHorario configuracionH : lstConfHorario){                       
+                        if(configuracionH.getHora_inicio().equals(time_aux)){
+                            cont--;     
+                            inicio.setTime(configuracionH.getHora_fin());
+                            horas[cont] = new Time(time_aux.getTime());      
+                            lstConfHorario.remove(configuracionH);
+                            cont++;     
+                            restr = lstConfHorario.size() ==  0 && cont < duracion.getNro_bloque() ? false : true;
+                            break;
+                        }
+                        if(configuracionH.getHora_inicio().after(time_aux)){ 
+                            restr = false;
+                            break;
+                        }
+                    }
+                }
+                if(!restr){
+                    time_aux.setTime(sumaHoras(inicio, duracion.getDuracion()).getTime());
+                    horas[cont] = new Time(time_aux.getTime());               
+                    cont++;
+                }                     
+            }    // fin de la validacion
+            for(int i = 0 ; i < horas.length; i++){
+                System.out.println(horas[i]);
+            }
+            if(lstConfHorario.size() != 0){//valida si se validaron todas las restriciones
+                return false;
+            }
+            sessionConfiguracionHorario.setHoras(horas);
+            return true;  
+        }catch(Exception e){            
+            e.printStackTrace();
+            return false;
+        }
+    }  
+    
+    /**
+     * Metodo para agregar tiempo a una fecha
+     * @param inicio
+     * @param agregar
+     * @return
+     */
+    public Date sumaHoras(Calendar inicio, Time agregar){
+        inicio.add(Calendar.HOUR, agregar.getHours());
+        inicio.add(Calendar.MINUTE, agregar.getMinutes());
+        return inicio.getTime();
+    }
+    
+    public String calculaHoraFinDeClases(){      
+        Time horaInicio=Time.valueOf(sessionConfiguracionHorario.getInputHoraInicioClases()+":00");    
+        Time duracionXBloque=Time.valueOf(sessionConfiguracionHorario.getDuracionPorBloque()+":00");        
+        int numBloque=sessionConfiguracionHorario.getNumeroDeBloques();        
+        /* Pasamos a segundos la hora inicio*/
+          int numHora = horaInicio.getHours();
+          int numMinutos = horaInicio.getMinutes();
+          int segundosEnMinutos = numMinutos * 60;
+          int toalSegundos = numHora * 3600 + segundosEnMinutos;      
+          /* Pasamos a segundos la hora DuracionXBloque*/
+          int numHora2 = duracionXBloque.getHours();
+          int numMinutos2 = duracionXBloque.getMinutes();
+          int segundosEnMinutos2 = numMinutos2 * 60;
+          int toalSegundos2 = numHora2 * 3600 + segundosEnMinutos2;     
+          /* Multiplicamos la Duracion por Bloque en segundos por el numero de bloques*/
+          int totalSegundos3 =toalSegundos2*numBloque;          
+          /* Sumamos la hora multiplicada mas la hora inicio para obtener la hora final en segundos*/
+          int segundosXBloqueYHoraInicio=totalSegundos3+toalSegundos;/** segundo final 1*/
+        
+          int segundosDeTabla=0;
+          for(int i=0; i<sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++){
+             int hora= Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin()+":00").getHours() - 
+                    Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio()+":00").getHours() ;
+             int minutos=  Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin()+":00").getMinutes() - 
+                        Time.valueOf(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio()+":00").getMinutes() ;
+           
+            int segunds = minutos * 60;
+            int totalseg = hora * 3600 + segunds;            
+            segundosDeTabla=segundosDeTabla+totalseg;              
+        }        
+          int finalSegundos=segundosXBloqueYHoraInicio+segundosDeTabla;       
+          int hor = finalSegundos / 3600;       
+          int min = (finalSegundos - (3600 * hor)) / 60;                 
+          Time hora=new Time(00,00,00);
+          hora.setHours(hor);
+          hora.setMinutes(min);        
+          sessionConfiguracionHorario.setHoraFinClases(formatearTime(hora));
+          Utils.addTarget(inputHoraFinClases);
+          
+        return null;
+    }
+    
+    public void calcularHoraFinClases(ValueChangeEvent valueChangeEvent) {
+     calculaHoraFinDeClases();
+    }
+    
     public void setPopupConfigurarNuevaRestriccion(RichPopup popupConfigurarNuevaRestriccion) {
         this.popupConfigurarNuevaRestriccion = popupConfigurarNuevaRestriccion;
     }
@@ -397,4 +611,23 @@ public class bConfiguracionHorario {
     public RichInputNumberSpinbox getInputMaxBloquesXCurs() {
         return inputMaxBloquesXCurs;
     }
+
+
+    public void setInputHoraFinClases(RichInputText inputHoraFinClases) {
+        this.inputHoraFinClases = inputHoraFinClases;
+    }
+
+    public RichInputText getInputHoraFinClases() {
+        return inputHoraFinClases;
+    }
+
+    public void setPopupExisteHorario(RichPopup popupExisteHorario) {
+        this.popupExisteHorario = popupExisteHorario;
+    }
+
+    public RichPopup getPopupExisteHorario() {
+        return popupExisteHorario;
+    }
+
+
 }

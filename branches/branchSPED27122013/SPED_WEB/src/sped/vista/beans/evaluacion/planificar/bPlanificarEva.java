@@ -166,7 +166,6 @@ public class bPlanificarEva {
     private RichCommandButton btnEvaluar;
     private RichPopup popupDetalleEva;
     private RichSelectOneChoice choiceCursos;
-    private BeanUsuario beanUsuario = new BeanUsuario();
     private RichPopup popupEvalua;
     private HtmlOutputText outDatosEva;
     private RichPopup popupEliminarEvalu;
@@ -189,8 +188,7 @@ public class bPlanificarEva {
     private RichInputText inputComentarioEvaluador;
     private RichInputText inputComentarioProfesor;
     private RichButton btnSaveComentEvalu;
-    private RichButton btnSaveJustificacion;
-    
+    private RichButton btnSaveJustificacion;    
     private HashMap activityStyles= new HashMap<Set<String>, InstanceStyles>();
     private RichPopup popupEvento2;
     private RichSelectOneChoice choiceAula;
@@ -198,7 +196,7 @@ public class bPlanificarEva {
     private RichInputDate horaFinTemporal;
     private HtmlOutputText outDatosEva2;
     private RichPanelGroupLayout pl1;
-
+    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
 
     public bPlanificarEva() {
         try {
@@ -212,8 +210,7 @@ public class bPlanificarEva {
 
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
-        loadactivityStyles();
-        beanUsuario = (BeanUsuario) Utils.getSession("USER");
+        loadactivityStyles();        
         sessionPlanificarEva.setNidPlanificador(beanUsuario.getNidUsuario());
         sessionPlanificarEva.setNidRol(beanUsuario.getRol().getNidRol());
         //rol=1 Director // rol=6 Administrador // Podran Asignar Evaluaciones
@@ -831,128 +828,7 @@ public class bPlanificarEva {
         Utils.showPopUpMIDDLE(popupEliminarEvalu);
     }
 
-    public void setCalendar(RichCalendar calendar) {
-        this.calendar = calendar;
-    }
-
-    public RichCalendar getCalendar() {
-        return calendar;
-    }
-
-
-    public void setPopupEvento(RichPopup popupEvento) {
-        this.popupEvento = popupEvento;
-    }
-
-    public RichPopup getPopupEvento() {
-        return popupEvento;
-    }
-
-    public void setTbHorario(RichTable tbHorario) {
-        this.tbHorario = tbHorario;
-    }
-
-    public RichTable getTbHorario() {
-        return tbHorario;
-    }
-
-    public void setEvaluadores(List evaluadores) {
-        this.evaluadores = evaluadores;
-    }
-
-    public List getEvaluadores() {
-        return evaluadores;
-    }
-
-    public void setChoiceEvaluadores(RichSelectOneChoice choiceEvaluadores) {
-        this.choiceEvaluadores = choiceEvaluadores;
-    }
-
-    public RichSelectOneChoice getChoiceEvaluadores() {
-        return choiceEvaluadores;
-    }
-
-    public void setChoiceProfesores(RichSelectOneChoice choiceProfesores) {
-        this.choiceProfesores = choiceProfesores;
-    }
-
-    public RichSelectOneChoice getChoiceProfesores() {
-        return choiceProfesores;
-    }
-
-    public void setItemsEvaluadores(UISelectItems itemsEvaluadores) {
-        this.itemsEvaluadores = itemsEvaluadores;
-    }
-
-    public UISelectItems getItemsEvaluadores() {
-        return itemsEvaluadores;
-    }
-
-
-    public void setBtnEvaluar(RichCommandButton btnEvaluar) {
-        this.btnEvaluar = btnEvaluar;
-    }
-
-    public RichCommandButton getBtnEvaluar() {
-        return btnEvaluar;
-    }
-
-    public void setSessionPlanificarEva(sessionPlanificar sessionPlanificarEva) {
-        this.sessionPlanificarEva = sessionPlanificarEva;
-    }
-
-    public sessionPlanificar getSessionPlanificarEva() {
-        return sessionPlanificarEva;
-    }
-
-    public void setPopupDetalleEva(RichPopup popupDetalleEva) {
-        this.popupDetalleEva = popupDetalleEva;
-    }
-
-    public RichPopup getPopupDetalleEva() {
-        return popupDetalleEva;
-    }
-
-    public void setChoiceCursos(RichSelectOneChoice choiceCursos) {
-        this.choiceCursos = choiceCursos;
-    }
-
-    public RichSelectOneChoice getChoiceCursos() {
-        return choiceCursos;
-    }
-
-    public void setPopupEvalua(RichPopup popupEvalua) {
-        this.popupEvalua = popupEvalua;
-    }
-
-    public RichPopup getPopupEvalua() {
-        return popupEvalua;
-    }
-
-    public void setOutDatosEva(HtmlOutputText outDatosEva) {
-        this.outDatosEva = outDatosEva;
-    }
-
-    public HtmlOutputText getOutDatosEva() {
-        return outDatosEva;
-    }
-
-    public void setPopupEliminarEvalu(RichPopup popupEliminarEvalu) {
-        this.popupEliminarEvalu = popupEliminarEvalu;
-    }
-
-    public RichPopup getPopupEliminarEvalu() {
-        return popupEliminarEvalu;
-    }
-
-
-    public void setBtnAsignarEva(RichButton btnAsignarEva) {
-        this.btnAsignarEva = btnAsignarEva;
-    }
-
-    public RichButton getBtnAsignarEva() {
-        return btnAsignarEva;
-    }
+    
 
     public void filtrarListaEvaluadores(ValueChangeEvent valueChangeEvent) {
         if (choiceFiltArea.getValue().toString().equals("0")) {
@@ -969,62 +845,6 @@ public class bPlanificarEva {
             tbEvaluadores.setValue(sessionPlanificarEva.getListBeanUsua());
             Utils.addTarget(tbEvaluadores);
         }
-    }
-
-    public void setTbEvaluadores(RichTable tbEvaluadores) {
-        this.tbEvaluadores = tbEvaluadores;
-    }
-
-    public RichTable getTbEvaluadores() {
-        return tbEvaluadores;
-    }
-
-    public void setNidAreaAcademicaFiltro(String nidAreaAcademicaFiltro) {
-        this.nidAreaAcademicaFiltro = nidAreaAcademicaFiltro;
-    }
-
-    public String getNidAreaAcademicaFiltro() {
-        return nidAreaAcademicaFiltro;
-    }
-
-    public void setChoiceFiltArea(RichSelectOneChoice choiceFiltArea) {
-        this.choiceFiltArea = choiceFiltArea;
-    }
-
-    public RichSelectOneChoice getChoiceFiltArea() {
-        return choiceFiltArea;
-    }
-
-    public void setChoiceSede(RichSelectOneChoice choiceSede) {
-        this.choiceSede = choiceSede;
-    }
-
-    public RichSelectOneChoice getChoiceSede() {
-        return choiceSede;
-    }
-
-    public void setChoiceNivel(RichSelectOneChoice choiceNivel) {
-        this.choiceNivel = choiceNivel;
-    }
-
-    public RichSelectOneChoice getChoiceNivel() {
-        return choiceNivel;
-    }
-
-    public void setChoiceGrado(RichSelectOneChoice choiceGrado) {
-        this.choiceGrado = choiceGrado;
-    }
-
-    public RichSelectOneChoice getChoiceGrado() {
-        return choiceGrado;
-    }
-
-    public void setPopupSeleccionBloque(RichPopup popupSeleccionBloque) {
-        this.popupSeleccionBloque = popupSeleccionBloque;
-    }
-
-    public RichPopup getPopupSeleccionBloque() {
-        return popupSeleccionBloque;
     }
 
     public String seleccionarBloque() {
@@ -1364,125 +1184,7 @@ public class bPlanificarEva {
     public void activarbtnEvaluar(ValueChangeEvent valueChangeEvent) {
     }
 
-    public void setBtnBloque1(RichButton btnBloque1) {
-        this.btnBloque1 = btnBloque1;
-    }
-
-    public RichButton getBtnBloque1() {
-        return btnBloque1;
-    }
-
-    public void setBtnBloque2(RichButton btnBloque2) {
-        this.btnBloque2 = btnBloque2;
-    }
-
-    public RichButton getBtnBloque2() {
-        return btnBloque2;
-    }
-
-    public void setChoiceTipoVisita(RichSelectOneChoice choiceTipoVisita) {
-        this.choiceTipoVisita = choiceTipoVisita;
-    }
-
-    public RichSelectOneChoice getChoiceTipoVisita() {
-        return choiceTipoVisita;
-    }
-
-    public void setChoiceAreaAcademicas(RichSelectOneChoice choiceAreaAcademicas) {
-        this.choiceAreaAcademicas = choiceAreaAcademicas;
-    }
-
-    public RichSelectOneChoice getChoiceAreaAcademicas() {
-        return choiceAreaAcademicas;
-    }
-
-    public void setPanelBoxComentYSug(RichPanelBox panelBoxComentYSug) {
-        this.panelBoxComentYSug = panelBoxComentYSug;
-    }
-
-    public RichPanelBox getPanelBoxComentYSug() {
-        return panelBoxComentYSug;
-    }
-
-    public void setPanelBoxJusticacion(RichPanelBox panelBoxJusticacion) {
-        this.panelBoxJusticacion = panelBoxJusticacion;
-    }
-
-    public RichPanelBox getPanelBoxJusticacion() {
-        return panelBoxJusticacion;
-    }
-
-    public void setChoiceProblema(RichSelectOneChoice choiceProblema) {
-        this.choiceProblema = choiceProblema;
-    }
-
-    public RichSelectOneChoice getChoiceProblema() {
-        return choiceProblema;
-    }
-
-    public void setInputDescripcionOtros(RichInputText inputDescripcionOtros) {
-        this.inputDescripcionOtros = inputDescripcionOtros;
-    }
-
-    public RichInputText getInputDescripcionOtros() {
-        return inputDescripcionOtros;
-    }
-
-    public void setInputComentarioEvaluador(RichInputText inputComentarioEvaluador) {
-        this.inputComentarioEvaluador = inputComentarioEvaluador;
-    }
-
-    public RichInputText getInputComentarioEvaluador() {
-        return inputComentarioEvaluador;
-    }
-
-    public void setInputComentarioProfesor(RichInputText inputComentarioProfesor) {
-        this.inputComentarioProfesor = inputComentarioProfesor;
-    }
-
-    public RichInputText getInputComentarioProfesor() {
-        return inputComentarioProfesor;
-    }
-
-    public void setBtnSaveComentEvalu(RichButton btnSaveComentEvalu) {
-        this.btnSaveComentEvalu = btnSaveComentEvalu;
-    }
-
-    public RichButton getBtnSaveComentEvalu() {
-        return btnSaveComentEvalu;
-    }
-
-    public void setBtnSaveJustificacion(RichButton btnSaveJustificacion) {
-        this.btnSaveJustificacion = btnSaveJustificacion;
-    }
-
-    public RichButton getBtnSaveJustificacion() {
-        return btnSaveJustificacion;
-    }
-           
-    public void setActivityStyles(HashMap activityStyles) {
-        this.activityStyles = activityStyles;
-    }
-
-    public HashMap getActivityStyles() {
-        return activityStyles;
-    }
-
-    public void setPopupEvento2(RichPopup popupEvento2) {
-        this.popupEvento2 = popupEvento2;
-    }
-
-    public RichPopup getPopupEvento2() {
-        return popupEvento2;
-    }
-
-    public void setChoiceAula(RichSelectOneChoice choiceAula) {
-        this.choiceAula = choiceAula;
-    }
-
-    public RichSelectOneChoice getChoiceAula() {
-        return choiceAula;
-    }
+   
 
     public void getAulasBysede(ValueChangeEvent valueChangeEvent) {
         sessionPlanificarEva.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.getAllNivelesBySedes(choiceSede.getValue().toString())));
@@ -1617,5 +1319,303 @@ public class bPlanificarEva {
 
     public RichPanelGroupLayout getPl1() {
         return pl1;
+    }
+    
+    public void setTbEvaluadores(RichTable tbEvaluadores) {
+        this.tbEvaluadores = tbEvaluadores;
+    }
+
+    public RichTable getTbEvaluadores() {
+        return tbEvaluadores;
+    }
+
+    public void setNidAreaAcademicaFiltro(String nidAreaAcademicaFiltro) {
+        this.nidAreaAcademicaFiltro = nidAreaAcademicaFiltro;
+    }
+
+    public String getNidAreaAcademicaFiltro() {
+        return nidAreaAcademicaFiltro;
+    }
+
+    public void setChoiceFiltArea(RichSelectOneChoice choiceFiltArea) {
+        this.choiceFiltArea = choiceFiltArea;
+    }
+
+    public RichSelectOneChoice getChoiceFiltArea() {
+        return choiceFiltArea;
+    }
+
+    public void setChoiceSede(RichSelectOneChoice choiceSede) {
+        this.choiceSede = choiceSede;
+    }
+
+    public RichSelectOneChoice getChoiceSede() {
+        return choiceSede;
+    }
+
+    public void setChoiceNivel(RichSelectOneChoice choiceNivel) {
+        this.choiceNivel = choiceNivel;
+    }
+
+    public RichSelectOneChoice getChoiceNivel() {
+        return choiceNivel;
+    }
+
+    public void setChoiceGrado(RichSelectOneChoice choiceGrado) {
+        this.choiceGrado = choiceGrado;
+    }
+
+    public RichSelectOneChoice getChoiceGrado() {
+        return choiceGrado;
+    }
+
+    public void setPopupSeleccionBloque(RichPopup popupSeleccionBloque) {
+        this.popupSeleccionBloque = popupSeleccionBloque;
+    }
+
+    public RichPopup getPopupSeleccionBloque() {
+        return popupSeleccionBloque;
+    }
+    
+    public void setCalendar(RichCalendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public RichCalendar getCalendar() {
+        return calendar;
+    }
+
+
+    public void setPopupEvento(RichPopup popupEvento) {
+        this.popupEvento = popupEvento;
+    }
+
+    public RichPopup getPopupEvento() {
+        return popupEvento;
+    }
+
+    public void setTbHorario(RichTable tbHorario) {
+        this.tbHorario = tbHorario;
+    }
+
+    public RichTable getTbHorario() {
+        return tbHorario;
+    }
+
+    public void setEvaluadores(List evaluadores) {
+        this.evaluadores = evaluadores;
+    }
+
+    public List getEvaluadores() {
+        return evaluadores;
+    }
+
+    public void setChoiceEvaluadores(RichSelectOneChoice choiceEvaluadores) {
+        this.choiceEvaluadores = choiceEvaluadores;
+    }
+
+    public RichSelectOneChoice getChoiceEvaluadores() {
+        return choiceEvaluadores;
+    }
+
+    public void setChoiceProfesores(RichSelectOneChoice choiceProfesores) {
+        this.choiceProfesores = choiceProfesores;
+    }
+
+    public RichSelectOneChoice getChoiceProfesores() {
+        return choiceProfesores;
+    }
+
+    public void setItemsEvaluadores(UISelectItems itemsEvaluadores) {
+        this.itemsEvaluadores = itemsEvaluadores;
+    }
+
+    public UISelectItems getItemsEvaluadores() {
+        return itemsEvaluadores;
+    }
+
+
+    public void setBtnEvaluar(RichCommandButton btnEvaluar) {
+        this.btnEvaluar = btnEvaluar;
+    }
+
+    public RichCommandButton getBtnEvaluar() {
+        return btnEvaluar;
+    }
+
+    public void setSessionPlanificarEva(sessionPlanificar sessionPlanificarEva) {
+        this.sessionPlanificarEva = sessionPlanificarEva;
+    }
+
+    public sessionPlanificar getSessionPlanificarEva() {
+        return sessionPlanificarEva;
+    }
+
+    public void setPopupDetalleEva(RichPopup popupDetalleEva) {
+        this.popupDetalleEva = popupDetalleEva;
+    }
+
+    public RichPopup getPopupDetalleEva() {
+        return popupDetalleEva;
+    }
+
+    public void setChoiceCursos(RichSelectOneChoice choiceCursos) {
+        this.choiceCursos = choiceCursos;
+    }
+
+    public RichSelectOneChoice getChoiceCursos() {
+        return choiceCursos;
+    }
+
+    public void setPopupEvalua(RichPopup popupEvalua) {
+        this.popupEvalua = popupEvalua;
+    }
+
+    public RichPopup getPopupEvalua() {
+        return popupEvalua;
+    }
+
+    public void setOutDatosEva(HtmlOutputText outDatosEva) {
+        this.outDatosEva = outDatosEva;
+    }
+
+    public HtmlOutputText getOutDatosEva() {
+        return outDatosEva;
+    }
+
+    public void setPopupEliminarEvalu(RichPopup popupEliminarEvalu) {
+        this.popupEliminarEvalu = popupEliminarEvalu;
+    }
+
+    public RichPopup getPopupEliminarEvalu() {
+        return popupEliminarEvalu;
+    }
+
+    public void setBtnAsignarEva(RichButton btnAsignarEva) {
+        this.btnAsignarEva = btnAsignarEva;
+    }
+
+    public RichButton getBtnAsignarEva() {
+        return btnAsignarEva;
+    }
+    
+    public void setBtnBloque1(RichButton btnBloque1) {
+        this.btnBloque1 = btnBloque1;
+    }
+
+    public RichButton getBtnBloque1() {
+        return btnBloque1;
+    }
+
+    public void setBtnBloque2(RichButton btnBloque2) {
+        this.btnBloque2 = btnBloque2;
+    }
+
+    public RichButton getBtnBloque2() {
+        return btnBloque2;
+    }
+
+    public void setChoiceTipoVisita(RichSelectOneChoice choiceTipoVisita) {
+        this.choiceTipoVisita = choiceTipoVisita;
+    }
+
+    public RichSelectOneChoice getChoiceTipoVisita() {
+        return choiceTipoVisita;
+    }
+
+    public void setChoiceAreaAcademicas(RichSelectOneChoice choiceAreaAcademicas) {
+        this.choiceAreaAcademicas = choiceAreaAcademicas;
+    }
+
+    public RichSelectOneChoice getChoiceAreaAcademicas() {
+        return choiceAreaAcademicas;
+    }
+
+    public void setPanelBoxComentYSug(RichPanelBox panelBoxComentYSug) {
+        this.panelBoxComentYSug = panelBoxComentYSug;
+    }
+
+    public RichPanelBox getPanelBoxComentYSug() {
+        return panelBoxComentYSug;
+    }
+
+    public void setPanelBoxJusticacion(RichPanelBox panelBoxJusticacion) {
+        this.panelBoxJusticacion = panelBoxJusticacion;
+    }
+
+    public RichPanelBox getPanelBoxJusticacion() {
+        return panelBoxJusticacion;
+    }
+
+    public void setChoiceProblema(RichSelectOneChoice choiceProblema) {
+        this.choiceProblema = choiceProblema;
+    }
+
+    public RichSelectOneChoice getChoiceProblema() {
+        return choiceProblema;
+    }
+
+    public void setInputDescripcionOtros(RichInputText inputDescripcionOtros) {
+        this.inputDescripcionOtros = inputDescripcionOtros;
+    }
+
+    public RichInputText getInputDescripcionOtros() {
+        return inputDescripcionOtros;
+    }
+
+    public void setInputComentarioEvaluador(RichInputText inputComentarioEvaluador) {
+        this.inputComentarioEvaluador = inputComentarioEvaluador;
+    }
+
+    public RichInputText getInputComentarioEvaluador() {
+        return inputComentarioEvaluador;
+    }
+
+    public void setInputComentarioProfesor(RichInputText inputComentarioProfesor) {
+        this.inputComentarioProfesor = inputComentarioProfesor;
+    }
+
+    public RichInputText getInputComentarioProfesor() {
+        return inputComentarioProfesor;
+    }
+
+    public void setBtnSaveComentEvalu(RichButton btnSaveComentEvalu) {
+        this.btnSaveComentEvalu = btnSaveComentEvalu;
+    }
+
+    public RichButton getBtnSaveComentEvalu() {
+        return btnSaveComentEvalu;
+    }
+
+    public void setBtnSaveJustificacion(RichButton btnSaveJustificacion) {
+        this.btnSaveJustificacion = btnSaveJustificacion;
+    }
+
+    public RichButton getBtnSaveJustificacion() {
+        return btnSaveJustificacion;
+    }
+           
+    public void setActivityStyles(HashMap activityStyles) {
+        this.activityStyles = activityStyles;
+    }
+
+    public HashMap getActivityStyles() {
+        return activityStyles;
+    }
+
+    public void setPopupEvento2(RichPopup popupEvento2) {
+        this.popupEvento2 = popupEvento2;
+    }
+
+    public RichPopup getPopupEvento2() {
+        return popupEvento2;
+    }
+
+    public void setChoiceAula(RichSelectOneChoice choiceAula) {
+        this.choiceAula = choiceAula;
+    }
+
+    public RichSelectOneChoice getChoiceAula() {
+        return choiceAula;
     }
 }

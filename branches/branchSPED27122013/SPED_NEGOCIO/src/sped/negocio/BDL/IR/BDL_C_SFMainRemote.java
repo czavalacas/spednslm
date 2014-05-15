@@ -34,4 +34,6 @@ public interface BDL_C_SFMainRemote {
     List<Main> getHorariosPorDocente(String dniDocente);
     Main getMainByAtrubutes(String nidAula, String nidCurso, String dniProfesor);
     Main findMainById(int id);
+    int findMainBySedeYNivel(int nidSede, 
+                             int nidNivel);
 }

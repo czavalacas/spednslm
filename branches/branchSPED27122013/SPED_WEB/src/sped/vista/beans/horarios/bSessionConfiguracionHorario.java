@@ -44,9 +44,38 @@ public class bSessionConfiguracionHorario implements Serializable {
     private boolean estadoDisableChoiceSede=false;
     private boolean estadoBtnEditarRestriccion=true;
     private int accionPersist=0;
-    private BeanDuracionHorario beanDuracionHorario=new BeanDuracionHorario();
-    private  List<BeanConfiguracionHorario> listaBeanConfiguracionHorario=new ArrayList<>();
-        
+    private int seleccionTable=0;
+    private BeanDuracionHorario beanDuracionHorario=new BeanDuracionHorario();  
+    private BeanConfiguracionHorario beanconfiguracionHorario=new BeanConfiguracionHorario();  
+    private int nroBloque;
+    private int maxBloque;
+    private Time horas[];
+    private String horaFinClases;
+
+    public void setNroBloque(int nroBloque) {
+        this.nroBloque = nroBloque;
+    }
+
+    public int getNroBloque() {
+        return nroBloque;
+    }
+
+    public void setMaxBloque(int maxBloque) {
+        this.maxBloque = maxBloque;
+    }
+
+    public int getMaxBloque() {
+        return maxBloque;
+    }
+
+    public void setHoras(Time[] horas) {
+        this.horas = horas;
+    }
+
+    public Time[] getHoras() {
+        return horas;
+    }
+
     public bSessionConfiguracionHorario() {
     }
 
@@ -114,15 +143,7 @@ public class bSessionConfiguracionHorario implements Serializable {
     public String getNidEventoHorario() {
         return nidEventoHorario;
     }
-    
-   /* public void setListaEventosHorarioTabla(List<BeanConfiguracionEventoHorario> listaEventosHorarioTabla) {
-        this.listaEventosHorarioTabla = listaEventosHorarioTabla;
-    }
 
-    public List<BeanConfiguracionEventoHorario> getListaEventosHorarioTabla() {
-        return listaEventosHorarioTabla;
-    }
-*/
     public void setListaEventosHorarioTabla(List<BeanConfiguracionHorario> listaEventosHorarioTabla) {
         this.listaEventosHorarioTabla = listaEventosHorarioTabla;
     }
@@ -291,11 +312,28 @@ public class bSessionConfiguracionHorario implements Serializable {
         return beanDuracionHorario;
     }
 
-    public void setListaBeanConfiguracionHorario(List<BeanConfiguracionHorario> listaBeanConfiguracionHorario) {
-        this.listaBeanConfiguracionHorario = listaBeanConfiguracionHorario;
+    public void setBeanconfiguracionHorario(BeanConfiguracionHorario beanconfiguracionHorario) {
+        this.beanconfiguracionHorario = beanconfiguracionHorario;
     }
 
-    public List<BeanConfiguracionHorario> getListaBeanConfiguracionHorario() {
-        return listaBeanConfiguracionHorario;
+    public BeanConfiguracionHorario getBeanconfiguracionHorario() {
+        return beanconfiguracionHorario;
     }
+
+    public void setSeleccionTable(int seleccionTable) {
+        this.seleccionTable = seleccionTable;
+    }
+
+    public int getSeleccionTable() {
+        return seleccionTable;
+    }
+
+    public void setHoraFinClases(String horaFinClases) {
+        this.horaFinClases = horaFinClases;
+    }
+
+    public String getHoraFinClases() {
+        return horaFinClases;
+    }
+
 }
