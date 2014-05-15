@@ -129,8 +129,15 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
         }
     }
     
-    public Main getMainPorSedeNivelYCurso(String nidAula, String nidCurso, String dniProfesor){
+    public Main getMainPorSedeNivelYCurso(String nidAula, 
+                                          String nidCurso, 
+                                          String dniProfesor){
         return bdl_C_SFMainLocal.getMainByAtrubutes(nidAula, nidCurso, dniProfesor);
+    }
+    
+    public int buscarHorariosBySedeYNivel(int nidSede, 
+                                          int nidNivel){
+        return bdl_C_SFMainLocal.findMainBySedeYNivel(nidSede, nidNivel);
     }
     
 }

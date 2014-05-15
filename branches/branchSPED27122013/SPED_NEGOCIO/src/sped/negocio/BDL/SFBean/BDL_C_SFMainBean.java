@@ -272,5 +272,23 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                return null;
            }
        }
+       
+     public int findMainBySedeYNivel(int nidSede, 
+                                     int nidNivel){
+        String ejbQL = "select count(M) " +
+                                  "from Main M " +
+                                  "where M.aula.sede.nidSede = :nidSede " +
+                                  "and M.aula.gradoNivel.nivel.nidNivel = :nidNivel";
+        Object object = em.createQuery(ejbQL)
+                                 .setParameter("nidSede", nidSede)
+                                 .setParameter("nidNivel", nidNivel)
+                                 .getSingleResult();
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
+        }
+        return cont;
+    }
+    
 
 }

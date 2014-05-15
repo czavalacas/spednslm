@@ -1,5 +1,10 @@
 package sped.negocio.Pruebas;
 
+import java.sql.Time;
+
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
 import java.util.Hashtable;
 
 import javax.naming.CommunicationException;
@@ -17,11 +22,11 @@ public class BDL_C_SFConfiguracionHorarioRemoteClient {
             final Context context = getInitialContext();
             BDL_C_SFConfiguracionHorarioRemote bDL_C_SFConfiguracionHorarioRemote =
                 (BDL_C_SFConfiguracionHorarioRemote) context.lookup("mapBDL_C_SFConfiguracionHorario#sped.negocio.BDL.IR.BDL_C_SFConfiguracionHorarioRemote");
-            for(ConfiguracionHorario c : bDL_C_SFConfiguracionHorarioRemote.getConfiguracionBySedeNivel(1, 1)){
-                System.out.println(c.getNidNivel());
-                System.out.println(c.getNidSede());
-                System.out.println(c.getStmconfev().getDescripcion());
-            }
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            Date fechaActual = Time.valueOf("08:00:00");
+            String fechaConFormato = sdf.format(fechaActual);
+            System.out.println(fechaConFormato);
+   
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());
