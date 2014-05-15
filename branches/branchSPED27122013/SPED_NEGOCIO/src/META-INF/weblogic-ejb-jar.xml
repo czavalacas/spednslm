@@ -452,6 +452,30 @@
         <stateless-session-descriptor/>
     </weblogic-enterprise-bean>
     <weblogic-enterprise-bean>
+        <ejb-name>BDL_C_SFConfiguracionEventoHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_C_SFConfiguracionEventoHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>BDL_T_SFDuracionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>BDL_T_SFConfiguracionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_T_SFConfiguracionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_T_SFDuracionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
         <ejb-name>LN_T_SFLogger</ejb-name>
         <stateless-session-descriptor/>
     </weblogic-enterprise-bean>
