@@ -81,8 +81,6 @@ public class bConfigurarCuenta {
                                                                     claveNew, 
                                                                     null, 
                                                                     null);
-                    beanUsuario.setClave(claveNew);
-                    Utils.putSession("USER",beanUsuario);
                     claveActual = "";
                     claveNew = "";
                     claveConf = "";
