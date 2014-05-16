@@ -113,7 +113,7 @@ public class bEvaluar {
     }
     
     public void selectPlanificacion(SelectionEvent se) {
-        BeanEvaluacionWS planif = (BeanEvaluacionWS) Utils.getRowTable(se);
+        /*BeanEvaluacionWS planif = (BeanEvaluacionWS) Utils.getRowTable(se);
         Timestamp hoy = new Timestamp(new Date().getTime());
         boolean isBetween = hoy.after(planif.getStartDate()) && hoy.before(planif.getEndDate());
         Utils.sysout("La fecha actual esta entre la fecha de planificacion: "+isBetween);
@@ -126,7 +126,7 @@ public class bEvaluar {
             this.setError("La hora actual no es la indicada para realizar esta evaluacion, o se paso la hora o aun no llega");
             Utils.showPopUpMIDDLE(popMsj);
             Utils.unselectFilas(tbPlan);
-        }
+        }*/
     }
     
     public void registrarEvaluacion(ActionEvent actionEvent) {

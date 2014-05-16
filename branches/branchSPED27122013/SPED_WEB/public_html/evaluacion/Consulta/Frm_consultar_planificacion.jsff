@@ -6,7 +6,6 @@
             <af:panelGroupLayout halign="left">
                 <af:spacer height="10"/>
                 <af:outputText value="Consultar Planificacion de Evaluaciones" id="otTituloU" styleClass="titulos"/>
-                <af:spacer height="10"/>
             </af:panelGroupLayout>
             <af:subform id="s3" defaultCommand="btnBuscar" >
             <af:panelGroupLayout id="pgl2">

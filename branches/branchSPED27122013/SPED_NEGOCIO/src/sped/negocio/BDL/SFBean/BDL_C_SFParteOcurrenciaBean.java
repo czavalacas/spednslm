@@ -24,7 +24,7 @@ import sped.negocio.entidades.beans.BeanProblemaProfesor;
  */
 @Stateless(name = "BDL_C_SFParteOcurrencia", mappedName = "mapBDL_C_SFParteOcurrencia")
 public class BDL_C_SFParteOcurrenciaBean implements BDL_C_SFParteOcurrenciaRemote,
-                                                       BDL_C_SFParteOcurrenciaLocal {
+                                                    BDL_C_SFParteOcurrenciaLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -40,11 +40,11 @@ public class BDL_C_SFParteOcurrenciaBean implements BDL_C_SFParteOcurrenciaRemot
     }
     
     public List<BeanParteOcurrencia> getListaPartesOcurrencia_BDL(Date fechaMin,
-                                                                   Date fechaMax,
-                                                                   Integer nidProblema,
-                                                                   String nombreProfesor,
-                                                                   Integer nidSede,
-                                                                   Integer nidUsuario){
+                                                                  Date fechaMax,
+                                                                  Integer nidProblema,
+                                                                  String nombreProfesor,
+                                                                  Integer nidSede,
+                                                                  Integer nidUsuario){
        try {
            String attr = "po.comentario,po.fechaRegistro,p.desc_problema,u.nombres,m.profesor.apellidos,m.profesor.nombres,m.curso.descripcionCurso," +
                          "m.aula.sede.descripcionSede,m.curso.areaAcademica.descripcionAreaAcademica," +

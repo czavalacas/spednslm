@@ -103,11 +103,11 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                 }
                 if("000".equals(msj)){
                     beanUsuario = (BeanUsuario)mapper.map(user,BeanUsuario.class);
-                    /*if(beanUsuario.getFoto() != null){
+                    if(beanUsuario.getFoto() != null){
                         String encoded = Base64.encodeBase64String(beanUsuario.getFoto());
                         //String encoded = MyBase64.encode(beanUsuario.getFoto());
                         beanUsuario.setImg(encoded);
-                    }*/
+                    }
                     beanUsuario.setNidLog(ln_T_SFLogLocal.grabarLogLogInWS_LN(cadenaPhoneData,user.getNidUsuario()));
                 }
             }
