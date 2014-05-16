@@ -8,7 +8,6 @@ public class BeanUsuario implements java.io.Serializable{
     @SuppressWarnings("compatibility:-7716331137436807403")
     private static final long serialVersionUID = 1L;
 
-    private String clave;
     private String dni;
     private String estadoUsuario;
     private byte[] foto;
@@ -56,14 +55,6 @@ public class BeanUsuario implements java.io.Serializable{
 
     public List<Integer> getLstPermisos() {
         return lstPermisos;
-    }
-
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
-
-    public String getClave() {
-        return clave;
     }
 
     public void setDni(String dni) {
