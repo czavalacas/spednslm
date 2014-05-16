@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_T_SFConfiguracionHorarioLocal;
 import sped.negocio.BDL.IR.BDL_T_SFConfiguracionHorarioRemoto;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.sist.ConfiguracionHorario;
 
 @Stateless(name = "BDL_T_SFConfiguracionHorario", mappedName = "map-BDL_T_SFConfiguracionHorario")
@@ -35,6 +36,7 @@ public class BDL_T_SFConfiguracionHorarioBean implements BDL_T_SFConfiguracionHo
 
     public void removeConfiguracionHorario(ConfiguracionHorario configuracionHorario) {
         configuracionHorario = em.find(ConfiguracionHorario.class, configuracionHorario.getNidConfig());
+       Utiles.sysout("REMOVER "+ configuracionHorario);
         em.remove(configuracionHorario);
     }
 }
