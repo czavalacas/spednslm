@@ -14,6 +14,8 @@ import javax.naming.InitialContext;
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 
+import sped.vista.Utils.Utils;
+
 public class NomUsuarioValidator implements Validator {
     @EJB
     private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
@@ -43,8 +45,9 @@ public class NomUsuarioValidator implements Validator {
     
     public static boolean isOnlyletter(String nombre) {
         for (int i = 0; i < nombre.length(); i++) {
-            if (!Character.isLetter(nombre.charAt(i))) {
-                if(!".".equals(nombre.charAt(i))){
+            Character car = nombre.charAt(i);
+            if (!Character.isLetter(car)) {
+                if(!car.equals('.')){
                     return false;
                 }
             }
