@@ -1,0 +1,20 @@
+#Pendientes del Sistema
+
+  # *Deploy en glassfish (en proceso)*
+  # ISO en gestion de claves, longitud, que no sea repetida, obligar a cambiarlas cada cierto tiempo (tabla del sistema o que el usuario eliga cada cuanto tiempo), simbolos, mayusculas.no contenga el nombre,etc.
+  # ~~Error login aplicativo sped~~
+  # *Deploy en iOS*
+  # Suggest items en dash de profesores, los combos en este dash se resetean.
+  # manuales PDF y video, subirlos al sistema
+  # Sincronizar los calendarios
+  # Mejorar la performance en las consultas de planificacion y evaluacion.
+  # Grabar en el log cuando se solicite nueva clave.
+  # Subir APK a google play (pagar $25 registro).
+  # Modulo de feedback y recomendaciones.
+  # ~~Busqueda con tecla en registrar ficha y otras mejoras~~.
+  # ~~Ver porque imprime tanto en la consola.(un solo componente dentro del f:view)~~
+  # ~~Implementar el log de errores~~
+  # ~~Si pierde la clave ya no le enviaremos la clave actual, sino autogeneraremos una clave y se la enviaremos, tambien cambiar el atributo isNuevo a 1~~.
+  # ~~Que el demonio no afecte a los pendientes que ya se empezo a evaluar, puede resolverse con un flag~~.
+  # ~~Log al logearse y logoff, ip,etc~~
+  # ~~encriptar las claves~~
