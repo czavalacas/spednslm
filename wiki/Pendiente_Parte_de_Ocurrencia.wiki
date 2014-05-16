@@ -1,5 +1,0 @@
-#summary Listado de pendientes en parte de ocurrencia Diego
-
-=Pendientes en Parte de Ocurrencia=
-
-  * El subdirector no solo consulta sus Partes de ocurrencia sino lo que otros usuarios registran de su sede
