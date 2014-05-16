@@ -1,6 +1,9 @@
 package sped.negocio.LNSF.SFBean;
 
+import java.sql.Timestamp;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -145,6 +148,8 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setNid_usuario_ws(nidUsuario);
             eva.setNidLog(nidLog);
             eva.setNidProblema(null);
+            eva.setModoEvaluacion("APLI");
+            eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
             eva.setComentario_evaluador(comentarioEvaluador);
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
         }catch (Exception e) {
@@ -186,7 +191,9 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setEstadoEvaluacion("EJECUTADO");
             eva.setNid_usuario_ws(nidUsuario);
             eva.setNidProblema(null);
+            eva.setModoEvaluacion("WEB");
             eva.setComentario_evaluador(comentarioEvaluador);
+            eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
         }catch (Exception e) {
             e.printStackTrace();
