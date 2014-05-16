@@ -101,7 +101,7 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                 if(!ln_C_SFPermisosLocal.hasPermisos(user.getNidUsuario(),user.getRol().getNidRol(),"1")){
                     msj = "SPED-00005";
                 }
-                if(msj.equals("000")){
+                if("000".equals(msj)){
                     beanUsuario = (BeanUsuario)mapper.map(user,BeanUsuario.class);
                     /*if(beanUsuario.getFoto() != null){
                         String encoded = Base64.encodeBase64String(beanUsuario.getFoto());
