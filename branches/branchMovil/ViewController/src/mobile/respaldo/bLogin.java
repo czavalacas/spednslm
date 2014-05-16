@@ -48,7 +48,7 @@ public class bLogin {
     public String autenticarUsuario() {
         String error = "";
         if(usuario != null && clave != null){
-            if(!usuario.equals("") && !clave.equals("")){
+            if(!"".equals(usuario) && !"".equals(clave)){
                 List pnames = new ArrayList();//aqui van los nombres en el metodo WS are01,arg02, etc si son 5 hasta arg5
                 List params = new ArrayList();//en esta seteas todos los valores si son 5 la lista tendra list.size = 5
                 List ptypes = new ArrayList();//aqui van los tipos de datos,estas 3 listas siempre vas a mandar
@@ -72,7 +72,7 @@ public class bLogin {
                     GenericType row = (GenericType)result.getAttribute(0);
                     BeanUsuario beanUsuario = (BeanUsuario)GenericTypeBeanSerializationHelper.fromGenericType(BeanUsuario.class,row);
                     error = beanUsuario.getError().getCidError();
-                    if(error.equals("000")){
+                    if("000".equals(error)){
                         clearScopeVariables();
                         AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario}", null);
                         AdfmfJavaUtilities.setELValue("#{pageFlowScope.usuario}",beanUsuario);
@@ -89,7 +89,7 @@ public class bLogin {
                     AdfmUtils.logStackTrace(e);
                     error = "m_0003";
                 }
-                if(!error.equals("000")){
+                if(!"000".equals(error)){
                     AdfmUtils.alert(FEATURE, 
                                     ALERTA, 
                                     new Object[] {error});
