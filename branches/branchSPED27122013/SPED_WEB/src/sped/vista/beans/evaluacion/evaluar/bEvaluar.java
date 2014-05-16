@@ -114,16 +114,16 @@ public class bEvaluar {
     
     public void selectPlanificacion(SelectionEvent se) {
         /** dfloresgonz 16.05.2014 Se comenta porque no se reestringira por rango de horas al evaluar **/
-        /*BeanEvaluacionWS planif = (BeanEvaluacionWS) Utils.getRowTable(se);
-        Timestamp hoy = new Timestamp(new Date().getTime());
+        BeanEvaluacionWS planif = (BeanEvaluacionWS) Utils.getRowTable(se);
+        /*Timestamp hoy = new Timestamp(new Date().getTime());
         boolean isBetween = hoy.after(planif.getStartDate()) && hoy.before(planif.getEndDate());
         Utils.sysout("La fecha actual esta entre la fecha de planificacion: "+isBetween);
         Utils.sysout("hoy: "+hoy+" planif.getStartDate(): "+planif.getStartDate()+" planif.getEndDate(): "+planif.getEndDate());
-        if(isBetween){
+        if(isBetween){*/
             sessionEvaluar.setPlanifSelect(planif);
             btnRegistrar.setDisabled(false);
             Utils.addTarget(btnRegistrar);
-        }else{
+       /* }else{
             this.setError("La hora actual no es la indicada para realizar esta evaluacion, o se paso la hora o aun no llega");
             Utils.showPopUpMIDDLE(popMsj);
             Utils.unselectFilas(tbPlan);
