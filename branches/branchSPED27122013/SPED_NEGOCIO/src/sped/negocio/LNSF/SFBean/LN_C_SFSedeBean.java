@@ -89,7 +89,6 @@ public class LN_C_SFSedeBean implements LN_C_SFSedeRemote,
         }        
     }
     
-    /** METODO TEMPORAL  trae todas las sedes solo para la vista temporal**/
     public List<BeanCombo> getAllSedes() {
         List<Sede> listaSedes=bdL_C_SFSedeLocal.getSedeFindAll();
         List<BeanCombo> list=new ArrayList<BeanCombo>();
