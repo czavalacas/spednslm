@@ -5,11 +5,11 @@
       <RefAddresses>
          <XmlRefAddr addrType="WebServiceConnection">
             <Contents>
-               <wsconnection description="http://10.1.1.108:7101/WS_SPED/WS_SPEDPort?WSDL" service="{http://servicios.webservice.sped/}WS_SPEDService">
+               <wsconnection description="http://181.224.241.221:7101/WS_SPED/WS_SPEDPort?wsdl" service="{http://servicios.webservice.sped/}WS_SPEDService">
                   <model name="{http://servicios.webservice.sped/}WS_SPEDService" xmlns="http://oracle.com/ws/model">
                      <service name="{http://servicios.webservice.sped/}WS_SPEDService">
                         <port name="WS_SPEDPort" binding="{http://servicios.webservice.sped/}WS_SPEDPortBinding">
-                           <soap addressUrl="http://10.1.1.108:7101/WS_SPED/WS_SPEDPort" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
+                           <soap addressUrl="http://181.224.241.221:7101/WS_SPED/WS_SPEDPort" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                            <operation name="getDetalleEvaluacionById_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
@@ -25,12 +25,12 @@
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getProblemas_LN_WS">
+                           <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getLstIndicadoresByFichaCriterio_LN_WS">
+                           <operation name="getProblemas_LN_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
@@ -40,12 +40,12 @@
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getPermisosByUsuarioRol_WS">
+                           <operation name="getPlanificaciones_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getPlanificaciones_WS">
+                           <operation name="getPermisosByUsuarioRol_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
@@ -70,12 +70,12 @@
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getEvaluadores_LN_WS">
+                           <operation name="getEvaluaciones_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
                            </operation>
-                           <operation name="getEvaluaciones_WS">
+                           <operation name="getEvaluadores_LN_WS">
                               <soap soapAction="" xmlns="http://schemas.xmlsoap.org/wsdl/soap/"/>
                               <input name=""/>
                               <output name=""/>
