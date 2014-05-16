@@ -1,7 +1,7 @@
 #Pendientes del Sistema
 
   # *Deploy en glassfish (en proceso)*
-  # ISO en gestion de claves, longitud, que no sea repetida, obligar a cambiarlas cada cierto tiempo (tabla del sistema o que el usuario eliga cada cuanto tiempo), simbolos, mayusculas.no contenga el nombre,etc.
+  # ISO en gestion de claves, longitud, que no sea repetida, obligar a cambiarlas cada cierto tiempo (tabla del sistema o que el usuario eliga cada cuanto tiempo), simbolos, mayusculas.no contenga el nombre,bloquear sesion si hubieron varios intentos fallidos de logeo, configurable la cantidad y el tiempo de bloqueo.
   # *Deploy en iOS*
   # Suggest items en dash de profesores, los combos en este dash se resetean.
   # manuales PDF y video, subirlos al sistema
