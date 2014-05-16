@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         xmlns:h="http://java.sun.com/jsf/html">
-    <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario">  
+    <af:document title="SPED Inicio©" id="d1" initialFocusId="s1:itUsuario" largeIconSource="../recursos/img/usuarios/favicon.ico" 
+                 smallIconSource="../recursos/img/usuarios/favicon.ico">  
         <af:form id="f1">
             <af:panelGroupLayout halign="right" layout="horizontal">
                 <af:image source="/recursos/img/layout/buhologo.png"

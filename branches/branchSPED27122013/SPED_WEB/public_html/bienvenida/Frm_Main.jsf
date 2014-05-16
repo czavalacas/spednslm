@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         beforePhase="#{bMain.createMenus}">
-    <af:document title="SPED ©" id="d1">
+    <af:document title="SPED ©" id="d1" largeIconSource="../recursos/img/usuarios/favicon.ico" 
+                 smallIconSource="../recursos/img/usuarios/favicon.ico">
         <af:form id="frmain" usesUpload="true" binding="#{bMain.frmain}">
             <af:spacer height="10"/>
             <af:resource type="javascript" source="/recursos/js/utiles.js"/>
