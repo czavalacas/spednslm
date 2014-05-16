@@ -48,6 +48,7 @@ import org.apache.myfaces.trinidad.util.Service;
 
 import sped.negocio.LNSF.IL.LN_C_SFNotificacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
+import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -81,6 +82,8 @@ public class bMain implements Serializable {
     private LN_C_SFNotificacionLocal ln_C_SFNotificacionLocal;
     @EJB
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
+    @EJB
+    private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
@@ -311,11 +314,10 @@ public class bMain implements Serializable {
             msjError = "Ingrese la clave";
         }else if(clave.length() < 6){
             msjError = "La clave debe tener 6 digitos como minimo";
-        }else if(beanUsuario.getClave().compareTo(clave) == 0){
+        }else if(ln_C_SFUsuarioLocal.testClave_LN(beanUsuario.getNidUsuario(),clave)){
             msjError = "Ingrese una clave diferente";
         }else{
-            ln_T_SFUsuarioRemote.cambiarPrimeraClave(beanUsuario.getNidUsuario(), 
-                                                     clave);            
+            ln_T_SFUsuarioRemote.cambiarPrimeraClave(beanUsuario.getNidUsuario(),clave);            
             Utils.mostrarMensaje(ctx, "Se modifco correctamente su clave", null, 3);
             popNew.hide();
             sessionMain.setExec(1);
