@@ -113,6 +113,7 @@ public class bEvaluar {
     }
     
     public void selectPlanificacion(SelectionEvent se) {
+        /** dfloresgonz 16.05.2014 Se comenta porque no se reestringira por rango de horas al evaluar **/
         /*BeanEvaluacionWS planif = (BeanEvaluacionWS) Utils.getRowTable(se);
         Timestamp hoy = new Timestamp(new Date().getTime());
         boolean isBetween = hoy.after(planif.getStartDate()) && hoy.before(planif.getEndDate());
