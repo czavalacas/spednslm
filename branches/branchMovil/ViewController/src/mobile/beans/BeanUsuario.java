@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BeanUsuario implements Serializable {
 
-    private String clave;
+    //private String clave;
     private String dni;
     private String estadoUsuario;
     //private byte[] foto;
@@ -27,13 +27,13 @@ public class BeanUsuario implements Serializable {
     //private List<Integer> lstPermisos;
     private Integer nidLog;
 
-    public void setClave(String clave) {
+    /* public void setClave(String clave) {
         this.clave = clave;
     }
 
     public String getClave() {
         return clave;
-    }
+    } */
 
     public void setDni(String dni) {
         this.dni = dni;
