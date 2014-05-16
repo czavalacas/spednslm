@@ -7,6 +7,7 @@
   # manuales PDF y video, subirlos al sistema
   # Sincronizar los calendarios
   # Mejorar la performance en las consultas de planificacion y evaluacion.
+  # Editar el Aplicativo para que no valide rango de fechas al evaluar
   # Grabar en el log cuando se solicite nueva clave.
   # Subir APK a google play (pagar $25 registro).
   # Modulo de feedback y recomendaciones.
