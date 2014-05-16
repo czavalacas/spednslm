@@ -100,7 +100,7 @@ public class WS_SPED {
                                                         @WebParam(name = "arg4") String nombresProfesor,
                                                         @WebParam(name = "arg5") String curso,
                                                         @WebParam(name = "arg6") int nidSedeFiltro,
-                                                        @WebParam(name = "arg7") int nidAAFiltro){System.out.println("rol: "+nidRol+" sede: "+nidSede+" area: "+nidAreaAcademica+" : nidUsuario: "+nidUsuario);
+                                                        @WebParam(name = "arg7") int nidAAFiltro){
         if(nidRol == 1 || nidRol == 2 || nidRol == 4 || nidRol == 5){//Solo Director,EvaXArea,EvaXSede y EvaGeneral pueden consultar
             return ln_C_SFEvaluacionLocal.getPlanificaciones_LN_WS(nidRol, 
                                                                    nidSede, 
