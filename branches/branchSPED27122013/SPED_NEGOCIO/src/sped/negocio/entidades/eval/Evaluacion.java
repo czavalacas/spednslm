@@ -69,9 +69,13 @@ public class Evaluacion implements Serializable {
     @Column(name = "comentario_evaluador")  
     private String comentario_evaluador;//ESTE COMENTARIO SE INGRESA CUANDO SE EVALUA A UN PROFESOR
     @Column(name = "comentario_profesor")  
-    private String comentario_profesor;//
+    private String comentario_profesor;
     @Column(name = "notif_evaluador_commtProf")
     private String notificacionEvaluadorComentarioProfesor;
+    @Column(name = "fecha_evaluacion")
+    private Timestamp fechaEvaluacion;
+    @Column(name = "modo_evaluacion")
+    private String modoEvaluacion;
     
     public Evaluacion() {
     }
@@ -92,6 +96,22 @@ public class Evaluacion implements Serializable {
         this.fechaPlanificacion = fechaPlanificacion;
         this.tipoVisita=tipoVisita;
         this.comentarioEvaluador = comentarioEvaluador;
+    }
+
+    public void setModoEvaluacion(String modoEvaluacion) {
+        this.modoEvaluacion = modoEvaluacion;
+    }
+
+    public String getModoEvaluacion() {
+        return modoEvaluacion;
+    }
+
+    public void setFechaEvaluacion(Timestamp fechaEvaluacion) {
+        this.fechaEvaluacion = fechaEvaluacion;
+    }
+
+    public Timestamp getFechaEvaluacion() {
+        return fechaEvaluacion;
     }
 
     public void setNotificacionEvaluadorComentarioProfesor(String notificacionEvaluadorComentarioProfesor) {
