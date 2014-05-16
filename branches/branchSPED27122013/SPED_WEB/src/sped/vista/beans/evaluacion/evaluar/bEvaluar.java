@@ -267,7 +267,8 @@ public class bEvaluar {
                 error = ln_T_SFEvaluacionLocal.registrarEvaluacion_LN_Web(sessionEvaluar.getLstCriteriosMultiples(),
                                                                           sessionEvaluar.getPlanifSelect().getNidEvaluacion(),
                                                                           usuario.getNidUsuario(),
-                                                                          sessionEvaluar.getComentarioEvaluador());
+                                                                          sessionEvaluar.getComentarioEvaluador(),
+                                                                          usuario.getNidLog());
                 if("000".equalsIgnoreCase(error.getCidError())){
                     severidad = 3;
                 }else{
