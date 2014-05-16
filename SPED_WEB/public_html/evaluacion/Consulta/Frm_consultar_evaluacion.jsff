@@ -6,7 +6,6 @@
             <af:panelGroupLayout halign="left" id="pgl4">
                 <af:spacer height="10" id="s3"/>
                 <af:outputText value="Consulta de Evaluaciones" id="otTituloU" styleClass="titulos"/>
-                <af:spacer height="10" id="s2"/>
             </af:panelGroupLayout>
             <af:subform id="s1" binding="#{bConsultarEvaluacion.s1}" defaultCommand="btnBuscar">
                 <af:panelFormLayout id="pfl7" rows="1" maxColumns="5" binding="#{bConsultarEvaluacion.pfl7}">

@@ -95,9 +95,10 @@ public class bParteOcurrencia {
     public String buscarPartesOcurrencia(){
         try {
            int idUsuario = 0; 
-           if(usuario.getRol().getNidRol() == 4){
+           if(usuario.getRol().getNidRol() == 4){//SUBDIRECTOR
                sessionParteOcurrencia.setCidSedePO(String.valueOf(usuario.getSede().getNidSede()));
-               idUsuario = usuario.getNidUsuario();
+               //idUsuario = usuario.getNidUsuario(); dfloresgonz 16.05.2014 se comenta porque el subdirector puede 
+               //consultar POcurrencia de su sede pero quizas un director registro tambien para su sede
            }else{
                if(sessionParteOcurrencia.getCidSedePO() == null){
                    sessionParteOcurrencia.setCidSedePO("0");
