@@ -11,6 +11,9 @@
   # Grabar en el log cuando se solicite nueva clave.
   # Subir APK a google play (pagar $25 registro).
   # Modulo de feedback y recomendaciones.
+  # Acomodar los tags f:view que tenga solo 1 raiz los jsff
+  # Modulo de continuidad de negocio
+  # Dash visualizar hora de planificacion vs. hora de evaluacion
   # ~~Error login aplicativo sped~~
   # ~~Busqueda con tecla en registrar ficha y otras mejoras~~.
   # ~~Ver porque imprime tanto en la consola.(un solo componente dentro del f:view)~~
