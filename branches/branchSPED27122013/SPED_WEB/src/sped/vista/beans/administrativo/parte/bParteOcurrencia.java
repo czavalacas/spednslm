@@ -198,7 +198,7 @@ public class bParteOcurrencia {
             if(sessionParteOcurrencia.getLstPOsRadarChart() != null){
                 sessionParteOcurrencia.getLstPOsRadarChart().clear();   
             }
-            if(tipGraf.equals("P")){
+            if("P".equals(tipGraf)){
                 setListPieGraph(sessionParteOcurrencia.getLstNotifPOs().get(sessionParteOcurrencia.getLstNotifPOs().size()-1).getLstPies());
                 sessionParteOcurrencia.setRenderedPie(true);
                 piePO.setTabularData(sessionParteOcurrencia.getLstPOsPieG());
@@ -216,7 +216,7 @@ public class bParteOcurrencia {
                 tbProbs.setRendered(false);
                 btnRadar.setRendered(false);
                 Utils.addTargetMany(sbc1,chkbResc,tbProRr,tbProbs,btnRadar,piePO,gbarPOs,gradar);
-            }else if(tipGraf.equals("B")){
+            }else if("B".equals(tipGraf)){
                 setDataBarrasChart(sessionParteOcurrencia.getLstNotifPOs().get(sessionParteOcurrencia.getLstNotifPOs().size()-1).getLstBars());
                 sessionParteOcurrencia.setRenderedBar(true);
                 gbarPOs.setTabularData(sessionParteOcurrencia.getLstPOsBarChart());
@@ -316,7 +316,7 @@ public class bParteOcurrencia {
             }
             return DnDAction.COPY;
         } catch (Exception ex) {
-            System.out.println("item drop failed with : " + ex.getMessage());
+            Utils.sysout("fallo al jalar el item : " + ex.getMessage());//TODO LOG
             ex.printStackTrace();
             return DnDAction.NONE;
         }
@@ -339,7 +339,7 @@ public class bParteOcurrencia {
             }
             return DnDAction.COPY;
         } catch (Exception ex) {
-            System.out.println("item drop failed with : " + ex.getMessage());
+            Utils.sysout("fallo al jalar el item : " + ex.getMessage());//TODO LOG
             ex.printStackTrace();
             return DnDAction.NONE;
         }
@@ -365,7 +365,7 @@ public class bParteOcurrencia {
             }
             return DnDAction.COPY;
         } catch (Exception ex) {
-            System.out.println("item drop failed with : " + ex.getMessage());
+            Utils.sysout("fallo al jalar el item : " + ex.getMessage());//TODO LOG
             ex.printStackTrace();
             return DnDAction.NONE;
         }
