@@ -18,3 +18,4 @@
   # ~~Que el demonio no afecte a los pendientes que ya se empezo a evaluar, puede resolverse con un flag~~.
   # ~~Log al logearse y logoff, ip,etc~~
   # ~~encriptar las claves~~
+  # ~~El subdirector no solo consulta sus Partes de ocurrencia sino lo que otros usuarios registran de su sede~~
