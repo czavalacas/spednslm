@@ -27,7 +27,8 @@ public interface LN_T_SFEvaluacionLocal {
     BeanError registrarEvaluacion_LN_Web(List<BeanCriterio> lstBeanIndiVal,
                                          Integer nidEvaluacion,
                                          Integer nidUsuario,
-                                         String comentarioEvaluador);
+                                         String comentarioEvaluador,
+                                         int nidLog);
     /**
      * Metodo que registra el comentario del evaluador
      * @author dfloresgonz

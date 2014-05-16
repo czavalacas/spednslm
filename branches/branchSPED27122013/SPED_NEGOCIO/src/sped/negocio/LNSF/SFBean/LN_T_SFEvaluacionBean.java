@@ -165,7 +165,8 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     public BeanError registrarEvaluacion_LN_Web(List<BeanCriterio> lstBeanIndiVal,
                                                 Integer nidEvaluacion,
                                                 Integer nidUsuario,
-                                                String comentarioEvaluador){
+                                                String comentarioEvaluador,
+                                                int nidLog){
         BeanError beanError = new BeanError();
         String error = "000";
         try {
@@ -191,6 +192,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setEstadoEvaluacion("EJECUTADO");
             eva.setNid_usuario_ws(nidUsuario);
             eva.setNidProblema(null);
+            eva.setNidLog(nidLog);
             eva.setModoEvaluacion("WEB");
             eva.setComentario_evaluador(comentarioEvaluador);
             eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
