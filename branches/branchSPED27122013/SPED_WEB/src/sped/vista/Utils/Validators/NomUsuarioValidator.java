@@ -43,8 +43,10 @@ public class NomUsuarioValidator implements Validator {
     
     public static boolean isOnlyletter(String nombre) {
         for (int i = 0; i < nombre.length(); i++) {
-            if (!Character.isLetter(nombre.charAt(i)) && !".".equals(nombre.charAt(i))) {
-                return false;
+            if (!Character.isLetter(nombre.charAt(i))) {
+                if(!".".equals(nombre.charAt(i))){
+                    return false;
+                }
             }
         }
         return true;
