@@ -82,7 +82,7 @@ public class Evaluacion implements Serializable {
 
     public Evaluacion(String descripcion, Timestamp endDate, String estadoEvaluacion, String nidDate, int nidEvaluacion,
                       int nidEvaluador, int nidPlanificador, Main main, Timestamp startDate, Timestamp fechaPlanificacion, String tipoVisita,
-                      String comentarioEvaluador) {
+                      String comentarioEvaluador, Timestamp fechaEvaluacion) {
 
         this.descripcion = descripcion;
         this.endDate = endDate;
@@ -96,6 +96,7 @@ public class Evaluacion implements Serializable {
         this.fechaPlanificacion = fechaPlanificacion;
         this.tipoVisita=tipoVisita;
         this.comentarioEvaluador = comentarioEvaluador;
+        this.fechaEvaluacion = fechaEvaluacion;
     }
 
     public void setModoEvaluacion(String modoEvaluacion) {
