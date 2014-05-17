@@ -211,11 +211,10 @@ public class bDesempenoProfesor {
         Utils.addTargetMany(choiceGrados,choiceDocente);
     }
 
-    public String addFiltros() {
+    public String addFiltros() {      
         BeanFiltrosGraficos bean = new BeanFiltrosGraficos();
         bean.setFechaFin(sessionDesempenoProfesor.getFechaFin());
         bean.setFechaInicio(sessionDesempenoProfesor.getFechaInicio());
-
         bean.setNidArea(sessionDesempenoProfesor.getNidArea());
         bean.setNidSede(sessionDesempenoProfesor.getNidSede());
         bean.setNidGrado(sessionDesempenoProfesor.getNidGrado());
@@ -329,7 +328,11 @@ public class bDesempenoProfesor {
     }
     
     public String limpiarComboBoxs(){
-        sessionDesempenoProfesor.setNidSede(null);
+        if(beanUsuario.getRol().getNidRol()==4){
+            sessionDesempenoProfesor.setNidSede(""+beanUsuario.getSede().getNidSede());            
+        }else{
+            sessionDesempenoProfesor.setNidSede(null);
+        }       
         sessionDesempenoProfesor.setNidArea(null);
         sessionDesempenoProfesor.setNidCriterio(null);
         sessionDesempenoProfesor.setNidCurso(null);
