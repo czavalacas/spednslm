@@ -197,7 +197,7 @@ public class bConfiguracionHorario {
         return null;
     }
     
-    public String agregarEventoHorario() throws ParseException {
+    public String agregarEventoHorario() throws ParseException {            
         if(choiceEventoHorario.getValue()!=null){
             if(Time.valueOf(sessionConfiguracionHorario.getInputHoraFinEventoHorario()+":00").before(Time.valueOf(sessionConfiguracionHorario.getInputHoraInicioEventoHorario()+":00")) ){
                 Utils.mostrarMensaje(ctx,"Hora Fin de evento no puedo ser antes de la Hora inicio, porfavor ingrese datos correctos","Error",1);
@@ -207,15 +207,14 @@ public class bConfiguracionHorario {
         beanConHora.setStmconfev(beanConfEv);
         beanConHora.setHoraInicio(sessionConfiguracionHorario.getInputHoraInicioEventoHorario());
         beanConHora.setHoraFin(sessionConfiguracionHorario.getInputHoraFinEventoHorario());
-                sessionConfiguracionHorario.getListaEventosHorarioTabla().add(beanConHora);
+        sessionConfiguracionHorario.getListaEventosHorarioTabla().add(beanConHora);
         sessionConfiguracionHorario.setNidEventoHorario(null);
         sessionConfiguracionHorario.setInputHoraInicioEventoHorario(null);
         sessionConfiguracionHorario.setInputHoraFinEventoHorario(null);
         sessionConfiguracionHorario.setEstadoinPutHoraInicioRestriccion(true);
         sessionConfiguracionHorario.setEstadoinPutHoraFinRestriccion(true);    
         estadosPanel2(false);
-        }
-                System.out.println(inputHoraInicioClases.getValue());
+        }            
         Utils.addTargetMany(choiceEventoHorario,inputHoraInicioRestriccion,inputHoraFinRestriccion,tbEventoHorario);
             }        
         return null;
