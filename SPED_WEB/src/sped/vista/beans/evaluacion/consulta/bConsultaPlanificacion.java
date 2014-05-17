@@ -93,7 +93,7 @@ public class bConsultaPlanificacion {
     
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {   
-        llenarCombos();        
+          llenarCombos();        
         if(sessionConsultarPlanificacion.getExec()==0){
            sessionConsultarPlanificacion.setExec(1); 
            sessionConsultarPlanificacion.setNidEstadoPlanificacion("PENDIENTE");
@@ -108,11 +108,9 @@ public class bConsultaPlanificacion {
                 String fechaConFormato = sdf.format(fechaActual);
                 sessionConsultarPlanificacion.setFechaHoy(fechaConFormato);
                 sessionConsultarPlanificacion.setDniProfesor(usuarioEnSesion.getDni());
-            }
-            buscarPlani();
-            if(usuarioEnSesion.getRol().getNidRol() == 3){
                 sessionConsultarPlanificacion.setColumnProfesor(false);
             }
+            buscarPlani();        
         }        
     }    
 
@@ -150,12 +148,10 @@ public class bConsultaPlanificacion {
             beanEvaluacion.setMain(main);
         }
         sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
-        if(btnExp != null){
+       if(btnExp != null){
             Utils.addTarget(btnExp);
-        }
-        if(tbPlanificacion != null){
-            Utils.addTarget(tbPlanificacion);          
-        }
+        }     
+            Utils.addTarget(tbPlanificacion);   
         return null;
     }
 

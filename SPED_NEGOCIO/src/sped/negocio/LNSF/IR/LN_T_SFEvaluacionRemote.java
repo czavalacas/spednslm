@@ -16,8 +16,14 @@ public interface LN_T_SFEvaluacionRemote {
                                      Integer nidUsuario,
                                      Integer nidLog,
                                      String comentarioEvaluador);
-    String registrarEvaluacion_LN(Evaluacion eva);
-    String removerEvaluacion_LN(Evaluacion eva);
+    String registrarEvaluacion_LN(long s, 
+                                  long c, 
+                                  int nidMain, 
+                                  int nidEvaluador, 
+                                  String nidDat, 
+                                  int nidPlanificador, 
+                                  String tipoVisita);
+    String removerEvaluacion_LN(int nidEvaluacion);
     String updateEvaluacionbyComentarioProfesor(int idEvaluacion,
                                                 String comentario);
     String grabarComentariosYJustificacionesDeEvaluacion(String nidDate, 
