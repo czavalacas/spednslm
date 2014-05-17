@@ -28,6 +28,7 @@ import sped.negocio.LNSF.IL.LN_T_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_T_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_T_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
+import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanCriterioIndicador;
 import sped.negocio.entidades.beans.BeanError;
@@ -73,10 +74,32 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public String registrarEvaluacion_LN(Evaluacion eva) {
+    public String registrarEvaluacion_LN(long s, 
+                                         long c, 
+                                         int nidMain, 
+                                         int nidEvaluador, 
+                                         String nidDat, 
+                                         int nidPlanificador, 
+                                         String tipoVisita) {
         BeanError beanError = new BeanError();
         String error = "000";
         try {
+            Evaluacion eva = new Evaluacion();
+            eva.setStartDate(new Timestamp(s));
+            eva.setEndDate(new Timestamp(c));          
+            Main main = new Main();
+            main.setNidMain(nidMain);
+            eva.setMain(main);
+            eva.setNidEvaluador(nidEvaluador);
+            eva.setDescripcion("");
+            eva.setEstadoEvaluacion("PENDIENTE");           
+            eva.setNidDate(nidDat);
+            eva.setNidPlanificador(nidPlanificador);
+            Date fechaHoy = new Date();
+            long d = fechaHoy.getTime();
+            eva.setFechaPlanificacion(new Timestamp(d));
+            eva.setTipoVisita(tipoVisita);
+            eva.setNidProblema(0);                 
             bdL_T_SFEvaluacionLocal.persistEvaluacion(eva);
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,11 +111,13 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public String removerEvaluacion_LN(Evaluacion eva) {
+    public String removerEvaluacion_LN(int nidEvaluacion) {
         BeanError beanError = new BeanError();
         String error = "000";
         try {
-            bdL_T_SFEvaluacionLocal.removeEvaluacion(eva);
+            Evaluacion evaluacion = new Evaluacion();
+            evaluacion.setNidEvaluacion(nidEvaluacion);
+            bdL_T_SFEvaluacionLocal.removeEvaluacion(evaluacion);
         } catch (Exception e) {
             e.printStackTrace();
             error = "111";

@@ -115,7 +115,8 @@ import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
-import sped.negocio.entidades.eval.Evaluacion;
+//import sped.negocio.entidades.eval.Evaluacion;
+
 import sped.vista.Utils.Utils;
 
 
@@ -246,35 +247,25 @@ public class bPlanificarEva {
         return null;
     }
          
-    public String grabarEvaluacion(int opc) {
-        Evaluacion eva = new Evaluacion();
+    public String grabarEvaluacion(int opc) {     
+        long s=0;
+        long c=0;
         if (opc == 1) {
-            long s = sessionPlanificarEva.getFechaInicioEvaluacion().getTime();
-            eva.setStartDate(new Timestamp(s));
-            long c = sessionPlanificarEva.getHoraPartidaInicio().getTime();
-            eva.setEndDate(new Timestamp(c));
+             s = sessionPlanificarEva.getFechaInicioEvaluacion().getTime();
+             c = sessionPlanificarEva.getHoraPartidaInicio().getTime();
         }
         if (opc == 2) {
-            long s = sessionPlanificarEva.getHoraPartidaInicio().getTime();
-            eva.setStartDate(new Timestamp(s));
-            long c = sessionPlanificarEva.getFechaFinEvaluacion().getTime();
-            eva.setEndDate(new Timestamp(c));
+             s = sessionPlanificarEva.getHoraPartidaInicio().getTime();
+             c = sessionPlanificarEva.getFechaFinEvaluacion().getTime();
         }
-        Main main = new Main();
-        main.setNidMain(sessionPlanificarEva.getBeanHorario().getNidMain());
-        eva.setMain(main);
-        eva.setNidEvaluador(Integer.parseInt(getSessionPlanificarEva().getNidUsuario()));
-        eva.setDescripcion("");
-        eva.setEstadoEvaluacion("PENDIENTE");
-        String nidDat = generarAlfanumerico();
-        eva.setNidDate(nidDat);
-        eva.setNidPlanificador(sessionPlanificarEva.getNidPlanificador());
-        Date fechaHoy = new Date();
-        long d = fechaHoy.getTime();
-        eva.setFechaPlanificacion(new Timestamp(d));
-        eva.setTipoVisita(sessionPlanificarEva.getValorTipoVisita());
-        eva.setNidProblema(0);
-        ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(eva);
+        String nidDat = generarAlfanumerico();   
+        ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(s, 
+                                                       c, 
+                                                       sessionPlanificarEva.getBeanHorario().getNidMain(), 
+                                                       Integer.parseInt(getSessionPlanificarEva().getNidUsuario()), 
+                                                       nidDat, 
+                                                       sessionPlanificarEva.getNidPlanificador(), 
+                                                       sessionPlanificarEva.getValorTipoVisita());
         llenarBean();
         if (tbHorario != null) {
             Utils.unselectFilas(tbHorario);
@@ -811,10 +802,8 @@ public class bPlanificarEva {
 
     }
 
-    public void eliminarEvaluacion(ActionEvent actionEvent) {
-        Evaluacion evaluacion = new Evaluacion();
-        evaluacion.setNidEvaluacion(sessionPlanificarEva.getNidEvaluacionDelet());
-        ln_T_SFEvaluacionRemote.removerEvaluacion_LN(evaluacion);
+    public void eliminarEvaluacion(ActionEvent actionEvent) {       
+        ln_T_SFEvaluacionRemote.removerEvaluacion_LN(sessionPlanificarEva.getNidEvaluacionDelet());
         Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
         Utils.addTarget(calendar);
         popupDetalleEva.hide();
@@ -1224,61 +1213,22 @@ public class bPlanificarEva {
     }
     
   /**Temporal*/  public String agregarEvaluacionYMainProvicional(){
-      Evaluacion eva=new Evaluacion();
-      /*  Main main = new Main();
-        Profesor prof=new Profesor();        
-        prof.setDniProfesor(ln_C_SFProfesorRemote.getDniProfesorPorNombreCompleto(sessionPlanificarEva.getFNombres()));
-        main.setProfesor(prof);
-        Aula au=new Aula();
-        au.setNidAula(Integer.parseInt(sessionPlanificarEva.getNidAulaTemporal()));
-        main.setAula(au);
-        Curso cur=new Curso();
-        cur.setNidCurso(Integer.parseInt(sessionPlanificarEva.getNidCurso()));
-        main.setCurso(cur);
-        main.setDia(sessionPlanificarEva.getDiaDeLaSemana());
-        main.setEstado("1");      
-        Date hIni= (Date) horaInicioTemporal.getValue();
-        Time hora=new Time(0);
-        hora.setHours(hIni.getHours());
-        hora.setMinutes(hIni.getMinutes());
-        hora.setSeconds(hIni.getSeconds());        
-        main.setHoraInicio(hora); 
-        Date hFin= (Date) horaFinTemporal.getValue();
-        Time hora2=new Time(0);
-        hora2.setHours(hFin.getHours());
-        hora2.setMinutes(hFin.getMinutes());
-        hora2.setSeconds(hFin.getSeconds());
-        main.setHoraFin(hora2);      
-       */ 
         long s = sessionPlanificarEva.getFechaYhoraInicialTemporal().getTime();
-        eva.setStartDate(new Timestamp(s));
         long c = sessionPlanificarEva.getFechaYhoraFinTemporal().getTime();
-        eva.setEndDate(new Timestamp(c));
         Main main=ln_C_SFMainRemote.getMainPorSedeNivelYCurso(sessionPlanificarEva.getNidAulaTemporal(), 
                                                               sessionPlanificarEva.getNidCurso(), 
                                                               sessionPlanificarEva.getDniProfesor());
         
-        main.setNidMain(main.getNidMain());
-        eva.setMain(main);
-        eva.setNidEvaluador(Integer.parseInt(getSessionPlanificarEva().getNidUsuario()));
-        eva.setDescripcion("");
-        eva.setEstadoEvaluacion("PENDIENTE");
+   
         String nidDat = generarAlfanumerico();
-        eva.setNidDate(nidDat);
-        //eva.setTipoVisita("OP");
-        eva.setNidPlanificador(sessionPlanificarEva.getNidPlanificador());
-        Date fechaHoy = new Date();
-        long d = fechaHoy.getTime();
-        eva.setFechaPlanificacion(new Timestamp(d));
-        eva.setTipoVisita(sessionPlanificarEva.getValorTipoVisita());
-        eva.setNidProblema(0);
-       // List<Evaluacion> lsteva=new ArrayList<Evaluacion>();
-    //    lsteva.add(eva);
-    //    main.setEvaluacionLista(lsteva);
-//        main.setTipoFicha(sessionPlanificarEva.getTipoFichaCurs());//dfloresgonz 13.04.2014, comentado por cambio en BD
-        ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(eva);
-      
-      
+   
+        ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(s, 
+                                                       c,
+                                                       main.getNidMain(), 
+                                                       Integer.parseInt(getSessionPlanificarEva().getNidUsuario()),
+                                                       nidDat, 
+                                                       sessionPlanificarEva.getNidPlanificador(), 
+                                                       sessionPlanificarEva.getValorTipoVisita());      
         Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
         Utils.addTarget(calendar);
         popupEvento2.hide();
