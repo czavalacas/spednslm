@@ -688,7 +688,7 @@ public class bDesempenoEvaluador {
             List <BeanEvaluacion> lst = desempenoFiltro_Aux(2, nombre, estado, null, null);
             sessionDesempenoEvaluador.setLstEvaDetalle(lst);
             beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());
-            beanUsu.setClave("");
+           // beanUsu.setClave(""); Lo comente porque Beanusuairo no tiene atributo clave o quisas no lo comitearon
             sessionDesempenoEvaluador.setEvaluador(beanUsu);
             sessionDesempenoEvaluador.setEstado(estado);
             estadoEvaluacion(estado);            

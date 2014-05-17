@@ -115,43 +115,36 @@ public class bConsultaPlanificacion {
     }    
 
     public String buscarPlani(){
-        BeanEvaluacion beanEvaluacion = new BeanEvaluacion();
-        if(sessionConsultarPlanificacion.getFechaMaxPlanificacion() != null){
-            beanEvaluacion.setFechaMaxPlanificacion(sessionConsultarPlanificacion.getFechaMaxPlanificacion());
-        }
-        if(sessionConsultarPlanificacion.getFechaMinPlanificacion() != null){
-            beanEvaluacion.setFechaMinPlanificacion(sessionConsultarPlanificacion.getFechaMinPlanificacion());
-        }       
-        if(sessionConsultarPlanificacion.getNidEvaluadorChoice() != null){
+        BeanEvaluacion beanEvaluacion = new BeanEvaluacion();     
+        beanEvaluacion.setFechaMaxPlanificacion(sessionConsultarPlanificacion.getFechaMaxPlanificacion());
+        beanEvaluacion.setFechaMinPlanificacion(sessionConsultarPlanificacion.getFechaMinPlanificacion());
+        beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());  
+        BeanMain main = new BeanMain();
+        BeanProfesor prof = new BeanProfesor();
+        prof.setDniProfesor(sessionConsultarPlanificacion.getDniProfesor());
+        main.setProfesor(prof);
+        beanEvaluacion.setMain(main);   
+        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
+    
+       if(sessionConsultarPlanificacion.getNidEvaluadorChoice() != null){
             beanEvaluacion.setNidEvaluador(Integer.parseInt(sessionConsultarPlanificacion.getNidEvaluadorChoice()));
-        }
-        if(sessionConsultarPlanificacion.getNidSedeChoice() != null){
+           }
+       if(sessionConsultarPlanificacion.getNidSedeChoice() != null){
             beanEvaluacion.setNidSede(Integer.parseInt(sessionConsultarPlanificacion.getNidSedeChoice()));
-        }
-        if(sessionConsultarPlanificacion.getNidNivelChoice() != null){
+           }
+       if(sessionConsultarPlanificacion.getNidNivelChoice() != null){
             beanEvaluacion.setNidNivel(Integer.parseInt(sessionConsultarPlanificacion.getNidNivelChoice()));
-        }
-        if(sessionConsultarPlanificacion.getApellidosDocente() != null){
-            beanEvaluacion.setApellidosDocentes(sessionConsultarPlanificacion.getApellidosDocente());
-        }
+           }
         if(sessionConsultarPlanificacion.getNidAreaAcademicaChoice() != null){
             beanEvaluacion.setNidArea(Integer.parseInt(sessionConsultarPlanificacion.getNidAreaAcademicaChoice()));
-        }
-        if(sessionConsultarPlanificacion.getNidEstadoPlanificacion() != null){
-            beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());
-        }
-        if(sessionConsultarPlanificacion.getDniProfesor() != null) {
-            BeanMain main = new BeanMain();
-            BeanProfesor prof = new BeanProfesor();
-            prof.setDniProfesor(sessionConsultarPlanificacion.getDniProfesor());
-            main.setProfesor(prof);
-            beanEvaluacion.setMain(main);
-        }
-        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
-       if(btnExp != null){
+           }           
+        if(btnExp != null){
             Utils.addTarget(btnExp);
-        }     
+           }     
+        if(tbPlanificacion!=null){
             Utils.addTarget(tbPlanificacion);   
+           }
+          
         return null;
     }
 
