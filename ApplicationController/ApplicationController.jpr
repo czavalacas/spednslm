@@ -784,6 +784,76 @@
             <value n="profileClass" v="oracle.adfmf.framework.dt.deploy.features.FeatureArchiveProfile"/>
             <value n="profileName" v="ApplicationController_MobileFeatureArchive17"/>
          </hash>
+         <hash n="ApplicationController_MobileFeatureArchive18">
+            <hash n="archiveOptions">
+               <value n="hasManifest" v="true"/>
+            </hash>
+            <hash n="fileGroups">
+               <list n="groups">
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="2"/>
+                        </hash>
+                        <hash>
+                           <value n="type" v="7"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="Project Output"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="WEB-INF/classes/**"/>
+                              <value n="type" v="1"/>
+                           </hash>
+                           <hash>
+                              <value n="DefaultFilters" v=""/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="project-output"/>
+                     <value n="type" v="1"/>
+                  </hash>
+                  <hash>
+                     <list n="contributors">
+                        <hash>
+                           <value n="type" v="5"/>
+                        </hash>
+                     </list>
+                     <value n="displayName" v="Features"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="**"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="Features"/>
+                     <value n="targetWithinJar" v="public_html"/>
+                     <value n="type" v="1"/>
+                  </hash>
+                  <hash>
+                     <value n="displayName" v="Libraries"/>
+                     <hash n="filters">
+                        <list n="rules">
+                           <hash>
+                              <value n="pattern" v="**"/>
+                           </hash>
+                        </list>
+                     </hash>
+                     <value n="internalName" v="Libraries"/>
+                     <value n="targetWithinJar" v="lib"/>
+                     <value n="type" v="3"/>
+                  </hash>
+               </list>
+            </hash>
+            <url n="jarURL" path="deploy/ApplicationController_MobileFeatureArchive18.jar"/>
+            <hash n="libraryDependencies">
+               <value n="IncludeLibrariesFromOtherContainers" v="true"/>
+            </hash>
+            <value n="profileClass" v="oracle.adfmf.framework.dt.deploy.features.FeatureArchiveProfile"/>
+            <value n="profileName" v="ApplicationController_MobileFeatureArchive18"/>
+         </hash>
          <hash n="ApplicationController_MobileFeatureArchive2">
             <hash n="archiveOptions">
                <value n="hasManifest" v="true"/>
@@ -1434,6 +1504,7 @@
          <string v="ApplicationController_MobileFeatureArchive15"/>
          <string v="ApplicationController_MobileFeatureArchive16"/>
          <string v="ApplicationController_MobileFeatureArchive17"/>
+         <string v="ApplicationController_MobileFeatureArchive18"/>
       </list>
    </hash>
    <hash n="oracle.jdeveloper.model.J2eeSettings">

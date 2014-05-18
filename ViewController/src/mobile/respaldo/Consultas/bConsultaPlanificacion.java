@@ -111,7 +111,8 @@ public class bConsultaPlanificacion {
     }
 
     public String selectPlanif() {
-        ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.startDate}", Date.class);
+        return "evaluar";
+        /*ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.startDate}", Date.class);
         ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.endDate}", Date.class);
         
         Date fecInicio = (Date)ve1.getValue(adfELContext);
@@ -127,6 +128,6 @@ public class bConsultaPlanificacion {
         }else{
             AdfmUtils.alert(FEATURE, ALERTA, new Object[] {"La hora actual no es la indicada para realizar esta evaluacion, o se paso la hora o aun no llega."});
         }
-        return null;
+        return null;*/
     }
 }
