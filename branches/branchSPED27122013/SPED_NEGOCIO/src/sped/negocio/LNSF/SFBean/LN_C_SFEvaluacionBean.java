@@ -352,7 +352,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     
     /**
      * Metodo para mostrar los graficos de Desempe�o Evaluador
-     * @author dangeles
+     * @author angeles
      * @param tipoBusqueda 
      * @param nombre
      * @param estado
@@ -613,4 +613,5 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         }
         return resu;
     }
+
 }

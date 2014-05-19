@@ -27,6 +27,7 @@ import sped.negocio.entidades.eval.Evaluacion;
 @NamedQueries({ @NamedQuery(name = "Main.findAll", query = "select o from Main o") })
 @Table(name = "\"addmain\"")
 public class Main implements Serializable {
+    @SuppressWarnings("compatibility:108003898024212995")
     private static final long serialVersionUID = 3546028881634228951L;
     @Column(name = "dia")
     private String dia;
