@@ -1,5 +1,7 @@
 package sped.negocio.BDL.SFBean;
 
+import java.sql.Time;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -237,6 +239,8 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
            String ejbQl =  " SELECT ma FROM Main ma " +
                            " WHERE ma.aula.nidAula = :nidAula " +
                            " AND ma.estado = :estado " +
+                           " AND ma.horaInicio != NULL " +
+                           " AND ma.horaFin != NULL " +
                            " ORDER BY ma.horaInicio ASC";
            List<Main> lstMain = em.createQuery(ejbQl).setParameter("nidAula", beanMain.getNidAula())
                                                      .setParameter("estado", "1")
@@ -259,19 +263,41 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
            }
        }
     
-       public Main getMainByAtrubutes(String nidAula, String nidCurso, String dniProfesor) {
-           try {
-               String ejbQl =  " SELECT ma FROM Main ma " +                            
-                               " WHERE ma.profesor.dniProfesor='"+dniProfesor+"'" +
-                               " and ma.aula.nidAula="+nidAula+"" +
-                               " and ma.curso.nidCurso="+nidCurso;
-               Main main = (Main)em.createQuery(ejbQl).getSingleResult(); 
-               return main;
-           } catch (Exception e) {
-               e.printStackTrace();
-               return null;
-           }
-       }
+    public Main getMainByAtrubutes(String nidAula, String nidCurso, String dniProfesor) {
+        try {
+            String ejbQl =  " SELECT ma FROM Main ma " +                            
+                            " WHERE ma.profesor.dniProfesor='"+dniProfesor+"'" +
+                            " and ma.aula.nidAula="+nidAula+"" +
+                            " and ma.curso.nidCurso="+nidCurso;
+            Main main = (Main)em.createQuery(ejbQl).getSingleResult(); 
+            return main;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public int countCruceLecionByProfesor(String dniProfesor, 
+                                          Time inicio, 
+                                          Time fin){   
+        String ejbQl =  " SELECT COUNT(ma) FROM Main ma " +                            
+                        " WHERE ma.profesor.dniProfesor= :dniProfesor " +
+                        " AND ma.estado = :estado " +
+                        " AND ( (ma.horaInicio < :inicio AND ma.horaFin > :fin) " +
+                        " OR    (ma.horaInicio > :inicio AND ma.horaInicio < :fin) " +
+                        " OR    (ma.horaFin > :inicio AND ma.horaFin < :fin) " +
+                        " OR    (ma.horaInicio = :inicio AND ma.horaFin = :fin) )";
+        Object object = em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor)
+                                             .setParameter("estado", "1")
+                                             .setParameter("inicio", inicio)
+                                             .setParameter("fin", fin)
+                                             .getSingleResult();
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
+        }
+        return cont;  
+    }
        
      public int findMainBySedeYNivel(int nidSede, 
                                      int nidNivel){

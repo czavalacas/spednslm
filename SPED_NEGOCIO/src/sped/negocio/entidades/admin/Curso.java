@@ -32,6 +32,8 @@ public class Curso implements Serializable {
     private AreaAcademica areaAcademica;
     @Column(name = "nidAreaNativa")
     private int nidAreaNativa;
+    @Column(name = "color")
+    private String color;
     
     public Curso() {
     }
@@ -85,6 +87,14 @@ public class Curso implements Serializable {
 
     public void setAreaAcademica(AreaAcademica areaAcademica) {
         this.areaAcademica = areaAcademica;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     @Override

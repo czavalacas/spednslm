@@ -107,9 +107,14 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
         List<BeanMain> lstBean = new ArrayList();
         for(Main main : bdl_C_SFMainLocal.getLstMainByAttr_BDL(beanMain)){
             BeanMain bean = new BeanMain();
+            bean.setNidMain(main.getNidMain());
             bean.setHoraInicio(main.getHoraInicio());
             bean.setHoraFin(main.getHoraFin());
             bean.setNDia(main.getNDia());
+            bean.setNidCurso(main.getCurso().getNidCurso());
+            bean.setNombreCurso(main.getCurso().getDescripcionCurso());
+            bean.setNombreProfesor(main.getProfesor().getApellidos()+", "+main.getProfesor().getNombres());
+            bean.setColor(main.getCurso().getColor() == null ? "647687" : main.getCurso().getColor());
             lstBean.add(bean);
         }
         return lstBean;

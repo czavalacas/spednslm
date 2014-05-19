@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
 import sped.negocio.BDL.IL.BDL_T_SFCursoLocal;
 import sped.negocio.BDL.IL.BDL_T_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
@@ -35,6 +36,9 @@ public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto,
     private BDL_T_SFCursoLocal bdl_T_SFCursoLocal;
     @EJB
     private LN_C_SFErrorLocal LN_C_SFErrorLocal;
+    @EJB
+    private BDL_C_SFCursoLocal bdL_C_SFCursoLocal;
+    
     public LN_T_SFCursoBean() {
     }
     
@@ -82,6 +86,20 @@ public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto,
         error = beanError.getDescripcionError();
         }
         return error;
+    }
+    
+    /**
+     * Metodo para cambiar el color de un curso
+     * @param nidCurso
+     */
+    public void modificarColor(int nidCurso, String color){
+        try{
+            Curso curso = bdL_C_SFCursoLocal.findCursoById(nidCurso);
+            curso.setColor(color);
+            bdl_T_SFCursoLocal.mergeCurso(curso);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
 }
