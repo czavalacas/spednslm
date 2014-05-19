@@ -39,7 +39,6 @@
     <class>sped.negocio.entidades.sist.NotificacionParteOcurrencia</class>
     <class>sped.negocio.entidades.sist.NotificacionEvaluacion</class>
     <class>sped.negocio.entidades.sist.Email</class>
-    <class>sped.negocio.entidades.sist.Horario</class>
     <class>sped.negocio.entidades.sist.Imagen</class>
     <class>sped.negocio.entidades.sist.ConfiguracionHorario</class>
     <class>sped.negocio.entidades.sist.ConfiguracionEventoHorario</class>

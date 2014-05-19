@@ -52,4 +52,5 @@ public interface BDL_C_SFEvaluacionLocal {
                                             Integer nidEvaluador);  
     List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros, String fechaHoy);
     int countNidProblema(int nidProblema);
+    int countEvaluacionByNidMain(int nidMain);
 }

@@ -14,4 +14,5 @@ public interface LN_T_SFMainRemote {
                           int nDia,
                           Time horaInicio,
                           Time horaFin);
+    void eliminarMain_LN(int nidMain);
 }

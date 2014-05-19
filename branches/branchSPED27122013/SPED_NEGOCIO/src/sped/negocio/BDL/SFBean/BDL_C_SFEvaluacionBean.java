@@ -814,6 +814,18 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }
         return cont;
     }
+    
+    public int countEvaluacionByNidMain(int nidMain){
+        String ejbQL = "SELECT  count(e) FROM Evaluacion e " 
+                       + "WHERE e.main.nidMain = :nidMain ";
+        Object object = em.createQuery(ejbQL).setParameter("nidMain", nidMain)
+                            .getSingleResult();
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
+        }
+        return cont;
+    }
   
         
 }

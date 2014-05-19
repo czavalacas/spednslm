@@ -1,13 +1,24 @@
 package sped.vista.beans.horarios;
 
+import java.awt.Color;
+
 import java.io.Serializable;
 
 import java.sql.Time;
 
+import java.text.Format;
+
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanDia;
+import sped.negocio.entidades.beans.BeanHorario;
 import sped.negocio.entidades.beans.BeanMain;
+
+import sped.vista.Utils.Utils;
 
 public class bSessionGestionarHorario implements Serializable {
     @SuppressWarnings("compatibility:204896294902743203")
@@ -27,7 +38,10 @@ public class bSessionGestionarHorario implements Serializable {
     private List lstCurso;
     private List lstArea;
     private Time horas[];
+    private Time horas_fin[];
     private List<BeanMain> lstBeanMain;
+    private String dias[];
+    List<BeanHorario> lstHorario;
     List<BeanDia> lstDia;
     BeanMain horario[][];    
     private int nroBloque;
@@ -35,7 +49,110 @@ public class bSessionGestionarHorario implements Serializable {
     private String nombreProfesor;
     private String nombreCurso;
     private String nombreArea;
-
+    private String nombreAula;
+    Format formatter = new SimpleDateFormat("hh:mm");
+    private int nDia;
+    private int nLeccion;
+    private String selecNombreCurso;
+    private String selecColor;
+    private int selecNidCurso;
+    private String selecProfesor;
+    private List lstSelecDias; //lista selecionable
+    private List lstDiasSelec; // lista selecionados
+    private Color color;
+    private String tituloEliminarModificar;
+    private int eventoEliminarModificar;
+    private boolean renderEliminarModificar;
+    private boolean renderHorario;
+    private String nombreAula_aux;
+    private String nidAula_aux;
+    private String nidDni_aux;
+    private String nidArea_aux;
+    private String nidCurso_aux;
+    private boolean renderCurso_aux;
+    private boolean renderCurso;
+    private boolean renderAgregar;
+    private boolean checkTrue = true; //se mantendra siempre en true
+    private boolean checkFalse = false;// se mantendra siempre en false
+    
+    ///**** Metodos auxiliares ***///
+    public String getDia(int nDia){
+        return dias[nDia];
+    }
+    
+    public void agregarMain(int nLeccion, int nDia, BeanMain main){
+        horario[nLeccion][nDia] = main;
+    }
+    
+    public void cargarDatosSelec(){
+        selecNidCurso = horario[nLeccion][nDia].getNidCurso();
+        selecNombreCurso = horario[nLeccion][nDia].getNombreCurso();    
+    }
+    
+    public String duracion(int nLeccion){
+        return formatter.format(horas[nLeccion]) + " - " + formatter.format(horas_fin[nLeccion]);
+    }
+    
+    public String nomCurso(int nLeccion, int nDia){
+        return horario[nLeccion][nDia].getNombreCurso();
+    }
+    
+    public String nomProfesor(int nLeccion, int nDia){
+        return horario[nLeccion][nDia].getNombreProfesor();
+    }
+    
+    public String nomColor(int nLeccion, int nDia){
+        return "#"+horario[nLeccion][nDia].getColor();
+    }
+    
+    public boolean seletcLeccion(int nLeccion, int nDia){
+        return  horario[nLeccion][nDia] == null ? false : true;
+    }
+    
+    public boolean renderLeccion(int nLeccion, int nDia){
+        return  horario[nLeccion][nDia] != null && horario[nLeccion][nDia].getNidMain() != 0 ? true : false;
+    }
+    
+    /**
+     * Metodo que busca los dias que se dicta una leccion
+     */
+    public void encontrarDiaLecccion(){
+        List<BeanCombo> lista = new ArrayList();
+        int cont = 0;
+        llenarLstComboString(9, "Lecci\u00f3n selecionada", lista);
+        for(int j = 0; j < 5; j++){
+            for(int i = 0; i < nroBloque; i++){
+                if(horario[i][j] != null && 
+                   horario[i][j].getNidCurso() == selecNidCurso){
+                    if(nDia == j){
+                        cont++;
+                    }else{
+                        llenarLstComboString(j, dias[j], lista);
+                        i = nroBloque;
+                    }                        
+                }
+            }
+            if(cont > 1){
+                llenarLstComboString(nDia, dias[nDia], lista);
+                cont = 0;
+            }
+        }
+        this.setLstSelecDias(Utils.llenarCombo(lista));
+        ///seleciono por default el dia que se seleciono
+        List lst = new ArrayList();
+        lst.add(9+"");
+        this.setLstDiasSelec(lst);
+    }
+    
+    public void llenarLstComboString(int id, String descripcion, List<BeanCombo> lista){
+        BeanCombo combo = new BeanCombo();
+        combo.setId(id);
+        combo.setDescripcion(descripcion);
+        lista.add(combo);
+    }
+    
+    /// FIN ///
+    
     public void setExec(int exec) {
         this.exec = exec;
     }
@@ -43,7 +160,6 @@ public class bSessionGestionarHorario implements Serializable {
     public int getExec() {
         return exec;
     }
-
 
     public void setNidSede(String nidSede) {
         this.nidSede = nidSede;
@@ -211,5 +327,221 @@ public class bSessionGestionarHorario implements Serializable {
 
     public int getMaxBloque() {
         return maxBloque;
+    }
+
+    public void setHoras_fin(Time[] horas_fin) {
+        this.horas_fin = horas_fin;
+    }
+
+    public Time[] getHoras_fin() {
+        return horas_fin;
+    }
+
+    public void setLstHorario(List<BeanHorario> lstHorario) {
+        this.lstHorario = lstHorario;
+    }
+
+    public List<BeanHorario> getLstHorario() {
+        return lstHorario;
+    }
+
+    public void setDias(String[] dias) {
+        this.dias = dias;
+    }
+
+    public String[] getDias() {
+        return dias;
+    }
+
+    public void setNDia(int nDia) {
+        this.nDia = nDia;
+    }
+
+    public int getNDia() {
+        return nDia;
+    }
+
+    public void setNLeccion(int nLeccion) {
+        this.nLeccion = nLeccion;
+    }
+
+    public int getNLeccion() {
+        return nLeccion;
+    }
+
+    public void setSelecNombreCurso(String selecNombreCurso) {
+        this.selecNombreCurso = selecNombreCurso;
+    }
+
+    public String getSelecNombreCurso() {
+        return selecNombreCurso;
+    }
+
+    public void setSelecNidCurso(int selecNidCurso) {
+        this.selecNidCurso = selecNidCurso;
+    }
+
+    public int getSelecNidCurso() {
+        return selecNidCurso;
+    }
+
+    public void setSelecColor(String selecColor) {
+        this.selecColor = selecColor;
+    }
+
+    public String getSelecColor() {
+        return selecColor;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setSelecProfesor(String selecProfesor) {
+        this.selecProfesor = selecProfesor;
+    }
+
+    public String getSelecProfesor() {
+        return selecProfesor;
+    }
+
+    public void setLstSelecDias(List lstSelecDias) {
+        this.lstSelecDias = lstSelecDias;
+    }
+
+    public List getLstSelecDias() {
+        return lstSelecDias;
+    }
+
+    public void setLstDiasSelec(List lstDiasSelec) {
+        this.lstDiasSelec = lstDiasSelec;
+    }
+
+    public List getLstDiasSelec() {
+        return lstDiasSelec;
+    }
+
+    public void setTituloEliminarModificar(String tituloEliminarModificar) {
+        this.tituloEliminarModificar = tituloEliminarModificar;
+    }
+
+    public String getTituloEliminarModificar() {
+        return tituloEliminarModificar;
+    }
+
+    public void setEventoEliminarModificar(int eventoEliminarModificar) {
+        this.eventoEliminarModificar = eventoEliminarModificar;
+    }
+
+    public int getEventoEliminarModificar() {
+        return eventoEliminarModificar;
+    }
+
+    public void setRenderEliminarModificar(boolean renderEliminarModificar) {
+        this.renderEliminarModificar = renderEliminarModificar;
+    }
+
+    public boolean isRenderEliminarModificar() {
+        return renderEliminarModificar;
+    }
+
+    public void setRenderHorario(boolean renderHorario) {
+        this.renderHorario = renderHorario;
+    }
+
+    public boolean isRenderHorario() {
+        return renderHorario;
+    }
+
+    public void setNombreAula_aux(String nombreAula_aux) {
+        this.nombreAula_aux = nombreAula_aux;
+    }
+
+    public String getNombreAula_aux() {
+        return nombreAula_aux;
+    }
+
+    public void setNidAula_aux(String nidAula_aux) {
+        this.nidAula_aux = nidAula_aux;
+    }
+
+    public String getNidAula_aux() {
+        return nidAula_aux;
+    }
+
+    public void setNombreAula(String nombreAula) {
+        this.nombreAula = nombreAula;
+    }
+
+    public String getNombreAula() {
+        return nombreAula;
+    }
+
+    public void setNidDni_aux(String nidDni_aux) {
+        this.nidDni_aux = nidDni_aux;
+    }
+
+    public String getNidDni_aux() {
+        return nidDni_aux;
+    }
+
+    public void setNidCurso_aux(String nidCurso_aux) {
+        this.nidCurso_aux = nidCurso_aux;
+    }
+
+    public String getNidCurso_aux() {
+        return nidCurso_aux;
+    }
+
+    public void setNidArea_aux(String nidArea_aux) {
+        this.nidArea_aux = nidArea_aux;
+    }
+
+    public String getNidArea_aux() {
+        return nidArea_aux;
+    }
+
+    public void setRenderCurso_aux(boolean renderCurso_aux) {
+        this.renderCurso_aux = renderCurso_aux;
+    }
+
+    public boolean isRenderCurso_aux() {
+        return renderCurso_aux;
+    }
+
+    public void setRenderCurso(boolean renderCurso) {
+        this.renderCurso = renderCurso;
+    }
+
+    public boolean isRenderCurso() {
+        return renderCurso;
+    }
+
+    public void setRenderAgregar(boolean renderAgregar) {
+        this.renderAgregar = renderAgregar;
+    }
+
+    public boolean isRenderAgregar() {
+        return renderAgregar;
+    }
+
+    public void setCheckTrue(boolean checkTrue) {
+        this.checkTrue = checkTrue;
+    }
+
+    public boolean isCheckTrue() {
+        return checkTrue;
+    }
+
+    public void setCheckFalse(boolean checkFalse) {
+        this.checkFalse = checkFalse;
+    }
+
+    public boolean isCheckFalse() {
+        return checkFalse;
     }
 }

@@ -4,63 +4,49 @@ import java.io.Serializable;
 
 import java.sql.Time;
 
+import java.util.List;
+
 public class BeanHorario implements Serializable {
-    @SuppressWarnings("compatibility:-2617463507345312458")
+    @SuppressWarnings("compatibility:-7442992646229351967")
     private static final long serialVersionUID = 1L;
-    private Time duracion;
-    private Time hora_fin;
-    private Time hora_ini;
-    private int nidHorario;
-    private int nroBloque;
-    private int maxBloque;
+
+    private Time inicio;
+    private Time fin;
+    private BeanMain lunes;
+    private List<BeanMain> lstMain;
 
     public BeanHorario(){}
 
-    public void setDuracion(Time duracion) {
-        this.duracion = duracion;
+    public void setInicio(Time inicio) {
+        this.inicio = inicio;
     }
 
-    public Time getDuracion() {
-        return duracion;
+    public Time getInicio() {
+        return inicio;
     }
 
-    public void setHora_fin(Time hora_fin) {
-        this.hora_fin = hora_fin;
+    public void setFin(Time fin) {
+        this.fin = fin;
     }
 
-    public Time getHora_fin() {
-        return hora_fin;
+    public Time getFin() {
+        return fin;
     }
 
-    public void setHora_ini(Time hora_ini) {
-        this.hora_ini = hora_ini;
+    public void setLunes(BeanMain lunes) {
+        this.lunes = lunes;
     }
 
-    public Time getHora_ini() {
-        return hora_ini;
+    public BeanMain getLunes() {
+        return lunes;
     }
 
-    public void setNidHorario(int nidHorario) {
-        this.nidHorario = nidHorario;
+    public void setLstMain(List<BeanMain> lstMain) {
+        this.lstMain = lstMain;
     }
 
-    public int getNidHorario() {
-        return nidHorario;
+    public List<BeanMain> getLstMain() {
+        return lstMain;
     }
 
-    public void setNroBloque(int nroBloque) {
-        this.nroBloque = nroBloque;
-    }
-
-    public int getNroBloque() {
-        return nroBloque;
-    }
-
-    public void setMaxBloque(int maxBloque) {
-        this.maxBloque = maxBloque;
-    }
-
-    public int getMaxBloque() {
-        return maxBloque;
-    }
 }

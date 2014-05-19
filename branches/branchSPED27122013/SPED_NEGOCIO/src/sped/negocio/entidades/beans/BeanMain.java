@@ -34,6 +34,8 @@ public class BeanMain implements Serializable {
     private String nombreCurso;
     private String nombreArea;
     private String tipoFicha;
+    private String color;
+    private boolean selec;
 
     public void setCurso(BeanCurso curso) {
         this.curso = curso;
@@ -172,5 +174,21 @@ public class BeanMain implements Serializable {
 
     public String getTipoFicha() {
         return tipoFicha;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setSelec(boolean selec) {
+        this.selec = selec;
+    }
+
+    public boolean isSelec() {
+        return selec;
     }
 }
