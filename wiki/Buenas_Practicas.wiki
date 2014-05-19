@@ -9,7 +9,7 @@ Para que nuestro sistema SPED tenga la calidad necesaria para decir que es un bu
   # *Javadoc:* documentar sus metodos y clases!!! y si hacen cambios comentar con la fecha y su usuario. Poner el javadoc en las interfaces Local y Remote, poner en @author su usuario del SVN.http://oi60.tinypic.com/22ymf8.jpg
   # *Eliminar lógica innecesaria*: esto se refiere a IF o blucles que no se necesitan. No definir ni invocar ENTIDADES en los backing bean, Carlos esto esta en el backing de planificar, por favor no quiero verlo alli, recuerden en los backing se trabajan con Beans y se llama a los LN y estos recién llaman a los BDL.
   # *Orden en los Queries*: al definir los SELECT estan todos chuecos y en 1 sola linea, alli separar en otra linea cada condicional y ordenar los querires para que sea mas faciles de leer.
-  # *Select count*: Aqui no usen el SELECT COUNT(e) FROM Entidad porque estan usando todos los atributos y es por las puras tanto recorrido, en su lugar usen SELECT COUNT(1) FROM Entidad
+  # *Select count*: Aqui no usen el `SELECT COUNT(e) FROM Entidad` porque estan usando todos los atributos y es por las puras tanto recorrido, en su lugar usen `SELECT COUNT(1) FROM Entidad`
   # *Uso del setParameter*: Vayan cambiando esto y *NO* concatenen los parametros! Carlos otra vez anda reduciendo esto.
   # *Transformar a mayusculas*: en JPQL pueden trasformar a mayusculas usando la funcion UPPER() x ejemplo WHERE UPPER(e.nombre) like UPPER(:miParametro) y ya no necesitan hacerle el uppercase de java.
   # *Abuso del mapper*: No usen el mapper si solo traeran algunos datos, se usa cuando necesitan traer objetos de objetos etc y solo si usaran la mayoria de sus atributos, sino usen como los queries de llenarCombo que de frente mando al Bean los datos.
