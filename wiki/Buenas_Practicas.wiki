@@ -5,30 +5,30 @@ Team,
 Para que nuestro sistema SPED tenga la calidad necesaria para decir que es un buen sistema hecho por futuros ingenieros de la URP, debemos aplicar practicas a la hora de desarrollar, beneficiando en un futuro mantenimiento ya sea por Uds. mismos u otras personas, ayudará en la rapidez de respuesta del sistema, menos lineas de código innecesario y reusabilidad.
 
 
-  1) *Formato del codigo*: no basta con darle click derecho format, sino que este ordenado sin dejar muchos espacios entre lineas de codigo, quitar sysouts innecesarios, comentar el codigo para facilidad de mantenimiento, etc.
+  1 *Formato del codigo*: no basta con darle click derecho format, sino que este ordenado sin dejar muchos espacios entre lineas de codigo, quitar sysouts innecesarios, comentar el codigo para facilidad de mantenimiento, etc.
 http://oi60.tinypic.com/14njq0h.jpg
 
-  2) Orden en la definicion de variables en los backing, en los backing arriba debe ir primero el codigo generado cuando hacen binding de un componente y por debajo las variables que Uds definan. Fijanse en la imagen usando /** Mis Variables **/ divido los variables generadas de mis variables y en mis variables primero los EJB luego los string, int, boolean etc, mantengan un orden.
+  2 Orden en la definicion de variables en los backing, en los backing arriba debe ir primero el codigo generado cuando hacen binding de un componente y por debajo las variables que Uds definan. Fijanse en la imagen usando /** Mis Variables **/ divido los variables generadas de mis variables y en mis variables primero los EJB luego los string, int, boolean etc, mantengan un orden.
 Ojo con los imports, borren imports que no usen y que no haya espacios entre los imports todo pegadito.
 http://oi58.tinypic.com/9r1yjb.jpg
 
-  3) *Javadoc*: documentar sus metodos y clases!!! y si hacen cambios comentar con la fecha y su usuario. Poner el javadoc en las interfaces Local y Remote, poner en @author su usuario del SVN
+  3 *Javadoc*: documentar sus metodos y clases!!! y si hacen cambios comentar con la fecha y su usuario. Poner el javadoc en las interfaces Local y Remote, poner en @author su usuario del SVN
 http://oi60.tinypic.com/22ymf8.jpg
 
-  4) *Eliminar lógica innecesaria*: esto se refiere a IF o blucles que no se necesitan. No definir ni invocar ENTIDADES en los backing bean, Carlos esto esta en el backing de planificar, por favor no quiero verlo alli, recuerden en los backing se trabajan con Beans y se llama a los LN y estos recién llaman a los BDL.
+  4 *Eliminar lógica innecesaria*: esto se refiere a IF o blucles que no se necesitan. No definir ni invocar ENTIDADES en los backing bean, Carlos esto esta en el backing de planificar, por favor no quiero verlo alli, recuerden en los backing se trabajan con Beans y se llama a los LN y estos recién llaman a los BDL.
 
-  5) *Orden en los Queries*: al definir los SELECT estan todos chuecos y en 1 sola linea, alli separar en otra linea cada condicional y ordenar los querires para que sea mas faciles de leer.
+  5 *Orden en los Queries*: al definir los SELECT estan todos chuecos y en 1 sola linea, alli separar en otra linea cada condicional y ordenar los querires para que sea mas faciles de leer.
   
-  6) *Select count*: Aqui no usen el SELECT COUNT(e) FROM Entidad porque estan usando todos los atributos y es por las puras tanto recorrido, en su lugar usen SELECT COUNT(1) FROM Entidad
+  6 *Select count*: Aqui no usen el SELECT COUNT(e) FROM Entidad porque estan usando todos los atributos y es por las puras tanto recorrido, en su lugar usen SELECT COUNT(1) FROM Entidad
 
 
-  7) *Uso del setParameter*: Vayan cambiando esto y *NO* concatenen los parametros! Carlos otra vez anda reduciendo esto.
+  7 *Uso del setParameter*: Vayan cambiando esto y *NO* concatenen los parametros! Carlos otra vez anda reduciendo esto.
 
-  8) *Transformar a mayusculas*: en JPQL pueden trasformar a mayusculas usando la funcion UPPER() x ejemplo WHERE UPPER(e.nombre) like UPPER(:miParametro) y ya no necesitan hacerle el uppercase de java.
+  8 *Transformar a mayusculas*: en JPQL pueden trasformar a mayusculas usando la funcion UPPER() x ejemplo WHERE UPPER(e.nombre) like UPPER(:miParametro) y ya no necesitan hacerle el uppercase de java.
 
-  9) *Abuso del mapper*: No usen el mapper si solo traeran algunos datos, se usa cuando necesitan traer objetos de objetos etc y solo si usaran la mayoria de sus atributos, sino usen como los queries de llenarCombo que de frente mando al Bean los datos.
+  9 *Abuso del mapper*: No usen el mapper si solo traeran algunos datos, se usa cuando necesitan traer objetos de objetos etc y solo si usaran la mayoria de sus atributos, sino usen como los queries de llenarCombo que de frente mando al Bean los datos.
 
- 10) *Eliminar código que no usan*: ya sean variables o métodos que no usen, borrarlos! hay que reducir las lineas de código de la aplicación.
+ 10 *Eliminar código que no usan*: ya sean variables o métodos que no usen, borrarlos! hay que reducir las lineas de código de la aplicación.
 
- 11) *Etiqueta view*: En los jsff la etiqueta f:view que es la que engloba todo debería tener solo 1 hijo, como se muestra aquí en la imagen, pueden usar el componente panelGroupLayout
+ 11 *Etiqueta view*: En los jsff la etiqueta f:view que es la que engloba todo debería tener solo 1 hijo, como se muestra aquí en la imagen, pueden usar el componente panelGroupLayout
 http://oi59.tinypic.com/5n7rxw.jpg
