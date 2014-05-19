@@ -15,8 +15,7 @@ http://oi58.tinypic.com/9r1yjb.jpg
   3) *Javadoc:* documentar sus metodos y clases!!! y si hacen cambios comentar con la fecha y su usuario. Poner el javadoc en las interfaces Local y Remote, poner en @author su usuario del SVN
 http://oi60.tinypic.com/22ymf8.jpg
 
-  4) *Eliminar logica innecesaria:* esto se refiere a IF o bluques que no se necesitan.
--No definir ni invocar ENTIDADES en los backing bean, Carlos esto esta en el backing de planificar, por favor no quiero verlo alli, recuerden en los backing se trabajan con Beans y se llama a los LN y estos recien llaman a los BDL.
+  4) *Eliminar lógica innecesaria:* esto se refiere a IF o blucles que no se necesitan. No definir ni invocar ENTIDADES en los backing bean, Carlos esto esta en el backing de planificar, por favor no quiero verlo alli, recuerden en los backing se trabajan con Beans y se llama a los LN y estos recién llaman a los BDL.
 
   5) *Orden en los Queries:* al definir los SELECT estan todos chuecos y en 1 sola linea, alli separar en otra linea cada condicional y ordenar los querires para que sea mas faciles de leer.
   
@@ -29,7 +28,7 @@ http://oi60.tinypic.com/22ymf8.jpg
 
   9) *Abuso del mapper*: No usen el mapper si solo traeran algunos datos, se usa cuando necesitan traer objetos de objetos etc y solo si usaran la mayoria de sus atributos, sino usen como los queries de llenarCombo que de frente mando al Bean los datos.
 
-  10) *Eliminar código que no usan*: ya sean variables o métodos que no usen, borrarlos! hay que reducir las lineas de código de la aplicación.
+ 10) *Eliminar código que no usan*: ya sean variables o métodos que no usen, borrarlos! hay que reducir las lineas de código de la aplicación.
 
-  11) *Etiqueta view*: En los jsff la etiqueta f:view que es la que engloba todo debería tener solo 1 hijo, como se muestra aquí en la imagen, pueden usar el componente panelGroupLayout
+ 11) *Etiqueta view*: En los jsff la etiqueta f:view que es la que engloba todo debería tener solo 1 hijo, como se muestra aquí en la imagen, pueden usar el componente panelGroupLayout
 http://oi59.tinypic.com/5n7rxw.jpg
