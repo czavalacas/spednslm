@@ -29,4 +29,4 @@ http://oi60.tinypic.com/22ymf8.jpg
 
   9) *Abuso del mapper*: No usen el mapper si solo traeran algunos datos, se usa cuando necesitan traer objetos de objetos etc y solo si usaran la mayoria de sus atributos, sino usen como los queries de llenarCombo que de frente mando al Bean los datos.
 
-  10) Eliminar código que no usan: ya sean variables o métodos que no usen, borrarlos! hay que reducir las lineas de código de la aplicación.
+  10) *Eliminar código que no usan*: ya sean variables o métodos que no usen, borrarlos! hay que reducir las lineas de código de la aplicación.
