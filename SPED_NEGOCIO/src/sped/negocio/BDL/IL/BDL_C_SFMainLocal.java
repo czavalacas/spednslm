@@ -1,5 +1,7 @@
 package sped.negocio.BDL.IL;
 
+import java.sql.Time;
+
 import java.util.List;
 
 import javax.ejb.Local;
@@ -34,6 +36,9 @@ public interface BDL_C_SFMainLocal {
     List<Main> getHorariosPorDocente(String dniDocente);
     Main getMainByAtrubutes(String nidAula, String nidCurso, String dniProfesor);
     Main findMainById(int id);
+    int countCruceLecionByProfesor(String dniProfesor, 
+                                   Time inicio, 
+                                   Time fin);
     int findMainBySedeYNivel(int nidSede, 
                              int nidNivel);
 }
