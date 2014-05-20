@@ -198,6 +198,7 @@ public class bPlanificarEva {
     private HtmlOutputText outDatosEva2;
     private RichPanelGroupLayout pl1;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
+    private RichPopup popupExisteEvaluacion;
 
     public bPlanificarEva() {
         try {
@@ -1213,27 +1214,67 @@ public class bPlanificarEva {
     }
     
   /**Temporal*/  public String agregarEvaluacionYMainProvicional(){
-        long s = sessionPlanificarEva.getFechaYhoraInicialTemporal().getTime();
-        long c = sessionPlanificarEva.getFechaYhoraFinTemporal().getTime();
         Main main=ln_C_SFMainRemote.getMainPorSedeNivelYCurso(sessionPlanificarEva.getNidAulaTemporal(), 
                                                               sessionPlanificarEva.getNidCurso(), 
                                                               sessionPlanificarEva.getDniProfesor());
-        
-   
-        String nidDat = generarAlfanumerico();
-   
-        ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(s, 
-                                                       c,
-                                                       main.getNidMain(), 
-                                                       Integer.parseInt(getSessionPlanificarEva().getNidUsuario()),
-                                                       nidDat, 
-                                                       sessionPlanificarEva.getNidPlanificador(), 
-                                                       sessionPlanificarEva.getValorTipoVisita());      
-        Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
-        Utils.addTarget(calendar);
-        popupEvento2.hide();
+       sessionPlanificarEva.getListaPlanificacionesExistentes().clear();
+       sessionPlanificarEva.setNidMainPlanificacion(main.getNidMain());
+       List <BeanEvaluacion> lstEvas=ln_C_SFEvaluacionRemoto.getEvaluacionesEnRango(Utils.removeTime(sessionPlanificarEva.getFechaYhoraInicialTemporal()),main.getNidMain());
+      int num=0;
+      if(lstEvas.size()>0){
+          for(int i = 0; i< lstEvas.size(); i++){
+              if(( lstEvas.get(i).getStartDate().after(sessionPlanificarEva.getFechaYhoraInicialTemporal()) && 
+                 lstEvas.get(i).getStartDate().before(sessionPlanificarEva.getFechaYhoraFinTemporal()) )||
+                 ( lstEvas.get(i).getEndDate().after(sessionPlanificarEva.getFechaYhoraInicialTemporal()) && 
+                 lstEvas.get(i).getEndDate().before(sessionPlanificarEva.getFechaYhoraFinTemporal()) )||
+                 ( lstEvas.get(i).getStartDate().before(sessionPlanificarEva.getFechaYhoraInicialTemporal()) && 
+                 lstEvas.get(i).getEndDate().after(sessionPlanificarEva.getFechaYhoraFinTemporal()) )||
+                 ( lstEvas.get(i).getStartDate()==sessionPlanificarEva.getFechaYhoraInicialTemporal()) && 
+                 lstEvas.get(i).getEndDate()==sessionPlanificarEva.getFechaYhoraFinTemporal()){
+                   
+                        lstEvas.get(i).setNombreEvaluador(ln_C_SFUsuarioRemote.getNombresUsuarioByNidUsuario_LN(lstEvas.get(i).getNidEvaluador()));
+                  sessionPlanificarEva.getListaPlanificacionesExistentes().add(lstEvas.get(i));
+                  
+                              num=1;                           
+                }
+          }     
+          }
+      
+          if(num==0){
+         guardarPlanificacion();
+          }
+      else{
+        Utils.showPopUpMIDDLE(popupExisteEvaluacion);
+      }        
         return null;
     }
+  
+    /**Temporal*/ 
+  public String guardarPlanificacion(){
+      long s = sessionPlanificarEva.getFechaYhoraInicialTemporal().getTime();
+      long c = sessionPlanificarEva.getFechaYhoraFinTemporal().getTime();      
+      String nidDat = generarAlfanumerico();      
+      ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(s, 
+                                                     c,
+                                                     sessionPlanificarEva.getNidMainPlanificacion(), 
+                                                     Integer.parseInt(getSessionPlanificarEva().getNidUsuario()),
+                                                     nidDat, 
+                                                     sessionPlanificarEva.getNidPlanificador(), 
+                                                     sessionPlanificarEva.getValorTipoVisita());      
+      Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
+      Utils.addTarget(calendar);
+      popupEvento2.hide();      
+      return null;
+  }
+  
+    public void cancelarPlanificacion(ActionEvent actionEvent) {
+     popupExisteEvaluacion.hide();
+    }
+
+    public void confirmarPlanificacion(ActionEvent actionEvent) {
+     guardarPlanificacion();
+    }
+  
     public List<SelectItem> suggestNombreProfesor(String string) {
         return Utils.getSuggestions(sessionPlanificarEva.getItemNombreProferos(), string);
     }
@@ -1568,4 +1609,14 @@ public class bPlanificarEva {
     public RichSelectOneChoice getChoiceAula() {
         return choiceAula;
     }
+
+    public void setPopupExisteEvaluacion(RichPopup popupExisteEvaluacion) {
+        this.popupExisteEvaluacion = popupExisteEvaluacion;
+    }
+
+    public RichPopup getPopupExisteEvaluacion() {
+        return popupExisteEvaluacion;
+    }
+
+  
 }

@@ -568,6 +568,56 @@
                         </af:gridRow>
                     </af:panelGridLayout>
                 </af:panelGroupLayout>     
+            </af:dialog>            
+        </af:popup>
+        
+        <af:popup childCreation="deferred" contentDelivery="immediate"
+                  binding="#{bPlanificarEva.popupExisteEvaluacion}">
+            <af:dialog closeIconVisible="false" modal="true" styleClass="allertBox" type="none"
+                       title="Aviso de Evaluacion Existente">
+                <af:panelGroupLayout layout="vertical" halign="center" >
+                    <af:spacer width="1" height="10" />
+                     <af:outputLabel value="Se contraron evaluaciones planificadas que generan un cruze realizada por:"
+                                    inlineStyle="font-size:medium; color:black;" />
+                                      <af:spacer width="1" height="8" />
+                    <af:iterator var="row" value="#{sessionScope.sessionPlanificarEva.listaPlanificacionesExistentes}">
+                      <af:spacer width="1" height="5" />
+                        <af:panelGroupLayout layout="horizontal" >  
+                    <af:outputLabel value="#{row.nombreEvaluador} de:"
+                                    inlineStyle="font-size:medium; color:black;" >                                    
+                                    </af:outputLabel>
+                                     <af:spacer width="10" height="10" />
+                                     <af:outputLabel value="#{row.startDate}"
+                                    inlineStyle="font-size:medium; color:black;" >
+                                    <af:convertDateTime type="date" pattern="hh:mm a"/>
+                                    </af:outputLabel>
+                                     <af:spacer width="10" height="10" />
+                                       <af:outputLabel value=" - "
+                                    inlineStyle="font-size:medium; color:black;" >                                    
+                                    </af:outputLabel>
+                                        <af:spacer width="10" height="10" />
+                                     <af:outputLabel value="#{row.endDate}"
+                                    inlineStyle="font-size:medium; color:black;" >
+                                    <af:convertDateTime type="date" pattern="hh:mm a"/>
+                                    </af:outputLabel>
+                                    </af:panelGroupLayout>
+                    </af:iterator>
+                      <af:spacer width="1" height="10" />
+                    <af:outputLabel value="Desea programar esta evaluacion de todas formas?"
+                                    inlineStyle="font-size:medium; color:Red;" />
+                    <af:spacer width="1" height="10" />
+                </af:panelGroupLayout>
+                <f:facet name="buttonBar">
+                    <af:panelGroupLayout layout="vertical" halign="right">
+                        <af:panelGroupLayout layout="horizontal" >
+                            <af:commandButton text="Si" actionListener="#{bPlanificarEva.confirmarPlanificacion}" />
+                            <af:commandButton text="Cancelar"
+                                              actionListener="#{bPlanificarEva.cancelarPlanificacion}">
+                                <af:resetActionListener/>
+                            </af:commandButton>
+                        </af:panelGroupLayout>
+                    </af:panelGroupLayout>
+                </f:facet>
             </af:dialog>
         </af:popup>
     </f:view>
