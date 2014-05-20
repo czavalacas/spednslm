@@ -2,8 +2,18 @@
 
 {{{
 ALTER TABLE `mmsi_sped`.`evmeval` 
-ADD COLUMN `flg_estado` VARCHAR(3) NULL COMMENT 'Indicador que va de la mano con el estado_evaluacion, para implementar la logica del demonio que cambia los estados' AFTER `modo_evaluacion`;
-ALTER TABLE `mmsi_sped`.`evmeval` ADD COLUMN `flg_evaluar` VARCHAR(1) NULL COMMENT 'Si esta en 1 quiere decir que se puede Evaluar, de lo contrario no se podra.' AFTER `flg_estado`,ADD COLUMN `flg_anular` VARCHAR(1) NULL COMMENT 'Si esta en 1 quiere decir que se puede anular, de lo contrario no se podra. Si esta en 1 no se puede anular' AFTER `flg_evaluar`,ADD COLUMN `flg_justificar` VARCHAR(1) NULL COMMENT 'Si esta en 1 quiere decir que se puede justificar, aqui no se puede evaluar ni anular. Si esta en 0 ya no se podra justificar es decir estara en estado INJUSTIFICADO' AFTER `flg_anular`;
+ADD COLUMN `flg_estado` VARCHAR(3) NULL 
+COMMENT 'Indicador que va de la mano con el estado_evaluacion, para implementar la logica del demonio que cambia los estados' AFTER `modo_evaluacion`;
+ALTER TABLE `mmsi_sped`.`evmeval` 
+ADD COLUMN `flg_evaluar` VARCHAR(1) NULL 
+COMMENT 'Si esta en 1 quiere decir que se puede Evaluar, de lo contrario no se podra.' 
+AFTER `flg_estado`,
+ADD COLUMN `flg_anular` VARCHAR(1) NULL 
+COMMENT 'Si esta en 1 quiere decir que se puede anular, de lo contrario no se podra. Si esta en 1 no se puede anular' 
+AFTER `flg_evaluar`,
+ADD COLUMN `flg_justificar` VARCHAR(1) NULL 
+COMMENT 'Si esta en 1 quiere decir que se puede justificar, aqui no se puede evaluar ni anular. Si esta en 0 ya no se podra justificar es decir estara en estado INJUSTIFICADO' 
+AFTER `flg_anular`;
 }}}
 
 *Carlos:*
