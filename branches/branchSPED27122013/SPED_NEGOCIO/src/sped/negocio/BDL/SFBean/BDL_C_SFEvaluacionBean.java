@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
+
+import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -13,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
+import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
@@ -32,6 +35,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
     private EntityManager em;
+    @EJB
+    private BDL_C_SFUsuarioLocal bdL_C_SFUsuarioLocal;
 
     public BDL_C_SFEvaluacionBean() {
     }
@@ -353,16 +358,22 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                                                       int nidSedeFiltro,
                                                       int nidAAFiltro){
         try{
+            boolean isSupervisor = false;
             String qlString = "SELECT e " +
                               "FROM Evaluacion e " +
                               "WHERE e.estadoEvaluacion = 'PENDIENTE' ";
             if(nidRol == 4){//Evaluador x Sede
                 qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
             }else if(nidRol == 2){//Evaluador x Area
-                if (nidAreaAcademica == 12 || nidAreaAcademica == 13) { //12 = Primer Ciclo 13 = Inicial
-                    qlString = qlString.concat(" and e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica ");
-                } else {
-                    qlString = qlString.concat(" and e.main.curso.nidAreaNativa = :nidAreaAcademica ");
+                isSupervisor = bdL_C_SFUsuarioLocal.getIsSupervisor(nidUsuario);
+                /** dfloresgonz 20.05.2014 Si no es supervisor que busque x su area academica, de lo contrario, si es
+                 * supervisor no le debe restringir el area academcia ya que puede evaluar a cualquiera. **/
+                if(!isSupervisor){
+                    if (nidAreaAcademica == 12 || nidAreaAcademica == 13) { //12 = Primer Ciclo 13 = Inicial
+                        qlString = qlString.concat(" and e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica ");
+                    } else {
+                        qlString = qlString.concat(" and e.main.curso.nidAreaNativa = :nidAreaAcademica ");
+                    }
                 }
                 qlString = qlString.concat(" AND e.nidEvaluador = :nidEvaluador ");
             //    qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
@@ -386,15 +397,16 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             if(curso != null){
                 qlString = qlString.concat(" AND upper(e.main.curso.descripcionCurso) like upper(:curso) ");
             }
-            qlString = qlString.concat(" AND CAST(e.startDate AS date) = CURRENT_DATE  ");//TODO Fecha de planificaciones solo hoy
+           // qlString = qlString.concat(" AND CAST(e.startDate AS date) = CURRENT_DATE  ");//TODO Fecha de planificaciones solo hoy
             qlString = qlString.concat(" ORDER BY e.startDate ASC ");
             //Utiles.sysout("query:" + qlString);
             Query query = em.createQuery(qlString);
             if(nidRol == 4){//Evaluador x Sede
                 query.setParameter("nidSede",nidSede);
             }else if(nidRol == 2){//Evaluador x Area
-                
-                query.setParameter("nidAreaAcademica",nidAreaAcademica).setParameter("nidEvaluador",nidUsuario);
+                if(!isSupervisor){
+                    query.setParameter("nidAreaAcademica",nidAreaAcademica).setParameter("nidEvaluador",nidUsuario);
+                }
             }
             if(nidSedeFiltro != 0){
                 if(nidRol == 1 || nidRol == 2){
