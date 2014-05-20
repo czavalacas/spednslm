@@ -93,4 +93,5 @@ public interface LN_C_SFEvaluacionLocal {
     List<BeanEvaluacion_DP> desempenoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros, String fechaHoy);
     double promedioGeneralPorFiltroDesempenoDocente(List<BeanEvaluacion_DP> listaEva_WS);
     double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, Integer nidIndicador, String fechaHoy);
+    List<BeanEvaluacion>getEvaluacionesEnRango(Date hoy, int nidMain);
 }

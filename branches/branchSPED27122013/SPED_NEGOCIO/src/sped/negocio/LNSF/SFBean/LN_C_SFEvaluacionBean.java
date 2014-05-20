@@ -613,5 +613,14 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         }
         return resu;
     }
-
+    
+    public List<BeanEvaluacion>getEvaluacionesEnRango(Date hoy, int nidMain){        
+        List<BeanEvaluacion> lstBean = new ArrayList();
+        List<Evaluacion> lstEva = bdL_C_SFEvaluacionLocal.getEvaluacionesEnrangoDeHoras(hoy, nidMain);
+        for (Evaluacion a : lstEva) {
+            BeanEvaluacion bean = (BeanEvaluacion) mapper.map(a, BeanEvaluacion.class);
+            lstBean.add(bean);
+}
+        return lstBean;        
+    }
 }
