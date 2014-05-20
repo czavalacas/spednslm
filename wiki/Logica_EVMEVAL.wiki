@@ -1,6 +1,11 @@
 #summary One-sentence summary of this page.
 
 {{{
+
+INSERT INTO `mmsi_sped`.`admcons` (`descripcion`, `campo`, `tabla`, `valor`) VALUES ('Por justificar', 'estado_evaluacion', 'evmeval', '5');
+INSERT INTO `mmsi_sped`.`admcons` (`descripcion`, `campo`, `tabla`, `valor`) VALUES ('Injustificado', 'estado_evaluacion', 'evmeval', '6');
+
+
 ALTER TABLE `mmsi_sped`.`evmeval` 
 ADD COLUMN `flg_estado` VARCHAR(3) NULL 
 COMMENT 'Indicador que va de la mano con el estado_evaluacion, para implementar la logica del demonio que cambia los estados' 
@@ -18,6 +23,7 @@ AFTER `flg_evaluar`,
 ADD COLUMN `flg_justificar` VARCHAR(1) NULL 
 COMMENT 'Si esta en 1 quiere decir que se puede justificar, aqui no se puede evaluar ni anular. Si esta en 0 ya no se podra justificar es decir estara en estado INJUSTIFICADO' 
 AFTER `flg_anular`;
+
 }}}
 
 *Carlos:*
