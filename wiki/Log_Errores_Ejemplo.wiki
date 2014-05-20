@@ -1,4 +1,4 @@
-#Ejemplo de como implementar el Log de errores en el sistema
+#summary Ejemplo de como implementar el Log de errores en el sistema
 
 = Que es esto? =
 
