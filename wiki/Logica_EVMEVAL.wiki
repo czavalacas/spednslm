@@ -34,3 +34,6 @@ Considerar estos colores en tu dash.
   * POR JUSTIFICAR : morado
   * JUSTIFICADO    : negro
   * INJUSTIFICADO  : rojo
+
+Este es como se implementa la logica para cambiar los estados:
+http://oi60.tinypic.com/2zemag3.jpg
