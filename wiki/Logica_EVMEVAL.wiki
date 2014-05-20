@@ -1,6 +1,6 @@
 #summary One-sentence summary of this page.
 
-{{{
+<code>
 
 INSERT INTO `mmsi_sped`.`admcons` (`descripcion`, `campo`, `tabla`, `valor`) 
 VALUES ('Por justificar', 'estado_evaluacion', 'evmeval', '5');
@@ -26,7 +26,7 @@ ADD COLUMN `flg_justificar` VARCHAR(1) NULL
 COMMENT 'Si esta en 1 quiere decir que se puede justificar, aqui no se puede evaluar ni anular. Si esta en 0 ya no se podra justificar es decir estara en estado INJUSTIFICADO' 
 AFTER `flg_anular`;
 
-}}}
+</code>
 
 *Carlos:*
 Al momento de registrar una planificación considerar:
