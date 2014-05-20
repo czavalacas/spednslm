@@ -2,8 +2,10 @@
 
 {{{
 
-INSERT INTO `mmsi_sped`.`admcons` (`descripcion`, `campo`, `tabla`, `valor`) VALUES ('Por justificar', 'estado_evaluacion', 'evmeval', '5');
-INSERT INTO `mmsi_sped`.`admcons` (`descripcion`, `campo`, `tabla`, `valor`) VALUES ('Injustificado', 'estado_evaluacion', 'evmeval', '6');
+INSERT INTO `mmsi_sped`.`admcons` (`descripcion`, `campo`, `tabla`, `valor`) 
+VALUES ('Por justificar', 'estado_evaluacion', 'evmeval', '5');
+INSERT INTO `mmsi_sped`.`admcons` (`descripcion`, `campo`, `tabla`, `valor`) 
+VALUES ('Injustificado', 'estado_evaluacion', 'evmeval', '6');
 
 
 ALTER TABLE `mmsi_sped`.`evmeval` 
