@@ -50,7 +50,9 @@ public interface BDL_C_SFEvaluacionRemoto {
                                             String tipoVisita,
                                             Integer nidPlanificador,
                                             Integer nidEvaluador);
-    List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros, String fechaHoy) ;
+    List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros, 
+                                               String fechaHoy) ;
     int countNidProblema(int nidProblema);
     int countEvaluacionByNidMain(int nidMain);
+    List<Evaluacion> getEvaluacionesEnrangoDeHoras(Date hoy, int nidMain);
 }
