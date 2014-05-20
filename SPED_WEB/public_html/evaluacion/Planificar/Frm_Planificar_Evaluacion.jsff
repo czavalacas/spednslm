@@ -479,7 +479,8 @@
                                                     id="choiceAreaAcademica2" unselectedLabel="::Seleccionar Area::"
                                                     autoSubmit="true" binding="#{bPlanificarEva.choiceAreaAcademicas}"
                                                   disabled="#{sessionScope.sessionPlanificarEva.estadoDisableChoiceArea}"
-                                                       visible="#{sessionPlanificarEva.estadoVisibleComboAreaacademica}">
+                                                       visible="#{sessionPlanificarEva.estadoVisibleComboAreaacademica}"
+                                                       valueChangeListener="#{bPlanificarEva.eventoChoiceArea}">
                                     <f:selectItems value="#{sessionScope.sessionPlanificarEva.listAreasAcade}" id="si88"/>
                                 </af:selectOneChoice>  
                          
