@@ -34,15 +34,10 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 
-import javax.faces.component.UISelectItems;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
-
-import javax.faces.model.SelectItemGroup;
-
-import javax.servlet.ServletContext;
 
 import oracle.adf.view.faces.bi.component.graph.UIGraph;
 import oracle.adf.view.faces.bi.event.ClickEvent;
@@ -67,22 +62,13 @@ import oracle.dss.dataView.DataComponentHandle;
 import oracle.dss.dataView.ImageView;
 import oracle.dss.dataView.SeriesComponentHandle;
 
-import oracle.jbo.uicli.binding.JUCtrlListBinding;
-
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
-import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
-import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
-import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 
 import sped.vista.Utils.Utils;
-import sped.negocio.entidades.beans.BeanAreaAcademica;
-import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanEvaluacion;
-import sped.negocio.entidades.beans.BeanRol;
-import sped.negocio.entidades.beans.BeanSede;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bDesempenoEvaluador {
@@ -156,7 +142,8 @@ public class bDesempenoEvaluador {
     
     public void validarRol(){
         int nidRol = beanUsuario.getRol().getNidRol();      
-        if(nidRol == 2){
+        nidRol = beanUsuario.getIsSupervisor().compareTo("1") == 0 ? 1 : nidRol;        
+        if(nidRol == 2 ){
             sessionDesempenoEvaluador.setLstEvaluador(
                 Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadoresByArea_LN(beanUsuario.getAreaAcademica().getNidAreaAcademica()))); 
         }else{
@@ -688,7 +675,6 @@ public class bDesempenoEvaluador {
             List <BeanEvaluacion> lst = desempenoFiltro_Aux(2, nombre, estado, null, null);
             sessionDesempenoEvaluador.setLstEvaDetalle(lst);
             beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());
-           // beanUsu.setClave(""); Lo comente porque Beanusuairo no tiene atributo clave o quisas no lo comitearon
             sessionDesempenoEvaluador.setEvaluador(beanUsu);
             sessionDesempenoEvaluador.setEstado(estado);
             estadoEvaluacion(estado);            
