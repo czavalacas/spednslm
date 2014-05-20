@@ -1,4 +1,4 @@
-#Pasos a seguir para actualizar sus locales
+#summary Pasos a seguir para actualizar sus locales
 
 = Encriptar =
 
