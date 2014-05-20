@@ -1,0 +1,53 @@
+#summary One-sentence summary of this page.
+
+{{{
+ALTER TABLE `mmsi_sped`.`evmeval` 
+ADD COLUMN `flg_estado` VARCHAR(3) NULL COMMENT 'Indicador que va de la 
+
+mano con el estado_evaluacion, para implementar la logica del demonio que cambia los estados' AFTER 
+
+`modo_evaluacion`;
+ALTER TABLE `mmsi_sped`.`evmeval` 
+ADD COLUMN `flg_evaluar` VARCHAR(1) NULL COMMENT 'Si esta en 1 quiere 
+
+decir que se puede Evaluar, de lo contrario no se podra.' AFTER `flg_estado`,
+ADD COLUMN `flg_anular` 
+
+VARCHAR(1) NULL COMMENT 'Si esta en 1 quiere decir que se puede anular, de lo contrario no se podra. Si esta 
+
+en 1 no se puede anular' AFTER `flg_evaluar`,
+ADD COLUMN `flg_justificar` VARCHAR(1) NULL COMMENT 'Si esta en 
+
+1 quiere decir que se puede justificar, aqui no se puede evaluar ni anular. Si esta en 0 ya no se podra 
+
+justificar es decir estara en estado INJUSTIFICADO' AFTER `flg_anular`;
+}}}
+
+*Carlos:*
+al momento de registrar una planificacion considerar, esos campos setealos, ya estan en el mapeo:
+
+flg_estado = 'PEN'
+flg_evaluar = '1'
+flg_anular = '1'
+flg_justificar = '0'
+
+*Diego:*
+Al evaluar:
+flg_estado = 'EVA'
+flg_evaluar = '0'
+flg_anular = '0'
+flg_justificar = '0'
+
+ese flg_anular te servira para ver si puedes anularlo o no, tambien considera si se lo planifico otro.
+
+Ahora hay 6 estados para evmeval:
+
+*David:*
+Considerar estos colores en tu dash.
+
+  * PENDIENTE      : azul
+  * NO EJECUTADO   : naranja
+  * EJECUTADO      : verde
+  * POR JUSTIFICAR : morado
+  * JUSTIFICADO    : negro
+  * INJUSTIFICADO  : rojo
