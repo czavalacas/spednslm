@@ -121,6 +121,7 @@ public class sessionPlanificar {
     private boolean estadoVisibleComboAreaacademica=true;
     private int nidMainPlanificacion;
     private List<BeanEvaluacion> listaPlanificacionesExistentes=new ArrayList<BeanEvaluacion>();
+    private int isSupervisor=0;
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
         this.listaHorarios = listaHorarios;
@@ -896,5 +897,13 @@ public class sessionPlanificar {
 
     public List<BeanEvaluacion> getListaPlanificacionesExistentes() {
         return listaPlanificacionesExistentes;
+    }
+
+    public void setIsSupervisor(int isSupervisor) {
+        this.isSupervisor = isSupervisor;
+    }
+
+    public int getIsSupervisor() {
+        return isSupervisor;
     }
 }
