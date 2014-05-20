@@ -1,7 +1,7 @@
 package sped.vista.beans.evaluacion.planificar;
 
 
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +13,7 @@ import javax.faces.model.SelectItem;
 import oracle.adf.view.rich.util.InstanceStyles;
 
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -118,6 +119,8 @@ public class sessionPlanificar {
     private boolean estadoOutDatosEva1=false;
     private boolean estadoOutDatosEva2=false;
     private boolean estadoVisibleComboAreaacademica=true;
+    private int nidMainPlanificacion;
+    private List<BeanEvaluacion> listaPlanificacionesExistentes=new ArrayList<BeanEvaluacion>();
 
     public void setListaHorarios(List<BeanMain> listaHorarios) {
         this.listaHorarios = listaHorarios;
@@ -877,5 +880,21 @@ public class sessionPlanificar {
 
     public boolean isEstadoVisibleComboAreaacademica() {
         return estadoVisibleComboAreaacademica;
+    }
+
+    public void setNidMainPlanificacion(int nidMainPlanificacion) {
+        this.nidMainPlanificacion = nidMainPlanificacion;
+    }
+
+    public int getNidMainPlanificacion() {
+        return nidMainPlanificacion;
+    }
+
+    public void setListaPlanificacionesExistentes(List<BeanEvaluacion> listaPlanificacionesExistentes) {
+        this.listaPlanificacionesExistentes = listaPlanificacionesExistentes;
+    }
+
+    public List<BeanEvaluacion> getListaPlanificacionesExistentes() {
+        return listaPlanificacionesExistentes;
     }
 }
