@@ -829,22 +829,15 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
     }
   
     public List<Evaluacion> getEvaluacionesEnrangoDeHoras(Date hoy, int nidMain){
-        try{
-           /* String ejbQl = "SELECT ev " +
-                           "FROM Evaluacion ev " +
-                           "WHERE ev.startDate > :horaInicio ev.startDate < :horaFin "+
-                           "OR ev.endDate > :horaInicio AND ev.endDate < :horaFin " +
-                           "OR ev.startDate > :horaInicio AND ev.endDate < :horaFin " +
-                           "OR ev.startDate > :horaInicio AND ev.endDate < :horaFin";*/
+        try{   
             
-           String ejbQl = "SELECT ev " +
-                                     "FROM Evaluacion ev " +
-                                     "WHERE CAST(ev.startDate as date) = :horaInicio " +
-                                     "and ev.main.nidMain= :nidMain";
+              String ejbQl = "SELECT ev " +
+                             "FROM Evaluacion ev " +
+                             "WHERE CAST(ev.startDate as date) = :horaInicio " +
+                             "and ev.main.nidMain= :nidMain";
            List<Evaluacion> eva = em.createQuery(ejbQl)
                                    .setParameter("horaInicio", hoy,  TemporalType.DATE)
-               .setParameter("nidMain", nidMain)
-                         //          .setParameter("horaFin", horaFin,  TemporalType.DATE)
+                                   .setParameter("nidMain", nidMain)                
                                    .getResultList();     
             Utiles.sysout(eva.size());
             return eva;  
