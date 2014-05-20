@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#Logica y codigo para implementar la nueva manera de manejar los estados en evmeval
 
 <code>
 
