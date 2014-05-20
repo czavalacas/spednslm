@@ -1,4 +1,4 @@
-#Pendientes del Sistema
+#summary Pendientes del Sistema
 
   # *Deploy en glassfish (en proceso)*
   # ISO en gestion de claves, longitud, que no sea repetida, obligar a cambiarlas cada cierto tiempo (tabla del sistema o que el usuario eliga cada cuanto tiempo), simbolos, mayusculas.no contenga el nombre,bloquear sesion si hubieron varios intentos fallidos de logeo, configurable la cantidad y el tiempo de bloqueo.
