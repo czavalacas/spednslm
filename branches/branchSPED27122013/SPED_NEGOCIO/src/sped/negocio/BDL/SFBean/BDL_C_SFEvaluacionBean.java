@@ -405,8 +405,9 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 query.setParameter("nidSede",nidSede);
             }else if(nidRol == 2){//Evaluador x Area
                 if(!isSupervisor){
-                    query.setParameter("nidAreaAcademica",nidAreaAcademica).setParameter("nidEvaluador",nidUsuario);
+                    query.setParameter("nidAreaAcademica",nidAreaAcademica);
                 }
+                query.setParameter("nidEvaluador",nidUsuario);
             }
             if(nidSedeFiltro != 0){
                 if(nidRol == 1 || nidRol == 2){
