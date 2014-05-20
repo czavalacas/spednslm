@@ -31,4 +31,5 @@ public interface BDL_C_SFUsuarioRemote {
     List<Usuario> getUsuarioTipoProfesor();
     boolean testClave(int nidUsuario,
                       String clave);
+    boolean getIsSupervisor(int nidUsuario);
 }
