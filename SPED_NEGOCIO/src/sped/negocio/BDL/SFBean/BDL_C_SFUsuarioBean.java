@@ -422,4 +422,21 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         }
         return lstUsuario;
     }
+    
+    public boolean getIsSupervisor(int nidUsuario){
+        try {
+            String strQuery = "SELECT u.isSupervisor " +
+                              "FROM Usuario u " +
+                              "WHERE u.nidUsuario = :nidUsuario ";
+            List lstResult = em.createQuery(strQuery).setParameter("nidUsuario",nidUsuario).getResultList();
+            if(lstResult.isEmpty()){
+                return false;
+            }else{
+                return Integer.parseInt(lstResult.get(0).toString()) == 1 ? true : false ;
+            }
+        } catch (Exception e) {
+             e.printStackTrace();
+             return false;
+        }
+    }
 }
