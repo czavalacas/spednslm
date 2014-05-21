@@ -35,7 +35,7 @@ AFTER `flg_anular`;
 -- --------------------------------------------------------------------------------
 DELIMITER $$
 
-CREATE DEFINER=`mmsi_sped`@`%` PROCEDURE `procedureDemonioEvmeval`()
+CREATE DEFINER=``mmsi_sped``@``%`` PROCEDURE ``procedureDemonioEvmeval``()
 BEGIN
 DECLARE idLogC   	  VARCHAR(50);
 DECLARE numPEN_NE     INT; -- Nro de pendientes que pasaran a NO_EJECUTADOS
