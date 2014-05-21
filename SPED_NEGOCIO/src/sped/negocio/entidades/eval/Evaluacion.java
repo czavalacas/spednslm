@@ -77,8 +77,6 @@ public class Evaluacion implements Serializable {
     @Column(name = "modo_evaluacion")
     private String modoEvaluacion;
     /** Nuevos Flags **/
-    @Column(name = "flg_estado")
-    private String flgEstado;
     @Column(name = "flg_evaluar")
     private String flgEvaluar;
     @Column(name = "flg_anular")
@@ -106,14 +104,6 @@ public class Evaluacion implements Serializable {
         this.tipoVisita=tipoVisita;
         this.comentarioEvaluador = comentarioEvaluador;
         this.fechaEvaluacion = fechaEvaluacion;
-    }
-
-    public void setFlgEstado(String flgEstado) {
-        this.flgEstado = flgEstado;
-    }
-
-    public String getFlgEstado() {
-        return flgEstado;
     }
 
     public void setFlgEvaluar(String flgEvaluar) {
