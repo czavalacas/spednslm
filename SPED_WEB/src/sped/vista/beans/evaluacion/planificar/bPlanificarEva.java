@@ -308,10 +308,11 @@ public class bPlanificarEva {
         sessionPlanificarEva.setEstadoDeEvaluacion(entida.getEstadoEvaluacion());
 
         Date fechaHoy = new Date();
-        if (sessionPlanificarEva.getFechaEvaluacionPopup().before(fechaHoy)) {    
+      //  if (sessionPlanificarEva.getFechaEvaluacionPopup().before(fechaHoy)) {    
+        if ("0".equals(entida.getFlgAnular())) {      
             sessionPlanificarEva.setEstadoBotonEliminarEvaluacion(false);
         } else {            
-            if (entida.getNidPlanificador().intValue() != sessionPlanificarEva.getNidPlanificador().intValue() && sessionPlanificarEva.getNidRol().intValue() != 6 ) {
+            if (entida.getNidPlanificador().intValue() != sessionPlanificarEva.getNidPlanificador().intValue() && "0".equals(beanUsuario.getIsSupervisor())) {
                 sessionPlanificarEva.setEstadoBotonEliminarEvaluacion(false);
             }else{
                 sessionPlanificarEva.setEstadoBotonEliminarEvaluacion(true);
@@ -322,7 +323,7 @@ public class bPlanificarEva {
             sessionPlanificarEva.setEstadoBoxComentarios(true);
             sessionPlanificarEva.setEstadoBoxJustificacion(false);
         }
-        if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("NO JUSTIFICADO")){
+        if("1".equals(entida.getFlgJustificar())){//cambio
             sessionPlanificarEva.setListaProblemas(Utils.llenarCombo(ln_C_SFUtilsRemote.getProblemas_LN_WS()));  
             sessionPlanificarEva.setEstadoBoxJustificacion(true);
             sessionPlanificarEva.setEstadoBoxComentarios(false);
@@ -337,7 +338,7 @@ public class bPlanificarEva {
             sessionPlanificarEva.setEstadoDinputJustificacion(false);
             }
         }
-        if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("NO EJECUTADO")){
+       /* if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("NO EJECUTADO")){
             sessionPlanificarEva.setListaProblemas(Utils.llenarCombo(ln_C_SFUtilsRemote.getProblemas_LN_WS()));  
             sessionPlanificarEva.setEstadoBoxJustificacion(true);
             sessionPlanificarEva.setEstadoBoxComentarios(false);
@@ -351,7 +352,7 @@ public class bPlanificarEva {
             sessionPlanificarEva.setEstadoDisableChoiceProblema(false);
             sessionPlanificarEva.setEstadoDinputJustificacion(false);
             }
-        }
+        }*/
         if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("PENDIENTE")){
             sessionPlanificarEva.setEstadoBoxJustificacion(false);
             sessionPlanificarEva.setEstadoBoxComentarios(false);
@@ -1159,14 +1160,21 @@ public class bPlanificarEva {
              HashSet setnoconf = new HashSet<String>();
              HashSet setadm = new HashSet<String>();
              HashSet setnojust = new HashSet<String>();
+             HashSet porJusti = new HashSet<String>();
+             HashSet Justi = new HashSet<String>();
              setconf.add("EJECUTADO");
              setnoconf.add("PENDIENTE");
              setadm.add("NO EJECUTADO");       
-             setnojust.add("NO JUSTIFICADO");
+             setnojust.add("INJUSTIFICADO");
+             porJusti.add("POR JUSTIFICAR");
+             Justi.add("JUSTIFICADO");
+                                           
              activityStyles.put(setconf, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.GREEN));
              activityStyles.put(setnoconf, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.BLUE));
              activityStyles.put(setadm, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.ORANGE));
              activityStyles.put(setnojust, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.RED));
+             activityStyles.put(Justi, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.MIDNIGHTBLUE));
+             activityStyles.put(porJusti, CalendarActivityRamp.getActivityRamp(CalendarActivityRamp.RampKey.LAVENDAR));
            }catch (Exception e) {
             e.printStackTrace();
            }
