@@ -18,7 +18,7 @@
   # Grabados parciales al evaluar.
   # Enviar el word de evaluacion x correo.
   # ~~Alertar por correo cuando se evaluó al profesor.~~
-  # En la cabecera al lado de la foto si es eva de sede, mostrar que sede, si es de area, mostrar que area.
+  # ~~En la cabecera al lado de la foto si es eva de sede, mostrar que sede, si es de area, mostrar que area.~~
   # ~~Error login aplicativo sped~~
   # ~~Busqueda con tecla en registrar ficha y otras mejoras~~.
   # ~~Ver porque imprime tanto en la consola.(un solo componente dentro del f:view)~~
