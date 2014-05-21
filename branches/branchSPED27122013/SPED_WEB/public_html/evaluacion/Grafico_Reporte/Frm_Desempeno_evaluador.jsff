@@ -225,7 +225,7 @@
                             </f:facet>
                             <f:facet name="statusbar"/>
                             <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row" rowBandingInterval="0"
-                                      id="tEva" width="inherit;" fetchSize="50" columnStretching="column:c23">
+                                      id="tEva" width="inherit;" fetchSize="50" columnStretching="column:c1">
                                 <af:column sortable="true" headerText="Nombre Evaluador" align="start" id="c1"
                                            sortProperty="nombreEvaluador">
                                     <af:outputText value="#{row.nombreEvaluador}" id="ot1"/>
@@ -258,6 +258,14 @@
                                 <af:column sortable="true" headerText="Justificados" align="start" id="c5"
                                            sortProperty="cantJustificado">
                                     <af:outputText value="#{row.cantJustificado}" id="ot5"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Por Justificar" align="start" id="c18"
+                                           sortProperty="#cantJustificado">
+                                    <af:outputText value="#{row.cantPorJustificar}" id="ot19"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Injustificado" align="start" id="c27"
+                                           sortProperty="cantInjustificado">
+                                    <af:outputText value="#{row.cantInjustificado}" id="ot27"/>
                                 </af:column>
                                 <af:column sortable="true" headerText="Desempeño( 0 - 100% )" align="center" id="c23"
                                            sortProperty="porcentajeDesempeno"
