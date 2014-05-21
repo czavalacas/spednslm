@@ -7,16 +7,16 @@
   # manuales PDF y video, subirlos al sistema
   # Sincronizar los calendarios
   # Mejorar la performance en las consultas de planificacion y evaluacion.
-  # Editar el Aplicativo para que no valide rango de fechas al evaluar
   # Grabar en el log cuando se solicite nueva clave.
   # Subir APK a google play (pagar $25 registro).
   # Modulo de feedback y recomendaciones.
   # Acomodar los tags f:view que tenga solo 1 raiz los jsff
   # Modulo de continuidad de negocio
   # Dash visualizar hora de planificacion vs. hora de evaluacion
-  # ~~Agrandar la pantalla de comentario en consultar evas.~~
   # Grabados parciales al evaluar.
   # Enviar el word de evaluacion x correo.
+  # ~~Editar el Aplicativo para que no valide rango de fechas al evaluar.~~
+  # ~~Agrandar la pantalla de comentario en consultar evas.~~
   # ~~Alertar por correo cuando se evaluó al profesor.~~
   # ~~En la cabecera al lado de la foto si es eva de sede, mostrar que sede, si es de area, mostrar que area.~~
   # ~~Error login aplicativo sped~~
