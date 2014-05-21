@@ -64,8 +64,7 @@ IF(numPEN_NE > 0) THEN
 		cidLogd = idlogC,
 		flg_justificar = '0', -- No puede justificar
 		flg_evaluar = '1',-- Aun puede EVALUAR
-		flg_anular = '0', -- YA NO PUEDE ANULAR
-		flg_estado = 'PEN' -- Le cambia de estado pero aun se debe poder evaluar, tiene 1 dia extra, esto es para saber que se le paso la hora
+		flg_anular = '0' -- YA NO PUEDE ANULAR
 	WHERE estado_evaluacion = 'PENDIENTE' 
 	AND end_Date < now();
 END IF;
@@ -93,8 +92,7 @@ IF(numPEN_NE > 0) THEN
 		cidLogd = idlogC,
 		flg_justificar = '1', -- Recien podra justificar, tiene 1 dia
 		flg_evaluar = '0',-- Ya no puede EVALUAR
-		flg_anular = '0', -- YA NO PUEDE ANULAR
-		flg_estado = 'XJUS' -- Le cambia de estado pero aun se debe poder evaluar, tiene 1 dia extra, esto es para saber que se le paso la hora
+		flg_anular = '0' -- YA NO PUEDE ANULAR
 	WHERE estado_evaluacion = 'NO EJECUTADO' 
 	AND DATE_ADD(end_Date,INTERVAL 24 HOUR) < now();
 END IF;
@@ -122,8 +120,7 @@ IF(numPEN_NE > 0) THEN
 		cidLogd = idlogC,
 		flg_justificar = '0', -- Recien podra justificar, tiene 1 dia
 		flg_evaluar = '0',-- Ya no puede EVALUAR
-		flg_anular = '0', -- YA NO PUEDE ANULAR
-		flg_estado = 'NJUS' -- Le cambia de estado pero aun se debe poder evaluar, tiene 1 dia extra, esto es para saber que se le paso la hora
+		flg_anular = '0' -- YA NO PUEDE ANULAR
 	WHERE estado_evaluacion = 'POR JUSTIFICAR' 
 	AND DATE_ADD(end_Date,INTERVAL 48 HOUR) < now();
 END IF;
