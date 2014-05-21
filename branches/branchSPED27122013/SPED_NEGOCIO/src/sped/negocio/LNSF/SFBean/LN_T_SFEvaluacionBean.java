@@ -104,7 +104,10 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setDescripcion("");
             eva.setEstadoEvaluacion("PENDIENTE");           
             eva.setNidDate(nidDat);
-            eva.setNidPlanificador(nidPlanificador);
+            eva.setNidPlanificador(nidPlanificador);       
+            eva.setFlgEvaluar("1");
+            eva.setFlgAnular("1");
+            eva.setFlgJustificar("0");
             Date fechaHoy = new Date();
             long d = fechaHoy.getTime();
             eva.setFechaPlanificacion(new Timestamp(d));
