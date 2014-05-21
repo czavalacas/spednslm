@@ -73,6 +73,13 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                 }
                 if(msj.equals("000")){
                     beanUsuario = (BeanUsuario)mapper.map(user, BeanUsuario.class);
+                    if(beanUsuario.getRol().getNidRol() == 2){//Evaluador de area
+                        beanUsuario.setRol_descSedeoArea(beanUsuario.getRol().getDescripcionRol()+": "+beanUsuario.getAreaAcademica().getDescripcionAreaAcademica());
+                    }else if(beanUsuario.getRol().getNidRol() == 4){//Evaluador de sede
+                        beanUsuario.setRol_descSedeoArea(beanUsuario.getRol().getDescripcionRol()+": "+beanUsuario.getSede().getDescripcionSede());
+                    }else{
+                        beanUsuario.setRol_descSedeoArea(beanUsuario.getRol().getDescripcionRol());
+                    }
                     /*if(beanUsuario.getFoto() != null){
                         String encoded = Base64.encodeBase64String(beanUsuario.getFoto());
                         //String encoded = MyBase64.encode(beanUsuario.getFoto());

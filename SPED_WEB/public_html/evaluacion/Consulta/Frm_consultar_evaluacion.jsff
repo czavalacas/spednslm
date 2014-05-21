@@ -222,7 +222,7 @@
                                   value="#{sessionConsultarEvaluacion.evaSelect == null ? null : sessionConsultarEvaluacion.evaSelect.nombreEvaluador}"
                                   labelStyle="text-align: left;"/>
                     <af:inputText label="Comentario" id="it4" maximumLength="1000" rows="5" labelStyle="text-align: left;"
-                                  value="#{bConsultarEvaluacion.comentarioProf}" disabled="#{sessionConsultarEvaluacion.columnProfesor == true}"/>
+                                  value="#{bConsultarEvaluacion.comentarioProf}" columns="90" disabled="#{sessionConsultarEvaluacion.columnProfesor == true}"/>
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>      
@@ -232,7 +232,8 @@
                        dialogListener="#{bConsultarEvaluacion.confirmarEnvioMensajeEvaluador}">
                 <af:panelFormLayout>
                     <af:inputText label="Comentario" id="itCmtEva" maximumLength="1000" rows="5" labelStyle="text-align: left;"
-                                  value="#{bConsultarEvaluacion.comentarioEvaluador}" disabled="#{sessionConsultarEvaluacion.columnProfesor == false}"/>
+                                  value="#{bConsultarEvaluacion.comentarioEvaluador}" disabled="#{sessionConsultarEvaluacion.columnProfesor == false}"
+                                  columns="90"/>
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>
