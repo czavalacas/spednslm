@@ -57,6 +57,15 @@ public class BeanEvaluacion implements Serializable {
     private String flgEvaluar;
     private String flgAnular;
     private String flgJustificar;
+    private String styleColor;
+
+    public void setStyleColor(String styleColor) {
+        this.styleColor = styleColor;
+    }
+
+    public String getStyleColor() {
+        return styleColor;
+    }
 
     public void setFlgEvaluar(String flgEvaluar) {
         this.flgEvaluar = flgEvaluar;
