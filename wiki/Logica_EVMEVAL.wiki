@@ -7,6 +7,7 @@ VALUES ('Por justificar', 'estado_evaluacion', 'evmeval', '5');
 INSERT INTO `mmsi_sped`.`admcons` (`descripcion`, `campo`, `tabla`, `valor`) 
 VALUES ('Injustificado', 'estado_evaluacion', 'evmeval', '6');
 
+UPDATE mmsi_sped.admcons SET descripcion = 'Justificado' WHERE campo = 'estado_evaluacion' AND tabla = 'evmeval' AND valor = '4';
 
 ALTER TABLE `mmsi_sped`.`evmeval` 
 ADD COLUMN `flg_estado` VARCHAR(3) NULL 
