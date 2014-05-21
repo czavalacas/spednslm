@@ -61,8 +61,6 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                                           LN_C_SFCorreoLocal {
     @Resource
     SessionContext sessionContext;
-    @PersistenceContext(unitName = "SPED_NEGOCIO")
-    private EntityManager em;
     @EJB
     private BDL_C_SFUsuarioLocal bd_C_SFUsuarioLocal;
     @EJB
@@ -200,6 +198,47 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
       return valida;
     }
     
+    /**
+     * Enviar correo al profesor evaluado 
+     * @param data[] 0= profesor, 1=fecha, 2=rol+evaluador, 3=curso, 4=aula, 5=sede, 6=grado, 7=Correo 
+     * @author dfloresgonz
+     * @since 20.05.2014
+     */
+    public void enviarCorreoNotificacionProfesorEvaluado(String data[]) {
+      try {
+          Email email = bd_C_SFEmailRemote.getEmail();
+          String PUERTO = email.getPuerto();
+          String HOST = email.getHost();
+          String CLAVE = email.getClave();
+          String EMAIL_QUE_ENVIA = email.getCorreo();
+          BodyPart messageBodyPart = new MimeBodyPart();
+          Properties props = new Properties();
+          props.setProperty("mail.smtp.host", HOST);
+          props.setProperty("mail.smtp.starttls.enable", "true");
+          props.setProperty("mail.smtp.starttls.required", "true");
+          props.setProperty("mail.smtp.user", EMAIL_QUE_ENVIA);
+          props.setProperty("mail.smtp.auth", "true");
+          props.setProperty("mail.smtp.port", PUERTO);
+          Session session = Session.getDefaultInstance(props);
+          MimeMessage message = new MimeMessage(session);
+          message.setFrom(new InternetAddress(EMAIL_QUE_ENVIA));
+          String correoProfesor = data[7];
+          message.addRecipient(Message.RecipientType.TO, new InternetAddress(correoProfesor));
+          message.setSubject("Se le ha registrado una evaluacion");
+          String contenido = this.contenidoHTML_NotificacionProfesorEvaluacion(data);
+          messageBodyPart.setContent(contenido, "text/html");
+          Multipart multipart = new MimeMultipart();
+          multipart.addBodyPart(messageBodyPart);                 
+          message.setContent(multipart);
+          Transport t = session.getTransport("smtp");
+          t.connect(HOST, EMAIL_QUE_ENVIA, CLAVE);
+          t.sendMessage(message, message.getAllRecipients());
+          t.close();
+      }catch (Exception ex){
+          ex.printStackTrace();//TODO log envio correo
+      }
+    }
+    
     public String contenidoHTML2(String data[]){
       String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";
       String contenido = "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 500px;\">"
@@ -228,7 +267,28 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                       .concat("</tbody>")
                       .concat("</table>");      
       return contenido;
-    }    
+    }
+    
+    /**
+     * Se genera el contenido que enviara el correo, en formato HTML con la informacion basica de la evaluacion
+     * @author dfloresgonz
+     * @since 20.05.2014
+     * @param data[] 0= profesor, 1=fecha, 2=rol+evaluador, 3=curso, 4=aula, 5=sede, 6=grado, 7=Correo
+     * @return String con el HTML a adjuntar en el correo
+     */
+    public String contenidoHTML_NotificacionProfesorEvaluacion(String data[]){        
+      String contenido = "<p>Profesor: <strong>"+data[0]+"</strong>:</p>"
+        .concat("<p>Ud. fue evaluado el dia "+data[1]+" por el <u>"+data[2]+",</u></p>")
+        .concat("<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">")
+        .concat("<tbody><tr><td style=\"text-align: center;\">")
+        .concat("<strong>Curso</strong></td><td style=\"text-align: center;\">")
+        .concat("<strong>Aula</strong></td><td style=\"text-align: center;\">")
+        .concat("<strong>Sede</strong></td><td style=\"text-align: center;\">")
+        .concat("<strong>Grado</strong></td></tr><tr><td>"+data[3]+"</td><td>"+data[4]+"</td>")
+        .concat("<td>"+data[5]+"</td><td>"+data[6]+"</td></tr></tbody></table><p>")
+        .concat("Puede consultar sus resultados en la opcion de Consultar Evaluaciones en el sistema SPED.</p>");
+      return contenido;
+    }
     
     public String contenidoHTMLPrueba(String data[]){        
       String rutaimg = "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-frc3/t31/1932635_10203231740543500_681028106_o.jpg";

@@ -16,11 +16,12 @@ public class BDL_C_SFUsuarioRemoteClient {
     public static void main(String[] args) {
         try {
             final Context context = getInitialContext();
-            BDL_C_SFUsuarioRemote bDL_C_SFUsuarioRemote =
-                (BDL_C_SFUsuarioRemote) context.lookup("mapBDL_C_SFUsuario#sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote");
-            for (Usuario usuario : (List<Usuario>) bDL_C_SFUsuarioRemote.getUsuarioFindAll()) {
+            BDL_C_SFUsuarioRemote bDL_C_SFUsuarioRemote = (BDL_C_SFUsuarioRemote) context.lookup("mapBDL_C_SFUsuario#sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote");
+            String usu = bDL_C_SFUsuarioRemote.getRolNombreUsuario_BDL(3);
+            System.out.println("usu: " +usu);
+           /* for (Usuario usuario : (List<Usuario>) bDL_C_SFUsuarioRemote.getUsuarioFindAll()) {
                 printUsuario(usuario);
-            }
+            }*/
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());

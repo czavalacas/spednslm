@@ -63,7 +63,7 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
                                                       String tipFicha,
                                                       String tipFichaCurso){
         try{
-            String qlString = "SELECT max(SUBSTRING(f.descripcionVersion,16,Length(f.descripcionVersion)))," +
+            String qlString = "SELECT MAX(SUBSTRING(f.descripcionVersion,16,Length(f.descripcionVersion)))," +
                               "       f.descripcionVersion," +
                               "       f.nidFicha," +
                               "       f.estadoFicha," +
@@ -86,7 +86,7 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
     
     public int hayFichasActivas(String tipFicha,String tipCursoFicha){
         try {
-            String qlString = "SELECT count(f.nidFicha) " +
+            String qlString = "SELECT COUNT(1) " +
                               "FROM Ficha f " +
                               "WHERE f.tipoFicha = :tipFicha " +
                               "AND   f.tipoFichaCurso = :tipFichaCurso " +
