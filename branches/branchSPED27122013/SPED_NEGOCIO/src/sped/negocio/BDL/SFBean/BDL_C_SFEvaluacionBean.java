@@ -180,7 +180,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                                       " WHERE eva.nidEvaluador=usu.nidUsuario " +
                                       " AND upper(eva.estadoEvaluacion) = 'EJECUTADO' ";
                     int nidRol = beanUsuario.getRol().getNidRol();
-                    if((nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0) || nidRol == 4){
+                    if((nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0) || nidRol == 4){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
                     }
                     if(nidRol == 4){                        
@@ -361,7 +361,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             boolean isSupervisor = false;
             String qlString = "SELECT e " +
                               "FROM Evaluacion e " +
-                              "WHERE e.estadoEvaluacion = 'PENDIENTE' ";
+                              "WHERE e.flgEvaluar = '1' ";
             if(nidRol == 4){//Evaluador x Sede
                 qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
             }else if(nidRol == 2){//Evaluador x Area

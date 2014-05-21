@@ -186,6 +186,9 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setModoEvaluacion("APLI");
             eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
             eva.setComentario_evaluador(comentarioEvaluador);
+            eva.setFlgEvaluar("0");
+            eva.setFlgAnular("0");
+            eva.setFlgJustificar("0");
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
             this.enviarCorreoProfesorEvaluador_LN(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres(),
                                                   eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
@@ -236,6 +239,9 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setModoEvaluacion("WEB");
             eva.setComentario_evaluador(comentarioEvaluador);
             eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
+            eva.setFlgEvaluar("0");
+            eva.setFlgAnular("0");
+            eva.setFlgJustificar("0");
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
             this.enviarCorreoProfesorEvaluador_LN(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres(),
                                                   eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
@@ -333,8 +339,11 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         try {
             Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(idEvaluacion);
             eva.setNidProblema(nidProblema);
-            eva.setComentarioEvaluador(descProblema);
-            eva.setEstadoEvaluacion("NO EJECUTADO");
+            eva.setComentarioEvaluador(descProblema);//PARA DESCRIBIR UN PROBLEMA
+            eva.setEstadoEvaluacion("JUSTIFICADO");
+            eva.setFlgEvaluar("0");
+            eva.setFlgAnular("0");
+            eva.setFlgJustificar("1");
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
         }catch (Exception e) {
             e.printStackTrace();
@@ -353,12 +362,15 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         String error = "000";
         try {
             Evaluacion eva = bdL_C_SFEvaluacionLocal.getEvaluacionById(nidDate);
-            eva.setComentario_evaluador(comentEvalu);
-            eva.setComentarioEvaluador(descripOtros);
+            eva.setComentario_evaluador(comentEvalu);//ESTE COMENTARIO SE INGRESA CUANDO SE EVALUA A UN PROFESOR
+            eva.setComentarioEvaluador(descripOtros);//PARA DESCRIBIR UN PROBLEMA
             if (nidProblema != null) {
                 eva.setNidProblema(Integer.parseInt(nidProblema));
             }
-            eva.setEstadoEvaluacion("NO EJECUTADO");
+            eva.setEstadoEvaluacion("JUSTIFICADO");
+            eva.setFlgEvaluar("0");
+            eva.setFlgAnular("0");
+            eva.setFlgJustificar("1");
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
         } catch (Exception e) {
             e.printStackTrace();
