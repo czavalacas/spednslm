@@ -116,7 +116,9 @@
                                         <dvt:series color="#008400"/>
                                         <dvt:series color="#0042c6"/>
                                         <dvt:series color="#FF7514"/>
-                                        <dvt:series color="#ff0000"/>
+                                        <dvt:series color="#000000"/>
+                                        <dvt:series color="#A215A0"/>
+                                        <dvt:series color="#FF0000"/>
                                     </dvt:seriesSet>
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
@@ -142,7 +144,9 @@
                                         <dvt:series color="#008400"/>
                                         <dvt:series color="#0042c6"/>
                                         <dvt:series color="#FF7514"/>
-                                        <dvt:series color="#ff0000"/>
+                                        <dvt:series color="#000000"/>
+                                        <dvt:series color="#A215A0"/>
+                                        <dvt:series color="#FF0000"/>
                                     </dvt:seriesSet>
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
@@ -170,7 +174,9 @@
                                         <dvt:series color="#008400"/>
                                         <dvt:series color="#0042c6"/>
                                         <dvt:series color="#FF7514"/>
-                                        <dvt:series color="#ff0000"/>
+                                        <dvt:series color="#000000"/>
+                                        <dvt:series color="#A215A0"/>
+                                        <dvt:series color="#FF0000"/>
                                     </dvt:seriesSet>
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
@@ -249,9 +255,9 @@
                                            sortProperty="cantNoEjecutado">
                                     <af:outputText value="#{row.cantNoEjecutado}" id="ot4"/>
                                 </af:column>
-                                <af:column sortable="true" headerText="No Justifico" align="start" id="c5"
-                                           sortProperty="cantNoJEjecutado">
-                                    <af:outputText value="#{row.cantNoJEjecutado}" id="ot5"/>
+                                <af:column sortable="true" headerText="Justificados" align="start" id="c5"
+                                           sortProperty="cantJustificado">
+                                    <af:outputText value="#{row.cantJustificado}" id="ot5"/>
                                 </af:column>
                                 <af:column sortable="true" headerText="Desempeño( 0 - 100% )" align="center" id="c23"
                                            sortProperty="porcentajeDesempeno"
