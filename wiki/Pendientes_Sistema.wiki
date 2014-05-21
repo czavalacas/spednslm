@@ -3,6 +3,8 @@
   # *Deploy en glassfish (en proceso)*
   # ISO en gestion de claves, longitud, que no sea repetida, obligar a cambiarlas cada cierto tiempo (tabla del sistema o que el usuario eliga cada cuanto tiempo), simbolos, mayusculas.no contenga el nombre,bloquear sesion si hubieron varios intentos fallidos de logeo, configurable la cantidad y el tiempo de bloqueo.
   # *Deploy en iOS*
+  # Grabados parciales al evaluar.
+  # Al planificar tomar el rango de horas de la configuracion para no dejar que planifiquen en horas fueras de clase, hubo una confusion entre 3am con 3pm, planificaron en la madrugada
   # Suggest items en dash de profesores, los combos en este dash se resetean.
   # manuales PDF y video, subirlos al sistema
   # Sincronizar los calendarios
@@ -13,7 +15,6 @@
   # Acomodar los tags f:view que tenga solo 1 raiz los jsff
   # Modulo de continuidad de negocio
   # Dash visualizar hora de planificacion vs. hora de evaluacion
-  # Grabados parciales al evaluar.
   # Enviar el word de evaluacion x correo.
   # ~~Editar el Aplicativo para que no valide rango de fechas al evaluar.~~
   # ~~Agrandar la pantalla de comentario en consultar evas.~~
