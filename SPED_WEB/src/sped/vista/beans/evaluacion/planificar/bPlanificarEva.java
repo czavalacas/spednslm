@@ -372,7 +372,7 @@ public class bPlanificarEva {
         
         ln_T_SFEvaluacionRemote.grabarComentariosYJustificacionesDeEvaluacion(sessionPlanificarEva.getCalendaryActivityID(), 
                                                                               sessionPlanificarEva.getComentarioEvaluador(),
-                                                                              sessionPlanificarEva.getJustificacionProfesor(), 
+                                                                              sessionPlanificarEva.getJustificacionProfesor(),//Problema que se presento
                                                                               sessionPlanificarEva.getNidProblema());
         sessionPlanificarEva.setEstadoBtnSaveJustificaEvalu(false);
         sessionPlanificarEva.setEstadoDinputJustificacion(true);
@@ -385,7 +385,7 @@ public class bPlanificarEva {
     public String guardarComentarioEvaluador() {
         ln_T_SFEvaluacionRemote.grabarComentariosYJustificacionesDeEvaluacion(sessionPlanificarEva.getCalendaryActivityID(), 
                                                                               sessionPlanificarEva.getComentarioEvaluador(),
-                                                                              sessionPlanificarEva.getJustificacionProfesor(), 
+                                                                              sessionPlanificarEva.getJustificacionProfesor(), //Problema que se presento
                                                                               sessionPlanificarEva.getNidProblema());
        sessionPlanificarEva.setEstadoDinputcomentarioEvaluador(false);
        sessionPlanificarEva.setEstadoBtnSaveComentEvalu(false);

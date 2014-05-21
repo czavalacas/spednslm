@@ -94,7 +94,7 @@
                        rendered="#{sessionConsultarEvaluacion.renderExcel}"
                        binding="#{bConsultarEvaluacion.bexcel}">
                 <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:tbEval"
-                                                   filename="Consulata_Evaluacion.xls" title="Evaluaciones"/>
+                                                   filename="Consultar_Evaluacion.xls" title="Evaluaciones"/>
             </af:button>
             <af:panelCollection id="pc1" inlineStyle="width:inherit;">
                 <f:facet name="menus"/>
@@ -185,7 +185,7 @@
                     </af:column>
                     <af:column sortable="true" sortProperty="estadoEvaluacion" headerText="Estado Evaluacion"
                                align="start" id="c10"
-                               inlineStyle="#{row.estadoEvaluacion != 'NO EJECUTADO' ? 'background-color:Green;' : 'background-color:Red;'} color:White; font-weight:bold;text-align:center;">
+                               inlineStyle="#{row.estadoEvaluacion == 'EJECUTADO' ? 'background-color:Green;' : 'background-color:Red;'} color:White; font-weight:bold;text-align:center;">
                         <af:outputText value="#{row.estadoEvaluacion}" id="ot10"/>
                     </af:column>
                     <af:column sortable="true" sortProperty="resultado" headerText="Resultado" align="center"

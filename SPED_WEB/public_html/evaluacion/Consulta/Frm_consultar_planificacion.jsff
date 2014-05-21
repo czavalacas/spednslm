@@ -176,13 +176,15 @@
                     <af:selectOneChoice label="Problema" requiredMessageDetail="Seleccionar un problema" id="socProb"
                                         value="#{sessionScope.sessionConsultarPlanificacion.nidProblema}" autoSubmit="true"
                                         disabled="#{sessionConsultarPlanificacion.columnProfesor == false || (sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'PENDIENTE' 
+                                        || sessionConsultarPlanificacion.evaSelect.flgEstado == 'PEN' || sessionConsultarPlanificacion.evaSelect.flgJustificar == '0'
                                         || sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'EJECUTADO')}"
                                         unselectedLabel=":: Seleccionar Problema ::">
                         <f:selectItems value="#{sessionScope.sessionConsultarPlanificacion.listaProblemas}" />
                     </af:selectOneChoice>
                     <af:inputText label="Cuentanos que paso" id="itDescProb" columns="60" rows="6" autoSubmit="true"
                                   disabled="#{sessionConsultarPlanificacion.columnProfesor == false || (sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'PENDIENTE' 
-                                  || sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'EJECUTADO')}"
+                                        || sessionConsultarPlanificacion.evaSelect.flgEstado == 'PEN' || sessionConsultarPlanificacion.evaSelect.flgJustificar == '0'
+                                        || sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'EJECUTADO')}"
                                   value="#{requestScope.bConsultaPlanificacion.descripcionProblema}"/>
                 </af:panelFormLayout>
             </af:dialog>

@@ -34,7 +34,7 @@ import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.sist.Rol;
 
 /**
- * C;ase de Logica de Negocio que implementa los metodos relacionados con la Entidad Usuario: admusua
+ * Clase de Logica de Negocio que implementa los metodos relacionados con la Entidad Usuario: admusua
  * @author dfloresgonz
  */
 @Stateless(name = "LN_C_SFUsuario", mappedName = "mapLN_C_SFUsuario")
@@ -42,8 +42,6 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                                            LN_C_SFUsuarioLocal {
     @Resource
     SessionContext sessionContext;
-    @PersistenceContext(unitName = "SPED_NEGOCIO")
-    private EntityManager em;
     @EJB
     private BDL_C_SFUsuarioLocal bdL_C_SFUsuarioLocal;
     @EJB
@@ -71,7 +69,7 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                 if(!ln_C_SFPermisosLocal.hasPermisos(user.getNidUsuario(),user.getRol().getNidRol(),"0")){
                     msj = "SPED-00005";
                 }
-                if(msj.equals("000")){
+                if("000".equals(msj)){
                     beanUsuario = (BeanUsuario)mapper.map(user, BeanUsuario.class);
                     if(beanUsuario.getRol().getNidRol() == 2){//Evaluador de area
                         beanUsuario.setRol_descSedeoArea(beanUsuario.getRol().getDescripcionRol()+": "+beanUsuario.getAreaAcademica().getDescripcionAreaAcademica());
