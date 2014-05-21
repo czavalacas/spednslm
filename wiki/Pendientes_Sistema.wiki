@@ -15,7 +15,6 @@
   # Acomodar los tags f:view que tenga solo 1 raiz los jsff
   # Modulo de continuidad de negocio
   # Dash visualizar hora de planificacion vs. hora de evaluacion
-  # Enviar el word de evaluacion x correo.
   # ~~Editar el Aplicativo para que no valide rango de fechas al evaluar.~~
   # ~~Agrandar la pantalla de comentario en consultar evas.~~
   # ~~Alertar por correo cuando se evaluó al profesor.~~
