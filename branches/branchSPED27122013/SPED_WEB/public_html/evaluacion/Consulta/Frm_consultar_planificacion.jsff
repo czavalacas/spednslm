@@ -161,7 +161,7 @@
                         </af:button>
                     </af:column>
                     <af:column sortable="true" headerText="Estado" id="c11" width="100" sortProperty="estadoEvaluacion"
-                    inlineStyle="color:White; font-weight:bold;text-align:center; #{row.nidEstadoEvaluacion == '1' ? 'background-color:green' : (row.nidEstadoEvaluacion == '2'  ? 'background-color:Orange' :(row.nidEstadoEvaluacion == '3' ? 'background-color:Red' : 'background-color:red'))} ">
+                               inlineStyle="#{row.styleColor} ">
                         <af:outputText value="#{row.estadoEvaluacion}" id="ot11"/>
                     </af:column>
                 </af:table>

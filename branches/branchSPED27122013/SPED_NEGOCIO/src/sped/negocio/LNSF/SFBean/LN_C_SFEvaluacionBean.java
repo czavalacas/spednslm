@@ -88,15 +88,30 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         for(Evaluacion a : lstAreaAcd){
             BeanEvaluacion bean = (BeanEvaluacion) mapper.map(a, BeanEvaluacion.class);
             bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidEvaluador()));
-            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidPlanificador()));     
+            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidPlanificador()));               
             if(bean.getEstadoEvaluacion().equals("EJECUTADO")){
                 bean.setNidEstadoEvaluacion("1");
+                bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:green");
             }
             if(bean.getEstadoEvaluacion().equals("PENDIENTE")){
                 bean.setNidEstadoEvaluacion("2");
+                bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:blue");
             }
-            if(bean.getEstadoEvaluacion().equals("NO REALIZADO")){
+            if(bean.getEstadoEvaluacion().equals("NO EJECUTADO")){
                 bean.setNidEstadoEvaluacion("3");
+                bean.setStyleColor("color:black; font-weight:bold;text-align:center; background-color:orange");
+            }
+            if(bean.getEstadoEvaluacion().equals("JUSTIFICADO")){
+                bean.setNidEstadoEvaluacion("4");
+                bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:black");
+            }
+            if(bean.getEstadoEvaluacion().equals("POR JUSTIFICAR")){
+                bean.setNidEstadoEvaluacion("5");
+                bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:purple");
+            }
+            if(bean.getEstadoEvaluacion().equals("INJUSTIFICADO")){
+                bean.setNidEstadoEvaluacion("6");
+                bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:red");
             }
             lstBean.add(bean);
         }
