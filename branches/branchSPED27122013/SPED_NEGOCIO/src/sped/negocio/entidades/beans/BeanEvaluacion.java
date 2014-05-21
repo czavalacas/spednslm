@@ -1,7 +1,6 @@
 package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
-
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +53,34 @@ public class BeanEvaluacion implements Serializable {
     private BeanUsuario usuario;
     //dfloresgonz 04.05.2014 agregado para notificaciones
     private String notificacionEvaluadorComentarioProfesor;
+    //dfloresgonz 21.05.2014 agregado para la nueva logica de estados
+    private String flgEvaluar;
+    private String flgAnular;
+    private String flgJustificar;
+
+    public void setFlgEvaluar(String flgEvaluar) {
+        this.flgEvaluar = flgEvaluar;
+    }
+
+    public String getFlgEvaluar() {
+        return flgEvaluar;
+    }
+
+    public void setFlgAnular(String flgAnular) {
+        this.flgAnular = flgAnular;
+    }
+
+    public String getFlgAnular() {
+        return flgAnular;
+    }
+
+    public void setFlgJustificar(String flgJustificar) {
+        this.flgJustificar = flgJustificar;
+    }
+
+    public String getFlgJustificar() {
+        return flgJustificar;
+    }
 
     public void setNotificacionEvaluadorComentarioProfesor(String notificacionEvaluadorComentarioProfesor) {
         this.notificacionEvaluadorComentarioProfesor = notificacionEvaluadorComentarioProfesor;
