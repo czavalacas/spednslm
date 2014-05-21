@@ -28,10 +28,19 @@ public class BeanUsuario implements java.io.Serializable{
     private List<Integer> lstPermisos;
     private Integer nidLog;
     private String correo;
-    private String isNuevo;   
+    private String isNuevo;
     private String isSupervisor;
+    private String rol_descSedeoArea;
 
     public BeanUsuario(){}
+
+    public void setRol_descSedeoArea(String rol_descSedeoArea) {
+        this.rol_descSedeoArea = rol_descSedeoArea;
+    }
+
+    public String getRol_descSedeoArea() {
+        return rol_descSedeoArea;
+    }
 
     public void setNidLog(Integer nidLog) {
         this.nidLog = nidLog;

@@ -32,4 +32,20 @@ public interface BDL_C_SFUsuarioRemote {
     boolean testClave(int nidUsuario,
                       String clave);
     boolean getIsSupervisor(int nidUsuario);
+    /**
+     * Metodo que trae el correo del usuario segun su ID.
+     * @param dni - DNI del usuario
+     * @author dfloresgonz
+     * @since 20.05.2014
+     * @return el correo del usuario
+     */
+    String getCorreoByNidUsuario_BDL(String dni);
+    /**
+     * Trae el rol y el nombre del usuario concatenado
+     * @author dfloresgonz
+     * @since 20.05.2014
+     * @param nidUsuario PK de admusua
+     * @return String que contiene el rol y el nombre del usuario segun el nidUsuario
+     */
+    String getRolNombreUsuario_BDL(int nidUsuario);
 }

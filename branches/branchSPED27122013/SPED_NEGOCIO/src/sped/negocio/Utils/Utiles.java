@@ -5,8 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 public class Utiles {
@@ -71,5 +74,12 @@ public class Utiles {
           sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
        }
        return sb.toString();
+    }
+    
+   
+    public static String getHoyFormato(String _formato){
+        SimpleDateFormat formato = new SimpleDateFormat(_formato);
+        Calendar cal= new GregorianCalendar();
+        return formato.format(cal.getTime());
     }
 }

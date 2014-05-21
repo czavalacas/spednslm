@@ -3,26 +3,17 @@ package sped.negocio.BDL.SFBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-
 import javax.persistence.EntityManager;
-
 import javax.persistence.PersistenceContext;
-
 import javax.persistence.Query;
-
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
-import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanUsuario;
 
@@ -437,6 +428,53 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         } catch (Exception e) {
              e.printStackTrace();
              return false;
+        }
+    }
+    
+    /**
+     * Metodo que trae el correo del usuario segun su ID.
+     * @param dni - DNI del usuario
+     * @author dfloresgonz
+     * @since 20.05.2014
+     * @return el correo del usuario
+     */
+    public String getCorreoByNidUsuario_BDL(String dni){
+        try {
+            String ejbQL = "SELECT u.correo " +
+                           "FROM Usuario u " + 
+                           "WHERE u.dni = :dni ";
+            List lstResult = em.createQuery(ejbQL).setParameter("dni", dni).getResultList();
+            if(lstResult.isEmpty()){
+                return null;
+            }else{
+                return lstResult.get(0).toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /**
+     * Trae el rol y el nombre del usuario concatenado
+     * @author dfloresgonz
+     * @since 20.05.2014
+     * @param nidUsuario PK de admusua
+     * @return String que contiene el rol y el nombre del usuario segun el nidUsuario
+     */
+    public String getRolNombreUsuario_BDL(int nidUsuario){
+        try{
+            String strQuery = "SELECT CONCAT(u.rol.descripcionRol,': ',u.nombres) " +
+                              "FROM Usuario u " +
+                              "WHERE u.nidUsuario = :nidUsuario ";
+            List lstResult = em.createQuery(strQuery).setParameter("nidUsuario",nidUsuario).getResultList();
+            if(lstResult.isEmpty()){
+                return null;
+            }else{
+                return lstResult.get(0).toString();
+            }
+        }catch(Exception e){
+            return null;
         }
     }
 }

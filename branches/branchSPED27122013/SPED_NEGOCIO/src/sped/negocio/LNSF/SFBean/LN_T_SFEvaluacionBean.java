@@ -2,8 +2,12 @@ package sped.negocio.LNSF.SFBean;
 
 import java.sql.Timestamp;
 
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -21,8 +25,10 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFCriterioIndicadorLocal;
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
+import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFEvaluacionLocal;
 import sped.negocio.BDL.IL.BDL_T_SFResultadoLocal;
+import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_T_SFResultadoCriterioLocal;
@@ -60,6 +66,10 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     private LN_C_SFErrorLocal ln_C_SFErrorLocal;
     @EJB
     private LN_T_SFResultadoCriterioLocal ln_T_SFResultadoCriterioLocal;
+    @EJB
+    private LN_C_SFCorreoLocal ln_C_SFCorreoLocal;
+    @EJB
+    private BDL_C_SFUsuarioLocal bdl_C_SFUsuarioLocal;
 
     public LN_T_SFEvaluacionBean() {
     }
@@ -177,6 +187,11 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
             eva.setComentario_evaluador(comentarioEvaluador);
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+            this.enviarCorreoProfesorEvaluador_LN(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres(),
+                                                  eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
+                                                  eva.getMain().getAula().getSede().getDescripcionSede(),
+                                                  eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+" de "+eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel() ,
+                                                  eva.getMain().getProfesor().getDniProfesor());
         }catch (Exception e) {
             e.printStackTrace();
             error = "111";
@@ -222,6 +237,11 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             eva.setComentario_evaluador(comentarioEvaluador);
             eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
             bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+            this.enviarCorreoProfesorEvaluador_LN(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres(),
+                                                  eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
+                                                  eva.getMain().getAula().getSede().getDescripcionSede(),
+                                                  eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+" de "+eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel() ,
+                                                  eva.getMain().getProfesor().getDniProfesor());
         }catch (Exception e) {
             e.printStackTrace();
             error = "111";
@@ -347,5 +367,20 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             error = beanError.getDescripcionError();
         }
         return error;
+    }
+    
+    public void enviarCorreoProfesorEvaluador_LN(String profesor, String curso, int nidEvaluador,
+                                                 String aula, String sede, String grado,String dniProfesor){
+        try {
+            String correoProfesor = bdl_C_SFUsuarioLocal.getCorreoByNidUsuario_BDL(dniProfesor);
+            String rol_Evaluador = bdl_C_SFUsuarioLocal.getRolNombreUsuario_BDL(nidEvaluador);
+            String data[] = new String[] {
+                profesor, Utiles.getHoyFormato("dd/MM/yyy"), rol_Evaluador, curso, aula, sede, grado, correoProfesor};
+            //data[] 0= profesor, 1=fecha, 2=rol+evaluador, 3=curso, 4=aula, 5=sede, 6=grado, 7=Correo
+            ln_C_SFCorreoLocal.enviarCorreoNotificacionProfesorEvaluado(data);
+        } catch (Exception e) {
+            // TODO: Log notificar profesor
+            e.printStackTrace();
+        }
     }
 }
