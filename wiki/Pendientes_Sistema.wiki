@@ -1,6 +1,6 @@
 #summary Pendientes del Sistema
 
-  # *Deploy en glassfish (en proceso)*
+  # *Deploy en glassfish (en proceso)* https://blogs.oracle.com/jruiz/entry/deploying_adf_essentials_on_oracle
   # ISO en gestion de claves, longitud, que no sea repetida, obligar a cambiarlas cada cierto tiempo (tabla del sistema o que el usuario eliga cada cuanto tiempo), simbolos, mayusculas.no contenga el nombre,bloquear sesion si hubieron varios intentos fallidos de logeo, configurable la cantidad y el tiempo de bloqueo.
   # *Deploy en iOS*
   # Grabados parciales al evaluar.
