@@ -570,22 +570,28 @@ public class bDesempenoEvaluador {
     public void setListEvabarChart(List <BeanEvaluacion> lst){
         List<Object[]> lstEva = new ArrayList();
         String nombreEvaluador;
-        int contEjecutados, contPendiente, contNoEje, contNoEjeJ;
+        int contEjecutados, contPendiente, contNoEjecutado, contJustificado, contPorJustificar, contInjustificado;
         for(int i=0; i<lst.size(); i++){            
             nombreEvaluador = lst.get(i).getNombreEvaluador();
             contEjecutados = lst.get(i).getCantEjecutado();
             contPendiente = lst.get(i).getCantPendiente();
-            contNoEje = lst.get(i).getCantNoEjecutado();
-            contNoEjeJ = lst.get(i).getCantNoJEjecutado();
+            contNoEjecutado = lst.get(i).getCantNoEjecutado();
+            contJustificado = lst.get(i).getCantJustificado();
+            contPorJustificar = lst.get(i).getCantPorJustificar();
+            contInjustificado = lst.get(i).getCantInjustificado();
             Object[] obj1 = { nombreEvaluador, "Ejecutado", contEjecutados};
             Object[] obj2 = { nombreEvaluador, "Pendiente", contPendiente};
-            Object[] obj3 = { nombreEvaluador, "No ejecutado", contNoEje};
-            Object[] obj4 = { nombreEvaluador, "No Justifico", contNoEjeJ};
+            Object[] obj3 = { nombreEvaluador, "No ejecutado", contNoEjecutado};
+            Object[] obj4 = { nombreEvaluador, "Justificado", contJustificado};
+            Object[] obj5 = { nombreEvaluador, "Por Justificar", contPorJustificar};
+            Object[] obj6 = { nombreEvaluador, "Injustificado", contInjustificado};
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
             lstEva.add(obj3);
             lstEva.add(obj4);
+            lstEva.add(obj5);
+            lstEva.add(obj6);
         }        
         sessionDesempenoEvaluador.setLstEvaBarChart(lstEva);        
     }
@@ -593,21 +599,27 @@ public class bDesempenoEvaluador {
     public void setListLinegraph(List <BeanEvaluacion> lst){
         List<Object[]> lstEva = new ArrayList();
         int cont = 0;
-        int contEjecutados, contPendiente, contNoEje, contNoEjeJ;
+        int contEjecutados, contPendiente, contNoEjecutado, contJustificado, contPorJustificar, contInjustificado;
         for(int i=0; i<lst.size(); i++){
             Date date = lst.get(i).getEndDate();
             contEjecutados = lst.get(i).getCantEjecutado();
             contPendiente = lst.get(i).getCantPendiente();
-            contNoEje = lst.get(i).getCantNoEjecutado();
-            contNoEjeJ = lst.get(i).getCantNoJEjecutado();
+            contNoEjecutado = lst.get(i).getCantNoEjecutado();
+            contJustificado = lst.get(i).getCantJustificado();
+            contPorJustificar = lst.get(i).getCantPorJustificar();
+            contInjustificado = lst.get(i).getCantInjustificado();
             Object[] obj1 = { date, "Ejecutado", contEjecutados};
             Object[] obj2 = { date, "Pendiente", contPendiente};
-            Object[] obj3 = { date, "No ejecutado", contNoEje};
-            Object[] obj4 = { date, "No Justifico", contNoEjeJ};
+            Object[] obj3 = { date, "No ejecutado", contNoEjecutado};
+            Object[] obj4 = { date, "Justificado", contJustificado};
+            Object[] obj5 = { date, "Por Justificar", contPorJustificar};
+            Object[] obj6 = { date, "Injustificado", contInjustificado};
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
             lstEva.add(obj4);
+            lstEva.add(obj5);
+            lstEva.add(obj6);
             cont++;
         }
         if(gline != null){
@@ -624,22 +636,27 @@ public class bDesempenoEvaluador {
     public void setListEvabarChartRol(List <BeanEvaluacion> lst){
         List<Object[]> lstEva = new ArrayList();
         String descripcionRol;
-        int contEjecutados, contPendiente, contNoEje, contNoEjeJ;
+        int contEjecutados, contPendiente, contNoEjecutado, contJustificado, contPorJustificar, contInjustificado;
         for(int i=0; i<lst.size(); i++){            
             descripcionRol = lst.get(i).getDescripcion();
             contEjecutados = lst.get(i).getCantEjecutado();
             contPendiente = lst.get(i).getCantPendiente();
-            contNoEje = lst.get(i).getCantNoEjecutado();
-            contNoEjeJ = lst.get(i).getCantNoJEjecutado();
+            contNoEjecutado = lst.get(i).getCantNoEjecutado();
+            contJustificado = lst.get(i).getCantJustificado();
+            contPorJustificar = lst.get(i).getCantPorJustificar();
+            contInjustificado = lst.get(i).getCantInjustificado();
             Object[] obj1 = { descripcionRol, "Ejecutado", contEjecutados};
             Object[] obj2 = { descripcionRol, "Pendiente", contPendiente};
-            Object[] obj3 = { descripcionRol, "No ejecutado", contNoEje};
-            Object[] obj4 = { descripcionRol, "No Justifico", contNoEjeJ};
+            Object[] obj3 = { descripcionRol, "No ejecutado", contNoEjecutado};
+            Object[] obj4 = { descripcionRol, "Justificado", contJustificado};
+            Object[] obj5 = { descripcionRol, "Por Justificar", contPorJustificar};
+            Object[] obj6 = { descripcionRol, "Injustificado", contInjustificado};
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
-            lstEva.add(obj3);
             lstEva.add(obj4);
+            lstEva.add(obj5);
+            lstEva.add(obj6);
         }
         sessionDesempenoEvaluador.setLstEvaBarChartRol(lstEva);        
     }

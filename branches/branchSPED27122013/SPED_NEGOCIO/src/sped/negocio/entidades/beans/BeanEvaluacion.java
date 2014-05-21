@@ -45,7 +45,9 @@ public class BeanEvaluacion implements Serializable {
     private Integer cantEjecutado;
     private Integer cantPendiente;
     private Integer cantNoEjecutado;
-    private Integer cantNoJEjecutado;
+    private Integer cantJustificado; //antes cantNoJEjecutado
+    private Integer cantPorJustificar;
+    private Integer cantInjustificado;
     private Integer cantProblema;
     private String descProblema;
     private String descRol;
@@ -356,12 +358,28 @@ public class BeanEvaluacion implements Serializable {
         return cantNoEjecutado;
     }
 
-    public void setCantNoJEjecutado(Integer cantNoJEjecutado) {
-        this.cantNoJEjecutado = cantNoJEjecutado;
+    public void setCantJustificado(Integer cantJustificado) {
+        this.cantJustificado = cantJustificado;
     }
 
-    public Integer getCantNoJEjecutado() {
-        return cantNoJEjecutado;
+    public Integer getCantJustificado() {
+        return cantJustificado;
+    }
+
+    public void setCantPorJustificar(Integer cantPorJustificar) {
+        this.cantPorJustificar = cantPorJustificar;
+    }
+
+    public Integer getCantPorJustificar() {
+        return cantPorJustificar;
+    }
+
+    public void setCantInjustificado(Integer cantInjustificado) {
+        this.cantInjustificado = cantInjustificado;
+    }
+
+    public Integer getCantInjustificado() {
+        return cantInjustificado;
     }
 
     public void setNidProblema(int nidProblema) {

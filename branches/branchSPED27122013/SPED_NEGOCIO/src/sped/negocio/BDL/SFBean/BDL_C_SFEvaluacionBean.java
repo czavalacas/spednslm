@@ -555,7 +555,17 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             return null;
         }
     }
-
+    
+    /**
+     * Metodo que sirve para llenar los dash de evaluacion por evaluador
+     * @param tipoBusqueda
+     * @param lstnidRol
+     * @param lstnidEvaluador
+     * @param lstnidSede
+     * @param lstnidArea
+     * @param beanFEva
+     * @return
+     */
     public List getDesempenoEvaluacionbyFiltroBDL(int tipoBusqueda,
                                                   List lstnidRol,
                                                   List lstnidEvaluador,
@@ -612,17 +622,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     strQuery = strQuery.concat(" AND  usu.nombres = :nom_Eva ");
                 }
                 if(beanFEva.getEstadoEvaluacion() != null){
-                    String estado = beanFEva.getEstadoEvaluacion().toUpperCase();
-                    if(estado.compareTo("EJECUTADO") == 0  || estado.compareTo("PENDIENTE") == 0){
-                        strQuery = strQuery.concat(" AND upper(eva.estadoEvaluacion) = :estado ");                        
-                    } else if (estado.compareTo("NO EJECUTADO") == 0) {
-                        strQuery =
-                            strQuery.concat(" AND (upper(eva.estadoEvaluacion) = :estado AND eva.nidProblema != NULL) ");
-                    }else{
-                        beanFEva.setEstadoEvaluacion("NO EJECUTADO");
-                        strQuery =
-                            strQuery.concat(" AND (upper(eva.estadoEvaluacion) = :estado AND eva.nidProblema = NULL) ");
-                    }
+                    strQuery = strQuery.concat(" AND upper(eva.estadoEvaluacion) like upper(:estado) ");   
                 }
                 if(beanFEva.getFechaMinEvaluacion() != null && beanFEva.getFechaMaxEvaluacion() != null){
                     strQuery =
@@ -650,7 +650,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 }
             }
             if(tipoBusqueda == 1 || tipoBusqueda == 3 || tipoBusqueda == 5){
-                String subQuery = "(SELECT COUNT(DISTINCT x) " +
+                String subQuery = "(SELECT COUNT(1) " +
                                   strQuery.replaceAll("eva", "x");
                 if(tipoBusqueda == 3){
                     subQuery = subQuery.concat(" AND CAST(x.endDate AS date) = CAST(eva.endDate AS date) ");
@@ -660,8 +660,10 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 strQuery2 = "SELECT " +
                             subQuery+" AND x.estadoEvaluacion = 'EJECUTADO' ) eje, " +
                             subQuery+" AND x.estadoEvaluacion = 'PENDIENTE' ) , " +
-                            subQuery+" AND x.estadoEvaluacion = 'NO EJECUTADO' AND x.nidProblema != NULL),  " +
-                            subQuery+" AND x.estadoEvaluacion = 'NO EJECUTADO' AND x.nidProblema = NULL ) ";
+                            subQuery+" AND x.estadoEvaluacion = 'NO EJECUTADO' ),  " +
+                            subQuery+" AND x.estadoEvaluacion = 'JUSTIFICADO' ), " + 
+                            subQuery+" AND x.estadoEvaluacion = 'POR JUSTIFICAR' ), " + 
+                            subQuery+" AND x.estadoEvaluacion = 'INJUSTIFICADO' ) " ;
             }
             if(tipoBusqueda == 1){
                 strQuery2 = strQuery2.concat(", usu "+strQuery+" GROUP BY eva.nidEvaluador ");
@@ -715,7 +717,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     query.setParameter("nom_Eva",beanFEva.getNombreEvaluador());
                 }
                 if(beanFEva.getEstadoEvaluacion() != null){
-                    query.setParameter("estado",beanFEva.getEstadoEvaluacion().toUpperCase());
+                    query.setParameter("estado", beanFEva.getEstadoEvaluacion());
                 }
                 if(beanFEva.getFechaMinEvaluacion() != null && beanFEva.getFechaMaxEvaluacion()!=null){
                     query.setParameter("dateEva1",beanFEva.getFechaMinEvaluacion());
