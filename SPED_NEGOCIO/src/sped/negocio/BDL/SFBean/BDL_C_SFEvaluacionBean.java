@@ -58,6 +58,9 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
     
     public List<Evaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion){
         try{
+            
+            List<Evaluacion> lstaEvaluaciones = new ArrayList<Evaluacion>();
+                
             String ejbQl = "SELECT ev " +
                            "FROM Evaluacion ev " +
                            "WHERE 1 = 1 ";
@@ -65,51 +68,105 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             if(beanEvaluacion.getMain()!=null){
                 if(beanEvaluacion.getMain().getProfesor()!=null){
                     if(beanEvaluacion.getMain().getProfesor().getDniProfesor()!=null){
-                        ejbQl = ejbQl.concat(" AND ev.main.profesor.dniProfesor='"+beanEvaluacion.getMain().getProfesor().getDniProfesor()+"' " +
+                        ejbQl = ejbQl.concat(" AND ev.main.profesor.dniProfesor= :dniProfesor " +
                                              " AND ev.tipoVisita='OP' OR (ev.tipoVisita='SO' AND CAST(ev.startDate AS date) = CURRENT_DATE  )");//like '%"+fechaHoy+"%'
                     }
                 }
             }
+            
+           
             if(beanEvaluacion.getFechaMaxPlanificacion() != null && beanEvaluacion.getFechaMinPlanificacion() != null){
                 ejbQl = ejbQl.concat(" AND ev.fechaPlanificacion BETWEEN :min AND :max ");
             }
             
             if(beanEvaluacion.getNidEvaluador() != null){
                                if(beanEvaluacion.getNidEvaluador() != 0){
-                               ejbQl = ejbQl.concat(" AND ev.nidEvaluador ="+beanEvaluacion.getNidEvaluador());
+                               ejbQl = ejbQl.concat(" AND ev.nidEvaluador = :nidEvaluador");
                  }
             }
+            
+        
                 if(beanEvaluacion.getNidNivel() != null){
                     if(beanEvaluacion.getNidNivel() != 0){
-                    ejbQl = ejbQl.concat(" AND ev.main.aula.gradoNivel.nivel.nidNivel ="+beanEvaluacion.getNidNivel());
+                    ejbQl = ejbQl.concat(" AND ev.main.aula.gradoNivel.nivel.nidNivel = :nidNivel");
                     }
                 }
+            
             if(beanEvaluacion.getNidArea()!=null){
                 if(beanEvaluacion.getNidArea()!=0){
-                ejbQl = ejbQl.concat(" AND ev.main.curso.areaAcademica.nidAreaAcademica="+beanEvaluacion.getNidArea()); 
+                ejbQl = ejbQl.concat(" AND ev.main.curso.areaAcademica.nidAreaAcademica= :nidAreaAcademica"); 
                 }
             }
-            if(beanEvaluacion.getNidEstadoEvaluacion()!=null){                
-                ejbQl = ejbQl.concat(" AND ev.estadoEvaluacion='"+beanEvaluacion.getNidEstadoEvaluacion()+"'"); 
+            if(beanEvaluacion.getNidEstadoEvaluacion()!=null){        
+                if("PENDIENTE".equals(beanEvaluacion.getNidEstadoEvaluacion())){
+                    ejbQl = ejbQl.concat(" AND ev.flgEvaluar='1'"); 
+                    
+                }else{
+                    ejbQl = ejbQl.concat(" AND ev.estadoEvaluacion= :nidEstadoEvaluacion"); 
+                }                
            }
                 if(beanEvaluacion.getNidSede() != null){
                     if(beanEvaluacion.getNidSede() != 0){
-                        ejbQl = ejbQl.concat(" AND ev.main.aula.sede.nidSede="+beanEvaluacion.getNidSede());
+                        ejbQl = ejbQl.concat(" AND ev.main.aula.sede.nidSede= :nidSede");
                     }
                 }
                 if(beanEvaluacion.getApellidosDocentes() != null){
-                        ejbQl = ejbQl.concat(" AND upper(ev.main.profesor.apellidos) like '%"+beanEvaluacion.getApellidosDocentes().toUpperCase()+"%' ");
+                        ejbQl = ejbQl.concat(" AND upper(ev.main.profesor.apellidos) like '% :apelidosDocente %' ");
                 }  
+            
+          //  List<Evaluacion> lstaEvaluaciones = em.createQuery(ejbQl).getResultList();
+            Query query = em.createQuery(ejbQl);
             if (beanEvaluacion.getFechaMaxPlanificacion() != null &&
                 beanEvaluacion.getFechaMinPlanificacion() != null) {
-                List<Evaluacion> lstEvaluaciones = em.createQuery(ejbQl).setParameter("min", beanEvaluacion.getFechaMinPlanificacion(),
-                                                   TemporalType.DATE).setParameter("max",beanEvaluacion.getFechaMaxPlanificacion(),
-                                                                                    TemporalType.DATE).getResultList();
-                return lstEvaluaciones;
-            } else {
+               // List<Evaluacion> lstEvaluaciones = em.createQuery(ejbQl)
+                         query.setParameter("min", beanEvaluacion.getFechaMinPlanificacion(),TemporalType.DATE);
+                         query.setParameter("max",beanEvaluacion.getFechaMaxPlanificacion(),TemporalType.DATE).getResultList();
+             //   return lstEvaluaciones;
+            } //else {
+        //    }
+           
+            if(beanEvaluacion.getMain()!=null){
+                if(beanEvaluacion.getMain().getProfesor()!=null){
+                    if(beanEvaluacion.getMain().getProfesor().getDniProfesor()!=null){
+                      query.setParameter("dniProfesor", beanEvaluacion.getMain().getProfesor().getDniProfesor());    
+                      }       
+                  }
             }
-            List<Evaluacion> lstaEvaluaciones = em.createQuery(ejbQl).getResultList();
-                return lstaEvaluaciones;            
+            
+            if(beanEvaluacion.getNidEvaluador() != null){
+                               if(beanEvaluacion.getNidEvaluador() != 0){
+                     query.setParameter("nidEvaluador",beanEvaluacion.getNidEvaluador());            
+                 }
+            }
+            if(beanEvaluacion.getNidNivel() != null){
+                if(beanEvaluacion.getNidNivel() != 0){
+                    query.setParameter("nidNivel",beanEvaluacion.getNidNivel());                      
+                }
+            }
+            
+            if(beanEvaluacion.getNidArea()!=null){
+                if(beanEvaluacion.getNidArea()!=0){
+                    query.setParameter("nidAreaAcademica",beanEvaluacion.getNidArea());                       
+                }
+            }
+            
+            if(beanEvaluacion.getNidEstadoEvaluacion()!=null){        
+                if(!"PENDIENTE".equals(beanEvaluacion.getNidEstadoEvaluacion())){     
+                query.setParameter("nidEstadoEvaluacion",beanEvaluacion.getNidEstadoEvaluacion());                                                  
+            }
+                }
+            
+            if(beanEvaluacion.getNidSede() != null){
+                if(beanEvaluacion.getNidSede() != 0){
+                    query.setParameter("nidSede",beanEvaluacion.getNidSede());  
+                }
+            }
+            if(beanEvaluacion.getApellidosDocentes() != null){
+                query.setParameter("apelidosDocente",beanEvaluacion.getApellidosDocentes().toUpperCase());                    
+            } 
+            
+          lstaEvaluaciones=query.getResultList();
+          return lstaEvaluaciones;            
         }catch(Exception e){
             e.printStackTrace();  
             return null;
