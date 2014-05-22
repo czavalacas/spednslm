@@ -58,6 +58,10 @@ CHANGE COLUMN `metodo_java`
 parametro que toma, si no toma poner los parentesis solos (), esto es 
 para poder buscar con CTRL+F facilmente, asi que poner exactamente como 
 esta' ;
+
+ALTER TABLE `mmsi_sped`.`stmlogger` 
+CHANGE COLUMN `comentario` `comentario` TEXT NULL DEFAULT NULL ;
+
 </code>
 
 == Ejemplo ==
