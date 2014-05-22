@@ -103,6 +103,15 @@ public class bMain implements Serializable {
     }
     
     public void createMenus(PhaseEvent phaseEvent) {
+        if(sessionMain.getExec() == 0){
+            sessionMain.setExec(1);
+            buildMenu();
+        }else{
+            //No hace nada mas, se construye 1 vez nada mas el menu
+        }
+    }
+    
+    public String buildMenu(){
         try {
             if (sessionMain.getLstPermisos() != null) {
                 sessionMain.getLstPermisos().removeAll(sessionMain.getLstPermisos());
@@ -127,10 +136,11 @@ public class bMain implements Serializable {
             }           
             if(sessionMain.getExec() == 0 && popNew.getChildCount() == 0 ){
                 isNuevoUsuario();
-            }            
+            }       
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void crearHijos(BeanPermiso menuItem, RichMenu _menu, int hijoDeMBar) {

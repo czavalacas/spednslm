@@ -2,17 +2,18 @@
 <!DOCTYPE html>
 <f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
         beforePhase="#{bMain.createMenus}">
-    <af:document title="SPED ©" id="d1" largeIconSource="../recursos/img/usuarios/favicon.ico" 
+    <af:document title="SPED ©" id="d1" largeIconSource="../recursos/img/usuarios/favicon.ico"
                  smallIconSource="../recursos/img/usuarios/favicon.ico">
         <af:form id="frmain" usesUpload="true" binding="#{bMain.frmain}">
             <af:spacer height="10"/>
             <af:resource type="javascript" source="/recursos/js/utiles.js"/>
-                <af:resource type="javascript">
-                    var logoutAction = 0;
-                    function prepareLogout(event) {
-                        logoutAction = 1;
-                    }
-                 </af:resource>
+            <af:resource type="javascript">
+              var logoutAction = 0;
+
+              function prepareLogout(event) {
+                  logoutAction = 1;
+              }
+            </af:resource>
             <af:panelSplitter orientation="vertical" splitterPosition="56" id="ps1"
                               inlineStyle="margin:-10px 0px 0px 0px;" firstBorder="none" secondBorder="none">
                 <f:facet name="first">
@@ -25,8 +26,11 @@
                                               inlineStyle="height:37px;width:50px;margin:2px 0px 0px 20px;"/>
                                     <af:image source="/recursos/img/layout/logotipo.png"
                                               inlineStyle="height:32px;width:160px;margin:3px 0px 0px -45px;"/>
+                                    <af:commandLink action="#{bMain.buildMenu}">
+                                        <af:image source="../recursos/img/usuarios/refresh.png" inlineStyle="margin:10px 0px 0px 0px;"/>
+                                    </af:commandLink>
                                     <af:menuBar id="menu" var="item" binding="#{bMain.menu}"
-                                                inlineStyle="margin:10px -350px 0px 40px;"/>
+                                                inlineStyle="margin:10px -350px 0px 0px;"/>
                                 </af:panelFormLayout>
                             </af:gridCell>
                             <af:gridCell width="100%" id="gc2" halign="end">
@@ -64,7 +68,7 @@
                                                                 inlineStyle="margin:5px 0px 0px 0px;">
                                                 <af:outputLabel value="#{bMain.beanUsuario.nombres}"
                                                                 inlineStyle="color:rgb(102,98,96)" id="ol1"/>
-                                                <af:outputLabel value="#{bMain.beanUsuario.rol.descripcionRol}"
+                                                <af:outputLabel value="#{bMain.beanUsuario.rol_descSedeoArea}"
                                                                 inlineStyle="color:rgb(102,98,96)"/>
                                             </af:panelFormLayout>
                                         </af:gridCell>
@@ -91,10 +95,27 @@
                 <af:noteWindow>
                     <af:panelFormLayout rows="2" maxColumns="1">
                         <af:commandLink text="Cerrar Sesion" id="txt" actionListener="#{bMain.cerrarSessionLink}">
-                           <!-- <af:showPopupBehavior popupId="p1" triggerType="action"/>-->
+                            <!-- <af:showPopupBehavior popupId="p1" triggerType="action"/>-->
                         </af:commandLink>
                     </af:panelFormLayout>
                 </af:noteWindow>
+            </af:popup>
+            <af:popup id="p1">
+                <af:dialog id="d2" title="Confirmar" dialogListener="#{bMain.dialogLogoutListener}">
+                    <af:outputText value="Desea Cerrar Sesion?" id="ot2"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" id="popNew" binding="#{bMain.popNew}"
+                      popupCanceledListener="#{bMain.popupCanceledListenerClave}">
+                <af:dialog id="d3" title="Cambiar clave" type="none">
+                    <af:panelFormLayout id="pfl1">
+                        <af:inputText label="Ingresar nueva clave" id="it5" value="#{bMain.clave}" secret="true"
+                                      maximumLength="32"/>
+                        <af:activeOutputText inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
+                                             id="otError" value="#{bMain.msjError}" binding="#{bMain.otError}"/>
+                        <af:button text="Aceptar" id="b1" actionListener="#{bMain.cambioClave}"/>
+                    </af:panelFormLayout>
+                </af:dialog>
             </af:popup>
             <af:popup id="popNotif">
                 <af:noteWindow>
@@ -120,32 +141,17 @@
                         </af:commandLink>
                         <af:commandLink text="Hay #{sessionScope.sessionMain.cantRptaProfesor} Respuesta(s) de Docente(s)"
                                         rendered="#{sessionScope.sessionMain.cantRptaProfesor > 0}" id="clCantRptaProf"
-                                        actionListener="#{bMain.verNotifProfesorRpta}" binding="#{bMain.clCantRptaProf}"/>
+                                        actionListener="#{bMain.verNotifProfesorRpta}"
+                                        binding="#{bMain.clCantRptaProf}"/>
                     </af:panelFormLayout>
                 </af:noteWindow>
             </af:popup>
-            <af:popup id="p1">
-                <af:dialog id="d2" title="Confirmar" dialogListener="#{bMain.dialogLogoutListener}">
-                    <af:outputText value="Desea Cerrar Sesion?" id="ot2"/>
-                </af:dialog>
-            </af:popup>
-            <af:popup childCreation="deferred" id="popNew" binding="#{bMain.popNew}"
-                      popupCanceledListener="#{bMain.popupCanceledListenerClave}">
-                <af:dialog id="d3" title="Cambiar clave" type="none">
-                    <af:panelFormLayout id="pfl1">
-                        <af:inputText label="Ingresar nueva clave" id="it5" value="#{bMain.clave}" secret="true" maximumLength="32"/>
-                        <af:activeOutputText inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
-                                             id="otError" value="#{bMain.msjError}" binding="#{bMain.otError}" />
-                        <af:button text="Aceptar" id="b1" actionListener="#{bMain.cambioClave}"/>
-                    </af:panelFormLayout>    
-                </af:dialog>
-            </af:popup>
+            <audio controls="controls" xmlns="http://www.w3.org/1999/xhtml" id="audio" hidden="hidden">
+                <source src="../recursos/sound/buho.mp3" type="audio/mp3"/>
+            </audio>
+            <!-- <a href="javascript: void(0);" onclick="hola();">Click</a>-->
+            <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
+                     rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
         </af:form>
-        <audio controls="controls" xmlns="http://www.w3.org/1999/xhtml" id="audio" hidden="hidden">
-            <source src="../recursos/sound/buho.mp3" type="audio/mp3"/>
-        </audio>
-        <!-- <a href="javascript: void(0);" onclick="hola();">Click</a>-->
-        <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
-                 rendered="#{sessionScope.sessionMain.verNotificaciones}"/>        
     </af:document>
 </f:view>
