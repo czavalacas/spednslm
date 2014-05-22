@@ -112,22 +112,27 @@ public class bConsultaPlanificacion {
 
     public String selectPlanif() {
         return "evaluar";
-        /*ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.startDate}", Date.class);
+        ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.startDate}", Date.class);
         ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.endDate}", Date.class);
         
         Date fecInicio = (Date)ve1.getValue(adfELContext);
         Date fecFin =    (Date)ve2.getValue(adfELContext);
         
-        AdfmUtils.log("fecInicio: "+fecInicio.getTime()+" fecFin: "+fecFin.getTime());
+       // AdfmUtils.log("fecInicio: "+fecInicio.getTime()+" fecFin: "+fecFin.getTime());
         Timestamp ts_fecI = new Timestamp(fecInicio.getTime());
         Timestamp ts_fecF = new Timestamp(fecFin.getTime());AdfmUtils.log("ts_fecI: "+ts_fecI+" ts_fecF: "+ts_fecF);
         Timestamp hoy = new Timestamp(new Date().getTime());AdfmUtils.log("hoy:"+hoy);
-        boolean isBetween = hoy.after(ts_fecI) && hoy.before(ts_fecF);AdfmUtils.log("isbet: "+isBetween);
+        if(hoy.after(ts_fecI)){
+            return "evaluar";
+        }else{
+            AdfmUtils.alert(FEATURE, ALERTA, new Object[] {"Aun no es hora de evaluar, espero que llegue la hora de Inicio"});
+        }
+       /* boolean isBetween = hoy.after(ts_fecI) && hoy.before(ts_fecF);AdfmUtils.log("isbet: "+isBetween);
         if(isBetween){
             return "evaluar";
         }else{
             AdfmUtils.alert(FEATURE, ALERTA, new Object[] {"La hora actual no es la indicada para realizar esta evaluacion, o se paso la hora o aun no llega."});
-        }
-        return null;*/
+        }*/
+        return null;
     }
 }
