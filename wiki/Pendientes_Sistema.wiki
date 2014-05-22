@@ -33,5 +33,5 @@
 ALTER TABLE `mmsi_sped`.`evmeval` 
 ADD COLUMN `flg_parcial` VARCHAR(1) NULL COMMENT '1 = Si aun no se ha terminado de evaluar, no se ha puesto nota a todos los indicadores, este flag sirve en el demonio cuando va a cambiar de estado a POR JUSTIFICAR revisa si este flag esta en 1, si lo esta le cambiara de estado pero borrara todos las notas que se registraron ya que no se termino de evaluar, 0 = valor inicial' AFTER `flg_justificar`;
 </code>
-#Falta que el demonio borre los resultados de evdresu y evdrefc si se cambia a POR JUSTIFICAR que coja el nidEvaluacion
-#Al grabar ya la evaluacion borre los resultados parciales, usar los 2 metodos que se crearon.
+  #Falta que el demonio borre los resultados de evdresu y evdrefc si se cambia a POR JUSTIFICAR que coja el nidEvaluacion
+  #Al grabar ya la evaluacion borre los resultados parciales, usar los 2 metodos que se crearon.
