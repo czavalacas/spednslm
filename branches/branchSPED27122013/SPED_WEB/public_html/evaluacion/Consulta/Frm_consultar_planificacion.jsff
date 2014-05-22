@@ -168,8 +168,7 @@
                 </af:panelCollection>
             </af:panelGroupLayout>
         </af:subform>
-        </af:panelGroupLayout>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popProb"
+             <af:popup childCreation="deferred" autoCancel="disabled" id="popProb"
                   binding="#{bConsultaPlanificacion.popProb}">
             <af:dialog id="diagProb" dialogListener="#{bConsultaPlanificacion.diagRegistrarProblema}">
                 <af:panelFormLayout>
@@ -189,5 +188,6 @@
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>
+        </af:panelGroupLayout>   
     </f:view>
 </ui:composition>
