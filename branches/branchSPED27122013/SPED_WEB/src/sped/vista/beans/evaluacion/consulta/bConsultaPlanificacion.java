@@ -92,17 +92,17 @@ public class bConsultaPlanificacion {
     }
     
     @PostConstruct
-    public void methodInvokeOncedOnPageLoad() {   
-          llenarCombos();        
-        if(sessionConsultarPlanificacion.getExec()==0){
-           sessionConsultarPlanificacion.setExec(1); 
-           sessionConsultarPlanificacion.setNidEstadoPlanificacion("PENDIENTE");
-            if(usuarioEnSesion.getRol().getNidRol() == 2 ||usuarioEnSesion.getRol().getNidRol() == 4){
-                sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
+    public void methodInvokeOncedOnPageLoad() {
+        llenarCombos();
+        if (sessionConsultarPlanificacion.getExec() == 0) {
+            sessionConsultarPlanificacion.setExec(1);
+            sessionConsultarPlanificacion.setNidEstadoPlanificacion("PENDIENTE");
+            if (usuarioEnSesion.getRol().getNidRol() == 2 || usuarioEnSesion.getRol().getNidRol() == 4) {
+                sessionConsultarPlanificacion.setNidEvaluadorChoice("" + usuarioEnSesion.getNidUsuario());
                 sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
             }
-            if(usuarioEnSesion.getRol().getNidRol()== 3){
-                Date hoy = new Date();        
+            if (usuarioEnSesion.getRol().getNidRol() == 3) {//Profesor consulta
+                Date hoy = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date fechaActual = hoy;
                 String fechaConFormato = sdf.format(fechaActual);
@@ -110,41 +110,42 @@ public class bConsultaPlanificacion {
                 sessionConsultarPlanificacion.setDniProfesor(usuarioEnSesion.getDni());
                 sessionConsultarPlanificacion.setColumnProfesor(false);
             }
-            buscarPlani();        
-        }        
-    }    
+            buscarPlani();
+        }
+    }
 
-    public String buscarPlani(){
-        BeanEvaluacion beanEvaluacion = new BeanEvaluacion();     
+    public String buscarPlani() {
+        BeanEvaluacion beanEvaluacion = new BeanEvaluacion();
         beanEvaluacion.setFechaMaxPlanificacion(sessionConsultarPlanificacion.getFechaMaxPlanificacion());
         beanEvaluacion.setFechaMinPlanificacion(sessionConsultarPlanificacion.getFechaMinPlanificacion());
-        beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());  
+        beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());
         BeanMain main = new BeanMain();
         BeanProfesor prof = new BeanProfesor();
         prof.setDniProfesor(sessionConsultarPlanificacion.getDniProfesor());
         main.setProfesor(prof);
-        beanEvaluacion.setMain(main);   
+        beanEvaluacion.setMain(main);//dfloresgonz 21.05.2014 agrego esto porque debe traer solo las planis del planificador
+        if (usuarioEnSesion.getRol().getNidRol() == 2 || usuarioEnSesion.getRol().getNidRol() == 4) {
+            beanEvaluacion.setNidEvaluador(usuarioEnSesion.getNidUsuario());
+        }
         sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
-    
-       if(sessionConsultarPlanificacion.getNidEvaluadorChoice() != null){
+        if (sessionConsultarPlanificacion.getNidEvaluadorChoice() != null) {
             beanEvaluacion.setNidEvaluador(Integer.parseInt(sessionConsultarPlanificacion.getNidEvaluadorChoice()));
-           }
-       if(sessionConsultarPlanificacion.getNidSedeChoice() != null){
+        }
+        if (sessionConsultarPlanificacion.getNidSedeChoice() != null) {
             beanEvaluacion.setNidSede(Integer.parseInt(sessionConsultarPlanificacion.getNidSedeChoice()));
-           }
-       if(sessionConsultarPlanificacion.getNidNivelChoice() != null){
+        }
+        if (sessionConsultarPlanificacion.getNidNivelChoice() != null) {
             beanEvaluacion.setNidNivel(Integer.parseInt(sessionConsultarPlanificacion.getNidNivelChoice()));
-           }
-        if(sessionConsultarPlanificacion.getNidAreaAcademicaChoice() != null){
+        }
+        if (sessionConsultarPlanificacion.getNidAreaAcademicaChoice() != null) {
             beanEvaluacion.setNidArea(Integer.parseInt(sessionConsultarPlanificacion.getNidAreaAcademicaChoice()));
-           }           
-        if(btnExp != null){
+        }
+        if (btnExp != null) {
             Utils.addTarget(btnExp);
-           }     
-        if(tbPlanificacion!=null){
-            Utils.addTarget(tbPlanificacion);   
-           }
-          
+        }
+        if (tbPlanificacion != null) {
+            Utils.addTarget(tbPlanificacion);
+        }
         return null;
     }
 
