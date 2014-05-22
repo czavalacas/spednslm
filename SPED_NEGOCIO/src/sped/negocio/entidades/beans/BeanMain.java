@@ -33,6 +33,7 @@ public class BeanMain implements Serializable {
     private String nombreProfesor;
     private String nombreCurso;
     private String nombreArea;
+    private String nombreAula;
     private String tipoFicha;
     private String color;
     private boolean selec;
@@ -190,5 +191,13 @@ public class BeanMain implements Serializable {
 
     public boolean isSelec() {
         return selec;
+    }
+
+    public void setNombreAula(String nombreAula) {
+        this.nombreAula = nombreAula;
+    }
+
+    public String getNombreAula() {
+        return nombreAula;
     }
 }

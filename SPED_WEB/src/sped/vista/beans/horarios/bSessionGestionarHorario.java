@@ -72,6 +72,7 @@ public class bSessionGestionarHorario implements Serializable {
     private boolean renderCurso_aux;
     private boolean renderCurso;
     private boolean renderAgregar;
+    private boolean renderAgregar_aux;
     private boolean checkTrue = true; //se mantendra siempre en true
     private boolean checkFalse = false;// se mantendra siempre en false
     
@@ -97,6 +98,10 @@ public class bSessionGestionarHorario implements Serializable {
         return horario[nLeccion][nDia].getNombreCurso();
     }
     
+    public String nomCurso_aux(int nLeccion, int nDia){
+        return horario[nLeccion][nDia] == null ? "" : horario[nLeccion][nDia].getNombreCurso();
+    }
+    
     public String nomProfesor(int nLeccion, int nDia){
         return horario[nLeccion][nDia].getNombreProfesor();
     }
@@ -105,8 +110,12 @@ public class bSessionGestionarHorario implements Serializable {
         return "#"+horario[nLeccion][nDia].getColor();
     }
     
-    public boolean seletcLeccion(int nLeccion, int nDia){
-        return  horario[nLeccion][nDia] == null ? false : true;
+    public boolean renderLeccion_aux(int nLeccion, int nDia){
+        return  horario[nLeccion][nDia] != null && horario[nLeccion][nDia].getNidMain() == 0 ? true : false;
+    }
+    
+    public boolean existeLeccion(int nLeccion, int nDia){
+        return  horario[nLeccion][nDia] != null ? true : false;
     }
     
     public boolean renderLeccion(int nLeccion, int nDia){
@@ -543,5 +552,13 @@ public class bSessionGestionarHorario implements Serializable {
 
     public boolean isCheckFalse() {
         return checkFalse;
+    }
+
+    public void setRenderAgregar_aux(boolean renderAgregar_aux) {
+        this.renderAgregar_aux = renderAgregar_aux;
+    }
+
+    public boolean isRenderAgregar_aux() {
+        return renderAgregar_aux;
     }
 }

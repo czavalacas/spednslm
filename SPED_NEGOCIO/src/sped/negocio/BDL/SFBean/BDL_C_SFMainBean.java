@@ -277,26 +277,30 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         }
     }
     
-    public int countCruceLecionByProfesor(String dniProfesor, 
-                                          Time inicio, 
-                                          Time fin){   
-        String ejbQl =  " SELECT COUNT(ma) FROM Main ma " +                            
-                        " WHERE ma.profesor.dniProfesor= :dniProfesor " +
-                        " AND ma.estado = :estado " +
-                        " AND ( (ma.horaInicio < :inicio AND ma.horaFin > :fin) " +
-                        " OR    (ma.horaInicio > :inicio AND ma.horaInicio < :fin) " +
-                        " OR    (ma.horaFin > :inicio AND ma.horaFin < :fin) " +
-                        " OR    (ma.horaInicio = :inicio AND ma.horaFin = :fin) )";
-        Object object = em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor)
-                                             .setParameter("estado", "1")
-                                             .setParameter("inicio", inicio)
-                                             .setParameter("fin", fin)
-                                             .getSingleResult();
-        int cont = 0;
-        if(object != null){
-            cont = Integer.parseInt(object.toString());
-        }
-        return cont;  
+    
+    public List<Main> countCruceLecionByProfesor(String dniProfesor, 
+                                                 int dia,
+                                                 Time inicio, 
+                                                 Time fin){   
+        try{
+            String ejbQl =  " SELECT ma FROM Main ma " +                            
+                            " WHERE ma.profesor.dniProfesor= :dniProfesor " +
+                            " AND ma.estado = :estado " +
+                            " AND ma.nDia = :dia " +
+                            " AND ( (ma.horaInicio < :inicio AND ma.horaFin > :fin) " +
+                            " OR    (ma.horaInicio > :inicio AND ma.horaInicio < :fin) " +
+                            " OR    (ma.horaFin > :inicio AND ma.horaFin < :fin) " +
+                            " OR    (ma.horaInicio = :inicio AND ma.horaFin = :fin) )";
+            return em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor)
+                                        .setParameter("estado", "1")
+                                        .setParameter("dia", dia)
+                                        .setParameter("inicio", inicio)
+                                        .setParameter("fin", fin)
+                                        .getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ArrayList();
+        }          
     }
        
      public int findMainBySedeYNivel(int nidSede, 

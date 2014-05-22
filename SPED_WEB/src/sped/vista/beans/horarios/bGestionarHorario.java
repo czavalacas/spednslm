@@ -143,8 +143,7 @@ public class bGestionarHorario {
                 return null;
             }
             sessionGestionarHorario.setLstBeanMain(new ArrayList());
-            sessionGestionarHorario.setRenderHorario(true);       
-            sessionGestionarHorario.setNidAula_aux(sessionGestionarHorario.getNidAula());
+            sessionGestionarHorario.setRenderHorario(true);
             sessionGestionarHorario.setNombreAula_aux(sessionGestionarHorario.getNombreAula());
         }   
         Utils.addTarget(pgl1);
@@ -241,7 +240,7 @@ public class bGestionarHorario {
     public boolean llenarHorario(){
         BeanMain horario[][] = new BeanMain[sessionGestionarHorario.getNroBloque()][5];//5 si es solo 5 dias a la semana
         int horasFree = sessionGestionarHorario.getNroBloque()*5;
-        List<BeanMain> lstLecciones = ln_C_SFMainRemote.getLstMainByAttr_LN(sessionGestionarHorario.getNidAula());// reemplazar el "2" por sessionGestionarHorario.getNidAula()
+        List<BeanMain> lstLecciones = ln_C_SFMainRemote.getLstMainByAttr_LN(sessionGestionarHorario.getNidAula_aux());// reemplazar el "2" por sessionGestionarHorario.getNidAula()
         List<BeanMain> lst_defecto = new ArrayList();
         llenarLstDias(5); //llena una lista auxiliar, se usara en generarHorario
         for(BeanMain main : lstLecciones){
@@ -699,69 +698,90 @@ public class bGestionarHorario {
             if((Boolean)val){
                 int nDia = (Integer) vce.getComponent().getAttributes().get("nDia");
                 int nLeccion = (Integer) vce.getComponent().getAttributes().get("nLec");
-                if(sessionGestionarHorario.getNidDni_aux() == null){
-                    Utils.mostrarMensaje(ctx,"Selecione al profesor", null, 2);
-                }else if(sessionGestionarHorario.getNidCurso_aux() == null){
-                    Utils.mostrarMensaje(ctx,"Selecione el Curso", null, 2);
-                }else{
-                    BeanMain beanMain = new BeanMain();
-                    beanMain.setDniProfesor(sessionGestionarHorario.getNidDni_aux());
-                    beanMain.setNidCurso(Integer.parseInt(sessionGestionarHorario.getNidCurso_aux()));
-                    beanMain.setNombreProfesor(sessionGestionarHorario.getNombreProfesor());
-                    beanMain.setNombreCurso(sessionGestionarHorario.getNombreCurso());
-                    sessionGestionarHorario.agregarMain(nLeccion, nDia, beanMain);
-                }
+                BeanMain beanMain = new BeanMain();
+                beanMain.setDniProfesor(sessionGestionarHorario.getNidDni_aux());
+                beanMain.setNidCurso(Integer.parseInt(sessionGestionarHorario.getNidCurso_aux()));
+                beanMain.setNombreProfesor(sessionGestionarHorario.getNombreProfesor());
+                beanMain.setNombreCurso(sessionGestionarHorario.getNombreCurso());
+                sessionGestionarHorario.agregarMain(nLeccion, nDia, beanMain);
+            }else{
+                sessionGestionarHorario.agregarMain(nLeccion, nDia, null);
             }
-            System.out.println(sessionGestionarHorario.isCheckFalse());
-            sessionGestionarHorario.setCheckTrue(true);
             Utils.addTarget(thor);
         }catch(Exception e){
             e.printStackTrace();
         }
+    }  
+    
+    public void horarioChecked(ActionEvent actionEvent) {
+        int nDia = (Integer) actionEvent.getComponent().getAttributes().get("nDia");
+        int nLeccion = (Integer) actionEvent.getComponent().getAttributes().get("nLec");
+        int horas = validarHorasMaximoPorDia(sessionGestionarHorario.getHorario(), 
+                                             nDia, 
+                                             Integer.parseInt(sessionGestionarHorario.getNidCurso_aux()));
+        if(horas < sessionGestionarHorario.getMaxBloque()){
+            if(validarCruce(2, nDia, nLeccion, sessionGestionarHorario.getNidDni_aux())){
+                BeanMain beanMain = new BeanMain();
+                beanMain.setEstado("1");
+                beanMain.setDniProfesor(sessionGestionarHorario.getNidDni_aux());
+                beanMain.setNidCurso(Integer.parseInt(sessionGestionarHorario.getNidCurso_aux()));
+                beanMain.setNombreProfesor(sessionGestionarHorario.getNombreProfesor());
+                beanMain.setNombreCurso(sessionGestionarHorario.getNombreCurso());
+                sessionGestionarHorario.agregarMain(nLeccion, nDia, beanMain);
+                Utils.addTarget(thor);
+            }            
+        }else{
+            Utils.mostrarMensaje(ctx,"Maximo numero de horas para el curso "+sessionGestionarHorario.getNombreCurso(), null, 2);
+        }        
     }
     
-
-    public void checkFalse(ComponentSystemEvent componentSystemEvent) {
-        System.out.println(sessionGestionarHorario.isCheckFalse());
-        if(sessionGestionarHorario.isCheckFalse()){
-            sessionGestionarHorario.setCheckTrue(true);
-            sessionGestionarHorario.setCheckFalse(false);
-            Utils.addTarget(thor);
-        }
+    public void horarioCancel(ActionEvent actionEvent) {
+        int nDia = (Integer) actionEvent.getComponent().getAttributes().get("nDia");
+        int nLeccion = (Integer) actionEvent.getComponent().getAttributes().get("nLec");
+        sessionGestionarHorario.agregarMain(nLeccion, nDia, null);
+        Utils.addTarget(thor);
     }
     
-    public void checkTrue(ComponentSystemEvent componentSystemEvent) {
-        System.out.println(sessionGestionarHorario.isCheckTrue());
-        if(!sessionGestionarHorario.isCheckTrue()){
-            sessionGestionarHorario.setCheckTrue(true);
-            sessionGestionarHorario.setCheckFalse(false);
-            Utils.addTarget(thor);
-        }
-    }
-    
-    public void horarioCheckedCanceled(ValueChangeEvent vce) {
-        try{
-            int nDia = (Integer) vce.getComponent().getAttributes().get("nDia");
-            int nLeccion = (Integer) vce.getComponent().getAttributes().get("nLec");
-            sessionGestionarHorario.agregarMain(nLeccion, nDia, null);
-            sessionGestionarHorario.setCheckFalse(false);
-            System.out.println(sessionGestionarHorario.isCheckTrue());
-            Utils.addTarget(thor);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+    public String guardarHorarioManual() {
+        guardarGenerarHorario();
+        llenarHorario();
+        Utils.addTarget(thor);
+        return null;
     }
     
     public String actionAgregarCurso() {
         sessionGestionarHorario.setRenderAgregar(true);
+        renderAgregar_aux();
         Utils.addTarget(pbHor);
         return null;
     }
     
     public String actionCancelar() {
         sessionGestionarHorario.setRenderAgregar(false);
+        sessionGestionarHorario.setRenderAgregar_aux(false);
+        llenarHorario();
         Utils.addTarget(pbHor);
         return null;
+    }
+    
+    /**
+     * Metodo que se utiliza para validar cruze del profesor con otra sede. Tipo 1 validacion simple, 2 para mostrar los cruces
+     * @param tipo
+     * @param dia
+     * @param leccion
+     * @param dni
+     * @return
+     */
+    public boolean validarCruce(int tipo, int dia, int leccion, String dni){
+        Time inicio[] = sessionGestionarHorario.getHoras();
+        Time fin[] = sessionGestionarHorario.getHoras_fin();        
+        List<BeanMain> listBean = ln_C_SFMainRemote.CruceLecionByProfesor(dni, dia, inicio[leccion], fin[leccion]);
+        if(tipo == 2){
+            for(BeanMain main : listBean){
+                Utils.mostrarMensaje(ctx,"Disponibilidad del profesor "+sessionGestionarHorario.getNombreProfesor()+" ocupada en el aula "+main.getNombreAula(), null, 2);
+            }
+        }   
+        return listBean.size() == 0;
     }
     
    //////FIN------------------------------------------------------/////////////////////
@@ -812,6 +832,7 @@ public class bGestionarHorario {
      */
     public void changeListenerAula(ValueChangeEvent valueChangeEvent) {
         if(valueChangeEvent.getNewValue() != null){
+            sessionGestionarHorario.setNidAula_aux(valueChangeEvent.getNewValue().toString());
             sessionGestionarHorario.setNombreAula(Utils.getChoiceLabel(valueChangeEvent));
         }
     }
@@ -835,8 +856,10 @@ public class bGestionarHorario {
             sessionGestionarHorario.setLstCurso(Utils.llenarCombo(
                 ln_C_SFUtilsRemote.getCursosByArea_LN(Integer.parseInt(valueChangeEvent.getNewValue().toString()))));
             sessionGestionarHorario.setRenderCurso_aux(true);
-            sessionGestionarHorario.setNidCurso_aux(null);
+            sessionGestionarHorario.setNidCurso_aux(null); 
+            choiceC2.resetValue();
             Utils.addTarget(panelM);
+            renderAgregar_aux();
         }
     }
 
@@ -849,6 +872,14 @@ public class bGestionarHorario {
             sessionGestionarHorario.setNombreCurso(Utils.getChoiceLabel(valueChangeEvent));
         }
     }
+    
+    public void changeListenerCurso_aux(ValueChangeEvent valueChangeEvent) {
+        if(valueChangeEvent.getNewValue() != null){
+            sessionGestionarHorario.setNombreCurso(Utils.getChoiceLabel(valueChangeEvent));
+            sessionGestionarHorario.setNidCurso_aux(valueChangeEvent.getNewValue().toString());
+            renderAgregar_aux();
+        }
+    }
 
     /**
      * Metodo para obtener el value selecionado
@@ -858,6 +889,25 @@ public class bGestionarHorario {
         if(valueChangeEvent.getNewValue() != null){
             sessionGestionarHorario.setNombreProfesor(Utils.getChoiceLabel(valueChangeEvent));
         }
+    }
+    
+    public void changeListenerProfesor_aux(ValueChangeEvent valueChangeEvent) {
+        if(valueChangeEvent.getNewValue() != null){
+            sessionGestionarHorario.setNombreProfesor(Utils.getChoiceLabel(valueChangeEvent));
+            System.out.println(valueChangeEvent.getNewValue());
+            sessionGestionarHorario.setNidDni_aux(valueChangeEvent.getNewValue().toString());
+            renderAgregar_aux();
+        }
+    }
+    
+    public void renderAgregar_aux(){
+        if(sessionGestionarHorario.getNidDni_aux() != null & 
+           sessionGestionarHorario.getNidCurso_aux() != null){
+            sessionGestionarHorario.setRenderAgregar_aux(true);
+        }else{
+            sessionGestionarHorario.setRenderAgregar_aux(false);
+        }
+        Utils.addTarget(thor);
     }
     
     //----------------------------//////get and set//////--------------------------------------------

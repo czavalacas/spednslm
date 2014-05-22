@@ -1,5 +1,7 @@
 package sped.negocio.LNSF.IL;
 
+import java.sql.Time;
+
 import java.util.List;
 
 import javax.ejb.Local;
@@ -35,4 +37,8 @@ public interface LN_C_SFMainLocal {
                                    String dniProfesor);
     int buscarHorariosBySedeYNivel(int nidSede,                                              
                                    int nidNivel);
+    List<BeanMain> CruceLecionByProfesor(String dniProfesor, 
+                                         int dia,
+                                         Time inicio, 
+                                         Time fin);
 }
