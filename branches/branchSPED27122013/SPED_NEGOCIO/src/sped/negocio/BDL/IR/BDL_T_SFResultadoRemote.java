@@ -11,4 +11,5 @@ public interface BDL_T_SFResultadoRemote {
     Resultado mergeResultado(Resultado resultado);
 
     void removeResultado(Resultado resultado);
+    int removerResultadosByEvaluacion(int nidEvaluacion);
 }

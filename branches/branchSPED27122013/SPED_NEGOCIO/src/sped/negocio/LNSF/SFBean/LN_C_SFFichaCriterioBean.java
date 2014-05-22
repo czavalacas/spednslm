@@ -17,6 +17,8 @@ import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
 import sped.negocio.BDL.IL.BDL_C_SFFichaCriterioLocal;
+import sped.negocio.BDL.IL.BDL_C_SFResultadoCriterioLocal;
+import sped.negocio.BDL.IL.BDL_C_SFResultadoLocal;
 import sped.negocio.BDL.IR.BDL_C_SFValorRemote;
 import sped.negocio.LNSF.IL.LN_C_SFCriterioIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
@@ -34,7 +36,7 @@ import sped.negocio.entidades.eval.Leyenda;
 
 @Stateless(name = "LN_C_SFFichaCriterio", mappedName = "mapLN_C_SFFichaCriterio")
 public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote, 
-                                                    LN_C_SFFichaCriterioLocal {
+                                                 LN_C_SFFichaCriterioLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -45,6 +47,10 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
     private LN_C_SFResultadoCriterioLocal ln_C_SFResultadoCriterioLocal;
     @EJB
     private LN_C_SFCriterioIndicadorLocal ln_C_SFCriterioIndicadorLocal;
+    @EJB
+    private BDL_C_SFResultadoLocal bdL_C_SFResultadoLocal;
+    @EJB
+    private BDL_C_SFResultadoCriterioLocal bdL_C_SFResultadoCriterioLocal;
     private MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFFichaCriterioBean() {
@@ -52,6 +58,10 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
     
     public List<BeanCriterio> getListaCriteriosByFicha(int nidFicha){
         return this.transformLista(bdL_C_SFFichaCriterioLocal.getFichaCriteriosByFicha(nidFicha));
+    }
+    
+    public List<BeanCriterio> getListaCriteriosByFichaConValores(int nidFicha,int nidEvaluacion){
+        return this.transformListaConValores(bdL_C_SFFichaCriterioLocal.getFichaCriteriosByFicha(nidFicha),nidEvaluacion);
     }
     
     public List<BeanCriterioWS> getListaCriteriosByFicha_WS(int nidFicha){
@@ -96,6 +106,47 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
         return lstBeanCriterio;
     }
     
+    public List<BeanCriterio> transformListaConValores(List<FichaCriterio> lstFichaCriterio,int nidEvaluacion){
+        List<BeanCriterio> lstBeanCriterio = new ArrayList<BeanCriterio>();
+        int indx = 1;
+        for(FichaCriterio fichaCriterio : lstFichaCriterio){
+            BeanCriterio criterio = new BeanCriterio();
+            Criterio crit = fichaCriterio.getCriterio();
+            criterio = (BeanCriterio) mapper.map(crit, BeanCriterio.class);
+            criterio.setDisplay("display:none;");//Mostrar el Ojo que abre el popUp de leyendas
+            criterio.setEsIndicador(0);
+            double vigecimal = bdL_C_SFResultadoCriterioLocal.getValorByFichaEvaluacionCriterio(fichaCriterio.getFicha().getNidFicha(),
+                                                                                                nidEvaluacion,
+                                                                                                fichaCriterio.getCriterio().getNidCriterio());
+            String estilo = "";
+            if(vigecimal <= 10.49){
+                estilo = "rojo";
+            }else if(vigecimal >= 10.50 && vigecimal <= 15.49){
+                estilo = "amarillo";
+            }else{
+                estilo = "verde";
+            }
+            criterio.setEstilo(estilo);
+            criterio.setNotaVige(vigecimal);
+            criterio.setValorInput(vigecimal+"");
+            criterio.setLstIndicadores(this.getListaIndicadoresConValores(fichaCriterio.getCriterioIndicadorLista(),criterio.getNidCriterio(),nidEvaluacion));
+            criterio.setMostrarBoton(true);//lupita para agregar indicadores
+            criterio.setMostrarUpDown(true);
+            criterio.setSelected(true);
+            criterio.setCantidadValoresWS(fichaCriterio.getFicha().getFichaValorLista().size());
+            criterio.setOrden(fichaCriterio.getOrden());
+            boolean bool = indx == lstFichaCriterio.size();
+            if(bool){
+                criterio.setNoMostrarDown(true);
+            }
+            criterio.setDisplayInput("true");
+            criterio.setDisplaySpinBox("false");
+            lstBeanCriterio.add(criterio);
+            indx++;
+        }
+        return lstBeanCriterio;
+    }
+    
     public List<BeanCriterio> getListaIndicadores(List<CriterioIndicador> lstCrisIndis,Integer nidPadre){
         List<BeanCriterio> lstIndis = new ArrayList<BeanCriterio>();
         int indx = 1;
@@ -111,6 +162,39 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setOrden(critIndi.getOrden());
             crit.setSelected(true);
             crit.setNidCriterioIndicador(critIndi.getNidCriterioIndicador());
+            //crit.setValorSpinBox(critIndi.get);
+            boolean bool = false;
+            if(indx == lstCrisIndis.size()){
+                bool = true;
+            }
+            if(bool){
+                crit.setNoMostrarDown(true);
+            }
+            crit.setDisplayInput("false");
+            crit.setDisplaySpinBox("true");
+            crit.setNidCriterioPadre(nidPadre);
+            lstIndis.add(crit);
+            indx++;
+        }
+        return lstIndis;
+    }
+    
+    public List<BeanCriterio> getListaIndicadoresConValores(List<CriterioIndicador> lstCrisIndis,Integer nidPadre,int nidEvaluacion){
+        List<BeanCriterio> lstIndis = new ArrayList<BeanCriterio>();
+        int indx = 1;
+        for(CriterioIndicador critIndi : lstCrisIndis){
+            BeanCriterio crit = new BeanCriterio();
+            crit.setDescripcionCriterio(critIndi.getIndicador().getDescripcionIndicador());
+            crit.setDisplay("display:block;");
+            crit.setEsIndicador(1);
+            crit.setLstLeyenda(this.getLstLeyendas(critIndi.getLeyendaLista()));
+            crit.setMostrarBoton(true);
+            crit.setMostrarUpDown(true);
+            crit.setNidCriterio(critIndi.getIndicador().getNidIndicador());
+            crit.setOrden(critIndi.getOrden());
+            crit.setSelected(true);
+            crit.setNidCriterioIndicador(critIndi.getNidCriterioIndicador());
+            crit.setValorSpinBox(bdL_C_SFResultadoLocal.getValorResultadoByNidCriterioIndicador_Evaluacion(critIndi.getNidCriterioIndicador(),nidEvaluacion));
             boolean bool = false;
             if(indx == lstCrisIndis.size()){
                 bool = true;

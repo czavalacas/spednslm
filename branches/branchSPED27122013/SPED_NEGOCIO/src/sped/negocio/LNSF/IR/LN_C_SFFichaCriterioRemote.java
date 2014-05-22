@@ -11,6 +11,7 @@ import sped.negocio.entidades.beans.BeanFichaCriterio;
 @Remote
 public interface LN_C_SFFichaCriterioRemote {
     List<BeanCriterio> getListaCriteriosByFicha(int nidFicha);
+    List<BeanCriterio> getListaCriteriosByFichaConValores(int nidFicha,int nidEvaluacion);
     List<BeanFichaCriterio> getLstFichaCriterioByEvaluacion(int nidEvaluacion);
     List<BeanCriterioWS> getListaCriteriosByFicha_WS(int nidFicha);
 }

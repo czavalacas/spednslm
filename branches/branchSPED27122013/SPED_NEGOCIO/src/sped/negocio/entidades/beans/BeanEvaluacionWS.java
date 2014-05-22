@@ -37,6 +37,15 @@ public class BeanEvaluacionWS implements Serializable {
     private String comentarioEvaluador;
     private String comentarioProfesor;
     private BeanCriterioWS[] criterios;
+    private String flgParcial;//Cuando se grabo una evaluacion parcialmente, aun no se termina
+
+    public void setFlgParcial(String flgParcial) {
+        this.flgParcial = flgParcial;
+    }
+
+    public String getFlgParcial() {
+        return flgParcial;
+    }
 
     public void setTipoFichaCurso(String tipoFichaCurso) {
         this.tipoFichaCurso = tipoFichaCurso;

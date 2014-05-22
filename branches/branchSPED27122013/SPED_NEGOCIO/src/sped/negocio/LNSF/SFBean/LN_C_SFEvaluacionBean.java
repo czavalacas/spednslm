@@ -262,6 +262,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
                 beanEva.setTipoVisita(constr.getDescripcionAMostrar());
                 beanEva.setAula(eva.getMain().getAula().getDescripcionAula());
+                beanEva.setFlgParcial(eva.getFlgParcial() == null ? "0" : eva.getFlgParcial());
                 // Utiles.sysout("beanEva:"+beanEva.getNidEvaluacion()+" ape:"+beanEva.getMain().getProfesor().getApellidos()+", "+eva.getMain().getProfesor().getNombres()+" startdate:"+beanEva.getStartDate());
                 lstBeanEvas.add(beanEva);
             }

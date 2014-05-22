@@ -50,6 +50,7 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEmailRemote;
 import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
@@ -67,6 +68,9 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     private BDL_C_SFEmailRemote bd_C_SFEmailRemote;
     @EJB
     private BDL_T_SFUsuarioLocal bdL_T_SFUsuarioLocal;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
+    private static final String CLASE = "sped.negocio.LNSF.SFBean.LN_C_SFCorreoBean";
     private MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFCorreoBean() {
@@ -235,7 +239,11 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
           t.sendMessage(message, message.getAllRecipients());
           t.close();
       }catch (Exception ex){
-          ex.printStackTrace();//TODO log envio correo
+          ln_T_SFLoggerLocal.registrarLogErroresSistema(new Integer(data[8]), 
+                                                        "OTR",
+                                                        CLASE, 
+                                                        "void enviarCorreoNotificacionProfesorEvaluado(String data[])",
+                                                        "Error al enviar el correo de notificacion de evaluacion al docente",Utiles.getStack(ex));
       }
     }
     

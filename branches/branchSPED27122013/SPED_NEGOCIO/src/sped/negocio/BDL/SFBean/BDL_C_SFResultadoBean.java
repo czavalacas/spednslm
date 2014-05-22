@@ -22,7 +22,7 @@ import sped.negocio.entidades.eval.ResultadoPK;
 
 @Stateless(name = "BDL_C_SFResultado", mappedName = "mapBDL_C_SFResultado")
 public class BDL_C_SFResultadoBean implements BDL_C_SFResultadoRemote, 
-                                                 BDL_C_SFResultadoLocal {
+                                              BDL_C_SFResultadoLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -82,6 +82,26 @@ public class BDL_C_SFResultadoBean implements BDL_C_SFResultadoRemote,
        } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    public int getValorResultadoByNidCriterioIndicador_Evaluacion(int nidCriterioIndicador,
+                                                                  int nidEvaluacion){
+        try{
+            String strQuery = "SELECT r.valor " +
+                              "FROM Resultado r " +
+                              "WHERE r.criterioIndicador.nidCriterioIndicador = :nidCriterioIndicador " +
+                              "AND   r.evaluacion.nidEvaluacion = :nidEvaluacion ";
+            List lst = em.createQuery(strQuery).setParameter("nidCriterioIndicador",nidCriterioIndicador)
+                                               .setParameter("nidEvaluacion",nidEvaluacion).getResultList();
+            if(lst.isEmpty()){
+                return 0;
+            }else{
+                return Integer.parseInt(lst.get(0).toString());
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return 0;
         }
     }
 }

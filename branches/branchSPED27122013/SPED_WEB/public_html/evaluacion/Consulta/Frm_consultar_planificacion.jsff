@@ -107,6 +107,9 @@
                     <af:column width="20">
                         <af:outputText value="#{vs.index + 1}"/>
                     </af:column>
+                    <af:column sortable="true" headerText="Parcial?" width="60" sortProperty="flgParcial">
+                        <af:outputText value="#{row.flgParcial == '1' ? 'SÍ' : 'NO'}"/>
+                    </af:column>
                     <af:column sortable="true" headerText="Planificador" id="c1" width="180" sortProperty="nombrePLanificador">
                         <af:outputText value="#{row.nombrePLanificador}" id="ot1"/>
                     </af:column>

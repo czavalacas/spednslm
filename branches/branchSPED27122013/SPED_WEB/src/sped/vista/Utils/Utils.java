@@ -5,9 +5,13 @@ import java.io.PrintWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.StringWriter;
+
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -361,5 +365,46 @@ public class Utils {
         } catch (Exception e1) {
             return null;
         }
+    }
+    
+    public static String getDiaDeCalendario(int dia) {
+        String day = "";
+        switch(dia){
+            case 1 : day = "Lunes";break;
+            case 2 : day = "Martes";break;
+            case 3 : day = "Miercoles";break;
+            case 4 : day = "Jueves";break;
+            case 5 : day = "Viernes";break;
+            case 6 : day = "Sabado";break;
+            case 7 : day = "Domingo";break;
+        }
+        return day;
+    }
+    
+    /**Metodo para generar Codigo Alfanumerico de tipo NNNN-XXXX-XXXX-XXXX-NNNN*/
+    public static String generarAlfanumerico() {
+        String[] abecedario = {
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
+            "V", "W", "X", "Y", "Z"
+        };
+        String[] numeros = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+        String[] cadena = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+        for (int i = 0; i <= 7; i++) {
+            cadena[i] = numeros[(int) (Math.random() * 9 + 1)];
+        }
+        for (int i = 8; i <= 19; i++) {
+            cadena[i] = abecedario[(int) (Math.random() * 25 + 1)];
+        }
+        String codigo =
+            cadena[0] + cadena[1] + cadena[2] + cadena[3] + "-" + cadena[8] + cadena[9] + cadena[10] + cadena[11] +
+            "-" + cadena[12] + cadena[13] + cadena[14] + cadena[15] + "-" + cadena[16] + cadena[17] + cadena[18] +
+            cadena[19] + "-" + cadena[4] + cadena[5] + cadena[6] + cadena[7];
+        return codigo;
+    }
+    
+    public static String getHoyFormato(String _formato){
+        SimpleDateFormat formato = new SimpleDateFormat(_formato);
+        Calendar cal = new GregorianCalendar();
+        return formato.format(cal.getTime());
     }
 }
