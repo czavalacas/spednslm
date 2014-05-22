@@ -11,4 +11,5 @@ public interface BDL_T_SFResultadoCriterioLocal {
     ResultadoCriterio mergeResultadoCriterio(ResultadoCriterio resultadoCriterio);
 
     void removeResultadoCriterio(ResultadoCriterio resultadoCriterio);
+    int removerResultadoCriterioByEvaluacion(int nidEvaluacion);
 }

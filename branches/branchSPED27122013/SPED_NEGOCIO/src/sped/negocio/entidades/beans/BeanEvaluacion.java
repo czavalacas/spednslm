@@ -60,6 +60,15 @@ public class BeanEvaluacion implements Serializable {
     private String flgAnular;
     private String flgJustificar;
     private String styleColor;
+    private String flgParcial;//Cuando se grabo una evaluacion parcialmente, aun no se termina
+
+    public void setFlgParcial(String flgParcial) {
+        this.flgParcial = flgParcial;
+    }
+
+    public String getFlgParcial() {
+        return flgParcial;
+    }
 
     public void setStyleColor(String styleColor) {
         this.styleColor = styleColor;

@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import java.text.SimpleDateFormat;
 
 import java.util.Calendar;
@@ -76,10 +79,19 @@ public class Utiles {
        return sb.toString();
     }
     
-   
     public static String getHoyFormato(String _formato){
         SimpleDateFormat formato = new SimpleDateFormat(_formato);
-        Calendar cal= new GregorianCalendar();
+        Calendar cal = new GregorianCalendar();
         return formato.format(cal.getTime());
+    }
+    
+    public static String getStack(Exception e){
+        try {
+            StringWriter stringWriter = new StringWriter();
+            e.printStackTrace(new PrintWriter(stringWriter));
+            return stringWriter.toString();
+        } catch (Exception e1) {
+            return null;
+        }
     }
 }

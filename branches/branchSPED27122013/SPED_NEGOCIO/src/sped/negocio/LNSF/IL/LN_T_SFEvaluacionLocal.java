@@ -35,6 +35,12 @@ public interface LN_T_SFEvaluacionLocal {
                                          Integer nidUsuario,
                                          String comentarioEvaluador,
                                          int nidLog);
+    BeanError registrarEvaluacion_Parcial_LN_Web(List<BeanCriterio> lstBeanIndiVal,
+                                                 Integer nidEvaluacion,
+                                                 Integer nidUsuario,
+                                                 String comentarioEvaluador,
+                                                 int nidLog,
+                                                 boolean isPrimeraVezParcial);
     /**
      * Metodo que registra el comentario del evaluador
      * @author dfloresgonz

@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import javax.persistence.Query;
+
 import sped.negocio.BDL.IL.BDL_T_SFResultadoLocal;
 import sped.negocio.BDL.IR.BDL_T_SFResultadoRemote;
 import sped.negocio.entidades.eval.Resultado;
@@ -19,7 +21,7 @@ import sped.negocio.entidades.eval.ResultadoPK;
 
 @Stateless(name = "BDL_T_SFResultado", mappedName = "mapBDL_T_SFResultado")
 public class BDL_T_SFResultadoBean implements BDL_T_SFResultadoRemote,
-                                                 BDL_T_SFResultadoLocal {
+                                              BDL_T_SFResultadoLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -46,5 +48,17 @@ public class BDL_T_SFResultadoBean implements BDL_T_SFResultadoRemote,
                     new ResultadoPK(resultado.getCriterioIndicador().getNidCriterioIndicador(),
                                     resultado.getEvaluacion().getNidEvaluacion()));
         em.remove(resultado);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public int removerResultadosByEvaluacion(int nidEvaluacion) {
+        try {
+            String sqlPuro = "DELETE FROM evdresu r WHERE r.nidEvaluacion = ? ";
+            Query q = em.createNativeQuery(sqlPuro).setParameter(1,nidEvaluacion);
+            return q.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

@@ -53,19 +53,38 @@ public class BDL_C_SFResultadoCriterioBean implements BDL_C_SFResultadoCriterioR
             return null;
         }
     }
-    
+
     public List<ResultadoCriterio> getResultadoCriterio_ByEvaluacion(Integer nidEvaluacion) {
-        try{
+        try {
             String ejbQl = " SELECT r " +
                            " FROM ResultadoCriterio r " +
-                           " WHERE r.evaluacion.nidEvaluacion ="+nidEvaluacion;             
-           
-                List<ResultadoCriterio> eva = em.createQuery(ejbQl).getResultList();           
-                return eva;         
-        }catch(Exception e){
-            e.printStackTrace();  
+                           " WHERE r.evaluacion.nidEvaluacion = " +nidEvaluacion;
+            List<ResultadoCriterio> eva = em.createQuery(ejbQl).getResultList();
+            return eva;
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
-        }   
         }
+    }
     
+    public double getValorByFichaEvaluacionCriterio(int nidFicha,int nidEvaluacion,int nidCriterio){
+        try {
+            String ejbQl = " SELECT r.valor " +
+                           " FROM ResultadoCriterio r " +
+                           " WHERE r.evaluacion.nidEvaluacion = :nidEvaluacion " +
+                           " AND r.fichaCriterio.ficha.nidFicha = :nidFicha " +
+                           " AND r.fichaCriterio.criterio.nidCriterio = :nidCriterio ";
+            List<ResultadoCriterio> lst = em.createQuery(ejbQl).setParameter(nidEvaluacion, nidEvaluacion)
+                                          .setParameter(nidFicha, nidFicha)
+                                          .setParameter(nidCriterio, nidCriterio).getResultList();
+            if(lst.isEmpty()){
+                return 0.0;
+            }else{
+                return Double.parseDouble(lst.get(0).toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0.0;
+        }
+    }
 }

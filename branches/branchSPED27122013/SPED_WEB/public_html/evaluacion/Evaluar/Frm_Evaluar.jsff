@@ -83,6 +83,9 @@
                                 <af:column sortable="false" headerText="Area Academica" align="start" id="c6">
                                     <af:outputText value="#{row.areaAcademica}" id="ot6"/>
                                 </af:column>
+                                <af:column sortable="true" headerText="Parcial?" width="60" sortProperty="flgParcial">
+                                    <af:outputText value="#{row.flgParcial == '1' ? 'SÍ' : 'NO'}"/>
+                                </af:column>
                                 <af:column sortable="true" sortProperty="tipoVisita" headerText="Visita" align="start"
                                            id="c7">
                                     <af:outputText value="#{row.tipoVisita}" id="ot7"/>
@@ -115,7 +118,9 @@
                         <af:treeTable value="#{bEvaluar.permisosTree}" var="row"
                                       visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
                                       rowBandingInterval="0" id="trFich" initiallyExpanded="true" rowSelection="single"
-                                      width="900px" binding="#{bEvaluar.trFich}" fetchSize="50">
+                                      width="900px" binding="#{bEvaluar.trFich}" fetchSize="50"
+                                      emptyText="Seleccione la evaluacion a realizar y de click en el boton Evaluar"
+                                      contentDelivery="immediate" immediate="true">
                             <f:facet name="nodeStamp">
                                 <af:column sortable="false" headerText="Descripcion" id="c9" width="700">
                                     <af:outputText value="#{row.descripcionCriterio}" id="ot9"
