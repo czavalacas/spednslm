@@ -76,7 +76,7 @@ try {
                                                  "OTR",
                                                  CLASE, 
                                                  "autenticarUsuario(ActionEvent actionEvent)",
-                                                 "Error al realizar division",Utils.getStack(e));
+                                                 "Error al realizar division",Utils.getStack(e));//en el proyecto NEGOCIO usar Utiles.getStack(e)
  }
 
 </code>
