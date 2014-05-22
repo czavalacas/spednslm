@@ -1,5 +1,7 @@
 package sped.negocio.LNSF.IR;
 
+import java.sql.Time;
+
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -35,4 +37,8 @@ public interface LN_C_SFMainRemote {
                                    String dniProfesor);
     int buscarHorariosBySedeYNivel(int nidSede,                                              
                                    int nidNivel);
+    List<BeanMain> CruceLecionByProfesor(String dniProfesor, 
+                                         int dia,
+                                         Time inicio, 
+                                         Time fin);
 }
