@@ -1,7 +1,6 @@
 package sped.vista.beans.evaluacion.evaluar;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,12 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
-
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
@@ -23,20 +20,18 @@ import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.component.rich.output.RichMessages;
-import oracle.adf.view.rich.event.DialogEvent;
 import oracle.adf.view.rich.render.ClientEvent;
-
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaLocal;
 import sped.negocio.LNSF.IL.LN_T_SFEvaluacionLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
 import sped.negocio.entidades.beans.BeanUsuario;
-
 import sped.vista.Utils.Utils;
 
 public class bEvaluar {
@@ -64,6 +59,9 @@ public class bEvaluar {
     private LN_T_SFEvaluacionLocal ln_T_SFEvaluacionLocal;
     @EJB
     private LN_C_SFFichaLocal ln_C_SFFichaLocal;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
+    private static final String CLASE = "sped.vista.beans.evaluacion.evaluar.bEvaluar";
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
 
     public bEvaluar() {
@@ -148,7 +146,11 @@ public class bEvaluar {
                 btnCalc.setVisible(true);
                 sessionEvaluar.setVisiblePanelBoxPanelBoxFicha(true);
                 trFich.setVisible(true);
-                sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(valoresFicha[0]));       
+                if("1".equalsIgnoreCase(sessionEvaluar.getPlanifSelect().getFlgParcial())){
+                    sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFichaConValores(valoresFicha[0],sessionEvaluar.getPlanifSelect().getNidEvaluacion()));
+                }else{
+                    sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(valoresFicha[0]));
+                }
                 buildTree();
                 Utils.addTargetMany(btnGrabar,btnCalc,btnCmt);
             }
@@ -296,10 +298,53 @@ public class bEvaluar {
             msjGen.setText("Error del sistema");
             Utils.addTarget(msjGen);
             Utils.mostrarMensaje(ctx,"Error del sistema, comuniquese con el administrador o intente nuevamente","Error del sistema",2);
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(), 
+                                                          "BAC",
+                                                          CLASE, 
+                                                          "void grabarEvaluacion(ActionEvent actionEvent)",
+                                                          "Error en el backing al registrar la Evaluacion ",Utils.getStack(e));
         } finally {
             if(reset){
                 resetearAfterGrabar();   
             }
+        }
+    }
+    
+    public void grabarEvaluacionParcial(ActionEvent actionEvent) {
+        try {
+            int severidad = 0;
+            BeanError error = new BeanError();
+            if (this.isOKParcial()) {
+                error = ln_T_SFEvaluacionLocal.registrarEvaluacion_Parcial_LN_Web(sessionEvaluar.getLstCriteriosMultiples(),
+                                                                                  sessionEvaluar.getPlanifSelect().getNidEvaluacion(),
+                                                                                  usuario.getNidUsuario(),
+                                                                                  sessionEvaluar.getComentarioEvaluador(),
+                                                                                  usuario.getNidLog(),
+                                                                                  "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false);
+                if("000".equalsIgnoreCase(error.getCidError())){
+                    severidad = 3;
+                    sessionEvaluar.getPlanifSelect().setFlgParcial("1");//Se le cambia a uno para saber que ya se grabo parcial y en las siguientes borre los valores grabados
+                }else{
+                    severidad = 1;
+                }
+            } else {
+                severidad = 1;
+                error.setTituloError("Debe llenar al menos 5 indicadores");
+                error.setDescripcionError("Asigne un valor mayor a cero para los indicadores, minimo 5");
+            }
+            msjGen.setText(error.getTituloError());
+            Utils.addTarget(msjGen);
+            Utils.mostrarMensaje(ctx,error.getDescripcionError(),error.getTituloError(), severidad);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msjGen.setText("Error del sistema");
+            Utils.addTarget(msjGen);
+            Utils.mostrarMensaje(ctx,"Error del sistema, comuniquese con el administrador o intente nuevamente","Error del sistema",2);
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(), 
+                                                          "BAC",
+                                                          CLASE, 
+                                                          "void grabarEvaluacionParcial(ActionEvent actionEvent)",
+                                                          "Error en el backing al registrar la Evaluacion Parcial",Utils.getStack(e));
         }
     }
     
@@ -317,6 +362,30 @@ public class bEvaluar {
             }
         }
         return true;
+    }
+    
+    private boolean isOKParcial(){
+        Iterator it = sessionEvaluar.getLstCriteriosMultiples().iterator();
+        int cant = 0;
+        while(it.hasNext()){
+            BeanCriterio crit = (BeanCriterio) it.next();
+            List<BeanCriterio> hijos = crit.getLstIndicadores();
+            Iterator itH = hijos.iterator();
+            while(itH.hasNext()){
+                BeanCriterio indi = (BeanCriterio) itH.next();
+                if(indi.getValorSpinBox() > 0){
+                    cant++;
+                    if(cant >= 5){
+                        return true;
+                    }
+                }
+            }
+        }
+        if(cant < 5){
+            return false;
+        }else{
+            return true;
+        }
     }
     
     public void resetearAfterGrabar(){

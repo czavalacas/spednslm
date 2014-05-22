@@ -13,4 +13,6 @@ public interface BDL_C_SFResultadoRemote {
     Resultado findResultadoById(int criterioIndicador,
                                 int evaluacion);
     List<Resultado> getResultadoByEvaluacionCriterio_BDL(int nidEvaluacion,int nidCriterio);
+    int getValorResultadoByNidCriterioIndicador_Evaluacion(int nidCriterioIndicador,
+                                                           int nidEvaluacion);
 }

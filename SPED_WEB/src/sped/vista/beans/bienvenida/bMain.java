@@ -106,8 +106,6 @@ public class bMain implements Serializable {
         if(sessionMain.getExec() == 0){
             sessionMain.setExec(1);
             buildMenu();
-        }else{
-            //No hace nada mas, se construye 1 vez nada mas el menu
         }
     }
     
