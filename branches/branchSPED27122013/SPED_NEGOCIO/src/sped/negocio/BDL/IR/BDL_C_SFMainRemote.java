@@ -36,9 +36,10 @@ public interface BDL_C_SFMainRemote {
     List<Main> getHorariosPorDocente(String dniDocente);
     Main getMainByAtrubutes(String nidAula, String nidCurso, String dniProfesor);
     Main findMainById(int id);
-    int countCruceLecionByProfesor(String dniProfesor, 
-                                   Time inicio, 
-                                   Time fin);
+    List<Main> countCruceLecionByProfesor(String dniProfesor, 
+                                          int dia,
+                                          Time inicio, 
+                                          Time fin);
     int findMainBySedeYNivel(int nidSede, 
                              int nidNivel);
 }

@@ -1,5 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
+import java.sql.Time;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -143,6 +145,32 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
     public int buscarHorariosBySedeYNivel(int nidSede, 
                                           int nidNivel){
         return bdl_C_SFMainLocal.findMainBySedeYNivel(nidSede, nidNivel);
+    }
+    
+    public List<BeanMain> CruceLecionByProfesor(String dniProfesor, 
+                                                int dia,
+                                                Time inicio, 
+                                                Time fin){
+        try{
+            List<BeanMain> lstBean = new ArrayList();
+            int cont = 0;
+            for(Main main : bdl_C_SFMainLocal.countCruceLecionByProfesor(dniProfesor, dia, inicio, fin)){
+                if(cont == 2){
+                    break;
+                }
+                BeanMain bean = new BeanMain();
+                bean.setHoraInicio(main.getHoraInicio());
+                bean.setHoraFin(main.getHoraFin());
+                bean.setNombreAula(main.getAula().getDescripcionAula());
+                bean.setNombreProfesor(main.getProfesor().getApellidos()+", "+main.getProfesor().getNombres());
+                lstBean.add(bean);
+                cont++;
+            }
+            return lstBean;
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ArrayList();
+        }
     }
     
 }
