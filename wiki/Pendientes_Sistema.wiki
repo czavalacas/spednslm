@@ -11,11 +11,10 @@
   # Mejorar la performance en las consultas de planificacion y evaluacion.
   # Grabar en el log cuando se solicite nueva clave.
   # Subir APK a google play (pagar $25 registro).
-  # Modulo de feedback y recomendaciones.
   # Acomodar los tags f:view que tenga solo 1 raiz los jsff
   # Modulo de continuidad de negocio
   # Dash visualizar hora de planificacion vs. hora de evaluacion
-  # en bMain.java que el crear Menu se ejecute solo 1 vez.
+  # ~~en bMain.java que el crear Menu se ejecute solo 1 vez.~~
   # ~~Editar el Aplicativo para que no valide rango de fechas al evaluar.~~
   # ~~Agrandar la pantalla de comentario en consultar evas.~~
   # ~~Alertar por correo cuando se evaluó al profesor.~~
