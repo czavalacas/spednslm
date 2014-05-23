@@ -126,35 +126,35 @@
                                align="left" id="c13">
                         <af:outputText value="#{row.comentarioEvaluador}" id="ot13"/>
                     </af:column>-->
-                    <af:column sortable="true" sortProperty="main.profesor.apellidos" headerText="Profesor" width="200"
+                    <af:column sortable="true" sortProperty="nombreCompletoProfesor" headerText="Profesor" width="200"
                                align="start" id="c1" rendered="#{sessionConsultarEvaluacion.columnProfesor}">
-                        <af:outputText value="#{row.main.profesor.nombres} #{row.main.profesor.apellidos}" id="ot1"/>
+                        <af:outputText value="#{row.nombreCompletoProfesor}" id="ot1"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="main.curso.areaAcademica.descripcionAreaAcademica"
+                    <af:column sortable="true" sortProperty="descArea"
                                headerText="Area" align="start" id="c2"
                                rendered="#{sessionConsultarEvaluacion.columnArea}">
-                        <af:outputText value="#{row.main.curso.areaAcademica.descripcionAreaAcademica}" id="ot2"/>
+                        <af:outputText value="#{row.descArea}" id="ot2"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="main.curso.descripcionCurso" headerText="Curso"
+                    <af:column sortable="true" sortProperty="descCurso" headerText="Curso"
                                align="start" id="c3" width="130">
-                        <af:outputText value="#{row.main.curso.descripcionCurso}" id="ot3"/>
+                        <af:outputText value="#{row.descCurso}" id="ot3"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="main.aula.sede.descripcionSede" headerText="Sede"
+                    <af:column sortable="true" sortProperty="descSede" headerText="Sede"
                                align="start" id="c4" rendered="#{sessionConsultarEvaluacion.columnSede}">
-                        <af:outputText value="#{row.main.aula.sede.descripcionSede}" id="ot4"/>
+                        <af:outputText value="#{row.descSede}" id="ot4"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="main.aula.gradoNivel.nivel.descripcionNivel"
+                    <af:column sortable="true" sortProperty="descNivel"
                                headerText="Nivel" align="start" id="c5"
                                rendered="#{sessionConsultarEvaluacion.columnNivel}">
-                        <af:outputText value="#{row.main.aula.gradoNivel.nivel.descripcionNivel}" id="ot5"/>
+                        <af:outputText value="#{row.descNivel}" id="ot5"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="main.aula.gradoNivel.grado.descripcionGrado"
+                    <af:column sortable="true" sortProperty="descGrado"
                                headerText="Grado" align="start" id="c6">
-                        <af:outputText value="#{row.main.aula.gradoNivel.grado.descripcionGrado}" id="ot6"/>
+                        <af:outputText value="#{row.descGrado}" id="ot6"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="main.aula.descripcionAula" headerText="Aula" align="start"
+                    <af:column sortable="true" sortProperty="descAula" headerText="Aula" align="start"
                                id="c7">
-                        <af:outputText value="#{row.main.aula.descripcionAula}" id="ot7"/>
+                        <af:outputText value="#{row.descAula}" id="ot7"/>
                     </af:column>
                     <af:column sortable="true" sortProperty="comentario_evaluador" headerText="Comentario Evaluador"
                                align="start" id="c16">
@@ -169,9 +169,9 @@
                         <af:panelGroupLayout id="pgl1">
                             <af:image source="/recursos/img/usuarios/msj.png" id="i1" rendered="#{row.notificacionEvaluadorComentarioProfesor == '1'}"/>
                             <af:button text="Comentario" id="btnCmtDoce" actionListener="#{bConsultarEvaluacion.comentarEvaluacion}">
-                            <f:setPropertyActionListener value="#{row}"
-                                                         target="#{sessionConsultarEvaluacion.evaSelect}"/>
-                        </af:button>
+                                <f:setPropertyActionListener value="#{row}"
+                                                             target="#{sessionConsultarEvaluacion.evaSelect}"/>
+                            </af:button>
                         </af:panelGroupLayout>
                         
                         <!--  <af:button text="Comentar" id="bComenP" rendered="#{!sessionConsultarEvaluacion.columnProfesor == true 

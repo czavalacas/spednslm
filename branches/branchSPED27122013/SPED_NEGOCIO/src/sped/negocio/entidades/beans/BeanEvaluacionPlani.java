@@ -33,6 +33,8 @@ public class BeanEvaluacionPlani implements Serializable{
     private String colorResultado;
     private String descProblema;
     private String descArea;
+    private String descAula;
+    private String notificacionEvaluadorComentarioProfesor;
     
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
@@ -226,4 +228,19 @@ public class BeanEvaluacionPlani implements Serializable{
         return descArea;
     }
 
+    public void setDescAula(String descAula) {
+        this.descAula = descAula;
+    }
+
+    public String getDescAula() {
+        return descAula;
+    }
+
+    public void setNotificacionEvaluadorComentarioProfesor(String notificacionEvaluadorComentarioProfesor) {
+        this.notificacionEvaluadorComentarioProfesor = notificacionEvaluadorComentarioProfesor;
+    }
+
+    public String getNotificacionEvaluadorComentarioProfesor() {
+        return notificacionEvaluadorComentarioProfesor;
+    }
 }
