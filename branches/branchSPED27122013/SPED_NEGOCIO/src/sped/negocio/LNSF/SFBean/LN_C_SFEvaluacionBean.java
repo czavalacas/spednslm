@@ -110,12 +110,12 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             if(a.getNidProblema()!=null){
             bean.setNidProblema(a.getNidProblema());
             }
-            bean.setNombreCompletoProfesor(a.getMain().getProfesor().getApellidos() + " "+a.getMain().getProfesor().getNombres());
-            bean.setStartDate(a.getStartDate());
+            bean.setNombreCompletoProfesor(a.getMain().getProfesor().getApellidos() + " "+a.getMain().getProfesor().getNombres());//
+            bean.setStartDate(a.getStartDate());//
             bean.setFlgJustificar(a.getFlgJustificar());
-            bean.setNidEvaluador(a.getNidEvaluador());
-            bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(a.getNidEvaluador()));
-            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(a.getNidPlanificador())); 
+            bean.setNidEvaluador(a.getNidEvaluador()); //
+            bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(a.getNidEvaluador())); //
+            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(a.getNidPlanificador()));  //
             if(a.getEstadoEvaluacion().equals("EJECUTADO")){
                 bean.setNidEstadoEvaluacion("1");
                 bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:green");
@@ -145,7 +145,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBean;
     }
     
-    public List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario, 
+    public List<BeanEvaluacionPlani> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario, 
                                                            int nidSede, 
                                                            int nidNivel,
                                                            int nidArea, 
@@ -172,21 +172,20 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
             return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getEvaluacionesByUsuarioBDL(beanUsuario, beanEva));
         }catch(Exception e){
-            return new ArrayList<BeanEvaluacion>();
+            return new ArrayList<BeanEvaluacionPlani>();
         }
     }
     
-    public List<BeanEvaluacion> transformLstEvaluacion(List<Evaluacion> lstEvaluacion){
+    public List<BeanEvaluacionPlani> transformLstEvaluacion(List<Evaluacion> lstEvaluacion){
         try{
-            List<BeanEvaluacion> lstBean = new ArrayList();
+            List<BeanEvaluacionPlani> lstBean = new ArrayList();
             for(Evaluacion eva : lstEvaluacion){
-                BeanEvaluacion beanEva = (BeanEvaluacion) mapper.map(eva, BeanEvaluacion.class);
-                beanEva.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(beanEva.getNidEvaluador()));
-                double nota = resultadoBeanEvaluacion(beanEva, eva);
+                BeanEvaluacionPlani beanEva = trasnformEvaNoMapper(eva);
+                double nota = resultadoBeanEvaluacion(eva);
                 beanEva.setResultado(nota);
                 beanEva.setColorResultado(colorNota(nota));
                 if(beanEva.getNidProblema() != 0){
-                    beanEva.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(beanEva.getNidProblema()));
+                    beanEva.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(eva.getNidProblema()));
                 }
                 lstBean.add(beanEva);
             }
@@ -198,14 +197,13 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }
     
     
-    public double resultadoBeanEvaluacion(BeanEvaluacion beanEva, Evaluacion eva){
+    public double resultadoBeanEvaluacion(Evaluacion eva){
         double resu = 0;
-        int tamano = beanEva.getResultadoCriterioList().size();
-        if(tamano != 0){
-            beanEva.setResultadoCriterioList(ln_C_SFResultadoCriterioLocal.transformLstResultadoCriterio(eva.getResultadoCriterioList()));
+        int tamano = eva.getResultadoCriterioList().size();
+        if(tamano != 0){           
             double total = 0;
             for(int i = 0; i < tamano; i++){
-                total = total + beanEva.getResultadoCriterioList().get(i).getValor();
+                total = total + eva.getResultadoCriterioList().get(i).getValor();
             }
             resu = (total/tamano);
         }
@@ -663,5 +661,28 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             lstBean.add(bean);
 }
         return lstBean;        
+    }
+    
+    /**
+     * 
+     * @param eva
+     */
+    public BeanEvaluacionPlani trasnformEvaNoMapper(Evaluacion eva){
+        BeanEvaluacionPlani bean = new BeanEvaluacionPlani();
+        bean.setNombreCompletoProfesor(eva.getMain().getProfesor().getApellidos() + " "+eva.getMain().getProfesor().getNombres());
+        bean.setStartDate(eva.getStartDate());
+        bean.setComentarioEvaluador(eva.getComentario_evaluador());
+        bean.setDescCurso(eva.getMain().getCurso().getDescripcionCurso());
+        bean.setDescGrado(eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado());
+        bean.setDescNivel(eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel());
+        bean.setDescSede(eva.getMain().getAula().getSede().getDescripcionSede());
+        bean.setEndDate(eva.getEndDate());
+        bean.setEstadoEvaluacion(eva.getEstadoEvaluacion());
+        bean.setFechaPlanificacion(eva.getFechaPlanificacion());
+        bean.setNidEvaluacion(eva.getNidEvaluacion());
+        bean.setNidEvaluador(eva.getNidEvaluador()); 
+        bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidEvaluador())); 
+        bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidPlanificador()));
+        return bean;
     }
 }
