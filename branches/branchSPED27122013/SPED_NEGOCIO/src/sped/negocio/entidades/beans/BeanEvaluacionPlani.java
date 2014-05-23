@@ -28,14 +28,19 @@ public class BeanEvaluacionPlani implements Serializable{
     private String flgJustificar;
     private Integer nidEvaluador;
     private String comentarioProblema;
-    
     private double resultado;
     private String colorResultado;
     private String descProblema;
     private String descArea;
-    private String descAula;
-    private String notificacionEvaluadorComentarioProfesor;
+    private String dniDocente;
+    private String descRoPlanificador;
     private String comentarioProfesor;
+    private String descAula;
+    private Integer nidPlanificador;
+    private String tipoVisita;
+    private String flgEvaluar;
+    private String flgAnular;
+    private String notificacionEvaluadorComentarioProfesor;
     
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
@@ -229,20 +234,20 @@ public class BeanEvaluacionPlani implements Serializable{
         return descArea;
     }
 
-    public void setDescAula(String descAula) {
-        this.descAula = descAula;
+    public void setDniDocente(String dniDocente) {
+        this.dniDocente = dniDocente;
+}
+
+    public String getDniDocente() {
+        return dniDocente;
     }
 
-    public String getDescAula() {
-        return descAula;
+    public void setDescRoPlanificador(String descRoPlanificador) {
+        this.descRoPlanificador = descRoPlanificador;
     }
 
-    public void setNotificacionEvaluadorComentarioProfesor(String notificacionEvaluadorComentarioProfesor) {
-        this.notificacionEvaluadorComentarioProfesor = notificacionEvaluadorComentarioProfesor;
-    }
-
-    public String getNotificacionEvaluadorComentarioProfesor() {
-        return notificacionEvaluadorComentarioProfesor;
+    public String getDescRoPlanificador() {
+        return descRoPlanificador;
     }
 
     public void setComentarioProfesor(String comentarioProfesor) {
@@ -251,5 +256,53 @@ public class BeanEvaluacionPlani implements Serializable{
 
     public String getComentarioProfesor() {
         return comentarioProfesor;
+    }
+
+    public void setDescAula(String descAula) {
+        this.descAula = descAula;
+    }
+
+    public String getDescAula() {
+        return descAula;
+    }
+
+    public void setNidPlanificador(Integer nidPlanificador) {
+        this.nidPlanificador = nidPlanificador;
+    }
+
+    public Integer getNidPlanificador() {
+        return nidPlanificador;
+    }
+
+    public void setTipoVisita(String tipoVisita) {
+        this.tipoVisita = tipoVisita;
+    }
+
+    public String getTipoVisita() {
+        return tipoVisita;
+    }
+
+    public void setFlgEvaluar(String flgEvaluar) {
+        this.flgEvaluar = flgEvaluar;
+    }
+
+    public String getFlgEvaluar() {
+        return flgEvaluar;
+    }
+
+    public void setFlgAnular(String flgAnular) {
+        this.flgAnular = flgAnular;
+    }
+
+    public String getFlgAnular() {
+        return flgAnular;
+    }
+
+    public void setNotificacionEvaluadorComentarioProfesor(String notificacionEvaluadorComentarioProfesor) {
+        this.notificacionEvaluadorComentarioProfesor = notificacionEvaluadorComentarioProfesor;
+    }
+
+    public String getNotificacionEvaluadorComentarioProfesor() {
+        return notificacionEvaluadorComentarioProfesor;
     }
 }
