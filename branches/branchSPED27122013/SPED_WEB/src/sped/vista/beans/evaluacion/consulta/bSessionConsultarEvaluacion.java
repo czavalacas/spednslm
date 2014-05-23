@@ -11,14 +11,15 @@ import oracle.adf.view.rich.model.AutoSuggestUIHints;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanSede;
 
 public class bSessionConsultarEvaluacion {
     private int exec;
-    private List<BeanEvaluacion> lstBeanEvaluacion;
-    private BeanEvaluacion evaSelect; // evaluacion para el comentario profesor
+    private List<BeanEvaluacionPlani> lstBeanEvaluacion;
+    private BeanEvaluacionPlani evaSelect; // evaluacion para el comentario profesor
     private boolean columnArea = true;
     private boolean columnEvaluador = true;
     private boolean columnProfesor = true;
@@ -44,7 +45,7 @@ public class bSessionConsultarEvaluacion {
     private String nidCurso;
     private String nidGrado;
     private int estadoEvaluacion;
-    private BeanEvaluacion evaluacion;
+    private BeanEvaluacionPlani evaluacion;
     private List<SelectItem> itemProfesor;
     private List<SelectItem> itemEvaluador;
         
@@ -59,11 +60,11 @@ public class bSessionConsultarEvaluacion {
         return exec;
     }
 
-    public void setLstBeanEvaluacion(List<BeanEvaluacion> lstBeanEvaluacion) {
+    public void setLstBeanEvaluacion(List<BeanEvaluacionPlani> lstBeanEvaluacion) {
         this.lstBeanEvaluacion = lstBeanEvaluacion;
     }
 
-    public List<BeanEvaluacion> getLstBeanEvaluacion() {
+    public List<BeanEvaluacionPlani> getLstBeanEvaluacion() {
         return lstBeanEvaluacion;
     }
 
@@ -219,19 +220,19 @@ public class bSessionConsultarEvaluacion {
         return estadoEvaluacion;
     }
 
-    public void setEvaluacion(BeanEvaluacion evaluacion) {
+    public void setEvaluacion(BeanEvaluacionPlani evaluacion) {
         this.evaluacion = evaluacion;
     }
 
-    public BeanEvaluacion getEvaluacion() {
+    public BeanEvaluacionPlani getEvaluacion() {
         return evaluacion;
     }
 
-    public void setEvaSelect(BeanEvaluacion evaSelect) {
+    public void setEvaSelect(BeanEvaluacionPlani evaSelect) {
         this.evaSelect = evaSelect;
     }
 
-    public BeanEvaluacion getEvaSelect() {
+    public BeanEvaluacionPlani getEvaSelect() {
         return evaSelect;
     }
 

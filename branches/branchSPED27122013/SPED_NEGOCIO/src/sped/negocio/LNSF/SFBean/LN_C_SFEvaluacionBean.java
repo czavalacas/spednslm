@@ -184,6 +184,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 double nota = resultadoBeanEvaluacion(eva);
                 beanEva.setResultado(nota);
                 beanEva.setColorResultado(colorNota(nota));
+                beanEva.setComentarioEvaluador(eva.getComentario_evaluador());
+                beanEva.setComentarioProfesor(eva.getComentario_profesor());
                 if(beanEva.getNidProblema() != 0){
                     beanEva.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(eva.getNidProblema()));
                 }

@@ -349,7 +349,7 @@ public class bGestionarHorario {
         }else{      
             BeanDia dia = encontrarDiaNoDivisible(main, dias, maxBloque);
             encuentraEspacioImpar(horario, main, dias, main.getNroHoras() % maxBloque, dia);
-            main.setNroHoras(main.getNroHoras() - maxBloque);
+            main.setNroHoras(main.getNroHoras() - (main.getNroHoras() % maxBloque));
             ubicaMain(main, horario, dias, sessionGestionarHorario.getMaxBloque());
         }        
     }
