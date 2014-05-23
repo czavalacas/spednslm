@@ -80,7 +80,7 @@ public interface LN_C_SFEvaluacionRemote {
                                                 Integer nidEvaluador);
     List<BeanConstraint> getTipoVisitaLN();
     BeanConstraint getTipoVisita_ByValorLN(String valor);
-    BeanEvaluacion getEvaluacionById_LN(String nidDate);
+    BeanEvaluacionPlani getEvaluacionById_LN(String nidDate);
     List<BeanEvaluacion> getEvaluaciones_LN(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
                                                        String dniProfesor, String nidCurso, Integer nidSede);
    /**
