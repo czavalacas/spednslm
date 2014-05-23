@@ -29,6 +29,11 @@ public class BeanEvaluacionPlani implements Serializable{
     private Integer nidEvaluador;
     private String comentarioProblema;
     
+    private double resultado;
+    private String colorResultado;
+    private String descProblema;
+    private String descArea;
+    
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
@@ -181,6 +186,30 @@ public class BeanEvaluacionPlani implements Serializable{
         return nidEvaluador;
     }
 
+    public void setResultado(double resultado) {
+        this.resultado = resultado;
+    }
+
+    public double getResultado() {
+        return resultado;
+    }
+
+    public void setColorResultado(String colorResultado) {
+        this.colorResultado = colorResultado;
+    }
+
+    public String getColorResultado() {
+        return colorResultado;
+    }
+
+    public void setDescProblema(String descProblema) {
+        this.descProblema = descProblema;
+    }
+
+    public String getDescProblema() {
+        return descProblema;
+    }
+
     public void setComentarioProblema(String comentarioProblema) {
         this.comentarioProblema = comentarioProblema;
     }
@@ -188,4 +217,13 @@ public class BeanEvaluacionPlani implements Serializable{
     public String getComentarioProblema() {
         return comentarioProblema;
     }
+
+    public void setDescArea(String descArea) {
+        this.descArea = descArea;
+    }
+
+    public String getDescArea() {
+        return descArea;
+    }
+
 }
