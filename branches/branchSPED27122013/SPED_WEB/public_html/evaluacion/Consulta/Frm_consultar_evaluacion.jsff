@@ -106,15 +106,15 @@
                           rowBandingInterval="0" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
                           summary="Tabla de Evaluaciones" fetchSize="50" columnStretching="column:c9"
                           binding="#{bConsultarEvaluacion.tbEval}">
-                    <af:column sortable="true" sortProperty="fechaPlanificacion" headerText="Fecha Planifiación"
+                    <af:column sortable="true" sortProperty="fechaPlanificacion" headerText="Fecha Planificación"
                                align="center" id="c12">
                         <af:outputText value="#{row.fechaPlanificacion}" id="ot12">
                             <af:convertDateTime pattern="dd/MM/yyyy"/>
                         </af:outputText>
                     </af:column>
-                    <af:column sortable="true" sortProperty="endDate" headerText="Fecha Evaluación" align="center"
+                    <af:column sortable="true" sortProperty="fechaEvaluacion" headerText="Fecha Evaluación" align="center"
                                id="c8">
-                        <af:outputText value="#{row.endDate}" id="ot8">
+                        <af:outputText value="#{row.fechaEvaluacion}" id="ot8">
                             <af:convertDateTime pattern="dd/MM/yyyy"/>
                         </af:outputText>
                     </af:column>
