@@ -176,43 +176,44 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                           "     Main ma, " +
                           "     Curso cu," +
                           "     AreaAcademica ac " +
-                                   " WHERE CAST(ev.startDate AS date) = CURRENT_DATE " + //like '%"+fechaHoy+"%'"
-                                   " AND ma.nidMain=ev.main.nidMain" +
-                                   " AND ma.curso.nidCurso=cu.nidCurso" +
-                                   " AND cu.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica"+                                  
-                                   " AND ev.nidEvaluador="+nidEvaluador ;
-            if (nidAreaAcademica!= null) {    
-                if(nidAreaAcademica!=0){
+                          " WHERE CAST(ev.startDate AS date) = CURRENT_DATE " + //like '%"+fechaHoy+"%'"
+                          " AND ma.nidMain = ev.main.nidMain " +
+                          " AND ma.curso.nidCurso = cu.nidCurso " +
+                          " AND cu.areaAcademica.nidAreaAcademica = ac.nidAreaAcademica "+                                  
+                          " AND ev.nidEvaluador = "+nidEvaluador ;
+            if (nidAreaAcademica != null) {    
+                if(nidAreaAcademica != 0){
                     ejbQl = ejbQl.concat(" AND ac.nidAreaAcademica = " + nidAreaAcademica);
                 }
             }
-            if (nidSede!= null) {     
-                if(nidSede!=0){
+            if (nidSede != null) {     
+                if(nidSede != 0){
                     ejbQl = ejbQl.concat(" AND ma.aula.sede.nidSede = " + nidSede);
                 }
             }
-            if (dniProfesor!= null) {                
+            if (dniProfesor != null) {                
                 ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor = '" + dniProfesor + "'");
             }
-            if (nidCurso!= null) {              
+            if (nidCurso != null) {              
                 ejbQl = ejbQl.concat(" and ma.curso.nidCurso = " + nidCurso);
             }
-                List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();           
-                return eva;         
+            List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();           
+            return eva;         
         }catch(Exception e){
             e.printStackTrace();  
-            return null;
+            return new ArrayList<Evaluacion>();
         }   
-        }
+    }
     
     public List<Evaluacion> getEvaluacionesByUsuarioBDL(BeanUsuario beanUsuario, BeanEvaluacion beanFiltroEva) {
             List<Evaluacion> listEvaluacion = new ArrayList();
             try{                 
                 if(beanUsuario != null){
+                    boolean isSupervisor = false;
                     String strQuery = "SELECT eva " +
                                       " FROM Evaluacion eva, " +
                                       " Usuario usu " + 
-                                      " WHERE eva.nidEvaluador=usu.nidUsuario " +
+                                      " WHERE eva.nidEvaluador = usu.nidUsuario " +
                                       " AND upper(eva.estadoEvaluacion) = 'EJECUTADO' ";
                     int nidRol = beanUsuario.getRol().getNidRol();
                     if((nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0) || nidRol == 4){
@@ -222,8 +223,18 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede ");
                         beanFiltroEva.setNidSede(0);
                     }
-                    if(nidRol == 2){
-                        strQuery = strQuery.concat(" AND eva.main.curso.areaAcademica.nidAreaAcademica = :nid_area ");
+                    if(nidRol == 2){//Evaluador de area
+                        isSupervisor = bdL_C_SFUsuarioLocal.getIsSupervisor(beanUsuario.getNidUsuario());
+                        /** dfloresgonz 23.05.2014 Si no es supervisor que busque x su area academica, de lo contrario, si es
+                         * supervisor no le debe restringir el area academcia ya que puede evaluar a cualquiera. **/
+                        if(!isSupervisor){
+                            int nidAreaAcademica = beanUsuario.getAreaAcademica().getNidAreaAcademica();
+                            if (nidAreaAcademica == 12 || nidAreaAcademica == 13) { //12 = Primer Ciclo 13 = Inicial
+                                strQuery = strQuery.concat(" AND eva.main.curso.areaAcademica.nidAreaAcademica = :nid_area ");
+                            } else {
+                                strQuery = strQuery.concat(" AND eva.main.curso.nidAreaNativa = :nid_area ");
+                            }
+                        }
                         beanFiltroEva.setNidArea(0);
                     }
                     if(nidRol == 3){
@@ -255,8 +266,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         }
                     if (beanFiltroEva.getFechaMinEvaluacion() != null &&
                         beanFiltroEva.getFechaMaxEvaluacion() != null) {
-                        strQuery =
-                            strQuery.concat(" AND ( CAST(eva.endDate AS date) BETWEEN :eva_dateEva1 AND :eva_dateEva2 ) ");
+                        strQuery = strQuery.concat(" AND ( CAST(eva.endDate AS date) BETWEEN :eva_dateEva1 AND :eva_dateEva2 ) ");
                         }else{
                         if (beanFiltroEva.getFechaMinEvaluacion() != null ||
                             beanFiltroEva.getFechaMaxEvaluacion() != null) {
@@ -265,8 +275,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         }
                     if (beanFiltroEva.getFechaMinPlanificacion() != null &&
                         beanFiltroEva.getFechaMaxPlanificacion() != null) {
-                        strQuery =
-                            strQuery.concat(" AND ( CAST(eva.fechaPlanificacion AS date) BETWEEN :eva_datePla1 AND :eva_datePla2 ) ");
+                        strQuery = strQuery.concat(" AND ( CAST(eva.fechaPlanificacion AS date) BETWEEN :eva_datePla1 AND :eva_datePla2 ) ");
                         }else{
                         if (beanFiltroEva.getFechaMinPlanificacion() != null ||
                             beanFiltroEva.getFechaMaxPlanificacion() != null) {
@@ -274,16 +283,18 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                             }
                         }
                     }
-                    strQuery = strQuery.concat(" ORDER BY eva.startDate DESC ");
+                    strQuery = strQuery.concat(" ORDER BY eva.startDate DESC ");Utiles.sysout("strQuery: "+strQuery);
                     Query query = em.createQuery(strQuery);
-                        if((nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0) || nidRol == 4){
+                    if((nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0) || nidRol == 4){
                         query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
                     }
                     if(nidRol == 4){
                         query.setParameter("nid_sede", beanUsuario.getSede().getNidSede());
                     }
-                    if(nidRol == 2){                        
-                        query.setParameter("nid_area", beanUsuario.getAreaAcademica().getNidAreaAcademica());
+                    if(nidRol == 2){//Es evaluador de area
+                        if(!isSupervisor){//Pero no es supervisor, entonces si filtra x su area
+                            query.setParameter("nid_area", beanUsuario.getAreaAcademica().getNidAreaAcademica());
+                        }
                     }
                     if(nidRol == 3){
                         query.setParameter("dni_profesor", beanUsuario.getDni());
