@@ -469,7 +469,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             }
         }catch(Exception e){
             e.printStackTrace();
-            return null;
+            return new ArrayList<Evaluacion>();
         }
     }
     
@@ -587,7 +587,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<Evaluacion>();
         }
     }
     
