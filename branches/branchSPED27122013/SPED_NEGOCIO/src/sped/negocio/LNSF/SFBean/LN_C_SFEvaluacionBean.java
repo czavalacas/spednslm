@@ -34,11 +34,13 @@ import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Constraint;
+import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
 
 import sped.negocio.entidades.beans.BeanEvaluacion_DP;
@@ -46,6 +48,7 @@ import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 
 import sped.negocio.entidades.beans.BeanIndicadorValorWS;
 
+import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanResultado;
 import sped.negocio.entidades.beans.BeanResultadoCriterio;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -82,34 +85,58 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     public LN_C_SFEvaluacionBean() {
     }
     
-    public List<BeanEvaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion){
-        List<BeanEvaluacion> lstBean = new ArrayList();
+    /**
+     * Metodo de Logica que retorna las planificaciones para el usuario 
+     * @param BeanEvaluacion
+     * @author czavalacas
+     * @since 22.05.2014
+     * @return List<BeanEvaluacionPlani>
+     */
+    public List<BeanEvaluacionPlani> getPlanificacion(BeanEvaluacion beanEvaluacion){
+        List<BeanEvaluacionPlani> lstBean = new ArrayList<BeanEvaluacionPlani>();
         List<Evaluacion> lstAreaAcd = bdL_C_SFEvaluacionLocal.getPlanificacion(beanEvaluacion);
         for(Evaluacion a : lstAreaAcd){
-            BeanEvaluacion bean = (BeanEvaluacion) mapper.map(a, BeanEvaluacion.class);
-            bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidEvaluador()));
-            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(bean.getNidPlanificador()));               
-            if(bean.getEstadoEvaluacion().equals("EJECUTADO")){
+            BeanEvaluacionPlani bean=new BeanEvaluacionPlani();
+            bean.setComentarioEvaluador(a.getComentario_evaluador());
+            bean.setDescCurso(a.getMain().getCurso().getDescripcionCurso());
+            bean.setDescGrado(a.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado());
+            bean.setDescNivel(a.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel());
+            bean.setDescSede(a.getMain().getAula().getSede().getDescripcionSede());
+            bean.setEndDate(a.getEndDate());
+            bean.setEstadoEvaluacion(a.getEstadoEvaluacion());
+            bean.setFechaPlanificacion(a.getFechaPlanificacion());
+            bean.setFlgParcial(a.getFlgParcial());         
+            bean.setNidEvaluacion(a.getNidEvaluacion());
+            if(a.getNidProblema()!=null){
+            bean.setNidProblema(a.getNidProblema());
+            }
+            bean.setNombreCompletoProfesor(a.getMain().getProfesor().getApellidos() + " "+a.getMain().getProfesor().getNombres());
+            bean.setStartDate(a.getStartDate());
+            bean.setFlgJustificar(a.getFlgJustificar());
+            bean.setNidEvaluador(a.getNidEvaluador());
+            bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(a.getNidEvaluador()));
+            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(a.getNidPlanificador())); 
+            if(a.getEstadoEvaluacion().equals("EJECUTADO")){
                 bean.setNidEstadoEvaluacion("1");
                 bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:green");
             }
-            if(bean.getEstadoEvaluacion().equals("PENDIENTE")){
+            if(a.getEstadoEvaluacion().equals("PENDIENTE")){
                 bean.setNidEstadoEvaluacion("2");
                 bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:blue");
             }
-            if(bean.getEstadoEvaluacion().equals("NO EJECUTADO")){
+            if(a.getEstadoEvaluacion().equals("NO EJECUTADO")){
                 bean.setNidEstadoEvaluacion("3");
                 bean.setStyleColor("color:black; font-weight:bold;text-align:center; background-color:orange");
             }
-            if(bean.getEstadoEvaluacion().equals("JUSTIFICADO")){
+            if(a.getEstadoEvaluacion().equals("JUSTIFICADO")){
                 bean.setNidEstadoEvaluacion("4");
                 bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:black");
             }
-            if(bean.getEstadoEvaluacion().equals("POR JUSTIFICAR")){
+            if(a.getEstadoEvaluacion().equals("POR JUSTIFICAR")){
                 bean.setNidEstadoEvaluacion("5");
                 bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:purple");
             }
-            if(bean.getEstadoEvaluacion().equals("INJUSTIFICADO")){
+            if(a.getEstadoEvaluacion().equals("INJUSTIFICADO")){
                 bean.setNidEstadoEvaluacion("6");
                 bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:red");
             }
