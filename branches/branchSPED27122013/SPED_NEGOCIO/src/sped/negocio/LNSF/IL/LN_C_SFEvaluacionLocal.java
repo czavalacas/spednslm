@@ -16,7 +16,7 @@ import sped.negocio.entidades.eval.Evaluacion;
 
 @Local
 public interface LN_C_SFEvaluacionLocal {
-    List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario,
+    List<BeanEvaluacionPlani> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario,
                                                     int nidSede,
                                                     int nidNivel,
                                                     int nidArea,
