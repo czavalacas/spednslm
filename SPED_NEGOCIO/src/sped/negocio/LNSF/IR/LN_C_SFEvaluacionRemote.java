@@ -16,18 +16,18 @@ import sped.negocio.entidades.eval.Evaluacion;
 
 @Remote
 public interface LN_C_SFEvaluacionRemote {
-    List<BeanEvaluacion> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario,
-                                                    int nidSede,
-                                                    int nidNivel,
-                                                    int nidArea,
-                                                    int nidCurso,
-                                                    int nidGrado,
-                                                    String nomProfesor,
-                                                    String nomEvaluador,
-                                                    Date fechaPlanifiacion,
-                                                    Date fechaPlanifiacionF,
-                                                    Date fechaEvaluacion,
-                                                    Date fachaEvaluacionF);
+    List<BeanEvaluacionPlani> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario,
+                                                        int nidSede,
+                                                        int nidNivel,
+                                                        int nidArea,
+                                                        int nidCurso,
+                                                        int nidGrado,
+                                                        String nomProfesor,
+                                                        String nomEvaluador,
+                                                        Date fechaPlanifiacion,
+                                                        Date fechaPlanifiacionF,
+                                                        Date fechaEvaluacion,
+                                                        Date fachaEvaluacionF);
     List<BeanEvaluacionPlani> getPlanificacion(BeanEvaluacion beanEvaluacion);
     /**
      * Metodo de Logica que retorna las planificaciones para el usuario Movil (WS)
