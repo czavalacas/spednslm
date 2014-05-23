@@ -121,7 +121,7 @@
                     <af:column sortable="true" headerText="Evaluador" id="c3" width="180" sortProperty="nombreEvaluador">
                         <af:outputText value="#{row.nombreEvaluador}" id="ot3"/>
                     </af:column>
-                    <af:column sortable="true" headerText="Fecha Evaluacion" id="c4" width="100" align="center" sortProperty="startDate">
+                    <af:column sortable="true" headerText="Inicio Eval" id="c4" width="100" align="center" sortProperty="startDate">
                         <af:outputText value="#{row.startDate}" id="ot4">
                           <af:convertDateTime type="date" pattern="dd/MM/yyyy"/></af:outputText>
                     </af:column>

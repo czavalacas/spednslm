@@ -2,6 +2,8 @@ package sped.negocio.entidades.beans;
 
 import java.io.Serializable;
 
+import java.sql.Timestamp;
+
 import java.util.Date;
 
 public class BeanEvaluacionPlani implements Serializable{
@@ -52,6 +54,15 @@ public class BeanEvaluacionPlani implements Serializable{
     private Integer cantProblema;
     private BeanUsuario usuario;
     private double porcentajeDesempeno;
+    private Date fechaEvaluacion;//Fecha en la que se evaluo dfloresgonz 23.05.2014
+
+    public void setFechaEvaluacion(Date fechaEvaluacion) {
+        this.fechaEvaluacion = fechaEvaluacion;
+    }
+
+    public Date getFechaEvaluacion() {
+        return fechaEvaluacion;
+    }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
