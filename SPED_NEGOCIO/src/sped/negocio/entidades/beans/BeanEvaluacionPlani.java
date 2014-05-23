@@ -27,6 +27,7 @@ public class BeanEvaluacionPlani implements Serializable{
     private int nidProblema;
     private String flgJustificar;
     private Integer nidEvaluador;
+    private String comentarioProblema;
     
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
@@ -178,5 +179,13 @@ public class BeanEvaluacionPlani implements Serializable{
 
     public Integer getNidEvaluador() {
         return nidEvaluador;
+    }
+
+    public void setComentarioProblema(String comentarioProblema) {
+        this.comentarioProblema = comentarioProblema;
+    }
+
+    public String getComentarioProblema() {
+        return comentarioProblema;
     }
 }

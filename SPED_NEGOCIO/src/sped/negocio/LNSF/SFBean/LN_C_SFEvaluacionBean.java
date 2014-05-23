@@ -97,7 +97,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         List<Evaluacion> lstAreaAcd = bdL_C_SFEvaluacionLocal.getPlanificacion(beanEvaluacion);
         for(Evaluacion a : lstAreaAcd){
             BeanEvaluacionPlani bean=new BeanEvaluacionPlani();
-            bean.setComentarioEvaluador(a.getComentario_evaluador());
+            bean.setComentarioProblema(a.getComentarioEvaluador());
             bean.setDescCurso(a.getMain().getCurso().getDescripcionCurso());
             bean.setDescGrado(a.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado());
             bean.setDescNivel(a.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel());
