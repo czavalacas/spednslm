@@ -287,7 +287,7 @@
                     <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
                         <af:gridCell marginStart="5px" width="auto" marginEnd="5px" id="gc2">
                             <af:image id="i1" inlineStyle="height:113px; width:100px;"
-                                      source="/imageservlet?nomusuario=#{sessionDesempenoEvaluador.evaluador.usuario}"/>
+                                      source="/imageservlet?nomusuario=#{sessionDesempenoEvaluador.evaluador.nidUsuario}"/>
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="50%" id="gc1">
                             <af:panelFormLayout id="pfl2">
@@ -316,16 +316,16 @@
                         </af:outputText>
                     </af:column>
                     <af:column sortable="true" headerText="Sede" align="start" id="c6"
-                               sortProperty="main.aula.sede.descripcionSede">
-                        <af:outputText value="#{row.main.aula.sede.descripcionSede}" id="ot6"/>
+                               sortProperty="descSede">
+                        <af:outputText value="#{row.descSede}" id="ot6"/>
                     </af:column>
                     <af:column sortable="true" headerText="Nivel" align="start" id="c22"
-                               sortProperty="main.aula.gradoNivel.nivel.descripcionNivel">
-                        <af:outputText value="#{row.main.aula.gradoNivel.nivel.descripcionNivel}" id="ot22"/>
+                               sortProperty="descNivel">
+                        <af:outputText value="#{row.descNivel}" id="ot22"/>
                     </af:column>
                     <af:column sortable="true" headerText="Area" align="start" id="c21"
-                               sortProperty="main.curso.areaAcademica.descripcionAreaAcademica">
-                        <af:outputText value="#{row.main.curso.areaAcademica.descripcionAreaAcademica}" id="ot21"/>
+                               sortProperty="descArea">
+                        <af:outputText value="#{row.descArea}" id="ot21"/>
                     </af:column>
                     <af:column sortable="true" headerText="Problema" align="start" id="c30"
                                rendered="#{sessionDesempenoEvaluador.renderProblema}" sortProperty="descProblema">
@@ -337,13 +337,13 @@
                         <af:outputText value="#{row.comentarioEvaluador}" id="ot8"/>
                     </af:column>
                     <af:column sortable="true" headerText="Profesor" align="start" id="c7"
-                               sortProperty="main.profesor.apellidos">
-                        <af:outputText value="#{row.main.profesor.apellidos}" id="ot7"/>
+                               sortProperty="nombreCompletoProfesor">
+                        <af:outputText value="#{row.nombreCompletoProfesor}" id="ot7"/>
                     </af:column>
                 </af:table>
             </af:dialog>
         </af:popup>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popDetPie"
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popDetPie"
                   binding="#{bDesempenoEvaluador.popDetPie}">
             <af:dialog id="d2" type="none" title="#{sessionDesempenoEvaluador.titleDialog}">
                 <af:button id="b3" immediate="true" text="Exportar a Excel">
@@ -386,20 +386,20 @@
                         <af:outputText value="#{row.comentarioEvaluador}" id="ot31"/>
                     </af:column>
                     <af:column sortable="true" headerText="Evaluación Sede" align="start" id="c12"
-                               sortProperty="main.aula.sede.descripcionSede">
-                        <af:outputText value="#{row.main.aula.sede.descripcionSede}" id="ot13"/>
+                               sortProperty="descSede">
+                        <af:outputText value="#{row.descSede}" id="ot13"/>
                     </af:column>
                     <af:column sortable="true" headerText="Evaluación Nivel" align="start" id="c28"
-                               sortProperty="main.aula.gradoNivel.nivel.descripcionNivel">
-                        <af:outputText value="#{row.main.aula.gradoNivel.nivel.descripcionNivel}" id="ot28"/>
+                               sortProperty="descNivel">
+                        <af:outputText value="#{row.descNivel}" id="ot28"/>
                     </af:column>
                     <af:column sortable="true" headerText="Evaluación Aula" align="start" id="c29"
-                               sortProperty="main.aula.descripcionAula">
-                        <af:outputText value="#{row.main.aula.descripcionAula}" id="ot29"/>
+                               sortProperty="descAula">
+                        <af:outputText value="#{row.descAula}" id="ot29"/>
                     </af:column>
                     <af:column sortable="true" headerText="Profesor" align="start" id="c13"
-                               sortProperty="main.profesor.apellidos">
-                        <af:outputText value="#{row.main.profesor.apellidos}" id="ot14"/>
+                               sortProperty="nombreCompletoProfesor">
+                        <af:outputText value="#{row.nombreCompletoProfesor}" id="ot14"/>
                     </af:column>
                 </af:table>
             </af:dialog>
