@@ -74,9 +74,9 @@ public class BDL_C_SFResultadoCriterioBean implements BDL_C_SFResultadoCriterioR
                            " WHERE r.evaluacion.nidEvaluacion = :nidEvaluacion " +
                            " AND r.fichaCriterio.ficha.nidFicha = :nidFicha " +
                            " AND r.fichaCriterio.criterio.nidCriterio = :nidCriterio ";
-            List<ResultadoCriterio> lst = em.createQuery(ejbQl).setParameter(nidEvaluacion, nidEvaluacion)
-                                          .setParameter(nidFicha, nidFicha)
-                                          .setParameter(nidCriterio, nidCriterio).getResultList();
+            List lst = em.createQuery(ejbQl).setParameter("nidEvaluacion", nidEvaluacion)
+                                            .setParameter("nidFicha", nidFicha)
+                                            .setParameter("nidCriterio", nidCriterio).getResultList();
             if(lst.isEmpty()){
                 return 0.0;
             }else{

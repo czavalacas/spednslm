@@ -39,9 +39,9 @@ public class BDL_C_SFResultadoBean implements BDL_C_SFResultadoRemote,
     
     public boolean fichaUsadaEnEvaluacion(int nidFicha){
         try{
-            String strQuery =  "select count(r) " +
-                               "from Resultado r " +
-                               "where r.criterioIndicador.fichaCriterio.ficha.nidFicha = :nidFicha";
+            String strQuery =  "SELECT COUNT(1) " +
+                               "FROM Resultado r " +
+                               "WHERE r.criterioIndicador.fichaCriterio.ficha.nidFicha = :nidFicha";
             Object oResultados = em.createQuery(strQuery).setParameter("nidFicha",nidFicha)
                                 .getSingleResult();
             int iResultados = 0;

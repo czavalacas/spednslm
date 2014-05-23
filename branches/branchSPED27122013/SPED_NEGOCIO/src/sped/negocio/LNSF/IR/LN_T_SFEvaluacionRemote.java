@@ -34,7 +34,8 @@ public interface LN_T_SFEvaluacionRemote {
                                          Integer nidEvaluacion,
                                          Integer nidUsuario,
                                          String comentarioEvaluador,
-                                         int nidLog);
+                                         int nidLog,
+                                         boolean isPrimeraVezParcial);
     BeanError registrarEvaluacion_Parcial_LN_Web(List<BeanCriterio> lstBeanIndiVal,
                                                  Integer nidEvaluacion,
                                                  Integer nidUsuario,

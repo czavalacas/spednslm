@@ -63,6 +63,7 @@ public class bEvaluar {
     private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
     private static final String CLASE = "sped.vista.beans.evaluacion.evaluar.bEvaluar";
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
+    private RichButton btnParcial;
 
     public bEvaluar() {
     
@@ -142,6 +143,7 @@ public class bEvaluar {
             if(valoresFicha[0] != 0){
                 sessionEvaluar.setMaxValor(valoresFicha[1]);
                 btnGrabar.setVisible(true);
+                btnParcial.setVisible(true);
                 btnCmt.setVisible(true);
                 btnCalc.setVisible(true);
                 sessionEvaluar.setVisiblePanelBoxPanelBoxFicha(true);
@@ -152,7 +154,7 @@ public class bEvaluar {
                     sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(valoresFicha[0]));
                 }
                 buildTree();
-                Utils.addTargetMany(btnGrabar,btnCalc,btnCmt);
+                Utils.addTargetMany(btnGrabar,btnCalc,btnCmt,btnParcial);
             }
         }
     }
@@ -277,7 +279,8 @@ public class bEvaluar {
                                                                           sessionEvaluar.getPlanifSelect().getNidEvaluacion(),
                                                                           usuario.getNidUsuario(),
                                                                           sessionEvaluar.getComentarioEvaluador(),
-                                                                          usuario.getNidLog());
+                                                                          usuario.getNidLog(),
+                                                                          "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false);
                 if("000".equalsIgnoreCase(error.getCidError())){
                     severidad = 3;
                 }else{
@@ -298,9 +301,7 @@ public class bEvaluar {
             msjGen.setText("Error del sistema");
             Utils.addTarget(msjGen);
             Utils.mostrarMensaje(ctx,"Error del sistema, comuniquese con el administrador o intente nuevamente","Error del sistema",2);
-            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(), 
-                                                          "BAC",
-                                                          CLASE, 
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(),"BAC",CLASE, 
                                                           "void grabarEvaluacion(ActionEvent actionEvent)",
                                                           "Error en el backing al registrar la Evaluacion ",Utils.getStack(e));
         } finally {
@@ -340,9 +341,7 @@ public class bEvaluar {
             msjGen.setText("Error del sistema");
             Utils.addTarget(msjGen);
             Utils.mostrarMensaje(ctx,"Error del sistema, comuniquese con el administrador o intente nuevamente","Error del sistema",2);
-            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(), 
-                                                          "BAC",
-                                                          CLASE, 
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(),"BAC",CLASE, 
                                                           "void grabarEvaluacionParcial(ActionEvent actionEvent)",
                                                           "Error en el backing al registrar la Evaluacion Parcial",Utils.getStack(e));
         }
@@ -395,6 +394,7 @@ public class bEvaluar {
         sessionEvaluar.setNotaFinal(0.0);
         sessionEvaluar.setComentarioEvaluador(null);
         btnGrabar.setVisible(false);
+        btnParcial.setVisible(false);
         btnCalc.setVisible(false);
         btnCmt.setVisible(false);
         trFich.setVisible(false);
@@ -412,7 +412,7 @@ public class bEvaluar {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Utils.addTargetMany(btnGrabar,trFich,btnRegistrar,btnCalc,btnCmt);
+        Utils.addTargetMany(btnGrabar,trFich,btnRegistrar,btnCalc,btnCmt,btnParcial);
         mostrarPlanificacionesParaHoy();
     }
     
@@ -547,5 +547,13 @@ public class bEvaluar {
 
     public String getError() {
         return _error;
+    }
+
+    public void setBtnParcial(RichButton btnParcial) {
+        this.btnParcial = btnParcial;
+    }
+
+    public RichButton getBtnParcial() {
+        return btnParcial;
     }
 }
