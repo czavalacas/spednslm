@@ -152,8 +152,9 @@
                     <af:inputText label="Comentario" id="itCmmt" binding="#{bEvaluar.itCmmt}" rows="15"
                                   value="#{sessionScope.sessionEvaluar.comentarioEvaluador}" autoSubmit="true"
                                   columns="60"/>
-                    <af:clientListener method="onDialogCmmtCancel" type="dialog"/>
+                  <!--  <af:clientListener method="onDialogCmmtCancel" type="dialog"/>
                     <af:serverListener type="DialogCmmtCancelHandlerEvent" method="#{bEvaluar.cancelarDialogComment}"/>
+                  -->  
                 </af:dialog>
             </af:popup>
             <af:popup childCreation="deferred" autoCancel="disabled" id="popMsj" binding="#{bEvaluar.popMsj}">
