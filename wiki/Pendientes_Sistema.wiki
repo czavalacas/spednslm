@@ -3,7 +3,6 @@
   # *Deploy en glassfish (en proceso)* https://blogs.oracle.com/jruiz/entry/deploying_adf_essentials_on_oracle
   # ISO en gestion de claves, longitud, que no sea repetida, obligar a cambiarlas cada cierto tiempo (tabla del sistema o que el usuario eliga cada cuanto tiempo), simbolos, mayusculas.no contenga el nombre,bloquear sesion si hubieron varios intentos fallidos de logeo, configurable la cantidad y el tiempo de bloqueo.
   # *Deploy en iOS*
-  # Grabados parciales al evaluar.
   # Al planificar tomar el rango de horas de la configuracion para no dejar que planifiquen en horas fueras de clase, hubo una confusion entre 3am con 3pm, planificaron en la madrugada
   # Suggest items en dash de profesores, los combos en este dash se resetean.
   # manuales PDF y video, subirlos al sistema
@@ -13,8 +12,9 @@
   # Subir APK a google play (pagar $25 registro).
   # Acomodar los tags f:view que tenga solo 1 raiz los jsff
   # Modulo de continuidad de negocio
-  # Dash visualizar hora de planificacion vs. hora de evaluacion
-  # ~~en bMain.java que el crear Menu se ejecute solo 1 vez.~~
+  # Dash visualizar hora de planificacion vs. hora de evaluacion.
+  # ~~Grabados parciales al evaluar.~~
+  # ~~En bMain.java que el crear Menu se ejecute solo 1 vez.~~
   # ~~Editar el Aplicativo para que no valide rango de fechas al evaluar.~~
   # ~~Agrandar la pantalla de comentario en consultar evas.~~
   # ~~Alertar por correo cuando se evaluó al profesor.~~
@@ -28,10 +28,3 @@
   # ~~Log al logearse y logoff, ip,etc~~
   # ~~encriptar las claves~~
   # ~~El subdirector no solo consulta sus Partes de ocurrencia sino lo que otros usuarios registran de su sede~~
-
-<code>
-ALTER TABLE `mmsi_sped`.`evmeval` 
-ADD COLUMN `flg_parcial` VARCHAR(1) NULL COMMENT '1 = Si aun no se ha terminado de evaluar, no se ha puesto nota a todos los indicadores, este flag sirve en el demonio cuando va a cambiar de estado a POR JUSTIFICAR revisa si este flag esta en 1, si lo esta le cambiara de estado pero borrara todos las notas que se registraron ya que no se termino de evaluar, 0 = valor inicial' AFTER `flg_justificar`;
-</code>
-  # Falta que el demonio borre los resultados de evdresu y evdrefc si se cambia a POR JUSTIFICAR que coja el nidEvaluacion
-  # Al grabar ya la evaluacion borre los resultados parciales, usar los 2 metodos que se crearon.
