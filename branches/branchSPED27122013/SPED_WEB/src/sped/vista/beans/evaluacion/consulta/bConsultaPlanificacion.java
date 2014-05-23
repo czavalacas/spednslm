@@ -127,7 +127,7 @@ public class bConsultaPlanificacion {
         if (usuarioEnSesion.getRol().getNidRol() == 2 || usuarioEnSesion.getRol().getNidRol() == 4) {
             beanEvaluacion.setNidEvaluador(usuarioEnSesion.getNidUsuario());
         }
-        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
+        
         if (sessionConsultarPlanificacion.getNidEvaluadorChoice() != null) {
             beanEvaluacion.setNidEvaluador(Integer.parseInt(sessionConsultarPlanificacion.getNidEvaluadorChoice()));
         }
@@ -146,6 +146,7 @@ public class bConsultaPlanificacion {
         if (tbPlanificacion != null) {
             Utils.addTarget(tbPlanificacion);
         }
+        sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
         return null;
     }
 
