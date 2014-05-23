@@ -7,6 +7,7 @@ import javax.ejb.Remote;
 
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
 import sped.negocio.entidades.beans.BeanEvaluacion_DP;
 import sped.negocio.entidades.beans.BeanFiltrosGraficos;
@@ -27,7 +28,7 @@ public interface LN_C_SFEvaluacionRemote {
                                                     Date fechaPlanifiacionF,
                                                     Date fechaEvaluacion,
                                                     Date fachaEvaluacionF);
-    List<BeanEvaluacion> getPlanificacion(BeanEvaluacion beanEvaluacion);
+    List<BeanEvaluacionPlani> getPlanificacion(BeanEvaluacion beanEvaluacion);
     /**
      * Metodo de Logica que retorna las planificaciones para el usuario Movil (WS)
      * @param nidRol
