@@ -58,10 +58,10 @@ public class LN_C_SFResultadoCriterioBean implements LN_C_SFResultadoCriterioRem
     public BeanResultadoCriterio getResCriByFichaEvaLN(int nidEvaluacion, 
                                                        FichaCriterio fichaCriterio){
         ResultadoCriterio resCri = bdL_C_SFResultadoCriterioLocal.getResCriByFichaEvaBDL(nidEvaluacion, 
-                                                                                         fichaCriterio);
-        BeanResultadoCriterio beanResCri = null;
-        if(resCri != null){
-            beanResCri = (BeanResultadoCriterio) mapper.map(resCri, BeanResultadoCriterio.class);
+                                                                                         fichaCriterio);        
+        BeanResultadoCriterio beanResCri = new BeanResultadoCriterio();
+        if(resCri != null){            
+            beanResCri.setValor(resCri.getValor());
         }
         return beanResCri;
     } 

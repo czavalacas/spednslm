@@ -12,6 +12,7 @@ public class BeanFichaCriterio implements Serializable {
     private BeanFicha ficha;
     private BeanResultadoCriterio resultadoCriterio;
     private List<BeanCriterioIndicador> LstcriterioIndicador;
+    private String descripcionCriterio;
 
     public void setCriterio(BeanCriterio criterio) {
         this.criterio = criterio;
@@ -43,5 +44,13 @@ public class BeanFichaCriterio implements Serializable {
 
     public List<BeanCriterioIndicador> getLstcriterioIndicador() {
         return LstcriterioIndicador;
+    }
+
+    public void setDescripcionCriterio(String descripcionCriterio) {
+        this.descripcionCriterio = descripcionCriterio;
+    }
+
+    public String getDescripcionCriterio() {
+        return descripcionCriterio;
     }
 }

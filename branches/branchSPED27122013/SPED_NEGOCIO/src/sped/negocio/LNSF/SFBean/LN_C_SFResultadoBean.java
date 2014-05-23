@@ -20,6 +20,7 @@ import sped.negocio.BDL.IL.BDL_C_SFResultadoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFResultadoRemote;
 import sped.negocio.entidades.beans.BeanResultado;
+import sped.negocio.entidades.beans.BeanResultadoCriterio;
 import sped.negocio.entidades.eval.Resultado;
 
 @Stateless(name = "LN_C_SFResultado", mappedName = "mapLN_C_SFResultado")
@@ -42,8 +43,9 @@ public class LN_C_SFResultadoBean implements LN_C_SFResultadoRemote,
     
     public BeanResultado findResultadoByIdLN(int criterioIndicador,
                                              int evaluacion){
-        return (BeanResultado) mapper.map(bdL_C_SFResultadoLocal.findResultadoById(criterioIndicador, evaluacion), 
-                                          BeanResultado.class);
+        BeanResultado resu = new BeanResultado();
+        resu.setValor(bdL_C_SFResultadoLocal.findResultadoById(criterioIndicador, evaluacion).getValor());
+        return resu;
     }
     
     public List<BeanResultado> transformLstResultado(List<Resultado> lstResultado){

@@ -27,6 +27,7 @@ import sped.negocio.LNSF.IR.LN_C_SFFichaCriterioRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanCriterioWS;
+import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.beans.BeanFichaCriterio;
 import sped.negocio.entidades.beans.BeanLeyenda;
 import sped.negocio.entidades.eval.Criterio;
@@ -225,7 +226,11 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
         List<BeanFichaCriterio> lstBeanFC = new ArrayList();
         List<FichaCriterio> lstFC = bdL_C_SFFichaCriterioLocal.getLstFichaCriteriosByEvaluacion(nidEvaluacion);
         for(FichaCriterio fc : lstFC){
-            BeanFichaCriterio bean = (BeanFichaCriterio) mapper.map(fc, BeanFichaCriterio.class);
+            BeanFichaCriterio bean = new BeanFichaCriterio();
+            bean.setDescripcionCriterio(fc.getCriterio().getDescripcionCriterio());
+            BeanFicha ficha = new BeanFicha();
+            ficha.setNidFicha(fc.getFicha().getNidFicha());
+            bean.setFicha(ficha);
             bean.setResultadoCriterio(ln_C_SFResultadoCriterioLocal.getResCriByFichaEvaLN(nidEvaluacion,fc));
             bean.setLstcriterioIndicador(ln_C_SFCriterioIndicadorLocal.transformLstCriterioIndicador(fc.getCriterioIndicadorLista(),
                                                                                                      nidEvaluacion));
