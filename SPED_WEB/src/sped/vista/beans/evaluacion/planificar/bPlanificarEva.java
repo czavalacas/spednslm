@@ -87,6 +87,7 @@ import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanGradoNivel;
 import sped.negocio.entidades.beans.BeanMain;
@@ -260,28 +261,27 @@ public class bPlanificarEva {
     public void abrirPopupEvaluar(CalendarActivityEvent calendarActivityEvent) {
         CalendarActivity activity = calendarActivityEvent.getCalendarActivity();
         sessionPlanificarEva.setCalendaryActivityID(activity.getId());
-        BeanEvaluacion entida = ln_C_SFEvaluacionRemoto.getEvaluacionById_LN(activity.getId());
+        BeanEvaluacionPlani entida = ln_C_SFEvaluacionRemoto.getEvaluacionById_LN(activity.getId());
         sessionPlanificarEva.setFechaEvaluacionPopup(entida.getStartDate());
         sessionPlanificarEva.setHoraEvaluacionPopup(entida.getEndDate());
-        sessionPlanificarEva.setSedeEvaluacion(entida.getMain().getAula().getSede().getDescripcionSede());
-        sessionPlanificarEva.setAulaEvaluacion(entida.getMain().getAula().getDescripcionAula());
-        sessionPlanificarEva.setCursoEvaluacion(entida.getMain().getCurso().getDescripcionCurso());
-        sessionPlanificarEva.setGradoEvaluacion(entida.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado());
-        sessionPlanificarEva.setNivelEvaluacion(entida.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel());
-        sessionPlanificarEva.setDocenteEvaluacion(entida.getMain().getProfesor().getApellidos() + " " +entida.getMain().getProfesor().getNombres());
-        sessionPlanificarEva.setDniDocenteEvaluacion(entida.getMain().getProfesor().getDniProfesor());
+        sessionPlanificarEva.setSedeEvaluacion(entida.getDescSede());
+        sessionPlanificarEva.setAulaEvaluacion(entida.getDescAula());
+        sessionPlanificarEva.setCursoEvaluacion(entida.getDescCurso());
+        sessionPlanificarEva.setGradoEvaluacion(entida.getDescGrado());
+        sessionPlanificarEva.setNivelEvaluacion(entida.getDescNivel());
+        sessionPlanificarEva.setDocenteEvaluacion(entida.getNombreCompletoProfesor());
+        sessionPlanificarEva.setDniDocenteEvaluacion(entida.getDniDocente());
         sessionPlanificarEva.setNidEvaluacionDelet(entida.getNidEvaluacion());
         sessionPlanificarEva.setNombrePlanificador(ln_C_SFUsuarioRemote.getNombresUsuarioByNidUsuario_LN(entida.getNidPlanificador()));
         BeanUsuario usua=ln_C_SFUsuarioRemote.findConstrainByIdLN(entida.getNidPlanificador());
         sessionPlanificarEva.setRolPlanificador(usua.getRol().getDescripcionRol());
         BeanConstraint con = ln_C_SFEvaluacionRemoto.getTipoVisita_ByValorLN(entida.getTipoVisita());
         sessionPlanificarEva.setTipoEvaluacion(con.getDescripcionAMostrar());
-        sessionPlanificarEva.setComentarioEvaluador(entida.getComentario_evaluador());
-        sessionPlanificarEva.setComentarioProfesor(entida.getComentario_profesor());
-        sessionPlanificarEva.setJustificacionProfesor(entida.getComentarioEvaluador());
+        sessionPlanificarEva.setComentarioEvaluador(entida.getComentarioEvaluador());
+        sessionPlanificarEva.setComentarioProfesor(entida.getComentarioProfesor());
+        sessionPlanificarEva.setJustificacionProfesor(entida.getDescProblema());
         sessionPlanificarEva.setEstadoDeEvaluacion(entida.getEstadoEvaluacion());
-        Date fechaHoy = new Date();//TODO comentalo si no lo usas y documentalo, xq lo comentas y con que fecha!!
-      //  if (sessionPlanificarEva.getFechaEvaluacionPopup().before(fechaHoy)) {
+        
         if ("0".equals(entida.getFlgAnular())) {
             sessionPlanificarEva.setEstadoBotonEliminarEvaluacion(false);
         } else {
@@ -447,7 +447,7 @@ public class bPlanificarEva {
         beanMain.setAula(aula);
         beanMain.setCurso(beanCurso);
         beanMain.setDia(sessionPlanificarEva.getDiaDeLaSemana());
-        llenarHorarios(beanMain);
+     //   llenarHorarios(beanMain); COMENTADO TEMPORALMENTE ARREGLAR EL MAPPER DENTRO
     }
 
     public void abrirNuevoEvento(CalendarEvent calendarEvent) {

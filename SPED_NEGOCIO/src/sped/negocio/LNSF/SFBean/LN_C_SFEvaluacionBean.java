@@ -96,26 +96,13 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         List<BeanEvaluacionPlani> lstBean = new ArrayList<BeanEvaluacionPlani>();
         List<Evaluacion> lstAreaAcd = bdL_C_SFEvaluacionLocal.getPlanificacion(beanEvaluacion);
         for(Evaluacion a : lstAreaAcd){
-            BeanEvaluacionPlani bean=new BeanEvaluacionPlani();
+            BeanEvaluacionPlani bean=trasnformEvaNoMapper(a);
             bean.setComentarioProblema(a.getComentarioEvaluador());
-            bean.setDescCurso(a.getMain().getCurso().getDescripcionCurso());
-            bean.setDescGrado(a.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado());
-            bean.setDescNivel(a.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel());
-            bean.setDescSede(a.getMain().getAula().getSede().getDescripcionSede());
-            bean.setEndDate(a.getEndDate());
-            bean.setEstadoEvaluacion(a.getEstadoEvaluacion());
-            bean.setFechaPlanificacion(a.getFechaPlanificacion());
             bean.setFlgParcial(a.getFlgParcial());         
-            bean.setNidEvaluacion(a.getNidEvaluacion());
             if(a.getNidProblema()!=null){
             bean.setNidProblema(a.getNidProblema());
             }
-            bean.setNombreCompletoProfesor(a.getMain().getProfesor().getApellidos() + " "+a.getMain().getProfesor().getNombres());//
-            bean.setStartDate(a.getStartDate());//
             bean.setFlgJustificar(a.getFlgJustificar());
-            bean.setNidEvaluador(a.getNidEvaluador()); //
-            bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(a.getNidEvaluador())); //
-            bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(a.getNidPlanificador()));  //
             if(a.getEstadoEvaluacion().equals("EJECUTADO")){
                 bean.setNidEstadoEvaluacion("1");
                 bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:green");
@@ -515,9 +502,19 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return bean;
     }
 
-    public BeanEvaluacion getEvaluacionById_LN(String nidDate) {
+    public BeanEvaluacionPlani getEvaluacionById_LN(String nidDate) {
         Evaluacion entida = bdL_C_SFEvaluacionLocal.getEvaluacionById(nidDate);
-        BeanEvaluacion bean = (BeanEvaluacion) mapper.map(entida, BeanEvaluacion.class);
+        BeanEvaluacionPlani bean=trasnformEvaNoMapper(entida);
+        bean.setTipoVisita(entida.getTipoVisita());
+        bean.setComentarioEvaluador(entida.getComentario_evaluador());
+        bean.setComentarioProfesor(entida.getComentario_profesor());
+        bean.setDescProblema(entida.getComentarioEvaluador());
+        bean.setEstadoEvaluacion(entida.getEstadoEvaluacion());
+        bean.setFlgJustificar(entida.getFlgJustificar());  
+        if(entida.getNidProblema()!=null){
+        bean.setNidProblema(entida.getNidProblema());      
+        }
+        bean.setFlgAnular(entida.getFlgAnular());
         return bean;
     }    
    
@@ -666,8 +663,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }
     
     /**
-     * 
+     * mapeo de atributos basicos a mostrar en vista
      * @param eva
+     * @return beanEva
      */
     public BeanEvaluacionPlani trasnformEvaNoMapper(Evaluacion eva){
         BeanEvaluacionPlani bean = new BeanEvaluacionPlani();
@@ -687,6 +685,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         bean.setNidEvaluador(eva.getNidEvaluador()); 
         bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidEvaluador())); 
         bean.setNombrePLanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidPlanificador()));
+        bean.setDescAula(eva.getMain().getAula().getDescripcionAula());
+        bean.setDniDocente(eva.getMain().getProfesor().getDniProfesor());
+        bean.setNidPlanificador(eva.getNidPlanificador());
         return bean;
     }
 }
