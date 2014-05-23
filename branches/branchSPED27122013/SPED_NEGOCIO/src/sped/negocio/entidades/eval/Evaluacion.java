@@ -55,7 +55,7 @@ public class Evaluacion implements Serializable {
     @Column(name = "fecha_planificacion", nullable = false)
     private Timestamp fechaPlanificacion;
     @Column(name = "comentario")
-    private String comentarioEvaluador;
+    private String comentarioEvaluador;//Descripcion textual del evaluador cuando justifica, aqui detalla que problema le ocurrio este campo solo puede estar lleno junto con el nidProblema
     @OneToMany(mappedBy = "evaluacion", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<ResultadoCriterio> resultadoCriterioList;
     @Column(name = "tipo_visita", nullable = false)    
