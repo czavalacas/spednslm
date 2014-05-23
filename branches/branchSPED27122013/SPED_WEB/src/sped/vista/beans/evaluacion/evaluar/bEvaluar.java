@@ -420,7 +420,7 @@ public class bEvaluar {
     public void abrirPopCommt(ActionEvent actionEvent) {//btnCmt
         Utils.showPopUpMIDDLE(popCmt);
     }
-    
+    /*
     public void cancelarDialogComment(ClientEvent clientEvent) {
         sessionEvaluar.setComentarioEvaluador(null);
         itCmmt.resetValue();
@@ -429,7 +429,7 @@ public class bEvaluar {
         fctx.renderResponse();
         popCmt.hide();
     }
-    
+    */
     public void setSessionEvaluar(bSessionEvaluar sessionEvaluar) {
         this.sessionEvaluar = sessionEvaluar;
     }
