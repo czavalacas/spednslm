@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bSessionDesempenoEvaluador implements Serializable {
@@ -37,9 +38,9 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private Date fechaEF_aux;
     private Date fechaActual;
     private Date fechaAnterior;
-    private List<BeanEvaluacion> lstEvaTable;
-    private List<BeanEvaluacion> lstEvaDetalle;
-    private List<BeanEvaluacion> lstEvaDetallePie;
+    private List<BeanEvaluacionPlani> lstEvaTable;
+    private List<BeanEvaluacionPlani> lstEvaDetalle;
+    private List<BeanEvaluacionPlani> lstEvaDetallePie;
     private transient List<Object[]> lstEvaBarChart;
     private transient List<Object[]> lstEvaBarChartRol;
     private transient List<Object[]> lstEvaLineG;
@@ -171,11 +172,11 @@ public class bSessionDesempenoEvaluador implements Serializable {
         return fechaEF;
     }
 
-    public void setLstEvaTable(List<BeanEvaluacion> lstEvaTable) {
+    public void setLstEvaTable(List<BeanEvaluacionPlani> lstEvaTable) {
         this.lstEvaTable = lstEvaTable;
     }
 
-    public List<BeanEvaluacion> getLstEvaTable() {
+    public List<BeanEvaluacionPlani> getLstEvaTable() {
         return lstEvaTable;
     }
 
@@ -243,11 +244,11 @@ public class bSessionDesempenoEvaluador implements Serializable {
         return fechaEF_aux;
     }
 
-    public void setLstEvaDetalle(List<BeanEvaluacion> lstEvaDetalle) {
+    public void setLstEvaDetalle(List<BeanEvaluacionPlani> lstEvaDetalle) {
         this.lstEvaDetalle = lstEvaDetalle;
     }
 
-    public List<BeanEvaluacion> getLstEvaDetalle() {
+    public List<BeanEvaluacionPlani> getLstEvaDetalle() {
         return lstEvaDetalle;
     }
 
@@ -323,11 +324,11 @@ public class bSessionDesempenoEvaluador implements Serializable {
         return lstEvaBarChartRol;
     }
 
-    public void setLstEvaDetallePie(List<BeanEvaluacion> lstEvaDetallePie) {
+    public void setLstEvaDetallePie(List<BeanEvaluacionPlani> lstEvaDetallePie) {
         this.lstEvaDetallePie = lstEvaDetallePie;
     }
 
-    public List<BeanEvaluacion> getLstEvaDetallePie() {
+    public List<BeanEvaluacionPlani> getLstEvaDetallePie() {
         return lstEvaDetallePie;
     }
 

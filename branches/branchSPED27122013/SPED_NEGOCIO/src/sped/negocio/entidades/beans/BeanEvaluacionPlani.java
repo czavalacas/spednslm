@@ -8,6 +8,7 @@ public class BeanEvaluacionPlani implements Serializable{
     @SuppressWarnings("compatibility:8618753358761845928")
     private static final long serialVersionUID = 1L;
     
+    private String descripcion; 
     private Date startDate;
     private Date endDate; 
     private Date fechaPlanificacion;     
@@ -28,6 +29,7 @@ public class BeanEvaluacionPlani implements Serializable{
     private String flgJustificar;
     private Integer nidEvaluador;
     private String comentarioProblema;
+    ///////////////////////////////////////////////////////////////////////////
     private double resultado;
     private String colorResultado;
     private String descProblema;
@@ -41,7 +43,24 @@ public class BeanEvaluacionPlani implements Serializable{
     private String flgEvaluar;
     private String flgAnular;
     private String notificacionEvaluadorComentarioProfesor;
-    
+    private Integer cantEjecutado;
+    private Integer cantPendiente;
+    private Integer cantNoEjecutado;
+    private Integer cantJustificado; //antes cantNoJEjecutado
+    private Integer cantPorJustificar;
+    private Integer cantInjustificado;
+    private Integer cantProblema;
+    private BeanUsuario usuario;
+    private double porcentajeDesempeno;
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
@@ -304,5 +323,77 @@ public class BeanEvaluacionPlani implements Serializable{
 
     public String getNotificacionEvaluadorComentarioProfesor() {
         return notificacionEvaluadorComentarioProfesor;
+    }
+
+    public void setCantEjecutado(Integer cantEjecutado) {
+        this.cantEjecutado = cantEjecutado;
+    }
+
+    public Integer getCantEjecutado() {
+        return cantEjecutado;
+    }
+
+    public void setCantPendiente(Integer cantPendiente) {
+        this.cantPendiente = cantPendiente;
+    }
+
+    public Integer getCantPendiente() {
+        return cantPendiente;
+    }
+
+    public void setCantNoEjecutado(Integer cantNoEjecutado) {
+        this.cantNoEjecutado = cantNoEjecutado;
+    }
+
+    public Integer getCantNoEjecutado() {
+        return cantNoEjecutado;
+    }
+
+    public void setCantJustificado(Integer cantJustificado) {
+        this.cantJustificado = cantJustificado;
+    }
+
+    public Integer getCantJustificado() {
+        return cantJustificado;
+    }
+
+    public void setCantPorJustificar(Integer cantPorJustificar) {
+        this.cantPorJustificar = cantPorJustificar;
+    }
+
+    public Integer getCantPorJustificar() {
+        return cantPorJustificar;
+    }
+
+    public void setCantInjustificado(Integer cantInjustificado) {
+        this.cantInjustificado = cantInjustificado;
+    }
+
+    public Integer getCantInjustificado() {
+        return cantInjustificado;
+    }
+
+    public void setUsuario(BeanUsuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public BeanUsuario getUsuario() {
+        return usuario;
+    }
+
+    public void setPorcentajeDesempeno(double porcentajeDesempeno) {
+        this.porcentajeDesempeno = porcentajeDesempeno;
+    }
+
+    public double getPorcentajeDesempeno() {
+        return porcentajeDesempeno;
+    }
+
+    public void setCantProblema(Integer cantProblema) {
+        this.cantProblema = cantProblema;
+    }
+
+    public Integer getCantProblema() {
+        return cantProblema;
     }
 }

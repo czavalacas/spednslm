@@ -69,6 +69,7 @@ import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 
 import sped.vista.Utils.Utils;
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bDesempenoEvaluador {
@@ -440,7 +441,7 @@ public class bDesempenoEvaluador {
     }
     
     public void setListEvaFiltro_aux(){
-        List <BeanEvaluacion> lst = desempenoFiltro(1, null, null, null,null);
+        List <BeanEvaluacionPlani> lst = desempenoFiltro(1, null, null, null,null);
         if(lst.size() == 0){
             sessionDesempenoEvaluador.setRenderExcel(false);
         }else{
@@ -455,15 +456,15 @@ public class bDesempenoEvaluador {
             setListEvabarChart(lst);
         }
         if(sessionDesempenoEvaluador.isRGrafRol() == true){
-            List <BeanEvaluacion> lstBarRol = desempenoFiltro(5, null, null, null,null);
+            List <BeanEvaluacionPlani> lstBarRol = desempenoFiltro(5, null, null, null,null);
             setListEvabarChartRol(lstBarRol);
         }
         if(sessionDesempenoEvaluador.isRGrafLine() == true){
-            List <BeanEvaluacion> lstDate = desempenoFiltro(3, null, null, null,null);
+            List <BeanEvaluacionPlani> lstDate = desempenoFiltro(3, null, null, null,null);
             setListLinegraph(lstDate);
         }
         if(sessionDesempenoEvaluador.isRGrafPie() == true){
-            List <BeanEvaluacion> lstPie = desempenoFiltro(4, null, null, null,null);
+            List <BeanEvaluacionPlani> lstPie = desempenoFiltro(4, null, null, null,null);
             setListPiegraph(lstPie);
         }
         renderGraficos_Correo();
@@ -497,7 +498,7 @@ public class bDesempenoEvaluador {
         /////valida onde hace click para mostrar o ocultar el grafico
         if(texto.compareTo("Rol(s)") == 0){
             if(booleanCheckRol.isSelected()){
-                List <BeanEvaluacion> lstBarRol = desempenoFiltro_Aux(5, null, null, null,null);
+                List <BeanEvaluacionPlani> lstBarRol = desempenoFiltro_Aux(5, null, null, null,null);
                 setListEvabarChartRol(lstBarRol);
                 sessionDesempenoEvaluador.setRGrafRolA(true);
             }else{
@@ -506,7 +507,7 @@ public class bDesempenoEvaluador {
         }
         if(texto.compareTo("Evaluador(s)") == 0){
             if(booleanCheckEva.isSelected()){
-                List <BeanEvaluacion> lst = desempenoFiltro_Aux(1, null, null, null,null);
+                List <BeanEvaluacionPlani> lst = desempenoFiltro_Aux(1, null, null, null,null);
                 sessionDesempenoEvaluador.setLstEvaTable(lst);
                 setListEvabarChart(lst);
                 sessionDesempenoEvaluador.setRGrafEvaA(true);
@@ -516,7 +517,7 @@ public class bDesempenoEvaluador {
         }
         if(texto.compareTo("Linea de Tiempo") == 0){
             if(booleanCheckLine.isSelected()){
-                List <BeanEvaluacion> lstDate = desempenoFiltro_Aux(3, null, null, null,null);
+                List <BeanEvaluacionPlani> lstDate = desempenoFiltro_Aux(3, null, null, null,null);
                 setListLinegraph(lstDate);
                 sessionDesempenoEvaluador.setRGrafLineA(true);
             }else{
@@ -525,7 +526,7 @@ public class bDesempenoEvaluador {
         }
         if(texto.compareTo("Evaluaciones Justificadas") == 0){
             if(booleanCheckPie.isSelected()){
-                List <BeanEvaluacion> lstPie = desempenoFiltro_Aux(4, null, null, null,null);
+                List <BeanEvaluacionPlani> lstPie = desempenoFiltro_Aux(4, null, null, null,null);
                 setListPiegraph(lstPie);
                 sessionDesempenoEvaluador.setRGrafPieA(true);
             }else{
@@ -535,7 +536,7 @@ public class bDesempenoEvaluador {
         renderGraficos_Correo();     
     }
     
-    public List<BeanEvaluacion> desempenoFiltro(int tipoEvento,
+    public List<BeanEvaluacionPlani> desempenoFiltro(int tipoEvento,
                                                 String nombre,
                                                 String estado,
                                                 String desProb,
@@ -551,7 +552,7 @@ public class bDesempenoEvaluador {
                                                                       sessionDesempenoEvaluador.getFechaEF());     
     }
     
-    public List<BeanEvaluacion> desempenoFiltro_Aux(int tipoEvento,
+    public List<BeanEvaluacionPlani> desempenoFiltro_Aux(int tipoEvento,
                                                     String nombre,
                                                     String estado,
                                                     String desProb,
@@ -567,7 +568,7 @@ public class bDesempenoEvaluador {
                                                                        sessionDesempenoEvaluador.getFechaEF_aux());
     }
     
-    public void setListEvabarChart(List <BeanEvaluacion> lst){
+    public void setListEvabarChart(List <BeanEvaluacionPlani> lst){
         List<Object[]> lstEva = new ArrayList();
         String nombreEvaluador;
         int contEjecutados, contPendiente, contNoEjecutado, contJustificado, contPorJustificar, contInjustificado;
@@ -596,7 +597,7 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setLstEvaBarChart(lstEva);        
     }
     
-    public void setListLinegraph(List <BeanEvaluacion> lst){
+    public void setListLinegraph(List <BeanEvaluacionPlani> lst){
         List<Object[]> lstEva = new ArrayList();
         int cont = 0;
         int contEjecutados, contPendiente, contNoEjecutado, contJustificado, contPorJustificar, contInjustificado;
@@ -633,7 +634,7 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setLstEvaLineG(lstEva);
     }
     
-    public void setListEvabarChartRol(List <BeanEvaluacion> lst){
+    public void setListEvabarChartRol(List <BeanEvaluacionPlani> lst){
         List<Object[]> lstEva = new ArrayList();
         String descripcionRol;
         int contEjecutados, contPendiente, contNoEjecutado, contJustificado, contPorJustificar, contInjustificado;
@@ -661,10 +662,10 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setLstEvaBarChartRol(lstEva);        
     }
     
-    public void setListPiegraph(List <BeanEvaluacion> lst){
+    public void setListPiegraph(List <BeanEvaluacionPlani> lst){
         List<Object[]> lstEva = new ArrayList();
         for(int i=0; i<lst.size(); i++){
-            BeanEvaluacion eva = lst.get(i);
+            BeanEvaluacionPlani eva = lst.get(i);
             Object[] obj1 = { "Problemas frecuentes", eva.getDescProblema(), eva.getCantProblema()};
             lstEva.add(obj1);
         }
@@ -689,7 +690,7 @@ public class bDesempenoEvaluador {
             }
         }
         if(nombre != null && estado != null){
-            List <BeanEvaluacion> lst = desempenoFiltro_Aux(2, nombre, estado, null, null);
+            List <BeanEvaluacionPlani> lst = desempenoFiltro_Aux(2, nombre, estado, null, null);
             sessionDesempenoEvaluador.setLstEvaDetalle(lst);
             beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());
             sessionDesempenoEvaluador.setEvaluador(beanUsu);
@@ -718,7 +719,7 @@ public class bDesempenoEvaluador {
             }
         }
         if(rol != null && estado != null){
-            List <BeanEvaluacion> lst = desempenoFiltro_Aux(2, null, estado, null, rol);
+            List <BeanEvaluacionPlani> lst = desempenoFiltro_Aux(2, null, estado, null, rol);
             if(lst.size() > 0){
                 renderRol(lst.get(0).getUsuario().getRol().getNidRol());
                 estadoEvaluacion(estado);
@@ -802,7 +803,7 @@ public class bDesempenoEvaluador {
             }
         }
         if(serie != null){
-            List <BeanEvaluacion> lst = desempenoFiltro_Aux(2, null, null, serie,null);
+            List <BeanEvaluacionPlani> lst = desempenoFiltro_Aux(2, null, null, serie,null);
             sessionDesempenoEvaluador.setLstEvaDetallePie(lst);
             sessionDesempenoEvaluador.setTitleDialog("Problema "+serie);
             renderRol(0);
@@ -824,7 +825,7 @@ public class bDesempenoEvaluador {
             }
         }
         if(serie != null){
-            List <BeanEvaluacion> lst = desempenoFiltro_Aux(2, null, serie, null,null);
+            List <BeanEvaluacionPlani> lst = desempenoFiltro_Aux(2, null, serie, null,null);
             sessionDesempenoEvaluador.setLstEvaDetallePie(lst);
             estadoEvaluacion(serie);
             renderRol(0);

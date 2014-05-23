@@ -397,7 +397,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
      * @param fachaEvaluacionF
      * @return List BeanEvaluacion
      */
-    public List<BeanEvaluacion> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,
+    public List<BeanEvaluacionPlani> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,
                                                                  String nombre,
                                                                  String estado,                                                                 
                                                                  String desProblema,
@@ -411,7 +411,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                                  Date fechaEvaluacion,
                                                                  Date fachaEvaluacionF){
         try{
-            List<BeanEvaluacion> lstBeanEva = new ArrayList();
+            List<BeanEvaluacionPlani> lstBeanEva = new ArrayList();
             BeanEvaluacion beanEva = new BeanEvaluacion();            
             beanEva.setFechaMinPlanificacion(fechaPlanifiacion);
             beanEva.setFechaMaxPlanificacion(fechaPlanifiacionF);
@@ -431,10 +431,10 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                                                      lstnidArea,
                                                                                      beanEva);
             for(Object dato : listaBD){
-                BeanEvaluacion bean = new BeanEvaluacion();
+                BeanEvaluacionPlani bean = new BeanEvaluacionPlani();
                 Object[] datos = (Object[]) dato;
                 if(tipoBusqueda == 2){
-                    bean = (BeanEvaluacion) mapper.map((Evaluacion) datos[0], BeanEvaluacion.class);
+                    bean = trasnformEvaNoMapper((Evaluacion) datos[0]);
                     BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[1], BeanUsuario.class);
                     bean.setDescProblema(bean.getNidProblema() == 0 ? null : bdL_C_SFProblemaLocal.getDescripcionProblemaById(bean.getNidProblema()));
                     bean.setUsuario(usu);
@@ -475,7 +475,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         }        
     }
     
-    public void desempenoEvaluador(BeanEvaluacion eva){
+    public void desempenoEvaluador(BeanEvaluacionPlani eva){
         double porcentaje = 0;
         double cant = eva.getCantEjecutado() + 
                       eva.getCantNoEjecutado() + eva.getCantJustificado();
