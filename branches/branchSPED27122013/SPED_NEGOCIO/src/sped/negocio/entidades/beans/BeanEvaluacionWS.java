@@ -34,10 +34,19 @@ public class BeanEvaluacionWS implements Serializable {
     private int restoCant;
     //AUXILIARES PARA CONSULTAR EVALUACION INDIVIDUAL
     private String valores;
-    private String comentarioEvaluador;
+    private String comentarioEvaluador;//comentario ...Comentario del problema deberia ser
     private String comentarioProfesor;
     private BeanCriterioWS[] criterios;
+    private String comentario_evaluador;//Comentario de la evaluacion
     private String flgParcial;//Cuando se grabo una evaluacion parcialmente, aun no se termina
+
+    public void setComentario_evaluador(String comentario_evaluador) {
+        this.comentario_evaluador = comentario_evaluador;
+    }
+
+    public String getComentario_evaluador() {
+        return comentario_evaluador;
+    }
 
     public void setFlgParcial(String flgParcial) {
         this.flgParcial = flgParcial;
