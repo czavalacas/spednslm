@@ -102,7 +102,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
            }
            if(beanEvaluacion.getApellidosDocentes() != null){
                 ejbQl = ejbQl.concat(" AND upper(ev.main.profesor.apellidos) like '% :apelidosDocente %' ");
-           }
+           }Utiles.sysout("ejbQl: "+ejbQl);
            Query query = em.createQuery(ejbQl);
            if (beanEvaluacion.getFechaMaxPlanificacion() != null && beanEvaluacion.getFechaMinPlanificacion() != null) {
                  query.setParameter("min", beanEvaluacion.getFechaMinPlanificacion(),TemporalType.DATE);
