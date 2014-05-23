@@ -155,7 +155,7 @@
                                    actionListener="#{bConsultaPlanificacion.abrirPopUpProblema}">
                             <f:setPropertyActionListener value="#{row.nidEvaluacion}"
                                                          target="#{sessionConsultarPlanificacion.nidEvaluacion}"/>
-                            <f:setPropertyActionListener value="#{row.comentarioEvaluador}"
+                            <f:setPropertyActionListener value="#{row.comentarioProblema}"
                                                          target="#{requestScope.bConsultaPlanificacion.descripcionProblema}"/>
                             <f:setPropertyActionListener value="#{row.nidProblema}"
                                                          target="#{sessionConsultarPlanificacion.i_nidProblema}"/>
