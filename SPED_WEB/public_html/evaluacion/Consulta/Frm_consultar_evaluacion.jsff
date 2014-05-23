@@ -125,8 +125,8 @@
                     <!--<af:column sortable="true" sortProperty="comentarioEvaluador" headerText="Comentario Problema"
                                align="left" id="c13">
                         <af:outputText value="#{row.comentarioEvaluador}" id="ot13"/>
-                    </af:column>-->
-                    <af:column sortable="true" sortProperty="nombreCompletoProfesor" headerText="Profesor" width="200"
+                    </af:column>-->     
+                       <af:column sortable="true" sortProperty="nombreCompletoProfesor" headerText="Profesor" width="200"
                                align="start" id="c1" rendered="#{sessionConsultarEvaluacion.columnProfesor}">
                         <af:outputText value="#{row.nombreCompletoProfesor}" id="ot1"/>
                     </af:column>
