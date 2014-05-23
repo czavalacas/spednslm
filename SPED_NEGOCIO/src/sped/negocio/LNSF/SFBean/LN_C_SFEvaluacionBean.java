@@ -181,10 +181,12 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             return lstBean;
         }catch(MappingException me){
             me.printStackTrace();
-            return null;
+            return new ArrayList<BeanEvaluacionPlani>();
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ArrayList<BeanEvaluacionPlani>();
         }
     }
-    
     
     public double resultadoBeanEvaluacion(Evaluacion eva){
         double resu = 0;
@@ -682,6 +684,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         bean.setEndDate(eva.getEndDate());
         bean.setEstadoEvaluacion(eva.getEstadoEvaluacion());
         bean.setFechaPlanificacion(eva.getFechaPlanificacion());
+        bean.setFechaEvaluacion(eva.getFechaEvaluacion());//dfloresgonz 23.05.2014
         bean.setNidEvaluacion(eva.getNidEvaluacion());
         bean.setNidEvaluador(eva.getNidEvaluador()); 
         bean.setNombreEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidEvaluador())); 
