@@ -2,11 +2,13 @@ package sped.vista.beans.evaluacion.consulta;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
 
 import sped.negocio.entidades.beans.BeanEvaluacion;
+import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 
 public class bSessionConsultarPlanificacion {
     private int exec=0;
@@ -18,7 +20,7 @@ public class bSessionConsultarPlanificacion {
     private Date fechaMaxPlanificacion;
     private String nidAreaAcademicaChoice;
     private String nidEstadoPlanificacion;
-    private List<BeanEvaluacion> listaPlanificaciones;
+    private List<BeanEvaluacionPlani> listaPlanificaciones=new ArrayList<BeanEvaluacionPlani>();
     private boolean estadoChoiceEvaluador=false;
     private boolean estadoChoiceSede=false;
     private boolean estadoChoiceArea=false;
@@ -28,7 +30,7 @@ public class bSessionConsultarPlanificacion {
     private String nidProblema;
     private int nidEvaluacion;
     private int i_nidProblema;
-    private BeanEvaluacion evaSelect;
+    private BeanEvaluacionPlani evaSelect;
     private boolean columnProfesor = true;
     private String descripcionProblema;
     
@@ -51,11 +53,12 @@ public class bSessionConsultarPlanificacion {
         return columnProfesor;
     }
 
-    public void setEvaSelect(BeanEvaluacion evaSelect) {
+
+    public void setEvaSelect(BeanEvaluacionPlani evaSelect) {
         this.evaSelect = evaSelect;
     }
 
-    public BeanEvaluacion getEvaSelect() {
+    public BeanEvaluacionPlani getEvaSelect() {
         return evaSelect;
     }
 
@@ -147,11 +150,12 @@ public class bSessionConsultarPlanificacion {
         return exec;
     }
 
-    public void setListaPlanificaciones(List<BeanEvaluacion> listaPlanificaciones) {
+
+    public void setListaPlanificaciones(List<BeanEvaluacionPlani> listaPlanificaciones) {
         this.listaPlanificaciones = listaPlanificaciones;
     }
 
-    public List<BeanEvaluacion> getListaPlanificaciones() {
+    public List<BeanEvaluacionPlani> getListaPlanificaciones() {
         return listaPlanificaciones;
     }
 

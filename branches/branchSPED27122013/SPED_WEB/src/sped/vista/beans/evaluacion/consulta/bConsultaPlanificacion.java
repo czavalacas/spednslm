@@ -126,8 +126,7 @@ public class bConsultaPlanificacion {
         beanEvaluacion.setMain(main);//dfloresgonz 21.05.2014 agrego esto porque debe traer solo las planis del planificador
         if (usuarioEnSesion.getRol().getNidRol() == 2 || usuarioEnSesion.getRol().getNidRol() == 4) {
             beanEvaluacion.setNidEvaluador(usuarioEnSesion.getNidUsuario());
-        }
-        
+        }        
         if (sessionConsultarPlanificacion.getNidEvaluadorChoice() != null) {
             beanEvaluacion.setNidEvaluador(Integer.parseInt(sessionConsultarPlanificacion.getNidEvaluadorChoice()));
         }
@@ -145,8 +144,9 @@ public class bConsultaPlanificacion {
         }
         if (tbPlanificacion != null) {
             Utils.addTarget(tbPlanificacion);
-        }
+        }          
         sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
+        
         return null;
     }
 
