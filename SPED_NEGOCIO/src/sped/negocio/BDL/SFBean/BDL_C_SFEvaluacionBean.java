@@ -473,6 +473,25 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }
     }
     
+    /**
+     * Metodo para mostrar las evaluaciones realizadas por el usuario, expuesto como WS para el APP movil
+     * @author dfloresgonz
+     * @param nidRol - rol del usuario en consulta
+     * @param nidSede - sede del usuario en consulta
+     * @param nidAreaAcademica -area del usuario en consulta
+     * @param nidUsuario -ID del usuario en consulta
+     * @param nombreProfesor - filtro de profesor
+     * @param curso - filtro de curso
+     * @param nidSedeFiltro -filtro de sede
+     * @param nidAAFiltro - filtro de area academica
+     * @param estado - filtro de estado
+     * @param fechaMin -filtro de fecha de inicio
+     * @param fechaMax -filtro de fecha fin
+     * @param tipoVisita -filtro de tipo de visita
+     * @param nidPlanificador
+     * @param nidEvaluador 
+     * @return ArrayList<Evaluacion>()
+     */
     public List<Evaluacion> getEvaluaciones_BDL_WS(int nidRol, 
                                                    int nidSede, 
                                                    int nidAreaAcademica,
