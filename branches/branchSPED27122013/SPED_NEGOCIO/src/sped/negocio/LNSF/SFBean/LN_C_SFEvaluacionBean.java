@@ -242,15 +242,14 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         List<BeanEvaluacionWS> lstBeanEvas = new ArrayList<BeanEvaluacionWS>();
         try {
             List<Evaluacion> lstEvas = bdL_C_SFEvaluacionLocal.getPlanificaciones_BDL_WS(nidRol, nidSede, nidAreaAcademica, nidUsuario,
-                                                                                            nombresProfesor, curso, nidSedeFiltro, nidAAFiltro);
+                                                                                         nombresProfesor, curso, nidSedeFiltro, nidAAFiltro);
             for (Evaluacion eva : lstEvas) {
                 BeanEvaluacionWS beanEva = new BeanEvaluacionWS(); //(BeanEvaluacion) mapper.map(eva, BeanEvaluacion.class);
                 beanEva.setNidEvaluacion(eva.getNidEvaluacion());
                 beanEva.setNidEvaluador(eva.getNidEvaluador());
                 beanEva.setEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidEvaluador()));
                 beanEva.setPlanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidPlanificador()));
-                beanEva.setProfesor(eva.getMain().getProfesor().getApellidos() + " " +
-                                    eva.getMain().getProfesor().getNombres());
+                beanEva.setProfesor(eva.getMain().getProfesor().getApellidos() + " " +eva.getMain().getProfesor().getNombres());
                 beanEva.setCurso(eva.getMain().getCurso().getDescripcionCurso());
                 // beanEva.setTipoFichaCurso(eva.getMain().getCurso().getTipoFichaCurso()); //TODO el tipo_ficha_curso cuando se use horarios
                 boolean isSubDirector = ln_C_SFRolLocal.isSubDirectorByNidUsuario_LN(eva.getNidEvaluador());

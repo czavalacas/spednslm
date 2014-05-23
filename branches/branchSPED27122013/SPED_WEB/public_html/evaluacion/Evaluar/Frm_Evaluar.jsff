@@ -104,10 +104,10 @@
                 <f:facet name="second">
                     <af:panelGroupLayout layout="vertical" inlineStyle="margin:0px 0px 0px 43px;">
                         <af:panelGroupLayout>
-                            <af:button text="Registrar Ficha" id="btnGrabar" binding="#{bEvaluar.btnGrabar}"
+                            <af:button text="Registrar Evaluacion" id="btnGrabar" binding="#{bEvaluar.btnGrabar}"
                                        styleClass="FondoRojoLetraBlanca" actionListener="#{bEvaluar.grabarEvaluacion}"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
-                            <af:button text="Grabar Ficha" id="btnParcial"
+                            <af:button text="Grabar Evaluacion" id="btnParcial"
                                        actionListener="#{bEvaluar.grabarEvaluacionParcial}"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
                                        binding="#{bEvaluar.btnParcial}"/>
