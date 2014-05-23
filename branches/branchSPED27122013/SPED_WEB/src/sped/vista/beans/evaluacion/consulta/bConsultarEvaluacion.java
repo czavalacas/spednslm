@@ -227,11 +227,11 @@ public class bConsultarEvaluacion {
         Data(outputStream, sessionConsultarEvaluacion.getEvaluacion());
     }     
     
-    public void Data(OutputStream outputStream, BeanEvaluacionPlani eva){
+    public void Data(OutputStream outputStream, BeanEvaluacionPlani eva){        
         if(eva != null){            
             try {
                 List<BeanFichaCriterio> LstBeanFC = ln_C_SFFichaCriterioRemote.
-                                                    getLstFichaCriterioByEvaluacion(eva.getNidEvaluacion());            
+                                                    getLstFichaCriterioByEvaluacion(eva.getNidEvaluacion());
                 XWPFDocument document = new XWPFDocument();
                 XWPFParagraph paragraphOne = document.createParagraph();
                 paragraphStyle(paragraphOne, 1);
@@ -295,7 +295,7 @@ public class bConsultarEvaluacion {
                 for(int i = 0; i < sizeCri; i++){
                     XWPFTableRow row = table.createRow();
                     createParagraphCell(row.getCell(0), (i+1)+"", 1, true,"808080","ffffff",11);
-                    createParagraphCell(row.getCell(1), LstBeanFC.get(i).getCriterio().getDescripcionCriterio(), 0, true,"808080","ffffff",10);
+                    createParagraphCell(row.getCell(1), LstBeanFC.get(i).getDescripcionCriterio(), 0, true,"808080","ffffff",10);
                     double notaC = LstBeanFC.get(i).getResultadoCriterio().getValor();
                     createParagraphCell(row.getCell(2), Pnota(notaC), 1, true,colorNota(notaC),"808080",10);
                     createParagraphCell(row.getCell(3), "", 1, true,"808080","",10);
