@@ -50,7 +50,7 @@ public class LN_T_SFResultadoCriterioBean implements LN_T_SFResultadoCriterioRem
         }
     }
     
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    //@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void registrarResultadoCriterios_Web(List<BeanCriterio> lstBCrit,Evaluacion evaluacion){
         try {
             ResultadoCriterio rc = null;

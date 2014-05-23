@@ -218,51 +218,64 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                                                 Integer nidEvaluacion,
                                                 Integer nidUsuario,
                                                 String comentarioEvaluador,
-                                                int nidLog){
+                                                int nidLog,
+                                                boolean isPrimeraVezParcial){
         BeanError beanError = new BeanError();
         String error = "000";
         try {
-            CriterioIndicador ci = null;
-            Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(nidEvaluacion);
-            for (BeanCriterio _beanIV : lstBeanIndiVal) {
-                Resultado resultado = null;
-                for(BeanCriterio beanIV : _beanIV.getLstIndicadores()){
-                    ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCriterioIndicador());
-                    _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());
-                    resultado = new Resultado();
-                    resultado.setCriterioIndicador(ci);
-                    resultado.setEvaluacion(eva);
-                    resultado.setNidSede(eva.getMain().getAula().getSede().getNidSede());
-                    resultado.setValor((short) beanIV.getValorSpinBox());
-                    resultado.setNotaVigecimal((beanIV.getValorSpinBox() * 20) / ci.getFichaCriterio().getFicha().getFichaValorLista().size());
-                    // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
-                    resultado.setToNotification(resultado.getNotaVigecimal() <= 10.49 || resultado.getNotaVigecimal() >= 17.00 ? "1" : "0");
-                    bdL_T_SFResultadoLocal.persistResultado(resultado);
+            if(!isPrimeraVezParcial){
+                int resu = 0;
+                resu = bdL_T_SFResultadoCriterioLocal.removerResultadoCriterioByEvaluacion(nidEvaluacion);
+                if(resu == 0){
+                    error = "SPED-00006";
+                }else{
+                    resu = bdL_T_SFResultadoLocal.removerResultadosByEvaluacion(nidEvaluacion);
+                    if(resu == 0){
+                        error = "SPED-00006";
+                    }
                 }
             }
-            ln_T_SFResultadoCriterioLocal.registrarResultadoCriterios_Web(lstBeanIndiVal,eva);
-            eva.setEstadoEvaluacion("EJECUTADO");
-            eva.setNid_usuario_ws(nidUsuario);
-            eva.setNidProblema(null);
-            eva.setNidLog(nidLog);
-            eva.setModoEvaluacion("WEB");
-            eva.setComentario_evaluador(comentarioEvaluador);
-            eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
-            eva.setFlgEvaluar("0");
-            eva.setFlgAnular("0");
-            eva.setFlgJustificar("0");
-            eva.setFlgParcial("0");
-            bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
-            this.enviarCorreoProfesorEvaluador_LN(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres(),
-                                                  eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
-                                                  eva.getMain().getAula().getSede().getDescripcionSede(),
-                                                  eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+" de "+eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel() ,
-                                                  eva.getMain().getProfesor().getDniProfesor(),nidLog);
+            if("000".equals(error)){
+                CriterioIndicador ci = null;
+                Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(nidEvaluacion);
+                for (BeanCriterio _beanIV : lstBeanIndiVal) {
+                    Resultado resultado = null;
+                    for(BeanCriterio beanIV : _beanIV.getLstIndicadores()){
+                        ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCriterioIndicador());
+                        _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());
+                        resultado = new Resultado();
+                        resultado.setCriterioIndicador(ci);
+                        resultado.setEvaluacion(eva);
+                        resultado.setNidSede(eva.getMain().getAula().getSede().getNidSede());
+                        resultado.setValor((short) beanIV.getValorSpinBox());
+                        resultado.setNotaVigecimal((beanIV.getValorSpinBox() * 20) / ci.getFichaCriterio().getFicha().getFichaValorLista().size());
+                        // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
+                        resultado.setToNotification(resultado.getNotaVigecimal() <= 10.49 || resultado.getNotaVigecimal() >= 17.00 ? "1" : "0");
+                        bdL_T_SFResultadoLocal.persistResultado(resultado);
+                    }
+                }
+                ln_T_SFResultadoCriterioLocal.registrarResultadoCriterios_Web(lstBeanIndiVal,eva);
+                eva.setEstadoEvaluacion("EJECUTADO");
+                eva.setNid_usuario_ws(nidUsuario);
+                eva.setNidProblema(null);
+                eva.setNidLog(nidLog);
+                eva.setModoEvaluacion("WEB");
+                eva.setComentario_evaluador(comentarioEvaluador);
+                eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
+                eva.setFlgEvaluar("0");
+                eva.setFlgAnular("0");
+                eva.setFlgJustificar("0");
+                eva.setFlgParcial("0");
+                bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+                this.enviarCorreoProfesorEvaluador_LN(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres(),
+                                                      eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
+                                                      eva.getMain().getAula().getSede().getDescripcionSede(),
+                                                      eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+" de "+eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel() ,
+                                                      eva.getMain().getProfesor().getDniProfesor(),nidLog);   
+            }
         }catch (Exception e) {
             error = "111";
-            ln_T_SFLoggerLocal.registrarLogErroresSistema(nidLog, 
-                                                          "TRA",
-                                                          CLASE, 
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(nidLog,"TRA",CLASE, 
                                                           "BeanError registrarEvaluacion_LN_Web(List<BeanCriterio> lstBeanIndiVal,Integer nidEvaluacion,Integer nidUsuario,String comentarioEvaluador,int nidLog)",
                                                           "Error al Evaluar por la WEB",Utiles.getStack(e));
         }
@@ -280,48 +293,54 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         BeanError beanError = new BeanError();
         String error = "000";
         try {
-            if(isPrimeraVezParcial){
+            if(!isPrimeraVezParcial){
                 int resu = 0;
                 resu = bdL_T_SFResultadoCriterioLocal.removerResultadoCriterioByEvaluacion(nidEvaluacion);
-                resu = bdL_T_SFResultadoLocal.removerResultadosByEvaluacion(nidEvaluacion);
-                //TODO hacer la logica para verificar que si borro!!
-            }
-            CriterioIndicador ci = null;
-            Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(nidEvaluacion);
-            for (BeanCriterio _beanIV : lstBeanIndiVal) {
-                Resultado resultado = null;
-                for(BeanCriterio beanIV : _beanIV.getLstIndicadores()){
-                    ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCriterioIndicador());
-                    _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());
-                    resultado = new Resultado();
-                    resultado.setCriterioIndicador(ci);
-                    resultado.setEvaluacion(eva);
-                    resultado.setNidSede(eva.getMain().getAula().getSede().getNidSede());
-                    resultado.setValor((short) beanIV.getValorSpinBox());
-                    resultado.setNotaVigecimal((beanIV.getValorSpinBox() * 20) / ci.getFichaCriterio().getFicha().getFichaValorLista().size());
-                    // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
-                    resultado.setToNotification("0");
-                    bdL_T_SFResultadoLocal.persistResultado(resultado);
+                if(resu == 0){
+                    error = "SPED-00006";
+                }else{
+                    resu = bdL_T_SFResultadoLocal.removerResultadosByEvaluacion(nidEvaluacion);
+                    if(resu == 0){
+                        error = "SPED-00006";
+                    }
                 }
             }
-            ln_T_SFResultadoCriterioLocal.registrarResultadoCriterios_Web(lstBeanIndiVal,eva);
-            //eva.setEstadoEvaluacion("EJECUTADO");
-            eva.setNid_usuario_ws(nidUsuario);
-            eva.setNidProblema(null);
-            eva.setNidLog(nidLog);
-            eva.setModoEvaluacion("PARC");//Parcial
-            eva.setComentario_evaluador(comentarioEvaluador);
-            eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
-            eva.setFlgEvaluar("1");
-            eva.setFlgAnular("0");
-            eva.setFlgJustificar("0");
-            eva.setFlgParcial("1");//Esta es lo importante setear este valor a 1 para saber que es parcial
-            bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+            if("000".equals(error)){
+                CriterioIndicador ci = null;
+                Evaluacion eva = bdL_C_SFEvaluacionLocal.findEvaluacionById(nidEvaluacion);
+                for (BeanCriterio _beanIV : lstBeanIndiVal) {
+                    Resultado resultado = null;
+                    for(BeanCriterio beanIV : _beanIV.getLstIndicadores()){
+                        ci = bdL_C_SFCriterioIndicadorLocal.findCriterioIndicadorById(beanIV.getNidCriterioIndicador());
+                        _beanIV.setFichaCriterioAUX(ci.getFichaCriterio());
+                        resultado = new Resultado();
+                        resultado.setCriterioIndicador(ci);
+                        resultado.setEvaluacion(eva);
+                        resultado.setNidSede(eva.getMain().getAula().getSede().getNidSede());
+                        resultado.setValor((short) beanIV.getValorSpinBox());
+                        resultado.setNotaVigecimal((beanIV.getValorSpinBox() * 20) / ci.getFichaCriterio().getFicha().getFichaValorLista().size());
+                        // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
+                        resultado.setToNotification("0");
+                        bdL_T_SFResultadoLocal.persistResultado(resultado);
+                    }
+                }
+                ln_T_SFResultadoCriterioLocal.registrarResultadoCriterios_Web(lstBeanIndiVal,eva);
+                //eva.setEstadoEvaluacion("EJECUTADO");
+                eva.setNid_usuario_ws(nidUsuario);
+                eva.setNidProblema(null);
+                eva.setNidLog(nidLog);
+                eva.setModoEvaluacion("PARC");//Parcial
+                eva.setComentario_evaluador(comentarioEvaluador);
+                eva.setFechaEvaluacion(new Timestamp(new Date().getTime()));
+                eva.setFlgEvaluar("1");
+                eva.setFlgAnular("0");
+                eva.setFlgJustificar("0");
+                eva.setFlgParcial("1");//Esta es lo importante setear este valor a 1 para saber que es parcial
+                bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
+            }
         }catch (Exception e) {
             error = "111";
-            ln_T_SFLoggerLocal.registrarLogErroresSistema(nidLog, 
-                                                          "TRA",
-                                                          CLASE, 
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(nidLog,"TRA",CLASE, 
                                                           "BeanError registrarEvaluacion_Parcial_LN_Web(List<BeanCriterio> lstBeanIndiVal,Integer nidEvaluacion,Integer nidUsuario,String comentarioEvaluador,int nidLog)",
                                                           "Error al realizar la evaluacion Parcial",Utiles.getStack(e));
         }

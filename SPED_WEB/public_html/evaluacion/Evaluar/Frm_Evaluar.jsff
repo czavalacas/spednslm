@@ -38,11 +38,11 @@
                             </af:resource>
                         </af:panelGroupLayout>
                         <af:panelGroupLayout>
-                            <af:button text="Evaluar" id="btnRegistrar" disabled="true" styleClass="FondoGrisLetraGris"
+                            <af:button text="Evaluar" id="btnRegistrar" disabled="true"
                                        binding="#{bEvaluar.btnRegistrar}"
                                        actionListener="#{bEvaluar.registrarEvaluacion}"/>
                             <af:button text="" id="btnRefresh" icon="../recursos/img/usuarios/refresh.png"
-                                       immediate="true" styleClass="FondoGrisLetraGris"
+                                       immediate="true"
                                        actionListener="#{bEvaluar.refrescarTablaPlanif}"/>
                         </af:panelGroupLayout>
                         <af:panelCollection inlineStyle="width:inherit; margin:0px 43px 0px 0px;">
@@ -104,9 +104,13 @@
                 <f:facet name="second">
                     <af:panelGroupLayout layout="vertical" inlineStyle="margin:0px 0px 0px 43px;">
                         <af:panelGroupLayout>
-                            <af:button text="Grabar Ficha" id="btnGrabar" binding="#{bEvaluar.btnGrabar}"
+                            <af:button text="Registrar Ficha" id="btnGrabar" binding="#{bEvaluar.btnGrabar}"
                                        styleClass="FondoRojoLetraBlanca" actionListener="#{bEvaluar.grabarEvaluacion}"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
+                            <af:button text="Grabar Ficha" id="btnParcial"
+                                       actionListener="#{bEvaluar.grabarEvaluacionParcial}"
+                                       visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
+                                       binding="#{bEvaluar.btnParcial}"/>
                             <af:button text="Calcular" id="btnCalc" binding="#{bEvaluar.btnCalc}"
                                        actionListener="#{bEvaluar.calcularNota}"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
