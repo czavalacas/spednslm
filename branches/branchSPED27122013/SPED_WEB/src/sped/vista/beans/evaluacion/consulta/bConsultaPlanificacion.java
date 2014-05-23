@@ -158,12 +158,19 @@ public class bConsultaPlanificacion {
             sessionConsultarPlanificacion.setNidSedeChoice(""+usuarioEnSesion.getSede().getNidSede());
             sessionConsultarPlanificacion.setEstadoChoiceSede(true);
         }
-        if(usuarioEnSesion.getRol().getNidRol() == 2){
+        if(usuarioEnSesion.getRol().getNidRol() == 2 && "0".equals(usuarioEnSesion.getIsSupervisor())){
             sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
             sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
             sessionConsultarPlanificacion.setNidAreaAcademicaChoice(""+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
             sessionConsultarPlanificacion.setEstadoChoiceArea(true);
         }
+        if(usuarioEnSesion.getRol().getNidRol() == 2 && "1".equals(usuarioEnSesion.getIsSupervisor())){
+            sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
+            sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
+            sessionConsultarPlanificacion.setNidAreaAcademicaChoice(null);
+            sessionConsultarPlanificacion.setEstadoChoiceArea(false);
+        }
+        
         return null;   
     }
     
