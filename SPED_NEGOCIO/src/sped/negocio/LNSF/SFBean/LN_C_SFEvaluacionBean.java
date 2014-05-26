@@ -96,34 +96,29 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         List<BeanEvaluacionPlani> lstBean = new ArrayList<BeanEvaluacionPlani>();
         List<Evaluacion> lstAreaAcd = bdL_C_SFEvaluacionLocal.getPlanificacion(beanEvaluacion);
         for(Evaluacion a : lstAreaAcd){
-            BeanEvaluacionPlani bean=trasnformEvaNoMapper(a);
+            BeanEvaluacionPlani bean = trasnformEvaNoMapper(a);
             bean.setComentarioProblema(a.getComentarioEvaluador());
             bean.setFlgParcial(a.getFlgParcial());         
-            if(a.getNidProblema()!=null){
-            bean.setNidProblema(a.getNidProblema());
+            if(a.getNidProblema() != null){
+                bean.setNidProblema(a.getNidProblema());
             }
             bean.setFlgJustificar(a.getFlgJustificar());
             if(a.getEstadoEvaluacion().equals("EJECUTADO")){
                 bean.setNidEstadoEvaluacion("1");
                 bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:green");
-            }
-            if(a.getEstadoEvaluacion().equals("PENDIENTE")){
+            }else if(a.getEstadoEvaluacion().equals("PENDIENTE")){
                 bean.setNidEstadoEvaluacion("2");
                 bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:blue");
-            }
-            if(a.getEstadoEvaluacion().equals("NO EJECUTADO")){
+            }else if(a.getEstadoEvaluacion().equals("NO EJECUTADO")){
                 bean.setNidEstadoEvaluacion("3");
                 bean.setStyleColor("color:black; font-weight:bold;text-align:center; background-color:orange");
-            }
-            if(a.getEstadoEvaluacion().equals("JUSTIFICADO")){
+            }else if(a.getEstadoEvaluacion().equals("JUSTIFICADO")){
                 bean.setNidEstadoEvaluacion("4");
                 bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:black");
-            }
-            if(a.getEstadoEvaluacion().equals("POR JUSTIFICAR")){
+            }else if(a.getEstadoEvaluacion().equals("POR JUSTIFICAR")){
                 bean.setNidEstadoEvaluacion("5");
                 bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:purple");
-            }
-            if(a.getEstadoEvaluacion().equals("INJUSTIFICADO")){
+            }else if(a.getEstadoEvaluacion().equals("INJUSTIFICADO")){
                 bean.setNidEstadoEvaluacion("6");
                 bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:red");
             }

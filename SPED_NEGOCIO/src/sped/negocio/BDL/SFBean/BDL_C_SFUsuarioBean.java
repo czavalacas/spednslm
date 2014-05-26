@@ -406,7 +406,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         try {
             String strQuery = "SELECT u " + 
                               "FROM Usuario u " + 
-                              "where u.rol.nidRol=3";
+                              "where u.rol.nidRol = 3";
             lstUsuario = em.createQuery(strQuery).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
