@@ -13,6 +13,8 @@
   # Acomodar los tags f:view que tenga solo 1 raiz los jsff
   # Modulo de continuidad de negocio
   # Dash visualizar hora de planificacion vs. hora de evaluacion.
+  # Dash de David la tabla de abajo el desempeno esta bien?
+  # Dash de David la cantidad de ejecutados en el primer grafico esta bien?
   # ~~Grabados parciales al evaluar.~~
   # ~~En bMain.java que el crear Menu se ejecute solo 1 vez.~~
   # ~~Editar el Aplicativo para que no valide rango de fechas al evaluar.~~
