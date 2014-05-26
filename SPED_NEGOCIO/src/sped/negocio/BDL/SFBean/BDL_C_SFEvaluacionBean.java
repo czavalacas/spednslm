@@ -427,7 +427,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             boolean isSupervisor = false;
             String qlString = "SELECT e " +
                               "FROM Evaluacion e " +
-                              "WHERE e.flgEvaluar = '1' ";
+                              "WHERE e.flgEvaluar = '1' " +
+                              "AND e.nidEvaluador = :nidEvaluador ";
             if(nidRol == 4){//Evaluador x Sede
                 qlString = qlString.concat(" AND e.main.aula.sede.nidSede = :nidSede ");
             }else if(nidRol == 2){//Evaluador x Area
@@ -441,7 +442,6 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         qlString = qlString.concat(" and e.main.curso.nidAreaNativa = :nidAreaAcademica ");
                     }
                 }
-                qlString = qlString.concat(" AND e.nidEvaluador = :nidEvaluador ");
             //    qlString = qlString.concat(" AND e.main.curso.areaAcademica.nidAreaAcademica = :nidAreaAcademica AND e.nidEvaluador = :nidEvaluador ");
             }else if(nidRol == 1){//Director
                 //TODOS LOS PERMISOS
@@ -465,15 +465,15 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             }
            // qlString = qlString.concat(" AND CAST(e.startDate AS date) = CURRENT_DATE  ");//TODO Fecha de planificaciones solo hoy
             qlString = qlString.concat(" ORDER BY e.startDate ASC ");
-            //Utiles.sysout("query:" + qlString);
+            //Utiles.sysout("queryEvaluar:" + qlString);
             Query query = em.createQuery(qlString);
+            query.setParameter("nidEvaluador",nidUsuario);
             if(nidRol == 4){//Evaluador x Sede
                 query.setParameter("nidSede",nidSede);
             }else if(nidRol == 2){//Evaluador x Area
                 if(!isSupervisor){
                     query.setParameter("nidAreaAcademica",nidAreaAcademica);
                 }
-                query.setParameter("nidEvaluador",nidUsuario);
             }
             if(nidSedeFiltro != 0){
                 if(nidRol == 1 || nidRol == 2){
