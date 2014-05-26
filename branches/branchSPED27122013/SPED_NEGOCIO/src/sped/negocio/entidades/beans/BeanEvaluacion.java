@@ -61,6 +61,24 @@ public class BeanEvaluacion implements Serializable {
     private String flgJustificar;
     private String styleColor;
     private String flgParcial;//Cuando se grabo una evaluacion parcialmente, aun no se termina
+    private Integer nidRol;//Usado para el metodo BDL_C_SFEvaluacionBean.getPlanificaciones
+    private Integer nidAreaUsuario;
+
+    public void setNidAreaUsuario(Integer nidAreaUsuario) {
+        this.nidAreaUsuario = nidAreaUsuario;
+    }
+
+    public Integer getNidAreaUsuario() {
+        return nidAreaUsuario;
+    }
+
+    public void setNidRol(Integer nidRol) {
+        this.nidRol = nidRol;
+    }
+
+    public Integer getNidRol() {
+        return nidRol;
+    }
 
     public void setFlgParcial(String flgParcial) {
         this.flgParcial = flgParcial;

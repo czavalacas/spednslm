@@ -118,31 +118,32 @@ public class bConsultaPlanificacion {
         BeanEvaluacion beanEvaluacion = new BeanEvaluacion();
         beanEvaluacion.setFechaMaxPlanificacion(sessionConsultarPlanificacion.getFechaMaxPlanificacion());
         beanEvaluacion.setFechaMinPlanificacion(sessionConsultarPlanificacion.getFechaMinPlanificacion());
-        beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());  
+        beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());
         beanEvaluacion.setApellidosDocentes(sessionConsultarPlanificacion.getApellidosDocente());
-           if (usuarioEnSesion.getRol().getNidRol() == 2 || usuarioEnSesion.getRol().getNidRol() == 4) {
+        beanEvaluacion.setNidRol(usuarioEnSesion.getRol().getNidRol());
+        beanEvaluacion.setNidAreaUsuario(usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
+        if (usuarioEnSesion.getRol().getNidRol() == 2 || usuarioEnSesion.getRol().getNidRol() == 4) {
             beanEvaluacion.setNidEvaluador(usuarioEnSesion.getNidUsuario());
-            }        
-           if (sessionConsultarPlanificacion.getNidEvaluadorChoice() != null) {
+        }
+        if (sessionConsultarPlanificacion.getNidEvaluadorChoice() != null) {
             beanEvaluacion.setNidEvaluador(Integer.parseInt(sessionConsultarPlanificacion.getNidEvaluadorChoice()));
-            }
-           if (sessionConsultarPlanificacion.getNidSedeChoice() != null) {
+        }
+        if (sessionConsultarPlanificacion.getNidSedeChoice() != null) {
             beanEvaluacion.setNidSede(Integer.parseInt(sessionConsultarPlanificacion.getNidSedeChoice()));
-            }
-           if (sessionConsultarPlanificacion.getNidNivelChoice() != null) {
+        }
+        if (sessionConsultarPlanificacion.getNidNivelChoice() != null) {
             beanEvaluacion.setNidNivel(Integer.parseInt(sessionConsultarPlanificacion.getNidNivelChoice()));
-            }
-           if (sessionConsultarPlanificacion.getNidAreaAcademicaChoice() != null) {
+        }
+        if (sessionConsultarPlanificacion.getNidAreaAcademicaChoice() != null) {
             beanEvaluacion.setNidArea(Integer.parseInt(sessionConsultarPlanificacion.getNidAreaAcademicaChoice()));
-            }
-           if (btnExp != null) {
+        }
+        if (btnExp != null) {
             Utils.addTarget(btnExp);
-            }
-           if (tbPlanificacion != null) {
+        }
+        if (tbPlanificacion != null) {
             Utils.addTarget(tbPlanificacion);
-            }          
+        }
         sessionConsultarPlanificacion.setListaPlanificaciones(ln_C_SFEvaluacionRemote.getPlanificacion(beanEvaluacion));
-        
         return null;
     }
 
