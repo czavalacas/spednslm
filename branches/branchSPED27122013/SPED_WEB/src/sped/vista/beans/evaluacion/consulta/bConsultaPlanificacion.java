@@ -121,7 +121,11 @@ public class bConsultaPlanificacion {
         beanEvaluacion.setNidEstadoEvaluacion(sessionConsultarPlanificacion.getNidEstadoPlanificacion());
         beanEvaluacion.setApellidosDocentes(sessionConsultarPlanificacion.getApellidosDocente());
         beanEvaluacion.setNidRol(usuarioEnSesion.getRol().getNidRol());
-        beanEvaluacion.setNidAreaUsuario(usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
+        if(usuarioEnSesion.getAreaAcademica() != null){
+            if(usuarioEnSesion.getAreaAcademica().getNidAreaAcademica() != null){
+                beanEvaluacion.setNidAreaUsuario(usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
+            }
+        }
         if (usuarioEnSesion.getRol().getNidRol() == 2 || usuarioEnSesion.getRol().getNidRol() == 4) {
             beanEvaluacion.setNidEvaluador(usuarioEnSesion.getNidUsuario());
         }
