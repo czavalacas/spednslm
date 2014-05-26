@@ -83,8 +83,8 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     /**Metodo para traer a los Evaluadores Siendo nidRol=2 el de evaluador Area**/
     public List<Usuario> getEvaluadores(String nidAreaAcademica){
         try{
-            String ejbQl = "SELECT ma FROM Usuario ma" +
-                           " WHERE ma.rol.nidRol=2";
+            String ejbQl = "SELECT ma FROM Usuario ma " +
+                           " WHERE ma.rol.nidRol = 2";
             if (nidAreaAcademica!= null) {               
                 ejbQl = ejbQl.concat(" and ma.areaAcademica.nidAreaAcademica= "+nidAreaAcademica);  
             }
@@ -119,7 +119,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     }
     
     public int countUsuarioByDniBDL(String dni){
-        String ejbQL = "SELECT  count(u) FROM Usuario u " 
+        String ejbQL = "SELECT COUNT(1) FROM Usuario u " 
                        + "WHERE u.dni = :dni ";
         Object object = em.createQuery(ejbQL).setParameter("dni", dni)
                             .getSingleResult();
@@ -131,7 +131,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     }
     
     public int countUsuarioByNomUsuarioBDL(String usuario){
-        String ejbQL = "SELECT  count(u) FROM Usuario u " 
+        String ejbQL = "SELECT  COUNT(1) FROM Usuario u " 
                        + "WHERE u.usuario = :usuario ";
         Object object = em.createQuery(ejbQL).setParameter("usuario", usuario)
                             .getSingleResult();
@@ -221,7 +221,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     
     public List<Usuario> getUsuariobyNidRolBDL(int nidRol){
         try{
-            String ejbQL = "SELECT  u FROM Usuario u " +
+            String ejbQL = "SELECT u FROM Usuario u " +
                            "WHERE u.rol.nidRol = :nid_rol " +
                            "AND u.estadoUsuario = '1' " +
                            "ORDER BY u.nombres ASC";
@@ -268,7 +268,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     }
     
     public int countCorreoBDL(String correo){
-        String ejbQL = "SELECT  count(u) FROM Usuario u " 
+        String ejbQL = "SELECT  COUNT(1) FROM Usuario u " 
                        + "WHERE u.correo = :correo ";
         Object object = em.createQuery(ejbQL).setParameter("correo", correo)
                             .getSingleResult();
