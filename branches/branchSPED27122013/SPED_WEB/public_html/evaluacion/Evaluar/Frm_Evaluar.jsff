@@ -158,10 +158,17 @@
                 </af:dialog>
             </af:popup>
             <af:popup childCreation="deferred" autoCancel="disabled" id="popMsj" binding="#{bEvaluar.popMsj}">
-                <af:dialog id="d1" type="ok">
-                    <af:activeOutputText id="otError"
-                                         inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
-                                         binding="#{bEvaluar.otError}" value="#{requestScope.bEvaluar.error}"/>
+                <af:dialog id="d1" type="none">
+                    <af:panelFormLayout>
+                        <af:activeOutputText id="otError"
+                                             inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif;
+                                                          font-weight:bold; padding:20px;white-space: pre-wrap;"
+                                             binding="#{bEvaluar.otError}" value="#{requestScope.bEvaluar.error}"/>
+                        <af:panelGroupLayout>
+                            <af:button text="Grabar Parcialmente" id="btnGrabarAux" actionListener="#{bEvaluar.grabarEvaluacionParcialFinal}"/>
+                            <af:button text="Registrar Evaluacion" id="btnRegistrarAux" styleClass="FondoRojoLetraBlanca" actionListener="#{bEvaluar.grabarEvaluacion}"/>
+                        </af:panelGroupLayout>
+                    </af:panelFormLayout>
                 </af:dialog>
             </af:popup>
         </af:panelGroupLayout>
