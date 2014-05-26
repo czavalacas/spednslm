@@ -307,16 +307,34 @@ public class bEvaluar {
                                                           "Error en el backing al registrar la Evaluacion ",Utils.getStack(e));
         } finally {
             if(reset){
-                resetearAfterGrabar();   
+                resetearAfterGrabar();
+                if(popMsj != null){
+                    popMsj.hide();
+                }
             }
         }
     }
     
     public void grabarEvaluacionParcial(ActionEvent actionEvent) {
         try {
+            Boolean[] resultValida = this.isOKParcial();
+            if(resultValida[1] == true){//Todos los indicadores estan con nota, mostrar popup
+                this.setError("Ha puesto notas a todos los indicadores.\nDesea grabar parcialmente (No sera considerado como completado)\n o \nDesea Registrar la evaluacion permanentemente?");
+                Utils.showPopUpMIDDLE(popMsj);
+            }else{
+                this.grabarEvaluacionParcialAux(resultValida[0]);
+            }
+        }catch(Exception e){
+            e.printStackTrace();            
+        }
+    }
+    
+    
+    public void grabarEvaluacionParcialAux(boolean valid){
+        try {
             int severidad = 0;
             BeanError error = new BeanError();
-            if (this.isOKParcial()) {
+            if (valid) {
                 error = ln_T_SFEvaluacionLocal.registrarEvaluacion_Parcial_LN_Web(sessionEvaluar.getLstCriteriosMultiples(),
                                                                                   sessionEvaluar.getPlanifSelect().getNidEvaluacion(),
                                                                                   usuario.getNidUsuario(),
@@ -346,6 +364,41 @@ public class bEvaluar {
                                                           "void grabarEvaluacionParcial(ActionEvent actionEvent)",
                                                           "Error en el backing al registrar la Evaluacion Parcial",Utils.getStack(e));
         }
+        if(popMsj != null){
+            popMsj.hide();
+        }
+    }
+    
+    public void grabarEvaluacionParcialFinal(ActionEvent ae){
+        try {
+            int severidad = 0;
+            BeanError error = ln_T_SFEvaluacionLocal.registrarEvaluacion_Parcial_LN_Web(sessionEvaluar.getLstCriteriosMultiples(),
+                                                                                        sessionEvaluar.getPlanifSelect().getNidEvaluacion(),
+                                                                                        usuario.getNidUsuario(),
+                                                                                        sessionEvaluar.getComentarioEvaluador(),
+                                                                                        usuario.getNidLog(),
+                                                                                        "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false);
+            if("000".equalsIgnoreCase(error.getCidError())){
+                severidad = 3;
+                sessionEvaluar.getPlanifSelect().setFlgParcial("1");//Se le cambia a uno para saber que ya se grabo parcial y en las siguientes borre los valores grabados
+            }else{
+                severidad = 1;
+            }
+            msjGen.setText(error.getTituloError());
+            Utils.addTarget(msjGen);
+            Utils.mostrarMensaje(ctx,error.getDescripcionError(),error.getTituloError(), severidad);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msjGen.setText("Error del sistema");
+            Utils.addTarget(msjGen);
+            Utils.mostrarMensaje(ctx,"Error del sistema, comuniquese con el administrador o intente nuevamente","Error del sistema",2);
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(),"BAC",CLASE, 
+                                                          "void grabarEvaluacionParcial(ActionEvent actionEvent)",
+                                                          "Error en el backing al registrar la Evaluacion Parcial",Utils.getStack(e));
+        }
+        if(popMsj != null){
+            popMsj.hide();
+        }
     }
     
     private boolean isOK(){
@@ -364,7 +417,10 @@ public class bEvaluar {
         return true;
     }
     
-    private boolean isOKParcial(){
+    private Boolean[] isOKParcial(){
+        Boolean[] resultValida = new Boolean[2];//0 = mas de 5 rpts (sufi para grabar parcial), 1 = true si todos tienen valor, necesario para mostrar el msj si quiere grabar del todo.
+        resultValida[0] = false;
+        resultValida[1] = false;
         Iterator it = sessionEvaluar.getLstCriteriosMultiples().iterator();
         int cant = 0;
         while(it.hasNext()){
@@ -376,16 +432,21 @@ public class bEvaluar {
                 if(indi.getValorSpinBox() > 0){
                     cant++;
                     if(cant >= 5){
-                        return true;
+                        resultValida[0] = true;
+                    }else{
+                        resultValida[0] = false;
                     }
+                    resultValida[1] = true;
+                }else{
+                    resultValida[1] = false;
                 }
             }
         }
         if(cant < 5){
-            return false;
-        }else{
-            return true;
+            resultValida[0] = false;
+            resultValida[1] = false;
         }
+        return resultValida;
     }
     
     public void resetearAfterGrabar(){
