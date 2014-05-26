@@ -105,7 +105,7 @@
                 <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row"
                           rowBandingInterval="-1" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
                           summary="Tabla de Evaluaciones" columnStretching="column:c9" styleClass="AFStretchWidth"
-                          binding="#{bConsultarEvaluacion.tbEval}" autoHeightRows="0">
+                          binding="#{bConsultarEvaluacion.tbEval}" autoHeightRows="0" contentDelivery="immediate">
                     <af:column sortable="true" sortProperty="fechaPlanificacion" headerText="Fecha Planificación"
                                align="center" id="c12">
                         <af:outputText value="#{row.fechaPlanificacion}" id="ot12">

@@ -60,7 +60,10 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         try{
             List<Evaluacion> lstaEvaluaciones = new ArrayList<Evaluacion>();
             boolean isSupervisor = false;
-            int nidAreaAcademica = beanEvaluacion.getNidAreaUsuario();
+            int nidAreaAcademica = 0;
+            if(beanEvaluacion.getNidAreaUsuario() != null){
+                nidAreaAcademica = beanEvaluacion.getNidAreaUsuario();
+            }
             String ejbQl = "SELECT ev " +
                            "FROM Evaluacion ev " +
                            "WHERE 1 = 1 ";
