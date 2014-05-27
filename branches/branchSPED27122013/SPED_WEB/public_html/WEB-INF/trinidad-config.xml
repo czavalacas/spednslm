@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <trinidad-config xmlns="http://myfaces.apache.org/trinidad/config">
   <skin-family>SpedSkin</skin-family>
-  <formatting-locale>en_US</formatting-locale>
+  <formatting-locale>es_ES</formatting-locale>
 </trinidad-config>

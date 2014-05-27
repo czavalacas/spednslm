@@ -308,7 +308,7 @@
                         </af:gridCell>
                     </af:gridRow>
                 </af:panelGridLayout>
-                <af:table value="#{sessionDesempenoEvaluador.lstEvaDetalle}" var="row" rowBandingInterval="0" id="t2">
+                <af:table value="#{sessionDesempenoEvaluador.lstEvaDetalle}" var="row" rowBandingInterval="0" id="t2" width="600">
                     <af:column sortable="true" headerText="Fecha Evaluacion" align="center" id="c9"
                                sortProperty="endDate">
                         <af:outputText value="#{row.endDate}" id="ot9">
@@ -351,7 +351,7 @@
                                                        filename="Desempeño_Evaluador.xls" title="Desempeño"/>
                 </af:button>
                 <af:table value="#{sessionDesempenoEvaluador.lstEvaDetallePie}" var="row" rowBandingInterval="0"
-                          id="tDetal">
+                          id="tDetal" width="600">
                     <af:column sortable="true" headerText="Fecha Evaluacion" align="center" id="c10"
                                sortProperty="endDate">
                         <af:outputText value="#{row.endDate}" id="ot11">

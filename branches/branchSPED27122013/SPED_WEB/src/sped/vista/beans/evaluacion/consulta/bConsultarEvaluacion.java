@@ -143,7 +143,12 @@ public class bConsultarEvaluacion {
             sessionConsultarEvaluacion.setItemEvaluador(Utils.llenarListItem(ln_C_SFUsuarioRemote.getEvaluadores_LN()));
         }
         if(nidRol == 2 || nidRol == 4){
-            if(nidRol == 4 || (nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0)){
+            /*if(nidRol == 4 || (nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0)){
+                sessionConsultarEvaluacion.setColumnEvaluador(false);
+            }*/
+            if("1".equals(beanUsuario.getIsSupervisor())){
+                sessionConsultarEvaluacion.setColumnEvaluador(true);
+            }else{
                 sessionConsultarEvaluacion.setColumnEvaluador(false);
             }
             if(nidRol == 2){
