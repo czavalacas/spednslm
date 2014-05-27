@@ -826,11 +826,13 @@ public class bDesempenoEvaluador {
         }
         if(serie != null){
             List <BeanEvaluacionPlani> lst = desempenoFiltro_Aux(2, null, serie, null,null);
-            sessionDesempenoEvaluador.setLstEvaDetallePie(lst);
-            estadoEvaluacion(serie);
-            renderRol(0);
-            sessionDesempenoEvaluador.setTitleDialog("Evaluacion(s) "+serie);
-            Utils.showPopUpMIDDLE(popDetPie);
+            if(lst.size() > 0){
+                sessionDesempenoEvaluador.setLstEvaDetallePie(lst);
+                estadoEvaluacion(serie);
+                renderRol(0);
+                sessionDesempenoEvaluador.setTitleDialog("Evaluacion(s) "+serie);
+                Utils.showPopUpMIDDLE(popDetPie);
+            }            
         }
     }
 

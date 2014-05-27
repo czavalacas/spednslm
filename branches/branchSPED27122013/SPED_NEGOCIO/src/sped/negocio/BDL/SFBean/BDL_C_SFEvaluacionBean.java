@@ -713,7 +713,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     strQuery = strQuery.concat(" AND  usu.nombres = :nom_Eva ");
                 }
                 if(beanFEva.getEstadoEvaluacion() != null){
-                    strQuery = strQuery.concat(" AND upper(eva.estadoEvaluacion) like upper(:estado) ");   
+                    strQuery = strQuery.concat(" AND upper(eva.estadoEvaluacion) = upper(:estado) ");   
                 }
                 if(beanFEva.getFechaMinEvaluacion() != null && beanFEva.getFechaMaxEvaluacion() != null){
                     strQuery =
@@ -741,12 +741,16 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 }
             }
             if(tipoBusqueda == 1 || tipoBusqueda == 3 || tipoBusqueda == 5){
-                String subQuery = "(SELECT COUNT(1) " +
-                                  strQuery.replaceAll("eva", "x");
-                if(tipoBusqueda == 3){
-                    subQuery = subQuery.concat(" AND CAST(x.endDate AS date) = CAST(eva.endDate AS date) ");
-                }else{
+                String subQuery = "(SELECT COUNT(1) " + strQuery.replaceAll("eva", "x");
+                if(tipoBusqueda == 1){
                     subQuery = subQuery.concat(" AND x.nidEvaluador = eva.nidEvaluador ");
+                }
+                if(tipoBusqueda == 3){
+                   subQuery = subQuery.concat(" AND CAST(x.endDate AS date) = CAST(eva.endDate AS date) ");
+                }                
+                if(tipoBusqueda == 5){
+                    subQuery = subQuery.replaceAll("usu", "y");
+                    subQuery = subQuery.concat(" AND y.rol = usu.rol");
                 }
                 strQuery2 = "SELECT " +
                             subQuery+" AND x.estadoEvaluacion = 'EJECUTADO' ) eje, " +
