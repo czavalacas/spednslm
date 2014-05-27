@@ -237,14 +237,14 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     String strQuery = "SELECT eva " +
                                       " FROM Evaluacion eva, " +
                                       " Usuario usu " + 
-                                      " WHERE eva.nidEvaluador = usu.nidUsuario " +
-                                      " AND upper(eva.estadoEvaluacion) = 'EJECUTADO' ";
+                                      " WHERE upper(eva.estadoEvaluacion) = 'EJECUTADO' " +
+                                      " AND eva.nidEvaluador = usu.nidUsuario ";
                     int nidRol = beanUsuario.getRol().getNidRol();
-                    if((nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0) || nidRol == 4){
+                    /*if((nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0) || nidRol == 4){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
-                    }
+                    }*/
                     if(nidRol == 4){//Evaluador de sede
-                        strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede ");
+                        strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede AND eva.nidEvaluador = :nid_evaluador ");
                         beanFiltroEva.setNidSede(0);
                     }
                     if(nidRol == 2){//Evaluador de area
@@ -258,6 +258,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                             } else {
                                 strQuery = strQuery.concat(" AND eva.main.curso.nidAreaNativa = :nid_area ");
                             }
+                            strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
                         }
                         beanFiltroEva.setNidArea(0);
                     }
@@ -308,15 +309,17 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                     strQuery = strQuery.concat(" ORDER BY eva.startDate DESC ");
                     Query query = em.createQuery(strQuery);
-                    if((nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0) || nidRol == 4){
+                    /*if((nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0) || nidRol == 4){
                         query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
-                    }
+                    }*/
                     if(nidRol == 4){
                         query.setParameter("nid_sede", beanUsuario.getSede().getNidSede());
+                        query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
                     }
                     if(nidRol == 2){//Es evaluador de area
                         if(!isSupervisor){//Pero no es supervisor, entonces si filtra x su area
                             query.setParameter("nid_area", beanUsuario.getAreaAcademica().getNidAreaAcademica());
+                            query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
                         }
                     }
                     if(nidRol == 3){

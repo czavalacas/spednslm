@@ -101,19 +101,22 @@
                 <f:facet name="toolbar">
                     <af:toolbar id="t1"></af:toolbar>
                 </f:facet>
-                <f:facet name="statusbar"/>
-                <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row"
+                <f:facet name="statusbar"/> 
+                    <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row" varStatus="vs"
                           rowBandingInterval="-1" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
                           summary="Tabla de Evaluaciones" columnStretching="column:c9" styleClass="AFStretchWidth"
                           binding="#{bConsultarEvaluacion.tbEval}" autoHeightRows="0" contentDelivery="immediate">
+                    <af:column width="20" frozen="true">
+                        <af:outputText value="#{vs.index + 1}"/>
+                    </af:column>
                     <af:column sortable="true" sortProperty="fechaPlanificacion" headerText="Fecha Planificación"
-                               align="center" id="c12">
+                               align="center" id="c12" width="60">
                         <af:outputText value="#{row.fechaPlanificacion}" id="ot12">
                             <af:convertDateTime pattern="dd/MM/yyyy"/>
                         </af:outputText>
                     </af:column>
                     <af:column sortable="true" sortProperty="fechaEvaluacion" headerText="Fecha Evaluación" align="center"
-                               id="c8">
+                               id="c8" width="60">
                         <af:outputText value="#{row.fechaEvaluacion}" id="ot8">
                             <af:convertDateTime pattern="dd/MM/yyyy"/>
                         </af:outputText>
@@ -144,11 +147,11 @@
                         <af:outputText value="#{row.descSede}" id="ot4"/>
                     </af:column>
                     <af:column sortable="true" sortProperty="descNivel"
-                               headerText="Nivel" align="start" id="c5"
+                               headerText="Nivel" align="start" id="c5" width="80"
                                rendered="#{sessionConsultarEvaluacion.columnNivel}">
                         <af:outputText value="#{row.descNivel}" id="ot5"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="descGrado"
+                    <af:column sortable="true" sortProperty="descGrado" width="80"
                                headerText="Grado" align="start" id="c6">
                         <af:outputText value="#{row.descGrado}" id="ot6"/>
                     </af:column>
@@ -156,19 +159,21 @@
                                id="c7">
                         <af:outputText value="#{row.descAula}" id="ot7"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="comentario_evaluador" headerText="Comentario Evaluador"
-                               align="start" id="c16">
-                        <af:button text="Comentario" id="btnCmtEva" actionListener="#{bConsultarEvaluacion.comentarEvaluacionByEvaluador}">
+                    <af:column sortable="true" sortProperty="comentario_evaluador" headerText="Coment Eval"
+                               align="center" id="c16" width="40">
+                        <af:button icon="/recursos/img/usuarios/comment.png" id="btnCmtEva" rendered="#{row.comentarioEvaluador != null}"
+                                   actionListener="#{bConsultarEvaluacion.comentarEvaluacionByEvaluador}">
                             <f:setPropertyActionListener value="#{row}"
                                                          target="#{sessionConsultarEvaluacion.evaSelect}"/>
                         </af:button>
                        <!-- <af:outputText value="#{row.comentario_evaluador}" id="ot16"/>-->
                     </af:column>
-                    <af:column sortable="true" sortProperty="comentario_profesor" headerText="Comentario Profesor"
-                               align="start" id="c17">
+                    <af:column sortable="true" sortProperty="comentario_profesor" headerText="Coment Prof"
+                               align="center" id="c17" width="40">
                         <af:panelGroupLayout id="pgl1">
                             <af:image source="/recursos/img/usuarios/msj.png" id="i1" rendered="#{row.notificacionEvaluadorComentarioProfesor == '1'}"/>
-                            <af:button text="Comentario" id="btnCmtDoce" actionListener="#{bConsultarEvaluacion.comentarEvaluacion}">
+                            <af:button id="btnCmtDoce" actionListener="#{bConsultarEvaluacion.comentarEvaluacion}"
+                                       rendered="#{row.comentarioProfesor != null}" icon="/recursos/img/usuarios/comment.png">
                                 <f:setPropertyActionListener value="#{row}"
                                                              target="#{sessionConsultarEvaluacion.evaSelect}"/>
                             </af:button>
@@ -183,12 +188,12 @@
                         <af:outputText value="#{row.comentario_profesor}" id="ot17"
                                        rendered="#{row.comentario_profesor != null ? true : false}"/>-->
                     </af:column>
-                    <af:column sortable="true" sortProperty="estadoEvaluacion" headerText="Estado Evaluacion"
-                               align="start" id="c10"
+                    <af:column sortable="true" sortProperty="estadoEvaluacion" headerText="Estado"
+                               align="start" id="c10" width="80"
                                inlineStyle="#{row.estadoEvaluacion == 'EJECUTADO' ? 'background-color:Green;' : 'background-color:Red;'} color:White; font-weight:bold;text-align:center;">
                         <af:outputText value="#{row.estadoEvaluacion}" id="ot10"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="resultado" headerText="Resultado" align="center"
+                    <af:column sortable="true" sortProperty="resultado" headerText="Resultado" align="center" width="70"
                                inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;"
                                id="c11">
                         <af:outputText value="#{row.resultado == 0 ? '-' : row.resultado}" id="ot11">
@@ -205,9 +210,9 @@
                                                            method="#{bConsultarEvaluacion.exportData}"/>
                         </af:button>
                     </af:column>
-                </af:table>
+                </af:table>   
             </af:panelCollection>
-            
+                
              <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCom"
                   binding="#{bConsultarEvaluacion.popCom}">
             <af:dialog id="diagCmtProf" title="Comentario Profesor"
@@ -218,10 +223,10 @@
                                   labelStyle="text-align: left;">
                         <af:convertDateTime pattern="dd/MM/yyyy"/>
                     </af:inputText>
-                    <af:inputText label="Evaluador" id="it2" disabled="true"
-                                  value="#{sessionConsultarEvaluacion.evaSelect == null ? null : sessionConsultarEvaluacion.evaSelect.nombreEvaluador}"
+                    <af:inputText label="Profesor" id="it2" disabled="true"
+                                  value="#{sessionConsultarEvaluacion.evaSelect == null ? null : sessionConsultarEvaluacion.evaSelect.nombreCompletoProfesor}"
                                   labelStyle="text-align: left;"/>
-                    <af:inputText label="Comentario" id="it4" maximumLength="1000" rows="5" labelStyle="text-align: left;"
+                    <af:inputText label="Comentario" id="it4" maximumLength="1000" rows="15" labelStyle="text-align: left;"
                                   value="#{bConsultarEvaluacion.comentarioProf}" columns="90" disabled="#{sessionConsultarEvaluacion.columnProfesor == true}"/>
                 </af:panelFormLayout>
             </af:dialog>
@@ -231,7 +236,7 @@
             <af:dialog id="diagCmtEva" title="Comentario del Evaluador"
                        dialogListener="#{bConsultarEvaluacion.confirmarEnvioMensajeEvaluador}">
                 <af:panelFormLayout>
-                    <af:inputText label="Comentario" id="itCmtEva" maximumLength="1000" rows="5" labelStyle="text-align: left;"
+                    <af:inputText label="Comentario" id="itCmtEva" maximumLength="1000" rows="15" labelStyle="text-align: left;"
                                   value="#{bConsultarEvaluacion.comentarioEvaluador}" disabled="#{sessionConsultarEvaluacion.columnProfesor == false}"
                                   columns="90"/>
                 </af:panelFormLayout>

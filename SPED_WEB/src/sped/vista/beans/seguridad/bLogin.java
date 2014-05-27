@@ -62,7 +62,6 @@ public class bLogin implements Serializable {
         if(beanUsuario != null){
             logoutTarget(LOGIN);
         }
-        Locale.setDefault(contx.getViewRoot().getLocale());
     }
 
     public void autenticarUsuario(ActionEvent actionEvent) {
