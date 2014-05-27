@@ -146,9 +146,11 @@
                     </af:panelFormLayout>
                 </af:noteWindow>
             </af:popup>
-            <audio controls="controls" xmlns="http://www.w3.org/1999/xhtml" id="audio" hidden="hidden">
-                <source src="../recursos/sound/buho.mp3" type="audio/mp3"/>
-            </audio>
+            <div id ="_div2" style="display:none">
+                <audio controls="controls" xmlns="http://www.w3.org/1999/xhtml" id="audio" hidden="hidden">
+                    <source src="../recursos/sound/buho.mp3" type="audio/mp3"/>
+                </audio>
+            </div>
             <!-- <a href="javascript: void(0);" onclick="hola();">Click</a>-->
             <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
                      rendered="#{sessionScope.sessionMain.verNotificaciones}"/>
