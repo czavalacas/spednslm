@@ -225,7 +225,7 @@
                             </f:facet>
                             <f:facet name="statusbar"/>
                             <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row" rowBandingInterval="0"
-                                      id="tEva" width="600" fetchSize="25" columnStretching="column:c1" varStatus="vs"
+                                      id="tEva" width="inherit;" fetchSize="25" columnStretching="column:c1" varStatus="vs"
                                       rowSelection="single">
                                 <af:column width="18" frozen="true">
                                     <af:outputText value="#{vs.index + 1}"/>
@@ -247,28 +247,28 @@
                                     <af:outputText value="#{row.usuario.areaAcademica.descripcionAreaAcademica}"
                                                    id="ot26"/>
                                 </af:column>
-                                <af:column sortable="true" headerText="Ejecutados" align="start" id="c2"
-                                           sortProperty="cantEjecutado">
+                                <af:column sortable="true" headerText="Ejecutados" align="center" id="c2"
+                                           sortProperty="cantEjecutado" width="55">
                                     <af:outputText value="#{row.cantEjecutado}" id="ot2"/>
                                 </af:column>
-                                <af:column sortable="true" headerText="Pendientes" align="start" id="c3"
-                                           sortProperty="cantPendiente">
+                                <af:column sortable="true" headerText="Pendientes" align="center" id="c3"
+                                           sortProperty="cantPendiente" width="55">
                                     <af:outputText value="#{row.cantPendiente}" id="ot3"/>
                                 </af:column>
-                                <af:column sortable="true" headerText="No Ejecutados" align="start" id="c4"
-                                           sortProperty="cantNoEjecutado">
+                                <af:column sortable="true" headerText="No Ejecutados" align="center" id="c4"
+                                           sortProperty="cantNoEjecutado" width="55">
                                     <af:outputText value="#{row.cantNoEjecutado}" id="ot4"/>
                                 </af:column>
-                                <af:column sortable="true" headerText="Justificados" align="start" id="c5"
-                                           sortProperty="cantJustificado">
+                                <af:column sortable="true" headerText="Justificados" align="center" id="c5"
+                                           sortProperty="cantJustificado" width="55">
                                     <af:outputText value="#{row.cantJustificado}" id="ot5"/>
                                 </af:column>
-                                <af:column sortable="true" headerText="Por Justificar" align="start" id="c18"
-                                           sortProperty="#cantJustificado">
+                                <af:column sortable="true" headerText="Por Justificar" align="center" id="c18"
+                                           sortProperty="#cantJustificado" width="55">
                                     <af:outputText value="#{row.cantPorJustificar}" id="ot19"/>
                                 </af:column>
-                                <af:column sortable="true" headerText="Injustificado" align="start" id="c27"
-                                           sortProperty="cantInjustificado">
+                                <af:column sortable="true" headerText="Injustificado" align="center" id="c27"
+                                           sortProperty="cantInjustificado" width="60">
                                     <af:outputText value="#{row.cantInjustificado}" id="ot27"/>
                                 </af:column>
                                 <af:column sortable="true" headerText="Desempeño( 0 - 100% )" align="center" id="c23"
