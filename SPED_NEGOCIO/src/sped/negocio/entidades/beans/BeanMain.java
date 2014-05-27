@@ -30,6 +30,7 @@ public class BeanMain implements Serializable {
     private int nidAula;
     private int nidCurso;
     private int nroHoras;
+    private int nroHoras_aux;
     private String nombreProfesor;
     private String nombreCurso;
     private String nombreArea;
@@ -199,5 +200,13 @@ public class BeanMain implements Serializable {
 
     public String getNombreAula() {
         return nombreAula;
+    }
+
+    public void setNroHoras_aux(int nroHoras_aux) {
+        this.nroHoras_aux = nroHoras_aux;
+    }
+
+    public int getNroHoras_aux() {
+        return nroHoras_aux;
     }
 }

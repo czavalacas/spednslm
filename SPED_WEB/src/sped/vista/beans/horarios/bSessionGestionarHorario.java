@@ -41,8 +41,10 @@ public class bSessionGestionarHorario implements Serializable {
     private Time horas_fin[];
     private List<BeanMain> lstBeanMain;
     private String dias[];
-    List<BeanHorario> lstHorario;
-    List<BeanDia> lstDia;
+    private List<BeanHorario> lstHorario;
+    private List<BeanDia> lstDia;
+    private List<Integer> horasRandom;
+    private List<String> duracion;
     BeanMain horario[][];    
     private int nroBloque;
     private int maxBloque;
@@ -90,8 +92,15 @@ public class bSessionGestionarHorario implements Serializable {
         selecNombreCurso = horario[nLeccion][nDia].getNombreCurso();    
     }
     
+    public void llenarDuracionHoras(){
+        duracion = new ArrayList();
+        for(int i = 0; i < horas.length; i++){
+            duracion.add(formatter.format(horas[i]) + " - " + formatter.format(horas_fin[i]));
+        }
+    }
+    
     public String duracion(int nLeccion){
-        return formatter.format(horas[nLeccion]) + " - " + formatter.format(horas_fin[nLeccion]);
+        return duracion.get(nLeccion);
     }
     
     public String nomCurso(int nLeccion, int nDia){
@@ -560,5 +569,21 @@ public class bSessionGestionarHorario implements Serializable {
 
     public boolean isRenderAgregar_aux() {
         return renderAgregar_aux;
+    }
+
+    public void setHorasRandom(List<Integer> horasRandom) {
+        this.horasRandom = horasRandom;
+    }
+
+    public List<Integer> getHorasRandom() {
+        return horasRandom;
+    }
+
+    public void setDuracion(List<String> duracion) {
+        this.duracion = duracion;
+    }
+
+    public List<String> getDuracion() {
+        return duracion;
     }
 }

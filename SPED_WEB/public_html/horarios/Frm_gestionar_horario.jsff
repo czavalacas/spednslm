@@ -178,7 +178,7 @@
                         <af:outputText value="#{row.nroHoras}" id="ot5"/>
                     </af:column>
                     <af:column sortable="false" headerText="Eliminar" align="center" id="c6">
-                        <af:button text="button 1" id="b4" action="#{bGestionarHorario.eliminarLeccion}">
+                        <af:button icon="../recursos/img/usuarios/cancel.png" id="b4" action="#{bGestionarHorario.eliminarLeccion}">
                             <f:setPropertyActionListener value="#{row}" target="#{bGestionarHorario.beanMain}"/>
                         </af:button>
                     </af:column>

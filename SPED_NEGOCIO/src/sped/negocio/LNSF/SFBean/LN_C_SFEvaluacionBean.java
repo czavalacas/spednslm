@@ -443,13 +443,13 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                     bean.setCantNoEjecutado(Integer.parseInt(""+datos[2]));
                     bean.setCantJustificado(Integer.parseInt(""+datos[3]));
                     bean.setCantPorJustificar(Integer.parseInt(""+datos[4]));
-                    bean.setCantInjustificado(Integer.parseInt(""+datos[5]));
-                    desempenoEvaluador(bean);
+                    bean.setCantInjustificado(Integer.parseInt(""+datos[5]));                    
                     //// 4 en adelante sera modficado
                     if(tipoBusqueda == 1){                        
                         BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[6], BeanUsuario.class);
                         bean.setNombreEvaluador(usu.getNombres());
                         bean.setUsuario(usu);
+                        desempenoEvaluador(bean);
                     }
                     if(tipoBusqueda == 3){
                         bean.setEndDate((Date)datos[6]);
@@ -476,7 +476,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     public void desempenoEvaluador(BeanEvaluacionPlani eva){
         double porcentaje = 0;
         double cant = eva.getCantEjecutado() + 
-                      eva.getCantNoEjecutado() + eva.getCantJustificado();
+                      eva.getCantNoEjecutado() + eva.getCantInjustificado();
         if(cant != 0){
             porcentaje = eva.getCantEjecutado()/cant;
         }
