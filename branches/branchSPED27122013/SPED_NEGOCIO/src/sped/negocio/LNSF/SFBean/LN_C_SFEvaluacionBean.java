@@ -502,15 +502,15 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
 
     public BeanEvaluacionPlani getEvaluacionById_LN(String nidDate) {
         Evaluacion entida = bdL_C_SFEvaluacionLocal.getEvaluacionById(nidDate);
-        BeanEvaluacionPlani bean=trasnformEvaNoMapper(entida);
+        BeanEvaluacionPlani bean = trasnformEvaNoMapper(entida);
         bean.setTipoVisita(entida.getTipoVisita());
         bean.setComentarioEvaluador(entida.getComentario_evaluador());
         bean.setComentarioProfesor(entida.getComentario_profesor());
         bean.setDescProblema(entida.getComentarioEvaluador());
         bean.setEstadoEvaluacion(entida.getEstadoEvaluacion());
         bean.setFlgJustificar(entida.getFlgJustificar());  
-        if(entida.getNidProblema()!=null){
-        bean.setNidProblema(entida.getNidProblema());      
+        if(entida.getNidProblema() != null){
+            bean.setNidProblema(entida.getNidProblema());      
         }
         bean.setFlgAnular(entida.getFlgAnular());
         return bean;
