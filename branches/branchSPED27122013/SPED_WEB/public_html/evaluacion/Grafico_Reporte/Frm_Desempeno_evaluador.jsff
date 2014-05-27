@@ -225,7 +225,11 @@
                             </f:facet>
                             <f:facet name="statusbar"/>
                             <af:table value="#{sessionDesempenoEvaluador.lstEvaTable}" var="row" rowBandingInterval="0"
-                                      id="tEva" width="inherit;" fetchSize="50" columnStretching="column:c1">
+                                      id="tEva" width="600" fetchSize="25" columnStretching="column:c1" varStatus="vs"
+                                      rowSelection="single">
+                                <af:column width="18" frozen="true">
+                                    <af:outputText value="#{vs.index + 1}"/>
+                                </af:column>
                                 <af:column sortable="true" headerText="Nombre Evaluador" align="start" id="c1"
                                            sortProperty="nombreEvaluador">
                                     <af:outputText value="#{row.nombreEvaluador}" id="ot1"/>
@@ -308,7 +312,10 @@
                         </af:gridCell>
                     </af:gridRow>
                 </af:panelGridLayout>
-                <af:table value="#{sessionDesempenoEvaluador.lstEvaDetalle}" var="row" rowBandingInterval="0" id="t2" width="600">
+                <af:table value="#{sessionDesempenoEvaluador.lstEvaDetalle}" var="row" rowBandingInterval="0" id="t2"  width="600" varStatus="vs">
+                    <af:column width="18" frozen="true">
+                        <af:outputText value="#{vs.index + 1}"/>
+                    </af:column>
                     <af:column sortable="true" headerText="Fecha Evaluacion" align="center" id="c9"
                                sortProperty="endDate">
                         <af:outputText value="#{row.endDate}" id="ot9">
@@ -351,7 +358,10 @@
                                                        filename="Desempeño_Evaluador.xls" title="Desempeño"/>
                 </af:button>
                 <af:table value="#{sessionDesempenoEvaluador.lstEvaDetallePie}" var="row" rowBandingInterval="0"
-                          id="tDetal" width="600">
+                          id="tDetal" width="600" varStatus="vs">
+                    <af:column width="18" frozen="true">
+                        <af:outputText value="#{vs.index + 1}"/>
+                    </af:column>      
                     <af:column sortable="true" headerText="Fecha Evaluacion" align="center" id="c10"
                                sortProperty="endDate">
                         <af:outputText value="#{row.endDate}" id="ot11">
