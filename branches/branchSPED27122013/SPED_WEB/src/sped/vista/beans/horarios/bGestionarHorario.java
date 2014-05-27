@@ -18,6 +18,8 @@ import java.util.GregorianCalendar;
 
 import java.util.List;
 
+import java.util.Random;
+
 import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
@@ -220,12 +222,10 @@ public class bGestionarHorario {
             if(lstConfHorario.size() != 0){//valida si se validaron todas las restriciones
                 return false;
             }
-            llenarHorasFin(duracion.getDuracion(), h_inicio);            
-            Time algo[] = sessionGestionarHorario.getHoras_fin();
-            for(int i = 0 ; i < h_inicio.length; i++){
-                System.out.println(h_inicio[i]+"    "+algo[i]);
-            }
+            llenarHorasFin(duracion.getDuracion(), h_inicio);
             sessionGestionarHorario.setHoras(h_inicio);
+            sessionGestionarHorario.llenarDuracionHoras();
+            horasRandom(duracion.getMax_bloque(), duracion.getNro_bloque());
             return true;  
         }catch(Exception e){            
             e.printStackTrace();
@@ -272,6 +272,7 @@ public class bGestionarHorario {
         main.setDniProfesor(sessionGestionarHorario.getNidProfesor());
         main.setNidCurso(Integer.parseInt(sessionGestionarHorario.getNidCurso()));
         main.setNroHoras(nroHoras);
+        main.setNroHoras_aux(nroHoras);
         main.setNombreProfesor(sessionGestionarHorario.getNombreProfesor());
         main.setNombreCurso(sessionGestionarHorario.getNombreCurso());
         main.setNombreArea(sessionGestionarHorario.getNombreArea());
@@ -345,7 +346,7 @@ public class bGestionarHorario {
             return;
         }
         if(main.getNroHoras() % maxBloque == 0){
-            encuentraEspacio(horario, main, dias, maxBloque);
+            encuentraEspacio(horario, main, dias, null, maxBloque);
         }else{      
             BeanDia dia = encontrarDiaNoDivisible(main, dias, maxBloque);
             encuentraEspacioImpar(horario, main, dias, main.getNroHoras() % maxBloque, dia);
@@ -391,16 +392,20 @@ public class bGestionarHorario {
         }           
     }
     
-    public void encuentraEspacio(BeanMain horario[][], BeanMain main, List<BeanDia> dias, int maxBloque){
+    public void encuentraEspacio(BeanMain horario[][], BeanMain main, List<BeanDia> dias, List<Integer> horas, int maxBloque){
         try{
-            int hora = (int) Math.round((Math.random()*((sessionGestionarHorario.getNroBloque() / maxBloque) - 1)));
-            if(validarRango(horario, main, (hora * maxBloque), dias.get(0).getNDia(), maxBloque)){
+            if(horas == null){
+                horas = randomHoras();
+            }
+            int hora = horas.get(0);
+            if(validarRango(horario, main, hora, dias.get(0).getNDia(), maxBloque)){
                 main.setNroHoras(main.getNroHoras() - maxBloque);
                 modicarHorasBeanDias(dias.get(0).getNDia(), maxBloque);
                 dias.remove(dias.get(0));
                 ubicaMain(main, horario, dias, maxBloque);
             }else{
-               encuentraEspacio(horario, main, dias, maxBloque);
+                horas.remove(horas.get(0));
+                encuentraEspacio(horario, main, dias, horas, maxBloque);
             } 
         }catch(Exception e){
             e.printStackTrace();
@@ -408,8 +413,8 @@ public class bGestionarHorario {
     }
     
     public boolean validarRango(BeanMain horario[][], BeanMain main,int hora, int dia, int maxBloque){
-        for(int i = hora ; i < hora + maxBloque; i++){            
-            if(horario[i][dia] != null){
+        for(int i = hora ; i < hora + maxBloque; i++){  
+            if(horario[i][dia] != null || !validarCruce(1, dia, i, main.getDniProfesor())){
                 return false;
             }
         }
@@ -523,6 +528,13 @@ public class bGestionarHorario {
         return lst_aux;
     }
     
+    public List<Integer> randomHoras(){
+        List<Integer> horas = new ArrayList<>(sessionGestionarHorario.getHorasRandom());
+        Random rndm = new Random();
+        Collections.shuffle(horas, rndm);
+        return horas;
+    }
+    
     /**
      * Encuentra el metodo que tenga horarios disparejos
      * @param main
@@ -591,6 +603,14 @@ public class bGestionarHorario {
         dias[3] = "Jueves";
         dias[4] = "Viernes";
         sessionGestionarHorario.setDias(dias);
+    }
+    
+    public void horasRandom(int maxBloque, int nroBloque){
+        List<Integer> horas = new ArrayList();
+        for(int i = 0 ; i < nroBloque; i = i + maxBloque ){
+            horas.add(i);
+        }
+        sessionGestionarHorario.setHorasRandom(horas);
     }
     
     //////////////metodo que luego sera pasado a borrar//////////////////////////
