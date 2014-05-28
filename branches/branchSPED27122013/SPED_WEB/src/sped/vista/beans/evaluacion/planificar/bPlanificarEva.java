@@ -175,6 +175,8 @@ public class bPlanificarEva {
     FacesContext ctx = FacesContext.getCurrentInstance();
     private HashMap activityStyles = new HashMap<Set<String>, InstanceStyles>();
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
+    private RichInputText inputHoraFin;
+    private RichInputText inputHoraInicio;
 
     public bPlanificarEva() {
         try {
@@ -301,7 +303,7 @@ public class bPlanificarEva {
             sessionPlanificarEva.setListaProblemas(Utils.llenarCombo(ln_C_SFUtilsRemote.getProblemas_LN_WS()));
             sessionPlanificarEva.setEstadoBoxJustificacion(true);
             sessionPlanificarEva.setEstadoBoxComentarios(false);
-            if (entida.getNidProblema() != 0) {
+            if (   entida.getNidProblema() != 0) {
                 sessionPlanificarEva.setNidProblema("" + entida.getNidProblema());
                 sessionPlanificarEva.setEstadoDisableChoiceProblema(true);
                 sessionPlanificarEva.setEstadoDinputJustificacion(true);
@@ -310,7 +312,11 @@ public class bPlanificarEva {
                 sessionPlanificarEva.setNidProblema(null);
                 sessionPlanificarEva.setEstadoDisableChoiceProblema(false);
                 sessionPlanificarEva.setEstadoDinputJustificacion(false);
-            }
+                }                  
+        }else{
+            sessionPlanificarEva.setEstadoBoxJustificacion(false);
+            sessionPlanificarEva.setEstadoBoxComentarios(true);
+            
         }
        /* if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("NO EJECUTADO")){
             sessionPlanificarEva.setListaProblemas(Utils.llenarCombo(ln_C_SFUtilsRemote.getProblemas_LN_WS()));  
@@ -547,19 +553,21 @@ public class bPlanificarEva {
                 sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(ln_C_SFAulaRemote.getAulaPorSedeNivelYGrado(sessionPlanificarEva.getNidSede(), sessionPlanificarEva.getNidGrado(), sessionPlanificarEva.getNidNivel())));
                 Date fechaCalen2 = calendarEvent.getTriggerDate();
                 Date fechaMinTemporal = (Date) fechaCalen2.clone();
-                Date fechaMxxTemporal = (Date) fechaCalen2.clone();
+           //     Date fechaMxxTemporal = (Date) fechaCalen2.clone();
                 fechaMinTemporal.setHours(0);
                 fechaMinTemporal.setMinutes(0);
                 fechaMinTemporal.setSeconds(0);
-                fechaMxxTemporal.setHours(23);
+          /*      fechaMxxTemporal.setHours(23);
                 fechaMxxTemporal.setMinutes(59);
-                fechaMxxTemporal.setSeconds(59);
+                fechaMxxTemporal.setSeconds(59);*/
                 sessionPlanificarEva.setFechaMinTemporal(fechaMinTemporal);
-                sessionPlanificarEva.setFehcaMaxTemporal(fechaMxxTemporal);
+              //  sessionPlanificarEva.setFehcaMaxTemporal(fechaMxxTemporal);
                 sessionPlanificarEva.setListatipoVisita(Utils.llenarComboString(ln_C_SFUtilsRemote.getTipoVisitaFromConstraint()));
                 sessionPlanificarEva.setValorTipoVisita("OP");
                 sessionPlanificarEva.setFechaYhoraInicialTemporal(fechaMinTemporal);
                 sessionPlanificarEva.setFechaYhoraFinTemporal(fechaMinTemporal);
+                sessionPlanificarEva.setHoraInicio("00:00");
+                sessionPlanificarEva.setHoraFin("00:00");
                 sessionPlanificarEva.setNidAulaTemporal(null);
                 Utils.showPopUpMIDDLE(popupEvento2);
             }
@@ -1172,12 +1180,21 @@ public class bPlanificarEva {
     }
   
     /**Temporal*/ 
-  public String guardarPlanificacion(){//TODO dale un nombre entendible a las variable s, c
-      long s = sessionPlanificarEva.getFechaYhoraInicialTemporal().getTime();
-      long c = sessionPlanificarEva.getFechaYhoraFinTemporal().getTime();      
+  public String guardarPlanificacion(){//TODO dale un nombre entendible a las variable s, c  // NUEVO NOMBRE STARDATE Y ENDDATE
+  if(Time.valueOf(sessionPlanificarEva.getHoraFin()+":00").before(Time.valueOf(sessionPlanificarEva.getHoraInicio()+":00")) ){
+      Utils.mostrarMensaje(ctx,"Hora Fin de Evaluacion no puedo ser antes de la Hora inicio, porfavor ingrese datos correctos","Error",1);
+  }else{  
+      sessionPlanificarEva.getFechaYhoraInicialTemporal().clone();  
+      sessionPlanificarEva.getFechaYhoraInicialTemporal().setHours(Integer.parseInt(sessionPlanificarEva.getHoraInicio().charAt(0)+""+sessionPlanificarEva.getHoraInicio().charAt(1)));
+      sessionPlanificarEva.getFechaYhoraInicialTemporal().setMinutes(Integer.parseInt(sessionPlanificarEva.getHoraInicio().charAt(3)+""+sessionPlanificarEva.getHoraInicio().charAt(4)));
+      long startDate = sessionPlanificarEva.getFechaYhoraInicialTemporal().getTime();
+      sessionPlanificarEva.getFechaYhoraFinTemporal().clone();
+      sessionPlanificarEva.getFechaYhoraFinTemporal().setHours(Integer.parseInt(sessionPlanificarEva.getHoraFin().charAt(0)+""+sessionPlanificarEva.getHoraFin().charAt(1)));
+      sessionPlanificarEva.getFechaYhoraFinTemporal().setMinutes(Integer.parseInt(sessionPlanificarEva.getHoraFin().charAt(3)+""+sessionPlanificarEva.getHoraFin().charAt(4)));
+      long endDate = sessionPlanificarEva.getFechaYhoraFinTemporal().getTime();  
       String nidDat = Utils.generarAlfanumerico();      
-      ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(s, 
-                                                     c,
+      ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(startDate, 
+                                                     endDate,
                                                      sessionPlanificarEva.getNidMainPlanificacion(), 
                                                      Integer.parseInt(getSessionPlanificarEva().getNidUsuario()),
                                                      nidDat, 
@@ -1185,7 +1202,8 @@ public class bPlanificarEva {
                                                      sessionPlanificarEva.getValorTipoVisita());      
       Utils.invokeEL("#{bindings.ExecuteWithParams.execute}");
       Utils.addTarget(calendar);
-      popupEvento2.hide();      
+      popupEvento2.hide();    
+      }  
       return null;
   }
 
@@ -1553,5 +1571,20 @@ public class bPlanificarEva {
     public RichPopup getPopupExisteEvaluacion() {
         return popupExisteEvaluacion;
     }
-   
+
+    public void setInputHoraFin(RichInputText inputHoraFin) {
+        this.inputHoraFin = inputHoraFin;
+    }
+
+    public RichInputText getInputHoraFin() {
+        return inputHoraFin;
+    }
+
+    public void setInputHoraInicio(RichInputText inputHoraInicio) {
+        this.inputHoraInicio = inputHoraInicio;
+    }
+
+    public RichInputText getInputHoraInicio() {
+        return inputHoraInicio;
+    }
 }
