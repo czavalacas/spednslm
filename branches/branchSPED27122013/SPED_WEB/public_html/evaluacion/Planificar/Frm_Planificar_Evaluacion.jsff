@@ -507,14 +507,34 @@
                                 </af:selectOneChoice>
                             </af:gridCell>
                             <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc41">
-                              <af:inputDate label="Hora Inicio" id="id1"
+                          <!--    <af:inputDate label="Hora Inicio" id="id1"
                                               minValue="#{sessionScope.sessionPlanificarEva.fechaMinTemporal}"
                                               value="#{sessionScope.sessionPlanificarEva.fechaYhoraInicialTemporal}"
                                               maxValue="#{sessionScope.sessionPlanificarEva.fehcaMaxTemporal}"
                                               binding="#{bPlanificarEva.horaInicioTemporal}" required="true"
                                               showRequired="true">
                                 <af:convertDateTime pattern="dd/MM/yyy HH:mm:ss a"/>
-                                </af:inputDate>
+                                </af:inputDate>-->
+                             <af:panelGroupLayout  layout="horizontal">
+                                  <af:inputText label="Hora Inicio" id="time" contentStyle="width:30px;" maximumLength="5"
+                                         value="#{sessionScope.sessionPlanificarEva.horaInicio}" 
+                                         disabled="false"
+                                          binding="#{bPlanificarEva.inputHoraInicio}">
+                                       
+                                <af:validateRegExp pattern="(0[7-9]|1[0-9]):[0-5][0-9]"
+                                                   messageDetailNoMatch="Hora minima 07:00 AM - Hora Maxima 19:00 PM"
+                                                   hint="Time Format: HH:MM"/>
+                            </af:inputText>
+                              <af:spacer width="20" height="5"/>
+                                <af:inputText label="Hora Fin" id="time2" contentStyle="width:30px;" maximumLength="5"
+                                          value="#{sessionScope.sessionPlanificarEva.horaFin}"
+                                          disabled="false"
+                                          binding="#{bPlanificarEva.inputHoraFin}">
+                                <af:validateRegExp pattern="(0[7-9]|1[0-9]):[0-5][0-9]"
+                                                   messageDetailNoMatch="Hora minima 07:00 AM - Hora Maxima 19:00 PM"
+                                                   hint="Time Format: HH:MM"/>
+                            </af:inputText>
+                            </af:panelGroupLayout>
                             </af:gridCell>
                         </af:gridRow>
                          <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr34">
@@ -538,14 +558,15 @@
                                     </af:selectOneChoice>
                             </af:gridCell>
                             <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc51">                            
-                            <af:inputDate label="Hora Fin" id="id2"
+                        <!--    <af:inputDate label="Hora Fin" id="id2"
                                               minValue="#{sessionScope.sessionPlanificarEva.fechaMinTemporal}"
                                               value="#{sessionScope.sessionPlanificarEva.fechaYhoraFinTemporal}"
                                               maxValue="#{sessionScope.sessionPlanificarEva.fehcaMaxTemporal}"
                                           binding="#{bPlanificarEva.horaFinTemporal}" required="true"
                                           showRequired="true">
                                 <af:convertDateTime pattern="dd/MM/yyy HH:mm:ss a"/>
-                                </af:inputDate>
+                                </af:inputDate>-->
+                                  
                             </af:gridCell>
                         </af:gridRow>                     
                     </af:panelGridLayout>
