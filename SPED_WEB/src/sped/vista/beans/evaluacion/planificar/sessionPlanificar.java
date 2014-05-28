@@ -122,7 +122,9 @@ public class sessionPlanificar {
     private int nidMainPlanificacion;
     private List<BeanEvaluacion> listaPlanificacionesExistentes=new ArrayList<BeanEvaluacion>();
     private int isSupervisor=0;
-
+    private String horaInicio;
+    private String horaFin;
+    
     public void setListaHorarios(List<BeanMain> listaHorarios) {
         this.listaHorarios = listaHorarios;
     }
@@ -905,5 +907,21 @@ public class sessionPlanificar {
 
     public int getIsSupervisor() {
         return isSupervisor;
+    }
+
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public String getHoraInicio() {
+        return horaInicio;
+    }
+
+    public void setHoraFin(String horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public String getHoraFin() {
+        return horaFin;
     }
 }
