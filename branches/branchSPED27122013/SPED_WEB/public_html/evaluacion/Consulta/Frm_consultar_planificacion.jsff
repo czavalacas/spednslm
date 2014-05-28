@@ -146,7 +146,7 @@
                         <af:outputText value="#{row.descSede}" id="ot9"/>
                     </af:column>
                     <af:column headerText="Problema" align="center" id="c15" width="50">
-                        <af:button id="btnProb" icon="/recursos/img/usuarios/prob.png" rendered="#{row.estadoEvaluacion == 'POR JUSTIFICAR' || row.estadoEvaluacion == 'JUSTIFICADO'}"
+                        <af:button id="btnProb" icon="/recursos/img/usuarios/prob.png" 
                                    actionListener="#{bConsultaPlanificacion.abrirPopUpProblema}">
                             <f:setPropertyActionListener value="#{row.nidEvaluacion}"
                                                          target="#{sessionConsultarPlanificacion.nidEvaluacion}"/>
