@@ -20,7 +20,6 @@ public class BeanMain implements Serializable {
     private Time horaFin;
     private Time horaInicio;
     private int nidMain;
-    private List<BeanEvaluacion> evaluacionLista;
     private BeanAula aula;
     private BeanCurso curso;
     private BeanProfesor profesor;
@@ -31,6 +30,7 @@ public class BeanMain implements Serializable {
     private int nidCurso;
     private int nroHoras;
     private int nroHoras_aux;
+    private int nroHorasReal;
     private String nombreProfesor;
     private String nombreCurso;
     private String nombreArea;
@@ -208,5 +208,13 @@ public class BeanMain implements Serializable {
 
     public int getNroHoras_aux() {
         return nroHoras_aux;
+    }
+
+    public void setNroHorasReal(int nroHorasReal) {
+        this.nroHorasReal = nroHorasReal;
+    }
+
+    public int getNroHorasReal() {
+        return nroHorasReal;
     }
 }
