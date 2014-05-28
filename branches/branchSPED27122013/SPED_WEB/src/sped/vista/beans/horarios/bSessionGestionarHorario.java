@@ -36,6 +36,7 @@ public class bSessionGestionarHorario implements Serializable {
     private List lstAula;
     private List lstProfesor;
     private List lstCurso;
+    private List lstCurso_aux;
     private List lstArea;
     private Time horas[];
     private Time horas_fin[];
@@ -585,5 +586,13 @@ public class bSessionGestionarHorario implements Serializable {
 
     public List<String> getDuracion() {
         return duracion;
+    }
+
+    public void setLstCurso_aux(List lstCurso_aux) {
+        this.lstCurso_aux = lstCurso_aux;
+    }
+
+    public List getLstCurso_aux() {
+        return lstCurso_aux;
     }
 }
