@@ -68,7 +68,7 @@
                                                 binding="#{bGestionarHorario.choiceC2}" autoSubmit="true"
                                                 rendered="#{sessionGestionarHorario.renderCurso_aux}" required="true"
                                                 valueChangeListener="#{bGestionarHorario.changeListenerCurso_aux}">
-                                <f:selectItems value="#{sessionGestionarHorario.lstCurso}" id="si10"/>
+                                <f:selectItems value="#{sessionGestionarHorario.lstCurso_aux}" id="si10"/>
                             </af:selectOneChoice>
                             <af:button text="Guardar" id="b5" action="#{bGestionarHorario.guardarHorarioManual}"/>
                         </af:panelFormLayout>
@@ -151,7 +151,7 @@
                         </af:selectOneChoice>
                         <af:selectOneChoice label="Curso" value="#{sessionGestionarHorario.nidCurso}" id="choiceCurso"
                                             binding="#{bGestionarHorario.choiceCurso}" autoSubmit="true" required="true"
-                                            rendered="false" labelStyle="text-align: left;"
+                                            rendered="#{sessionGestionarHorario.renderCurso}" labelStyle="text-align: left;"
                                             valueChangeListener="#{bGestionarHorario.changeListenerCurso}">
                             <f:selectItems value="#{sessionGestionarHorario.lstCurso}" id="si5"
                                            binding="#{bGestionarHorario.si5}"/>
@@ -181,6 +181,10 @@
                         <af:button icon="../recursos/img/usuarios/cancel.png" id="b4" action="#{bGestionarHorario.eliminarLeccion}">
                             <f:setPropertyActionListener value="#{row}" target="#{bGestionarHorario.beanMain}"/>
                         </af:button>
+                    </af:column>
+                    <af:column sortable="false" headerText="Ingresado" align="center" rendered="false"
+                               binding="#{bGestionarHorario.res}">
+                        <af:outputText value="#{row.nroHoras_aux} / #{row.nroHorasReal}"/>
                     </af:column>
                 </af:table>
                 <af:button text="Generar Horarios" id="b3" actionListener="#{bGestionarHorario.generarHorario}"/>
