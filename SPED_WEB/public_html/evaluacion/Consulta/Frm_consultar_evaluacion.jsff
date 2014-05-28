@@ -161,7 +161,7 @@
                     </af:column>
                     <af:column sortable="true" sortProperty="comentario_evaluador" headerText="Coment Eval"
                                align="center" id="c16" width="40">
-                        <af:button icon="/recursos/img/usuarios/comment.png" id="btnCmtEva" rendered="#{row.comentarioEvaluador != null}"
+                        <af:button icon="/recursos/img/usuarios/comment.png" id="btnCmtEva" 
                                    actionListener="#{bConsultarEvaluacion.comentarEvaluacionByEvaluador}">
                             <f:setPropertyActionListener value="#{row}"
                                                          target="#{sessionConsultarEvaluacion.evaSelect}"/>
@@ -173,7 +173,7 @@
                         <af:panelGroupLayout id="pgl1">
                             <af:image source="/recursos/img/usuarios/msj.png" id="i1" rendered="#{row.notificacionEvaluadorComentarioProfesor == '1'}"/>
                             <af:button id="btnCmtDoce" actionListener="#{bConsultarEvaluacion.comentarEvaluacion}"
-                                       rendered="#{row.comentarioProfesor != null}" icon="/recursos/img/usuarios/comment.png">
+                                       icon="/recursos/img/usuarios/comment.png">
                                 <f:setPropertyActionListener value="#{row}"
                                                              target="#{sessionConsultarEvaluacion.evaSelect}"/>
                             </af:button>
