@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 
 import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
 import sped.negocio.BDL.IR.BDL_C_SFCursoRemoto;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Profesor;
@@ -145,7 +146,7 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
                               " and au.gradoNivel.nivel.nidNivel=" +nidNivel+
                               " and au.sede.nidSede=" +nidSede+
                               " and ma.curso.nidCurso=cur.nidCurso" +
-                              " and prof.dniProfesor="+dniProfesor;
+                              " and prof.dniProfesor= :dniProfesor";
 
             if (nidAreaAcademica != null) {
                 if (nidAreaAcademica != 0) {
@@ -155,8 +156,9 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
                         ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);    
                     }                               
                 }
-            }            
-            List<Curso> lstMain = em.createQuery(ejbQl).getResultList();
+            }      
+            List<Curso> lstMain = em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor)
+                                                       .getResultList();          
             return lstMain;
 
         } catch (Exception e) {
