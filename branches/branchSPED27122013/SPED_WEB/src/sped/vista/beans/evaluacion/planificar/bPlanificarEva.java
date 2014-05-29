@@ -359,14 +359,14 @@ public class bPlanificarEva {
         if(sessionPlanificarEva.isEstadoDisableChoiceProblema() == false && 
            sessionPlanificarEva.isEstadoDinputJustificacion() == false && 
            sessionPlanificarEva.isEstadoBtnSaveJustificaEvalu() ){
-            if(sessionPlanificarEva.getNidProblema() == null || sessionPlanificarEva.getComentarioEvaluador() == null){
-                this.setMsjErrorJustif("Seleccione el problema y su descripción");
+            if(sessionPlanificarEva.getNidProblema() == null || sessionPlanificarEva.getJustificacionProfesor() == null){
+                this.setMsjErrorJustif("Seleccione el problema y su descripcion");
                 this.errJustif.setValue(this.getMsjErrorJustif());
                 Utils.addTarget(errJustif);
                 return null;
             }else{
-                if("0".equals(sessionPlanificarEva.getNidProblema()) || sessionPlanificarEva.getComentarioEvaluador().isEmpty() ){
-                    this.setMsjErrorJustif("Seleccione el problema y su descripción");
+                if("0".equals(sessionPlanificarEva.getNidProblema()) || sessionPlanificarEva.getJustificacionProfesor().isEmpty() ){
+                    this.setMsjErrorJustif("Seleccione el problema y su descripcion");
                     this.errJustif.setValue(this.getMsjErrorJustif());
                     Utils.addTarget(errJustif);
                     return null;
