@@ -39,6 +39,7 @@ import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.nav.RichCommandButton;
+import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.event.CalendarActivityEvent;
 import oracle.adf.view.rich.event.CalendarEvent;
 import oracle.adf.view.rich.model.CalendarActivity;
@@ -145,6 +146,9 @@ public class bPlanificarEva {
     private HtmlOutputText outDatosEva2;
     private RichPanelGroupLayout pl1;
     private RichPopup popupExisteEvaluacion;
+    private RichActiveOutputText errJustif;
+    private RichInputText inputHoraFin;
+    private RichInputText inputHoraInicio;
     @EJB
     private LN_C_SFMainRemote ln_C_SFMainRemote;
     @EJB
@@ -175,8 +179,7 @@ public class bPlanificarEva {
     FacesContext ctx = FacesContext.getCurrentInstance();
     private HashMap activityStyles = new HashMap<Set<String>, InstanceStyles>();
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
-    private RichInputText inputHoraFin;
-    private RichInputText inputHoraInicio;
+    private String msjErrorJustif;//dfloresgonz 29.05.2014
 
     public bPlanificarEva() {
         try {
@@ -337,6 +340,12 @@ public class bPlanificarEva {
             sessionPlanificarEva.setEstadoBoxJustificacion(false);
             sessionPlanificarEva.setEstadoBoxComentarios(false);
         }
+        //dfloresgonz 29.05.2014
+        this.setMsjErrorJustif(null);
+        if(errJustif != null){
+            this.errJustif.setValue(null);
+            Utils.addTarget(errJustif); 
+        }//dfloresgonz 29.05.2014 FIN
         Utils.showPopUpMIDDLE(popupDetalleEva);
     }
     
@@ -346,7 +355,24 @@ public class bPlanificarEva {
         Utils.addTargetMany(inputDescripcionOtros,btnSaveJustificacion);
     }
     
-    public String guardarJustificacion() {
+    public String guardarJustificacion() {//dfloresgonz 29.05.2014
+        if(sessionPlanificarEva.isEstadoDisableChoiceProblema() == false && 
+           sessionPlanificarEva.isEstadoDinputJustificacion() == false && 
+           sessionPlanificarEva.isEstadoBtnSaveJustificaEvalu() ){
+            if(sessionPlanificarEva.getNidProblema() == null || sessionPlanificarEva.getComentarioEvaluador() == null){
+                this.setMsjErrorJustif("Seleccione el problema y su descripción");
+                this.errJustif.setValue(this.getMsjErrorJustif());
+                Utils.addTarget(errJustif);
+                return null;
+            }else{
+                if("0".equals(sessionPlanificarEva.getNidProblema()) || sessionPlanificarEva.getComentarioEvaluador().isEmpty() ){
+                    this.setMsjErrorJustif("Seleccione el problema y su descripción");
+                    this.errJustif.setValue(this.getMsjErrorJustif());
+                    Utils.addTarget(errJustif);
+                    return null;
+                }
+            }
+        }//dfloresgonz 29.05.2014 FIN
         ln_T_SFEvaluacionRemote.grabarComentariosYJustificacionesDeEvaluacion(sessionPlanificarEva.getCalendaryActivityID(), 
                                                                               sessionPlanificarEva.getComentarioEvaluador(),
                                                                               sessionPlanificarEva.getJustificacionProfesor(),//Problema que se presento
@@ -1220,7 +1246,15 @@ public class bPlanificarEva {
         sessionPlanificarEva.setEstadoChoiceTemporalDocente(false);
         Utils.addTarget(choiceProfesores);
     }
-    
+
+    public void setMsjErrorJustif(String msjErrorJustif) {
+        this.msjErrorJustif = msjErrorJustif;
+    }
+
+    public String getMsjErrorJustif() {
+        return msjErrorJustif;
+    }
+
     public void cancelarPlanificacion(ActionEvent actionEvent) {
         popupExisteEvaluacion.hide();
     }
@@ -1570,6 +1604,14 @@ public class bPlanificarEva {
 
     public RichPopup getPopupExisteEvaluacion() {
         return popupExisteEvaluacion;
+    }
+
+    public void setErrJustif(RichActiveOutputText errJustif) {
+        this.errJustif = errJustif;
+    }
+
+    public RichActiveOutputText getErrJustif() {
+        return errJustif;
     }
 
     public void setInputHoraFin(RichInputText inputHoraFin) {

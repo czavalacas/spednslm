@@ -62,7 +62,6 @@
                                                                  <input type="text" name="enter" id="list2" value=""
                                                                    hidden="hidden"/>    
                                                              </div>
-                                                              
                                                             <af:activeOutputText id="otError"
                                                                                  value="#{requestScope.bLogin.msjError}"
                                                                                  inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
