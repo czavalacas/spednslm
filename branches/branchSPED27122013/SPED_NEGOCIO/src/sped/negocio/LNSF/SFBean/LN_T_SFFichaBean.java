@@ -1,30 +1,20 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import javax.ejb.TransactionAttribute;
-
 import javax.ejb.TransactionAttributeType;
-
 import javax.persistence.EntityManager;
-
 import javax.persistence.PersistenceContext;
-
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
-
-import sped.negocio.BDL.IL.BDL_C_SFCriterioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFFichaCriterioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFFichaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFFichaValorLocal;
@@ -32,13 +22,10 @@ import sped.negocio.BDL.IL.BDL_C_SFValorLocal;
 import sped.negocio.BDL.IL.BDL_T_SFFichaCriterioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFFichaLocal;
 import sped.negocio.BDL.IL.BDL_T_SFFichaValorLocal;
-import sped.negocio.BDL.IL.BDL_T_SFLeyendaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFFichaLocal;
 import sped.negocio.LNSF.IR.LN_T_SFFichaRemote;
-import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCriterio;
-import sped.negocio.entidades.beans.BeanCriterioIndicador;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.beans.BeanLeyenda;
@@ -66,8 +53,6 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
     private LN_C_SFErrorLocal ln_C_SFErrorLocal;
     @EJB
     private BDL_C_SFFichaLocal bdL_C_SFFichaLocal;
-    @EJB
-    private BDL_T_SFLeyendaLocal bdL_T_SFLeyendaLocal;
     @EJB
     private BDL_T_SFFichaValorLocal bdL_T_SFFichaValorLocal;
     @EJB

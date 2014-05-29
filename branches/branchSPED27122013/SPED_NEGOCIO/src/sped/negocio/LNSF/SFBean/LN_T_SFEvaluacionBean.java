@@ -1,28 +1,15 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.sql.Timestamp;
-
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-
-import javax.persistence.EntityManager;
-
-import javax.persistence.PersistenceContext;
-
 import sped.negocio.BDL.IL.BDL_C_SFCriterioIndicadorLocal;
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
@@ -38,7 +25,6 @@ import sped.negocio.LNSF.IR.LN_T_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.beans.BeanCriterio;
-import sped.negocio.entidades.beans.BeanCriterioIndicador;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanIndicadorValorWS;
 import sped.negocio.entidades.eval.CriterioIndicador;

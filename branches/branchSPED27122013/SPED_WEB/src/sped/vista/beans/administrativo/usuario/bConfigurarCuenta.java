@@ -3,43 +3,40 @@ package sped.vista.beans.administrativo.usuario;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-
 import java.io.OutputStream;
-
 import java.util.GregorianCalendar;
-
 import javax.annotation.PostConstruct;
-
 import javax.ejb.EJB;
-
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-
 import javax.faces.event.ValueChangeEvent;
-
 import javax.imageio.ImageIO;
-
 import javax.servlet.ServletContext;
-
 import oracle.adf.view.rich.component.rich.input.RichInputFile;
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
-
 import oracle.adf.view.rich.component.rich.output.RichImage;
-
 import org.apache.myfaces.trinidad.model.UploadedFile;
-
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanUsuario;
-
 import sped.vista.Utils.Utils;
 
-public class bConfigurarCuenta {
+public class bConfigurarCuenta {  
+    private RichPanelFormLayout pclave;
+    private RichImage image;
+    private RichInputFile fileImg;
+    private RichPanelFormLayout pimag;
+    private RichPanelFormLayout pcoreo;
+    private String correo;
+    private String correoNew;
+    private String claveActual;
+    private String claveNew;
+    private String claveConf;
+    private static final String CLASE = "sped.vista.beans.administrativo.usuario.bConfigurarCuenta";
     private bSessionConfigurarCuenta sessionConfigurarCuenta;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     FacesContext ctx = FacesContext.getCurrentInstance();
@@ -49,16 +46,8 @@ public class bConfigurarCuenta {
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     @EJB
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
-    private String correo;
-    private String correoNew;
-    private String claveActual;
-    private String claveNew;
-    private String claveConf;
-    private RichPanelFormLayout pclave;
-    private RichImage image;
-    private RichInputFile fileImg;
-    private RichPanelFormLayout pimag;
-    private RichPanelFormLayout pcoreo;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
 
     public bConfigurarCuenta() {
         correo = beanUsuario.getCorreo();
@@ -98,6 +87,10 @@ public class bConfigurarCuenta {
         return null;
     }
     
+    /**
+     * Metodo para subir la imagen del usuario
+     * @param valueChangeEvent
+     */
     public void uploadFileValueChangeEvent(ValueChangeEvent valueChangeEvent) {
         try{
             UploadedFile file = (UploadedFile)valueChangeEvent.getNewValue();            
@@ -126,6 +119,9 @@ public class bConfigurarCuenta {
             }            
         }catch(Exception e){
             e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
+                                                          "uploadFileValueChangeEvent(ValueChangeEvent valueChangeEvent)", 
+                                                          "Metodo para subir la imagen del usuario", Utils.getStack(e));
         }
     }
     
@@ -137,6 +133,14 @@ public class bConfigurarCuenta {
         Utils.addTarget(pimag);           
     }
     
+    /**
+     * Metodo que modifica el tamaño de la imagen para ocupar menos espacio
+     * @param input
+     * @param output
+     * @param width
+     * @param height
+     * @throws Exception
+     */
     public void resize(InputStream input, OutputStream output, int width, int height) throws Exception {
         BufferedImage src = ImageIO.read(input);
         BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -159,6 +163,10 @@ public class bConfigurarCuenta {
         return null;
     }
     
+    /**
+     * Metodo de confirmacion para modificar el correo del usuario
+     * @return
+     */
     public String cambiarCorreo() {
         if(correo.compareTo(correoNew) != 0){
             if(ln_C_SFUtilsRemote.findCountByProperty(correo, true, true)==0){

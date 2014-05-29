@@ -1,22 +1,11 @@
 package sped.negocio.LNSF.SFBean;
 
-import java.io.File;
-
 import java.text.SimpleDateFormat;
-
 import java.util.Calendar;
-
 import javax.annotation.Resource;
-
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
-import javax.persistence.EntityManager;
-
-import javax.persistence.PersistenceContext;
-
 import javax.activation.FileDataSource;
-
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Multipart;
@@ -26,26 +15,15 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
 import javax.activation.DataHandler;
-
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
-
 import javax.activation.DataSource;
-
 import javax.ejb.EJB;
-
-import javax.faces.context.FacesContext;
-
 import javax.mail.MessagingException;
-
-import javax.servlet.ServletContext;
-
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
-
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEmailRemote;
@@ -312,6 +290,13 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
       return contenido;
     }
     
+    /**
+     * Metodo para añadir imagen desde un directoria al correo
+     * @author angeles
+     * @param cidname
+     * @param pathname
+     * @param multipart
+     */
     public void addCID(String cidname,String pathname, Multipart multipart){
         try{
             DataSource fds = new FileDataSource(pathname);

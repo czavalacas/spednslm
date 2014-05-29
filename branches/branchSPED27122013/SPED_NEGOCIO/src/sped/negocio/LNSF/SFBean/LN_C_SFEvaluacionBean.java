@@ -4,53 +4,35 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import javax.persistence.EntityManager;
-
 import javax.persistence.PersistenceContext;
-
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
-
-import net.sf.dozer.util.mapping.MappingException;
-
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IL.BDL_C_SFLeyendaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFProblemaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFResultadoLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
-import sped.negocio.BDL.IL.BDL_C_SFValorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
-import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFRolLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
-import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Constraint;
-import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Usuario;
-import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
-
 import sped.negocio.entidades.beans.BeanEvaluacion_DP;
 import sped.negocio.entidades.beans.BeanFiltrosGraficos;
-
 import sped.negocio.entidades.beans.BeanIndicadorValorWS;
-
-import sped.negocio.entidades.beans.BeanMain;
-import sped.negocio.entidades.beans.BeanResultado;
-import sped.negocio.entidades.beans.BeanResultadoCriterio;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Evaluacion;
 import sped.negocio.entidades.eval.Resultado;
@@ -67,8 +49,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     private BDL_C_SFEvaluacionLocal bdL_C_SFEvaluacionLocal;
     @EJB
     private BDL_C_SFUsuarioLocal bdL_C_SFUsuarioLocal;
-    @EJB
-    private LN_C_SFResultadoCriterioLocal ln_C_SFResultadoCriterioLocal;
     //dfloresgonz 04.02.2013
     @EJB
     private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
@@ -80,7 +60,10 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     private BDL_C_SFLeyendaLocal bdL_C_SFLeyendaLocal;
     @EJB
     private LN_C_SFRolLocal ln_C_SFRolLocal;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
     private MapperIF mapper = new DozerBeanMapper();
+    private static final String CLASE = "sped.negocio.LNSF.SFBean.LN_C_SFEvaluacionBean";
 
     public LN_C_SFEvaluacionBean() {
     }
@@ -127,6 +110,23 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return lstBean;
     }
     
+    /**
+     * Metodo que devuelve una lista para el CUS: Consultar Evaluacion
+     * @author angeles
+     * @param beanUsuario
+     * @param nidSede
+     * @param nidNivel
+     * @param nidArea
+     * @param nidCurso
+     * @param nidGrado
+     * @param nomProfesor
+     * @param nomEvaluador
+     * @param fechaPlanifiacion
+     * @param fechaPlanifiacionF
+     * @param fechaEvaluacion
+     * @param fachaEvaluacionF
+     * @return
+     */
     public List<BeanEvaluacionPlani> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario, 
                                                            int nidSede, 
                                                            int nidNivel,
@@ -154,10 +154,20 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
             return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getEvaluacionesByUsuarioBDL(beanUsuario, beanEva));
         }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "SEL", CLASE, 
+                                                          "List<BeanEvaluacionPlani> getEvaluacionesByUsuarioLN(...)", 
+                                                          "Error al consultar Evaluacion", 
+                                                          Utiles.getStack(e));
             return new ArrayList<BeanEvaluacionPlani>();
         }
     }
     
+    /**
+     * Metodo para transformar la lista Evaluacion
+     * @author angeles
+     * @param lstEvaluacion
+     * @return
+     */
     public List<BeanEvaluacionPlani> transformLstEvaluacion(List<Evaluacion> lstEvaluacion){
         try{
             List<BeanEvaluacionPlani> lstBean = new ArrayList();
@@ -174,9 +184,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 lstBean.add(beanEva);
             }
             return lstBean;
-        }catch(MappingException me){
-            me.printStackTrace();
-            return new ArrayList<BeanEvaluacionPlani>();
         }catch(Exception e){
             e.printStackTrace();
             return new ArrayList<BeanEvaluacionPlani>();
@@ -184,16 +191,25 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }
     
     public double resultadoBeanEvaluacion(Evaluacion eva){
-        double resu = 0;
-        int tamano = eva.getResultadoCriterioList().size();
-        if(tamano != 0){           
-            double total = 0;
-            for(int i = 0; i < tamano; i++){
-                total = total + eva.getResultadoCriterioList().get(i).getValor();
+        try{
+            double resu = 0;
+            int tamano = eva.getResultadoCriterioList().size();
+            if(tamano != 0){           
+                double total = 0;
+                for(int i = 0; i < tamano; i++){
+                    total = total + eva.getResultadoCriterioList().get(i).getValor();
+                }
+                resu = (total/tamano);
             }
-            resu = (total/tamano);
-        }
-        return resu;
+            return resu;
+        }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "OTR", CLASE, 
+                                                          "resultadoBeanEvaluacion(Evaluacion eva)", 
+                                                          "Error al dividir", 
+                                                          Utiles.getStack(e));
+            e.printStackTrace();
+            return 0;
+        }       
     }
     
     /**
@@ -469,19 +485,31 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             return lstBeanEva;
         } catch(Exception e){
             e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "SEL", CLASE, 
+                                                          "getDesempenoEvaluacionbyFiltroLN(...)", 
+                                                          "Error al consultar Desempeño Evaluacion. TipoBusqueda :"+tipoBusqueda, 
+                                                          Utiles.getStack(e));
             return new ArrayList();
         }        
     }
     
+    /**
+     * Formula del desempeño evaluador
+     * @param eva
+     */
     public void desempenoEvaluador(BeanEvaluacionPlani eva){
-        double porcentaje = 0;
-        double cant = eva.getCantEjecutado() + 
-                      eva.getCantNoEjecutado() + eva.getCantInjustificado();
-        if(cant != 0){
-            porcentaje = eva.getCantEjecutado()/cant;
-        }
-        eva.setPorcentajeDesempeno(porcentaje*100);
-        eva.setColorResultado(colorNota(porcentaje*20));
+        try{            
+            double cant = eva.getCantEjecutado() + 
+                          eva.getCantNoEjecutado() + eva.getCantInjustificado();
+            double porcentaje = cant != 0 ? (eva.getCantEjecutado()/cant) : 0;
+            eva.setPorcentajeDesempeno(porcentaje*100);
+            eva.setColorResultado(colorNota(porcentaje*20));
+        }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "OTR", CLASE, 
+                                                          "desempenoEvaluador(BeanEvaluacionPlani eva)", 
+                                                          "Error tipo numerico", 
+                                                          Utiles.getStack(e));
+        }        
     }
    
     public List<BeanConstraint> getTipoVisitaLN() {
@@ -662,6 +690,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     
     /**
      * mapeo de atributos basicos a mostrar en vista
+     * @author angeles
      * @param eva
      * @return beanEva
      */

@@ -1,33 +1,22 @@
 package sped.negocio.LNSF.SFBean;
 
-import com.rsa.cryptoj.c.u;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import javax.persistence.EntityManager;
-
 import javax.persistence.PersistenceContext;
-
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
-
 import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFCursoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.entidades.admin.Curso;
-import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.beans.BeanCombo;
-import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanCurso;
-import sped.negocio.entidades.beans.BeanMain;
 /** Clase SFBDL SFMainBean.java
  * @author czavalacas
  * @since 30.12.2013
@@ -116,7 +105,6 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
     }
     
     public List<BeanCombo> findCursosByArea(String nidAreaAcademica){
-        System.out.println("entrooo");
             List<Curso> listaCursos=bdl_C_SFCursoLocal.getCursosbyAreas(nidAreaAcademica);
             List<BeanCombo> list=new ArrayList<BeanCombo>();
             Iterator it=listaCursos.iterator();

@@ -1,25 +1,22 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.sql.Time;
-
 import javax.annotation.Resource;
-
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import javax.persistence.EntityManager;
-
 import javax.persistence.PersistenceContext;
-
 import sped.negocio.BDL.IL.BDL_C_SFAulaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
 import sped.negocio.BDL.IL.BDL_C_SFEvaluacionLocal;
 import sped.negocio.BDL.IL.BDL_C_SFMainLocal;
 import sped.negocio.BDL.IL.BDL_C_SFProfesorLocal;
 import sped.negocio.BDL.IL.BDL_T_SFMainLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IL.LN_T_SFMainLocal;
 import sped.negocio.LNSF.IR.LN_T_SFMainRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Main;
 
 @Stateless(name = "LN_T_SFMain", mappedName = "map-LN_T_SFMain")
@@ -41,6 +38,9 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
     private BDL_T_SFMainLocal bdL_T_SFMainLocal;
     @EJB
     private BDL_C_SFEvaluacionLocal bdL_C_SFEvaluacionLocal;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
+    private static final String CLASE = "sped.negocio.LNSF.SFBean.LN_T_SFMainBean";
 
     public LN_T_SFMainBean() {
     }
@@ -85,6 +85,9 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
                 bdL_T_SFMainLocal.mergeMain(main);
             }
         }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "TRA", CLASE, "gestionarMain_LN(...)", 
+                                                          "Error al guardar o actualizar MAIN. Tipo Evento "+tipoEvento, 
+                                                          Utiles.getStack(e));
             e.printStackTrace();
         }        
     }
@@ -104,6 +107,9 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
                 bdL_T_SFMainLocal.removeMain(main);   
             }            
         }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "TRA", CLASE, "eliminarMain_LN(int nidMain)", 
+                                                          "Error al eliminar MAIN. Tipo Evento ", 
+                                                          Utiles.getStack(e));
             e.printStackTrace();
         }
     }
