@@ -109,7 +109,7 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
                               " and au.gradoNivel.nivel.nidNivel=" +nidNivel+
                               " and au.sede.nidSede=" +nidSede+
                               " and ma.curso.nidCurso=cur.nidCurso" +
-                              " and prof.dniProfesor="+dniProfesor+"" +
+                              " and prof.dniProfesor= :dniProfesor" +
                               " and cur.nidCurso="+nidCurso;
 
             if (nidAreaAcademica != null) {
@@ -121,7 +121,8 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
                     }
             }
             }            
-            List<Aula> lstMain = em.createQuery(ejbQl).getResultList();
+            List<Aula> lstMain = em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor)
+                                                      .getResultList();
             return lstMain;
 
         } catch (Exception e) {
