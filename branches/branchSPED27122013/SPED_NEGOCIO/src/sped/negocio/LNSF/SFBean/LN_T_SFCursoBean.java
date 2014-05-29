@@ -1,20 +1,14 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-
 import javax.persistence.EntityManager;
-
 import javax.persistence.PersistenceContext;
-
 import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
 import sped.negocio.BDL.IL.BDL_T_SFCursoLocal;
-import sped.negocio.BDL.IL.BDL_T_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFCursoLocal;
 import sped.negocio.LNSF.IR.LN_T_SFCursoRemoto;
@@ -22,7 +16,6 @@ import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanError;
-import sped.negocio.entidades.eval.Evaluacion;
 
 @Stateless(name = "LN_T_SFCurso", mappedName = "map-LN_T_SFCurso")
 public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto, 
@@ -45,8 +38,7 @@ public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto,
     public String grabarCursosNuevos(List<BeanCurso> listaCursos){
         BeanError beanError = new BeanError();
         String error = "000";
-        try {
-            
+        try {            
             for(int i=0; i<listaCursos.size(); i++){
             Curso cur=new Curso();
             AreaAcademica area=new AreaAcademica();
@@ -77,8 +69,7 @@ public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto,
                 cur.setDescripcionCurso(curso.getDescripcionCurso());
                 cur.setNidCurso(curso.getNidCurso());
                 //cur.setTipoFichaCurso(curso.getTipoFichaCurso());//dfloresgonz 12.04.2014 se comenta x modificacion en BD  
-                bdl_T_SFCursoLocal.persistCurso(cur);
-            
+                bdl_T_SFCursoLocal.persistCurso(cur);            
         }catch (Exception e) {            
         e.printStackTrace();
         error = "111";
