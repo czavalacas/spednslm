@@ -1,94 +1,58 @@
 package sped.vista.beans.evaluacion.grafico_reporte;
 
 import com.itextpdf.text.Document;
-
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import java.awt.Dimension;
-
 import java.io.File;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-
 import java.io.IOException;
-
-import java.io.OutputStream;
-
 import java.net.MalformedURLException;
-
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
-
 import javax.ejb.EJB;
-
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
-
 import oracle.adf.view.faces.bi.component.graph.UIGraph;
 import oracle.adf.view.faces.bi.event.ClickEvent;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.RichSubform;
 import oracle.adf.view.rich.component.rich.input.RichSelectBooleanCheckbox;
 import oracle.adf.view.rich.component.rich.input.RichSelectManyChoice;
-
 import oracle.adf.view.rich.component.rich.input.RichTextEditor;
 import oracle.adf.view.rich.component.rich.layout.RichPanelDashboard;
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
-
 import oracle.adf.view.rich.event.DialogEvent;
-
 import oracle.dss.dataView.Attributes;
 import oracle.dss.dataView.ComponentHandle;
-
 import oracle.dss.dataView.DataComponentHandle;
-
 import oracle.dss.dataView.ImageView;
 import oracle.dss.dataView.SeriesComponentHandle;
-
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
-
 import sped.vista.Utils.Utils;
-import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bDesempenoEvaluador {
-    private bSessionDesempenoEvaluador sessionDesempenoEvaluador;
-    private RichSelectManyChoice choiceFSede;
-    @EJB
-    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
-    @EJB
-    private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
-    @EJB
-    private LN_C_SFEvaluacionLocal ln_C_SFEvaluacionLocal;
-    @EJB
-    private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
-    FacesContext ctx = FacesContext.getCurrentInstance();
-    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
-    BeanUsuario beanUsu;
-    private String nombreUsuario;
-    private String correo;
-    private String correoDelete;
+    private RichSelectManyChoice choiceFSede;        
     private RichSelectManyChoice choiceFArea;
     private RichSelectManyChoice choiceFRol;
     private RichSelectManyChoice choiceFEva;
@@ -101,7 +65,6 @@ public class bDesempenoEvaluador {
     private RichPopup popDetPie;
     private RichPopup popCorreo;
     private RichPanelGroupLayout pgl2;
-    Calendar cal= new GregorianCalendar();
     private RichTextEditor rte1;
     private RichPanelFormLayout pfl4;
     private RichShowDetail sd3;
@@ -114,8 +77,28 @@ public class bDesempenoEvaluador {
     private UIGraph gline;
     private UIGraph gpie;
     private RichPopup popKey;
-    private String clave;
+    /***Mis Variables*****/    
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    private static final String CLASE = "sped.vista.beans.evaluacion.grafico_reporte.bDesempenoEvaluador";
+    Calendar cal= new GregorianCalendar();
+    private bSessionDesempenoEvaluador sessionDesempenoEvaluador;
+    FacesContext ctx = FacesContext.getCurrentInstance();
+    private String clave;
+    private String nombreUsuario;
+    private String correo;
+    private String correoDelete;
+    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
+    BeanUsuario beanUsu;
+    @EJB
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
+    @EJB
+    private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
+    @EJB
+    private LN_C_SFEvaluacionLocal ln_C_SFEvaluacionLocal;
+    @EJB
+    private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
 
     public bDesempenoEvaluador() {        
         nombreUsuario = beanUsuario.getNombres();
@@ -141,6 +124,10 @@ public class bDesempenoEvaluador {
         }        
     }
     
+    /**
+     * Metodo que valida los permisos por Rol
+     * @author angeles
+     */
     public void validarRol(){
         int nidRol = beanUsuario.getRol().getNidRol();      
         nidRol = beanUsuario.getIsSupervisor().compareTo("1") == 0 ? 1 : nidRol;        
@@ -173,6 +160,10 @@ public class bDesempenoEvaluador {
         }
     }
     
+    /**
+     * Limpia el filtro de la vista 
+     * @param actionEvent
+     */
     public void limpiarFiltro(ActionEvent actionEvent) {
         sessionDesempenoEvaluador.setFechaEF(sessionDesempenoEvaluador.getFechaActual());
         sessionDesempenoEvaluador.setFechaEI(sessionDesempenoEvaluador.getFechaAnterior());
@@ -195,6 +186,11 @@ public class bDesempenoEvaluador {
         Utils.addTargetMany(pfl1,sd1,sd2,pgl2); 
     }
     
+    /**
+     * Metodo que llena los dash y pasa los filtros a variables auxiliares
+     * @author angeles
+     * @param actionEvent
+     */
     public void buscarByFiltro(ActionEvent actionEvent) {
         setListEvaFiltro_aux();
         sessionDesempenoEvaluador.setSelectedRol_aux(sessionDesempenoEvaluador.getSelectedRol());
@@ -207,6 +203,10 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setFechaEF_aux(sessionDesempenoEvaluador.getFechaEF());        
     }
     
+    /**
+     * Metodo que se usa para guardar y obtener la ruta pdf
+     * @return
+     */
     public String rutaPdf() {
         String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
         String rutaPdf = Utils.rutaImagenes() + timePath + "-Reporte.pdf";     
@@ -218,7 +218,10 @@ public class bDesempenoEvaluador {
             generarPdf(fos);
             return rutaPdf;
         }catch(Exception e){
-            e.printStackTrace();
+            e.printStackTrace();            
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
+                                                          "String rutaPdf()", "Error al obtener la ruta para guardar y leer pdf", 
+                                                          Utils.getStack(e));
             return null;
         }
     } 
@@ -227,6 +230,10 @@ public class bDesempenoEvaluador {
         generarPdf(outputStream);
     }
     
+    /**
+     * Metodo que genera el pdf de los dash
+     * @param fos
+     */
     public void generarPdf(java.io.OutputStream fos) {
         String timePath = GregorianCalendar.getInstance().getTimeInMillis()+"";
         String rutaImg = Utils.rutaImagenes();
@@ -266,31 +273,65 @@ public class bDesempenoEvaluador {
         }catch(IOException e){
             e.printStackTrace();
         }catch(Exception e){
-            e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
+                                                          "generarPdf(java.io.OutputStream fos)", 
+                                                          "Error al generar el pdf en los dash", 
+                                                          Utils.getStack(e));
         }
     }
     
+    /**
+     * Metodo auxiliar que aumenta una pagina extra para visualizar mejor el pdf de los dash
+     * @author angeles
+     * @param i
+     * @param document
+     * @throws DocumentException
+     */
     public void addEspacio(int i,Document document) throws DocumentException {
         if(i == 1 || i == 3){
             document.newPage();
         }
     }
     
+    /**
+     * Metodo que agrega las imagenes a los pdf generados
+     * @author angeles
+     * @param document
+     * @param titulo
+     * @param rutaImg
+     * @throws DocumentException
+     * @throws MalformedURLException
+     * @throws IOException
+     */
     public void addImagenes(Document document, 
                             String titulo, 
                             String rutaImg) throws DocumentException, MalformedURLException, IOException {
-        Paragraph  paragraph =new Paragraph("\n"+titulo+"\n",
-                       FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLDITALIC));
-        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
-        document.add(paragraph);
-        Image img = Image.getInstance(rutaImg);
-        img.scalePercent(75);
-        img.setAlignment(Image.ALIGN_CENTER);
-        File archivo = new File(rutaImg);
-        archivo.delete();
-        document.add(img);
+        try{
+            Paragraph  paragraph =new Paragraph("\n"+titulo+"\n",
+                           FontFactory.getFont(FontFactory.HELVETICA, 13, Font.BOLDITALIC));
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            document.add(paragraph);
+            Image img = Image.getInstance(rutaImg);
+            img.scalePercent(75);
+            img.setAlignment(Image.ALIGN_CENTER);
+            File archivo = new File(rutaImg);
+            archivo.delete();
+            document.add(img);
+        }catch(Exception e){
+            e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
+                                                          "addImagenes(Document document, String titulo, String rutaImg)", 
+                                                          "Error al ingresar las imagenes al pdf", 
+                                                          Utils.getStack(e));
+        }
     }
     
+    /**
+     * Metodo que obtiene los valores de los filtros para agregarlos al pdf
+     * @author angeles
+     * @param document
+     * @throws DocumentException
+     */
     public void addSelectFiltro(Document document) throws DocumentException {
         Paragraph  paragraph =new Paragraph("Filtro",
                        FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLDITALIC));
@@ -404,6 +445,13 @@ public class bDesempenoEvaluador {
         }
     }
     
+    /**
+     * Metodo que muestra los filtros que se seleciono
+     * @param document
+     * @param titulo
+     * @param selecionado
+     * @throws DocumentException
+     */
     public void mostrarFiltro(Document document,
                               String titulo,
                               String selecionado) throws DocumentException {
@@ -419,34 +467,44 @@ public class bDesempenoEvaluador {
         }        
     }
     
+    /**
+     * Metodo que convierte en imagen los dash
+     * @author angeles
+     * @param graph
+     * @param ruta
+     * @return
+     */
     public String exportGrafPNG(UIGraph graph, String ruta){
-        if(graph != null){
-            UIGraph dvtgraph = graph; 
-            ImageView imgView = dvtgraph.getImageView();
-            imgView.setImageSize(new Dimension(600,400));
-            try{
-                File file = null; 
-                FileOutputStream fos;
-                file = new File(ruta); 
-                fos = new FileOutputStream(file); 
-                imgView.exportToPNG(fos); 
-                fos.close(); 
-            }catch(FileNotFoundException e){
-                e.printStackTrace();
-            }catch(IOException e){
-                e.printStackTrace();
+        try{
+            if(graph != null){
+                UIGraph dvtgraph = graph; 
+                ImageView imgView = dvtgraph.getImageView();
+                imgView.setImageSize(new Dimension(600,400));
+                try{
+                    File file = null; 
+                    FileOutputStream fos;
+                    file = new File(ruta); 
+                    fos = new FileOutputStream(file); 
+                    imgView.exportToPNG(fos); 
+                    fos.close(); 
+                }catch(FileNotFoundException e){
+                    e.printStackTrace();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
             }
-        }
-        return ruta;                       
+            return ruta;   
+        }catch(Exception e){
+            return null;
+        }                            
     }
     
+    /**
+     * Metodo que llena y muestra los dash dependiendo del filtro q se seleciono
+     */
     public void setListEvaFiltro_aux(){
         List <BeanEvaluacionPlani> lst = desempenoFiltro(1, null, null, null,null);
-        if(lst.size() == 0){
-            sessionDesempenoEvaluador.setRenderExcel(false);
-        }else{
-            sessionDesempenoEvaluador.setRenderExcel(true);
-        }
+        sessionDesempenoEvaluador.setRenderExcel(lst.size() == 0 ? false : true);
         sessionDesempenoEvaluador.setLstEvaTable(lst);
         sessionDesempenoEvaluador.setRGrafEvaA(sessionDesempenoEvaluador.isRGrafEva());
         sessionDesempenoEvaluador.setRGrafRolA(sessionDesempenoEvaluador.isRGrafRol());
@@ -470,6 +528,10 @@ public class bDesempenoEvaluador {
         renderGraficos_Correo();
     }
     
+    /**
+     * Metodo que oculta o muestra los dash dependiendo el filtro
+     * @param vce
+     */
     public void selectBCheck(ValueChangeEvent vce) {
         RichSelectBooleanCheckbox ckBox = (RichSelectBooleanCheckbox)vce.getComponent();
         String texto = ckBox.getText().toString();
@@ -478,7 +540,6 @@ public class bDesempenoEvaluador {
         int GrafLine = sessionDesempenoEvaluador.isRGrafLine() == true ? 1 : 0;
         int GrafPie = sessionDesempenoEvaluador.isRGrafPie() == true ? 1 : 0;
         int cont = GrafEva+GrafRol+GrafLine+GrafPie;
-        int selecion = vce.getNewValue() == true ? 1 : -1 ;
         ///valida para q no aya checkbox vacio
         if(cont <= 1){
             if(texto.compareTo("Rol(s)") == 0){
@@ -540,16 +601,25 @@ public class bDesempenoEvaluador {
                                                 String nombre,
                                                 String estado,
                                                 String desProb,
-                                                String desRol){      
-       return ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(tipoEvento,nombre,estado,desProb, desRol,
-                                                                      sessionDesempenoEvaluador.getSelectedRol(),
-                                                                      sessionDesempenoEvaluador.getSelectedEvaluador(),
-                                                                      sessionDesempenoEvaluador.getSelectedSede(),
-                                                                      sessionDesempenoEvaluador.getSelectedArea(),
-                                                                      sessionDesempenoEvaluador.getFechaPI(),
-                                                                      sessionDesempenoEvaluador.getFechaPF(),
-                                                                      sessionDesempenoEvaluador.getFechaEI(),
-                                                                      sessionDesempenoEvaluador.getFechaEF());     
+                                                String desRol){  
+        try{
+            return ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(tipoEvento,nombre,estado,desProb, desRol,
+                                                                           sessionDesempenoEvaluador.getSelectedRol(),
+                                                                           sessionDesempenoEvaluador.getSelectedEvaluador(),
+                                                                           sessionDesempenoEvaluador.getSelectedSede(),
+                                                                           sessionDesempenoEvaluador.getSelectedArea(),
+                                                                           sessionDesempenoEvaluador.getFechaPI(),
+                                                                           sessionDesempenoEvaluador.getFechaPF(),
+                                                                           sessionDesempenoEvaluador.getFechaEI(),
+                                                                           sessionDesempenoEvaluador.getFechaEF());
+        }catch(Exception e){
+            e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
+                                                          "List<BeanEvaluacionPlani> desempenoFiltro(...)", 
+                                                          "Error al obtener los datos del dash . Tipo de Evento "+tipoEvento, 
+                                                          Utils.getStack(e));
+            return null;
+        }            
     }
     
     public List<BeanEvaluacionPlani> desempenoFiltro_Aux(int tipoEvento,
@@ -557,15 +627,24 @@ public class bDesempenoEvaluador {
                                                     String estado,
                                                     String desProb,
                                                     String desRol){
-        return ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(tipoEvento,nombre,estado,desProb,desRol,
-                                                                       sessionDesempenoEvaluador.getSelectedRol_aux(),
-                                                                       sessionDesempenoEvaluador.getSelectedEvaluador_aux(),
-                                                                       sessionDesempenoEvaluador.getSelectedSede_aux(),
-                                                                       sessionDesempenoEvaluador.getSelectedArea_aux(),
-                                                                       sessionDesempenoEvaluador.getFechaPI_axu(),
-                                                                       sessionDesempenoEvaluador.getFechaPF_aux(),
-                                                                       sessionDesempenoEvaluador.getFechaEI_aux(),
-                                                                       sessionDesempenoEvaluador.getFechaEF_aux());
+        try{
+            return ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(tipoEvento,nombre,estado,desProb,desRol,
+                                                                           sessionDesempenoEvaluador.getSelectedRol_aux(),
+                                                                           sessionDesempenoEvaluador.getSelectedEvaluador_aux(),
+                                                                           sessionDesempenoEvaluador.getSelectedSede_aux(),
+                                                                           sessionDesempenoEvaluador.getSelectedArea_aux(),
+                                                                           sessionDesempenoEvaluador.getFechaPI_axu(),
+                                                                           sessionDesempenoEvaluador.getFechaPF_aux(),
+                                                                           sessionDesempenoEvaluador.getFechaEI_aux(),
+                                                                           sessionDesempenoEvaluador.getFechaEF_aux());
+        }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
+                                                          "List<BeanEvaluacionPlani> desempenoFiltro_aux(...)", 
+                                                          "Error al obtener los datos del dash . Tipo de Evento "+tipoEvento, 
+                                                          Utils.getStack(e));
+            e.printStackTrace();
+            return null;
+        }        
     }
     
     public void setListEvabarChart(List <BeanEvaluacionPlani> lst){
