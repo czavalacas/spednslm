@@ -1136,7 +1136,7 @@ public class bPlanificarEva {
     }
 
     public void getCursosByProfesor(ValueChangeEvent valueChangeEvent) {
-        if (sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {//TODO igual estas llamando a los componentes!!!
+        if (sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {//TODO igual estas llamando a los componentes!!!          
             sessionPlanificarEva.setListaCursos(Utils.llenarCombo(ln_C_SFCursoRemoto.getCursoPorSedeNivelyPofesor(choiceSede.getValue().toString(),
                                                                                                                   choiceNivel.getValue().toString(),
                                                                                                                   choiceProfesores.getValue().toString(),
