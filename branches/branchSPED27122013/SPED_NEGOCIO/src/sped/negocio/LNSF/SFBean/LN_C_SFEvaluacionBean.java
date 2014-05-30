@@ -281,12 +281,12 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 // beanEva.setTipoFichaCurso(eva.getMain().getCurso().getTipoFichaCurso()); //TODO el tipo_ficha_curso cuando se use horarios
                 //boolean isSubDirector = ln_C_SFRolLocal.isSubDirectorByNidUsuario_LN(eva.getNidEvaluador());
                 boolean isSupervisor = bdL_C_SFUsuarioLocal.getIsSupervisor(nidUsuario);
-                String tipo_ficha_curso = null;
+                String tipo_ficha_curso = null;Utiles.sysout("isSupervisor: "+isSupervisor);
                 if(isSupervisor){//que traiga el tipo_ficha_curso del curso a evaluar
                     tipo_ficha_curso = eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso();
                 }else{//que traiga el tipo_ficha_curso que esta en admusua para el usuario
                     tipo_ficha_curso = bdL_C_SFUsuarioLocal.getTipoFichaCurso(nidUsuario);
-                }
+                }Utiles.sysout("tipo_ficha_curso: "+tipo_ficha_curso);
                 beanEva.setTipoFichaCurso(tipo_ficha_curso);
                 //beanEva.setTipoFichaCurso( isSubDirector == true ? "SD" : eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso());
                 beanEva.setStartDate(eva.getStartDate());

@@ -433,7 +433,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     
     public String getTipoFichaCurso(int nidUsuario){
         try {
-            String strQuery = "SELECT u.tipo_ficha_curso " +
+            String strQuery = "SELECT u.tipoFichaCurso " +
                               "FROM Usuario u " +
                               "WHERE u.nidUsuario = :nidUsuario ";
             List lstResult = em.createQuery(strQuery).setParameter("nidUsuario",nidUsuario).getResultList();
