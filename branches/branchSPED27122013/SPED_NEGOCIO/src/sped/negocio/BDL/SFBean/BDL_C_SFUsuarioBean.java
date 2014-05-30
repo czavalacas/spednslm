@@ -431,6 +431,23 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         }
     }
     
+    public String getTipoFichaCurso(int nidUsuario){
+        try {
+            String strQuery = "SELECT u.tipo_ficha_curso " +
+                              "FROM Usuario u " +
+                              "WHERE u.nidUsuario = :nidUsuario ";
+            List lstResult = em.createQuery(strQuery).setParameter("nidUsuario",nidUsuario).getResultList();
+            if(lstResult.isEmpty()){
+                return null;
+            }else{
+                return lstResult.get(0).toString();
+            }
+        } catch (Exception e) {
+             e.printStackTrace();
+             return null;
+        }
+    }
+    
     /**
      * Metodo que trae el correo del usuario segun su ID.
      * @param dni - DNI del usuario
