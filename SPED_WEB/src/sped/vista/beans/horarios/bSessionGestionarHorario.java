@@ -76,6 +76,7 @@ public class bSessionGestionarHorario implements Serializable {
     private boolean renderCurso;
     private boolean renderAgregar;
     private boolean renderAgregar_aux;
+    private boolean renderGenerario;
     private boolean checkTrue = true; //se mantendra siempre en true
     private boolean checkFalse = false;// se mantendra siempre en false
     
@@ -90,7 +91,15 @@ public class bSessionGestionarHorario implements Serializable {
     
     public void cargarDatosSelec(){
         selecNidCurso = horario[nLeccion][nDia].getNidCurso();
-        selecNombreCurso = horario[nLeccion][nDia].getNombreCurso();    
+        selecNombreCurso = horario[nLeccion][nDia].getNombreCurso();                  
+    }
+    
+    public void cargarDatosColor(){
+        try{
+            color = Color.decode("#"+horario[nLeccion][nDia].getColor());
+        }catch(Exception e){
+            e.printStackTrace();
+        } 
     }
     
     public void llenarDuracionHoras(){
@@ -595,4 +604,13 @@ public class bSessionGestionarHorario implements Serializable {
     public List getLstCurso_aux() {
         return lstCurso_aux;
     }
+
+    public void setRenderGenerario(boolean renderGenerario) {
+        this.renderGenerario = renderGenerario;
+    }
+
+    public boolean isRenderGenerario() {
+        return renderGenerario;
+    }
+
 }
