@@ -48,4 +48,5 @@ public interface BDL_C_SFUsuarioRemote {
      * @return String que contiene el rol y el nombre del usuario segun el nidUsuario
      */
     String getRolNombreUsuario_BDL(int nidUsuario);
+    String getTipoFichaCurso(int nidUsuario);
 }

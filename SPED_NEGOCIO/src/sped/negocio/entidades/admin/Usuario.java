@@ -62,6 +62,8 @@ public class Usuario implements Serializable {
     private String isNuevo;
     @Column(name = "isSupervisor")
     private String isSupervisor;
+    @Column(name = "tipo_ficha_curso")
+    private String tipoFichaCurso;
 
     public Usuario() {
     }
@@ -79,6 +81,14 @@ public class Usuario implements Serializable {
         this.usuario = usuario;
         this.isNuevo = isNuevo;
         this.isSupervisor = isSupervisor;
+    }
+
+    public void setTipoFichaCurso(String tipoFichaCurso) {
+        this.tipoFichaCurso = tipoFichaCurso;
+    }
+
+    public String getTipoFichaCurso() {
+        return tipoFichaCurso;
     }
 
     public void setUsuarioPermisosLista(List<UsuarioPermiso> usuarioPermisosLista) {
