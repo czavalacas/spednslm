@@ -31,8 +31,17 @@ public class BeanUsuario implements java.io.Serializable{
     private String isNuevo;
     private String isSupervisor;
     private String rol_descSedeoArea;
+    private String tipoFichaCurso;
 
     public BeanUsuario(){}
+
+    public void setTipoFichaCurso(String tipoFichaCurso) {
+        this.tipoFichaCurso = tipoFichaCurso;
+    }
+
+    public String getTipoFichaCurso() {
+        return tipoFichaCurso;
+    }
 
     public void setRol_descSedeoArea(String rol_descSedeoArea) {
         this.rol_descSedeoArea = rol_descSedeoArea;
