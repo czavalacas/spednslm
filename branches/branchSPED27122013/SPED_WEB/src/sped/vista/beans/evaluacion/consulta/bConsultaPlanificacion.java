@@ -27,6 +27,7 @@ import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
+import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.event.DialogEvent;
 
 import sped.negocio.BDL.IR.BDL_C_SFUtilsRemote;
@@ -75,6 +76,7 @@ public class bConsultaPlanificacion {
     private RichSelectOneChoice choiceEstado;
     private RichButton btnExp;
     private RichPopup popProb;
+    private RichActiveOutputText errJustif;
     @EJB
     private LN_C_SFUsuarioRemote ln_C_SFUsuarioRemote;
     @EJB
@@ -87,6 +89,7 @@ public class bConsultaPlanificacion {
     @EJB
     private LN_T_SFEvaluacionRemote ln_T_SFEvaluacionRemote;
     FacesContext ctx = FacesContext.getCurrentInstance();
+    private String msjErrorJustif;//dfloresgonz 29.05.2014
 
     public bConsultaPlanificacion() {
     }
@@ -196,31 +199,50 @@ public class bConsultaPlanificacion {
     public void abrirPopUpProblema(ActionEvent actionEvent) {
         sessionConsultarPlanificacion.setNidProblema(String.valueOf(sessionConsultarPlanificacion.getI_nidProblema()));
         sessionConsultarPlanificacion.setListaProblemas(Utils.llenarCombo(ln_C_SFUtilsRemote.getProblemas_LN_WS()));
+        this.setMsjErrorJustif(null);
+        if(errJustif != null){
+            this.errJustif.setValue(null);
+            Utils.addTarget(errJustif);   
+        }
         Utils.showPopUpMIDDLE(popProb);
     }
     
-    public void diagRegistrarProblema(DialogEvent de) {
+    public void registrarJustificacionProblema(ActionEvent actionEvent) {
+        if(sessionConsultarPlanificacion.getNidProblema() == null || this.getDescripcionProblema() == null){
+            this.setMsjErrorJustif("Seleccione el problema y su descripcion");
+            this.errJustif.setValue(this.getMsjErrorJustif());
+            Utils.addTarget(errJustif);
+            return;
+        }
+        if("0".equals(sessionConsultarPlanificacion.getNidProblema()) || this.getDescripcionProblema().isEmpty()){
+            this.setMsjErrorJustif("Seleccione el problema y su descripcion");
+            this.errJustif.setValue(this.getMsjErrorJustif());
+            Utils.addTarget(errJustif);
+            return;
+        }
         if(usuarioEnSesion.getNidUsuario().compareTo(sessionConsultarPlanificacion.getEvaSelect().getNidEvaluador()) == 0 &&
-           usuarioEnSesion.getRol().getNidRol() != 3){//SOLO EL MISMO EVALUADOR PUEDE EDITAR SU COMENTARIO
-            DialogEvent.Outcome outcome = de.getOutcome();        
+           usuarioEnSesion.getRol().getNidRol() != 3){//SOLO EL MISMO EVALUADOR PUEDE EDITAR SU COMENTARIO       
             String detalle = "Error";
             String error = "Operacion Incorrecta, vuelva intentarlo";
-            int severidad = 2;
-            if(outcome == DialogEvent.Outcome.ok){            
-                if(sessionConsultarPlanificacion.getEvaSelect() != null){
-                    error = ln_T_SFEvaluacionRemote.updateEvaluacionProblemaEvaluador(sessionConsultarPlanificacion.getEvaSelect().getNidEvaluacion(),
-                                                                                      sessionConsultarPlanificacion.getI_nidProblema(),
-                                                                                      descripcionProblema);
-                    if("000".compareTo(error) == 0){
-                        detalle = "Se registro el comentario";
-                        error = "Operacion Realizada Correctamente";
-                        severidad = 3;
-                        buscarPlani();
-                    }                
-                }
-                Utils.mostrarMensaje(ctx,error,detalle,severidad);
+            int severidad = 2;         
+            if(sessionConsultarPlanificacion.getEvaSelect() != null){
+                error = ln_T_SFEvaluacionRemote.updateEvaluacionProblemaEvaluador(sessionConsultarPlanificacion.getEvaSelect().getNidEvaluacion(),
+                                                                                  Integer.parseInt(sessionConsultarPlanificacion.getNidProblema()),
+                                                                                  this.getDescripcionProblema());
+                if("000".compareTo(error) == 0){
+                    detalle = "Se registro el comentario";
+                    error = "Operacion Realizada Correctamente";
+                    severidad = 3;
+                    popProb.hide();
+                    buscarPlani();
+                }                
             }
+            Utils.mostrarMensaje(ctx,error,detalle,severidad);
         }
+    }
+    
+    public void diagRegistrarProblema(DialogEvent de) {
+        
     }
     
     public void setSessionConsultarPlanificacion(bSessionConsultarPlanificacion sessionConsultarPlanificacion) {
@@ -394,5 +416,21 @@ public class bConsultaPlanificacion {
 
     public RichPopup getPopProb() {
         return popProb;
+    }
+
+    public void setErrJustif(RichActiveOutputText errJustif) {
+        this.errJustif = errJustif;
+    }
+
+    public RichActiveOutputText getErrJustif() {
+        return errJustif;
+    }
+
+    public void setMsjErrorJustif(String msjErrorJustif) {
+        this.msjErrorJustif = msjErrorJustif;
+    }
+
+    public String getMsjErrorJustif() {
+        return msjErrorJustif;
     }
 }

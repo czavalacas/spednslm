@@ -7,185 +7,211 @@
                 <af:spacer height="10"/>
                 <af:outputText value="Consultar Planificacion de Evaluaciones" id="otTituloU" styleClass="titulos"/>
             </af:panelGroupLayout>
-            <af:subform id="s3" defaultCommand="btnBuscar" >
-            <af:panelGroupLayout id="pgl2">
-                <af:panelGridLayout id="pgl3">
-                    <af:gridRow marginTop="5px" height="auto" id="gr1">
-                        <af:gridCell marginStart="5px" width="34%" id="gc1">
-                            <af:selectOneChoice label="Evaluador" id="soc1" unselectedLabel="::Seleccionar Evaluador::"
-                                                binding="#{bConsultaPlanificacion.choiceEvaluadores}"
-                                                value="#{sessionScope.sessionConsultarPlanificacion.nidEvaluadorChoice}"
-                                                autoSubmit="true"
-                                                disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceEvaluador}">
-                                <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaEvaludaoresChoice}"
-                                               id="si1"/>
-                            </af:selectOneChoice>
-                        </af:gridCell>
-                        <af:gridCell marginStart="5px" width="33%" id="gc2">
-                            <af:selectOneChoice label="Sede" id="soc2" unselectedLabel="::Seleccionar Sede::"
-                                                binding="#{bConsultaPlanificacion.choiceSedes}"
-                                                value="#{sessionScope.sessionConsultarPlanificacion.nidSedeChoice}"
-                                                autoSubmit="true"
-                                                disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceSede}">
-                                <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaSedesChoice}"
-                                               id="si2"/>
-                            </af:selectOneChoice>
-                        </af:gridCell>
-                        <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc3">
-                            <af:inputDate label="Fecha Min" id="id1"
-                                          value="#{sessionScope.sessionConsultarPlanificacion.fechaMinPlanificacion}"
-                                          binding="#{bConsultaPlanificacion.inputFechaMin}"/>
-                        </af:gridCell>
-                          <af:gridCell marginStart="5px" width="33%" id="gc9">
-                            <af:selectOneChoice label="Area" id="soc6" unselectedLabel="::Seleccionar Area::"
-                                                binding="#{bConsultaPlanificacion.choiceAreaAcademica}"
-                                                value="#{sessionScope.sessionConsultarPlanificacion.nidAreaAcademicaChoice}"
-                                                autoSubmit="true"
-                                                disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceArea}">
-                                <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaAreasChoice}"
-                                               id="si6"/>
-                            </af:selectOneChoice>
-                        </af:gridCell>
-                    </af:gridRow>
-                    <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr2">
-                        <af:gridCell marginStart="5px" width="34%" id="gc4">
-                            <af:inputText label="Docente" id="it1"
-                                          value="#{sessionScope.sessionConsultarPlanificacion.apellidosDocente}"
-                                          binding="#{bConsultaPlanificacion.inputProfesor}"/>
-                        </af:gridCell>
-                        <af:gridCell marginStart="5px" width="33%" id="gc5">
-                            <af:selectOneChoice label="Nivel" id="soc3" autoSubmit="true"
-                                                unselectedLabel="::Seleccionar Nivel::"
-                                                value="#{sessionScope.sessionConsultarPlanificacion.nidNivelChoice}"
-                                                binding="#{bConsultaPlanificacion.choiceNivel}">
-                                <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaNvelesChoice}"
-                                               id="si3"/>
-                            </af:selectOneChoice>
-                        </af:gridCell>
-                        <af:gridCell marginStart="5px" width="33%" id="gc6">
-                            <af:inputDate label="Fecha Max" id="id2"
-                                          value="#{sessionScope.sessionConsultarPlanificacion.fechaMaxPlanificacion}"
-                                          binding="#{bConsultaPlanificacion.inputFechaMax}"/>
-                        </af:gridCell>
-                          <af:gridCell marginStart="5px" width="33%" id="gc8">
-                            <af:selectOneChoice label="Estado" id="soc5" unselectedLabel="::Seleccionar Estado::"
-                                                binding="#{bConsultaPlanificacion.choiceEstado}"
-                                                value="#{sessionScope.sessionConsultarPlanificacion.nidEstadoPlanificacion}"
-                                                autoSubmit="true" >
-                                <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaEstadosChoice}"
-                                               id="si5"/>
-                            </af:selectOneChoice>
-                        </af:gridCell>
-                    </af:gridRow>
-                </af:panelGridLayout>
-            </af:panelGroupLayout>
-            <af:panelGroupLayout id="pgl1">
-                <af:button text="Buscar" id="btnBuscar" 
-                           binding="#{bConsultaPlanificacion.btnBuscar}"
-                           action="#{bConsultaPlanificacion.buscarPlani}"/>
-                <af:spacer width="10" height="10" id="s1"/>
-                <af:button icon="../recursos/img/usuarios/refresh.png" id="b2" actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
-                <af:spacer width="10" height="10" id="s2"/>
-                <af:button text="Exportar Excel" id="btnExp" visible="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones.size() > 0}"
-                           binding="#{bConsultaPlanificacion.btnExp}">
+            <af:subform id="s3" defaultCommand="btnBuscar">
+                <af:panelGroupLayout id="pgl2">
+                    <af:panelGridLayout id="pgl3">
+                        <af:gridRow marginTop="5px" height="auto" id="gr1">
+                            <af:gridCell marginStart="5px" width="34%" id="gc1">
+                                <af:selectOneChoice label="Evaluador" id="soc1"
+                                                    unselectedLabel="::Seleccionar Evaluador::"
+                                                    binding="#{bConsultaPlanificacion.choiceEvaluadores}"
+                                                    value="#{sessionScope.sessionConsultarPlanificacion.nidEvaluadorChoice}"
+                                                    autoSubmit="true"
+                                                    disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceEvaluador}">
+                                    <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaEvaludaoresChoice}"
+                                                   id="si1"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" id="gc2">
+                                <af:selectOneChoice label="Sede" id="soc2" unselectedLabel="::Seleccionar Sede::"
+                                                    binding="#{bConsultaPlanificacion.choiceSedes}"
+                                                    value="#{sessionScope.sessionConsultarPlanificacion.nidSedeChoice}"
+                                                    autoSubmit="true"
+                                                    disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceSede}">
+                                    <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaSedesChoice}"
+                                                   id="si2"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" marginEnd="5px" id="gc3">
+                                <af:inputDate label="Fecha Min" id="id1"
+                                              value="#{sessionScope.sessionConsultarPlanificacion.fechaMinPlanificacion}"
+                                              binding="#{bConsultaPlanificacion.inputFechaMin}"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" id="gc9">
+                                <af:selectOneChoice label="Area" id="soc6" unselectedLabel="::Seleccionar Area::"
+                                                    binding="#{bConsultaPlanificacion.choiceAreaAcademica}"
+                                                    value="#{sessionScope.sessionConsultarPlanificacion.nidAreaAcademicaChoice}"
+                                                    autoSubmit="true"
+                                                    disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceArea}">
+                                    <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaAreasChoice}"
+                                                   id="si6"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr2">
+                            <af:gridCell marginStart="5px" width="34%" id="gc4">
+                                <af:inputText label="Docente" id="it1"
+                                              value="#{sessionScope.sessionConsultarPlanificacion.apellidosDocente}"
+                                              binding="#{bConsultaPlanificacion.inputProfesor}"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" id="gc5">
+                                <af:selectOneChoice label="Nivel" id="soc3" autoSubmit="true"
+                                                    unselectedLabel="::Seleccionar Nivel::"
+                                                    value="#{sessionScope.sessionConsultarPlanificacion.nidNivelChoice}"
+                                                    binding="#{bConsultaPlanificacion.choiceNivel}">
+                                    <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaNvelesChoice}"
+                                                   id="si3"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" id="gc6">
+                                <af:inputDate label="Fecha Max" id="id2"
+                                              value="#{sessionScope.sessionConsultarPlanificacion.fechaMaxPlanificacion}"
+                                              binding="#{bConsultaPlanificacion.inputFechaMax}"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="33%" id="gc8">
+                                <af:selectOneChoice label="Estado" id="soc5" unselectedLabel="::Seleccionar Estado::"
+                                                    binding="#{bConsultaPlanificacion.choiceEstado}"
+                                                    value="#{sessionScope.sessionConsultarPlanificacion.nidEstadoPlanificacion}"
+                                                    autoSubmit="true">
+                                    <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaEstadosChoice}"
+                                                   id="si5"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelGroupLayout>
+                <af:panelGroupLayout id="pgl1">
+                    <af:button text="Buscar" id="btnBuscar" binding="#{bConsultaPlanificacion.btnBuscar}"
+                               action="#{bConsultaPlanificacion.buscarPlani}"/>
+                    <af:spacer width="10" height="10" id="s1"/>
+                    <af:button icon="../recursos/img/usuarios/refresh.png" id="b2"
+                               actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
+                    <af:spacer width="10" height="10" id="s2"/>
+                    <af:button text="Exportar Excel" id="btnExp"
+                               visible="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones.size() > 0}"
+                               binding="#{bConsultaPlanificacion.btnExp}">
                         <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:t1"
                                                            filename="excel_planificacion.xls"/>
                     </af:button>
-            </af:panelGroupLayout>
-            <af:panelGroupLayout id="pgl4">
-          <af:panelCollection id="pc1" inlineStyle="width:inherit;">
-                         <f:facet name="menus"/>
+                </af:panelGroupLayout>
+                <af:panelGroupLayout id="pgl4">
+                    <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                        <f:facet name="menus"/>
                         <f:facet name="toolbar">
-                            <af:toolbar>
-                            </af:toolbar>
+                            <af:toolbar></af:toolbar>
                         </f:facet>
                         <f:facet name="statusbar"/>
-                <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs" 
-                          inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;" 
-                          binding="#{bConsultaPlanificacion.tbPlanificacion}"
-                          value="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones}">
-                    <af:column width="20" frozen="true">
-                        <af:outputText value="#{vs.index + 1}"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Parcial?" width="30" sortProperty="flgParcial" align="center">
-                        <af:outputText value="#{row.flgParcial == '1' ? 'SÍ' : 'NO'}"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Planificador" id="c1" width="180" sortProperty="nombrePLanificador">
-                        <af:outputText value="#{row.nombrePLanificador}" id="ot1"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Fech Planif" id="c2" width="60" align="center" sortProperty="fechaPlanificacion">
-                        <af:outputText value="#{row.fechaPlanificacion}" id="ot2">
-                         <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-                    </af:outputText>
-                    </af:column>
-                    <af:column sortable="true" headerText="Evaluador" id="c3" width="180" sortProperty="nombreEvaluador">
-                        <af:outputText value="#{row.nombreEvaluador}" id="ot3"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Inicio Eval" id="c4" width="170" align="center" sortProperty="startDate">
-                        <af:outputText value="#{row.startDate}" id="ot4">
-                          <af:convertDateTime type="date" pattern="EEEE, dd/MM/yyyy hh:mm a"/></af:outputText>
-                    </af:column>
-                     <af:column sortable="false" headerText="Hora Fin" width="50">
-                        <af:outputText value="#{row.endDate}">
-                        <af:convertDateTime type="date" pattern="hh:mm a"/>
-                        </af:outputText>
-                    </af:column>
-                    <af:column sortable="true" headerText="Docente" id="c5" width="180" sortProperty="main.profesor.apellidos">
-                        <af:outputText value="#{row.nombreCompletoProfesor}" id="ot5"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Curso" id="c6" width="140" sortProperty="main.curso.descripcionCurso">
-                        <af:outputText value="#{row.descCurso}" id="ot6"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Grado" id="c7" width="50" sortProperty="main.aula.gradoNivel.grado.descripcionGrado">
-                        <af:outputText value="#{row.descGrado}" id="ot7"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Nivel" id="c8" width="70" sortProperty="main.aula.gradoNivel.nivel.descripcionNivel">
-                        <af:outputText value="#{row.descNivel}" id="ot8"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Sede" id="c9" width="70" sortProperty="main.aula.sede.descripcionSede">
-                        <af:outputText value="#{row.descSede}" id="ot9"/>
-                    </af:column>
-                    <af:column headerText="Problema" align="center" id="c15" width="50">
-                        <af:button id="btnProb" icon="/recursos/img/usuarios/prob.png" 
-                                   actionListener="#{bConsultaPlanificacion.abrirPopUpProblema}">
-                            <f:setPropertyActionListener value="#{row.nidEvaluacion}"
-                                                         target="#{sessionConsultarPlanificacion.nidEvaluacion}"/>
-                            <f:setPropertyActionListener value="#{row.comentarioProblema}"
-                                                         target="#{requestScope.bConsultaPlanificacion.descripcionProblema}"/>
-                            <f:setPropertyActionListener value="#{row.nidProblema}"
-                                                         target="#{sessionConsultarPlanificacion.i_nidProblema}"/>
-                            <f:setPropertyActionListener value="#{row}"
-                                                         target="#{sessionConsultarPlanificacion.evaSelect}"/>
-                        </af:button>
-                    </af:column>
-                    <af:column sortable="true" headerText="Estado" id="c11" width="100" sortProperty="estadoEvaluacion"
-                               inlineStyle="#{row.styleColor}" align="center">
-                        <af:outputText value="#{row.estadoEvaluacion}" id="ot11"/>
-                    </af:column>
-                </af:table>
-                </af:panelCollection>
-            </af:panelGroupLayout>
-        </af:subform>
-             <af:popup childCreation="deferred" autoCancel="disabled" id="popProb"
-                  binding="#{bConsultaPlanificacion.popProb}">
-            <af:dialog id="diagProb" dialogListener="#{bConsultaPlanificacion.diagRegistrarProblema}">
-                <af:panelFormLayout>
-                    <af:selectOneChoice label="Problema" requiredMessageDetail="Seleccionar un problema" id="socProb"
-                                        value="#{sessionScope.sessionConsultarPlanificacion.nidProblema}" autoSubmit="true"
-                                        disabled="#{sessionConsultarPlanificacion.columnProfesor == false || (sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'PENDIENTE' 
+                        <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs"
+                                  inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
+                                  binding="#{bConsultaPlanificacion.tbPlanificacion}"
+                                  value="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones}">
+                            <af:column width="20" frozen="true">
+                                <af:outputText value="#{vs.index + 1}"/>
+                            </af:column>
+                            <af:column width="24" frozen="true" sortProperty="nidEvaluacion" headerText="ID"
+                                       align="left">
+                                <af:outputText value="#{row.nidEvaluacion}"/>
+                            </af:column>
+                            <af:column sortable="true" headerText="Parcial?" width="30" sortProperty="flgParcial"
+                                       align="center">
+                                <af:outputText value="#{row.flgParcial == '1' ? 'SÍ' : 'NO'}"/>
+                            </af:column>
+                            <af:column sortable="true" headerText="Planificador" id="c1" width="180"
+                                       sortProperty="nombrePLanificador">
+                                <af:outputText value="#{row.nombrePLanificador}" id="ot1"/>
+                            </af:column>
+                            <af:column sortable="true" headerText="Fech Planif" id="c2" width="60" align="center"
+                                       sortProperty="fechaPlanificacion">
+                                <af:outputText value="#{row.fechaPlanificacion}" id="ot2">
+                                    <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                </af:outputText>
+                            </af:column>
+                            <af:column sortable="true" headerText="Evaluador" id="c3" width="180"
+                                       sortProperty="nombreEvaluador">
+                                <af:outputText value="#{row.nombreEvaluador}" id="ot3"/>
+                            </af:column>
+                            <af:column sortable="true" headerText="Inicio Eval" id="c4" width="170" align="center"
+                                       sortProperty="startDate">
+                                <af:outputText value="#{row.startDate}" id="ot4">
+                                    <af:convertDateTime type="date" pattern="EEEE, dd/MM/yyyy hh:mm a"/>
+                                </af:outputText>
+                            </af:column>
+                            <af:column sortable="false" headerText="Hora Fin" width="50">
+                                <af:outputText value="#{row.endDate}">
+                                    <af:convertDateTime type="date" pattern="hh:mm a"/>
+                                </af:outputText>
+                            </af:column>
+                            <af:column sortable="true" headerText="Docente" id="c5" width="180"
+                                       sortProperty="main.profesor.apellidos">
+                                <af:outputText value="#{row.nombreCompletoProfesor}" id="ot5"/>
+                            </af:column>
+                            <af:column sortable="true" headerText="Curso" id="c6" width="140"
+                                       sortProperty="main.curso.descripcionCurso">
+                                <af:outputText value="#{row.descCurso}" id="ot6"/>
+                            </af:column>
+                            <af:column sortable="true" headerText="Grado" id="c7" width="50"
+                                       sortProperty="main.aula.gradoNivel.grado.descripcionGrado">
+                                <af:outputText value="#{row.descGrado}" id="ot7"/>
+                            </af:column>
+                            <af:column sortable="true" headerText="Nivel" id="c8" width="70"
+                                       sortProperty="main.aula.gradoNivel.nivel.descripcionNivel">
+                                <af:outputText value="#{row.descNivel}" id="ot8"/>
+                            </af:column>
+                            <af:column sortable="true" headerText="Sede" id="c9" width="70"
+                                       sortProperty="main.aula.sede.descripcionSede">
+                                <af:outputText value="#{row.descSede}" id="ot9"/>
+                            </af:column>
+                            <af:column headerText="Problema" align="center" id="c15" width="50">
+                                <af:button id="btnProb" icon="/recursos/img/usuarios/prob.png" 
+                                           actionListener="#{bConsultaPlanificacion.abrirPopUpProblema}">
+                                    <f:setPropertyActionListener value="#{row.nidEvaluacion}"
+                                                                 target="#{sessionConsultarPlanificacion.nidEvaluacion}"/>
+                                    <f:setPropertyActionListener value="#{row.comentarioProblema}"
+                                                                 target="#{requestScope.bConsultaPlanificacion.descripcionProblema}"/>
+                                    <f:setPropertyActionListener value="#{row.nidProblema}"
+                                                                 target="#{sessionConsultarPlanificacion.i_nidProblema}"/>
+                                    <f:setPropertyActionListener value="#{row}"
+                                                                 target="#{sessionConsultarPlanificacion.evaSelect}"/>
+                                </af:button>
+                            </af:column>
+                            <af:column sortable="true" headerText="Estado" id="c11" width="100"
+                                       sortProperty="estadoEvaluacion" inlineStyle="#{row.styleColor}" align="center">
+                                <af:outputText value="#{row.estadoEvaluacion}" id="ot11"/>
+                            </af:column>
+                        </af:table>
+                    </af:panelCollection>
+                </af:panelGroupLayout>
+            </af:subform>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popProb"
+                      binding="#{bConsultaPlanificacion.popProb}">
+                <af:dialog id="diagProb">
+                    <af:panelFormLayout>
+                        <af:selectOneChoice label="Problema" requiredMessageDetail="Seleccionar un problema"
+                                            id="socProb"
+                                            value="#{sessionScope.sessionConsultarPlanificacion.nidProblema}"
+                                            autoSubmit="true" disabled="#{sessionConsultarPlanificacion.columnProfesor == false || (sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'PENDIENTE' 
                                         || sessionConsultarPlanificacion.evaSelect.flgJustificar != '1'
                                         || sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'EJECUTADO')}"
-                                        unselectedLabel=":: Seleccionar Problema ::">
-                        <f:selectItems value="#{sessionScope.sessionConsultarPlanificacion.listaProblemas}" />
-                    </af:selectOneChoice>
-                    <af:inputText label="Cuentanos que paso" id="itDescProb" columns="60" rows="10" autoSubmit="true"
-                                  disabled="#{sessionConsultarPlanificacion.columnProfesor == false || (sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'PENDIENTE' 
+                                            unselectedLabel=":: Seleccionar Problema ::">
+                            <f:selectItems value="#{sessionScope.sessionConsultarPlanificacion.listaProblemas}"/>
+                        </af:selectOneChoice>
+                        <af:inputText label="Cuentanos que paso" id="itDescProb" columns="60" rows="10"
+                                      autoSubmit="true" disabled="#{sessionConsultarPlanificacion.columnProfesor == false || (sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'PENDIENTE' 
                                         || sessionConsultarPlanificacion.evaSelect.flgJustificar != '1'
                                         || sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'EJECUTADO')}"
-                                  value="#{requestScope.bConsultaPlanificacion.descripcionProblema}"/>
-                </af:panelFormLayout>
-            </af:dialog>
-        </af:popup>
-        </af:panelGroupLayout>   
+                                      value="#{requestScope.bConsultaPlanificacion.descripcionProblema}"/>
+                        <af:button text="Registrar" id="btnRegProb" styleClass="FondoRojoLetraBlanca" 
+                                   disabled="#{sessionConsultarPlanificacion.columnProfesor == false || (sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'PENDIENTE' 
+                                        || sessionConsultarPlanificacion.evaSelect.flgJustificar != '1'
+                                        || sessionConsultarPlanificacion.evaSelect.estadoEvaluacion == 'EJECUTADO')}"
+                                   actionListener="#{bConsultaPlanificacion.registrarJustificacionProblema}"/>
+                        <af:activeOutputText id="errJustif" 
+                                             inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
+                                             value="#{requestScope.bConsultaPlanificacion.msjErrorJustif}"
+                                             binding="#{bConsultaPlanificacion.errJustif}"/>
+                    </af:panelFormLayout>
+                </af:dialog>
+            </af:popup>
+        </af:panelGroupLayout>
     </f:view>
 </ui:composition>
