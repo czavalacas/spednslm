@@ -109,6 +109,9 @@
                     <af:column width="20" frozen="true">
                         <af:outputText value="#{vs.index + 1}"/>
                     </af:column>
+                    <af:column width="24" frozen="true" sortProperty="nidEvaluacion" headerText="ID"  align="left">
+                        <af:outputText value="#{row.nidEvaluacion}"/>
+                    </af:column>
                     <af:column sortable="true" sortProperty="fechaPlanificacion" headerText="Fecha Planificación"
                                align="center" id="c12" width="60">
                         <af:outputText value="#{row.fechaPlanificacion}" id="ot12">
