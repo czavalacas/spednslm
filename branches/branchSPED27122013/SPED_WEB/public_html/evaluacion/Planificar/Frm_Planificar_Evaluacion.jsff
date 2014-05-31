@@ -270,7 +270,7 @@
                         <af:activeOutputText id="errJustif" 
                                              inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
                                              binding="#{bPlanificarEva.errJustif}"
-                                             value="#{requestScope.bPlanificarEva.msjErrorJustif}"/>        
+                                             value="#{requestScope.bPlanificarEva.msjErrorJustif}"/>
                     </af:panelFormLayout>
                 </af:panelBox>
                         </af:gridCell>
