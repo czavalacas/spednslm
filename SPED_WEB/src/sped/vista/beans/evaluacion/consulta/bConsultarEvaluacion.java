@@ -210,6 +210,7 @@ public class bConsultarEvaluacion {
             sessionConsultarEvaluacion.setRenderExcel(true);
         }
         if(tbEval != null){
+            tbEval.setValue(sessionConsultarEvaluacion.getLstBeanEvaluacion());
             Utils.addTargetMany(tbEval, bexcel);
         }        
     }
