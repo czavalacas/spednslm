@@ -329,7 +329,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                 u.setIsNuevo("1");
                 bdL_T_SFUsuarioLocal.mergeUsuario(u);
                 SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                Calendar cal= new GregorianCalendar();
+                Calendar cal = new GregorianCalendar();
                 String[] data = new String[10];
                 data[0] = formato.format(cal.getTime()); //fecha
                 data[1] = u.getNombres(); //pdf - nombres
