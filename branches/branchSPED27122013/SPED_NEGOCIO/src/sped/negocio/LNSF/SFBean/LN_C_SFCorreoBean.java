@@ -112,72 +112,76 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
             return "No se pudo enviar el correo electronico a " + data[3];
         }
     }
-    
+
     public boolean enviarCorreoHTML(String data[]) {
         boolean valida = false;
-      try {
-          Email email = bd_C_SFEmailRemote.getEmail();
-          String PUERTO = email.getPuerto();
-          String HOST = email.getHost();
-          String CLAVE = "";
-          String EMAIL_QUE_ENVIA = "";
-          if(data[7].toString().compareTo("1") == 0){
-              CLAVE = data[6];
-              EMAIL_QUE_ENVIA = data[5];
-          }else{
-              CLAVE = email.getClave();
-              EMAIL_QUE_ENVIA = email.getCorreo();
-          }
-          BodyPart messageBodyPart = new MimeBodyPart();
-          Properties props = new Properties();
-          props.setProperty("mail.smtp.host", HOST);
-          props.setProperty("mail.smtp.starttls.enable", "true");
-          props.setProperty("mail.smtp.starttls.required", "true");
-          props.setProperty("mail.smtp.user", EMAIL_QUE_ENVIA);
-          props.setProperty("mail.smtp.auth", "true");
-          props.setProperty("mail.smtp.port", PUERTO);
-          Session session = Session.getDefaultInstance(props);
-          MimeMessage message = new MimeMessage(session);
-          message.setFrom(new InternetAddress(EMAIL_QUE_ENVIA));
-          String correos = data[3];
-          String[] vecCorreos = correos.split(";");
-          for (int i = 0; i < vecCorreos.length; i++) {
-              message.addRecipient(Message.RecipientType.TO, new InternetAddress(vecCorreos[i]));
-          }
-          message.setSubject(data[2]);
-          String contenido = "";
-          if(data[7].toString().compareTo("1") == 0){
-              contenido = contenidoHTML2(data);
-          }
-          if(data[7].toString().compareTo("0") == 0){
-              contenido = contenidoHTML(data);
-          }
-          if(data[7].toString().compareTo("2") == 0){
-              contenido = contenidoHTMLPrueba(data);
-          }
-          messageBodyPart.setContent(contenido, "text/html");
-          Multipart multipart = new MimeMultipart();
-          multipart.addBodyPart(messageBodyPart);          
-          if(data[7].toString().compareTo("1") == 0){
-              BodyPart messageBodyPart2 = new MimeBodyPart();
-              FileDataSource source = new FileDataSource(data[1]);
-              messageBodyPart2.setDataHandler(new DataHandler(source));
-              messageBodyPart2.setFileName(source.getName());
-              multipart.addBodyPart(messageBodyPart2);
-          }
-          if(data[7].toString().compareTo("0") == 0){
-              addCID("img01", data[8]+"recucontr.png", multipart);
-          }         
-          message.setContent(multipart);
-          Transport t = session.getTransport("smtp");
-          t.connect(HOST, EMAIL_QUE_ENVIA, CLAVE);
-          t.sendMessage(message, message.getAllRecipients());
-          valida = true;
-          t.close();
-      }catch (MessagingException ex){
-          return valida;
-      }
-      return valida;
+        String correos = null;
+        try {
+            Email email = bd_C_SFEmailRemote.getEmail();
+            String PUERTO = email.getPuerto();
+            String HOST = email.getHost();
+            String CLAVE = "";
+            String EMAIL_QUE_ENVIA = "";
+            if (data[7].toString().compareTo("1") == 0) {
+                CLAVE = data[6];
+                EMAIL_QUE_ENVIA = data[5];
+            } else {
+                CLAVE = email.getClave();
+                EMAIL_QUE_ENVIA = email.getCorreo();
+            }
+            BodyPart messageBodyPart = new MimeBodyPart();
+            Properties props = new Properties();
+            props.setProperty("mail.smtp.host", HOST);
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            props.setProperty("mail.smtp.starttls.required", "true");
+            props.setProperty("mail.smtp.user", EMAIL_QUE_ENVIA);
+            props.setProperty("mail.smtp.auth", "true");
+            props.setProperty("mail.smtp.port", PUERTO);
+            Session session = Session.getDefaultInstance(props);
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(EMAIL_QUE_ENVIA));
+            correos = data[3];
+            String[] vecCorreos = correos.split(";");
+            for (int i = 0; i < vecCorreos.length; i++) {
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(vecCorreos[i]));
+            }
+            message.setSubject(data[2]);
+            String contenido = "";
+            if (data[7].toString().compareTo("1") == 0) {
+                contenido = contenidoHTML2(data);
+            }
+            if (data[7].toString().compareTo("0") == 0) {
+                contenido = contenidoHTML(data);
+            }
+            if (data[7].toString().compareTo("2") == 0) {
+                contenido = contenidoHTMLPrueba(data);
+            }
+            messageBodyPart.setContent(contenido, "text/html");
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            if (data[7].toString().compareTo("1") == 0) {
+                BodyPart messageBodyPart2 = new MimeBodyPart();
+                FileDataSource source = new FileDataSource(data[1]);
+                messageBodyPart2.setDataHandler(new DataHandler(source));
+                messageBodyPart2.setFileName(source.getName());
+                multipart.addBodyPart(messageBodyPart2);
+            }
+            if (data[7].toString().compareTo("0") == 0) {
+                addCID("img01", data[8] + "recucontr.png", multipart);
+            }
+            message.setContent(multipart);
+            Transport t = session.getTransport("smtp");
+            t.connect(HOST, EMAIL_QUE_ENVIA, CLAVE);
+            t.sendMessage(message, message.getAllRecipients());
+            valida = true;
+            t.close();
+        } catch (Exception ex) {
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "OTR", CLASE, "boolean enviarCorreoHTML(String data[])",
+                                                          "Error al ejecutar enviarCorreoHTML correos: " + correos,
+                                                          Utiles.getStack(ex));
+            return valida;
+        }
+        return valida;
     }
     
     /**
@@ -342,6 +346,11 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                 data[7] = "0";
                 data[8] = ruta;
                 enviarCorreoHTML(data);
+                ln_T_SFLoggerLocal.registrarLogErroresSistema(0, 
+                                                              "OTR",
+                                                              CLASE, 
+                                                              "String recuperarClave(String correo, int evento, String ruta)",
+                                                              "Notificacion de solicitud de Clave correo: "+correo+" usuario: "+u.getUsuario()+" Nombres: "+u.getNombres(),null);
                 return "000";
             }            
         }
