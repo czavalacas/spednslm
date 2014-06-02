@@ -899,7 +899,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 query.setParameter("min",beanFiltros.getFechaInicio(),TemporalType.DATE)
                      .setParameter("max",beanFiltros.getFechaFin(),TemporalType.DATE);
             }
-            List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();
+            List<Evaluacion> eva = query.getResultList();
             return eva;
         } catch (Exception e) {
             e.printStackTrace();
