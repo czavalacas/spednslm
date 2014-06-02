@@ -104,8 +104,8 @@ public class bMain implements Serializable {
     
     public void createMenus(PhaseEvent phaseEvent) {
         if(sessionMain.getExec() == 0){
-            sessionMain.setExec(1);
             buildMenu();
+            sessionMain.setExec(1);
         }
     }
     
