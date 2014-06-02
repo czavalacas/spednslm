@@ -131,10 +131,10 @@ public class bMain implements Serializable {
             for (int i = 0; i < sessionMain.getLstPermisos().size(); i++) {
                 int hijoDeMBar = 0;
                 crearHijos(sessionMain.getLstPermisos().get(i), new RichMenu(), hijoDeMBar);
-            }           
+            }
             if(sessionMain.getExec() == 0 && popNew.getChildCount() == 0 ){
                 isNuevoUsuario();
-            }       
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

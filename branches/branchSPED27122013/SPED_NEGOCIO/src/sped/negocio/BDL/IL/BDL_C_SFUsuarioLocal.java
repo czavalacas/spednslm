@@ -49,4 +49,5 @@ public interface BDL_C_SFUsuarioLocal {
      */
     String getRolNombreUsuario_BDL(int nidUsuario);
     String getTipoFichaCurso(int nidUsuario);
+    Usuario getUsuarioByCorreo_Usuario_BDL(String correo,String usuario);
 }
