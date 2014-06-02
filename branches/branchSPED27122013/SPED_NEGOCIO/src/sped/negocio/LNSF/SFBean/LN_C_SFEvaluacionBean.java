@@ -616,18 +616,18 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         return beanEvaluacion;
     }
     //terminarrrrrr
-    public List<BeanEvaluacion_DP> desempenoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros,String fechaHoy){
-    List<BeanEvaluacion_DP> lstBeanEvas = new ArrayList<BeanEvaluacion_DP>();
-    List<Evaluacion> lstEvas = new ArrayList<Evaluacion>();
-        lstEvas=  bdL_C_SFEvaluacionLocal.getEvaluaciones_DeDocente(beanFiltros,fechaHoy);
-        for(Evaluacion eva : lstEvas){
+    
+    public List<BeanEvaluacion_DP> desempenoDocentePorEvaluacion(BeanFiltrosGraficos beanFiltros, String fechaHoy) {
+        List<BeanEvaluacion_DP> lstBeanEvas = new ArrayList<BeanEvaluacion_DP>();
+        List<Evaluacion> lstEvas = new ArrayList<Evaluacion>();
+        lstEvas = bdL_C_SFEvaluacionLocal.getEvaluaciones_DeDocente(beanFiltros, fechaHoy);
+        for (Evaluacion eva : lstEvas) {
             BeanEvaluacion_DP beanEva = new BeanEvaluacion_DP();
             beanEva.setNidEvaluacion(eva.getNidEvaluacion());
             beanEva.setNidEvaluador(eva.getNidEvaluador());
             beanEva.setEvaluador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidEvaluador()));
             beanEva.setPlanificador(bdL_C_SFUsuarioLocal.getNombresUsuarioByNidUsuario(eva.getNidPlanificador()));
-            beanEva.setProfesor(eva.getMain().getProfesor().getApellidos() + " " +
-                                eva.getMain().getProfesor().getNombres());
+            beanEva.setProfesor(eva.getMain().getProfesor().getApellidos() + " " +eva.getMain().getProfesor().getNombres());
             beanEva.setCurso(eva.getMain().getCurso().getDescripcionCurso());
             beanEva.setStartDate(eva.getStartDate());
             beanEva.setEndDate(eva.getEndDate());
@@ -635,14 +635,15 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setAreaAcademica(eva.getMain().getCurso().getAreaAcademica().getDescripcionAreaAcademica());
             BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
             beanEva.setTipoVisita(constr.getDescripcionAMostrar());
-            beanEva.setAula(eva.getMain().getAula().getDescripcionAula());     
-            double nota = resultadoBeanEvaluacionAux_WS(eva);  
+            beanEva.setAula(eva.getMain().getAula().getDescripcionAula());
+            double nota = resultadoBeanEvaluacionAux_WS(eva);
             beanEva.setNotaFinal(nota);
             lstBeanEvas.add(beanEva);
         }
         return lstBeanEvas;
-}
-        /**
+    }
+    
+    /**
      * Metodo que trae el promedio de las notas finales de una lista de evaluaciones
      * @author czavalacas
      * @since 27.02.2014
