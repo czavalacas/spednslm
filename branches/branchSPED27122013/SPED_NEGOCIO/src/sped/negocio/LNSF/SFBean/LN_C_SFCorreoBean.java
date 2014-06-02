@@ -328,6 +328,9 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                 u.setClave(clave);
                 u.setIsNuevo("1");
                 bdL_T_SFUsuarioLocal.mergeUsuario(u);
+                ln_T_SFLoggerLocal.registrarLogErroresSistema_nidEvento(0,"OTR",CLASE, 
+                                                                      "String recuperarClave(String correo, int evento, String ruta)",
+                                                                      "Notificacion de solicitud de Clave correo: "+correo+" usuario: "+u.getUsuario()+" Nombres: "+u.getNombres(),null,5);
                 SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                 Calendar cal = new GregorianCalendar();
                 String[] data = new String[10];
@@ -346,9 +349,6 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                 data[7] = "0";
                 data[8] = ruta;
                 enviarCorreoHTML(data);
-                ln_T_SFLoggerLocal.registrarLogErroresSistema_nidEvento(0,"OTR",CLASE, 
-                                                                      "String recuperarClave(String correo, int evento, String ruta)",
-                                                                      "Notificacion de solicitud de Clave correo: "+correo+" usuario: "+u.getUsuario()+" Nombres: "+u.getNombres(),null,5);
                 return "000";
             }            
         }
