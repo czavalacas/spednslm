@@ -124,7 +124,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
            Query query = em.createQuery(ejbQl);
            if (beanEvaluacion.getFechaMaxPlanificacion() != null && beanEvaluacion.getFechaMinPlanificacion() != null) {
                  query.setParameter("min", beanEvaluacion.getFechaMinPlanificacion(),TemporalType.DATE);
-                 query.setParameter("max",beanEvaluacion.getFechaMaxPlanificacion(),TemporalType.DATE).getResultList();
+                 query.setParameter("max",beanEvaluacion.getFechaMaxPlanificacion(),TemporalType.DATE);
            }
            if(beanEvaluacion.getMain() != null){
                if(beanEvaluacion.getMain().getProfesor() != null){
@@ -179,7 +179,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         try{
             String ejbQl = " SELECT ma " +
                            " FROM Evaluacion ma " +
-                           " WHERE ma.nidDate='"+nidDate+"'";   
+                           " WHERE ma.nidDate = '"+nidDate+"' ";   
                 Evaluacion eva = (Evaluacion)em.createQuery(ejbQl).getSingleResult();           
                 return eva;         
         }catch(Exception e){
@@ -216,7 +216,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 }
             }
             if (dniProfesor != null) {                
-                ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor = '" + dniProfesor + "'");
+                ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor = '" + dniProfesor + "' ");
             }
             if (nidCurso != null) {              
                 ejbQl = ejbQl.concat(" and ma.curso.nidCurso = " + nidCurso);
@@ -389,7 +389,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         try{
             String ejbQl = "SELECT ma " +
                            "FROM Constraint ma " +
-                           " WHERE ma.nombreCampo='tipo_visita'";   
+                           " WHERE ma.nombreCampo = 'tipo_visita' ";   
                 List<Constraint> cons = em.createQuery(ejbQl).getResultList();           
                 return cons;         
         }catch(Exception e){
@@ -402,7 +402,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         try{
             String ejbQl = "SELECT ma " +
                            "FROM Constraint ma " + 
-                           " WHERE ma.valorCampo ='"+valor+"'";   
+                           " WHERE ma.valorCampo = '"+valor+"' ";   
             Constraint cons = (Constraint)em.createQuery(ejbQl).getSingleResult();           
             return cons;         
         }catch(Exception e){
@@ -864,61 +864,52 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
     }
 
     public List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros, String fechaHoy) {
-        try{
-            String ejbQl = " SELECT eva " +
-                           " FROM Evaluacion eva, Main ma, Aula au"+
-                           " WHERE eva.main.nidMain = ma.nidMain"+
-                           " and ma.aula.nidAula = au.nidAula"+                         
-                           " and eva.estadoEvaluacion = 'EJECUTADO'";                                    
-            
-            if(beanFiltros.getFechaInicio() != null && beanFiltros.getFechaFin() != null){
-              ejbQl = ejbQl.concat(" and eva.startDate BETWEEN :min AND :max ");
+        try {
+            String ejbQl =
+                " SELECT eva " + " FROM Evaluacion eva, Main ma, Aula au " + " WHERE eva.main.nidMain = ma.nidMain " +
+                " and ma.aula.nidAula = au.nidAula " + " and eva.estadoEvaluacion = 'EJECUTADO' ";
+
+            if (beanFiltros.getFechaInicio() != null && beanFiltros.getFechaFin() != null) {
+                ejbQl = ejbQl.concat(" and eva.startDate BETWEEN :min AND :max ");
             }
-             
-            if(beanFiltros.getNidSede() != null){                
-              ejbQl = ejbQl.concat(" and au.sede.nidSede="+beanFiltros.getNidSede());
+            if (beanFiltros.getNidSede() != null) {
+                ejbQl = ejbQl.concat(" and au.sede.nidSede = " + beanFiltros.getNidSede());
             }
-            if(beanFiltros.getNidArea()!=null){
-              ejbQl = ejbQl.concat(" and ma.curso.areaAcademica.nidAreaAcademica="+beanFiltros.getNidArea());
-            }  
-            if(beanFiltros.getNidCurso()!=null){
-              ejbQl = ejbQl.concat(" and ma.curso.nidCurso="+beanFiltros.getNidCurso());
-            } 
-            if(beanFiltros.getNidNivele()!=null){
-              ejbQl = ejbQl.concat(" and au.gradoNivel.nivel.nidNivel="+beanFiltros.getNidNivele());
-            } 
-            if(beanFiltros.getNidGrado()!=null){
-              ejbQl = ejbQl.concat(" and au.gradoNivel.grado.nidGrado="+beanFiltros.getNidGrado());
-            } 
-            if(beanFiltros.getDniDocente() != null){          
-              ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor="+beanFiltros.getDniDocente());
+            if (beanFiltros.getNidArea() != null) {
+                ejbQl = ejbQl.concat(" and ma.curso.areaAcademica.nidAreaAcademica = " + beanFiltros.getNidArea());
             }
-            if(fechaHoy != null){            
-              ejbQl = ejbQl.concat(" and eva.startDate like '%"+fechaHoy+"%'");
-            }            
-            if (beanFiltros.getFechaFin() != null &&
-                beanFiltros.getFechaInicio() != null) {
-                List<Evaluacion> eva = em.createQuery(ejbQl).setParameter("min", beanFiltros.getFechaInicio(),
-                                                   TemporalType.DATE).setParameter("max",beanFiltros.getFechaFin(),
-                                                                                    TemporalType.DATE).getResultList();
-                return eva;
-            }else{
-                
-                
+            if (beanFiltros.getNidCurso() != null) {
+                ejbQl = ejbQl.concat(" and ma.curso.nidCurso = " + beanFiltros.getNidCurso());
             }
-                List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();           
-                return eva;         
-        }catch(Exception e){
-            e.printStackTrace();  
+            if (beanFiltros.getNidNivele() != null) {
+                ejbQl = ejbQl.concat(" and au.gradoNivel.nivel.nidNivel = " + beanFiltros.getNidNivele());
+            }
+            if (beanFiltros.getNidGrado() != null) {
+                ejbQl = ejbQl.concat(" and au.gradoNivel.grado.nidGrado = " + beanFiltros.getNidGrado());
+            }
+            if (beanFiltros.getDniDocente() != null) {
+                ejbQl = ejbQl.concat(" and ma.profesor.dniProfesor = " + beanFiltros.getDniDocente());
+            }
+            if (fechaHoy != null) {
+                ejbQl = ejbQl.concat(" and eva.startDate like '%" + fechaHoy + "%'");
+            }
+            Query query = em.createQuery(ejbQl);
+            if (beanFiltros.getFechaFin() != null && beanFiltros.getFechaInicio() != null) {
+                query.setParameter("min",beanFiltros.getFechaInicio(),TemporalType.DATE)
+                     .setParameter("max",beanFiltros.getFechaFin(),TemporalType.DATE);
+            }
+            List<Evaluacion> eva = em.createQuery(ejbQl).getResultList();
+            return eva;
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
-        }   
         }
+    }
     
     public int countNidProblema(int nidProblema){
-        String ejbQL = "SELECT  count(e) FROM Evaluacion e " 
-                       + "WHERE e.nidProblema = :nidProblema ";
-        Object object = em.createQuery(ejbQL).setParameter("nidProblema", nidProblema)
-                            .getSingleResult();
+        String ejbQL = "SELECT  count(e) FROM Evaluacion e "+
+                       " WHERE e.nidProblema = :nidProblema ";
+        Object object = em.createQuery(ejbQL).setParameter("nidProblema", nidProblema).getSingleResult();
         int cont = 0;
         if(object != null){
             cont = Integer.parseInt(object.toString());
@@ -927,34 +918,28 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
     }
     
     public int countEvaluacionByNidMain(int nidMain){
-        String ejbQL = "SELECT  count(e) FROM Evaluacion e " 
-                       + "WHERE e.main.nidMain = :nidMain ";
-        Object object = em.createQuery(ejbQL).setParameter("nidMain", nidMain)
-                            .getSingleResult();
+        String ejbQL = "SELECT  count(e) FROM Evaluacion e "+
+                       " WHERE e.main.nidMain = :nidMain ";
+        Object object = em.createQuery(ejbQL).setParameter("nidMain", nidMain).getSingleResult();
         int cont = 0;
         if(object != null){
             cont = Integer.parseInt(object.toString());
         }
         return cont;
     }
-  
-    public List<Evaluacion> getEvaluacionesEnrangoDeHoras(Date hoy, int nidMain){
-        try{   
-            
-              String ejbQl = "SELECT ev " +
-                             "FROM Evaluacion ev " +
-                             "WHERE CAST(ev.startDate as date) = :horaInicio " +
-                             "and ev.main.nidMain= :nidMain";
-           List<Evaluacion> eva = em.createQuery(ejbQl)
-                                   .setParameter("horaInicio", hoy,  TemporalType.DATE)
-                                   .setParameter("nidMain", nidMain)                
-                                   .getResultList();     
-            Utiles.sysout(eva.size());
-            return eva;  
-        }catch(Exception e){
-            e.printStackTrace();  
+
+    public List<Evaluacion> getEvaluacionesEnrangoDeHoras(Date hoy, int nidMain) {
+        try {
+            String ejbQl = "SELECT ev " +
+                           " FROM Evaluacion ev " + 
+                           " WHERE CAST(ev.startDate as date) = :horaInicio " +
+                           " AND ev.main.nidMain= :nidMain";
+            List<Evaluacion> eva = em.createQuery(ejbQl).setParameter("horaInicio", hoy, TemporalType.DATE)
+                                                        .setParameter("nidMain",nidMain).getResultList();
+            return eva;
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
-        }                   
-        
         }
+    }
 }
