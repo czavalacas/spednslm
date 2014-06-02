@@ -865,10 +865,11 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
 
     public List<Evaluacion> getEvaluaciones_DeDocente(BeanFiltrosGraficos beanFiltros, String fechaHoy) {
         try {
-            String ejbQl =
-                " SELECT eva " + " FROM Evaluacion eva, Main ma, Aula au " + " WHERE eva.main.nidMain = ma.nidMain " +
-                " and ma.aula.nidAula = au.nidAula " + " and eva.estadoEvaluacion = 'EJECUTADO' ";
-
+            String ejbQl = " SELECT eva " +
+                          " FROM Evaluacion eva, Main ma, Aula au " +
+                          " WHERE eva.main.nidMain = ma.nidMain " +
+                          " AND ma.aula.nidAula = au.nidAula " + 
+                          " AND eva.estadoEvaluacion = 'EJECUTADO' ";
             if (beanFiltros.getFechaInicio() != null && beanFiltros.getFechaFin() != null) {
                 ejbQl = ejbQl.concat(" and eva.startDate BETWEEN :min AND :max ");
             }
