@@ -86,7 +86,13 @@
                         </af:panelGridLayout>
                         <af:popup childCreation="deferred" autoCancel="disabled" id="p1">
                             <af:dialog id="d2" title="Recupera tu clave" dialogListener="#{bLogin.recuperarClave}">
-                                <af:inputText label="Correo" id="it1" value="#{bLogin.correo}" required="true">
+                                <af:inputText label="Usuario" id="itUsuRecu" autoSubmit="true" clientComponent="true"
+                                              labelStyle="text-align: left;" styleClass="titulos" required="true" 
+                                              value="#{bLogin.usuarioRecuperar}">
+                                    <f:converter converterId="lowerconverter"/>
+                                </af:inputText>
+                                <af:inputText label="Correo" id="it1" value="#{bLogin.correo}" required="true" 
+                                              labelStyle="text-align: left;" styleClass="titulos" autoSubmit="true">
                                     <f:validator validatorId="EmailValidator"/>
                                 </af:inputText>
                             </af:dialog>

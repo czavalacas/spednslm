@@ -281,11 +281,24 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     
     public Usuario getUsuarioByCorreoBDL(String correo){
         try{
-            String ejbQL = "SELECT  u FROM Usuario u " 
-                           + "WHERE u.correo = :correo ";
-             List<Usuario> lstUsuario =em.createQuery(ejbQL).setParameter("correo", correo)
-                                                                .getResultList();
-             return lstUsuario.get(0);
+            String ejbQL = "SELECT u FROM Usuario u "+
+                           " WHERE u.correo = :correo ";
+            List<Usuario> lstUsuario =em.createQuery(ejbQL).setParameter("correo", correo).getResultList();
+            return lstUsuario.get(0);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }        
+    }
+    
+    public Usuario getUsuarioByCorreo_Usuario_BDL(String correo,String usuario){
+        try{
+            String ejbQL = "SELECT u FROM Usuario u "+
+                           " WHERE u.correo = :correo " +
+                           " AND u.usuario = :usuario ";
+            List<Usuario> lstUsuario = em.createQuery(ejbQL).setParameter("correo", correo)
+                                                            .setParameter("usuario", usuario).getResultList();
+            return lstUsuario.get(0);
         }catch(Exception e){
             e.printStackTrace();
             return null;

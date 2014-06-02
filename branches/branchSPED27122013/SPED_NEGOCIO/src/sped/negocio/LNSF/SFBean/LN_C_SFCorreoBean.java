@@ -353,6 +353,41 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
             }            
         }
         return "001";
+    }
+    
+    public String recuperarClaveConUsuarioYCorreo(String correo, int evento, String ruta,String usuario){
+        if(bd_C_SFUsuarioLocal.countCorreoBDL(correo) != 0){
+            Usuario u = bd_C_SFUsuarioLocal.getUsuarioByCorreo_Usuario_BDL(correo,usuario);
+            if(u != null){
+                String clave = Utiles.getRandomClave();
+                u.setClave(clave);
+                u.setIsNuevo("1");
+                bdL_T_SFUsuarioLocal.mergeUsuario(u);
+                ln_T_SFLoggerLocal.registrarLogErroresSistema_nidEvento(0,"OTR",CLASE, 
+                                                                      "String recuperarClave(String correo, int evento, String ruta)",
+                                                                      "Notificacion de solicitud de Clave correo: "+correo+" usuario: "+u.getUsuario()+" Nombres: "+u.getNombres(),null,5);
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                Calendar cal = new GregorianCalendar();
+                String[] data = new String[10];
+                data[0] = formato.format(cal.getTime()); //fecha
+                data[1] = u.getNombres(); //pdf - nombres
+                data[2] = "Recuperar Clave"; //asunto            
+                data[3] = correo;
+                if(evento == 0){
+                    data[4] = "<p>Recibimos tu solicitud para recuperar tu cuenta. Se genero una nueva clave, tendra que cambiarla cuando entre al sistema.</p>";
+                }else{
+                    data[4] = "<p>Bienvenido a AVANTGARD Sistema de Evaluacion para docentes.\n Le proporcianamos " +
+                              "los siguientes datos. Se genero una nueva clave, tendra que cambiarla cuando entre al sistema. </p>";
+                }                
+                data[5] = u.getUsuario();
+                data[6] = clave;
+                data[7] = "0";
+                data[8] = ruta;
+                enviarCorreoHTML(data);
+                return "000";
+            }            
+        }
+        return "001";
     }   
     
     public boolean correoPrueba(){
