@@ -346,11 +346,9 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                 data[7] = "0";
                 data[8] = ruta;
                 enviarCorreoHTML(data);
-                ln_T_SFLoggerLocal.registrarLogErroresSistema(0, 
-                                                              "OTR",
-                                                              CLASE, 
-                                                              "String recuperarClave(String correo, int evento, String ruta)",
-                                                              "Notificacion de solicitud de Clave correo: "+correo+" usuario: "+u.getUsuario()+" Nombres: "+u.getNombres(),null);
+                ln_T_SFLoggerLocal.registrarLogErroresSistema_nidEvento(0,"OTR",CLASE, 
+                                                                      "String recuperarClave(String correo, int evento, String ruta)",
+                                                                      "Notificacion de solicitud de Clave correo: "+correo+" usuario: "+u.getUsuario()+" Nombres: "+u.getNombres(),null,5);
                 return "000";
             }            
         }
