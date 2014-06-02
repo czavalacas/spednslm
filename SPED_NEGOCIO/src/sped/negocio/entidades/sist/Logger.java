@@ -39,6 +39,8 @@ public class Logger implements Serializable {
     private String stacktrace;
     @Column(name = "tipo_error", nullable = false)
     private String tipo_error;
+    @Column(name = "nidEvento")
+    private int nidEvento;
 
     public Logger() {
     }
@@ -53,6 +55,14 @@ public class Logger implements Serializable {
         this.nid_log = nid_log;
         this.stacktrace = stacktrace;
         this.tipo_error = tipo_error;
+    }
+
+    public void setNidEvento(int nidEvento) {
+        this.nidEvento = nidEvento;
+    }
+
+    public int getNidEvento() {
+        return nidEvento;
     }
 
     public String getClase_java() {

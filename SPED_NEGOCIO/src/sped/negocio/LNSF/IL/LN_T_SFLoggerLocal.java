@@ -10,4 +10,11 @@ public interface LN_T_SFLoggerLocal {
                                     String metodo_java,
                                     String comentario, 
                                     String stackTrace);
+    void registrarLogErroresSistema_nidEvento(int nidLogeo,
+                                              String tipo,
+                                              String clase_java,
+                                              String metodo_java,
+                                              String comentario, 
+                                              String stackTrace,
+                                              int nidEvento);
 }
