@@ -49,6 +49,7 @@ public class bLogin implements Serializable {
     private String usuario;
     private String clave;
     private String correo;
+    private String usuarioRecuperar;
     private String tituloPopup;
     private String mensajeCorreo;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
@@ -103,7 +104,7 @@ public class bLogin implements Serializable {
     public void recuperarClave(DialogEvent dialogEvent) {
         DialogEvent.Outcome outcome = dialogEvent.getOutcome();
         if(outcome == DialogEvent.Outcome.ok){
-            String enviar = ln_C_SFCorreoRemote.recuperarClave(correo, 0, Utils.rutaImagenes());
+            String enviar = ln_C_SFCorreoRemote.recuperarClaveConUsuarioYCorreo(correo, 0, Utils.rutaImagenes(),usuarioRecuperar);
             if("000".equals(enviar)){
                 setTituloPopup("Revisa tu correo");
                 setMensajeCorreo("Te hemos enviado un correo con tu clave. Recuerda cambiarla por seguridad");
@@ -242,5 +243,13 @@ public class bLogin implements Serializable {
 
     public RichInputText getItClave() {
         return itClave;
+    }
+
+    public void setUsuarioRecuperar(String usuarioRecuperar) {
+        this.usuarioRecuperar = usuarioRecuperar;
+    }
+
+    public String getUsuarioRecuperar() {
+        return usuarioRecuperar;
     }
 }
