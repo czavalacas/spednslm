@@ -6,11 +6,11 @@
   # Suggest items en dash de profesores, los combos en este dash se resetean.
   # manuales PDF y video, subirlos al sistema
   # Sincronizar los calendarios
-  # Grabar en el log cuando se solicite nueva clave.
   # Subir APK a google play (pagar $25 registro).
   # Acomodar los tags f:view que tenga solo 1 raiz los jsff
   # Modulo de continuidad de negocio
   # Dash visualizar hora de planificacion vs. hora de evaluacion.
+  # ~~Grabar en el log cuando se solicite nueva clave.~~
   # ~~Mejorar la performance en las consultas de planificacion y evaluacion.~~
   # ~~Grabados parciales al evaluar.~~
   # ~~En bMain.java que el crear Menu se ejecute solo 1 vez.~~
