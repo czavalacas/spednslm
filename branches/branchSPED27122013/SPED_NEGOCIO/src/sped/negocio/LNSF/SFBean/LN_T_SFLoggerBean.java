@@ -58,4 +58,29 @@ public class LN_T_SFLoggerBean implements LN_T_SFLoggerRemote,
             e.printStackTrace();
        }
     }
+    
+    public void registrarLogErroresSistema_nidEvento(int nidLogeo,
+                                                     String tipo,
+                                                     String clase_java,
+                                                     String metodo_java,
+                                                     String comentario, 
+                                                     String stackTrace,
+                                                     int nidEvento){
+       try {
+           Logger logger = new Logger();
+           logger.setClase_java(clase_java);
+           logger.setComentario(comentario);
+           logger.setFecha_error(new Timestamp(new Date().getTime()));
+           logger.setMetodo_java(metodo_java);
+           if(nidLogeo > 0){
+               logger.setNid_log(nidLogeo);
+           }
+           logger.setStacktrace((stackTrace != null ? ((stackTrace.length() > 6000) ? stackTrace.substring(0,6000) : stackTrace) : null ));
+           logger.setTipo_error(tipo);
+           logger.setNidEvento(nidEvento);
+           bdL_T_SFLoggerLocal.persistLogger(logger);
+       } catch (Exception e) {
+            e.printStackTrace();
+       }
+    }
 }
