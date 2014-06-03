@@ -150,6 +150,7 @@ public class bEvaluar {
                 sessionEvaluar.setVisiblePanelBoxPanelBoxFicha(true);
                 trFich.setVisible(true);
                 sessionEvaluar.setComentarioEvaluador(sessionEvaluar.getPlanifSelect().getComentario_evaluador());
+                sessionEvaluar.setTemaEvaluacion(sessionEvaluar.getPlanifSelect().getTemaEvaluacion());
                 if("1".equalsIgnoreCase(sessionEvaluar.getPlanifSelect().getFlgParcial())){
                     sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFichaConValores(valoresFicha[0],sessionEvaluar.getPlanifSelect().getNidEvaluacion()));
                 }else{

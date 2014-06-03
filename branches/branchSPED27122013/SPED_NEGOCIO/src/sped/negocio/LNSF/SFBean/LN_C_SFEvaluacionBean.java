@@ -301,6 +301,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 beanEva.setAula(eva.getMain().getAula().getDescripcionAula());
                 beanEva.setFlgParcial(eva.getFlgParcial() == null ? "0" : eva.getFlgParcial());
                 beanEva.setComentario_evaluador(eva.getComentario_evaluador());
+                beanEva.setTemaEvaluacion(eva.getTemaEvaluacion());
                 // Utiles.sysout("beanEva:"+beanEva.getNidEvaluacion()+" ape:"+beanEva.getMain().getProfesor().getApellidos()+", "+eva.getMain().getProfesor().getNombres()+" startdate:"+beanEva.getStartDate());
                 lstBeanEvas.add(beanEva);
             }
