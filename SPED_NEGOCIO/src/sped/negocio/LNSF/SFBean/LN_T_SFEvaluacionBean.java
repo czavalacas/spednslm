@@ -213,14 +213,14 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             if(!isPrimeraVezParcial){
                 int resu = 0;
                 resu = bdL_T_SFResultadoCriterioLocal.removerResultadoCriterioByEvaluacion(nidEvaluacion);
-                if(resu == 0){
+               /* if(resu == 0){
                     error = "SPED-00006";
-                }else{
+                }else{*/
                     resu = bdL_T_SFResultadoLocal.removerResultadosByEvaluacion(nidEvaluacion);
-                    if(resu == 0){
+                  /*  if(resu == 0){
                         error = "SPED-00006";
-                    }
-                }
+                    }*/
+               // }
             }
             if(temaEvaluacion == null){
                 error = "SPED-00007";
