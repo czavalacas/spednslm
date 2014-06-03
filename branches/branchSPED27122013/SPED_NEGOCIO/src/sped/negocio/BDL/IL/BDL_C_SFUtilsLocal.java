@@ -9,6 +9,8 @@ import sped.negocio.entidades.admin.ConstraintPK;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
+import sped.negocio.entidades.sist.Log;
+import sped.negocio.entidades.sist.Logger;
 
 @Local
 public interface BDL_C_SFUtilsLocal {
@@ -40,4 +42,5 @@ public interface BDL_C_SFUtilsLocal {
     List<BeanComboString> getProfesor(String id, String desc);
     List<BeanCombo> getRolNoAdmin(String id, String desc);
     List<BeanCombo> getEvaluadoresByArea(String id, String desc, int nidArea);
+    Log findLogById(int id);
 }
