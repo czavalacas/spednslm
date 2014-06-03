@@ -93,10 +93,7 @@ public class bLogin implements Serializable {
                 Utils.addTarget(itClave);
             }
         } catch (Exception e) {
-            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
-                                                          "BAC",
-                                                          CLASE, 
-                                                          "autenticarUsuario(ActionEvent actionEvent)",
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(),"BAC",CLASE,"autenticarUsuario(ActionEvent actionEvent)",
                                                           "Error Inesperado Logear al usuario",Utils.getStack(e));
         }
     }
@@ -128,10 +125,7 @@ public class bLogin implements Serializable {
             response.sendRedirect(url);
             FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException e) {
-            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(), 
-                                                          "BAC",
-                                                          CLASE, 
-                                                          "logoutTarget(String aTarget)",
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(),"BAC",CLASE,"logoutTarget(String aTarget)",
                                                           "Error Inesperado Cerrar Sesion",Utils.getStack(e));
         }
         return null;

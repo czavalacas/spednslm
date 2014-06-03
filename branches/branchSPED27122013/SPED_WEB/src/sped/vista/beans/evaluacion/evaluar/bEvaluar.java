@@ -64,6 +64,7 @@ public class bEvaluar {
     private static final String CLASE = "sped.vista.beans.evaluacion.evaluar.bEvaluar";
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
     private RichButton btnParcial;
+    private RichInputText itTema;
 
     public bEvaluar() {
     
@@ -281,7 +282,8 @@ public class bEvaluar {
                                                                           usuario.getNidUsuario(),
                                                                           sessionEvaluar.getComentarioEvaluador(),
                                                                           usuario.getNidLog(),
-                                                                          "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false);
+                                                                          "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false,
+                                                                          sessionEvaluar.getTemaEvaluacion());
                 if("000".equalsIgnoreCase(error.getCidError())){
                     severidad = 3;
                 }else{
@@ -340,7 +342,8 @@ public class bEvaluar {
                                                                                   usuario.getNidUsuario(),
                                                                                   sessionEvaluar.getComentarioEvaluador(),
                                                                                   usuario.getNidLog(),
-                                                                                  "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false);
+                                                                                  "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false,
+                                                                                  sessionEvaluar.getTemaEvaluacion());
                 if("000".equalsIgnoreCase(error.getCidError())){
                     severidad = 3;
                     sessionEvaluar.getPlanifSelect().setFlgParcial("1");//Se le cambia a uno para saber que ya se grabo parcial y en las siguientes borre los valores grabados
@@ -377,7 +380,8 @@ public class bEvaluar {
                                                                                         usuario.getNidUsuario(),
                                                                                         sessionEvaluar.getComentarioEvaluador(),
                                                                                         usuario.getNidLog(),
-                                                                                        "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false);
+                                                                                        "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false,
+                                                                                        sessionEvaluar.getTemaEvaluacion());
             if("000".equalsIgnoreCase(error.getCidError())){
                 severidad = 3;
                 sessionEvaluar.getPlanifSelect().setFlgParcial("1");//Se le cambia a uno para saber que ya se grabo parcial y en las siguientes borre los valores grabados
@@ -617,5 +621,13 @@ public class bEvaluar {
 
     public RichButton getBtnParcial() {
         return btnParcial;
+    }
+
+    public void setItTema(RichInputText itTema) {
+        this.itTema = itTema;
+    }
+
+    public RichInputText getItTema() {
+        return itTema;
     }
 }

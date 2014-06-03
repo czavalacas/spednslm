@@ -20,6 +20,15 @@ public class bSessionEvaluar {
     private double notaFinal;
     private String estiloFinal;
     private String comentarioEvaluador;
+    private String temaEvaluacion;
+
+    public void setTemaEvaluacion(String temaEvaluacion) {
+        this.temaEvaluacion = temaEvaluacion;
+    }
+
+    public String getTemaEvaluacion() {
+        return temaEvaluacion;
+    }
 
     public void setComentarioEvaluador(String comentarioEvaluador) {
         this.comentarioEvaluador = comentarioEvaluador;
