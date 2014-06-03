@@ -24,6 +24,8 @@ import sped.negocio.entidades.admin.ConstraintPK;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
+import sped.negocio.entidades.sist.Log;
+import sped.negocio.entidades.sist.Logger;
 
 /**
  * SESSION FACADE DE METODOS UTILITARIOS
@@ -63,6 +65,15 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     public Constraint findConstraintById(ConstraintPK id) {
         try {
             Constraint instance = em.find(Constraint.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
+        }
+    }
+    
+    public Log findLogById(int id) {
+        try {
+            Log instance = em.find(Log.class, id);
             return instance;
         } catch (RuntimeException re) {
             throw re;

@@ -114,6 +114,10 @@ public class bLogin implements Serializable {
     }
 
     public String logoutTarget(String aTarget) {
+        int nidLog = 0;
+        if(beanUsuario != null){
+            nidLog = beanUsuario.getNidLog();
+        }
         ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletResponse response = (HttpServletResponse)ectx.getResponse();
         String url = ectx.getRequestContextPath() + aTarget;
@@ -122,6 +126,9 @@ public class bLogin implements Serializable {
         session.invalidate();
         try {//@TODO log
             Utils.sysout("usuario cerro sesion");
+            if(nidLog != 0){
+                ln_T_SFLogLocal.grabarLogout(nidLog);
+            }
             response.sendRedirect(url);
             FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException e) {
