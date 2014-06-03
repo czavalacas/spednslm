@@ -49,6 +49,7 @@ import org.apache.myfaces.trinidad.util.Service;
 import sped.negocio.LNSF.IL.LN_C_SFNotificacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLogLocal;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanPermiso;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -84,6 +85,8 @@ public class bMain implements Serializable {
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
     @EJB
     private LN_C_SFUsuarioLocal ln_C_SFUsuarioLocal;
+    @EJB
+    private LN_T_SFLogLocal ln_T_SFLogLocal;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     private final static String LOGIN = "/faces/Frm_login";
     private FacesContext ctx = FacesContext.getCurrentInstance();
@@ -194,6 +197,10 @@ public class bMain implements Serializable {
     }
     
     public String logoutTarget(String aTarget) {
+        int nidLog = 0;
+        if(beanUsuario != null){
+            nidLog = beanUsuario.getNidLog();
+        }
         ExternalContext ectx = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletResponse response = (HttpServletResponse)ectx.getResponse();
         String url = ectx.getRequestContextPath() + aTarget;
@@ -202,6 +209,9 @@ public class bMain implements Serializable {
         session.invalidate();
         try {//@TODO log
             Utils.sysout("usuario cerro sesion");
+            if(nidLog != 0){
+                ln_T_SFLogLocal.grabarLogout(nidLog);
+            }
             response.sendRedirect(url);
             FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException e) {

@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.BDL.IL.BDL_T_SFLoggerLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_T_SFLoggerRemote;

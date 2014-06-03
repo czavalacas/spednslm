@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.BDL.IR.BDL_T_SFLogLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLogLocal;
 import sped.negocio.LNSF.IR.LN_T_SFLogRemote;
@@ -27,6 +28,8 @@ public class LN_T_SFLogBean implements LN_T_SFLogRemote,
     SessionContext sessionContext;
     @EJB
     private BDL_T_SFLogLocal bdL_T_SFLogLocal;
+    @EJB
+    private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
 
     public LN_T_SFLogBean() {
     }
@@ -82,5 +85,11 @@ public class LN_T_SFLogBean implements LN_T_SFLogRemote,
             e.printStackTrace();
             return null;
         }
+    }
+    
+    public void grabarLogout(int nidLog){
+        Log log = bdL_C_SFUtilsLocal.findLogById(nidLog);
+        log.setFechaDesconexion(new Timestamp(new Date().getTime()));
+        bdL_T_SFLogLocal.mergeLog(log);
     }
 }
