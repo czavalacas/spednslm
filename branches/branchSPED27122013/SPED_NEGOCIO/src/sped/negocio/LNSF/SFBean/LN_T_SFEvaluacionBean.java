@@ -293,10 +293,10 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                 int resu = 0;
                 resu = bdL_T_SFResultadoCriterioLocal.removerResultadoCriterioByEvaluacion(nidEvaluacion);
                 //if(resu == 0){
-                    error = "SPED-00006";
-                /*}else{
+                   // error = "SPED-00006";
+                /*}else{*/
                     resu = bdL_T_SFResultadoLocal.removerResultadosByEvaluacion(nidEvaluacion);
-                    if(resu == 0){
+                   /* if(resu == 0){
                         error = "SPED-00006";
                     }
                 }*/
