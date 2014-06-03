@@ -205,7 +205,8 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                                                 Integer nidUsuario,
                                                 String comentarioEvaluador,
                                                 int nidLog,
-                                                boolean isPrimeraVezParcial){
+                                                boolean isPrimeraVezParcial,
+                                                String temaEvaluacion){
         BeanError beanError = new BeanError();
         String error = "000";
         try {
@@ -219,6 +220,13 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                     if(resu == 0){
                         error = "SPED-00006";
                     }
+                }
+            }
+            if(temaEvaluacion == null){
+                error = "SPED-00007";
+            }else{
+                if(temaEvaluacion.isEmpty()){
+                    error = "SPED-00007";
                 }
             }
             if("000".equals(error)){
@@ -252,6 +260,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                 eva.setFlgAnular("0");
                 eva.setFlgJustificar("0");
                 eva.setFlgParcial("0");
+                eva.setTemaEvaluacion(temaEvaluacion);
                 bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
                 this.enviarCorreoProfesorEvaluador_LN(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres(),
                                                       eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
@@ -275,7 +284,8 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                                                         Integer nidUsuario,
                                                         String comentarioEvaluador,
                                                         int nidLog,
-                                                        boolean isPrimeraVezParcial){//true si x primera vez se grabar parcialmente, false si es 2da o mas
+                                                        boolean isPrimeraVezParcial,
+                                                        String temaEvaluacion){//true si x primera vez se grabar parcialmente, false si es 2da o mas
         BeanError beanError = new BeanError();
         String error = "000";
         try {
@@ -322,6 +332,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                 eva.setFlgAnular("0");
                 eva.setFlgJustificar("0");
                 eva.setFlgParcial("1");//Esta es lo importante setear este valor a 1 para saber que es parcial
+                eva.setTemaEvaluacion(temaEvaluacion);
                 bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
             }
         }catch (Exception e) {
