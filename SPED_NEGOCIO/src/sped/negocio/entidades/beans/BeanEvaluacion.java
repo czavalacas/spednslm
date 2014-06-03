@@ -63,6 +63,15 @@ public class BeanEvaluacion implements Serializable {
     private String flgParcial;//Cuando se grabo una evaluacion parcialmente, aun no se termina
     private Integer nidRol;//Usado para el metodo BDL_C_SFEvaluacionBean.getPlanificaciones
     private Integer nidAreaUsuario;
+    private String temaEvaluacion;
+
+    public void setTemaEvaluacion(String temaEvaluacion) {
+        this.temaEvaluacion = temaEvaluacion;
+    }
+
+    public String getTemaEvaluacion() {
+        return temaEvaluacion;
+    }
 
     public void setNidAreaUsuario(Integer nidAreaUsuario) {
         this.nidAreaUsuario = nidAreaUsuario;

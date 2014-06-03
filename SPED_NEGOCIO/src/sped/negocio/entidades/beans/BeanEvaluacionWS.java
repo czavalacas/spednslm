@@ -39,7 +39,16 @@ public class BeanEvaluacionWS implements Serializable {
     private BeanCriterioWS[] criterios;
     private String comentario_evaluador;//Comentario de la evaluacion
     private String flgParcial;//Cuando se grabo una evaluacion parcialmente, aun no se termina
+    private String temaEvaluacion;
 
+    public void setTemaEvaluacion(String temaEvaluacion) {
+        this.temaEvaluacion = temaEvaluacion;
+    }
+
+    public String getTemaEvaluacion() {
+        return temaEvaluacion;
+    }
+    
     public void setComentario_evaluador(String comentario_evaluador) {
         this.comentario_evaluador = comentario_evaluador;
     }
