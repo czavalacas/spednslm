@@ -85,6 +85,8 @@ public class Evaluacion implements Serializable {
     private String flgJustificar;
     @Column(name = "flg_parcial")
     private String flgParcial;//Cuando se grabo una evaluacion parcialmente, aun no se termina
+    @Column(name = "tema")
+    private String temaEvaluacion;
     
     public Evaluacion() {
     }
@@ -106,6 +108,14 @@ public class Evaluacion implements Serializable {
         this.tipoVisita=tipoVisita;
         this.comentarioEvaluador = comentarioEvaluador;
         this.fechaEvaluacion = fechaEvaluacion;
+    }
+
+    public void setTemaEvaluacion(String temaEvaluacion) {
+        this.temaEvaluacion = temaEvaluacion;
+    }
+
+    public String getTemaEvaluacion() {
+        return temaEvaluacion;
     }
 
     public void setFlgParcial(String flgParcial) {

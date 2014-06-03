@@ -114,7 +114,7 @@
                             <af:button text="Calcular" id="btnCalc" binding="#{bEvaluar.btnCalc}"
                                        actionListener="#{bEvaluar.calcularNota}"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
-                            <af:button text="Comentario" id="btnCmt" binding="#{bEvaluar.btnCmt}"
+                            <af:button text="Comentario/Tema" id="btnCmt" binding="#{bEvaluar.btnCmt}"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
                                        actionListener="#{bEvaluar.abrirPopCommt}"/>
                         </af:panelGroupLayout>
@@ -148,13 +148,13 @@
                 </f:facet>
             </af:panelSplitter>
             <af:popup childCreation="deferred" autoCancel="disabled" id="popCmt" binding="#{bEvaluar.popCmt}">
-                <af:dialog type="okCancel" title="Ingresar el comentario de la Evaluacion">
+                <af:dialog type="okCancel" title="Ingresar el Comentario y/o el Tema de la Evaluacion">
+                    <af:inputText label="Tema" id="itTema" rows="2" maximumLength="300"
+                                  value="#{sessionScope.sessionEvaluar.temaEvaluacion}" autoSubmit="true"
+                                  columns="60" binding="#{bEvaluar.itTema}"/>
                     <af:inputText label="Comentario" id="itCmmt" binding="#{bEvaluar.itCmmt}" rows="15"
                                   value="#{sessionScope.sessionEvaluar.comentarioEvaluador}" autoSubmit="true"
                                   columns="60"/>
-                  <!--  <af:clientListener method="onDialogCmmtCancel" type="dialog"/>
-                    <af:serverListener type="DialogCmmtCancelHandlerEvent" method="#{bEvaluar.cancelarDialogComment}"/>
-                  -->  
                 </af:dialog>
             </af:popup>
             <af:popup childCreation="deferred" autoCancel="disabled" id="popMsj" binding="#{bEvaluar.popMsj}">
