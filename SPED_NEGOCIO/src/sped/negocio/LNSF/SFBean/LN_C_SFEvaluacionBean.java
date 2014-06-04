@@ -557,7 +557,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     }    
    
 
-    public List<BeanEvaluacion> getEvaluaciones_LN(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
+      public List<BeanEvaluacion> getEvaluaciones_LN(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
                                                    String dniProfesor, String nidCurso, Integer nidSede) {
         List<BeanEvaluacion> lstBean = new ArrayList();
         List<Evaluacion> lstEva = bdL_C_SFEvaluacionLocal.getEvaluaciones(fechaHoy,nidAreaAcademica,nidEvaluador,dniProfesor,nidCurso,nidSede);
@@ -695,7 +695,11 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         List<BeanEvaluacion> lstBean = new ArrayList();
         List<Evaluacion> lstEva = bdL_C_SFEvaluacionLocal.getEvaluacionesEnrangoDeHoras(hoy, nidMain);
         for (Evaluacion a : lstEva) {
-            BeanEvaluacion bean = (BeanEvaluacion) mapper.map(a, BeanEvaluacion.class);
+            BeanEvaluacion bean =new BeanEvaluacion();
+            bean.setStartDate(a.getStartDate());
+            bean.setEndDate(a.getEndDate());
+            bean.setNidPlanificador(a.getNidPlanificador());
+            bean.setNidEvaluador(a.getNidEvaluador());
             lstBean.add(bean);
 }
         return lstBean;        
