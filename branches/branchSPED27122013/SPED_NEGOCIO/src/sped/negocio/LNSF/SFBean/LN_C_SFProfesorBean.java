@@ -99,7 +99,11 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
     
     public BeanProfesor findConstrainByDni(String dni){
         try{
-            BeanProfesor bean = (BeanProfesor)mapper.map(bdl_C_SFProfesorLocal.getProfesorBydni(dni),BeanProfesor.class);
+            BeanProfesor bean = new BeanProfesor();
+            Profesor prof=bdl_C_SFProfesorLocal.getProfesorBydni(dni);                
+            bean.setApellidos(prof.getApellidos());
+            bean.setNombres(prof.getNombres());
+            bean.setDniProfesor(prof.getDniProfesor());
             return bean;
         } catch(Exception e){
             e.printStackTrace();

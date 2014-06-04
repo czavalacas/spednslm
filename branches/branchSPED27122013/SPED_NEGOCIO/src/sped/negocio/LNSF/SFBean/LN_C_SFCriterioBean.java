@@ -68,7 +68,10 @@ public class LN_C_SFCriterioBean implements LN_C_SFCriterioRemote,
     
     public BeanCriterio findConstrainByIdLN(int id){
         try{
-            BeanCriterio bean = (BeanCriterio)mapper.map(bdL_C_SFCriterioLocal.findCriterioById(id),BeanCriterio.class);
+            BeanCriterio bean =new BeanCriterio();
+            Criterio crite=bdL_C_SFCriterioLocal.findCriterioById(id);
+            bean.setDescripcionCriterio(crite.getDescripcionCriterio());
+            bean.setNidCriterio(crite.getNidCriterio());
             return bean;
         } catch(Exception e){
             e.printStackTrace();
