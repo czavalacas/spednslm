@@ -1190,7 +1190,7 @@ public class bPlanificarEva {
                     (lstEvas.get(i).getStartDate().before(sessionPlanificarEva.getFechaYhoraInicialTemporal()) &&
                      lstEvas.get(i).getEndDate().after(sessionPlanificarEva.getFechaYhoraFinTemporal())) ||
                     (lstEvas.get(i).getStartDate() == sessionPlanificarEva.getFechaYhoraInicialTemporal()) &&
-                    lstEvas.get(i).getEndDate() == sessionPlanificarEva.getFechaYhoraFinTemporal()) {
+                    lstEvas.get(i).getEndDate() == sessionPlanificarEva.getFechaYhoraFinTemporal()) {                    
                     lstEvas.get(i).setNombreEvaluador(ln_C_SFUsuarioRemote.getNombresUsuarioByNidUsuario_LN(lstEvas.get(i).getNidEvaluador()));
                     sessionPlanificarEva.getListaPlanificacionesExistentes().add(lstEvas.get(i));
                     num = 1;
@@ -1204,7 +1204,8 @@ public class bPlanificarEva {
         }
         return null;
     }
-  
+ 
+
     /**Temporal*/ 
   public String guardarPlanificacion(){//TODO dale un nombre entendible a las variable s, c  // NUEVO NOMBRE STARDATE Y ENDDATE
   if(Time.valueOf(sessionPlanificarEva.getHoraFin()+":00").before(Time.valueOf(sessionPlanificarEva.getHoraInicio()+":00")) ){
