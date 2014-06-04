@@ -48,6 +48,10 @@ public class bEvaluar {
     private RichButton btnRegistrar;
     private RichButton btnGrabar;
     private RichMessages msjGen;
+    private RichButton btnParcial;
+    private RichInputText itTema;
+    private RichButton btnRegistrarAux;
+    private RichButton btnGrabarAux;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private String _error;
     private bSessionEvaluar sessionEvaluar;
@@ -63,8 +67,6 @@ public class bEvaluar {
     private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
     private static final String CLASE = "sped.vista.beans.evaluacion.evaluar.bEvaluar";
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
-    private RichButton btnParcial;
-    private RichInputText itTema;
 
     public bEvaluar() {
     
@@ -122,6 +124,11 @@ public class bEvaluar {
             Utils.addTarget(btnRegistrar);
         }else{
             this.setError("Aun no es hora de evaluar, espero que llegue la hora de Inicio");
+            if(btnGrabarAux != null){
+                btnGrabarAux.setRendered(false);
+                btnRegistrarAux.setRendered(false);
+                Utils.addTargetMany(btnGrabarAux,btnRegistrarAux);
+            }
             Utils.showPopUpMIDDLE(popMsj);
             Utils.unselectFilas(tbPlan);
         }
@@ -323,6 +330,11 @@ public class bEvaluar {
             Boolean[] resultValida = this.isOKParcial();
             if(resultValida[1] == true){//Todos los indicadores estan con nota, mostrar popup
                 this.setError("Ha puesto notas a todos los indicadores.\nDesea grabar parcialmente (No sera considerado como completado)\n o \nDesea Registrar la evaluacion permanentemente?");
+                if(btnGrabarAux != null){
+                    btnGrabarAux.setRendered(true);
+                    btnRegistrarAux.setRendered(true);
+                    Utils.addTargetMany(btnGrabarAux,btnRegistrarAux);
+                }
                 Utils.showPopUpMIDDLE(popMsj);
             }else{
                 this.grabarEvaluacionParcialAux(resultValida[0]);
@@ -630,5 +642,21 @@ public class bEvaluar {
 
     public RichInputText getItTema() {
         return itTema;
+    }
+
+    public void setBtnRegistrarAux(RichButton btnRegistrarAux) {
+        this.btnRegistrarAux = btnRegistrarAux;
+    }
+
+    public RichButton getBtnRegistrarAux() {
+        return btnRegistrarAux;
+    }
+
+    public void setBtnGrabarAux(RichButton btnGrabarAux) {
+        this.btnGrabarAux = btnGrabarAux;
+    }
+
+    public RichButton getBtnGrabarAux() {
+        return btnGrabarAux;
     }
 }

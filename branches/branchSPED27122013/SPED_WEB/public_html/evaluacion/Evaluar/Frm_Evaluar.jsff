@@ -165,8 +165,10 @@
                                                           font-weight:bold; padding:20px;white-space: pre-wrap;"
                                              binding="#{bEvaluar.otError}" value="#{requestScope.bEvaluar.error}"/>
                         <af:panelGroupLayout>
-                            <af:button text="Grabar Parcialmente" id="btnGrabarAux" actionListener="#{bEvaluar.grabarEvaluacionParcialFinal}"/>
-                            <af:button text="Registrar Evaluacion" id="btnRegistrarAux" styleClass="FondoRojoLetraBlanca" actionListener="#{bEvaluar.grabarEvaluacion}"/>
+                            <af:button text="Grabar Parcialmente" id="btnGrabarAux" actionListener="#{bEvaluar.grabarEvaluacionParcialFinal}"
+                                       binding="#{bEvaluar.btnGrabarAux}"/>
+                            <af:button text="Registrar Evaluacion" id="btnRegistrarAux" styleClass="FondoRojoLetraBlanca" actionListener="#{bEvaluar.grabarEvaluacion}"
+                                       binding="#{bEvaluar.btnRegistrarAux}"/>
                         </af:panelGroupLayout>
                     </af:panelFormLayout>
                 </af:dialog>
