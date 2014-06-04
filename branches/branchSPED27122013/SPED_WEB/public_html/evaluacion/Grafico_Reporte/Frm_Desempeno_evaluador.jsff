@@ -283,8 +283,7 @@
                     </af:panelGroupLayout>
                 </f:facet>
             </af:panelSplitter>
-        </af:panelGroupLayout>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popDetalle"
+            <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popDetalle"
                   binding="#{bDesempenoEvaluador.popDetalle}">
             <af:dialog id="d1" type="none" title="Detalle de Evaluaciones">
                 <af:panelGridLayout id="pgl3">
@@ -451,5 +450,6 @@
                 </af:panelFormLayout>
             </af:dialog>
         </af:popup>
+        </af:panelGroupLayout>        
     </f:view>
 </ui:composition>

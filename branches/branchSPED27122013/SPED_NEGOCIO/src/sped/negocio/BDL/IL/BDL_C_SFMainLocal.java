@@ -39,7 +39,8 @@ public interface BDL_C_SFMainLocal {
     List<Main> countCruceLecionByProfesor(String dniProfesor, 
                                           int dia,
                                           Time inicio, 
-                                          Time fin);
+                                          Time fin,
+                                          int nidMain);
     int findMainBySedeYNivel(int nidSede, 
                              int nidNivel);
 }

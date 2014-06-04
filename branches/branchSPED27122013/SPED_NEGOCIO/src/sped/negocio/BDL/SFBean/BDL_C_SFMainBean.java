@@ -277,11 +277,20 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         }
     }
     
-    
+    /**
+     * Metodo que valida si un profesor se encuntra ocupado en un rango de horas
+     * @param dniProfesor
+     * @param dia
+     * @param inicio
+     * @param fin
+     * @param nidMain
+     * @return
+     */
     public List<Main> countCruceLecionByProfesor(String dniProfesor, 
                                                  int dia,
                                                  Time inicio, 
-                                                 Time fin){   
+                                                 Time fin,
+                                                 int nidMain){   
         try{
             String ejbQl =  " SELECT ma FROM Main ma " +                            
                             " WHERE ma.profesor.dniProfesor= :dniProfesor " +
@@ -290,13 +299,19 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                             " AND ( (ma.horaInicio < :inicio AND ma.horaFin > :fin) " +
                             " OR    (ma.horaInicio > :inicio AND ma.horaInicio < :fin) " +
                             " OR    (ma.horaFin > :inicio AND ma.horaFin < :fin) " +
-                            " OR    (ma.horaInicio = :inicio AND ma.horaFin = :fin) )";
-            return em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor)
-                                        .setParameter("estado", "1")
-                                        .setParameter("dia", dia)
-                                        .setParameter("inicio", inicio)
-                                        .setParameter("fin", fin)
-                                        .getResultList();
+                            " OR    (ma.horaInicio = :inicio AND ma.horaFin = :fin) ) ";
+            if(nidMain != 0){
+                ejbQl = ejbQl.concat(" AND ma.nidMain <> :nidMain ");
+            }
+            Query query = em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor)
+                                               .setParameter("estado", "1")
+                                               .setParameter("dia", dia)
+                                               .setParameter("inicio", inicio)
+                                               .setParameter("fin", fin);
+            if(nidMain != 0){
+                query.setParameter("nidMain", nidMain);
+            }
+            return query.getResultList();
         }catch(Exception e){
             e.printStackTrace();
             return new ArrayList();

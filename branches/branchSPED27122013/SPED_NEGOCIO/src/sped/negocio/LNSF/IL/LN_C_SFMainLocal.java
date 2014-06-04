@@ -40,5 +40,6 @@ public interface LN_C_SFMainLocal {
     List<BeanMain> CruceLecionByProfesor(String dniProfesor, 
                                          int dia,
                                          Time inicio, 
-                                         Time fin);
+                                         Time fin,
+                                         int nidMain);
 }

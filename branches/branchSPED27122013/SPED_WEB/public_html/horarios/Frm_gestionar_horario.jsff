@@ -83,12 +83,12 @@
                     <af:forEach varStatus="vs" begin="0" end="4">
                         <af:column sortable="false" headerText="#{sessionGestionarHorario.getDia(vs.index)}"
                                    align="center" width="250">
-                            <af:panelFormLayout rendered="#{sessionGestionarHorario.renderLeccion(v.index, vs.index)}" 
-                                                inlineStyle="background-color:#{sessionGestionarHorario.nomColor(v.index, vs.index)};
-                                                color:Black; font-weight:bold;text-align:center;" >                                                
+                            <af:panelFormLayout rendered="#{sessionGestionarHorario.renderLeccion(v.index, vs.index)}" inlineStyle="background-color:#{sessionGestionarHorario.nomColor(v.index, vs.index)};
+                                                color:Black; font-weight:bold;text-align:center;">
                                 <af:outputText value="#{sessionGestionarHorario.nomCurso(v.index, vs.index)}"/>
                                 <af:outputText value="#{sessionGestionarHorario.nomProfesor(v.index, vs.index)}"/>
-                                <af:button actionListener="#{bGestionarHorario.obtenerposicion}" icon="/recursos/img/usuarios/config.png"
+                                <af:button actionListener="#{bGestionarHorario.obtenerposicion}"
+                                           icon="/recursos/img/usuarios/config.png"
                                            rendered="#{!sessionGestionarHorario.renderAgregar}">
                                     <f:setPropertyActionListener value="#{vs.index}"
                                                                  target="#{bGestionarHorario.NDia}"/>
@@ -98,7 +98,8 @@
                                 </af:button>
                             </af:panelFormLayout>
                             <af:panelFormLayout rendered="#{sessionGestionarHorario.renderAgregar_aux and !sessionGestionarHorario.existeLeccion(v.index, vs.index)}">
-                                <af:button icon="/recursos/img/usuarios/check.png" actionListener="#{bGestionarHorario.horarioChecked}">
+                                <af:button icon="/recursos/img/usuarios/check.png"
+                                           actionListener="#{bGestionarHorario.horarioChecked}">
                                     <f:attribute name="nDia" value="#{vs.index}"/>
                                     <f:attribute name="nLec" value="#{v.index}"/>
                                 </af:button>
@@ -106,116 +107,127 @@
                             <af:panelFormLayout rendered="#{sessionGestionarHorario.renderAgregar and sessionGestionarHorario.renderLeccion_aux(v.index, vs.index)}"
                                                 inlineStyle="background-color:Yellow; color:Black; font-weight:bold;text-align:center;">
                                 <af:panelGroupLayout id="pgl5">
-                                    <af:button icon="../recursos/img/usuarios/cancel.png" actionListener="#{bGestionarHorario.horarioCancel}">
+                                    <af:button icon="../recursos/img/usuarios/cancel.png"
+                                               actionListener="#{bGestionarHorario.horarioCancel}">
                                         <f:attribute name="nDia" value="#{vs.index}"/>
                                         <f:attribute name="nLec" value="#{v.index}"/>
                                     </af:button>
-                                    <af:outputText value="#{sessionGestionarHorario.nomCurso(v.index, vs.index)}" id="ot10"/>
+                                    <af:outputText value="#{sessionGestionarHorario.nomCurso(v.index, vs.index)}"
+                                                   id="ot10"/>
                                 </af:panelGroupLayout>
                                 <af:outputText value="#{sessionGestionarHorario.nomProfesor(v.index, vs.index)}"/>
-                            </af:panelFormLayout>                           
+                            </af:panelFormLayout>
                         </af:column>
                     </af:forEach>
                 </af:table>
             </af:panelBox>
             <af:panelGroupLayout id="pgl3" rendered="#{sessionGestionarHorario.renderHorario}"></af:panelGroupLayout>
-        </af:panelGroupLayout>
-        <af:popup id="popOpcion">
-            <af:noteWindow>
-                <af:panelFormLayout rows="2" maxColumns="1">
-                    <af:commandLink text="Cambiar Color" id="txt" actionListener="#{bGestionarHorario.cambiarColor}"/>
-                    <af:commandLink text="Eliminar" id="txt2" actionListener="#{bGestionarHorario.eliminarLecciones}"/>
-                    <af:commandLink text="Modficar" id="txt3" actionListener="#{bGestionarHorario.modificarLecciones}"/>
-                </af:panelFormLayout>
-            </af:noteWindow>
-        </af:popup>
-        <af:popup childCreation="immediate" contentDelivery="immediate" autoCancel="disabled" id="popGHor"
-                  binding="#{bGestionarHorario.popGHor}">
-            <af:dialog id="d1" title="Generar Horario" type="none" >
-                <af:subform id="s4" defaultCommand="b2">
-                    <af:panelFormLayout id="pfGHor" binding="#{bGestionarHorario.pfGHor}">
-                        <af:selectOneChoice label="Profesor" value="#{sessionGestionarHorario.nidProfesor}"
-                                            id="choiceProfesor" binding="#{bGestionarHorario.choiceProfesor}"
-                                            autoSubmit="true" required="true" labelStyle="text-align: left;"
-                                            valueChangeListener="#{bGestionarHorario.changeListenerProfesor}">
-                            <f:selectItems value="#{sessionGestionarHorario.lstProfesor}" id="si4"
-                                           binding="#{bGestionarHorario.si4}"/>
-                        </af:selectOneChoice>
-                        <af:selectOneChoice label="Area" value="#{sessionGestionarHorario.nidArea}" id="choiceArea"
-                                            binding="#{bGestionarHorario.choiceArea}" autoSubmit="true" required="true"
-                                            valueChangeListener="#{bGestionarHorario.changeListenerArea}"
-                                            labelStyle="text-align: left;">
-                            <f:selectItems value="#{sessionGestionarHorario.lstArea}" id="si6"
-                                           binding="#{bGestionarHorario.si6}"/>
-                        </af:selectOneChoice>
-                        <af:selectOneChoice label="Curso" value="#{sessionGestionarHorario.nidCurso}" id="choiceCurso"
-                                            binding="#{bGestionarHorario.choiceCurso}" autoSubmit="true" required="true"
-                                            rendered="#{sessionGestionarHorario.renderCurso}" labelStyle="text-align: left;"
-                                            valueChangeListener="#{bGestionarHorario.changeListenerCurso}">
-                            <f:selectItems value="#{sessionGestionarHorario.lstCurso}" id="si5"
-                                           binding="#{bGestionarHorario.si5}"/>
-                        </af:selectOneChoice>
-                        <af:inputText label="N° Horas" id="itHor" value="#{bGestionarHorario.nroHoras}" required="true"
-                                      binding="#{bGestionarHorario.itHor}" autoSubmit="true">
-                            <f:validator validatorId="horasMaximo"/>
-                        </af:inputText>
-                        <af:button text="Aceptar" id="b2" action="#{bGestionarHorario.agregarLeccion}"/>
+            <af:popup id="popOpcion">
+                <af:noteWindow>
+                    <af:panelFormLayout rows="2" maxColumns="1">
+                        <af:commandLink text="Cambiar Color" id="txt"
+                                        actionListener="#{bGestionarHorario.cambiarColor}"/>
+                        <af:commandLink text="Eliminar" id="txt2"
+                                        actionListener="#{bGestionarHorario.eliminarLecciones}"/>
+                        <af:commandLink text="Modficar" id="txt3"
+                                        actionListener="#{bGestionarHorario.modificarLecciones}"/>
                     </af:panelFormLayout>
-                </af:subform>
-                <af:table value="#{sessionGestionarHorario.lstBeanMain}" var="row" rowBandingInterval="0" id="tHoras"
-                          binding="#{bGestionarHorario.thoras}">
-                    <af:column sortable="false" headerText="Profesor" align="start" id="c2">
-                        <af:outputText value="#{row.nombreProfesor}" id="ot1"/>
-                    </af:column>
-                    <af:column sortable="false" headerText="Area" align="start" id="c3">
-                        <af:outputText value="#{row.nombreArea}" id="ot3"/>
-                    </af:column>
-                    <af:column sortable="false" headerText="Curso" align="start" id="c4">
-                        <af:outputText value="#{row.nombreCurso}" id="ot4"/>
-                    </af:column>
-                    <af:column sortable="false" headerText="Nro Horas" align="center" id="c5"
-                               rendered="#{!sessionGestionarHorario.renderGenerario}">
-                        <af:outputText value="#{row.nroHoras}" id="ot5"/>
-                    </af:column>
-                    <af:column sortable="false" headerText="Eliminar" align="center" id="c6" 
-                               rendered="#{!sessionGestionarHorario.renderGenerario}">
-                        <af:button icon="../recursos/img/usuarios/cancel.png" id="b4" action="#{bGestionarHorario.eliminarLeccion}">
-                            <f:setPropertyActionListener value="#{row}" target="#{bGestionarHorario.beanMain}"/>
-                        </af:button>
-                    </af:column>
-                    <af:column sortable="false" headerText="Ingresado" align="center" rendered="#{sessionGestionarHorario.renderGenerario}">
-                        <af:outputText value="#{row.nroHoras_aux} / #{row.nroHorasReal}"/>
-                    </af:column>
-                </af:table>
-                <af:button text="Generar Horarios" id="b3" actionListener="#{bGestionarHorario.generarHorario}"/>
-            </af:dialog>
-        </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popColor" binding="#{bGestionarHorario.popColor}">
-            <af:dialog id="d2" title="Cambiar Color del Curso #{sessionGestionarHorario.selecNombreCurso}"
-                       dialogListener="#{bGestionarHorario.confirmarCambioColor}">
-                <af:chooseColor id="cc1"/>
-                <af:inputColor label="Seleccione el color de la paleta" id="ic1" chooseId="cc1" required="true"
-                               shortDesc="Seleccione el color de la paleta" value="#{sessionGestionarHorario.color}"
-                               autoSubmit="true" usage="text"/>
-            </af:dialog>
-        </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popEM" binding="#{bGestionarHorario.popEM}">
-            <af:dialog id="d3" title="#{sessionGestionarHorario.tituloEliminarModificar}"
-                       dialogListener="#{bGestionarHorario.modificarEliminarLecciones}">
-                <af:panelFormLayout id="pfl1">
-                    <af:selectOneChoice label="Profesor" value="#{sessionGestionarHorario.nidProfesor}" id="chProf"
-                                        binding="#{bGestionarHorario.chProf}" labelStyle="text-align: left;"
-                                        required="true" autoSubmit="true"
-                                        rendered="#{sessionGestionarHorario.renderEliminarModificar}">
-                        <f:selectItems value="#{sessionGestionarHorario.lstProfesor}" id="si8"/>
-                    </af:selectOneChoice>
-                    <af:selectManyChoice label="Dias" value="#{sessionGestionarHorario.lstDiasSelec}" id="choiceDia"
-                                         labelStyle="text-align: left;" autoSubmit="true"
-                                         binding="#{bGestionarHorario.choiceDia}" required="true">
-                        <f:selectItems value="#{sessionScope.sessionGestionarHorario.lstSelecDias}" id="si7"/>
-                    </af:selectManyChoice>
-                </af:panelFormLayout>
-            </af:dialog>
-        </af:popup>
+                </af:noteWindow>
+            </af:popup>
+            <af:popup childCreation="immediate" contentDelivery="immediate" autoCancel="disabled" id="popGHor"
+                      binding="#{bGestionarHorario.popGHor}">
+                <af:dialog id="d1" title="Generar Horario" type="none">
+                    <af:subform id="s4" defaultCommand="b2">
+                        <af:panelFormLayout id="pfGHor" binding="#{bGestionarHorario.pfGHor}">
+                            <af:selectOneChoice label="Profesor" value="#{sessionGestionarHorario.nidProfesor}"
+                                                id="choiceProfesor" binding="#{bGestionarHorario.choiceProfesor}"
+                                                autoSubmit="true" required="true" labelStyle="text-align: left;"
+                                                valueChangeListener="#{bGestionarHorario.changeListenerProfesor}">
+                                <f:selectItems value="#{sessionGestionarHorario.lstProfesor}" id="si4"
+                                               binding="#{bGestionarHorario.si4}"/>
+                            </af:selectOneChoice>
+                            <af:selectOneChoice label="Area" value="#{sessionGestionarHorario.nidArea}" id="choiceArea"
+                                                binding="#{bGestionarHorario.choiceArea}" autoSubmit="true"
+                                                required="true"
+                                                valueChangeListener="#{bGestionarHorario.changeListenerArea}"
+                                                labelStyle="text-align: left;">
+                                <f:selectItems value="#{sessionGestionarHorario.lstArea}" id="si6"
+                                               binding="#{bGestionarHorario.si6}"/>
+                            </af:selectOneChoice>
+                            <af:selectOneChoice label="Curso" value="#{sessionGestionarHorario.nidCurso}"
+                                                id="choiceCurso" binding="#{bGestionarHorario.choiceCurso}"
+                                                autoSubmit="true" required="true"
+                                                rendered="#{sessionGestionarHorario.renderCurso}"
+                                                labelStyle="text-align: left;"
+                                                valueChangeListener="#{bGestionarHorario.changeListenerCurso}">
+                                <f:selectItems value="#{sessionGestionarHorario.lstCurso}" id="si5"
+                                               binding="#{bGestionarHorario.si5}"/>
+                            </af:selectOneChoice>
+                            <af:inputText label="N° Horas" id="itHor" value="#{bGestionarHorario.nroHoras}"
+                                          required="true" binding="#{bGestionarHorario.itHor}" autoSubmit="true">
+                                <f:validator validatorId="horasMaximo"/>
+                            </af:inputText>
+                            <af:button text="Aceptar" id="b2" action="#{bGestionarHorario.agregarLeccion}"/>
+                        </af:panelFormLayout>
+                    </af:subform>
+                    <af:table value="#{sessionGestionarHorario.lstBeanMain}" var="row" rowBandingInterval="0"
+                              id="tHoras" binding="#{bGestionarHorario.thoras}">
+                        <af:column sortable="false" headerText="Profesor" align="start" id="c2">
+                            <af:outputText value="#{row.nombreProfesor}" id="ot1"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Area" align="start" id="c3">
+                            <af:outputText value="#{row.nombreArea}" id="ot3"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Curso" align="start" id="c4">
+                            <af:outputText value="#{row.nombreCurso}" id="ot4"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Nro Horas" align="center" id="c5"
+                                   rendered="#{!sessionGestionarHorario.renderGenerario}">
+                            <af:outputText value="#{row.nroHoras}" id="ot5"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Eliminar" align="center" id="c6"
+                                   rendered="#{!sessionGestionarHorario.renderGenerario}">
+                            <af:button icon="../recursos/img/usuarios/cancel.png" id="b4"
+                                       action="#{bGestionarHorario.eliminarLeccion}">
+                                <f:setPropertyActionListener value="#{row}" target="#{bGestionarHorario.beanMain}"/>
+                            </af:button>
+                        </af:column>
+                        <af:column sortable="false" headerText="Ingresado" align="center"
+                                   rendered="#{sessionGestionarHorario.renderGenerario}">
+                            <af:outputText value="#{row.nroHoras_aux} / #{row.nroHorasReal}"/>
+                        </af:column>
+                    </af:table>
+                    <af:button text="Generar Horarios" id="b3" actionListener="#{bGestionarHorario.generarHorario}"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popColor"
+                      binding="#{bGestionarHorario.popColor}">
+                <af:dialog id="d2" title="Cambiar Color del Curso #{sessionGestionarHorario.selecNombreCurso}"
+                           dialogListener="#{bGestionarHorario.confirmarCambioColor}">
+                    <af:chooseColor id="cc1"/>
+                    <af:inputColor label="Seleccione el color de la paleta" id="ic1" chooseId="cc1" required="true"
+                                   shortDesc="Seleccione el color de la paleta" value="#{sessionGestionarHorario.color}"
+                                   autoSubmit="true" usage="text"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popEM" binding="#{bGestionarHorario.popEM}">
+                <af:dialog id="d3" title="#{sessionGestionarHorario.tituloEliminarModificar}"
+                           dialogListener="#{bGestionarHorario.modificarEliminarLecciones}">
+                    <af:panelFormLayout id="pfl1">
+                        <af:selectOneChoice label="Profesor" value="#{sessionGestionarHorario.nidProfesor}" id="chProf"
+                                            binding="#{bGestionarHorario.chProf}" labelStyle="text-align: left;"
+                                            required="true" autoSubmit="true"
+                                            rendered="#{sessionGestionarHorario.renderEliminarModificar}">
+                            <f:selectItems value="#{sessionGestionarHorario.lstProfesor}" id="si8"/>
+                        </af:selectOneChoice>
+                        <af:selectManyChoice label="Dias" value="#{sessionGestionarHorario.lstDiasSelec}" id="choiceDia"
+                                             labelStyle="text-align: left;" autoSubmit="true"
+                                             binding="#{bGestionarHorario.choiceDia}" required="true">
+                            <f:selectItems value="#{sessionScope.sessionGestionarHorario.lstSelecDias}" id="si7"/>
+                        </af:selectManyChoice>
+                    </af:panelFormLayout>
+                </af:dialog>
+            </af:popup>
+        </af:panelGroupLayout>
     </f:view>
 </ui:composition>

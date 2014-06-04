@@ -61,7 +61,8 @@
                                                             suggestedItems="#{bGestionarUsuarios.suggestDni}"/>
                                 </af:inputText>
                                 <af:selectOneChoice label="Area " value="#{sessionGestionarUsuarios.FNidAreaAcademica}"
-                                                    id="choiceFTipoArea" autoSubmit="true" labelStyle="text-align: left;"
+                                                    id="choiceFTipoArea" autoSubmit="true"
+                                                    labelStyle="text-align: left;"
                                                     binding="#{bGestionarUsuarios.choiceFTipoArea}"
                                                     disabled="#{sessionGestionarUsuarios.disableFArea}">
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si5"
@@ -94,14 +95,13 @@
                     <af:toolbar id="t1"></af:toolbar>
                 </f:facet>
                 <f:facet name="statusbar"/>
-                <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" 
-                          id="t2" width="inherit;" fetchSize="25" 
-                          inlineStyle="width:inherit; margin:0px 50px 0px 0px;"
-                          binding="#{bGestionarUsuarios.t1}" rowSelection="single" 
+                <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" id="t2"
+                          width="inherit;" fetchSize="25" inlineStyle="width:inherit; margin:0px 50px 0px 0px;"
+                          binding="#{bGestionarUsuarios.t1}" rowSelection="single"
                           selectionListener="#{bGestionarUsuarios.selecionarUsuario}" varStatus="vs">
                     <af:column width="18">
                         <af:outputText value="#{vs.index + 1}"/>
-                    </af:column>      
+                    </af:column>
                     <af:column sortable="true" headerText="Nombres" align="start" id="c1" width="300"
                                sortProperty="nombres">
                         <af:outputText value="#{row.nombres}" id="ot1"/>
@@ -135,83 +135,83 @@
                     </af:column>
                 </af:table>
             </af:panelCollection>
+            <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popGestionUsuario"
+                      binding="#{bGestionarUsuarios.popGestionUsuario}">
+                <af:dialog id="d1" type="none" title="#{sessionGestionarUsuarios.titleDialogGestion}">
+                    <af:panelFormLayout id="pfl1" binding="#{bGestionarUsuarios.pfl1}">
+                        <af:inputText label="Nombre y Apellidos" id="itNombres" maximumLength="100"
+                                      labelStyle="text-align: left;" value="#{sessionGestionarUsuarios.nombres}"
+                                      required="true" autoSubmit="true" binding="#{bGestionarUsuarios.itNombres}">
+                            <f:validator validatorId="LetrasValidator"/>
+                            <f:converter converterId="trimConverter"/>
+                        </af:inputText>
+                        <af:inputText label="DNI" id="itDni" labelStyle="text-align: left;" required="true"
+                                      value="#{sessionGestionarUsuarios.dni}" maximumLength="8"
+                                      disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
+                                      binding="#{bGestionarUsuarios.itDni}">
+                            <f:validator validatorId="DniValidator"/>
+                        </af:inputText>
+                        <af:inputText label="Correo" id="itCor" labelStyle="text-align: left;" required="true"
+                                      value="#{sessionGestionarUsuarios.correo}" maximumLength="150" autoSubmit="true"
+                                      binding="#{bGestionarUsuarios.itCor}">
+                            <f:validator validatorId="EmailUValidator"/>
+                        </af:inputText>
+                        <af:selectOneChoice label="Tipo Rol" unselectedLabel="::Selecionar Rol::"
+                                            value="#{sessionGestionarUsuarios.nidRol}" required="true"
+                                            id="choiceTipoRol" autoSubmit="true" labelStyle="text-align: left;"
+                                            binding="#{bGestionarUsuarios.choiceTipoRol}"
+                                            valueChangeListener="#{bGestionarUsuarios.tipoRolChangeListener}"
+                                            disabled="#{sessionGestionarUsuarios.disableRol}">
+                            <f:selectItems value="#{sessionGestionarUsuarios.lstRolf}" id="si1"
+                                           binding="#{bGestionarUsuarios.si1}"/>
+                        </af:selectOneChoice>
+                        <af:selectOneChoice label="Area Academica" unselectedLabel="::Selecionar Area::"
+                                            value="#{sessionGestionarUsuarios.nidAreaAcademica}" id="choiceTipoArea"
+                                            autoSubmit="true" labelStyle="text-align: left;"
+                                            binding="#{bGestionarUsuarios.choiceTipoArea}"
+                                            required="#{sessionGestionarUsuarios.renderAreaAcdemica}"
+                                            rendered="#{sessionGestionarUsuarios.renderAreaAcdemica}">
+                            <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si2"
+                                           binding="#{bGestionarUsuarios.si2}"/>
+                        </af:selectOneChoice>
+                        <af:selectOneChoice label="Sede" value="#{sessionGestionarUsuarios.nidSede}" id="choiceTipoSede"
+                                            binding="#{bGestionarUsuarios.choiceTipoSede}"
+                                            unselectedLabel="::Selecionar Sede::" autoSubmit="true"
+                                            labelStyle="text-align: left;"
+                                            rendered="#{sessionScope.sessionGestionarUsuarios.renderSede}"
+                                            required="#{sessionScope.sessionGestionarUsuarios.renderSede}">
+                            <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstSede}" id="si8"
+                                           binding="#{bGestionarUsuarios.si8}"/>
+                        </af:selectOneChoice>
+                        <af:selectBooleanCheckbox text="¿Es supervisor?" id="sbc1"
+                                                  value="#{sessionGestionarUsuarios.supervisorboolean}"
+                                                  rendered="#{sessionGestionarUsuarios.renderAreaAcdemica}"/>
+                        <af:inputText label="Usuario" id="itUsuario" labelStyle="text-align: left;" required="true"
+                                      value="#{sessionGestionarUsuarios.usuario}" maximumLength="35"
+                                      disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
+                                      binding="#{bGestionarUsuarios.itUsuario}">
+                            <f:validator validatorId="NomUsuarioValidator"/>
+                        </af:inputText>
+                        <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true"
+                                      labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"
+                                      binding="#{bGestionarUsuarios.fileImg}" maximumFiles="1"
+                                      valueChangeListener="#{bGestionarUsuarios.uploadFileValueChangeEvent}"/>
+                        <af:image id="i1" binding="#{bGestionarUsuarios.i1}"
+                                  source="/imageservlet?nomusuario=#{sessionGestionarUsuarios.nidUsuario}"
+                                  inlineStyle="height:175px; width:150px;"
+                                  rendered="#{sessionGestionarUsuarios.renderImg}"/>
+                        <af:button text="#{sessionGestionarUsuarios.nomBtnGestion}" id="b4"
+                                   binding="#{bGestionarUsuarios.b4}"
+                                   actionListener="#{bGestionarUsuarios.btnGestionarUsuario}"/>
+                    </af:panelFormLayout>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p1"
+                      binding="#{bGestionarUsuarios.popConfirmar}">
+                <af:dialog id="d2" title="Mensaje" dialogListener="#{bGestionarUsuarios.confirmaAnular}">
+                    <af:outputText value="Desea anular al usuario #{sessionGestionarUsuarios.usuario}" id="ot8"/>
+                </af:dialog>
+            </af:popup>
         </af:panelGroupLayout>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popGestionUsuario"
-                  binding="#{bGestionarUsuarios.popGestionUsuario}">
-            <af:dialog id="d1" type="none" title="#{sessionGestionarUsuarios.titleDialogGestion}">
-                <af:panelFormLayout id="pfl1" binding="#{bGestionarUsuarios.pfl1}">
-                    <af:inputText label="Nombre y Apellidos" id="itNombres" maximumLength="100"
-                                  labelStyle="text-align: left;" value="#{sessionGestionarUsuarios.nombres}"
-                                  required="true" autoSubmit="true" binding="#{bGestionarUsuarios.itNombres}">
-                        <f:validator validatorId="LetrasValidator"/>
-                        <f:converter converterId="trimConverter"/>
-                    </af:inputText>
-                    <af:inputText label="DNI" id="itDni" labelStyle="text-align: left;" required="true"
-                                  value="#{sessionGestionarUsuarios.dni}" maximumLength="8"
-                                  disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
-                                  binding="#{bGestionarUsuarios.itDni}">
-                        <f:validator validatorId="DniValidator"/>
-                    </af:inputText>
-                    <af:inputText label="Correo" id="itCor" labelStyle="text-align: left;" required="true"
-                                  value="#{sessionGestionarUsuarios.correo}" maximumLength="150" autoSubmit="true"
-                                  binding="#{bGestionarUsuarios.itCor}">
-                        <f:validator validatorId="EmailUValidator"/>
-                    </af:inputText>
-                    <af:selectOneChoice label="Tipo Rol" unselectedLabel="::Selecionar Rol::"
-                                        value="#{sessionGestionarUsuarios.nidRol}" required="true" id="choiceTipoRol"
-                                        autoSubmit="true" labelStyle="text-align: left;"
-                                        binding="#{bGestionarUsuarios.choiceTipoRol}"
-                                        valueChangeListener="#{bGestionarUsuarios.tipoRolChangeListener}"
-                                        disabled="#{sessionGestionarUsuarios.disableRol}">
-                        <f:selectItems value="#{sessionGestionarUsuarios.lstRolf}" id="si1"
-                                       binding="#{bGestionarUsuarios.si1}"/>
-                    </af:selectOneChoice>
-                    <af:selectOneChoice label="Area Academica" unselectedLabel="::Selecionar Area::"
-                                        value="#{sessionGestionarUsuarios.nidAreaAcademica}" id="choiceTipoArea"
-                                        autoSubmit="true" labelStyle="text-align: left;"
-                                        binding="#{bGestionarUsuarios.choiceTipoArea}"
-                                        required="#{sessionGestionarUsuarios.renderAreaAcdemica}"
-                                        rendered="#{sessionGestionarUsuarios.renderAreaAcdemica}">
-                        <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si2"
-                                       binding="#{bGestionarUsuarios.si2}"/>
-                    </af:selectOneChoice>
-                    <af:selectOneChoice label="Sede" value="#{sessionGestionarUsuarios.nidSede}"
-                                        id="choiceTipoSede" binding="#{bGestionarUsuarios.choiceTipoSede}"
-                                        unselectedLabel="::Selecionar Sede::" autoSubmit="true"
-                                        labelStyle="text-align: left;"
-                                        rendered="#{sessionScope.sessionGestionarUsuarios.renderSede}"
-                                        required="#{sessionScope.sessionGestionarUsuarios.renderSede}">
-                        <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstSede}" id="si8"
-                                       binding="#{bGestionarUsuarios.si8}"/>
-                    </af:selectOneChoice>
-                    <af:selectBooleanCheckbox text="¿Es supervisor?" id="sbc1" 
-                                              value="#{sessionGestionarUsuarios.supervisorboolean}"
-                                              rendered="#{sessionGestionarUsuarios.renderAreaAcdemica}"/>
-                    <af:inputText label="Usuario" id="itUsuario" labelStyle="text-align: left;" required="true"
-                                  value="#{sessionGestionarUsuarios.usuario}" maximumLength="35"
-                                  disabled="#{sessionGestionarUsuarios.disabledActualizar}" autoSubmit="true"
-                                  binding="#{bGestionarUsuarios.itUsuario}">
-                        <f:validator validatorId="NomUsuarioValidator"/>
-                    </af:inputText>
-                    <af:inputFile id="fileImg" label="Subir Imagen" autoSubmit="true"
-                                  labelStyle="color: rgb(19,76,149);font-weight:800; text-align: left;"
-                                  binding="#{bGestionarUsuarios.fileImg}" maximumFiles="1"
-                                  valueChangeListener="#{bGestionarUsuarios.uploadFileValueChangeEvent}"/>
-                    <af:image id="i1" binding="#{bGestionarUsuarios.i1}"
-                              source="/imageservlet?nomusuario=#{sessionGestionarUsuarios.nidUsuario}"
-                              inlineStyle="height:175px; width:150px;"
-                              rendered="#{sessionGestionarUsuarios.renderImg}"/>
-                    <af:button text="#{sessionGestionarUsuarios.nomBtnGestion}" id="b4"
-                               binding="#{bGestionarUsuarios.b4}"
-                               actionListener="#{bGestionarUsuarios.btnGestionarUsuario}"/>
-                </af:panelFormLayout>
-            </af:dialog>
-        </af:popup>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="p1"
-                  binding="#{bGestionarUsuarios.popConfirmar}">
-            <af:dialog id="d2" title="Mensaje" dialogListener="#{bGestionarUsuarios.confirmaAnular}">
-                <af:outputText value="Desea anular al usuario #{sessionGestionarUsuarios.usuario}" id="ot8"/>
-            </af:dialog>
-        </af:popup>
     </f:view>
 </ui:composition>
