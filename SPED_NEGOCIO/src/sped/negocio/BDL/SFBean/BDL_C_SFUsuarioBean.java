@@ -16,6 +16,7 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFUsuarioRemote;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanUsuario;
+import sped.negocio.entidades.eval.FichaCriterio;
 
 @Stateless(name = "BDL_C_SFUsuario", mappedName = "mapBDL_C_SFUsuario")
 public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote, 
@@ -83,30 +84,40 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     /**Metodo para traer a los Evaluadores Siendo nidRol=2 el de evaluador Area**/
     public List<Usuario> getEvaluadores(String nidAreaAcademica){
         try{
-            String ejbQl = "SELECT ma FROM Usuario ma " +
+            String strQuery = "SELECT ma FROM Usuario ma " +
                            " WHERE ma.rol.nidRol = 2";
             if (nidAreaAcademica!= null) {               
-                ejbQl = ejbQl.concat(" and ma.areaAcademica.nidAreaAcademica= "+nidAreaAcademica);  
+                strQuery = strQuery.concat(" and ma.areaAcademica.nidAreaAcademica = "+nidAreaAcademica);  
             }
-            List<Usuario> lstEval = em.createQuery(ejbQl).getResultList();        
-            return lstEval;       
+            List<Usuario> lstUsuarios = em.createQuery(strQuery).getResultList();
+            int size = lstUsuarios == null ? 0 : lstUsuarios.size();
+            if (size > 0) {
+                return lstUsuarios;
+            } else {
+                return new ArrayList<Usuario>();
+            }
         }catch(Exception e){
             e.printStackTrace();  
-            return null;
+            return new ArrayList<Usuario>();
         }
     }
     
     public List<Usuario> getUsuarioByEstadoBDL() {
-        List<Usuario> lstUsuario = null;
         try {
             String strQuery = "SELECT u " + 
                               "FROM Usuario u " + 
                               "ORDER BY u.estadoUsuario DESC , u.nombres ASC";
-            lstUsuario = em.createQuery(strQuery).getResultList();
+            List<Usuario> lstUsuarios = em.createQuery(strQuery).getResultList();
+            int size = lstUsuarios == null ? 0 : lstUsuarios.size();
+            if (size > 0) {
+                return lstUsuarios;
+            } else {
+                return new ArrayList<Usuario>();
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            return new ArrayList<Usuario>();
         }
-        return lstUsuario;
     }
     
     public Usuario findConstrainById(int id){
@@ -119,39 +130,50 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     }
     
     public int countUsuarioByDniBDL(String dni){
-        String ejbQL = "SELECT COUNT(1) FROM Usuario u " 
-                       + "WHERE u.dni = :dni ";
-        Object object = em.createQuery(ejbQL).setParameter("dni", dni)
-                            .getSingleResult();
-        int cont = 0;
-        if(object != null){
-            cont = Integer.parseInt(object.toString());
+        try {
+            String ejbQL = "SELECT COUNT(1) FROM Usuario u " + 
+                           "WHERE u.dni = :dni ";
+            List lst = em.createQuery(ejbQL).setParameter("dni", dni).getResultList();
+            if (lst.isEmpty()) {
+                return 0;
+            } else {
+                return Integer.parseInt(lst.get(0).toString());
+            }
+        } catch (Exception nfe) {
+            nfe.printStackTrace();
+            return 0;
         }
-        return cont;
     }
     
     public int countUsuarioByNomUsuarioBDL(String usuario){
-        String ejbQL = "SELECT  COUNT(1) FROM Usuario u " 
-                       + "WHERE u.usuario = :usuario ";
-        Object object = em.createQuery(ejbQL).setParameter("usuario", usuario)
-                            .getSingleResult();
-        int cont = 0;
-        if(object != null){
-            cont = Integer.parseInt(object.toString());
+        try {
+            String ejbQL = "SELECT  COUNT(1) FROM Usuario u " + "WHERE u.usuario = :usuario ";
+            List lst = em.createQuery(ejbQL).setParameter("usuario", usuario).getResultList();
+            if (lst.isEmpty()) {
+                return 0;
+            } else {
+                return Integer.parseInt(lst.get(0).toString());
+            }
+        } catch (Exception nfe) {
+            nfe.printStackTrace();
+            return 0;
         }
-        return cont;
     }
     
     public String getNombresUsuarioByNidUsuario(int nidUsuario){
-        String ejbQL = "SELECT  u.nombres FROM Usuario u " 
-                       + "WHERE u.nidUsuario = :nid_usuario ";
-        Object object = em.createQuery(ejbQL).setParameter("nid_usuario", nidUsuario)
-                          .getSingleResult();
-        String nombreUsuario = "";
-        if(object != null){
-            nombreUsuario = object.toString();
+        try {
+            String ejbQL = "SELECT  u.nombres FROM Usuario u " + 
+                           "WHERE u.nidUsuario = :nid_usuario ";
+            List lstResult = em.createQuery(ejbQL).setParameter("nidUsuario", nidUsuario).getResultList();
+            if (lstResult.isEmpty()) {
+                return null;
+            } else {
+                return lstResult.get(0).toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return nombreUsuario;
     }
     
     public List<Usuario> getUsuariobyByAttrBDL(BeanUsuario beanUsuario){
@@ -225,8 +247,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
                            "WHERE u.rol.nidRol = :nid_rol " +
                            "AND u.estadoUsuario = '1' " +
                            "ORDER BY u.nombres ASC";
-            return (List<Usuario>)em.createQuery(ejbQL).setParameter("nid_rol", nidRol)
-                                                       .getResultList();
+            return (List<Usuario>)em.createQuery(ejbQL).setParameter("nid_rol", nidRol).getResultList();
         } catch(Exception e){
             e.printStackTrace();
             return new ArrayList();
@@ -268,23 +289,35 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     }
     
     public int countCorreoBDL(String correo){
-        String ejbQL = "SELECT  COUNT(1) FROM Usuario u " 
-                       + "WHERE u.correo = :correo ";
-        Object object = em.createQuery(ejbQL).setParameter("correo", correo)
-                            .getSingleResult();
-        int cont = 0;
-        if(object != null){
-            cont = Integer.parseInt(object.toString());
+        try {
+            String ejbQL = "SELECT  COUNT(1) FROM Usuario u " + 
+                           "WHERE u.correo = :correo ";
+            List lst = em.createQuery(ejbQL).setParameter("correo", correo).getResultList();
+            if (lst.isEmpty()) {
+                return 0;
+            } else {
+                return Integer.parseInt(lst.get(0).toString());
+            }
+        } catch (Exception nfe) {
+            nfe.printStackTrace();
+            return 0;
         }
-        return cont;
     }
     
     public Usuario getUsuarioByCorreoBDL(String correo){
         try{
             String ejbQL = "SELECT u FROM Usuario u "+
-                           " WHERE u.correo = :correo ";
-            List<Usuario> lstUsuario =em.createQuery(ejbQL).setParameter("correo", correo).getResultList();
-            return lstUsuario.get(0);
+                           "WHERE u.correo = :correo ";
+            List<Usuario> lst = em.createQuery(ejbQL).setParameter("correo", correo).getResultList();
+            if(lst != null){
+                if (lst.isEmpty()) {
+                    return null;
+                } else {
+                    return lst.get(0);
+                }
+            }else{
+                return null;    
+            }
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -296,9 +329,16 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
             String ejbQL = "SELECT u FROM Usuario u "+
                            " WHERE u.correo = :correo " +
                            " AND u.usuario = :usuario ";
-            List<Usuario> lstUsuario = em.createQuery(ejbQL).setParameter("correo", correo)
-                                                            .setParameter("usuario", usuario).getResultList();
-            return lstUsuario.get(0);
+            List<Usuario> lst = em.createQuery(ejbQL).setParameter("correo", correo).setParameter("usuario", usuario).getResultList();
+            if(lst != null){
+                if (lst.isEmpty()) {
+                    return null;
+                } else {
+                    return lst.get(0);
+                }
+            }else{
+                return null;    
+            }
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -316,8 +356,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
                                   " e.rol.nidRol = 4 OR "+
                                   " e.rol.nidRol = 5 " +
                                   " ORDER BY e.nombres ASC ";
-                List lstUsuarios = em.createQuery(qlString).getResultList();        
-                return lstUsuarios;       
+                return em.createQuery(qlString).getResultList();
             }catch(Exception e){
                 e.printStackTrace();  
                 return null;
@@ -415,16 +454,15 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         }
         
     public List<Usuario> getUsuarioTipoProfesor() {
-        List<Usuario> lstUsuario = null;
         try {
             String strQuery = "SELECT u " + 
                               "FROM Usuario u " + 
                               "where u.rol.nidRol = 3";
-            lstUsuario = em.createQuery(strQuery).getResultList();
+            return em.createQuery(strQuery).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
+            return new ArrayList<Usuario>();
         }
-        return lstUsuario;
     }
     
     public boolean getIsSupervisor(int nidUsuario){
