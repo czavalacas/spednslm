@@ -108,32 +108,12 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
         beanMain.setNidAula(Integer.parseInt(nidAula));//paso el nidAula a un bean por si despues vuelvo utilizar este metodo
         List<BeanMain> lstBean = new ArrayList();
         for(Main main : bdl_C_SFMainLocal.getLstMainByAttr_BDL(beanMain)){
-            BeanMain bean = new BeanMain();
-            bean.setNidMain(main.getNidMain());
-            bean.setHoraInicio(main.getHoraInicio());
-            bean.setHoraFin(main.getHoraFin());
-            bean.setNDia(main.getNDia());
-            bean.setNidCurso(main.getCurso().getNidCurso());
-            bean.setNombreCurso(main.getCurso().getDescripcionCurso());
-            bean.setNombreProfesor(main.getProfesor().getApellidos()+", "+main.getProfesor().getNombres());
+            BeanMain bean = trasnferMainNoMapper(main);
+            bean.setNidCurso(main.getCurso().getNidCurso());           
             bean.setColor(main.getCurso().getColor() == null ? "647687" : main.getCurso().getColor());
             lstBean.add(bean);
         }
         return lstBean;
-    }
-    
-    public List<BeanMain> transformListBeanMain(List<Main> lstMain){
-        try{
-            List<BeanMain> lstBean = new ArrayList();
-            for(Main m : lstMain){
-                BeanMain beanMain = (BeanMain) mapper.map(m, BeanMain.class);
-                lstBean.add(beanMain);
-            }
-            return lstBean;
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
     }
     
     public Main getMainPorSedeNivelYCurso(String nidAula, 
@@ -150,19 +130,17 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
     public List<BeanMain> CruceLecionByProfesor(String dniProfesor, 
                                                 int dia,
                                                 Time inicio, 
-                                                Time fin){
+                                                Time fin,
+                                                int nidMain){
         try{
             List<BeanMain> lstBean = new ArrayList();
             int cont = 0;
-            for(Main main : bdl_C_SFMainLocal.countCruceLecionByProfesor(dniProfesor, dia, inicio, fin)){
-                if(cont == 2){
+            for(Main main : bdl_C_SFMainLocal.countCruceLecionByProfesor(dniProfesor, dia, inicio, fin, nidMain)){
+                if(cont == 1){
                     break;
                 }
-                BeanMain bean = new BeanMain();
-                bean.setHoraInicio(main.getHoraInicio());
-                bean.setHoraFin(main.getHoraFin());
+                BeanMain bean = trasnferMainNoMapper(main);
                 bean.setNombreAula(main.getAula().getDescripcionAula());
-                bean.setNombreProfesor(main.getProfesor().getApellidos()+", "+main.getProfesor().getNombres());
                 lstBean.add(bean);
                 cont++;
             }
@@ -171,6 +149,22 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
             e.printStackTrace();
             return new ArrayList();
         }
+    }
+    
+    /**
+     * Metodo para pasar los datos de la entidad Main a BeanMain
+     * @param main
+     * @return
+     */
+    public BeanMain trasnferMainNoMapper(Main main){
+        BeanMain bean = new BeanMain();
+        bean.setNidMain(main.getNidMain());
+        bean.setHoraInicio(main.getHoraInicio());
+        bean.setHoraFin(main.getHoraFin());
+        bean.setNDia(main.getNDia());
+        bean.setNombreCurso(main.getCurso().getDescripcionCurso());
+        bean.setNombreProfesor(main.getProfesor().getApellidos()+", "+main.getProfesor().getNombres());
+        return bean;
     }
     
 }

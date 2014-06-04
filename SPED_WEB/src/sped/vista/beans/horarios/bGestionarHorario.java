@@ -28,6 +28,8 @@ import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.event.DialogEvent;
+
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFConfiguracionHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFDuracionHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
@@ -38,6 +40,8 @@ import sped.negocio.entidades.beans.BeanConfiguracionHorario;
 import sped.negocio.entidades.beans.BeanDia;
 import sped.negocio.entidades.beans.BeanDuracionHorario;
 import sped.negocio.entidades.beans.BeanMain;
+
+import sped.negocio.entidades.beans.BeanUsuario;
 
 import sped.vista.Utils.Utils;
 
@@ -88,6 +92,10 @@ public class bGestionarHorario {
     private LN_T_SFMainRemote ln_T_SFMainRemote;
     @EJB
     private LN_T_SFCursoRemoto ln_T_SFCursoRemoto;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
+    private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
+    private static final String CLASE = "sped.vista.beans.horarios.bGestionarHorario";
     private bSessionGestionarHorario sessionGestionarHorario;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private int nDia;
@@ -211,6 +219,9 @@ public class bGestionarHorario {
             return true;  
         }catch(Exception e){            
             e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                          "validaConfiguracionHorario(BeanDuracionHorario duracion, List<BeanConfiguracionHorario> lstConfHorario)", 
+                                                          "Error al validar la configuracion del Horario", Utils.getStack(e));
             return false;
         }
     }  
@@ -220,30 +231,37 @@ public class bGestionarHorario {
      * @return
      */
     public boolean llenarHorario(){
-        BeanMain horario[][] = new BeanMain[sessionGestionarHorario.getNroBloque()][5];//5 si es solo 5 dias a la semana
-        int horasFree = sessionGestionarHorario.getNroBloque()*5;
-        List<BeanMain> lstLecciones = ln_C_SFMainRemote.getLstMainByAttr_LN(sessionGestionarHorario.getNidAula_aux());// reemplazar el "2" por sessionGestionarHorario.getNidAula()
-        List<BeanMain> lst_defecto = new ArrayList();
-        llenarLstDias(5); //llena una lista auxiliar, se usara en generarHorario
-        for(BeanMain main : lstLecciones){
-            int hora = encuentraHora(main.getHoraInicio());
-            if(hora > -1){
-                horario[hora][main.getNDia()] = main;
-                modicarHorasBeanDias(main.getNDia(), 1);//resto a los dias las horas que se encuentran grabadas
-                horasFree--;
-            }else{
-                lst_defecto.add(main);
+        try{
+            BeanMain horario[][] = new BeanMain[sessionGestionarHorario.getNroBloque()][5];//5 si es solo 5 dias a la semana
+            int horasFree = sessionGestionarHorario.getNroBloque()*5;
+            List<BeanMain> lstLecciones = ln_C_SFMainRemote.getLstMainByAttr_LN(sessionGestionarHorario.getNidAula_aux());// reemplazar el "2" por sessionGestionarHorario.getNidAula()
+            List<BeanMain> lst_defecto = new ArrayList();
+            llenarLstDias(5); //llena una lista auxiliar, se usara en generarHorario
+            for(BeanMain main : lstLecciones){
+                int hora = encuentraHora(main.getHoraInicio());
+                if(hora > -1){
+                    horario[hora][main.getNDia()] = main;
+                    modicarHorasBeanDias(main.getNDia(), 1);//resto a los dias las horas que se encuentran grabadas
+                    horasFree--;
+                }else{
+                    lst_defecto.add(main);
+                }
             }
-        }
-        if(lst_defecto.size() > 0){
+            if(lst_defecto.size() > 0){
+                return false;
+            }else{
+                Utils.putSession("Horas", horasFree);
+                sessionGestionarHorario.setHorario(horario);
+                eliminarDiasOcupados();
+                metodoProbarVector();///////////////////////////////////////////////////////borar al final
+                return true;
+            }  
+        }catch(Exception e){
+            e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, "llenarHorario()", 
+                                                          "Error al llenar el Horario", Utils.getStack(e));
             return false;
-        }else{
-            Utils.putSession("Horas", horasFree);
-            sessionGestionarHorario.setHorario(horario);
-            eliminarDiasOcupados();
-            metodoProbarVector();///////////////////////////////////////////////////////borar al final
-            return true;
-        }  
+        }        
     }
     
     /**
@@ -326,18 +344,26 @@ public class bGestionarHorario {
     }
    
     public void generarHorario(ActionEvent actionEvent) {
-        BeanMain horario[][] = sessionGestionarHorario.getHorario();
-        List<BeanMain> lst = sessionGestionarHorario.getLstBeanMain();
-        int maxBloque = sessionGestionarHorario.getMaxBloque();
-        for(BeanMain main : lst){
-            List<BeanDia> dias = ordenarLstDiasByHoras();
-            quitarDiasIngresados(dias, main);
-            ubicaMain(main, horario, dias, maxBloque);
-        }
-        guardarGenerarHorario();
-        sessionGestionarHorario.setRenderGenerario(true);
-        llenarHorario();
-        Utils.addTargetMany(thor, thoras);
+        try{
+            BeanMain horario[][] = sessionGestionarHorario.getHorario();
+            List<BeanMain> lst = sessionGestionarHorario.getLstBeanMain();
+            int maxBloque = sessionGestionarHorario.getMaxBloque();
+            for(BeanMain main : lst){
+                List<BeanDia> dias = ordenarLstDiasByHoras();
+                quitarDiasIngresados(dias, main);
+                ubicaMain(main, horario, dias, maxBloque);
+            }
+            guardarGenerarHorario();
+            sessionGestionarHorario.setRenderGenerario(true);
+            llenarHorario();
+            Utils.addTargetMany(thor, thoras);
+        }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                          "generarHorario(ActionEvent actionEvent)", 
+                                                          "Error al guardar el horario Generado", 
+                                                          Utils.getStack(e));
+            e.printStackTrace();
+        }        
     }
 
     public void ubicaMain(BeanMain main, BeanMain horario[][], List<BeanDia> dias, int maxBloque) {
@@ -345,10 +371,8 @@ public class bGestionarHorario {
             return;
         }
         if(main.getNroHoras() % maxBloque == 0){
-            System.out.println("Hola par");
             encuentraEspacio(horario, main, dias, randomHoras(), maxBloque);
-        }else{      
-            System.out.println("Hola impar");
+        }else{
             BeanDia dia = encontrarDiaNoDivisible(main, dias, maxBloque);
             encuentraEspacioImpar(horario, main, dias, main.getNroHoras() % maxBloque, dia);
             ubicaMain(main, horario, dias, sessionGestionarHorario.getMaxBloque());
@@ -356,40 +380,45 @@ public class bGestionarHorario {
     }
     
     public void encuentraEspacioImpar(BeanMain horario[][], BeanMain main, List<BeanDia> dias, int maxBloque, BeanDia dia){
-        if(dia == null){
-            System.out.println("Hola impar 1");
-            int posicion = main.getNroHoras() / sessionGestionarHorario.getMaxBloque();
-            dia = dias.get(posicion < dias.size() ? posicion : (dias.size() - 1));        
-            if(!ingresarSecuencial(main, dia.getNDia(), maxBloque, dias)){
-                main.setNroHoras(main.getNroHoras() - maxBloque);
-            }
-        }else{
-            System.out.println("Hola impar 2");
-            int cont = 0 ;
-            for(int i = 0 ; i < sessionGestionarHorario.getNroBloque(); i++){
-                if(horario[i][dia.getNDia()] != null){
-                    cont++;                    
+        try{
+            if(dia == null){
+                int posicion = main.getNroHoras() / sessionGestionarHorario.getMaxBloque();
+                dia = dias.get(posicion < dias.size() ? posicion : (dias.size() - 1));        
+                if(!ingresarSecuencial(main, dia.getNDia(), maxBloque, dias)){
+                    main.setNroHoras(main.getNroHoras() - maxBloque);
                 }
-                if((i+1) % sessionGestionarHorario.getMaxBloque() == 0 && cont != 0 && cont != sessionGestionarHorario.getMaxBloque()){
-                    cont = i - cont;
-                    break;
+            }else{
+                int cont = 0 ;
+                for(int i = 0 ; i < sessionGestionarHorario.getNroBloque(); i++){
+                    if(horario[i][dia.getNDia()] != null){
+                        cont++;                    
+                    }
+                    if((i+1) % sessionGestionarHorario.getMaxBloque() == 0 && cont != 0 && cont != sessionGestionarHorario.getMaxBloque()){
+                        cont = i - cont;
+                        break;
+                    }
+                    if((i+1) % sessionGestionarHorario.getMaxBloque() == 0){
+                        cont = 0;
+                    }
                 }
-                if((i+1) % sessionGestionarHorario.getMaxBloque() == 0){
-                    cont = 0;
+                boolean valida = false;
+                for(int i = cont; i < cont + sessionGestionarHorario.getMaxBloque(); i++){
+                    valida = validarRango(horario, main, i, dia.getNDia(), maxBloque);
+                    if(valida){
+                        validarRango_aux(main, dia.getNDia(), dias, maxBloque);
+                        break;
+                    }
                 }
-            }
-            boolean valida = false;
-            for(int i = cont; i < cont + sessionGestionarHorario.getMaxBloque(); i++){
-                valida = validarRango(horario, main, i, dia.getNDia(), maxBloque);
-                if(valida){
-                    validarRango_aux(main, dia.getNDia(), dias, maxBloque);
-                    break;
+                if(!valida){
+                    encuentraEspacioImpar(horario, main, dias, maxBloque, null);
                 }
-            }
-            if(!valida){
-                encuentraEspacioImpar(horario, main, dias, maxBloque, null);
-            }
-        }           
+            }   
+        }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                          "encuentraEspacioImpar(...)", 
+                                                          "Error al encontrar un espacio para una leccion menor al maximo", 
+                                                          Utils.getStack(e));
+        }                
     }
     
     public void encuentraEspacio(BeanMain horario[][], BeanMain main, List<BeanDia> dias, List<Integer> horas, int maxBloque){
@@ -408,23 +437,48 @@ public class bGestionarHorario {
             } 
         }catch(Exception e){
             e.printStackTrace();
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                          "encuentraEspacio(...)", 
+                                                          "Error al encontrar un espacio para una leccion maximo de horas", 
+                                                          Utils.getStack(e));
         }
     }
     
+    /**
+     * Metodo que valida las horas disponibles en un rango de n horas (max Bloque)
+     * @author david
+     * @param horario
+     * @param main
+     * @param hora
+     * @param dia
+     * @param maxBloque
+     * @return
+     */
     public boolean validarRango(BeanMain horario[][], BeanMain main,int hora, int dia, int maxBloque){
-        for(int i = hora ; i < hora + maxBloque; i++){  
-            if(horario[i][dia] != null || !validarCruce(1, dia, i, main.getDniProfesor())){
-                return false;
+        try{
+            for(int i = hora ; i < hora + maxBloque; i++){  
+                if(horario[i][dia] != null || !validarCruce(1, dia, i, main.getDniProfesor(), 0)){
+                    return false;
+                }
             }
-        }
-        /////si paso significa que esos dias esas horas estan libres
-        for(int i = hora ; i < hora + maxBloque; i++){
-            horario[i][dia] = main;
-        }
-        return true;
+            /////si paso significa que esos dias esas horas estan libres
+            for(int i = hora ; i < hora + maxBloque; i++){
+                horario[i][dia] = main;
+            }
+            return true;
+        }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                          "validarRango(...)", 
+                                                          "Error al validar las horas disponibles", 
+                                                          Utils.getStack(e));
+            return false;
+        }        
     }
     
-
+    /**
+     * Metodo que guarda el horario generado
+     * @author david
+     */
     public void guardarGenerarHorario(){
         try{
             BeanMain horario[][] = sessionGestionarHorario.getHorario();            
@@ -438,27 +492,51 @@ public class bGestionarHorario {
                 }
             }
         }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                          "guardarGenerarHorario()", 
+                                                          "Error al guardar el Horario Generado", 
+                                                          Utils.getStack(e));
             e.printStackTrace();
         }        
     }
     
+    /**
+     * Metodo que guarda, modifca las lecciones de Main
+     * @author david
+     * @param evento
+     * @param main
+     * @param dia
+     * @param leccion
+     * @param dniProfesor
+     */
     public void gestionarMain_aux(int evento, BeanMain main, int dia, int leccion, String dniProfesor){
-        Time inicio[] = sessionGestionarHorario.getHoras();
-        Time fin[] = sessionGestionarHorario.getHoras_fin();
-        if(evento == 1 || evento == 2){
-            ln_T_SFMainRemote.gestionarMain_LN(evento, 
-                                               main.getNidMain(),
-                                               dniProfesor, 
-                                               Integer.parseInt(sessionGestionarHorario.getNidAula()), 
-                                               main.getNidCurso(), 
-                                               dia, 
-                                               inicio[leccion], 
-                                               fin[leccion]);            
-        }
-        if(evento == 3){
-            ln_T_SFMainRemote.eliminarMain_LN(main.getNidMain());
-        }
-        main = null;        
+        try{
+            Time inicio[] = sessionGestionarHorario.getHoras();
+            Time fin[] = sessionGestionarHorario.getHoras_fin();
+            if(evento == 1 || evento == 2){
+                boolean valida = (evento == 1 ? true : validarCruce(2, dia, leccion, dniProfesor, main.getNidMain()));
+                if(valida){
+                    ln_T_SFMainRemote.gestionarMain_LN(evento, 
+                                                       main.getNidMain(),
+                                                       dniProfesor, 
+                                                       Integer.parseInt(sessionGestionarHorario.getNidAula_aux()), 
+                                                       main.getNidCurso(), 
+                                                       dia, 
+                                                       inicio[leccion], 
+                                                       fin[leccion]);  
+                }                      
+            }        
+            if(evento == 3){
+                ln_T_SFMainRemote.eliminarMain_LN(main.getNidMain());
+            }
+            main = null;      
+        }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema_nidEvento(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                          "gestionarMain_aux(int evento, BeanMain main, int dia, int leccion, String dniProfesor)", 
+                                                          "Error al gestionar Horario", 
+                                                          Utils.getStack(e), evento);
+            e.printStackTrace();
+        }          
     }
           
     public void metodoProbarVector(){
@@ -496,6 +574,11 @@ public class bGestionarHorario {
         return cont;
     }
     
+    /**
+     * Llena una lista con el nro de bloques por dia para luego ser validado rapidamente
+     * @author david
+     * @param dias
+     */
     public void llenarLstDias(int dias){
         List<BeanDia> lstDias = new ArrayList();
         int nro_bloque = sessionGestionarHorario.getNroBloque();
@@ -508,6 +591,10 @@ public class bGestionarHorario {
         sessionGestionarHorario.setLstDia(lstDias);        
     }
     
+    /**
+     * Elimina los dias que ya estan ocupados
+     * @author david
+     */
     public void eliminarDiasOcupados(){
         List<BeanDia> lstDias = sessionGestionarHorario.getLstDia();
         List<BeanDia> lstAux = new ArrayList();
@@ -521,6 +608,11 @@ public class bGestionarHorario {
         }
     }
     
+    /**
+     * Modifica la lista dias al ingresar una leccion
+     * @param ndia
+     * @param hora
+     */
     public void modicarHorasBeanDias(int ndia, int hora){           
         for(BeanDia dia : sessionGestionarHorario.getLstDia()){
             if(dia.getNDia() == ndia){
@@ -529,6 +621,10 @@ public class bGestionarHorario {
         }
     }
     
+    /**
+     * Ordena el vector Dias segun las horas disponibles de mayor a menor
+     * @return
+     */
     public List<BeanDia> ordenarLstDiasByHoras(){
         List<BeanDia> lst_aux = new ArrayList<>(sessionGestionarHorario.getLstDia());
         Random rndm = new Random();
@@ -544,22 +640,25 @@ public class bGestionarHorario {
         return lst_aux;
     }     
     
+    /**
+     * Valida los cursos ya ingresados y si esta en su maximo las elimina
+     * @param lst
+     * @param main
+     */
     public void quitarDiasIngresados(List<BeanDia> lst, BeanMain main){
         try{
             BeanMain horario[][] = sessionGestionarHorario.getHorario();
             List<BeanDia> lstDia = sessionGestionarHorario.getLstDia();
-            if(lstDia == null){
-                return;
-            }
             for(BeanDia dia : lstDia){
                 int d = dia.getNDia();
+                System.out.println(d + "  "+dia.getHoras());
                 if(dia.getHoras() != sessionGestionarHorario.getMaxBloque()*5){
                     int cont = validarHorasMaximoPorDia(horario, d, main.getNidCurso());
                     if(cont == sessionGestionarHorario.getMaxBloque()){
-                        eliminarDias_aux(lstDia, d);
+                        eliminarDias_aux(lst, d);
                     }
-                    if(cont < sessionGestionarHorario.getMaxBloque() && cont != 0){
-                        int cantidad = sessionGestionarHorario.getMaxBloque() - cont;
+                    int cantidad = sessionGestionarHorario.getMaxBloque() - cont;
+                    if(cont < sessionGestionarHorario.getMaxBloque() && cont != 0){                        
                         int exec = 0;
                         for(int i = 0 ; i < sessionGestionarHorario.getNroBloque(); i++){
                             if(horario[i][d] != null && horario[i][d].getNidCurso() == main.getNidCurso()){
@@ -581,10 +680,15 @@ public class bGestionarHorario {
                             }
                         }                    
                     }
+                    ingresarSecuencial(main, d, cantidad, lst);
                 }
                 
             }       
         }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                          "quitarDiasIngresados(List<BeanDia> lst, BeanMain main)", 
+                                                          "Error al quitar dias para los cursos que ya estaban ingresados", 
+                                                          Utils.getStack(e));
             e.printStackTrace();
         }
     }
@@ -771,32 +875,40 @@ public class bGestionarHorario {
         }
     }
     
+    /**
+     * Elimina los dias seleccionados en la vista
+     * @param evento
+     */
     public void eliminarDiasSelecionados(int evento){
-        BeanMain main[][] = sessionGestionarHorario.getHorario(); 
-        for(Object o : sessionGestionarHorario.getLstDiasSelec()){
-            int dia = Integer.parseInt(o.toString());
-            if(dia == 9){
-                gestionarMain_aux(evento, 
-                                  main[sessionGestionarHorario.getNLeccion()][sessionGestionarHorario.getNDia()], 
-                                  sessionGestionarHorario.getNDia(), 
-                                  sessionGestionarHorario.getNLeccion(), 
-                                  sessionGestionarHorario.getNidProfesor());
-                main[sessionGestionarHorario.getNLeccion()][sessionGestionarHorario.getNDia()] = null;
-            }else{
-                for(int i = 0; i < sessionGestionarHorario.getNroBloque(); i++){
-                    if(main[i][dia] != null && 
-                       main[i][dia].getNidCurso() == sessionGestionarHorario.getSelecNidCurso()){
-                        gestionarMain_aux(evento, 
-                                          main[i][dia], 
-                                          dia, 
-                                          i, 
-                                          sessionGestionarHorario.getNidProfesor());
+        try{
+            BeanMain main[][] = sessionGestionarHorario.getHorario(); 
+            for(Object o : sessionGestionarHorario.getLstDiasSelec()){
+                int dia = Integer.parseInt(o.toString());
+                if(dia == 9){
+                    gestionarMain_aux(evento, 
+                                      main[sessionGestionarHorario.getNLeccion()][sessionGestionarHorario.getNDia()], 
+                                      sessionGestionarHorario.getNDia(), 
+                                      sessionGestionarHorario.getNLeccion(), 
+                                      sessionGestionarHorario.getNidProfesor());
+                    main[sessionGestionarHorario.getNLeccion()][sessionGestionarHorario.getNDia()] = null;
+                }else{
+                    for(int i = 0; i < sessionGestionarHorario.getNroBloque(); i++){
+                        if(main[i][dia] != null && 
+                           main[i][dia].getNidCurso() == sessionGestionarHorario.getSelecNidCurso()){
+                            gestionarMain_aux(evento, 
+                                              main[i][dia], 
+                                              dia, 
+                                              i, 
+                                              sessionGestionarHorario.getNidProfesor());
+                        }
                     }
                 }
-            }
-        }      
-        llenarHorario(); ///llena nuevamente el vector
-        Utils.addTarget(thor);
+            }      
+            llenarHorario(); ///llena nuevamente el vector
+            Utils.addTarget(thor);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -831,7 +943,7 @@ public class bGestionarHorario {
                                              nDia, 
                                              Integer.parseInt(sessionGestionarHorario.getNidCurso_aux()));
         if(horas < sessionGestionarHorario.getMaxBloque()){
-            if(validarCruce(2, nDia, nLeccion, sessionGestionarHorario.getNidDni_aux())){
+            if(validarCruce(2, nDia, nLeccion, sessionGestionarHorario.getNidDni_aux(), 0)){
                 BeanMain beanMain = new BeanMain();
                 beanMain.setEstado("1");
                 beanMain.setDniProfesor(sessionGestionarHorario.getNidDni_aux());
@@ -883,13 +995,16 @@ public class bGestionarHorario {
      * @param dni
      * @return
      */
-    public boolean validarCruce(int tipo, int dia, int leccion, String dni){
+    public boolean validarCruce(int tipo, int dia, int leccion, String dni, int nidMain){
         Time inicio[] = sessionGestionarHorario.getHoras();
         Time fin[] = sessionGestionarHorario.getHoras_fin();        
-        List<BeanMain> listBean = ln_C_SFMainRemote.CruceLecionByProfesor(dni, dia, inicio[leccion], fin[leccion]);
+        List<BeanMain> listBean = ln_C_SFMainRemote.CruceLecionByProfesor(dni, dia, 
+                                                                          inicio[leccion], 
+                                                                          fin[leccion], 
+                                                                          nidMain);
         if(tipo == 2){
             for(BeanMain main : listBean){
-                Utils.mostrarMensaje(ctx,"Disponibilidad del profesor "+sessionGestionarHorario.getNombreProfesor()+" ocupada en el aula "+main.getNombreAula(), null, 2);
+                Utils.mostrarMensaje(ctx,"Disponibilidad del profesor "+main.getNombreProfesor()+" ocupada en el aula "+main.getNombreAula(), null, 2);
             }
         }   
         return listBean.size() == 0;

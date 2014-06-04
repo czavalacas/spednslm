@@ -35,11 +35,13 @@
                     <af:button text="Cambiar" id="b2" action="#{bConfiguracion.abrirPopUpConfirmacion}"/>
                 </af:panelFormLayout>
             </af:subform>
+            <af:popup childCreation="deferred" contentDelivery="immediate" id="popClave"
+                      binding="#{bConfiguracion.popClave}">
+                <af:dialog id="d1" title="Mensaje" type="okCancel"
+                           dialogListener="#{bConfiguracion.dialogClaveListener}">
+                    <af:inputText label="Clave del Correo" id="it4" required="true" value="#{bConfiguracion.clave}"/>
+                </af:dialog>
+            </af:popup>
         </af:panelGroupLayout>
-        <af:popup childCreation="deferred" contentDelivery="immediate" id="popClave" binding="#{bConfiguracion.popClave}">
-            <af:dialog id="d1" title="Mensaje" type="okCancel" dialogListener="#{bConfiguracion.dialogClaveListener}">
-                <af:inputText label="Clave del Correo" id="it4" required="true" value="#{bConfiguracion.clave}"/>
-            </af:dialog>
-        </af:popup>
     </f:view>
 </ui:composition>

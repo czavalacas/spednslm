@@ -407,4 +407,8 @@ public class Utils {
         Calendar cal = new GregorianCalendar();
         return formato.format(cal.getTime());
     }
+    
+    public static int transforString(String valor){
+        return valor == null ? 0 : Integer.parseInt(valor);
+    }
 }
