@@ -307,7 +307,7 @@ public class bEvaluar {
             Utils.mostrarMensaje(ctx,"Error del sistema, comuniquese con el administrador o intente nuevamente","Error del sistema",2);
             ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(),"BAC",CLASE, 
                                                           "void grabarEvaluacion(ActionEvent actionEvent)",
-                                                          "Error en el backing al registrar la Evaluacion ",Utils.getStack(e));
+                                                          "Error en el backing al registrar la Evaluacion "+e.getMessage(),Utils.getStack(e));
         } finally {
             if(reset){
                 resetearAfterGrabar();
