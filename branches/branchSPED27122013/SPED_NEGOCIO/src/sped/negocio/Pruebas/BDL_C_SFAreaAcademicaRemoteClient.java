@@ -42,7 +42,7 @@ public class BDL_C_SFAreaAcademicaRemoteClient {
                                    cadena[16]+cadena[17]+cadena[18]+cadena[19]+"-"+
                                    cadena[4]+cadena[5]+cadena[6]+cadena[7]);
             */
-            int [] num1 ={1,2,3,4};
+     /*       int [] num1 ={1,2,3,4};
             int [] num2={1,3,6,9,8};
             
             for(int i=0; i<num1.length; i++){
@@ -53,8 +53,17 @@ public class BDL_C_SFAreaAcademicaRemoteClient {
                     }
                 }
                
-            }
+            }*/
         /** NN-XXXX-XXXX-XXXX-NN*/
+            
+            Date hoy=new Date();
+            String hora="10:20";
+            String ho=hora.charAt(0)+""+hora.charAt(1);
+            String mi=hora.charAt(3)+""+hora.charAt(4);
+            hoy.setHours(Integer.parseInt(ho));
+            hoy.setMinutes(Integer.parseInt(mi));
+            System.out.println(hoy);
+            
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());
