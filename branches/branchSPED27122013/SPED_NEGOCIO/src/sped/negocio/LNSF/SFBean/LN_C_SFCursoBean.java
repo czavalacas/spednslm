@@ -15,6 +15,7 @@ import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFCursoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.entidades.admin.Curso;
+import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanCurso;
 /** Clase SFBDL SFMainBean.java
@@ -92,7 +93,15 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
         
     public BeanCurso findConstrainByIdLN(int id){
         try{
-            BeanCurso bean = (BeanCurso)mapper.map(bdl_C_SFCursoLocal.findCursoById(id),BeanCurso.class);
+            Curso cur=bdl_C_SFCursoLocal.findCursoById(id);            
+            BeanCurso bean =new BeanCurso();
+            bean.setNidCurso(cur.getNidCurso());
+            bean.setDescripcionCurso(cur.getDescripcionCurso());
+            bean.setNidAreaNativa(cur.getNidAreaNativa());
+            BeanAreaAcademica area=new BeanAreaAcademica();
+            area.setNidAreaAcademica(cur.getAreaAcademica().getNidAreaAcademica());
+            area.setDescripcionAreaAcademica(cur.getAreaAcademica().getDescripcionAreaAcademica());
+            bean.setAreaAcademica(area);            
             return bean;
         } catch(Exception e){
             e.printStackTrace();
