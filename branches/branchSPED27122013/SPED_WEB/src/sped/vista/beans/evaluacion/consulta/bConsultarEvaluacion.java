@@ -193,11 +193,11 @@ public class bConsultarEvaluacion {
     
     public void llenarTabla(){
         sessionConsultarEvaluacion.setLstBeanEvaluacion(ln_C_SFEvaluacionRemote.getEvaluacionesByUsuarioLN(beanUsuario, 
-                                                        transforString(sessionConsultarEvaluacion.getNidSede()), 
-                                                        transforString(sessionConsultarEvaluacion.getNidNivel()), 
-                                                        transforString(sessionConsultarEvaluacion.getNidArea()), 
-                                                        transforString(sessionConsultarEvaluacion.getNidCurso()),
-                                                        transforString(sessionConsultarEvaluacion.getNidGrado()),
+                                                        Utils.transforString(sessionConsultarEvaluacion.getNidSede()), 
+                                                        Utils.transforString(sessionConsultarEvaluacion.getNidNivel()), 
+                                                        Utils.transforString(sessionConsultarEvaluacion.getNidArea()), 
+                                                        Utils.transforString(sessionConsultarEvaluacion.getNidCurso()),
+                                                        Utils.transforString(sessionConsultarEvaluacion.getNidGrado()),
                                                         sessionConsultarEvaluacion.getNombreProfesor(),
                                                         sessionConsultarEvaluacion.getNombreEvaluador(),
                                                         sessionConsultarEvaluacion.getFechaP(),
@@ -213,10 +213,6 @@ public class bConsultarEvaluacion {
             tbEval.setValue(sessionConsultarEvaluacion.getLstBeanEvaluacion());
             Utils.addTargetMany(tbEval, bexcel);
         }        
-    }
-    
-    public int transforString(String valor){
-        return valor == null ? 0 : Integer.parseInt(valor);
     }
     
     public void changeListenerEstadoEvaluacion(ValueChangeEvent vce) {

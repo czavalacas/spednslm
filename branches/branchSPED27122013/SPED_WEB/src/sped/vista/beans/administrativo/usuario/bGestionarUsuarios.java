@@ -49,6 +49,7 @@ import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
+import sped.negocio.LNSF.IR.LN_T_SFLoggerRemote;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanConstraint;
@@ -98,6 +99,9 @@ public class bGestionarUsuarios {
     private LN_C_SFRolRemote ln_C_SFRolRemote;
     @EJB
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
+    @EJB
+    private LN_T_SFLoggerRemote ln_T_SFLoggerRemote;
+    private static final String CLASE = "sped.vista.beans.administrativo.usuario.bGestionarUsuarios";
     private RichSelectOneChoice choiceTipoSede;
     private UISelectItems si8;
     private UISelectItems si9;
@@ -207,19 +211,12 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setNidSede(usuario.getSede().getNidSede().toString());
             sessionGestionarUsuarios.setRenderSede(true);
         }
-        if(usuario.getRol().getNidRol() == 3){
-            sessionGestionarUsuarios.setDisableRol(true);
-        }
+        sessionGestionarUsuarios.setDisableRol(usuario.getRol().getNidRol() == 3);
         if(i1!=null){
             i1.setSource("/imageservlet?nomusuario="+usuario.getNidUsuario());
         }        
-        if("1".compareTo(usuario.getEstadoUsuario()) == 0){
-            b3.setText("Anular");
-            b2.setDisabled(false);
-        }else{
-            b3.setText("Activar");
-            b2.setDisabled(true);
-        }
+        b3.setText("1".compareTo(usuario.getEstadoUsuario()) == 0 ? "Anular" : "Activar");
+        b2.setDisabled("1".compareTo(usuario.getEstadoUsuario()) == 0 ? false : true);
         Utils.addTargetMany(b2, b3);
     }
 
@@ -278,36 +275,43 @@ public class bGestionarUsuarios {
     }
     
     public void btnGestionarUsuario_aux(){
-        int nidSede = sessionGestionarUsuarios.getNidSede() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getNidSede());
-        int nidArea = sessionGestionarUsuarios.getNidAreaAcademica() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getNidAreaAcademica());
-        ln_T_SFUsuarioRemote.gestionUsuarioLN(sessionGestionarUsuarios.getTipoEvento(), 
-                                              sessionGestionarUsuarios.getNombres(),
-                                              sessionGestionarUsuarios.getDni(),
-                                              sessionGestionarUsuarios.getCorreo(),
-                                              sessionGestionarUsuarios.getNidRol(), 
-                                              nidArea, 
-                                              sessionGestionarUsuarios.getUsuario(), 
-                                              sessionGestionarUsuarios.getNidUsuario(),
-                                              Utils.rutaImagenes(),
-                                              sessionGestionarUsuarios.getRutaImg(),
-                                              nidSede,
-                                              sessionGestionarUsuarios.isSupervisorboolean());
-        String msj="";
-        switch(sessionGestionarUsuarios.getTipoEvento()){
-            case 1 : msj =  "Se registro al usuario "; llenarSuggest(); break;
-            case 2 : msj =  "Se modifico al usuario "; llenarSuggest(); break;
-            case 3 : msj =  "Se anulo al usuario "; break;
-            case 4 : msj =  "Se activo al usuario "; break;
-        }         
-        Utils.mostrarMensaje(ctx, 
-                             msj+sessionGestionarUsuarios.getUsuario(), 
-                             "Operacion Correcta", 
-                             3);
-        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN());
-        b2.setDisabled(true);
-        b3.setDisabled(true);
-        Utils.addTargetMany(b2, b3, t1);
-        popGestionUsuario.hide();
+        try{
+            int nidSede = sessionGestionarUsuarios.getNidSede() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getNidSede());
+            int nidArea = sessionGestionarUsuarios.getNidAreaAcademica() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getNidAreaAcademica());
+            ln_T_SFUsuarioRemote.gestionUsuarioLN(sessionGestionarUsuarios.getTipoEvento(), 
+                                                  sessionGestionarUsuarios.getNombres(),
+                                                  sessionGestionarUsuarios.getDni(),
+                                                  sessionGestionarUsuarios.getCorreo(),
+                                                  sessionGestionarUsuarios.getNidRol(), 
+                                                  nidArea, 
+                                                  sessionGestionarUsuarios.getUsuario(), 
+                                                  sessionGestionarUsuarios.getNidUsuario(),
+                                                  Utils.rutaImagenes(),
+                                                  sessionGestionarUsuarios.getRutaImg(),
+                                                  nidSede,
+                                                  sessionGestionarUsuarios.isSupervisorboolean());
+            String msj="";
+            switch(sessionGestionarUsuarios.getTipoEvento()){
+                case 1 : msj =  "Se registro al usuario "; llenarSuggest(); break;
+                case 2 : msj =  "Se modifico al usuario "; llenarSuggest(); break;
+                case 3 : msj =  "Se anulo al usuario "; break;
+                case 4 : msj =  "Se activo al usuario "; break;
+            }         
+            Utils.mostrarMensaje(ctx, 
+                                 msj+sessionGestionarUsuarios.getUsuario(), 
+                                 "Operacion Correcta", 
+                                 3);
+            sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuarioByEstadoLN());
+            b2.setDisabled(true);
+            b3.setDisabled(true);
+            Utils.addTargetMany(b2, b3, t1);
+            popGestionUsuario.hide();
+        }catch(Exception e){
+            ln_T_SFLoggerRemote.registrarLogErroresSistema_nidEvento(beanUsuario.getNidUsuario(), "BAC", CLASE, 
+                                                           "btnGestionarUsuario_aux()", "Error al gestionar un usuario", 
+                                                           Utils.getStack(e), sessionGestionarUsuarios.getTipoEvento());
+            e.printStackTrace();
+        }
     }
     
     public void tipoRolChangeListener(ValueChangeEvent valueChangeEvent) {
@@ -355,21 +359,26 @@ public class bGestionarUsuarios {
     }
     
     public void buscarUsuarioFiltro_aux(){
-        int nidArea = sessionGestionarUsuarios.getFNidAreaAcademica() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getFNidAreaAcademica());
-        int nidSede = sessionGestionarUsuarios.getFNidSede() == null ? 0 : Integer.parseInt(sessionGestionarUsuarios.getFNidSede());
-        sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuariobyByAttrLN(sessionGestionarUsuarios.getFNombres(), 
-                                                                                         sessionGestionarUsuarios.getFUsuario(),
-                                                                                         sessionGestionarUsuarios.getFDni(),
-                                                                                         nidArea,
-                                                                                         sessionGestionarUsuarios.getFNidRol(),
-                                                                                         sessionGestionarUsuarios.getFNidEstado(),
-                                                                                         nidSede,
-                                                                                         sessionGestionarUsuarios.getFNidNivel())); 
-        if(t1 != null){
-            Utils.unselectFilas(t1);
-            b2.setDisabled(true);
-            b3.setDisabled(true);
-            Utils.addTargetMany(b2, b3, t1);
+        try{
+            sessionGestionarUsuarios.setLstUsuario(ln_C_SFUsuarioRemote.getUsuariobyByAttrLN(sessionGestionarUsuarios.getFNombres(), 
+                                                                                             sessionGestionarUsuarios.getFUsuario(),
+                                                                                             sessionGestionarUsuarios.getFDni(),
+                                                                                             Utils.transforString(sessionGestionarUsuarios.getFNidAreaAcademica()),
+                                                                                             sessionGestionarUsuarios.getFNidRol(),
+                                                                                             sessionGestionarUsuarios.getFNidEstado(),
+                                                                                             Utils.transforString(sessionGestionarUsuarios.getFNidSede()),
+                                                                                             sessionGestionarUsuarios.getFNidNivel())); 
+            if(t1 != null){
+                Utils.unselectFilas(t1);
+                b2.setDisabled(true);
+                b3.setDisabled(true);
+                Utils.addTargetMany(b2, b3, t1);
+            }        
+        }catch(Exception e){
+            ln_T_SFLoggerRemote.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
+                                                           "buscarUsuarioFiltro_aux()", "Error al traer los usurioa por filtro", 
+                                                           Utils.getStack(e));
+            e.printStackTrace();
         }        
     }
     
@@ -440,9 +449,13 @@ public class bGestionarUsuarios {
                 sessionGestionarUsuarios.setRutaImg(rutaImg);
                 TransferFile(rutaImg, rutaLocal, inputStream);
             }else{
-                Utils.mostrarMensaje(ctx, "El archivo no es de tipo imagen suba un jpg/png", "Error", 1);
+                Utils.mostrarMensaje(ctx, "El archivo no es de tipo imagen suba un jpg/png", "Error", 1);                
             }            
         }catch(Exception e){
+            ln_T_SFLoggerRemote.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
+                                                           "uploadFileValueChangeEvent(ValueChangeEvent valueChangeEvent)", 
+                                                           "Error al subir una imagen", 
+                                                           Utils.getStack(e));
             e.printStackTrace();
         }
     }    
@@ -456,13 +469,21 @@ public class bGestionarUsuarios {
     }
     
     public void resize(InputStream input, OutputStream output, int width, int height) throws Exception {
-        BufferedImage src = ImageIO.read(input);
-        BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = dest.createGraphics();
-        AffineTransform at = AffineTransform.getScaleInstance((double) width / src.getWidth(), (double) height / src.getHeight());
-        g.drawRenderedImage(src, at);
-        ImageIO.write(dest, "JPG", output);
-        output.close();
+        try{
+            BufferedImage src = ImageIO.read(input);
+            BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = dest.createGraphics();
+            AffineTransform at = AffineTransform.getScaleInstance((double) width / src.getWidth(), (double) height / src.getHeight());
+            g.drawRenderedImage(src, at);
+            ImageIO.write(dest, "JPG", output);
+            output.close();
+        }catch(Exception e){
+            ln_T_SFLoggerRemote.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                           "resize(InputStream input, OutputStream output, int width, int height) throws Exception", 
+                                                           "Error al redimensionar una imagen", 
+                                                           Utils.getStack(e));
+            e.printStackTrace();
+        }        
     }
 
     public List<SelectItem> suggestNombre(String string) {

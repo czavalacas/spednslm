@@ -15,23 +15,22 @@
                            rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
                 <af:button text="Grabar Permisos" id="b3" action="#{bGestionarPermisos.openPopConfrimarPermisos}"
                            rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
-                <af:spacer height="10" id="s3"/>                
+                <af:spacer height="10" id="s3"/>
             </af:panelGroupLayout>
             <af:panelFormLayout id="pfl1">
-                <af:inputText label="Permisos de: " id="it1" disabled="true"
-                              labelStyle="text-align: left;" value="#{sessionGestionarPermisos.beanUsuario.nombres}"
+                <af:inputText label="Permisos de: " id="it1" disabled="true" labelStyle="text-align: left;"
+                              value="#{sessionGestionarPermisos.beanUsuario.nombres}"
                               rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
-                <af:inputText label="Usuario" id="it2" disabled="true"
-                              labelStyle="text-align: left;" value="#{sessionGestionarPermisos.beanUsuario.usuario}"
+                <af:inputText label="Usuario" id="it2" disabled="true" labelStyle="text-align: left;"
+                              value="#{sessionGestionarPermisos.beanUsuario.usuario}"
                               rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
-                <af:inputText label="Rol" id="it3" disabled="true"
-                              labelStyle="text-align: left;" 
+                <af:inputText label="Rol" id="it3" disabled="true" labelStyle="text-align: left;"
                               value="#{sessionGestionarPermisos.beanUsuario.rol.descripcionRol}"
                               rendered="#{sessionGestionarPermisos.beanUsuario != null ? true : false}"/>
             </af:panelFormLayout>
-            <af:treeTable value="#{sessionGestionarPermisos.permisosTree}" var="row" rowBandingInterval="0"
-                          id="treePer" binding="#{bGestionarPermisos.treePer}"
-                          width="420" inlineStyle="width:420px; height:600px;" initiallyExpanded="true"
+            <af:treeTable value="#{sessionGestionarPermisos.permisosTree}" var="row" rowBandingInterval="0" id="treePer"
+                          binding="#{bGestionarPermisos.treePer}" width="420" inlineStyle="width:420px; height:600px;"
+                          initiallyExpanded="true"
                           rendered="#{sessionGestionarPermisos.permisosTree != null ? true : false}"
                           emptyText="No hay permisos">
                 <f:facet name="nodeStamp">
@@ -40,70 +39,72 @@
                     </af:column>
                 </f:facet>
                 <af:column width="60" headerText="Seleccionar" align="center">
-                    <af:selectBooleanCheckbox id="sbcPerm" selected="#{row.estado}"
-                                              autoSubmit="true" shortDesc="#{row.descripcionPermiso}"
-                                              valueChangeListener="#{bGestionarPermisos.permisoChecked}" simple="false">
-                    </af:selectBooleanCheckbox>
+                    <af:selectBooleanCheckbox id="sbcPerm" selected="#{row.estado}" autoSubmit="true"
+                                              shortDesc="#{row.descripcionPermiso}"
+                                              valueChangeListener="#{bGestionarPermisos.permisoChecked}" simple="false"></af:selectBooleanCheckbox>
                 </af:column>
             </af:treeTable>
+            <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popUsu"
+                      binding="#{bGestionarPermisos.popUsu}">
+                <af:dialog id="dialogU" title="Selecionar Usuarios" type="#{sessionGestionarPermisos.typepopUsu}"
+                           dialogListener="#{bGestionarPermisos.confirmarSelecion}"
+                           binding="#{bGestionarPermisos.dialogU}">
+                    <af:subform id="s6" defaultCommand="b1">
+                        <af:panelFormLayout id="pfl2" rows="1" binding="#{bGestionarPermisos.pfl2}">
+                            <af:inputText label="Nombre" id="it4" value="#{sessionGestionarPermisos.nombreF}">
+                                <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                        suggestedItems="#{bGestionarPermisos.suggestNombre}"/>
+                            </af:inputText>
+                            <af:inputText label="Usuario" id="it5" value="#{sessionGestionarPermisos.usuarioF}">
+                                <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                        suggestedItems="#{bGestionarPermisos.suggestUsuario}"/>
+                            </af:inputText>
+                            <af:selectOneChoice label="Rol" value="#{sessionGestionarPermisos.nidRolF}" id="choiceRol"
+                                                binding="#{bGestionarPermisos.choiceRol}" autoSubmit="true"
+                                                labelStyle="text-align: left;">
+                                <f:selectItems value="#{sessionGestionarPermisos.listRol}" id="si1"
+                                               binding="#{bGestionarPermisos.si1}"/>
+                            </af:selectOneChoice>
+                        </af:panelFormLayout>
+                        <af:spacer height="10" id="s4"/>
+                        <af:button text="Buscar" id="b1"
+                                   actionListener="#{bGestionarPermisos.actionListenerBuscarUsuario}"/>
+                        <af:button id="b4" action="#{bGestionarPermisos.limpiarFiltro}"
+                                   icon="../recursos/img/usuarios/refresh.png"/>
+                        <af:spacer height="10" id="s5"/>
+                    </af:subform>
+                    <af:table value="#{sessionGestionarPermisos.lstUsuarios}" var="row" rowBandingInterval="0" id="tUsu"
+                              rowSelection="single" selectionListener="#{bGestionarPermisos.seleccionarUsuario}"
+                              fetchSize="25" width="710" binding="#{bGestionarPermisos.tusu}">
+                        <af:column sortable="true" headerText="Nombres" align="start" id="c2" width="260"
+                                   sortProperty="nombres">
+                            <af:outputText value="#{row.nombres}" id="ot3"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Usuario" align="start" id="c3" sortProperty="usuario">
+                            <af:outputText value="#{row.usuario}" id="ot4"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Rol" align="start" id="c4"
+                                   sortProperty="rol.descripcionRol">
+                            <af:outputText value="#{row.rol.descripcionRol}" id="ot5"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Sede" align="start" id="c5"
+                                   sortProperty="sedeNivel.nivel">
+                            <af:outputText value="#{row.sede.descripcionSede}" id="ot6"/>
+                        </af:column>
+                        <af:column sortable="true" headerText="Area Academica" align="start" id="c6"
+                                   sortProperty="areaAcademica.descripcionAreaAcademica">
+                            <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot7"/>
+                        </af:column>
+                    </af:table>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popConf"
+                      binding="#{bGestionarPermisos.popConf}">
+                <af:dialog id="d1" title="Confirmacion de Registro de Permisos"
+                           dialogListener="#{bGestionarPermisos.dialogPermisosListener}">
+                    <af:outputText value="Desea Grabar los permisos?" id="grabPerm"/>
+                </af:dialog>
+            </af:popup>
         </af:panelGroupLayout>
-        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popUsu" 
-                  binding="#{bGestionarPermisos.popUsu}">
-            <af:dialog id="dialogU" title="Selecionar Usuarios" type="#{sessionGestionarPermisos.typepopUsu}"
-                       dialogListener="#{bGestionarPermisos.confirmarSelecion}" binding="#{bGestionarPermisos.dialogU}">
-                <af:subform id="s6" defaultCommand="b1">
-                    <af:panelFormLayout id="pfl2" rows="1" binding="#{bGestionarPermisos.pfl2}">
-                        <af:inputText label="Nombre" id="it4" value="#{sessionGestionarPermisos.nombreF}">
-                            <af:autoSuggestBehavior maxSuggestedItems="5"
-                                                    suggestedItems="#{bGestionarPermisos.suggestNombre}"/>
-                        </af:inputText>
-                        <af:inputText label="Usuario" id="it5" value="#{sessionGestionarPermisos.usuarioF}">
-                            <af:autoSuggestBehavior maxSuggestedItems="5"
-                                                    suggestedItems="#{bGestionarPermisos.suggestUsuario}"/>
-                        </af:inputText>
-                        <af:selectOneChoice label="Rol" value="#{sessionGestionarPermisos.nidRolF}" id="choiceRol"
-                                            binding="#{bGestionarPermisos.choiceRol}" autoSubmit="true"
-                                            labelStyle="text-align: left;" >
-                            <f:selectItems value="#{sessionGestionarPermisos.listRol}" id="si1"
-                                           binding="#{bGestionarPermisos.si1}"/>
-                        </af:selectOneChoice>
-                    </af:panelFormLayout>
-                    <af:spacer height="10" id="s4"/>
-                    <af:button text="Buscar" id="b1" actionListener="#{bGestionarPermisos.actionListenerBuscarUsuario}"/>
-                    <af:button id="b4" action="#{bGestionarPermisos.limpiarFiltro}" icon="../recursos/img/usuarios/refresh.png"/>
-                    <af:spacer height="10" id="s5"/>
-                </af:subform> 
-                <af:table value="#{sessionGestionarPermisos.lstUsuarios}" var="row" rowBandingInterval="0" id="tUsu"
-                          rowSelection="single"  selectionListener="#{bGestionarPermisos.seleccionarUsuario}" fetchSize="25"
-                          width="710" binding="#{bGestionarPermisos.tusu}">
-                    <af:column sortable="true" headerText="Nombres" align="start" id="c2" width="260" 
-                               sortProperty="nombres">
-                        <af:outputText value="#{row.nombres}" id="ot3"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Usuario" align="start" id="c3" 
-                               sortProperty="usuario">
-                        <af:outputText value="#{row.usuario}" id="ot4"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Rol" align="start" id="c4" 
-                               sortProperty="rol.descripcionRol">
-                        <af:outputText value="#{row.rol.descripcionRol}" id="ot5"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Sede" align="start" id="c5" 
-                               sortProperty="sedeNivel.nivel">
-                        <af:outputText value="#{row.sede.descripcionSede}" id="ot6"/>
-                    </af:column>
-                    <af:column sortable="true" headerText="Area Academica" align="start" id="c6"
-                               sortProperty="areaAcademica.descripcionAreaAcademica">
-                        <af:outputText value="#{row.areaAcademica.descripcionAreaAcademica}" id="ot7"/>
-                    </af:column>
-                </af:table>
-            </af:dialog>
-        </af:popup>
-        <af:popup childCreation="deferred" autoCancel="disabled" id="popConf" binding="#{bGestionarPermisos.popConf}">
-            <af:dialog id="d1" title="Confirmacion de Registro de Permisos"
-                       dialogListener="#{bGestionarPermisos.dialogPermisosListener}">
-                 <af:outputText value="Desea Grabar los permisos?" id="grabPerm"/>
-            </af:dialog>
-        </af:popup>
     </f:view>
 </ui:composition>

@@ -246,6 +246,5 @@
             </af:dialog>
         </af:popup>
         </af:panelGroupLayout>
-
     </f:view>
 </ui:composition>

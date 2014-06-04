@@ -121,7 +121,7 @@ public class bConfigurarCuenta {
             e.printStackTrace();
             ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
                                                           "uploadFileValueChangeEvent(ValueChangeEvent valueChangeEvent)", 
-                                                          "Metodo para subir la imagen del usuario", Utils.getStack(e));
+                                                          "Error al subir la imagen del usuario", Utils.getStack(e));
         }
     }
     

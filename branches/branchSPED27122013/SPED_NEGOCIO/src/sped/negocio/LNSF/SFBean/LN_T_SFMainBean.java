@@ -46,7 +46,7 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
     }
     
     /**
-     * Metodo que ingresa o modifica los atributos de main
+     * Metodo que ingresa o modifica los atributos de main Tipo 1 = Registrar, 2 = modificar, 3  = modificar profesor
      * @param tipoEvento
      * @param nidMain
      * @param dniProfesor
@@ -66,22 +66,38 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
                                  Time horaFin){
         try{
             Main main = new Main();    
-            if(tipoEvento > 1){
+            if(tipoEvento == 2){
                 main = bdL_C_SFMainLocal.findMainById(nidMain);
+                if(main.getProfesor().getDniProfesor().compareTo(dniProfesor) == 0 &&
+                   main.getAula().getNidAula() == nidAula &&
+                   main.getCurso().getNidCurso() == nidCurso &&
+                   main.getNDia() == nDia &&
+                   main.getHoraInicio().equals(horaInicio) &&
+                   main.getHoraFin().equals(horaFin) ){
+                    /////valida si los datos son iguales  
+                    System.out.println("Son igulillos");
+                    return; 
+                }else{
+                    System.out.println("NO Son igulillos");
+                    if(bdL_C_SFEvaluacionLocal.countEvaluacionByNidMain(nidMain) > 0){
+                        main.setEstado("0");                        
+                        bdL_T_SFMainLocal.mergeMain(main);
+                        main = new Main();
+                        tipoEvento = 1;
+                    }                     
+                }
             }
-            if(tipoEvento == 1 || tipoEvento == 2){
-                main.setProfesor(bdL_C_SFProfesorLocal.getProfesorBydni(dniProfesor));
-                main.setAula(bdL_C_SFAulaLocal.findAulaById(nidAula));
-                main.setCurso(bdL_C_SFCursoLocal.findCursoById(nidCurso));
-                main.setNDia(nDia);
-                main.setHoraInicio(horaInicio);
-                main.setHoraFin(horaFin);
-                main.setEstado("1");
-            }
+            main.setProfesor(bdL_C_SFProfesorLocal.getProfesorBydni(dniProfesor));
+            main.setAula(bdL_C_SFAulaLocal.findAulaById(nidAula));
+            main.setCurso(bdL_C_SFCursoLocal.findCursoById(nidCurso));
+            main.setNDia(nDia);
+            main.setHoraInicio(horaInicio);
+            main.setHoraFin(horaFin);
+            main.setEstado("1");
             if(tipoEvento == 1){
                 bdL_T_SFMainLocal.persistMain(main);
             }
-            if(tipoEvento > 1){
+            if(tipoEvento == 2){                
                 bdL_T_SFMainLocal.mergeMain(main);
             }
         }catch(Exception e){
