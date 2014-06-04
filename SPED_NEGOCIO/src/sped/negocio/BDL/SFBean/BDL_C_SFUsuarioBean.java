@@ -85,9 +85,9 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     public List<Usuario> getEvaluadores(String nidAreaAcademica){
         try{
             String strQuery = "SELECT ma FROM Usuario ma " +
-                           " WHERE ma.rol.nidRol = 2";
+                             " WHERE ma.rol.nidRol = 2 ";
             if (nidAreaAcademica!= null) {               
-                strQuery = strQuery.concat(" and ma.areaAcademica.nidAreaAcademica = "+nidAreaAcademica);  
+                strQuery = strQuery.concat(" AND ma.areaAcademica.nidAreaAcademica = "+nidAreaAcademica);  
             }
             List<Usuario> lstUsuarios = em.createQuery(strQuery).getResultList();
             int size = lstUsuarios == null ? 0 : lstUsuarios.size();
@@ -147,7 +147,8 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     
     public int countUsuarioByNomUsuarioBDL(String usuario){
         try {
-            String ejbQL = "SELECT  COUNT(1) FROM Usuario u " + "WHERE u.usuario = :usuario ";
+            String ejbQL = "SELECT  COUNT(1) FROM Usuario u " +
+                           "WHERE u.usuario = :usuario ";
             List lst = em.createQuery(ejbQL).setParameter("usuario", usuario).getResultList();
             if (lst.isEmpty()) {
                 return 0;
@@ -164,7 +165,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
         try {
             String ejbQL = "SELECT  u.nombres FROM Usuario u " + 
                            "WHERE u.nidUsuario = :nid_usuario ";
-            List lstResult = em.createQuery(ejbQL).setParameter("nidUsuario", nidUsuario).getResultList();
+            List lstResult = em.createQuery(ejbQL).setParameter("nid_usuario", nidUsuario).getResultList();
             if (lstResult.isEmpty()) {
                 return null;
             } else {
