@@ -26,7 +26,9 @@ import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFPermisosLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLogLocal;
+import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanError;
@@ -52,7 +54,10 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
     private LN_T_SFLogLocal ln_T_SFLogLocal;
     @EJB
     private LN_C_SFPermisosLocal ln_C_SFPermisosLocal;
+    @EJB
+    private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
     private MapperIF mapper = new DozerBeanMapper();
+    private static final String CLASE = "sped.negocio.LNSF.SFBean.LN_C_SFUsuarioBean";
 
     public LN_C_SFUsuarioBean() {
     }
@@ -86,7 +91,11 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                 }
             }
         }catch(Exception e){
+            e.printStackTrace();
             msj = "SPED-00001";
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(0,"LOG",CLASE, 
+                                                          "BeanUsuario autenticarUsuarioLN",
+                                                          "Error al hacer la logica de negocio para autenticar usuario SPED-00001 ",Utiles.getStack(e));
         }finally{
             beanError = ln_C_SFErrorLocal.getCatalogoErrores(msj);
             beanUsuario.setError(beanError);
