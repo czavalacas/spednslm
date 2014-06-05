@@ -210,23 +210,25 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
         BeanError beanError = new BeanError();
         String error = "000";
         try {
-            if(!isPrimeraVezParcial){
-                int resu = 0;
-                resu = bdL_T_SFResultadoCriterioLocal.removerResultadoCriterioByEvaluacion(nidEvaluacion);
-               /* if(resu == 0){
-                    error = "SPED-00006";
-                }else{*/
-                    resu = bdL_T_SFResultadoLocal.removerResultadosByEvaluacion(nidEvaluacion);
-                  /*  if(resu == 0){
-                        error = "SPED-00006";
-                    }*/
-               // }
-            }
             if(temaEvaluacion == null){
                 error = "SPED-00007";
             }else{
                 if(temaEvaluacion.isEmpty()){
                     error = "SPED-00007";
+                }
+            }
+            if("000".equals(error)){
+                if(!isPrimeraVezParcial){
+                    int resu = 0;
+                    resu = bdL_T_SFResultadoCriterioLocal.removerResultadoCriterioByEvaluacion(nidEvaluacion);
+                   /* if(resu == 0){
+                        error = "SPED-00006";
+                    }else{*/
+                        resu = bdL_T_SFResultadoLocal.removerResultadosByEvaluacion(nidEvaluacion);
+                      /*  if(resu == 0){
+                            error = "SPED-00006";
+                        }*/
+                   // }
                 }
             }
             if("000".equals(error)){
