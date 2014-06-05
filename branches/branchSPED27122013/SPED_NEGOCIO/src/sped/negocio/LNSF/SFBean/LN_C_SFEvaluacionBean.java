@@ -291,7 +291,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 }
                 beanEva.setTipoFichaCurso(tipo_ficha_curso);
                 //beanEva.setTipoFichaCurso( isSubDirector == true ? "SD" : eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso());
-                Utiles.sysout("eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso():"+eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso()+ " beanEva: "+beanEva.getTipoFichaCurso());
+                //Utiles.sysout("eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso():"+eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso()+ " beanEva: "+beanEva.getTipoFichaCurso());
                 beanEva.setStartDate(eva.getStartDate());
                 beanEva.setEndDate(eva.getEndDate());
                 beanEva.setSede(eva.getMain().getAula().getSede().getDescripcionSede());
