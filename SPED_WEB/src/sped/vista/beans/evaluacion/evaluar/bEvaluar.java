@@ -281,6 +281,7 @@ public class bEvaluar {
     
     public void grabarEvaluacion(ActionEvent actionEvent) {
         boolean reset = true;
+        String err = null;
         try {
             int severidad = 0;
             BeanError error = new BeanError();
@@ -292,8 +293,9 @@ public class bEvaluar {
                                                                           usuario.getNidLog(),
                                                                           "0".equals(sessionEvaluar.getPlanifSelect().getFlgParcial()) ? true : false,
                                                                           sessionEvaluar.getTemaEvaluacion());
+                err = error.getCidError();
                 if("000".equalsIgnoreCase(error.getCidError())){
-                    severidad = 3;
+                    severidad = 3;  
                 }else{
                     severidad = 1;
                     reset = false;
@@ -307,6 +309,7 @@ public class bEvaluar {
             msjGen.setText(error.getTituloError());
             Utils.addTarget(msjGen);
             Utils.mostrarMensaje(ctx,error.getDescripcionError(),error.getTituloError(), severidad);
+            err = error.getCidError();
         } catch (Exception e) {
             e.printStackTrace();
             msjGen.setText("Error del sistema");
@@ -314,7 +317,7 @@ public class bEvaluar {
             Utils.mostrarMensaje(ctx,"Error del sistema, comuniquese con el administrador o intente nuevamente","Error del sistema",2);
             ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(),"BAC",CLASE, 
                                                           "void grabarEvaluacion(ActionEvent actionEvent)",
-                                                          "Error en el backing al registrar la Evaluacion "+e.getMessage(),Utils.getStack(e));
+                                                          "Error en el backing al registrar la Evaluacion "+e.getMessage()+" err: "+err,Utils.getStack(e));
         } finally {
             if(reset){
                 resetearAfterGrabar();
