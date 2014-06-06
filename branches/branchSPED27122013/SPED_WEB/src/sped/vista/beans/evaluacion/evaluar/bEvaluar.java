@@ -270,7 +270,7 @@ public class bEvaluar {
                         }
                         sumVal = sumVal + indi.getValorSpinBox();
                     }
-                    double vigecimal = (sumVal * 20) / maxVal;
+                    double vigecimal = (sumVal * 20) / new Double(maxVal);
                     crit.setNotaVige(vigecimal);
                 }
             }
