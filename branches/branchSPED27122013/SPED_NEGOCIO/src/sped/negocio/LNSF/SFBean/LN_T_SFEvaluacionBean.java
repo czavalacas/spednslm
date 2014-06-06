@@ -482,10 +482,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             //data[] 0= profesor, 1=fecha, 2=rol+evaluador, 3=curso, 4=aula, 5=sede, 6=grado, 7=Correo, 8=nidLog
             ln_C_SFCorreoLocal.enviarCorreoNotificacionProfesorEvaluado(data);
         } catch (Exception e) {
-            ln_T_SFLoggerLocal.registrarLogErroresSistema(nidLog, 
-                                                          "TRA",
-                                                          CLASE, 
-                                                          "void enviarCorreoProfesorEvaluador_LN(..parametros..)",
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(nidLog,"TRA",CLASE,"void enviarCorreoProfesorEvaluador_LN(..parametros..)",
                                                           "Error al enviar el correo de notificacion de evaluacion al docente",Utiles.getStack(e));
         }
     }
