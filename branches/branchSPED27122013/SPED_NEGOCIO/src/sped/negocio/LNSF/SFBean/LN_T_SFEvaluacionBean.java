@@ -478,7 +478,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
             String correoProfesor = bdl_C_SFUsuarioLocal.getCorreoByNidUsuario_BDL(dniProfesor);
             String rol_Evaluador = bdl_C_SFUsuarioLocal.getRolNombreUsuario_BDL(nidEvaluador);
             String data[] = new String[] {
-                profesor, Utiles.getHoyFormato("dd/MM/yyy"), rol_Evaluador, curso, aula, sede, grado, correoProfesor,String.valueOf(nidLog)};
+                profesor, Utiles.getHoyFormato("dd/MM/yyyy"), rol_Evaluador, curso, aula, sede, grado, correoProfesor,String.valueOf(nidLog)};
             //data[] 0= profesor, 1=fecha, 2=rol+evaluador, 3=curso, 4=aula, 5=sede, 6=grado, 7=Correo, 8=nidLog
             ln_C_SFCorreoLocal.enviarCorreoNotificacionProfesorEvaluado(data);
         } catch (Exception e) {
