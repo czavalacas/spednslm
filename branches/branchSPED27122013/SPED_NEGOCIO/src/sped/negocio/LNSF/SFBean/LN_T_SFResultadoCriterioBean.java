@@ -57,7 +57,7 @@ public class LN_T_SFResultadoCriterioBean implements LN_T_SFResultadoCriterioRem
             for(BeanCriterio bcrit : lstBCrit){
                 rc = new ResultadoCriterio();
                 rc.setEvaluacion(evaluacion);
-                rc.setFichaCriterio(bcrit.getFichaCriterioAUX());Utiles.sysout("evdrefc:"+bcrit.getNotaVige());
+                rc.setFichaCriterio(bcrit.getFichaCriterioAUX());
                 rc.setValor(bcrit.getNotaVige());
                 bdL_T_SFResultadoCriterioLocal.persistResultadoCriterio(rc);
             }
