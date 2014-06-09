@@ -276,7 +276,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
         .concat("<strong>Sede</strong></td><td style=\"text-align: center;\">")
         .concat("<strong>Grado</strong></td></tr><tr><td>"+data[3]+"</td><td>"+data[4]+"</td>")
         .concat("<td>"+data[5]+"</td><td>"+data[6]+"</td></tr></tbody></table><p>")
-        .concat("Puede consultar sus resultados en la opcion de Consultar Evaluaciones en el sistema SPED.</p>");
+                         .concat("Puede consultar sus resultados en la opcion de Consultar Evaluaciones en el sistema SPED. ID: "+data[9]+"</p>");
       return contenido;
     }
     
