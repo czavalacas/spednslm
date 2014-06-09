@@ -189,7 +189,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                                                   eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
                                                   eva.getMain().getAula().getSede().getDescripcionSede(),
                                                   eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+" de "+eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel() ,
-                                                  eva.getMain().getProfesor().getDniProfesor(),nidLog);
+                                                  eva.getMain().getProfesor().getDniProfesor(),nidLog,eva.getNidEvaluacion());
         }catch (Exception e) {
             e.printStackTrace();
             error = "111";
@@ -268,7 +268,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                                                       eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
                                                       eva.getMain().getAula().getSede().getDescripcionSede(),
                                                       eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+" de "+eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel() ,
-                                                      eva.getMain().getProfesor().getDniProfesor(),nidLog);
+                                                      eva.getMain().getProfesor().getDniProfesor(),nidLog,eva.getNidEvaluacion());
             }
         }catch (Exception e) {
             error = "111";
@@ -473,12 +473,12 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
     }
     
     public void enviarCorreoProfesorEvaluador_LN(String profesor, String curso, int nidEvaluador,
-                                                 String aula, String sede, String grado,String dniProfesor,int nidLog){
+                                                 String aula, String sede, String grado,String dniProfesor,int nidLog,int nidEva){
         try {
             String correoProfesor = bdl_C_SFUsuarioLocal.getCorreoByNidUsuario_BDL(dniProfesor);
             String rol_Evaluador = bdl_C_SFUsuarioLocal.getRolNombreUsuario_BDL(nidEvaluador);
             String data[] = new String[] {
-                profesor, Utiles.getHoyFormato("dd/MM/yyyy"), rol_Evaluador, curso, aula, sede, grado, correoProfesor,String.valueOf(nidLog)};
+                profesor, Utiles.getHoyFormato("dd/MM/yyyy"), rol_Evaluador, curso, aula, sede, grado, correoProfesor,String.valueOf(nidLog),String.valueOf(nidEva)};
             //data[] 0= profesor, 1=fecha, 2=rol+evaluador, 3=curso, 4=aula, 5=sede, 6=grado, 7=Correo, 8=nidLog
             ln_C_SFCorreoLocal.enviarCorreoNotificacionProfesorEvaluado(data);
         } catch (Exception e) {
