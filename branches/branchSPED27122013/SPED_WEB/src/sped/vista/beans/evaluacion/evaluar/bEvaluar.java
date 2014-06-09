@@ -440,7 +440,7 @@ public class bEvaluar {
     private Boolean[] isOKParcial(){
         Boolean[] resultValida = new Boolean[2];//0 = mas de 5 rpts (sufi para grabar parcial), 1 = true si todos tienen valor, necesario para mostrar el msj si quiere grabar del todo.
         resultValida[0] = false;
-        resultValida[1] = false;
+        resultValida[1] = true;
         Iterator it = sessionEvaluar.getLstCriteriosMultiples().iterator();
         int cant = 0;
         while(it.hasNext()){
@@ -456,7 +456,6 @@ public class bEvaluar {
                     }else{
                         resultValida[0] = false;
                     }
-                    resultValida[1] = true;
                 }else{
                     resultValida[1] = false;
                 }
