@@ -269,8 +269,8 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                             " WHERE ma.profesor.dniProfesor='"+dniProfesor+"'" +
                             " and ma.aula.nidAula="+nidAula+"" +
                             " and ma.curso.nidCurso="+nidCurso;
-            Main main = (Main)em.createQuery(ejbQl).getSingleResult(); 
-            return main;
+            List<Main> main = em.createQuery(ejbQl).getResultList(); 
+            return main.get(0);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

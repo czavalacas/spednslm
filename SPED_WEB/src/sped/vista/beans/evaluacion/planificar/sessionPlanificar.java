@@ -124,6 +124,7 @@ public class sessionPlanificar {
     private int isSupervisor=0;
     private String horaInicio;
     private String horaFin;
+    private boolean estadoVisibleOutputgrado=true;
     
     public void setListaHorarios(List<BeanMain> listaHorarios) {
         this.listaHorarios = listaHorarios;
@@ -923,5 +924,13 @@ public class sessionPlanificar {
 
     public String getHoraFin() {
         return horaFin;
+    }
+
+    public void setEstadoVisibleOutputgrado(boolean estadoVisibleOutputgrado) {
+        this.estadoVisibleOutputgrado = estadoVisibleOutputgrado;
+    }
+
+    public boolean isEstadoVisibleOutputgrado() {
+        return estadoVisibleOutputgrado;
     }
 }
