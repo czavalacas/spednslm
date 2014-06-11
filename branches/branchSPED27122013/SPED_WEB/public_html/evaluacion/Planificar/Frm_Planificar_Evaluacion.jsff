@@ -213,7 +213,8 @@
                         <af:inputText label="Curso" autoSubmit="true" id="it8"
                                       value="#{sessionScope.sessionPlanificarEva.cursoEvaluacion}" disabled="true"/>
                         <af:inputText label="Grado" autoSubmit="true" id="it9"
-                                      value="#{sessionScope.sessionPlanificarEva.gradoEvaluacion}" disabled="true"/>
+                                      value="#{sessionScope.sessionPlanificarEva.gradoEvaluacion}" disabled="true"
+                                      visible="#{sessionScope.sessionPlanificarEva.estadoVisibleOutputgrado}"/>
                         <af:inputText label="Nivel" autoSubmit="true" id="it10"
                                       value="#{sessionScope.sessionPlanificarEva.nivelEvaluacion}" disabled="true"/>
                     </af:panelFormLayout>
