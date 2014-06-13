@@ -136,7 +136,8 @@
                                                        rendered="#{row.displaySpinBox}" value="#{row.valorSpinBox}"
                                                        maximum="#{sessionScope.sessionEvaluar.maxValor}"
                                                        autoSubmit="true" immediate="true"
-                                                       valueChangeListener="#{bEvaluar.cambiarValor}">
+                                                       valueChangeListener="#{bEvaluar.cambiarValor}"
+                                                       converter="javax.faces.Integer">
                                     <f:attribute name="idcrit" value="#{row.nidCriterio}"/>
                                     <f:attribute name="idcritPapa" value="#{row.nidCriterioPadre}"/>
                                 </af:inputNumberSpinbox>
