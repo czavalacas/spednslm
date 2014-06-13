@@ -135,8 +135,8 @@
                                 <af:inputNumberSpinbox id="ins1" columns="1" minimum="0" styleClass="evaluar"
                                                        rendered="#{row.displaySpinBox}" value="#{row.valorSpinBox}"
                                                        maximum="#{sessionScope.sessionEvaluar.maxValor}"
-                                                       converter="javax.faces.Integer" autoSubmit="true"
-                                                       valueChangeListener="#{bEvaluar.cambiarValor}" immediate="true">
+                                                       autoSubmit="true" immediate="true"
+                                                       valueChangeListener="#{bEvaluar.cambiarValor}">
                                     <f:attribute name="idcrit" value="#{row.nidCriterio}"/>
                                     <f:attribute name="idcritPapa" value="#{row.nidCriterioPadre}"/>
                                 </af:inputNumberSpinbox>
