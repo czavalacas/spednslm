@@ -114,6 +114,7 @@ public class bConsultarEvaluacion {
     FacesContext ctx = FacesContext.getCurrentInstance();
     private String comentarioProf;
     private String comentarioEvaluador;
+    private String tema;
 
     public bConsultarEvaluacion() {
         
@@ -400,6 +401,7 @@ public class bConsultarEvaluacion {
     
     public void comentarEvaluacionByEvaluador(ActionEvent actionEvent) {
         this.setComentarioEvaluador(sessionConsultarEvaluacion.getEvaSelect().getComentarioEvaluador());
+        this.setTema(sessionConsultarEvaluacion.getEvaSelect().getTemaEvaluacion());
         Utils.showPopUpMIDDLE(popComEva);
     }
     
@@ -460,6 +462,14 @@ public class bConsultarEvaluacion {
         DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy hh:mm a", Locale.US);
         DateFormat Hora = new SimpleDateFormat("hh:mm a", Locale.US);
         return fechaHora.format(eva.getStartDate())+" - "+Hora.format(eva.getEndDate());
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
+
+    public String getTema() {
+        return tema;
     }
 
     public List<SelectItem> suggestEvaluador(String string) {        
