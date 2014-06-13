@@ -55,6 +55,15 @@ public class BeanEvaluacionPlani implements Serializable{
     private BeanUsuario usuario;
     private double porcentajeDesempeno;
     private Date fechaEvaluacion;//Fecha en la que se evaluo dfloresgonz 23.05.2014
+    private String temaEvaluacion;
+
+    public void setTemaEvaluacion(String temaEvaluacion) {
+        this.temaEvaluacion = temaEvaluacion;
+    }
+
+    public String getTemaEvaluacion() {
+        return temaEvaluacion;
+    }
 
     public void setFechaEvaluacion(Date fechaEvaluacion) {
         this.fechaEvaluacion = fechaEvaluacion;
