@@ -526,7 +526,7 @@ public class bEvaluar {
         return usuario;
     }
 
-    public void setTbPlan(RichTable tbPlan) {
+    public void setTbPlan(RichTable tbPlan) { 
         this.tbPlan = tbPlan;
     }
 
