@@ -10,7 +10,7 @@
   # Acomodar los tags f:view que tenga solo 1 raiz los jsff
   # Modulo de continuidad de negocio
   # Dash visualizar hora de planificacion vs. hora de evaluacion.
-  # Permitir justificar en estado NO EJECUTADO.
+  # ~~Permitir justificar en estado NO EJECUTADO.~~
   # Anular evaluaciones ya realizadas, e informar al docente que se anulo, pedir una justificacion porque borra.
   # ~~Grabar en el log cuando se solicite nueva clave.~~
   # ~~Mejorar la performance en las consultas de planificacion y evaluacion.~~
