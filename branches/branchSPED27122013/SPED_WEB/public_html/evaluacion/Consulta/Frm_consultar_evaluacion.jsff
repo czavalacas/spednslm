@@ -181,15 +181,6 @@
                                                              target="#{sessionConsultarEvaluacion.evaSelect}"/>
                             </af:button>
                         </af:panelGroupLayout>
-                        
-                        <!--  <af:button text="Comentar" id="bComenP" rendered="#{!sessionConsultarEvaluacion.columnProfesor == true 
-                                         and row.comentario_profesor == null ? true : false}"
-                                   actionListener="#{bConsultarEvaluacion.comentarEvaluacion}">
-                            <f:setPropertyActionListener value="#{row}"
-                                                         target="#{sessionConsultarEvaluacion.evaSelect}"/>
-                        </af:button>
-                        <af:outputText value="#{row.comentario_profesor}" id="ot17"
-                                       rendered="#{row.comentario_profesor != null ? true : false}"/>-->
                     </af:column>
                     <af:column sortable="true" sortProperty="estadoEvaluacion" headerText="Estado"
                                align="start" id="c10" width="80"
@@ -216,7 +207,7 @@
                 </af:table>   
             </af:panelCollection>
                 
-             <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCom"
+        <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popCom"
                   binding="#{bConsultarEvaluacion.popCom}">
             <af:dialog id="diagCmtProf" title="Comentario Profesor"
                        dialogListener="#{bConsultarEvaluacion.confirmarEnvioMensaje}">
@@ -239,7 +230,8 @@
             <af:dialog id="diagCmtEva" title="Comentario del Evaluador"
                        dialogListener="#{bConsultarEvaluacion.confirmarEnvioMensajeEvaluador}">
                 <af:panelFormLayout>
-                    <af:inputText label="Comentario" id="itCmtEva" maximumLength="1000" rows="15" labelStyle="text-align: left;"
+                        <af:inputText label="Tema" id="it3" value="#{bConsultarEvaluacion.tema}" rows="3" labelStyle="text-align: left;"/>
+                        <af:inputText label="Comentario" id="itCmtEva" maximumLength="1000" rows="15" labelStyle="text-align: left;"
                                   value="#{bConsultarEvaluacion.comentarioEvaluador}" disabled="#{sessionConsultarEvaluacion.columnProfesor == false}"
                                   columns="90"/>
                 </af:panelFormLayout>
