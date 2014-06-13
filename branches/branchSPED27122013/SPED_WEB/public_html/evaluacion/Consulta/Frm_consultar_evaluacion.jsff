@@ -230,7 +230,8 @@
             <af:dialog id="diagCmtEva" title="Comentario del Evaluador"
                        dialogListener="#{bConsultarEvaluacion.confirmarEnvioMensajeEvaluador}">
                 <af:panelFormLayout>
-                        <af:inputText label="Tema" id="it3" value="#{bConsultarEvaluacion.tema}" rows="3" labelStyle="text-align: left;"/>
+                        <af:inputText label="Tema" id="it3" value="#{bConsultarEvaluacion.tema}" rows="3" labelStyle="text-align: left;"
+                                      disabled="true"/>
                         <af:inputText label="Comentario" id="itCmtEva" maximumLength="1000" rows="15" labelStyle="text-align: left;"
                                   value="#{bConsultarEvaluacion.comentarioEvaluador}" disabled="#{sessionConsultarEvaluacion.columnProfesor == false}"
                                   columns="90"/>
