@@ -81,6 +81,7 @@
                                         labelStyle="text-align: left;">
                         <f:selectItems value="#{sessionScope.sessionConsultarEvaluacion.lstGrado}" id="si5"/>
                     </af:selectOneChoice>
+                    
                 </af:panelFormLayout>
                 <af:spacer height="10" id="s4"/>
                 <af:panelGroupLayout id="pgl2">
