@@ -110,7 +110,7 @@
                         <af:outputText value="#{row.rol.descripcionRol}" id="ot5"/>
                     </af:column>
                     <af:column sortable="true" headerText="Sede" align="start" id="c7"
-                               sortProperty="sedeNivel.sede.descripcionSede">
+                               sortProperty="sede.descripcionSede">
                         <af:outputText value="#{row.sede.descripcionSede}" id="ot7"/>
                     </af:column>
                     <af:column sortable="true" headerText="Area Academica" align="start" id="c3"
