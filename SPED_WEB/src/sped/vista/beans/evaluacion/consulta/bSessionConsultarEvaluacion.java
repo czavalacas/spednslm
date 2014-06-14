@@ -48,24 +48,6 @@ public class bSessionConsultarEvaluacion {
     private BeanEvaluacionPlani evaluacion;
     private List<SelectItem> itemProfesor;
     private List<SelectItem> itemEvaluador;
-    private String nidAreaAcademicaChoice;
-    private boolean estadoChoiceArea = false;
-
-    public void setEstadoChoiceArea(boolean estadoChoiceArea) {
-        this.estadoChoiceArea = estadoChoiceArea;
-    }
-
-    public boolean isEstadoChoiceArea() {
-        return estadoChoiceArea;
-    }
-
-    public void setNidAreaAcademicaChoice(String nidAreaAcademicaChoice) {
-        this.nidAreaAcademicaChoice = nidAreaAcademicaChoice;
-    }
-
-    public String getNidAreaAcademicaChoice() {
-        return nidAreaAcademicaChoice;
-    }
 
     public bSessionConsultarEvaluacion() {
     }

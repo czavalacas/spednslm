@@ -115,7 +115,6 @@ public class bConsultarEvaluacion {
     private String comentarioProf;
     private String comentarioEvaluador;
     private String tema;
-    private List listaAreasChoice;//dfloresgonz 13.06.2014 se agrega un nuevo filtro
 
     public bConsultarEvaluacion() {
         
@@ -133,7 +132,6 @@ public class bConsultarEvaluacion {
             sessionConsultarEvaluacion.setLstGrado(Utils.llenarCombo(ln_C_SFUtilsRemote.getGrados_LN()));
             sessionConsultarEvaluacion.setLstEstadoEvaluacion(Utils.llenarComboString(ln_C_SFUtilsRemote.getEstadoEvaluacionFromConstraint()));            
             sessionConsultarEvaluacion.setItemProfesor(Utils.llenarListItem(ln_C_SFProfesorRemote.getNombreProfesor_LN()));
-            this.setListaAreasChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
             llenarTabla();
         }
     }
@@ -156,10 +154,10 @@ public class bConsultarEvaluacion {
             }
             /*if(nidRol == 2){
                 sessionConsultarEvaluacion.setColumnArea(false);
-            }*/
+            }
             if(nidRol == 4){
                 sessionConsultarEvaluacion.setColumnSede(false);
-            }
+            }*/
             if(nidRol == 2 && "1".equals(beanUsuario.getIsSupervisor())){//Evaluador de Area ES SUPERVISOR
                 sessionConsultarEvaluacion.setNidArea(null);
                 sessionConsultarEvaluacion.setColumnArea(true);
@@ -472,14 +470,6 @@ public class bConsultarEvaluacion {
         DateFormat fechaHora = new SimpleDateFormat("dd-MM-yyyy hh:mm a", Locale.US);
         DateFormat Hora = new SimpleDateFormat("hh:mm a", Locale.US);
         return fechaHora.format(eva.getStartDate())+" - "+Hora.format(eva.getEndDate());
-    }
-    
-    public void setListaAreasChoice(List listaAreasChoice) {
-        this.listaAreasChoice = listaAreasChoice;
-    }
-
-    public List getListaAreasChoice() {
-        return listaAreasChoice;
     }
 
     public void setTema(String tema) {

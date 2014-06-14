@@ -243,8 +243,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     /*if((nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0) || nidRol == 4){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
                     }*/
-                    if(nidRol == 4){//Evaluador de sede
-                        strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede AND eva.nidEvaluador = :nid_evaluador ");
+                    if(nidRol == 4){//Evaluador de sede eva.main.aula.sede.nidSede = :nid_sede AND
+                        strQuery = strQuery.concat(" AND  eva.nidEvaluador = :nid_evaluador ");
                         beanFiltroEva.setNidSede(0);
                     }
                     if(nidRol == 2){//Evaluador de area
@@ -313,7 +313,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
                     }*/
                     if(nidRol == 4){
-                        query.setParameter("nid_sede", beanUsuario.getSede().getNidSede());
+                        //query.setParameter("nid_sede", beanUsuario.getSede().getNidSede());
                         query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
                     }
                     if(nidRol == 2){//Es evaluador de area
