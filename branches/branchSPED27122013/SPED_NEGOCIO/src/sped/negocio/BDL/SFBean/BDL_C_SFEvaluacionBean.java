@@ -243,9 +243,13 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     /*if((nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0) || nidRol == 4){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
                     }*/
-                    if(nidRol == 4){//Evaluador de sede eva.main.aula.sede.nidSede = :nid_sede AND
+                    if(nidRol == 4){//Evaluador de sede 
                         strQuery = strQuery.concat(" AND  eva.nidEvaluador = :nid_evaluador ");
-                        beanFiltroEva.setNidSede(0);
+                        if(beanFiltroEva.getNidSede() != 0){
+                            //strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede ");
+                        }else{
+                            beanFiltroEva.setNidSede(0);
+                        }
                     }
                     if(nidRol == 2){//Evaluador de area
                         isSupervisor = bdL_C_SFUsuarioLocal.getIsSupervisor(beanUsuario.getNidUsuario());
@@ -325,6 +329,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     if(nidRol == 3){
                         query.setParameter("dni_profesor", beanUsuario.getDni());
                     }
+                    
                     if(beanFiltroEva != null){
                         if(beanFiltroEva.getNidSede() != 0){ 
                             query.setParameter("nidf_sede", beanFiltroEva.getNidSede());
