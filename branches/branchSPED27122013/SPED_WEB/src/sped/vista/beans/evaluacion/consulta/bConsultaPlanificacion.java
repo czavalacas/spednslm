@@ -161,13 +161,13 @@ public class bConsultaPlanificacion {
         this.setListaNvelesChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getNiveles_LN()));    
         this.setListaAreasChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
         this.setListaEstadosChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getListaEstados("estado_evaluacion", "evmeval")));
-        if(usuarioEnSesion.getRol().getNidRol() == 4){
+        if(usuarioEnSesion.getRol().getNidRol() == 4){//Evaluador de Sede
             sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
             sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
             sessionConsultarPlanificacion.setNidSedeChoice(""+usuarioEnSesion.getSede().getNidSede());
             sessionConsultarPlanificacion.setEstadoChoiceSede(true);
         }
-        if(usuarioEnSesion.getRol().getNidRol() == 2 && "0".equals(usuarioEnSesion.getIsSupervisor())){
+        if(usuarioEnSesion.getRol().getNidRol() == 2 && "0".equals(usuarioEnSesion.getIsSupervisor())){//Evaluador de Area && supervisor
             sessionConsultarPlanificacion.setNidEvaluadorChoice(""+usuarioEnSesion.getNidUsuario());
             sessionConsultarPlanificacion.setEstadoChoiceEvaluador(true);
             sessionConsultarPlanificacion.setNidAreaAcademicaChoice(""+usuarioEnSesion.getAreaAcademica().getNidAreaAcademica());
