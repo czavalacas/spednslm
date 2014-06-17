@@ -286,10 +286,12 @@ public class bConsultarEvaluacion {
                                                                 +ln_C_SFValorLocal.getRangoValorByFicha(
                                                                         LstBeanFC.get(0).getFicha().getNidFicha()));
                 paragraphthreeRunSix.addBreak();
-                XWPFRun paragraphthreeRunSeven = paragraphthree.createRun();
-                XWPFRunStyle(paragraphthreeRunSeven, false, 0, " \t1.8.  Tema\t"
-                                                                +eva.getTemaEvaluacion());
-                paragraphthreeRunSeven.addBreak();
+                if(eva.getTemaEvaluacion() != null && eva.getTemaEvaluacion().isEmpty()){
+                    XWPFRun paragraphthreeRunSeven = paragraphthree.createRun();
+                    XWPFRunStyle(paragraphthreeRunSeven, false, 0, " \t1.8.  Tema\t"
+                                                                    +eva.getTemaEvaluacion());
+                    paragraphthreeRunSeven.addBreak();
+                }                
                 int cols[] = {300,5000,1700,3000};
                 double totalCriterios = 0;
                 int sizeCri = LstBeanFC.size();
