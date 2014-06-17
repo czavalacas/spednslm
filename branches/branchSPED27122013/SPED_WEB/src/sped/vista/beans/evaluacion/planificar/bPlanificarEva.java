@@ -320,19 +320,18 @@ public class bPlanificarEva {
             sessionPlanificarEva.setEstadoBoxJustificacion(false);
             sessionPlanificarEva.setEstadoBoxComentarios(true);
             
-        }
-        
-        
-        BeanUsuario evaluador =  ln_C_SFUsuarioRemote.findConstrainByIdLN(Integer.parseInt(sessionPlanificarEva.getNidUsuario()));
-        if(evaluador.getAreaAcademica()!=null){
-            if(evaluador.getAreaAcademica().getNidAreaAcademica().intValue()==1 ||evaluador.getAreaAcademica().getNidAreaAcademica().intValue()==2){
-                sessionPlanificarEva.setEstadoVisibleOutputgrado(false);
+        }       
+        //czavalacas 17.06.2014
+            if(entida.getNidAreaAcademicaCurso()==1 ||entida.getNidAreaAcademicaCurso()==2){
+                if(entida.getNidCurso()==14 ||entida.getNidCurso()==62 ){
+                    sessionPlanificarEva.setEstadoVisibleOutputgrado(true);
+                }else{
+                    sessionPlanificarEva.setEstadoVisibleOutputgrado(false);
+                }              
             }else{
                 sessionPlanificarEva.setEstadoVisibleOutputgrado(true);
             }
-        }
-  
-  
+        
         if(sessionPlanificarEva.getEstadoDeEvaluacion().equals("PENDIENTE")){
             sessionPlanificarEva.setEstadoBoxJustificacion(false);
             sessionPlanificarEva.setEstadoBoxComentarios(false);
@@ -476,7 +475,7 @@ public class bPlanificarEva {
         beanMain.setAula(aula);
         beanMain.setCurso(beanCurso);
         beanMain.setDia(sessionPlanificarEva.getDiaDeLaSemana());
-     //   llenarHorarios(beanMain); COMENTADO TEMPORALMENTE ARREGLAR EL MAPPER DENTRO
+     //   llenarHorarios(beanMain); COMENTADO TEMPORALMENTE ARREGLAR EL MAPPER DENTRO **NO BORRAR
     }
 
     public void abrirNuevoEvento(CalendarEvent calendarEvent) {
@@ -1150,20 +1149,29 @@ public class bPlanificarEva {
     }
 
     public void getAulasByCurso(ValueChangeEvent valueChangeEvent) {//TODO igual estas llamando a los componentes!!!
-        if (sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {
+        sessionPlanificarEva.getListaAulasTemporal().clear();      
+        if(sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {
             List<BeanCombo> listBean=ln_C_SFAulaRemote.getAulaPorSedeNivelProfesorYCurso(choiceSede.getValue().toString(),   choiceNivel.getValue().toString(),
                                                                                                                              choiceProfesores.getValue().toString(),
                                                                                                                              Integer.parseInt(sessionPlanificarEva.getNidAreaAcademicaChoice()),
                                                                                                                              choiceCursos.getValue().toString());
-            sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(listBean));            
-           if(sessionPlanificarEva.getNidAreaAcademicaChoice().equals("1")|| sessionPlanificarEva.getNidAreaAcademicaChoice().equals("2")){      
-             sessionPlanificarEva.setNidAulaTemporal(listBean.get(0).getId().toString());               
-           }else{
+            sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(listBean));      
+            //czavalacas 17.06.2014
+         if(sessionPlanificarEva.getNidAreaAcademicaChoice().equals("1")|| sessionPlanificarEva.getNidAreaAcademicaChoice().equals("2")){           
+            if(valueChangeEvent.getNewValue().toString().equals("14") || valueChangeEvent.getNewValue().toString().equals("62")){
                sessionPlanificarEva.setEstadoChoiceTemporalAula(false);   
-               Utils.addTarget(choiceAula);
+               Utils.addTarget(choiceAula);            
+               }else{
+                    sessionPlanificarEva.setNidAulaTemporal(listBean.get(0).getId().toString());  
+                    sessionPlanificarEva.setEstadoChoiceTemporalAula(true);   
+                    Utils.addTarget(choiceAula);
+                    } 
+           }else{             
+                sessionPlanificarEva.setEstadoChoiceTemporalAula(false);   
+                Utils.addTarget(choiceAula);
            }
-        } else {
-            sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(ln_C_SFAulaRemote.getAulaPorSedeNivelProfesorYCurso(choiceSede.getValue().toString(),
+         } else{
+                  sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(ln_C_SFAulaRemote.getAulaPorSedeNivelProfesorYCurso(choiceSede.getValue().toString(),
                                                                                                                              choiceNivel.getValue().toString(),
                                                                                                                              choiceProfesores.getValue().toString(),
                                                                                                                              0,

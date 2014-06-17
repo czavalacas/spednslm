@@ -56,6 +56,8 @@ public class BeanEvaluacionPlani implements Serializable{
     private double porcentajeDesempeno;
     private Date fechaEvaluacion;//Fecha en la que se evaluo dfloresgonz 23.05.2014
     private String temaEvaluacion;
+    private int nidCurso;
+    private int nidAreaAcademicaCurso;
 
     public void setTemaEvaluacion(String temaEvaluacion) {
         this.temaEvaluacion = temaEvaluacion;
@@ -415,5 +417,21 @@ public class BeanEvaluacionPlani implements Serializable{
 
     public Integer getCantProblema() {
         return cantProblema;
+    }
+
+    public void setNidCurso(int nidCurso) {
+        this.nidCurso = nidCurso;
+    }
+
+    public int getNidCurso() {
+        return nidCurso;
+    }
+
+    public void setNidAreaAcademicaCurso(int nidAreaAcademicaCurso) {
+        this.nidAreaAcademicaCurso = nidAreaAcademicaCurso;
+    }
+
+    public int getNidAreaAcademicaCurso() {
+        return nidAreaAcademicaCurso;
     }
 }
