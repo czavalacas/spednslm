@@ -253,7 +253,6 @@ public class bGestionarHorario {
                 Utils.putSession("Horas", horasFree);
                 sessionGestionarHorario.setHorario(horario);
                 eliminarDiasOcupados();
-                metodoProbarVector();///////////////////////////////////////////////////////borar al final
                 return true;
             }  
         }catch(Exception e){
@@ -537,22 +536,8 @@ public class bGestionarHorario {
                                                           Utils.getStack(e), evento);
             e.printStackTrace();
         }          
-    }
-          
-    public void metodoProbarVector(){
-        BeanMain horario[][] = sessionGestionarHorario.getHorario();
-        for(int i = 0 ; i < sessionGestionarHorario.getNroBloque(); i++){
-            for(int j = 0; j < 5 ; j++){
-                if(horario[i][j] != null){
-                    System.out.print("X ");
-                }else{
-                    System.out.print("O ");
-                }
-            }
-            System.out.println("");
-        }
-    }
-    
+    }          
+      
     //-------- Metodos auxiliares ------///
     
     /**
@@ -596,16 +581,24 @@ public class bGestionarHorario {
      * @author david
      */
     public void eliminarDiasOcupados(){
-        List<BeanDia> lstDias = sessionGestionarHorario.getLstDia();
-        List<BeanDia> lstAux = new ArrayList();
-        for(BeanDia dia : lstDias){
-            if(dia.getHoras() == 0){
-                lstAux.add(dia);
+        try{
+            List<BeanDia> lstDias = sessionGestionarHorario.getLstDia();
+            List<BeanDia> lstAux = new ArrayList();
+            for(BeanDia dia : lstDias){
+                if(dia.getHoras() == 0){
+                    lstAux.add(dia);
+                }
             }
-        }
-        for(BeanDia dia : lstAux){
-            lstDias.remove(dia);
-        }
+            for(BeanDia dia : lstAux){
+                lstDias.remove(dia);
+            }
+        }catch(Exception e){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "LOG", CLASE, 
+                                                          "eliminarDiasOcupados()", 
+                                                          "Error al eliminar los dias ocupados", 
+                                                          Utils.getStack(e));
+            e.printStackTrace();
+        }        
     }
     
     /**
@@ -651,7 +644,6 @@ public class bGestionarHorario {
             List<BeanDia> lstDia = sessionGestionarHorario.getLstDia();
             for(BeanDia dia : lstDia){
                 int d = dia.getNDia();
-                System.out.println(d + "  "+dia.getHoras());
                 if(dia.getHoras() != sessionGestionarHorario.getMaxBloque()*5){
                     int cont = validarHorasMaximoPorDia(horario, d, main.getNidCurso());
                     if(cont == sessionGestionarHorario.getMaxBloque()){
@@ -680,7 +672,7 @@ public class bGestionarHorario {
                             }
                         }                    
                     }
-                    ingresarSecuencial(main, d, cantidad, lst);
+                    //ingresarSecuencial(main, d, cantidad, lst);
                 }
                 
             }       
@@ -805,14 +797,6 @@ public class bGestionarHorario {
         sessionGestionarHorario.setHorasRandom(horas);
     }
     
-    //////////////metodo que luego sera pasado a borrar//////////////////////////
-    public void mostrarListDias(){
-        for(BeanDia dia : sessionGestionarHorario.getLstDia()){
-            System.out.println("Dia: "+dia.getNDia()+"   Horas: "+dia.getHoras());
-        }
-    }
-    
-    //-------- FIN Metodos auxiliares ------///
    
    /// METODOS EN EL CALENDARIO ///
     /**
@@ -1120,7 +1104,6 @@ public class bGestionarHorario {
     public void changeListenerProfesor_aux(ValueChangeEvent valueChangeEvent) {
         if(valueChangeEvent.getNewValue() != null){
             sessionGestionarHorario.setNombreProfesor(Utils.getChoiceLabel(valueChangeEvent));
-            System.out.println(valueChangeEvent.getNewValue());
             sessionGestionarHorario.setNidDni_aux(valueChangeEvent.getNewValue().toString());
             renderAgregar_aux();
         }
@@ -1288,11 +1271,6 @@ public class bGestionarHorario {
 
     public BeanMain getBeanMain() {
         return beanMain;
-    }
-
-    public String metodoPrueba() {
-        System.out.println("funciono");
-        return null;
     }
 
     public void setBgenerar(RichButton bgenerar) {

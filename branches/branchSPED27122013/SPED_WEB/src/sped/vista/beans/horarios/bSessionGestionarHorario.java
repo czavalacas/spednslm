@@ -96,7 +96,9 @@ public class bSessionGestionarHorario implements Serializable {
     
     public void cargarDatosColor(){
         try{
-            color = Color.decode("#"+horario[nLeccion][nDia].getColor());
+            if(horario[nLeccion][nDia].getColor().length() == 6){
+                color = Color.decode("#"+horario[nLeccion][nDia].getColor());
+            }            
         }catch(Exception e){
             e.printStackTrace();
         } 
