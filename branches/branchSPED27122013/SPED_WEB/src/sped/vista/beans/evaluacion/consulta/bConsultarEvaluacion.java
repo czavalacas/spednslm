@@ -95,6 +95,7 @@ public class bConsultarEvaluacion {
     private RichButton bexcel;
     private RichPopup popComEva;
     private RichPopup popProb;
+    private RichSelectOneChoice socTipo;
     @EJB
     private LN_C_SFEvaluacionRemote ln_C_SFEvaluacionRemote;
     @EJB
@@ -172,6 +173,19 @@ public class bConsultarEvaluacion {
         }
     }
     
+    public void changeTipoEvaluacion(ValueChangeEvent vce) {
+        try{
+            String tip = (String) vce.getNewValue();
+            if("M".equals(tip)){
+                sessionConsultarEvaluacion.setColumnEvaluador(false);
+            }else{
+                sessionConsultarEvaluacion.setColumnEvaluador(true);
+            }
+        }catch(Exception e){
+            
+        }
+    }
+    
     public void buscarByFiltro(ActionEvent actionEvent) {
         llenarTabla();
     }
@@ -212,7 +226,8 @@ public class bConsultarEvaluacion {
                                                         sessionConsultarEvaluacion.getFechaP(),
                                                         sessionConsultarEvaluacion.getFechaPf(),
                                                         sessionConsultarEvaluacion.getFechaF(),
-                                                        sessionConsultarEvaluacion.getFechaFf()));
+                                                        sessionConsultarEvaluacion.getFechaFf(),
+                                                        sessionConsultarEvaluacion.getTipoEva() ));
         if(sessionConsultarEvaluacion.getLstBeanEvaluacion().size() == 0){
             sessionConsultarEvaluacion.setRenderExcel(false);
         }else{
@@ -478,6 +493,14 @@ public class bConsultarEvaluacion {
         return fechaHora.format(eva.getStartDate())+" - "+Hora.format(eva.getEndDate());
     }
 
+    public void setBeanUsuario(BeanUsuario beanUsuario) {
+        this.beanUsuario = beanUsuario;
+    }
+
+    public BeanUsuario getBeanUsuario() {
+        return beanUsuario;
+    }
+
     public void setTema(String tema) {
         this.tema = tema;
     }
@@ -708,5 +731,13 @@ public class bConsultarEvaluacion {
 
     public RichPopup getPopProb() {
         return popProb;
+    }
+
+    public void setSocTipo(RichSelectOneChoice socTipo) {
+        this.socTipo = socTipo;
+    }
+
+    public RichSelectOneChoice getSocTipo() {
+        return socTipo;
     }
 }

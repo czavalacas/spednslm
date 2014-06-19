@@ -48,8 +48,17 @@ public class bSessionConsultarEvaluacion {
     private BeanEvaluacionPlani evaluacion;
     private List<SelectItem> itemProfesor;
     private List<SelectItem> itemEvaluador;
+    private String tipoEva = "M";
 
     public bSessionConsultarEvaluacion() {
+    }
+
+    public void setTipoEva(String tipoEva) {
+        this.tipoEva = tipoEva;
+    }
+
+    public String getTipoEva() {
+        return tipoEva;
     }
 
     public void setExec(int exec) {

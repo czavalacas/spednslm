@@ -138,7 +138,8 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                                                            Date fechaPlanifiacion, 
                                                            Date fechaPlanifiacionF,
                                                            Date fechaEvaluacion, 
-                                                           Date fachaEvaluacionF) {
+                                                           Date fachaEvaluacionF,
+                                                           String tipEva) {
         try{
             BeanEvaluacion beanEva = new BeanEvaluacion();
             beanEva.setNidSede(nidSede);
@@ -152,6 +153,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setFechaMaxPlanificacion(fechaPlanifiacionF);
             beanEva.setFechaMinEvaluacion(fechaEvaluacion);
             beanEva.setFechaMaxEvaluacion(fachaEvaluacionF);
+            beanEva.setTipEvaFiltro(tipEva == null ? "M" : tipEva);
             return transformLstEvaluacion(bdL_C_SFEvaluacionLocal.getEvaluacionesByUsuarioBDL(beanUsuario, beanEva));
         }catch(Exception e){
             ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "SEL", CLASE, 

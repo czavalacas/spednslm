@@ -226,7 +226,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         }catch(Exception e){
             e.printStackTrace();  
             return new ArrayList<Evaluacion>();
-        }   
+        }
     }
     
     public List<Evaluacion> getEvaluacionesByUsuarioBDL(BeanUsuario beanUsuario, BeanEvaluacion beanFiltroEva) {
@@ -235,16 +235,20 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 if(beanUsuario != null){
                     boolean isSupervisor = false;
                     String strQuery = "SELECT eva " +
-                                      " FROM Evaluacion eva, " +
-                                      " Usuario usu " + 
-                                      " WHERE upper(eva.estadoEvaluacion) = 'EJECUTADO' " +
-                                      " AND eva.nidEvaluador = usu.nidUsuario ";
+                                      "FROM Evaluacion eva," +
+                                      "Usuario usu " + 
+                                      "WHERE UPPER(eva.estadoEvaluacion) = 'EJECUTADO' " +
+                                      "AND eva.nidEvaluador = usu.nidUsuario ";//AND eva.nidEvaluador = usu.nidUsuario   ,Usuario usu
                     int nidRol = beanUsuario.getRol().getNidRol();
                     /*if((nidRol == 2 && "0".compareTo(beanUsuario.getIsNuevo()) == 0) || nidRol == 4){
                         strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
                     }*/
-                    if(nidRol == 4){//Evaluador de sede 
-                        strQuery = strQuery.concat(" AND  eva.nidEvaluador = :nid_evaluador ");
+                    if(nidRol == 4){//Evaluador de sede
+                        if("M".equals(beanFiltroEva.getTipEvaFiltro())){
+                            strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
+                        }else if("O".equals(beanFiltroEva.getTipEvaFiltro())){
+                            strQuery = strQuery.concat(" AND eva.nidEvaluador <> :nid_evaluador AND eva.main.aula.sede.nidSede = :nid_sede ");
+                        }
                         if(beanFiltroEva.getNidSede() != 0){
                             //strQuery = strQuery.concat(" AND eva.main.aula.sede.nidSede = :nid_sede ");
                         }else{
@@ -253,8 +257,8 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     }
                     if(nidRol == 2){//Evaluador de area
                         isSupervisor = bdL_C_SFUsuarioLocal.getIsSupervisor(beanUsuario.getNidUsuario());
-                        /** dfloresgonz 23.05.2014 Si no es supervisor que busque x su area academica, de lo contrario, si es
-                         * supervisor no le debe restringir el area academcia ya que puede evaluar a cualquiera. **/
+                        /* dfloresgonz 23.05.2014 Si no es supervisor que busque x su area academica, de lo contrario, si es
+                         * supervisor no le debe restringir el area academcia ya que puede evaluar a cualquiera. */
                         if(!isSupervisor){
                             int nidAreaAcademica = beanUsuario.getAreaAcademica().getNidAreaAcademica();
                             if (nidAreaAcademica == 12 || nidAreaAcademica == 13) { //12 = Primer Ciclo 13 = Inicial
@@ -262,7 +266,11 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                             } else {
                                 strQuery = strQuery.concat(" AND eva.main.curso.nidAreaNativa = :nid_area ");
                             }
-                            strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
+                            if("M".equals(beanFiltroEva.getTipEvaFiltro())){
+                                strQuery = strQuery.concat(" AND eva.nidEvaluador = :nid_evaluador ");
+                            }else if("O".equals(beanFiltroEva.getTipEvaFiltro())){
+                                strQuery = strQuery.concat(" AND eva.nidEvaluador <> :nid_evaluador ");
+                            }
                             beanFiltroEva.setNidArea(0);
                         }
                     }
@@ -311,7 +319,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                                 }
                         }
                     }
-                    strQuery = strQuery.concat(" ORDER BY eva.startDate DESC ");//Utiles.sysout("queryEvas: "+strQuery);
+                    strQuery = strQuery.concat(" ORDER BY eva.startDate DESC ");//Utiles.sysout("queryEvas: "+strQuery+ " beanUsuario.getNidUsuario():"+beanUsuario.getNidUsuario());
                     Query query = em.createQuery(strQuery);
                     /*if((nidRol == 2 && beanUsuario.getIsNuevo().compareTo("0") == 0) || nidRol == 4){
                         query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
@@ -319,6 +327,11 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     if(nidRol == 4){
                         //query.setParameter("nid_sede", beanUsuario.getSede().getNidSede());
                         query.setParameter("nid_evaluador", beanUsuario.getNidUsuario());
+                        if("O".equals(beanFiltroEva.getTipEvaFiltro())){
+                            query.setParameter("nid_sede", beanUsuario.getSede().getNidSede());
+                        }else if("T".equals(beanFiltroEva.getTipEvaFiltro()) ){
+                            query.setParameter("nid_sede", beanUsuario.getSede().getNidSede());
+                        }
                     }
                     if(nidRol == 2){//Es evaluador de area
                         if(!isSupervisor){//Pero no es supervisor, entonces si filtra x su area
@@ -329,7 +342,6 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                     if(nidRol == 3){
                         query.setParameter("dni_profesor", beanUsuario.getDni());
                     }
-                    
                     if(beanFiltroEva != null){
                         if(beanFiltroEva.getNidSede() != 0){ 
                             query.setParameter("nidf_sede", beanFiltroEva.getNidSede());
@@ -382,7 +394,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         }
                     }
                     listEvaluacion = query.getResultList();
-                }
+                }Utiles.sysout("size: "+listEvaluacion.size());
                 return listEvaluacion;
             }catch(Exception e){
                 e.printStackTrace();  
