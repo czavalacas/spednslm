@@ -9,6 +9,7 @@
   # Subir APK a google play (pagar $25 registro).
   # Acomodar los tags f:view que tenga solo 1 raiz los jsff
   # Modulo de continuidad de negocio
+  # Alertas-notificaciones como popup para dar avisos a los usuarios
   # Dash visualizar hora de planificacion vs. hora de evaluacion.
   # ~~Permitir justificar en estado NO EJECUTADO.~~
   # Anular evaluaciones ya realizadas, e informar al docente que se anulo, pedir una justificacion porque borra.
