@@ -13,6 +13,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 @Entity
 @NamedQueries({ @NamedQuery(name = "Sede.findAll", query = "select o from Sede o ORDER BY o.descripcionSede ASC") })
 @Table(name = "\"admsede\"")

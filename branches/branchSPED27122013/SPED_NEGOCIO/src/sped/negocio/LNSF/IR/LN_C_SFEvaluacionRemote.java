@@ -17,18 +17,18 @@ import sped.negocio.entidades.eval.Evaluacion;
 @Remote
 public interface LN_C_SFEvaluacionRemote {
     List<BeanEvaluacionPlani> getEvaluacionesByUsuarioLN(BeanUsuario beanUsuario,
-                                                        int nidSede,
-                                                        int nidNivel,
-                                                        int nidArea,
-                                                        int nidCurso,
-                                                        int nidGrado,
-                                                        String nomProfesor,
-                                                        String nomEvaluador,
-                                                        Date fechaPlanifiacion,
-                                                        Date fechaPlanifiacionF,
-                                                        Date fechaEvaluacion,
-                                                        Date fachaEvaluacionF,
-                                                        String tipEva);
+                                                         int nidSede,
+                                                         int nidNivel,
+                                                         int nidArea,
+                                                         int nidCurso,
+                                                         int nidGrado,
+                                                         String nomProfesor,
+                                                         String nomEvaluador,
+                                                         Date fechaPlanifiacion,
+                                                         Date fechaPlanifiacionF,
+                                                         Date fechaEvaluacion,
+                                                         Date fachaEvaluacionF,
+                                                         String tipEva);
     List<BeanEvaluacionPlani> getPlanificacion(BeanEvaluacion beanEvaluacion);
     /**
      * Metodo de Logica que retorna las planificaciones para el usuario Movil (WS)
@@ -45,45 +45,45 @@ public interface LN_C_SFEvaluacionRemote {
      * @return List<BeanEvaluacion>
      */
     List<BeanEvaluacionWS> getPlanificaciones_LN_WS(int nidRol,
-                                                  int nidSede,
-                                                  int nidAreaAcademica,
-                                                  int nidUsuario,
-                                                  String nombresProfesor,
-                                                  String curso,
-                                                  int nidSedeFiltro,
-                                                  int nidAAFiltro);
+                                                    int nidSede,
+                                                    int nidAreaAcademica,
+                                                    int nidUsuario,
+                                                    String nombresProfesor,
+                                                    String curso,
+                                                    int nidSedeFiltro,
+                                                    int nidAAFiltro);
     List<BeanEvaluacionPlani> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,
-                                                          String nombre,
-                                                          String estado,
-                                                          String desProblema,
-                                                          String desRol,
-                                                          List lstnidRol,
-                                                          List lstnidEva,
-                                                          List lstnidSede,
-                                                          List lstnidArea,
-                                                          Date fechaPlanifiacion,
-                                                          Date fechaPlanifiacionF,
-                                                          Date fechaEvaluacion,
-                                                          Date fachaEvaluacionF);
+                                                               String nombre,
+                                                               String estado,
+                                                               String desProblema,
+                                                               String desRol,
+                                                               List lstnidRol,
+                                                               List lstnidEva,
+                                                               List lstnidSede,
+                                                               List lstnidArea,
+                                                               Date fechaPlanifiacion,
+                                                               Date fechaPlanifiacionF,
+                                                               Date fechaEvaluacion,
+                                                               Date fachaEvaluacionF);
     List<BeanEvaluacionWS> getEvaluaciones_LN_WS(int nidRol,
-                                                int nidSede,
-                                                int nidAreaAcademica,
-                                                int nidUsuario,
-                                                String nombresProfesor,
-                                                String curso,
-                                                int nidSedeFiltro,
-                                                int nidAAFiltro,
-                                                String estado,
-                                                Date fechaMin,
-                                                Date fechaMax,
-                                                String tipoVisita,
-                                                Integer nidPlanificador,
-                                                Integer nidEvaluador);
+                                                 int nidSede,
+                                                 int nidAreaAcademica,
+                                                 int nidUsuario,
+                                                 String nombresProfesor,
+                                                 String curso,
+                                                 int nidSedeFiltro,
+                                                 int nidAAFiltro,
+                                                 String estado,
+                                                 Date fechaMin,
+                                                 Date fechaMax,
+                                                 String tipoVisita,
+                                                 Integer nidPlanificador,
+                                                 Integer nidEvaluador);
     List<BeanConstraint> getTipoVisitaLN();
     BeanConstraint getTipoVisita_ByValorLN(String valor);
     BeanEvaluacionPlani getEvaluacionById_LN(String nidDate);
     List<BeanEvaluacion> getEvaluaciones_LN(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
-                                                       String dniProfesor, String nidCurso, Integer nidSede);
+                                            String dniProfesor, String nidCurso, Integer nidSede);
    /**
      * Metodo que trae la evaluacion consultada en el Movil - WS
      * @author dfloresgonz
