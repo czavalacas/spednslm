@@ -150,19 +150,19 @@ public class WS_SPED {
                 }
             }
             return ln_C_SFEvaluacionLocal.getEvaluaciones_LN_WS(nidRol, 
-                                                                    nidSede, 
-                                                                    nidAreaAcademica,
-                                                                    nidUsuario, 
-                                                                    nombresProfesor, 
-                                                                    curso, 
-                                                                    nidSedeFiltro, 
-                                                                    nidAAFiltro,
-                                                                    estado,
-                                                                    fechaMin,
-                                                                    fechaMax,
-                                                                    tipoVisita,
-                                                                    nidPlanificador,
-                                                                    nidEvaluador);
+                                                                nidSede, 
+                                                                nidAreaAcademica,
+                                                                nidUsuario, 
+                                                                nombresProfesor, 
+                                                                curso, 
+                                                                nidSedeFiltro, 
+                                                                nidAAFiltro,
+                                                                estado,
+                                                                fechaMin,
+                                                                fechaMax,
+                                                                tipoVisita,
+                                                                nidPlanificador,
+                                                                nidEvaluador);
         }else{
             return new ArrayList<BeanEvaluacionWS>();
         }
@@ -255,9 +255,9 @@ public class WS_SPED {
                                              @WebParam(name = "arg2") String curso,
                                              @WebParam(name = "arg3") String aula){
         return ln_C_SFMainLocal.getMainByAttr_LN_WS(nidSede, 
-                                                       profesor,
-                                                       curso, 
-                                                       aula);
+                                                    profesor,
+                                                    curso, 
+                                                    aula);
     }
 
     @WebMethod
@@ -272,10 +272,10 @@ public class WS_SPED {
                                               @WebParam(name = "arg3") Integer nidUsuario,
                                               @WebParam(name = "arg4") Integer nidSede){
         return ln_T_SFParteOcurrenciaLocal.registrarParteOcurrencia_LN(nidMain, 
-                                                                           comentario,
-                                                                           nidProblema,
-                                                                           nidUsuario,
-                                                                           nidSede);
+                                                                       comentario,
+                                                                       nidProblema,
+                                                                       nidUsuario,
+                                                                       nidSede);
     }
 
     @WebMethod
@@ -292,11 +292,11 @@ public class WS_SPED {
             fechaMax = Utiles.removeTime(new Date());
         }
         return ln_C_SFParteOcurrenciaLocal.getListaPartesOcurrencia_LN(fechaMin,
-                                                                            fechaMax, 
-                                                                            nidProblema,
-                                                                            nombreProfesor, 
-                                                                            nidSede, 
-                                                                            nidUsuario);
+                                                                       fechaMax, 
+                                                                       nidProblema,
+                                                                       nombreProfesor, 
+                                                                       nidSede, 
+                                                                       nidUsuario);
     }
 
     @WebMethod
@@ -312,10 +312,10 @@ public class WS_SPED {
             fechaMax = Utiles.removeTime(new Date());
         }
         return ln_C_SFParteOcurrenciaLocal.getPiePO_ByProfesor_LN_WS(fechaMin, 
-                                                                          fechaMax,
-                                                                          dniProfesor,
-                                                                          nidSede, 
-                                                                          nidUsuario);
+                                                                     fechaMax,
+                                                                     dniProfesor,
+                                                                     nidSede, 
+                                                                     nidUsuario);
     }
 
     @WebMethod

@@ -577,7 +577,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
      * @param nidEvaluacion
      * @return BeanEvaluacionWS
      */
-    public BeanEvaluacionWS getEvaluacionById_LN_WS(Integer nidEvaluacion){Utiles.sysout("nidEval: "+nidEvaluacion);
+    public BeanEvaluacionWS getEvaluacionById_LN_WS(Integer nidEvaluacion){
         Evaluacion evaluacion = bdL_C_SFEvaluacionLocal.findEvaluacionById(nidEvaluacion);
         BeanEvaluacionWS beanEvaluacion = new BeanEvaluacionWS();
        // beanEvaluacion.setNotaFinal(this.resultadoBeanEvaluacionAux_WS(evaluacion));

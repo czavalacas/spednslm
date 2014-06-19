@@ -394,7 +394,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                         }
                     }
                     listEvaluacion = query.getResultList();
-                }Utiles.sysout("size: "+listEvaluacion.size());
+                }
                 return listEvaluacion;
             }catch(Exception e){
                 e.printStackTrace();  

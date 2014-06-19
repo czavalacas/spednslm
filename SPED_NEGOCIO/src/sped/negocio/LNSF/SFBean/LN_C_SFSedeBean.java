@@ -22,6 +22,7 @@ import net.sf.dozer.util.mapping.MappingException;
 import sped.negocio.BDL.IL.BDL_C_SFSedeLocal;
 import sped.negocio.LNSF.IL.LN_C_SFSedeLocal;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
@@ -31,7 +32,7 @@ import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "LN_C_SFSede", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFSede")
 public class LN_C_SFSedeBean implements LN_C_SFSedeRemote, 
-                                           LN_C_SFSedeLocal {
+                                        LN_C_SFSedeLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
