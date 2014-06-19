@@ -81,7 +81,16 @@
                                         labelStyle="text-align: left;">
                         <f:selectItems value="#{sessionScope.sessionConsultarEvaluacion.lstGrado}" id="si5"/>
                     </af:selectOneChoice>
-                    
+                     <af:selectOneChoice label="Tipo" value="#{sessionConsultarEvaluacion.tipoEva}" id="socTipo"
+                                         autoSubmit="true"
+                                         labelStyle="text-align: left;" binding="#{bConsultarEvaluacion.socTipo}"
+                                         rendered="#{requestScope.bConsultarEvaluacion.beanUsuario.rol.nidRol == 2 || 
+                                                     requestScope.bConsultarEvaluacion.beanUsuario.rol.nidRol == 4}"
+                                         unselectedLabel=":: Seleccionar Tipo ::"
+                                         valueChangeListener="#{bConsultarEvaluacion.changeTipoEvaluacion}">
+                        <f:selectItem itemLabel="Mis Evaluaciones" itemValue="M"/>
+                        <f:selectItem itemLabel="Otros" itemValue="O"/>
+                    </af:selectOneChoice>
                 </af:panelFormLayout>
                 <af:spacer height="10" id="s4"/>
                 <af:panelGroupLayout id="pgl2">

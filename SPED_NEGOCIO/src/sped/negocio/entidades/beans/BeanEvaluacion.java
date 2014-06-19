@@ -64,6 +64,16 @@ public class BeanEvaluacion implements Serializable {
     private Integer nidRol;//Usado para el metodo BDL_C_SFEvaluacionBean.getPlanificaciones
     private Integer nidAreaUsuario;
     private String temaEvaluacion;
+    //dfloresgonz 18.06.2014 nuevo filtro para que evas de area y subs puedan verse las evaluaciones
+    private String tipEvaFiltro;
+
+    public void setTipEvaFiltro(String tipEvaFiltro) {
+        this.tipEvaFiltro = tipEvaFiltro;
+    }
+
+    public String getTipEvaFiltro() {
+        return tipEvaFiltro;
+    }
 
     public void setTemaEvaluacion(String temaEvaluacion) {
         this.temaEvaluacion = temaEvaluacion;
