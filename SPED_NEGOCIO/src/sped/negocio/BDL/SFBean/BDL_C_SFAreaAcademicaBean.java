@@ -48,30 +48,26 @@ public class BDL_C_SFAreaAcademicaBean implements BDL_C_SFAreaAcademicaRemote,
          } catch (RuntimeException re) {
              throw re;
          }
-     }  
-    
-    
+     }
+
+
     public List<AreaAcademica> findAreasPorSede_ByOrden(String nidSede) {
         try {
-            String ejbQl =    " SELECT distinct area from AreaAcademica area, Sede sed, Aula au, Curso cur, Main ma" +
-                              " where 1=1 ";
-            if (nidSede != null) {               
-                    ejbQl = ejbQl.concat(" and area.nidAreaAcademica=cur.areaAcademica.nidAreaAcademica " +
-                        " and ma.curso.nidCurso=cur.nidCurso " +
-                        " and ma.aula.nidAula=au.nidAula " +
-                        " and au.sede.nidSede=sed.nidSede" +
-                        " and sed.nidSede="+nidSede);               
+            String ejbQl = " SELECT DISTINCT area FROM AreaAcademica area, Sede sed, Aula au, Curso cur, Main ma" +
+                           " WHERE 1=1 ";
+            if (nidSede != null) {
+                ejbQl = ejbQl.concat(" and area.nidAreaAcademica=cur.areaAcademica.nidAreaAcademica " +
+                                     " and ma.curso.nidCurso=cur.nidCurso " + " and ma.aula.nidAula=au.nidAula " +
+                                     " and au.sede.nidSede=sed.nidSede" + " and sed.nidSede=" + nidSede);
             }
-            
             ejbQl = ejbQl.concat(" ORDER by area.descripcionAreaAcademica");
-            
-            List<AreaAcademica> lstMain = em.createQuery(ejbQl).getResultList();
-            return lstMain;
-
+            return em.createQuery(ejbQl).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }}
+        }
+    }
+    
     public Curso findCursoById(int id) {
         try {
             Curso instance = em.find(Curso.class, id);

@@ -55,9 +55,9 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
      * @return nidAula
      */
     public int getAulaByDescripcion(BeanAula beanAula) {
-        String ejbQL =
-            "SELECT  a.nidAula FROM Aula a " + "WHERE a.descripcionAula = :descripcion " +
-            "AND a.sede.nidSede = :nidSede ";
+        String ejbQL = "SELECT  a.nidAula FROM Aula a " + 
+                       "WHERE a.descripcionAula = :descripcion " +
+                       "AND a.sede.nidSede = :nidSede ";
         if (beanAula.getNidNivel() != 0) {
             ejbQL = ejbQL.concat("AND a.gradoNivel.nivel.nidNivel = :nidNivel ");
         }
@@ -73,62 +73,52 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
         }
         return nid;
     }
-    
+
     public List<Aula> getAulaPorSedeNivelYGrado(String nidSede, String nidGrado, String nidNivel) {
         try {
-            String ejbQl =    " SELECT distinct au from Aula au" +
-                              " where 1=1 ";
-            if (nidSede != null) {               
-                    ejbQl = ejbQl.concat(" and au.sede.nidSede="+nidSede);               
+            String ejbQl = " SELECT distinct au FROM Aula au" + 
+                           " WHERE 1=1 ";
+            if (nidSede != null) {
+                ejbQl = ejbQl.concat(" and au.sede.nidSede=  " + nidSede);
             }
-            if (nidGrado != null) {               
-                    ejbQl = ejbQl.concat(" and au.gradoNivel.grado.nidGrado="+nidGrado);               
+            if (nidGrado != null) {
+                ejbQl = ejbQl.concat(" and au.gradoNivel.grado.nidGrado = " + nidGrado);
             }
-            if (nidNivel != null) {               
-                    ejbQl = ejbQl.concat(" and au.gradoNivel.nivel.nidNivel="+nidNivel);               
+            if (nidNivel != null) {
+                ejbQl = ejbQl.concat(" and au.gradoNivel.nivel.nidNivel = " + nidNivel);
             }
-            
             ejbQl = ejbQl.concat(" ORDER by au.descripcionAula");
-            
-            List<Aula> lstAula = em.createQuery(ejbQl).getResultList();
-            return lstAula;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }}
-    
-    public List<Aula> getAulaPorSedeNivelProfesorYArea(String nidSede, String nidNivel, String dniProfesor, Integer nidAreaAcademica, String nidCurso) {
-        try {
-            String ejbQl =    " SELECT distinct au FROM Main ma, " +
-                              " Curso cur , " +
-                              " Profesor prof," +
-                              " Aula au" +
-                              " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " +
-                              " and ma.aula.nidAula=au.nidAula " +
-                              " and au.gradoNivel.nivel.nidNivel=" +nidNivel+
-                              " and au.sede.nidSede=" +nidSede+
-                              " and ma.curso.nidCurso=cur.nidCurso" +
-                              " and prof.dniProfesor= :dniProfesor" +
-                              " and cur.nidCurso="+nidCurso;
-
-            if (nidAreaAcademica != null) {
-                if (nidAreaAcademica != 0) {
-                   if(nidAreaAcademica==12 || nidAreaAcademica==13) { //12 = Primer Ciclo 13 = Inicial                   
-                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);    
-                    }else{
-                        ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);    
-                    }
-            }
-            }            
-            List<Aula> lstMain = em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor)
-                                                      .getResultList();
-            return lstMain;
-
+            return em.createQuery(ejbQl).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    
+
+    public List<Aula> getAulaPorSedeNivelProfesorYArea(String nidSede, String nidNivel, String dniProfesor,
+                                                       Integer nidAreaAcademica, String nidCurso) {
+        try {
+            String ejbQl =
+                " SELECT distinct au FROM Main ma, " + " Curso cur , " + " Profesor prof," + " Aula au" +
+                " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " + 
+                " AND ma.aula.nidAula=au.nidAula " +
+                " AND au.gradoNivel.nivel.nidNivel=" + nidNivel +
+                " AND au.sede.nidSede=" + nidSede +
+                " AND ma.curso.nidCurso=cur.nidCurso" + 
+                " AND prof.dniProfesor = :dniProfesor" + " AND cur.nidCurso = " +nidCurso;
+            if (nidAreaAcademica != null) {
+                if (nidAreaAcademica != 0) {
+                    if (nidAreaAcademica == 12 || nidAreaAcademica == 13) { //12 = Primer Ciclo 13 = Inicial
+                        ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
+                    } else {
+                        ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);
+                    }
+                }
+            }
+            return em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
