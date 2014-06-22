@@ -15,7 +15,7 @@ import sped.negocio.entidades.eval.CriterioIndicador;
 
 @Stateless(name = "BDL_C_SFCriterioIndicador", mappedName = "mapBDL_C_SFCriterioIndicador")
 public class BDL_C_SFCriterioIndicadorBean implements BDL_C_SFCriterioIndicadorRemote, 
-                                                         BDL_C_SFCriterioIndicadorLocal {
+                                                      BDL_C_SFCriterioIndicadorLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")

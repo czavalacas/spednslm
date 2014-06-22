@@ -19,7 +19,7 @@ import utils.system;
 
 @Stateless(name = "BDL_C_SFCriterio", mappedName = "mapBDL_C_SFCriterio")
 public class BDL_C_SFCriterioBean implements BDL_C_SFCriterioRemote,
-                                                BDL_C_SFCriterioLocal {
+                                             BDL_C_SFCriterioLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
