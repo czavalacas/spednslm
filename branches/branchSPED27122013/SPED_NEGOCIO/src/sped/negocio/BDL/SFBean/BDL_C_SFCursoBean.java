@@ -42,59 +42,51 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
     public List<Curso> getCursoFindAll() {
         return em.createNamedQuery("Curso.findAll", Curso.class).getResultList();
     }
-     
+
     public List<Curso> findCursosPorAreaAcademica(Integer nidAreaAcademica, String dia) {
         try {
-            String ejbQl =    "SELECT distinct cur FROM Main ma, " +
-                              " Curso cur , " +
-                              " Profesor prof," +
-                              " AreaAcademica ac" +
-                              " WHERE ma.curso.nidCurso=cur.nidCurso " +
-                              " and cur.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica " +
-                              " and prof.dniProfesor=ma.profesor.dniProfesor";
-
+            String ejbQl =
+                "SELECT distinct cur FROM Main ma, " + 
+                " Curso cur , " +
+                " Profesor prof," + 
+                " AreaAcademica ac" +
+                " WHERE ma.curso.nidCurso=cur.nidCurso " +
+                " and cur.areaAcademica.nidAreaAcademica=ac.nidAreaAcademica " +
+                " and prof.dniProfesor=ma.profesor.dniProfesor";
             if (nidAreaAcademica != null) {
                 if (nidAreaAcademica != 0) {
                     ejbQl = ejbQl.concat(" and ac.nidAreaAcademica=" + nidAreaAcademica);
                 }
             }
-
             if (dia != null) {
-                ejbQl = ejbQl.concat(" and ma.dia='" + dia + "'");
+                ejbQl = ejbQl.concat(" and ma.dia= '" + dia + "' ");
             }
-
-            List<Curso> lstMain = em.createQuery(ejbQl).getResultList();
-            return lstMain;
-
+            return em.createQuery(ejbQl).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }}
-    
+        }
+    }
+
     public List<Curso> findCursosPorAreaAcademica_ByOrden(String nidAreaAcademica, String nidSede) {
         try {
-            String ejbQl =    " SELECT distinct cur from Curso cur, Main ma, Aula au, Sede sed" +
-                              " where 1=1 ";
-            if (nidAreaAcademica != null) {               
-                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica="+nidAreaAcademica);
-               
+            String ejbQl = " SELECT distinct cur from Curso cur, Main ma, Aula au, Sede sed" + " where 1=1 ";
+            if (nidAreaAcademica != null) {
+                ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
             }
-            
-            if (nidSede != null) {               
-                    ejbQl = ejbQl.concat(" and cur.nidCurso=ma.curso.nidCurso and ma.aula.nidAula=au.nidAula" +
-                                         " and au.sede.nidSede=sed.nidSede and sed.nidSede="+nidSede);
-               
-            }            
-            
-            ejbQl = ejbQl.concat(" ORDER by cur.descripcionCurso");
-            
-            List<Curso> lstMain = em.createQuery(ejbQl).getResultList();
-            return lstMain;
+            if (nidSede != null) {
+                ejbQl =
+                    ejbQl.concat(" and cur.nidCurso=ma.curso.nidCurso and ma.aula.nidAula=au.nidAula" +
+                                 " and au.sede.nidSede=sed.nidSede and sed.nidSede=" + nidSede);
 
+            }
+            ejbQl = ejbQl.concat(" ORDER by cur.descripcionCurso");
+            return em.createQuery(ejbQl).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }}
+        }
+    }
     
     public Curso findCursoById(int id) {
         try {
@@ -115,56 +107,45 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
         }
         return nidCurso;
     }
-    
+
     public List<Curso> getCursosbyAreas(String nidAreaAcademica) {
         try {
-            String ejbQl =    " SELECT cur from Curso cur" +
-                              " where 1=1 ";
-            if (nidAreaAcademica != null) {               
-                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica="+nidAreaAcademica);
-               
-            }                   
-            
-            ejbQl = ejbQl.concat(" ORDER by cur.descripcionCurso");
-            
-            List<Curso> lstMain = em.createQuery(ejbQl).getResultList();
-            return lstMain;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }}
-    
-    public List<Curso> getCursoPorSedeNivelProfesorYArea(String nidSede, String nidNivel, String dniProfesor, Integer nidAreaAcademica) {
-        try {
-            String ejbQl =    " SELECT distinct cur FROM Main ma, " +
-                              " Curso cur , " +
-                              " Profesor prof," +
-                              " Aula au" +
-                              " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " +
-                              " and ma.aula.nidAula=au.nidAula " +
-                              " and au.gradoNivel.nivel.nidNivel=" +nidNivel+
-                              " and au.sede.nidSede=" +nidSede+
-                              " and ma.curso.nidCurso=cur.nidCurso" +
-                              " and prof.dniProfesor= :dniProfesor";
-
+            String ejbQl = " SELECT cur FROM Curso cur" + 
+                           " WHERE 1=1 ";
             if (nidAreaAcademica != null) {
-                if (nidAreaAcademica != 0) {
-                   if(nidAreaAcademica==12 || nidAreaAcademica==13) { //12 = Primer Ciclo 13 = Inicial                   
-                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);    
-                    }else{
-                        ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);    
-                    }                               
-                }
-            }      
-            List<Curso> lstMain = em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor)
-                                                       .getResultList();          
-            return lstMain;
-
+                ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
+            }
+            ejbQl = ejbQl.concat(" ORDER by cur.descripcionCurso");
+            return em.createQuery(ejbQl).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    
+
+    public List<Curso> getCursoPorSedeNivelProfesorYArea(String nidSede, String nidNivel, String dniProfesor,Integer nidAreaAcademica) {
+        try {
+            String ejbQl =
+                " SELECT distinct cur FROM Main ma, " + 
+                " Curso cur , " +
+                " Profesor prof," + 
+                " Aula au" +
+                " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " + " and ma.aula.nidAula=au.nidAula " +
+                " and au.gradoNivel.nivel.nidNivel=" + nidNivel + " and au.sede.nidSede=" + nidSede +
+                " and ma.curso.nidCurso=cur.nidCurso" + " and prof.dniProfesor= :dniProfesor";
+            if (nidAreaAcademica != null) {
+                if (nidAreaAcademica != 0) {
+                    if (nidAreaAcademica == 12 || nidAreaAcademica == 13) { //12 = Primer Ciclo 13 = Inicial
+                        ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
+                    } else {
+                        ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);
+                    }
+                }
+            }
+            return em.createQuery(ejbQl).setParameter("dniProfesor", dniProfesor).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
