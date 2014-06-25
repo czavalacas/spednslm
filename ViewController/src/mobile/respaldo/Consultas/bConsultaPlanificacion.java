@@ -111,7 +111,6 @@ public class bConsultaPlanificacion {
     }
 
     public String selectPlanif() {
-        return "evaluar";
         ValueExpression ve1 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.startDate}", Date.class);
         ValueExpression ve2 = AdfmfJavaUtilities.getValueExpression("#{pageFlowScope.endDate}", Date.class);
         
