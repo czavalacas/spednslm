@@ -739,6 +739,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         bean.setDniDocente(eva.getMain().getProfesor().getDniProfesor());
         bean.setNidPlanificador(eva.getNidPlanificador());
         bean.setTemaEvaluacion(eva.getTemaEvaluacion());
+        bean.setNotificacionEvaluadorComentarioProfesor(eva.getNotificacionEvaluadorComentarioProfesor());
         return bean;
     }
 }
