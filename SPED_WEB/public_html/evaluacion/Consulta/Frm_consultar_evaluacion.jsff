@@ -182,7 +182,7 @@
                        <!-- <af:outputText value="#{row.comentario_evaluador}" id="ot16"/>-->
                     </af:column>
                     <af:column sortable="true" sortProperty="comentario_profesor" headerText="Coment Prof"
-                               align="center" id="c17" width="40">
+                               align="center" id="c17" width="60">
                         <af:panelGroupLayout id="pgl1">
                             <af:image source="/recursos/img/usuarios/msj.png" id="i1" rendered="#{row.notificacionEvaluadorComentarioProfesor == '1'}"/>
                             <af:button id="btnCmtDoce" actionListener="#{bConsultarEvaluacion.comentarEvaluacion}"
