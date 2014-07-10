@@ -40,6 +40,7 @@ public class BeanEvaluacion implements Serializable {
     private Date fechaMaxEvaluacion;
     private Date fechaMinPlanificacion;
     private Date fechaMaxPlanificacion;
+    private String estadoUsuario;
     private List<BeanResultadoCriterio> resultadoCriterioList;
     //valores para el desempeño evaluador
     private Integer cantEjecutado;
@@ -490,6 +491,14 @@ public class BeanEvaluacion implements Serializable {
 
     public String getComentario_profesor() {
         return comentario_profesor;
+    }
+
+    public void setEstadoUsuario(String estadoUsuario) {
+        this.estadoUsuario = estadoUsuario;
+    }
+
+    public String getEstadoUsuario() {
+        return estadoUsuario;
     }
 
 }
