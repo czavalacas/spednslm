@@ -450,7 +450,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setNombreEvaluador(nombre);
             beanEva.setEstadoEvaluacion(estado);
             beanEva.setDescRol(desRol);
-            beanEva.setEstadoUsuario(estadoUsuario ? "1" : "0");
+            beanEva.setEstadoUsuario(estadoUsuario ? "1" : null);
             if(desProblema !=null){
                 int idProb = bdL_C_SFProblemaLocal.getNidProblemaByDescripcion(desProblema);
                 beanEva.setNidProblema(idProb != 0 ? idProb : 0);
