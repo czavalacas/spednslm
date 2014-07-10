@@ -11,7 +11,7 @@ import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bSessionDesempenoEvaluador implements Serializable {
-    @SuppressWarnings("compatibility:-8661660304648975906")
+    @SuppressWarnings("compatibility:-1238398760714205455")
     private static final long serialVersionUID = 1L;
     private int exec;
     private List lstRol;
@@ -58,10 +58,12 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private boolean rGrafEva = true;
     private boolean rGrafLine = true;
     private boolean rGrafPie = true;
+    private boolean rEstadoUsuario = true;
     private boolean rGrafRolA = true;
     private boolean rGrafEvaA = true;
     private boolean rGrafLineA = true;
     private boolean rGrafPieA = true;
+    private boolean rEstadoUsuarioA = true;
     private String rowHeightDashboard = "350px";
     private int columnsDashboard = 2;
     private String mensaje;
@@ -546,5 +548,21 @@ public class bSessionDesempenoEvaluador implements Serializable {
 
     public boolean isRenderExcel() {
         return renderExcel;
+    }
+
+    public void setREstadoUsuario(boolean rEstadoUsuario) {
+        this.rEstadoUsuario = rEstadoUsuario;
+    }
+
+    public boolean isREstadoUsuario() {
+        return rEstadoUsuario;
+    }
+
+    public void setREstadoUsuarioA(boolean rEstadoUsuarioF) {
+        this.rEstadoUsuarioA = rEstadoUsuarioF;
+    }
+
+    public boolean isREstadoUsuarioA() {
+        return rEstadoUsuarioA;
     }
 }

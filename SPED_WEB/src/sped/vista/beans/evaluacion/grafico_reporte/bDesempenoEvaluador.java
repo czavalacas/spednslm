@@ -99,6 +99,7 @@ public class bDesempenoEvaluador {
     private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
     @EJB
     private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
+    private RichSelectBooleanCheckbox chkUsu;
 
     public bDesempenoEvaluador() {        
         nombreUsuario = beanUsuario.getNombres();
@@ -510,6 +511,7 @@ public class bDesempenoEvaluador {
         sessionDesempenoEvaluador.setRGrafRolA(sessionDesempenoEvaluador.isRGrafRol());
         sessionDesempenoEvaluador.setRGrafLineA(sessionDesempenoEvaluador.isRGrafLine());
         sessionDesempenoEvaluador.setRGrafPieA(sessionDesempenoEvaluador.isRGrafPie());
+        sessionDesempenoEvaluador.setREstadoUsuarioA(sessionDesempenoEvaluador.isREstadoUsuario());        
         if(sessionDesempenoEvaluador.isRGrafEva() == true){
             setListEvabarChart(lst);
         }
@@ -611,7 +613,9 @@ public class bDesempenoEvaluador {
                                                                            sessionDesempenoEvaluador.getFechaPI(),
                                                                            sessionDesempenoEvaluador.getFechaPF(),
                                                                            sessionDesempenoEvaluador.getFechaEI(),
-                                                                           sessionDesempenoEvaluador.getFechaEF());
+                                                                           sessionDesempenoEvaluador.getFechaEF(),
+                                                                           sessionDesempenoEvaluador.isREstadoUsuario());
+            
         }catch(Exception e){
             e.printStackTrace();
             ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
@@ -636,7 +640,8 @@ public class bDesempenoEvaluador {
                                                                            sessionDesempenoEvaluador.getFechaPI_axu(),
                                                                            sessionDesempenoEvaluador.getFechaPF_aux(),
                                                                            sessionDesempenoEvaluador.getFechaEI_aux(),
-                                                                           sessionDesempenoEvaluador.getFechaEF_aux());
+                                                                           sessionDesempenoEvaluador.getFechaEF_aux(),
+                                                                           sessionDesempenoEvaluador.isREstadoUsuarioA());
         }catch(Exception e){
             ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidUsuario(), "BAC", CLASE, 
                                                           "List<BeanEvaluacionPlani> desempenoFiltro_aux(...)", 
@@ -1247,5 +1252,13 @@ public class bDesempenoEvaluador {
 
     public String getCorreoDelete() {
         return correoDelete;
-    }    
+    }
+
+    public void setChkUsu(RichSelectBooleanCheckbox chkUsu) {
+        this.chkUsu = chkUsu;
+    }
+
+    public RichSelectBooleanCheckbox getChkUsu() {
+        return chkUsu;
+    }
 }

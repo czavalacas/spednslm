@@ -64,7 +64,8 @@ public interface LN_C_SFEvaluacionRemote {
                                                                Date fechaPlanifiacion,
                                                                Date fechaPlanifiacionF,
                                                                Date fechaEvaluacion,
-                                                               Date fachaEvaluacionF);
+                                                               Date fachaEvaluacionF,
+                                                               boolean estadoUsuario);
     List<BeanEvaluacionWS> getEvaluaciones_LN_WS(int nidRol,
                                                  int nidSede,
                                                  int nidAreaAcademica,

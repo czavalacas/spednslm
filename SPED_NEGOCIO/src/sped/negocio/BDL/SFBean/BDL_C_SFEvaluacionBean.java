@@ -756,6 +756,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 if(beanFEva.getDescRol() != null){
                     strQuery = strQuery.concat(" AND  usu.rol.descripcionRol = :des_Rol ");
                 }
+                strQuery = strQuery.concat(" AND  usu.estadoUsuario = :estadoU ");
             }
             if(tipoBusqueda == 1 || tipoBusqueda == 3 || tipoBusqueda == 5){
                 String subQuery = "(SELECT COUNT(1) " + strQuery.replaceAll("eva", "x");
@@ -859,6 +860,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
                 if(beanFEva.getDescRol() != null){
                     query.setParameter("des_Rol",beanFEva.getDescRol());
                 }
+                query.setParameter("estadoU", beanFEva.getEstadoUsuario());
             }
             List primitiva = query.getResultList();
             // tipo135--> 0 - Ejecutado, 
