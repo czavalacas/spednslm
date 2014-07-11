@@ -268,7 +268,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
      */
     public String contenidoHTML_NotificacionProfesorEvaluacion(String data[]){        
       String contenido = "<p>Profesor@: <strong>"+data[0]+"</strong>:</p>"
-        .concat("<p>Ud. fue evaluad@ el día "+data[1]+" por el <u>"+data[2]+",</u></p>")
+        .concat("<p>Ud. fue evaluad@ el dia "+data[1]+" por el <u>"+data[2]+",</u></p>")
         .concat("<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">")
         .concat("<tbody><tr><td style=\"text-align: center;\">")
         .concat("<strong>Curso</strong></td><td style=\"text-align: center;\">")
@@ -276,7 +276,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
         .concat("<strong>Sede</strong></td><td style=\"text-align: center;\">")
         .concat("<strong>Grado</strong></td></tr><tr><td>"+data[3]+"</td><td>"+data[4]+"</td>")
         .concat("<td>"+data[5]+"</td><td>"+data[6]+"</td></tr></tbody></table><p>")
-                         .concat("Puede consultar sus resultados en la opción de Consultar Evaluaciones en el sistema SPED. ID: "+data[9]+"</p>");
+                         .concat("Puede consultar sus resultados en la opcion de Consultar Evaluaciones en el sistema SPED. ID: "+data[9]+"</p>");
       return contenido;
     }
     
