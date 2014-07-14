@@ -35,9 +35,10 @@
                                 <f:selectItems value="#{sessionDesempenoEvaluador.lstArea}" id="si2"/>
                             </af:selectManyChoice>
                             <af:selectBooleanCheckbox text="Activos/Inactivos" label="Usuario" id="chkUsu"
-                                                      labelStyle="text-align: left;"
+                                                      labelStyle="text-align: left;" autoSubmit="true"
                                                       binding="#{bDesempenoEvaluador.chkUsu}"
-                                                      selected="#{sessionDesempenoEvaluador.REstadoUsuario}"/>
+                                                      selected="#{sessionDesempenoEvaluador.REstadoUsuario}"
+                                                      valueChangeListener="#{bDesempenoEvaluador.changeUsuarioEstado}"/>
                         </af:panelFormLayout>
                         <af:showDetail disclosed="true" id="sd1" disclosedText="Fecha Planifiacion"
                                        undisclosedText="Fecha Planifiacion" binding="#{bDesempenoEvaluador.sd1}">
