@@ -142,4 +142,12 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     public List<BeanCombo> getEvaluadoresByArea_LN(int nidArea){
         return bdL_C_SFUtilsLocal.getEvaluadoresByArea("e.nidUsuario", "e.nombres", nidArea);
     }
+    
+    public List<BeanCombo> getEvaluadoresByAreaByEstado_LN(int nidArea, boolean estado){
+        return bdL_C_SFUtilsLocal.getEvaluadoresByAreaByEstado("e.nidUsuario", "e.nombres", nidArea, estado);
+    }
+    
+    public List<BeanCombo> getEvaluadoresByEstado_LN(boolean estado){
+        return bdL_C_SFUtilsLocal.getEvaluadoresByEstado("e.nidUsuario", "e.nombres", estado);
+    }
 }
