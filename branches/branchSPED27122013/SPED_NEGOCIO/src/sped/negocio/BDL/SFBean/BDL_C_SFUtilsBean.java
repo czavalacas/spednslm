@@ -377,6 +377,48 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         }
     }
     
+    /**
+     * Matodo para consultar los evaluadores por su area y estado
+     * @param id
+     * @param desc
+     * @param nidArea
+     * @return
+     */
+    public List<BeanCombo> getEvaluadoresByAreaByEstado(String id, String desc, int nidArea, boolean estado){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Usuario") +
+                               " WHERE e.rol.nidRol = 2 " +
+                               " AND e.areaAcademica.nidAreaAcademica = " + nidArea ;
+            if(estado){
+                qlString = qlString.concat(" AND e.estadoUsuario = '1' ");
+            }
+            qlString = qlString.concat(" ORDER BY e.nombres ASC ");
+            List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
+            return lstUsuarios;       
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
+    }
+    
+    public List<BeanCombo> getEvaluadoresByEstado(String id, String desc, boolean estado){
+        try{
+            String qlString = this.getSelectBasicoBeanCombo(id, desc, "Usuario") +
+                               " WHERE ( e.rol.nidRol = 2 OR " +
+                               " e.rol.nidRol = 4 OR "+
+                               " e.rol.nidRol = 5 ) ";
+            if(estado){
+                qlString = qlString.concat(" AND e.estadoUsuario = '1' ");
+            }
+            qlString = qlString.concat(" ORDER BY e.nombres ASC ");
+            List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
+            return lstUsuarios;       
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
+    }
+    
     private String getSelectBasicoBeanCombo(String id,String desc, String entidad){
         return "SELECT NEW sped.negocio.entidades.beans.BeanCombo("+id+","+desc+") " +
                 "FROM "+entidad+" e ";

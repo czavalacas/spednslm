@@ -77,6 +77,7 @@ public class bDesempenoEvaluador {
     private UIGraph gline;
     private UIGraph gpie;
     private RichPopup popKey;
+    private RichSelectBooleanCheckbox chkUsu;
     /***Mis Variables*****/    
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     private static final String CLASE = "sped.vista.beans.evaluacion.grafico_reporte.bDesempenoEvaluador";
@@ -99,7 +100,7 @@ public class bDesempenoEvaluador {
     private LN_C_SFCorreoRemote ln_C_SFCorreoRemote;
     @EJB
     private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
-    private RichSelectBooleanCheckbox chkUsu;
+    
 
     public bDesempenoEvaluador() {        
         nombreUsuario = beanUsuario.getNombres();
@@ -132,12 +133,7 @@ public class bDesempenoEvaluador {
     public void validarRol(){
         int nidRol = beanUsuario.getRol().getNidRol();      
         nidRol = beanUsuario.getIsSupervisor().compareTo("1") == 0 ? 1 : nidRol;        
-        if(nidRol == 2 ){
-            sessionDesempenoEvaluador.setLstEvaluador(
-                Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadoresByArea_LN(beanUsuario.getAreaAcademica().getNidAreaAcademica()))); 
-        }else{
-            sessionDesempenoEvaluador.setLstEvaluador(Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadores_LN_WS()));
-        }
+        llenarComboboxEvaluadores(sessionDesempenoEvaluador.isREstadoUsuario());
         if(nidRol == 2 || nidRol == 4 || nidRol == 5){
             sessionDesempenoEvaluador.setRenderFRol(true);
             List lstrol = new ArrayList();
@@ -158,6 +154,23 @@ public class bDesempenoEvaluador {
             List lstEva = new ArrayList();
             lstEva.add(beanUsuario.getNidUsuario()+"");
             sessionDesempenoEvaluador.setSelectedEvaluador(lstEva);
+        }
+    }
+    
+    /**
+     * Metodo para llenar el combobox de los evaluadores por el rol y el estado de los usuarios
+     */
+    public void llenarComboboxEvaluadores(boolean estado){
+        int nidRol = beanUsuario.getRol().getNidRol();      
+        nidRol = beanUsuario.getIsSupervisor().compareTo("1") == 0 ? 1 : nidRol;        
+        if(nidRol == 2 ){
+            sessionDesempenoEvaluador.setLstEvaluador(
+                Utils.llenarCombo(ln_C_SFUtilsRemote.getEvaluadoresByAreaByEstado_LN(
+                                                        beanUsuario.getAreaAcademica().getNidAreaAcademica(),
+                                                        estado)));            
+        }else{
+            sessionDesempenoEvaluador.setLstEvaluador(Utils.llenarCombo(
+                                    ln_C_SFUtilsRemote.getEvaluadoresByEstado_LN(estado)));
         }
     }
     
@@ -1006,6 +1019,14 @@ public class bDesempenoEvaluador {
         }      
     }
     
+    public void changeUsuarioEstado(ValueChangeEvent vce) {        
+        boolean valida = (Boolean) vce.getNewValue();
+        llenarComboboxEvaluadores(valida);
+        if(choiceFEva != null){
+            Utils.addTarget(choiceFEva);
+        }
+    }
+    
     public void setSessionDesempenoEvaluador(bSessionDesempenoEvaluador sessionDesempenoEvaluador) {
         this.sessionDesempenoEvaluador = sessionDesempenoEvaluador;
     }
@@ -1261,4 +1282,5 @@ public class bDesempenoEvaluador {
     public RichSelectBooleanCheckbox getChkUsu() {
         return chkUsu;
     }
+    
 }

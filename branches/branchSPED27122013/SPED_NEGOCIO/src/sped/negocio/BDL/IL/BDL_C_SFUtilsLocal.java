@@ -42,5 +42,7 @@ public interface BDL_C_SFUtilsLocal {
     List<BeanComboString> getProfesor(String id, String desc);
     List<BeanCombo> getRolNoAdmin(String id, String desc);
     List<BeanCombo> getEvaluadoresByArea(String id, String desc, int nidArea);
+    List<BeanCombo> getEvaluadoresByAreaByEstado(String id, String desc, int nidArea, boolean estado);
+    List<BeanCombo> getEvaluadoresByEstado(String id, String desc, boolean estado);
     Log findLogById(int id);
 }
