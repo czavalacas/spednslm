@@ -216,33 +216,36 @@ public class bPlanificarEva {
         Utils.showPopUpMIDDLE(popupEvalua);
         return null;
     }    
-
-    public String grabarEva1() {//TODO dale un nombre entendible
-        grabarEvaluacion(1);//TODO dale un nombre entendible
+    //grabarEva1uacionBloque1 y grabarEva1uacionBloque2 son metodos usados por el popup comentado por falta del modulo de horarios en el 
+    //jsf Frm_Planificar_Evaluacion lineas 419 y 440 respectivamente */
+    public String grabarEva1uacionBloque1() {//TODO dale un nombre entendible //nombre Cambiado 
+        grabarEvaluacionOpcion(1);//TODO dale un nombre entendible // nombre ccambiado
         popupSeleccionBloque.hide();
         return null;
     }
 
-    public String grabarEva2() {//TODO dale un nombre entendible
-        grabarEvaluacion(2);//TODO dale un nombre entendible
+    public String grabarEvaluacionBloque2() {//TODO dale un nombre entendible // nombre cambiado
+        grabarEvaluacionOpcion(2);//TODO dale un nombre entendible // nombre cambiado
         popupSeleccionBloque.hide();
         return null;
     }
-         
-    public String grabarEvaluacion(int opc) {     
-        long s=0;//TODO variables sin sentido que es s o c ???
-        long c=0;
+    
+     //Metodo grabarEvaluacionOpcion usado por la antigua interfaz de separacion de planificacion se usara si es que se quiere regresar a la
+     //version incial con el main lleno de fecha y hora como se pensaba en un comienzo
+    public String grabarEvaluacionOpcion(int opc) {     
+        long startDate=0;//TODO variables sin sentido que es s o c ???// variables cambiados
+        long endDate=0;
         if (opc == 1) {
-             s = sessionPlanificarEva.getFechaInicioEvaluacion().getTime();
-             c = sessionPlanificarEva.getHoraPartidaInicio().getTime();
+             startDate = sessionPlanificarEva.getFechaInicioEvaluacion().getTime();
+             endDate = sessionPlanificarEva.getHoraPartidaInicio().getTime();
         }
         if (opc == 2) {
-             s = sessionPlanificarEva.getHoraPartidaInicio().getTime();
-             c = sessionPlanificarEva.getFechaFinEvaluacion().getTime();
+             startDate = sessionPlanificarEva.getHoraPartidaInicio().getTime();
+             endDate = sessionPlanificarEva.getFechaFinEvaluacion().getTime();
         }
         String nidDat = Utils.generarAlfanumerico();   
-        ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(s, 
-                                                       c, 
+        ln_T_SFEvaluacionRemote.registrarEvaluacion_LN(startDate, 
+                                                       endDate, 
                                                        sessionPlanificarEva.getBeanHorario().getNidMain(), 
                                                        Integer.parseInt(getSessionPlanificarEva().getNidUsuario()), 
                                                        nidDat, 
@@ -400,10 +403,12 @@ public class bPlanificarEva {
     public String llenarHorarios(BeanMain beanMain) {
         List<BeanMain> lis = ln_C_SFMainRemote.llenarHorario(beanMain);
         if (lis != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//TODO usar del metodo Utils.getHoyFormato
-            Date fechaActual = sessionPlanificarEva.getFechaInicioSeleccionada();
-            String fechaConFormato = sdf.format(fechaActual);
-            List<BeanEvaluacion> listaEvaluaciones =
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//TODO usar del metodo Utils.getHoyFormato // no se puede usar ya que originalmente no usa la fecha de hoy, si no la fecha que se selecciona en el calendario
+            Date fechaSeleccionada = sessionPlanificarEva.getFechaInicioSeleccionada();
+            String fechaConFormato = sdf.format(fechaSeleccionada);
+            List<BeanEvaluacion> listaEvaluaciones =//el query que usa este metoddo getEvaluaciones_LN  lo cambiaste por CurrentDate en la condicion de fecha, este metodo fue creado para usar la fecha que se selecciona en el calendario
+                //mas no la del dia, no causo problemas al cambiarlo a current Date debido ah que este metodo se usa en el popup comentado si se regresa a la version anterior no funcionara debido a que el current date que colocaste
+                // traera siempre lo del dia asi seleccione otro dia del calendario. OJITO.. hay que ver esto como lo cambiamos para que no impcte porque creo que se esta usando por otro lado con currentDate
                 ln_C_SFEvaluacionRemoto.getEvaluaciones_LN(fechaConFormato, sessionPlanificarEva.getNidAreaAcademica(),
                                                            Integer.parseInt(sessionPlanificarEva.getNidUsuario()),
                                                            sessionPlanificarEva.getDniProfesor(),
@@ -475,7 +480,7 @@ public class bPlanificarEva {
         beanMain.setAula(aula);
         beanMain.setCurso(beanCurso);
         beanMain.setDia(sessionPlanificarEva.getDiaDeLaSemana());
-     //   llenarHorarios(beanMain); COMENTADO TEMPORALMENTE ARREGLAR EL MAPPER DENTRO **NO BORRAR
+     //   llenarHorarios(beanMain); COMENTADO TEMPORALMENTE ARREGLAR EL MAPPER DENTRO **NO BORRAR OJITO SE USA EN EL POPUP COMENTADO
     }
 
     public void abrirNuevoEvento(CalendarEvent calendarEvent) {
@@ -749,10 +754,10 @@ public class bPlanificarEva {
     }
 
     public void filtrarListaEvaluadores(ValueChangeEvent vce) {
-        if ("0".equals(choiceFiltArea.getValue().toString())) {//TODO referencia siempre a las variables no al componente
+        if ("0".equals(vce.getNewValue().toString())) {//TODO referencia siempre a las variables no al componente // Cambiado
             refTbEvalu(null);
         } else {
-            refTbEvalu(choiceFiltArea.getValue().toString());//TODO referencia siempre a las variables no al componente
+            refTbEvalu(vce.getNewValue().toString());//TODO referencia siempre a las variables no al componente // Cambiado
         }
     }
 
@@ -1100,15 +1105,8 @@ public class bPlanificarEva {
         }
     }
     
-    //TODO que hacen estos metodos vacios??????
-    public void activarBotonEvaluar(AttributeChangeEvent attributeChangeEvent) {
-    }
-
-    public void activarbtnEvaluar(ValueChangeEvent valueChangeEvent) {
-    }
-
-    public void getAulasBysede(ValueChangeEvent valueChangeEvent) {//TODO de nuevo estas llamando al componente, debes llamar a la variable o usar el valueChangeEvent
-        sessionPlanificarEva.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.getAllNivelesBySedes(choiceSede.getValue().toString())));
+    public void getAulasBysede(ValueChangeEvent valueChangeEvent) {//TODO de nuevo estas llamando al componente, debes llamar a la variable o usar el valueChangeEvent //Cambiado
+        sessionPlanificarEva.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.getAllNivelesBySedes(valueChangeEvent.getNewValue().toString())));
         sessionPlanificarEva.setEstadoChoiceTemporalNivel(false);
         Utils.addTarget(choiceNivel);
     }
@@ -1118,13 +1116,13 @@ public class bPlanificarEva {
             sessionPlanificarEva.setEstadoDisableChoiceArea(false);
             Utils.addTarget(choiceAreaAcademicas);
         }
-        if (sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {//TODO igual estas llamando a los componentes!!!
+        if (sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {//TODO igual estas llamando a los componentes!!! //CAMBIADO, CHOICE SEDE NO SE PUEDE CAMBIAR YA QUE valueChangeEvent es del choiceNivel
             sessionPlanificarEva.setListaProfesores(Utils.llenarComboString(ln_C_SFProfesorRemote.getPRofesorPorSedeYNivel(choiceSede.getValue().toString(),
-                                                                                                                           choiceNivel.getValue().toString(),
+                                                                                                                           valueChangeEvent.getNewValue().toString(),
                                                                                                                            Integer.parseInt(sessionPlanificarEva.getNidAreaAcademicaChoice()))));
         } else {
             sessionPlanificarEva.setListaProfesores(Utils.llenarComboString(ln_C_SFProfesorRemote.getPRofesorPorSedeYNivel(choiceSede.getValue().toString(),
-                                                                                                                           choiceNivel.getValue().toString(),
+                                                                                                                           valueChangeEvent.getNewValue().toString(),
                                                                                                                            0)));
         }
         sessionPlanificarEva.setEstadoChoiceTemporalDocente(false);
@@ -1132,15 +1130,15 @@ public class bPlanificarEva {
     }
 
     public void getCursosByProfesor(ValueChangeEvent valueChangeEvent) {
-        if (sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {//TODO igual estas llamando a los componentes!!!          
+        if (sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {//TODO igual estas llamando a los componentes!!!   //valueChangeEvent del ChoiceProfesores Cambiado       
             sessionPlanificarEva.setListaCursos(Utils.llenarCombo(ln_C_SFCursoRemoto.getCursoPorSedeNivelyPofesor(choiceSede.getValue().toString(),
                                                                                                                   choiceNivel.getValue().toString(),
-                                                                                                                  choiceProfesores.getValue().toString(),
+                                                                                                                  valueChangeEvent.getNewValue().toString(),
                                                                                                                   Integer.parseInt(sessionPlanificarEva.getNidAreaAcademicaChoice()))));
         } else {
             sessionPlanificarEva.setListaCursos(Utils.llenarCombo(ln_C_SFCursoRemoto.getCursoPorSedeNivelyPofesor(choiceSede.getValue().toString(),
                                                                                                                   choiceNivel.getValue().toString(),
-                                                                                                                  choiceProfesores.getValue().toString(),
+                                                                                                                  valueChangeEvent.getNewValue().toString(),
                                                                                                                   0)));
 
         }
@@ -1148,13 +1146,13 @@ public class bPlanificarEva {
         Utils.addTarget(choiceCursos);
     }
 
-    public void getAulasByCurso(ValueChangeEvent valueChangeEvent) {//TODO igual estas llamando a los componentes!!!
+    public void getAulasByCurso(ValueChangeEvent valueChangeEvent) {//TODO igual estas llamando a los componentes!!!//valueChangeEvent de ChoiceCurso
         sessionPlanificarEva.getListaAulasTemporal().clear();      
         if(sessionPlanificarEva.getNidAreaAcademicaChoice() != null) {
             List<BeanCombo> listBean=ln_C_SFAulaRemote.getAulaPorSedeNivelProfesorYCurso(choiceSede.getValue().toString(),   choiceNivel.getValue().toString(),
                                                                                                                              choiceProfesores.getValue().toString(),
                                                                                                                              Integer.parseInt(sessionPlanificarEva.getNidAreaAcademicaChoice()),
-                                                                                                                             choiceCursos.getValue().toString());
+                                                                                                                             valueChangeEvent.getNewValue().toString());
             sessionPlanificarEva.setListaAulasTemporal(Utils.llenarCombo(listBean));      
             //czavalacas 17.06.2014
          if(sessionPlanificarEva.getNidAreaAcademicaChoice().equals("1")|| sessionPlanificarEva.getNidAreaAcademicaChoice().equals("2")){           
@@ -1218,7 +1216,7 @@ public class bPlanificarEva {
  
 
     /**Temporal*/ 
-  public String guardarPlanificacion(){//TODO dale un nombre entendible a las variable s, c  // NUEVO NOMBRE STARDATE Y ENDDATE
+  public String guardarPlanificacion(){//TODO dale un nombre entendible a las variable s, c  // CAMBIADO NUEVO NOMBRE STARDATE Y ENDDATE
   if(Time.valueOf(sessionPlanificarEva.getHoraFin()+":00").before(Time.valueOf(sessionPlanificarEva.getHoraInicio()+":00")) ){
       Utils.mostrarMensaje(ctx,"Hora Fin de Evaluacion no puedo ser antes de la Hora inicio, porfavor ingrese datos correctos","Error",1);
   }else{  
@@ -1245,7 +1243,7 @@ public class bPlanificarEva {
       return null;
   }
 
-    public void eventoChoiceArea(ValueChangeEvent valueChangeEvent) {//TODO ESTAS llamando al componente!
+    public void eventoChoiceArea(ValueChangeEvent valueChangeEvent) {//TODO ESTAS llamando al componente! //valueChangeEvent choice Area C
         if (valueChangeEvent.getNewValue().toString() != null) {
             sessionPlanificarEva.setListaProfesores(Utils.llenarComboString(ln_C_SFProfesorRemote.getPRofesorPorSedeYNivel(choiceSede.getValue().toString(),
                                                                                                                            choiceNivel.getValue().toString(),
