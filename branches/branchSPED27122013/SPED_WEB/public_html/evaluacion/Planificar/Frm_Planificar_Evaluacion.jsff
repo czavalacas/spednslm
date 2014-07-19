@@ -416,7 +416,7 @@
                                                       value="#{sessionScope.sessionPlanificarEva.horaPartidaInicio}">
                                             <af:convertDateTime type="date" pattern="hh:mm a"/>
                                         </af:inputText>
-                                        <af:button text="Asignar" id="b3" action="#{bPlanificarEva.grabarEva1}"
+                                        <af:button text="Asignar" id="b3" action="#{bPlanificarEva.grabarEva1uacionBloque1}"
                                                    binding="#{bPlanificarEva.btnBloque1}"
                                                    disabled="#{sessionScope.sessionPlanificarEva.estadoBtnBloq1}"/>
                                         <af:outputText value="Ya existe una evaluacion a esta hora" id="ot12"
@@ -437,7 +437,7 @@
                                                       disabled="true">
                                             <af:convertDateTime type="date" pattern="hh:mm a"/>
                                         </af:inputText>
-                                        <af:button text="Asignar" id="b4" action="#{bPlanificarEva.grabarEva2}"
+                                        <af:button text="Asignar" id="b4" action="#{bPlanificarEva.grabarEvaluacionBloque2}"
                                                    binding="#{bPlanificarEva.btnBloque2}"
                                                    disabled="#{sessionScope.sessionPlanificarEva.estadoBtnBloq2}"/>
                                                     <af:outputText value="Ya existe una evaluacion a esta hora" id="ot13"
