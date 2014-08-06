@@ -11,7 +11,7 @@ import sped.negocio.entidades.eval.Leyenda;
 public interface BDL_C_SFLeyendaLocal {
     Leyenda getLeyendabyEvaluacion(CriterioIndicador cri,
                                    int nidFicha,
-                                   int valorValoracion);
+                                   double valorValoracion);
     /**
      * Metodo que retorna la lista de leyendas segun el indicador, usado para mostrar en el aplicativo Movil
      * @param nidCriterioIndicador id del criterioIndicador

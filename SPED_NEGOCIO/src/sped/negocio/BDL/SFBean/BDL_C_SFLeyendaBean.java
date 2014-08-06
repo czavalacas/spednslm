@@ -25,7 +25,7 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
     
     public Leyenda getLeyendabyEvaluacion(CriterioIndicador cri,
                                           int nidFicha,
-                                          int valorValoracion){        
+                                          double valorValoracion){        
         try{
             String strQuery = "SELECT o " +
                               "FROM Leyenda o " +
