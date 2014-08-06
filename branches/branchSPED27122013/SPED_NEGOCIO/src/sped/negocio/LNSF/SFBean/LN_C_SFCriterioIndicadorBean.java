@@ -53,7 +53,7 @@ public class LN_C_SFCriterioIndicadorBean implements LN_C_SFCriterioIndicadorRem
                 BeanCriterioIndicador bean = (BeanCriterioIndicador) mapper.map(crin, BeanCriterioIndicador.class);
                 bean.setResultadoEvaluacion(ln_C_SFResultadoLocal.findResultadoByIdLN(bean.getNidCriterioIndicador(), 
                                                                                       nidEvaluacion));
-                bean.setLeyenda(ln_C_SFLeyendaRemote.getLeyendabyEvaluacion(crin, 
+                bean.setLeyenda(ln_C_SFLeyendaRemote.getLeyendabyEvaluacion(crin,
                                                                             nidFicha, 
                                                                             bean.getResultadoEvaluacion().getValor()));
                 beanCrIn.add(bean);
