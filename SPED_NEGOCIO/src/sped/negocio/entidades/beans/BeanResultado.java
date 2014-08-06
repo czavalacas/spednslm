@@ -8,15 +8,15 @@ public class BeanResultado implements Serializable {
     @SuppressWarnings("compatibility:-4633930993697628293")
     private static final long serialVersionUID = 1L;
 
-    private short valor;
+    private double valor;
     private BeanCriterioIndicador criterioIndicador;
     private BeanEvaluacion evaluacion;
 
-    public void setValor(short valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
-    public short getValor() {
+    public double getValor() {
         return valor;
     }
 

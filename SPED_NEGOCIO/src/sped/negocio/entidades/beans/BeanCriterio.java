@@ -32,12 +32,16 @@ public class BeanCriterio implements Serializable, Cloneable {
     private String displaySpinBox;
     private String displayInput;
     private String valorInput;
-    private int valorSpinBox;
+    private double valorSpinBox;
     private String estilo;
     private Integer nidCriterioPadre;
     private double notaVige;
     //dfloresgonz 03.05.2014 se agrega porque salia error al evaluar con Subdirector rol = 4
     private int nidCriterioIndicador;
+    //dfloresgonz 05.08.2014 se agrega para mantener el maximo Valor de un INDICADOR al traer en frm_evaluar
+    private double maxValor;
+    private List<BeanComboString> lstValoresPosibles = new ArrayList<BeanComboString>();
+    private List lstValoresPosCombo;
     
     public Object clone() {
         Object clone = null;
@@ -75,6 +79,30 @@ public class BeanCriterio implements Serializable, Cloneable {
         }
     }
 
+    public void setLstValoresPosCombo(List lstValoresPosCombo) {
+        this.lstValoresPosCombo = lstValoresPosCombo;
+    }
+
+    public List getLstValoresPosCombo() {
+        return lstValoresPosCombo;
+    }
+
+    public void setLstValoresPosibles(List<BeanComboString> lstValoresPosibles) {
+        this.lstValoresPosibles = lstValoresPosibles;
+    }
+
+    public List<BeanComboString> getLstValoresPosibles() {
+        return lstValoresPosibles;
+    }
+
+    public void setMaxValor(double maxValor) {
+        this.maxValor = maxValor;
+    }
+
+    public double getMaxValor() {
+        return maxValor;
+    }
+
     public void setNotaVige(double notaVige) {
         this.notaVige = notaVige;
     }
@@ -99,11 +127,11 @@ public class BeanCriterio implements Serializable, Cloneable {
         return valorInput;
     }
 
-    public void setValorSpinBox(int valorSpinBox) {
+    public void setValorSpinBox(double valorSpinBox) {
         this.valorSpinBox = valorSpinBox;
     }
 
-    public int getValorSpinBox() {
+    public double getValorSpinBox() {
         return valorSpinBox;
     }
 

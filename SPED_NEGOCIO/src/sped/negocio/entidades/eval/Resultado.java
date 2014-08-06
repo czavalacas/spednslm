@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class Resultado implements Serializable {
     private static final long serialVersionUID = -8501344454150264445L;
     @Column(name = "valor", nullable = false)
-    private short valor;
+    private double valor;
     @ManyToOne
     @Id
     @JoinColumn(name = "nidCriterioIndicador")
@@ -68,11 +68,11 @@ public class Resultado implements Serializable {
         return toNotification;
     }
 
-    public short getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(short valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 

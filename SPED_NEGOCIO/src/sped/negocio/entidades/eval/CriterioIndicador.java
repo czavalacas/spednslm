@@ -45,6 +45,8 @@ public class CriterioIndicador implements Serializable {
     private List<Resultado> resultadoLista;
     @Column(name = "orden")
     private int orden;
+    @Column(name = "maxValor")
+    private double maxValor;
 
     public CriterioIndicador() {
     }
@@ -53,6 +55,14 @@ public class CriterioIndicador implements Serializable {
         this.nidCriterioIndicador = nidCriterioIndicador;
         this.fichaCriterio = fichaCriterio;
         this.indicador = indicador;
+    }
+
+    public void setMaxValor(double maxValor) {
+        this.maxValor = maxValor;
+    }
+
+    public double getMaxValor() {
+        return maxValor;
     }
 
     public void setOrden(int orden) {

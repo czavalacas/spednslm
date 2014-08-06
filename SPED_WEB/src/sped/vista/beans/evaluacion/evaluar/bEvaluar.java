@@ -182,6 +182,15 @@ public class bEvaluar {
                 return s1.getOrden().compareTo(s2.getOrden());
             }
         });
+        Iterator itCrit = sessionEvaluar.getLstCriteriosMultiples().iterator();
+        while(itCrit.hasNext()){//Indicadores nativos
+            BeanCriterio crit = (BeanCriterio) itCrit.next();
+            Iterator itIndi = crit.getLstIndicadores().iterator();
+            while(itIndi.hasNext()){
+                BeanCriterio indi = (BeanCriterio) itIndi.next();
+                indi.setLstValoresPosCombo(Utils.llenarComboString(indi.getLstValoresPosibles()));
+            }
+        }
         b.setLstIndicadores(sessionEvaluar.getLstCriteriosMultiples());
         lstBeanCriterio.add(b);
         permisosTree = new ChildPropertyTreeModel(lstBeanCriterio,"lstIndicadores");
@@ -206,13 +215,15 @@ public class bEvaluar {
             Iterator itH = hijos.iterator();
             String valInput = "";
             int hijosSize = hijos.size();
-            int sumVal = 0;
-            int maxVal = sessionEvaluar.getMaxValor() * hijosSize;
+            double sumVal = 0.0;
+            double maxVal = hijos.get(0).getMaxValor() * new Double(hijosSize);
             while(itH.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itH.next();
                 sumVal = sumVal + indi.getValorSpinBox();
             }
-            int pro = sumVal / hijosSize;
+            double pro = sumVal / new Double(hijosSize);
+            int r1 = (int) Math.round( pro * 100);
+            pro = r1 / 100.0;
             double vigecimal = (sumVal * 20) / maxVal;
             String estilo = "";
             if(vigecimal <= 10.49){
@@ -261,12 +272,27 @@ public class bEvaluar {
                     List<BeanCriterio> hijos = crit.getLstIndicadores();
                     Iterator itH = hijos.iterator();
                     int hijosSize = hijos.size();
-                    int sumVal = 0;
-                    int maxVal = sessionEvaluar.getMaxValor() * hijosSize;
+                    double sumVal = 0.0;
+                    //int maxVal = sessionEvaluar.getMaxValor() * hijosSize;
+                    double maxVal = crit.getMaxValor() * new Double(hijosSize);
                     while(itH.hasNext()){
                         BeanCriterio indi = (BeanCriterio) itH.next();
                         if(indi.getNidCriterio().compareTo(param) == 0){
-                            indi.setValorSpinBox((Integer) vce.getNewValue());
+                            if(vce.getNewValue() == null){
+                                indi.setValorSpinBox(0.0);
+                            }else{
+                                if(vce.getNewValue() instanceof String){
+                                    String valspi = (String) vce.getNewValue();
+                                    indi.setValorSpinBox(new Double(valspi));
+                                }
+                                if(vce.getNewValue() instanceof Integer){
+                                    Double valspi = new Double((Integer) vce.getNewValue());
+                                    indi.setValorSpinBox(new Double(valspi));
+                                }
+                                if(vce.getNewValue() instanceof Double){
+                                    indi.setValorSpinBox(new Double((Double) vce.getNewValue()));
+                                }
+                            }
                         }
                         sumVal = sumVal + indi.getValorSpinBox();
                     }

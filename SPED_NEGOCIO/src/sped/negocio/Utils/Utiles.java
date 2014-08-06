@@ -7,10 +7,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Random;
+
+import javax.faces.model.SelectItem;
+
+import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
 
 public class Utiles {
 
@@ -26,6 +34,14 @@ public class Utiles {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
+    }
+    
+    public static ArrayList llenarCombo(List<BeanComboString> lista) {
+        ArrayList unItems = new ArrayList();
+        for (BeanComboString c : lista) {
+            unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
+        }
+        return unItems;
     }
     
     public static byte[] extractBytes(String ImageName) throws IOException {

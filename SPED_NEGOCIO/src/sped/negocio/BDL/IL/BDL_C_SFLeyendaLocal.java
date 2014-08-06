@@ -22,5 +22,5 @@ public interface BDL_C_SFLeyendaLocal {
     List<Leyenda> getLeyendasByCriterioIndicador_BDL_WS(int nidCriterioIndicador);
     String getLeyendabyEvaluacion_BDL(int nidCriterioIndicador,
                                      int nidFicha,
-                                     int valorValoracion);
+                                     Double valorValoracion);
 }

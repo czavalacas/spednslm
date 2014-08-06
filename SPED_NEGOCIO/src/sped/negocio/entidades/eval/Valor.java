@@ -24,14 +24,14 @@ public class Valor implements Serializable {
     @Column(name = "idValoracion", nullable = false)
     private int nidValoracion;
     @Column(name = "valor", nullable = false)
-    private short valor;
+    private double valor;
     @OneToMany(mappedBy = "valor", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<FichaValor> fichaValorLista;
 
     public Valor() {
     }
 
-    public Valor(String descripcionValor, int nidValoracion, short valor) {
+    public Valor(String descripcionValor, int nidValoracion, double valor) {
         this.descripcionValor = descripcionValor;
         this.nidValoracion = nidValoracion;
         this.valor = valor;
@@ -54,11 +54,11 @@ public class Valor implements Serializable {
         this.nidValoracion = nidValoracion;
     }
 
-    public short getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(short valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 

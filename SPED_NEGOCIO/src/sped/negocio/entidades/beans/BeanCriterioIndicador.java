@@ -14,6 +14,7 @@ public class BeanCriterioIndicador implements Serializable {
     private BeanIndicador indicador;
     private BeanResultado resultadoEvaluacion;
     private BeanLeyenda leyenda;
+    private double maxValor;
 
    /* @Override
     public boolean equals(Object obj){
@@ -28,6 +29,14 @@ public class BeanCriterioIndicador implements Serializable {
         }
     }
 */
+    public void setMaxValor(double maxValor) {
+        this.maxValor = maxValor;
+    }
+
+    public double getMaxValor() {
+        return maxValor;
+    }
+
     public void setNidCriterioIndicador(Integer nidCriterioIndicador) {
         this.nidCriterioIndicador = nidCriterioIndicador;
     }

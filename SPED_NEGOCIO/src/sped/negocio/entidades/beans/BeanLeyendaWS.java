@@ -7,7 +7,7 @@ public class BeanLeyendaWS implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String descripcionLeyenda;
-    private int valor;
+    private Double valor;
 
     public void setDescripcionLeyenda(String descripcionLeyenda) {
         this.descripcionLeyenda = descripcionLeyenda;
@@ -17,11 +17,11 @@ public class BeanLeyendaWS implements Serializable {
         return descripcionLeyenda;
     }
 
-    public void setValor(int valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
-    public int getValor() {
+    public Double getValor() {
         return valor;
     }
 }
