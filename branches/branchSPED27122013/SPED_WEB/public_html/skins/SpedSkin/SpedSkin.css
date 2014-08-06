@@ -25,6 +25,13 @@ af|inputText.rojo::content {
     background-color: red;
 }
 
+af|inputText.naranja::content {
+    color:black; 
+    font-weight: bold;
+    text-align:center;
+    background-color: orange;
+}
+
 af|inputText.amarillo::content {
     color:black; 
     font-weight: bold;

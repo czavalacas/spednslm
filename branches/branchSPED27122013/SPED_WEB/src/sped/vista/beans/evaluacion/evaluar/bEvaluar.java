@@ -188,6 +188,7 @@ public class bEvaluar {
             Iterator itIndi = crit.getLstIndicadores().iterator();
             while(itIndi.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itIndi.next();
+                Utils.sysout("indi: "+indi.getValorSpinBox2());
                 indi.setLstValoresPosCombo(Utils.llenarComboString(indi.getLstValoresPosibles()));
             }
         }
@@ -219,32 +220,41 @@ public class bEvaluar {
             double maxVal = hijos.get(0).getMaxValor() * new Double(hijosSize);
             while(itH.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itH.next();
-                sumVal = sumVal + indi.getValorSpinBox();
+                sumVal = sumVal + indi.getValorSpinBox2();
             }
             double pro = sumVal / new Double(hijosSize);
             int r1 = (int) Math.round( pro * 100);
             pro = r1 / 100.0;
             double vigecimal = (sumVal * 20) / maxVal;
+            int r = (int) Math.round( vigecimal * 100);
+            vigecimal = r / 100.0;
             String estilo = "";
-            if(vigecimal <= 10.49){
+            if(vigecimal <= 11.0){
                 estilo = "rojo";
-            }else if(vigecimal >= 10.50 && vigecimal <= 15.49){
+            }else if(vigecimal >= 11.1 && vigecimal <= 14.0){
+                estilo = "naranja";
+            }else if(vigecimal >= 14.1 && vigecimal <= 17.0){
                 estilo = "amarillo";
             }else{
                 estilo = "verde";
             }
             crit.setEstilo(estilo);
             crit.setNotaVige(vigecimal);
-            valInput = "  "+pro + " / "+ vigecimal+"  ";
+            int r2 = (int) Math.round( sumVal * 100);
+            sumVal = r2 / 100.0;
+            //valInput = "  "+pro + " / "+ vigecimal+"  ";
+            valInput = "  "+sumVal + " / "+ vigecimal+"  ";
             crit.setValorInput(valInput);
             notaProm = notaProm + crit.getNotaVige();
         }
         int r = (int) Math.round( (notaProm/sizeCrits) * 100);
         notaFinal = r / 100.0;
         String estilo = "";
-        if(notaFinal <= 10.49){
+        if(notaFinal <= 11.0){
             estilo = "rojo";
-        }else if(notaFinal >= 10.50 && notaFinal <= 15.49){
+        }else if(notaFinal >= 11.1 && notaFinal <= 14.0){
+            estilo = "naranja";
+        }else if(notaFinal >= 14.1 && notaFinal <= 17.0){
             estilo = "amarillo";
         }else{
             estilo = "verde";
@@ -277,24 +287,25 @@ public class bEvaluar {
                     double maxVal = crit.getMaxValor() * new Double(hijosSize);
                     while(itH.hasNext()){
                         BeanCriterio indi = (BeanCriterio) itH.next();
+                        Utils.sysout("........ vce.getValorSpinBox(): "+indi.getValorSpinBox2());
                         if(indi.getNidCriterio().compareTo(param) == 0){
                             if(vce.getNewValue() == null){
-                                indi.setValorSpinBox(0.0);
+                                indi.setValorSpinBox2(-1.0);
                             }else{
-                                if(vce.getNewValue() instanceof String){
+                                if(vce.getNewValue() instanceof String){Utils.sysout("String vce.getNewValue(): "+vce.getNewValue());
                                     String valspi = (String) vce.getNewValue();
-                                    indi.setValorSpinBox(new Double(valspi));
+                                    indi.setValorSpinBox2(new Double(valspi));
                                 }
-                                if(vce.getNewValue() instanceof Integer){
+                                if(vce.getNewValue() instanceof Integer){Utils.sysout("Integer vce.getNewValue(): "+vce.getNewValue());
                                     Double valspi = new Double((Integer) vce.getNewValue());
-                                    indi.setValorSpinBox(new Double(valspi));
+                                    indi.setValorSpinBox2(new Double(valspi));
                                 }
-                                if(vce.getNewValue() instanceof Double){
-                                    indi.setValorSpinBox(new Double((Double) vce.getNewValue()));
+                                if(vce.getNewValue() instanceof Double){Utils.sysout("Double vce.getNewValue(): "+vce.getNewValue());
+                                    indi.setValorSpinBox2(new Double((Double) vce.getNewValue()));
                                 }
                             }
                         }
-                        sumVal = sumVal + indi.getValorSpinBox();
+                        sumVal = sumVal + indi.getValorSpinBox2();
                     }
                     double vigecimal = (sumVal * 20) / new Double(maxVal);
                     crit.setNotaVige(vigecimal);
@@ -330,7 +341,7 @@ public class bEvaluar {
                 reset = false;
                 severidad = 1;
                 error.setTituloError("Faltan campos por llenar");
-                error.setDescripcionError("Asigne un valor mayor a cero para todos los indicadores");
+                error.setDescripcionError("Asigne un valor de la lista para todos los indicadores");
             }
             msjGen.setText(error.getTituloError());
             Utils.addTarget(msjGen);
@@ -372,7 +383,6 @@ public class bEvaluar {
             e.printStackTrace();            
         }
     }
-    
     
     public void grabarEvaluacionParcialAux(boolean valid){
         try {
@@ -448,14 +458,19 @@ public class bEvaluar {
     }
     
     private boolean isOK(){
-        Iterator it = sessionEvaluar.getLstCriteriosMultiples().iterator();
+        ChildPropertyTreeModel permisosTree = sessionEvaluar.getPermisosTree();
+        List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) permisosTree.getWrappedData();
+        Iterator it = lstBeanCriterio.get(0).getLstIndicadores().iterator();
+       // Iterator it = sessionEvaluar.getLstCriteriosMultiples().iterator();
         while(it.hasNext()){
             BeanCriterio crit = (BeanCriterio) it.next();
             List<BeanCriterio> hijos = crit.getLstIndicadores();
             Iterator itH = hijos.iterator();
             while(itH.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itH.next();
-                if(indi.getValorSpinBox() <= 0){
+                Utils.sysout(indi.getDescripcionCriterio()+"   indi.getValorSpinBox(): "+indi.getValorSpinBox2()
+                             +" size: "+indi.getLstValoresPosCombo().size()+ " msj: ");
+                if(indi.getValorSpinBox2() < 0.0){
                     return false;
                 }
             }
@@ -475,7 +490,7 @@ public class bEvaluar {
             Iterator itH = hijos.iterator();
             while(itH.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itH.next();
-                if(indi.getValorSpinBox() > 0){
+                if(indi.getValorSpinBox2() > 0){
                     cant++;
                     if(cant >= 5){
                         resultValida[0] = true;

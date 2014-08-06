@@ -12,7 +12,7 @@ import sped.negocio.entidades.eval.CriterioIndicador;
 public interface LN_C_SFLeyendaLocal {
     BeanLeyenda getLeyendabyEvaluacion(CriterioIndicador cri,
                                        int nidFicha, 
-                                       int valor);
+                                       double valor);
     /**
      * Metodo que retorna la lista de leyendas segun el indicador, usado para mostrar en el aplicativo Movil
      * @param nidCriterioIndicador id del criterioIndicador
