@@ -488,12 +488,12 @@ public class bRegistrarFicha {
                         ln_T_SFFichaLocal.eliminarFichaCriterio(sessionRegistrarFicha.getFichaEditarClon().getNidFicha());
                     }
                     BeanFicha beanFicha = ln_T_SFFichaLocal.registrarFicha(sessionRegistrarFicha.getTipoFicha(),
-                                                                             sessionRegistrarFicha.getTipFichaCurs(),
-                                                                             sessionRegistrarFicha.getVersionGenerada(),
-                                                                             sessionRegistrarFicha.getNumValores(),
-                                                                             sessionRegistrarFicha.getLstCriteriosMultiples(),
-                                                                             sessionRegistrarFicha.getTipEvento(),
-                                                                             (sessionRegistrarFicha.getTipEvento() == 2 ? sessionRegistrarFicha.getFichaEditarClon().getNidFicha() : 0));
+                                                                           sessionRegistrarFicha.getTipFichaCurs(),
+                                                                           sessionRegistrarFicha.getVersionGenerada(),
+                                                                           sessionRegistrarFicha.getNumValores(),
+                                                                           sessionRegistrarFicha.getLstCriteriosMultiples(),
+                                                                           sessionRegistrarFicha.getTipEvento(),
+                                                                           (sessionRegistrarFicha.getTipEvento() == 2 ? sessionRegistrarFicha.getFichaEditarClon().getNidFicha() : 0));
                     if (beanFicha.getBeanError() != null) {
                         BeanError error = beanFicha.getBeanError();
                         int severidad = 0;

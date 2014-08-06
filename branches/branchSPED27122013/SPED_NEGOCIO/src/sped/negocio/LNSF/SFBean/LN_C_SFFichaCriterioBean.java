@@ -1,6 +1,7 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,12 +20,15 @@ import net.sf.dozer.util.mapping.MapperIF;
 import sped.negocio.BDL.IL.BDL_C_SFFichaCriterioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFResultadoCriterioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFResultadoLocal;
+import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.BDL.IR.BDL_C_SFValorRemote;
 import sped.negocio.LNSF.IL.LN_C_SFCriterioIndicadorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFResultadoCriterioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFFichaCriterioRemote;
 import sped.negocio.Utils.Utiles;
+import sped.negocio.entidades.beans.BeanComboDouble;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanFicha;
@@ -52,6 +56,8 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
     private BDL_C_SFResultadoLocal bdL_C_SFResultadoLocal;
     @EJB
     private BDL_C_SFResultadoCriterioLocal bdL_C_SFResultadoCriterioLocal;
+    @EJB
+    private BDL_C_SFUtilsLocal bdL_C_SFUtilsLocal;
     private MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFFichaCriterioBean() {
@@ -163,6 +169,9 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setOrden(critIndi.getOrden());
             crit.setSelected(true);
             crit.setNidCriterioIndicador(critIndi.getNidCriterioIndicador());
+            crit.setMaxValor(critIndi.getMaxValor());
+            //crit.setLstValoresPosCombo(Utiles.llenarCombo(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador())));
+            crit.setLstValoresPosibles(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador()));
             //crit.setValorSpinBox(critIndi.get);
             boolean bool = false;
             if(indx == lstCrisIndis.size()){
@@ -195,7 +204,10 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setOrden(critIndi.getOrden());
             crit.setSelected(true);
             crit.setNidCriterioIndicador(critIndi.getNidCriterioIndicador());
+            crit.setMaxValor(critIndi.getMaxValor());
             crit.setValorSpinBox(bdL_C_SFResultadoLocal.getValorResultadoByNidCriterioIndicador_Evaluacion(critIndi.getNidCriterioIndicador(),nidEvaluacion));
+            crit.setLstValoresPosibles(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador()));
+            //crit.setLstValoresPosCombo(Utiles.llenarCombo(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador())));
             boolean bool = false;
             if(indx == lstCrisIndis.size()){
                 bool = true;
@@ -237,5 +249,22 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             lstBeanFC.add(bean);
         }
         return lstBeanFC;
+    }
+    
+    public List<BeanComboString> getLstValoresPosibles(int nidCritIndi){
+        try {
+            List<BeanComboString> lstVals = new ArrayList<BeanComboString>();
+            List<BeanComboDouble> lstDoub = bdL_C_SFUtilsLocal.getPosibleListaValoresIndicador(nidCritIndi);
+            Iterator it = lstDoub.iterator();
+            while (it.hasNext()) {
+                BeanComboDouble bcd = (BeanComboDouble) it.next();
+                String val = String.valueOf(bcd.getDescripcion());
+                lstVals.add(new BeanComboString(val, val));
+            }
+            return lstVals;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

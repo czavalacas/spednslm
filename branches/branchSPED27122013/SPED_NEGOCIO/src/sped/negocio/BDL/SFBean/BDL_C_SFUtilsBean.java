@@ -22,6 +22,7 @@ import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.ConstraintPK;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboDouble;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.sist.Log;
@@ -413,6 +414,20 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
             qlString = qlString.concat(" ORDER BY e.nombres ASC ");
             List<BeanCombo> lstUsuarios = em.createQuery(qlString).getResultList();        
             return lstUsuarios;       
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
+    }
+    
+    public List<BeanComboDouble> getPosibleListaValoresIndicador(int nidCritIndi){
+        try{
+            String qlString = "SELECT NEW sped.negocio.entidades.beans.BeanComboDouble(v.valor,v.valor) " +
+                              "FROM Valor v, Leyenda d " +
+                              "WHERE d.fichaValor.valor.nidValoracion = v.nidValoracion " +
+                              "AND   d.criterioIndicador.nidCriterioIndicador = :nidCritIndi ";
+            List<BeanComboDouble> lstValores = em.createQuery(qlString).setParameter("nidCritIndi",nidCritIndi).getResultList();
+            return lstValores;       
         }catch(Exception e){
             e.printStackTrace();  
             return null;

@@ -112,7 +112,7 @@
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
                                        binding="#{bEvaluar.btnParcial}"/>
                             <af:button text="Calcular" id="btnCalc" binding="#{bEvaluar.btnCalc}"
-                                       actionListener="#{bEvaluar.calcularNota}"
+                                       actionListener="#{bEvaluar.calcularNota}" immediate="true"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
                             <af:button text="Comentario/Tema" id="btnCmt" binding="#{bEvaluar.btnCmt}"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
@@ -131,9 +131,15 @@
                                                    shortDesc="#{row.nidCriterio}"/>
                                 </af:column>
                             </f:facet>
-                            <af:column width="70" headerText="Puntaje" align="center">
+                            <af:column width="90" headerText="Puntaje" align="center">
+                                <af:selectOneChoice id="soc1" simple="true" rendered="#{row.displaySpinBox}" value="#{row.valorSpinBox}"
+                                                    autoSubmit="true" immediate="true" valueChangeListener="#{bEvaluar.cambiarValor}">
+                                    <f:selectItems value="#{row.lstValoresPosCombo}" id="si1"/>
+                                    <f:attribute name="idcrit" value="#{row.nidCriterio}"/>
+                                    <f:attribute name="idcritPapa" value="#{row.nidCriterioPadre}"/>
+                                </af:selectOneChoice>
                                 <af:inputNumberSpinbox id="ins1" columns="1" minimum="0" styleClass="evaluar"
-                                                       rendered="#{row.displaySpinBox}" value="#{row.valorSpinBox}"
+                                                       rendered="false" value="#{row.valorSpinBox}"
                                                        maximum="#{sessionScope.sessionEvaluar.maxValor}"
                                                        autoSubmit="true" immediate="true"
                                                        valueChangeListener="#{bEvaluar.cambiarValor}"
