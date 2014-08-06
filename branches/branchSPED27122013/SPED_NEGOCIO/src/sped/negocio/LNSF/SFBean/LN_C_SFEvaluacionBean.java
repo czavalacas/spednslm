@@ -604,7 +604,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 bindi = new BeanIndicadorValorWS();
                 bindi.setIndice((j+1));
                 bindi.setDescripcionIndicador(resultados.get(j).getCriterioIndicador().getIndicador().getDescripcionIndicador());
-                bindi.setValor(new Integer(resultados.get(j).getValor()));
+                bindi.setValor(new Double(resultados.get(j).getValor()));
                 /*rc.getFichaCriterio().getCriterio().getNidCriterio(), 
                                                                                  resultados.get(j).getCriterioIndicador().getIndicador().getNidIndicador(), 
                                                                                  rc.getFichaCriterio().getFicha().getNidFicha(), 

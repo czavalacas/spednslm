@@ -68,12 +68,12 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public BeanFicha registrarFicha(String tipFicha,
-                                     String tipFichaCurso,
-                                     String version,
-                                     int numVal,
-                                     List<BeanCriterio> listaCritsIndis,
-                                     int evento,
-                                     int nidFicha){//1 INSERTAR, 2 ACTUALIZAR
+                                    String tipFichaCurso,
+                                    String version,
+                                    int numVal,
+                                    List<BeanCriterio> listaCritsIndis,
+                                    int evento,
+                                    int nidFicha){//1 INSERTAR, 2 ACTUALIZAR
         BeanError beanError = new BeanError();
         Ficha ficha = new Ficha();
         BeanFicha bFicha = new BeanFicha();
@@ -101,7 +101,8 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
                     Iterator it = ficha.getFichaValorLista().iterator();
                     while (it.hasNext()) {
                         FichaValor fichVal = (FichaValor) it.next();
-                        idx = fichVal.getValor().getValor() + 1;
+                        //idx = fichVal.getValor().getValor() + 1;
+                        idx++;
                         if (idx > numVal) {
                             FichaValor fichValor = bdL_C_SFFichaValorLocal.findFichaValorById(fichVal.getNidFichaValor());
                             bdL_T_SFFichaValorLocal.removeFichaValor(fichValor);
