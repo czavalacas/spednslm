@@ -268,7 +268,8 @@ public class Utils {
     
     public static ArrayList llenarComboString(List<BeanComboString> lista) {
         ArrayList unItems = new ArrayList();
-        for (BeanComboString c : lista) {      
+        unItems.add(new SelectItem("-1.0",":: Valor ::" ));
+        for (BeanComboString c : lista) {
             unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
         }
         return unItems;

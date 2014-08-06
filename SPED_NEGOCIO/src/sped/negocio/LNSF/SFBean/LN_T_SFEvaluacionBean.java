@@ -243,8 +243,8 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                         resultado.setCriterioIndicador(ci);
                         resultado.setEvaluacion(eva);
                         resultado.setNidSede(eva.getMain().getAula().getSede().getNidSede());
-                        resultado.setValor((short) beanIV.getValorSpinBox());
-                        resultado.setNotaVigecimal((beanIV.getValorSpinBox() * 20) / new Double(ci.getFichaCriterio().getFicha().getFichaValorLista().size()) );
+                        resultado.setValor(beanIV.getValorSpinBox2());
+                        resultado.setNotaVigecimal((beanIV.getValorSpinBox2() * 20) / new Double(ci.getFichaCriterio().getFicha().getFichaValorLista().size()) );
                         // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
                         resultado.setToNotification(resultado.getNotaVigecimal() <= 10.49 || resultado.getNotaVigecimal() >= 17.00 ? "1" : "0");
                         bdL_T_SFResultadoLocal.persistResultado(resultado);
@@ -315,8 +315,8 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                         resultado.setCriterioIndicador(ci);
                         resultado.setEvaluacion(eva);
                         resultado.setNidSede(eva.getMain().getAula().getSede().getNidSede());
-                        resultado.setValor((short) beanIV.getValorSpinBox());
-                        resultado.setNotaVigecimal((beanIV.getValorSpinBox() * 20) / new Double(ci.getFichaCriterio().getFicha().getFichaValorLista().size()) );
+                        resultado.setValor(beanIV.getValorSpinBox2());
+                        resultado.setNotaVigecimal((beanIV.getValorSpinBox2() * 20) / new Double(ci.getFichaCriterio().getFicha().getFichaValorLista().size()) );
                         // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
                         resultado.setToNotification("0");
                         bdL_T_SFResultadoLocal.persistResultado(resultado);

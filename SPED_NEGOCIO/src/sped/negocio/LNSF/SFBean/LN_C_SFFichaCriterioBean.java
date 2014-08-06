@@ -126,9 +126,11 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
                                                                                                 nidEvaluacion,
                                                                                                 fichaCriterio.getCriterio().getNidCriterio());
             String estilo = "";
-            if(vigecimal <= 10.49){
+            if(vigecimal <= 11.0){
                 estilo = "rojo";
-            }else if(vigecimal >= 10.50 && vigecimal <= 15.49){
+            }else if(vigecimal >= 11.1 && vigecimal <= 14.0){
+                estilo = "naranja";
+            }else if(vigecimal >= 14.1 && vigecimal <= 17.0){
                 estilo = "amarillo";
             }else{
                 estilo = "verde";
@@ -168,6 +170,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setNidCriterio(critIndi.getIndicador().getNidIndicador());
             crit.setOrden(critIndi.getOrden());
             crit.setSelected(true);
+            crit.setValorSpinBox2(-1.0);
             crit.setNidCriterioIndicador(critIndi.getNidCriterioIndicador());
             crit.setMaxValor(critIndi.getMaxValor());
             //crit.setLstValoresPosCombo(Utiles.llenarCombo(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador())));
@@ -205,7 +208,11 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setSelected(true);
             crit.setNidCriterioIndicador(critIndi.getNidCriterioIndicador());
             crit.setMaxValor(critIndi.getMaxValor());
-            crit.setValorSpinBox(bdL_C_SFResultadoLocal.getValorResultadoByNidCriterioIndicador_Evaluacion(critIndi.getNidCriterioIndicador(),nidEvaluacion));
+            double valorSBox = bdL_C_SFResultadoLocal.getValorResultadoByNidCriterioIndicador_Evaluacion(critIndi.getNidCriterioIndicador(),nidEvaluacion);
+            if(valorSBox == 0.0){
+                valorSBox = -1.0;
+            }
+            crit.setValorSpinBox2(valorSBox);
             crit.setLstValoresPosibles(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador()));
             //crit.setLstValoresPosCombo(Utiles.llenarCombo(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador())));
             boolean bool = false;

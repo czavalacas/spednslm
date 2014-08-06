@@ -27,7 +27,7 @@ import sped.negocio.entidades.eval.Leyenda;
 
 @Stateless(name = "LN_C_SFLeyenda", mappedName = "mapLN_C_SFLeyenda")
 public class LN_C_SFLeyendaBean implements LN_C_SFLeyendaRemote, 
-                                              LN_C_SFLeyendaLocal {
+                                           LN_C_SFLeyendaLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -41,7 +41,7 @@ public class LN_C_SFLeyendaBean implements LN_C_SFLeyendaRemote,
     
     public BeanLeyenda getLeyendabyEvaluacion(CriterioIndicador cri,
                                               int nidFicha, 
-                                              int valor){
+                                              double valor){
         return (BeanLeyenda) mapper.map(bdL_C_SFLeyendaLocal.getLeyendabyEvaluacion(cri, nidFicha, valor), BeanLeyenda.class);
     }
     
