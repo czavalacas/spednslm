@@ -159,7 +159,9 @@ public class bEvaluar {
                 sessionEvaluar.setComentarioEvaluador(sessionEvaluar.getPlanifSelect().getComentario_evaluador());
                 sessionEvaluar.setTemaEvaluacion(sessionEvaluar.getPlanifSelect().getTemaEvaluacion());
                 if("1".equalsIgnoreCase(sessionEvaluar.getPlanifSelect().getFlgParcial())){
-                    sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFichaConValores(valoresFicha[0],sessionEvaluar.getPlanifSelect().getNidEvaluacion()));
+                    sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.
+                                                            getListaCriteriosByFichaConValores(valoresFicha[0],
+                                                                                               sessionEvaluar.getPlanifSelect().getNidEvaluacion()));
                 }else{
                     sessionEvaluar.setLstCriteriosMultiples(ln_C_SFFichaCriterioLocal.getListaCriteriosByFicha(valoresFicha[0]));
                 }
@@ -189,6 +191,7 @@ public class bEvaluar {
             while(itIndi.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itIndi.next();
                 Utils.sysout("indi: "+indi.getValorSpinBox2());
+                indi.setValorSpinBox(indi.getValorSpinBox2());
                 indi.setLstValoresPosCombo(Utils.llenarComboString(indi.getLstValoresPosibles()));
             }
         }
@@ -220,11 +223,11 @@ public class bEvaluar {
             double maxVal = hijos.get(0).getMaxValor() * new Double(hijosSize);
             while(itH.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itH.next();
-                sumVal = sumVal + indi.getValorSpinBox2();
+                sumVal = sumVal + (indi.getValorSpinBox2() == -1.0 ? 0.0 : indi.getValorSpinBox2());
             }
-            double pro = sumVal / new Double(hijosSize);
+            /*double pro = sumVal / new Double(hijosSize);
             int r1 = (int) Math.round( pro * 100);
-            pro = r1 / 100.0;
+            pro = r1 / 100.0;*/
             double vigecimal = (sumVal * 20) / maxVal;
             int r = (int) Math.round( vigecimal * 100);
             vigecimal = r / 100.0;
@@ -287,21 +290,24 @@ public class bEvaluar {
                     double maxVal = crit.getMaxValor() * new Double(hijosSize);
                     while(itH.hasNext()){
                         BeanCriterio indi = (BeanCriterio) itH.next();
-                        Utils.sysout("........ vce.getValorSpinBox(): "+indi.getValorSpinBox2());
                         if(indi.getNidCriterio().compareTo(param) == 0){
                             if(vce.getNewValue() == null){
                                 indi.setValorSpinBox2(-1.0);
+                                indi.setValorSpinBox(-1.0);
                             }else{
                                 if(vce.getNewValue() instanceof String){Utils.sysout("String vce.getNewValue(): "+vce.getNewValue());
                                     String valspi = (String) vce.getNewValue();
                                     indi.setValorSpinBox2(new Double(valspi));
+                                    indi.setValorSpinBox(new Double(valspi));
                                 }
                                 if(vce.getNewValue() instanceof Integer){Utils.sysout("Integer vce.getNewValue(): "+vce.getNewValue());
                                     Double valspi = new Double((Integer) vce.getNewValue());
                                     indi.setValorSpinBox2(new Double(valspi));
+                                    indi.setValorSpinBox(new Double(valspi));
                                 }
                                 if(vce.getNewValue() instanceof Double){Utils.sysout("Double vce.getNewValue(): "+vce.getNewValue());
                                     indi.setValorSpinBox2(new Double((Double) vce.getNewValue()));
+                                    indi.setValorSpinBox(new Double((Double) vce.getNewValue()));
                                 }
                             }
                         }
@@ -468,9 +474,8 @@ public class bEvaluar {
             Iterator itH = hijos.iterator();
             while(itH.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itH.next();
-                Utils.sysout(indi.getDescripcionCriterio()+"   indi.getValorSpinBox(): "+indi.getValorSpinBox2()
-                             +" size: "+indi.getLstValoresPosCombo().size()+ " msj: ");
-                if(indi.getValorSpinBox2() < 0.0){
+                Utils.sysout(indi.getDescripcionCriterio()+" ---indi.getValorSpinBox(): "+indi.getValorSpinBox2()+ "val2_ "+indi.getValorSpinBox());
+                if(indi.getValorSpinBox() < 0.0){
                     return false;
                 }
             }
@@ -489,7 +494,7 @@ public class bEvaluar {
             List<BeanCriterio> hijos = crit.getLstIndicadores();
             Iterator itH = hijos.iterator();
             while(itH.hasNext()){
-                BeanCriterio indi = (BeanCriterio) itH.next();
+                BeanCriterio indi = (BeanCriterio) itH.next();Utils.sysout("indi.getValorSpinBox2(): "+indi.getValorSpinBox2());
                 if(indi.getValorSpinBox2() > 0){
                     cant++;
                     if(cant >= 5){

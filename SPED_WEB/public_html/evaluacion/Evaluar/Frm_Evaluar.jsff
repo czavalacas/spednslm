@@ -132,7 +132,8 @@
                                 </af:column>
                             </f:facet>
                             <af:column width="90" headerText="Puntaje" align="center">
-                                <af:selectOneChoice id="soc1" simple="true" rendered="#{row.displaySpinBox}" value="#{row.valorSpinBox2}"
+                                <af:selectOneChoice id="soc1" simple="true" rendered="#{row.displaySpinBox}" 
+                                                    value="#{row.valorSpinBox2}"
                                                     autoSubmit="true" immediate="true" valueChangeListener="#{bEvaluar.cambiarValor}"
                                                     shortDesc="#{row.valorSpinBox2}">
                                     <f:selectItems value="#{row.lstValoresPosCombo}" id="si1"/>
@@ -149,12 +150,14 @@
             </af:panelSplitter>
             <af:popup childCreation="deferred" autoCancel="disabled" id="popCmt" binding="#{bEvaluar.popCmt}">
                 <af:dialog type="okCancel" title="Ingresar el Comentario y/o el Tema de la Evaluacion">
-                    <af:inputText label="Tema" id="itTema" rows="2" maximumLength="300"
-                                  value="#{sessionScope.sessionEvaluar.temaEvaluacion}" autoSubmit="true"
-                                  columns="60" binding="#{bEvaluar.itTema}"/>
-                    <af:inputText label="Comentario" id="itCmmt" binding="#{bEvaluar.itCmmt}" rows="15"
+                    <af:panelFormLayout>
+                         <af:inputText label="Tema" id="itTema" rows="2" maximumLength="300"
+                                      value="#{sessionScope.sessionEvaluar.temaEvaluacion}" autoSubmit="true"
+                                      columns="60" binding="#{bEvaluar.itTema}"/>
+                        <af:inputText label="Comentario" id="itCmmt" binding="#{bEvaluar.itCmmt}" rows="15"
                                   value="#{sessionScope.sessionEvaluar.comentarioEvaluador}" autoSubmit="true"
                                   columns="60"/>
+                    </af:panelFormLayout>
                 </af:dialog>
             </af:popup>
             <af:popup childCreation="deferred" autoCancel="disabled" id="popMsj" binding="#{bEvaluar.popMsj}">
