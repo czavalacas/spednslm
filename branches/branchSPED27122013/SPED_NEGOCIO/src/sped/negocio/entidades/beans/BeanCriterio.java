@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.eval.FichaCriterio;
 
 public class BeanCriterio implements Serializable, Cloneable {
@@ -33,6 +34,7 @@ public class BeanCriterio implements Serializable, Cloneable {
     private String displayInput;
     private String valorInput;
     private double valorSpinBox;
+    private double valorSpinBox2;
     private String estilo;
     private Integer nidCriterioPadre;
     private double notaVige;
@@ -42,7 +44,7 @@ public class BeanCriterio implements Serializable, Cloneable {
     private double maxValor;
     private List<BeanComboString> lstValoresPosibles = new ArrayList<BeanComboString>();
     private List lstValoresPosCombo;
-    
+
     public Object clone() {
         Object clone = null;
         try {
@@ -77,6 +79,14 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+
+    public void setValorSpinBox2(double valorSpinBox2) {
+        this.valorSpinBox2 = valorSpinBox2;
+    }
+
+    public double getValorSpinBox2() {
+        return valorSpinBox2;
     }
 
     public void setLstValoresPosCombo(List lstValoresPosCombo) {
