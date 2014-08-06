@@ -173,9 +173,10 @@
                                              binding="#{bEvaluar.otError}" value="#{requestScope.bEvaluar.error}"/>
                         <af:panelGroupLayout>
                             <af:button text="Grabar Parcialmente" id="btnGrabarAux" actionListener="#{bEvaluar.grabarEvaluacionParcialFinal}"
+                                       rendered="false"
                                        binding="#{bEvaluar.btnGrabarAux}"/>
                             <af:button text="Registrar Evaluacion" id="btnRegistrarAux" styleClass="FondoRojoLetraBlanca" actionListener="#{bEvaluar.grabarEvaluacion}"
-                                       binding="#{bEvaluar.btnRegistrarAux}"/>
+                                       binding="#{bEvaluar.btnRegistrarAux}" rendered="false"/>
                         </af:panelGroupLayout>
                     </af:panelFormLayout>
                 </af:dialog>
