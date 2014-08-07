@@ -245,15 +245,10 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                         resultado.setNidSede(eva.getMain().getAula().getSede().getNidSede());
                         resultado.setValor(beanIV.getValorSpinBox2());
                         double dobNot = beanIV.getValorSpinBox2() * 20 / beanIV.getMaxValor();
-                        resultado.setNotaVigecimal(dobNot);Utiles.sysout("dobNot: "+dobNot);
-                        // * 20.0 / (beanIV.getMaxValor())
-                        //new Double(ci.getFichaCriterio().getFicha().getFichaValorLista().size())
+                        resultado.setNotaVigecimal(dobNot);
                         // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
                         resultado.setToNotification(resultado.getNotaVigecimal() <= 10.49 || resultado.getNotaVigecimal() >= 17.00 ? "1" : "0");
                         bdL_T_SFResultadoLocal.persistResultado(resultado);
-                        Utiles.sysout("resultado.NOTAVIG: "+resultado.getNotaVigecimal()+
-                                      " beanIV.getValorSpinBox2(): "+beanIV.getValorSpinBox2()+
-                                      " beanIV.getMaxValor():"+beanIV.getMaxValor());
                     }
                 }
                 ln_T_SFResultadoCriterioLocal.registrarResultadoCriterios_Web(lstBeanIndiVal,eva);
