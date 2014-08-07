@@ -558,7 +558,7 @@ public class bRegistrarFicha {
         sessionRegistrarFicha.setTipFichaCurs(clon.getTipoFichaCurso());
         if(sessionRegistrarFicha.getLstTiposFichaCurso() != null){
             sessionRegistrarFicha.getLstTiposFichaCurso().clear();
-        }
+        }Utils.sysout("clon.getTipoFicha(): "+clon.getTipoFicha()+" clon.getTipoFichaCurso(): "+clon.getTipoFichaCurso());
         sessionRegistrarFicha.setLstTiposFichaCurso(Utils.llenarComboString(ln_C_SFFichaRemote.getListaTiposFichaByTipoRol_LN(clon.getTipoFicha())));
         Utils.addTarget(socTipFichaCurs);
         
