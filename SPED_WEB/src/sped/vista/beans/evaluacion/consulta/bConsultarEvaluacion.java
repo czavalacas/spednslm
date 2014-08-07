@@ -296,11 +296,11 @@ public class bConsultarEvaluacion {
                 XWPFRunStyle(paragraphthreeRunFive, false, 0, " \t1.6.  Fecha\t"
                                                                 +rangoFecha(eva));
                 paragraphthreeRunFive.addBreak();
-                XWPFRun paragraphthreeRunSix = paragraphthree.createRun();
+                /*XWPFRun paragraphthreeRunSix = paragraphthree.createRun();
                 XWPFRunStyle(paragraphthreeRunSix, false, 0, " \t1.7.  Valores\t"
                                                                 +ln_C_SFValorLocal.getRangoValorByFicha(
                                                                         LstBeanFC.get(0).getFicha().getNidFicha()));
-                paragraphthreeRunSix.addBreak();
+                paragraphthreeRunSix.addBreak();*/
                 if(eva.getTemaEvaluacion() != null && eva.getTemaEvaluacion().isEmpty()){
                     XWPFRun paragraphthreeRunSeven = paragraphthree.createRun();
                     XWPFRunStyle(paragraphthreeRunSeven, false, 0, " \t1.8.  Tema\t"
@@ -324,14 +324,19 @@ public class bConsultarEvaluacion {
                 rowOne.createCell();
                 rowOne.getCell(3).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[3]));
                 createParagraphCell(rowOne.getCell(3), "Descripci\u00f3n", 1, true, "000000", "ffffff",11);
+                /** Empieza a Pintar los criterios/factores */
                 for(int i = 0; i < sizeCri; i++){
                     XWPFTableRow row = table.createRow();
                     createParagraphCell(row.getCell(0), (i+1)+"", 1, true,"808080","ffffff",11);
                     createParagraphCell(row.getCell(1), LstBeanFC.get(i).getDescripcionCriterio(), 0, true,"808080","ffffff",10);
                     double notaC = LstBeanFC.get(i).getResultadoCriterio().getValor();
-                    createParagraphCell(row.getCell(2), Pnota(notaC), 1, true,colorNota(notaC),"808080",10);
-                    createParagraphCell(row.getCell(3), "", 1, true,"808080","",10);
+                    double sumaVals = this.sumaValoresByCriterio(LstBeanFC.get(i));
+                    createParagraphCell(row.getCell(2), Pnota(notaC)+ "   "+sumaVals, 1, true,colorNota(notaC),"808080",10);
+                    String valoresPosibles = ln_C_SFValorLocal.getValoresPosiblesByCriterio(LstBeanFC.get(i).getNidCriterio(), 
+                                                                                            LstBeanFC.get(0).getFicha().getNidFicha());
+                    createParagraphCell(row.getCell(3), valoresPosibles, 0, true,"808080","ffffff",10);
                     totalCriterios = totalCriterios + LstBeanFC.get(i).getResultadoCriterio().getValor();
+                    /** Empieza a Pintar los indicadores/sub-factores */
                     for(int j = 0; j < LstBeanFC.get(i).getLstcriterioIndicador().size(); j++){
                         XWPFTableRow subrow = table.createRow();
                         BeanCriterioIndicador crin = LstBeanFC.get(i).getLstcriterioIndicador().get(j);
@@ -407,6 +412,17 @@ public class bConsultarEvaluacion {
             color = "00ff00";
         }
         return color;
+    }
+    
+    public double sumaValoresByCriterio(BeanFichaCriterio beanfc){
+        double sumVal = 0.0;
+        for(int j = 0; j < beanfc.getLstcriterioIndicador().size(); j++){
+            BeanCriterioIndicador crin = beanfc.getLstcriterioIndicador().get(j);
+            sumVal = sumVal + crin.getResultadoEvaluacion().getValor();
+        }
+        int r = (int) Math.round( sumVal * 100);
+        sumVal = r / 100.0;
+        return sumVal;
     }
     
     public void comentarEvaluacion(ActionEvent actionEvent) {

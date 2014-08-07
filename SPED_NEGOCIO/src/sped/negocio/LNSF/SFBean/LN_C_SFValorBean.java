@@ -31,4 +31,7 @@ public class LN_C_SFValorBean implements LN_C_SFValorRemote,
         return bdL_C_SFValorLocal.getRangoValorByFicha(nidFicha);
     }
     
+    public String getValoresPosiblesByCriterio(int nidCriterio,int nidFicha){
+        return bdL_C_SFValorLocal.getValoresByCriterio(nidCriterio,nidFicha);
+    }
 }
