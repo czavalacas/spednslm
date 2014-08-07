@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFLeyendaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFLeyendaRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.eval.CriterioIndicador;
 import sped.negocio.entidades.eval.Leyenda;
 
@@ -23,16 +24,16 @@ public class BDL_C_SFLeyendaBean implements BDL_C_SFLeyendaRemote,
     public BDL_C_SFLeyendaBean() {
     }
     
-    public Leyenda getLeyendabyEvaluacion(CriterioIndicador cri,
+    public Leyenda getLeyendabyEvaluacion(int nidCriterioIndicador,//dfloresgonz 07.08.2014 - Se cambia el parametro para que busque x la PK y no por todo el objeto
                                           int nidFicha,
                                           double valorValoracion){        
         try{
             String strQuery = "SELECT o " +
                               "FROM Leyenda o " +
-                              "WHERE o.criterioIndicador = :crInd " +
+                              "WHERE o.criterioIndicador.nidCriterioIndicador = :crInd " +//dfloresgonz 07.08.2014 - Se cambia el filtro para que busque x la PK y no por todo el objeto
                               "AND o.fichaValor.ficha.nidFicha = :nid_Ficha " +
                               "AND o.fichaValor.valor.valor = :valor";
-            return (Leyenda) em.createQuery(strQuery).setParameter("crInd", cri)
+            return (Leyenda) em.createQuery(strQuery).setParameter("crInd", nidCriterioIndicador)
                                                      .setParameter("nid_Ficha", nidFicha)
                                                      .setParameter("valor", valorValoracion)
                                                      .getSingleResult();

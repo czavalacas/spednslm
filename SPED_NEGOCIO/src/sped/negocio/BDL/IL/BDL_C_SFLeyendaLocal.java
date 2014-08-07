@@ -9,7 +9,7 @@ import sped.negocio.entidades.eval.Leyenda;
 
 @Local
 public interface BDL_C_SFLeyendaLocal {
-    Leyenda getLeyendabyEvaluacion(CriterioIndicador cri,
+    Leyenda getLeyendabyEvaluacion(int nidCriterioIndicador,
                                    int nidFicha,
                                    double valorValoracion);
     /**
