@@ -10,7 +10,7 @@ import sped.negocio.entidades.eval.CriterioIndicador;
 
 @Remote
 public interface LN_C_SFLeyendaRemote {
-    BeanLeyenda getLeyendabyEvaluacion(CriterioIndicador cri,
+    BeanLeyenda getLeyendabyEvaluacion(int nidCriterioIndicador,
                                        int nidFicha, 
                                        double valor);
     /**
