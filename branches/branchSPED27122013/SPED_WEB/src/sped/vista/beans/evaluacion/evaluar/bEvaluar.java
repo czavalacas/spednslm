@@ -28,10 +28,13 @@ import sped.negocio.LNSF.IL.LN_C_SFFichaLocal;
 import sped.negocio.LNSF.IL.LN_T_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
 import sped.negocio.entidades.beans.BeanUsuario;
+import sped.negocio.entidades.eval.ResultadoCriterio;
+
 import sped.vista.Utils.Utils;
 
 public class bEvaluar {
@@ -287,25 +290,26 @@ public class bEvaluar {
                     int hijosSize = hijos.size();
                     double sumVal = 0.0;
                     //int maxVal = sessionEvaluar.getMaxValor() * hijosSize;
-                    double maxVal = crit.getMaxValor() * new Double(hijosSize);
+                    double maxVal = 0.0;
                     while(itH.hasNext()){
                         BeanCriterio indi = (BeanCriterio) itH.next();
+                        maxVal = indi.getMaxValor() * new Double(hijosSize);
                         if(indi.getNidCriterio().compareTo(param) == 0){
                             if(vce.getNewValue() == null){
                                 indi.setValorSpinBox2(-1.0);
                                 indi.setValorSpinBox(-1.0);
                             }else{
-                                if(vce.getNewValue() instanceof String){Utils.sysout("String vce.getNewValue(): "+vce.getNewValue());
+                                if(vce.getNewValue() instanceof String){
                                     String valspi = (String) vce.getNewValue();
                                     indi.setValorSpinBox2(new Double(valspi));
                                     indi.setValorSpinBox(new Double(valspi));
                                 }
-                                if(vce.getNewValue() instanceof Integer){Utils.sysout("Integer vce.getNewValue(): "+vce.getNewValue());
+                                if(vce.getNewValue() instanceof Integer){
                                     Double valspi = new Double((Integer) vce.getNewValue());
                                     indi.setValorSpinBox2(new Double(valspi));
                                     indi.setValorSpinBox(new Double(valspi));
                                 }
-                                if(vce.getNewValue() instanceof Double){Utils.sysout("Double vce.getNewValue(): "+vce.getNewValue());
+                                if(vce.getNewValue() instanceof Double){
                                     indi.setValorSpinBox2(new Double((Double) vce.getNewValue()));
                                     indi.setValorSpinBox(new Double((Double) vce.getNewValue()));
                                 }
@@ -313,8 +317,12 @@ public class bEvaluar {
                         }
                         sumVal = sumVal + indi.getValorSpinBox2();
                     }
-                    double vigecimal = (sumVal * 20) / new Double(maxVal);
-                    crit.setNotaVige(vigecimal);
+                    if(maxVal > 0.0){
+                        double vigecimal = (sumVal * 20) / new Double(maxVal);
+                        crit.setNotaVige(vigecimal);
+                    }else{
+                        Utils.sysout("SE CALCULO 0 COMO MAXVAL Y ESTA MAL.");
+                    }
                 }
             }
         } catch (Exception nfe) {
@@ -474,7 +482,6 @@ public class bEvaluar {
             Iterator itH = hijos.iterator();
             while(itH.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itH.next();
-                Utils.sysout(indi.getDescripcionCriterio()+" ---indi.getValorSpinBox(): "+indi.getValorSpinBox2()+ "val2_ "+indi.getValorSpinBox());
                 if(indi.getValorSpinBox() < 0.0){
                     return false;
                 }
@@ -494,7 +501,7 @@ public class bEvaluar {
             List<BeanCriterio> hijos = crit.getLstIndicadores();
             Iterator itH = hijos.iterator();
             while(itH.hasNext()){
-                BeanCriterio indi = (BeanCriterio) itH.next();Utils.sysout("indi.getValorSpinBox2(): "+indi.getValorSpinBox2());
+                BeanCriterio indi = (BeanCriterio) itH.next();
                 if(indi.getValorSpinBox2() > 0){
                     cant++;
                     if(cant >= 5){
