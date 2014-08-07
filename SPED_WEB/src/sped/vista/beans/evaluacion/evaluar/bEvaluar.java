@@ -194,7 +194,7 @@ public class bEvaluar {
             while(itIndi.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itIndi.next();
                 indi.setValorSpinBox(indi.getValorSpinBox2());
-                indi.setLstValoresPosCombo(Utils.llenarComboString(indi.getLstValoresPosibles()));
+                indi.setLstValoresPosCombo(Utils.llenarComboString2(indi.getLstValoresPosibles()));
             }
         }
         b.setLstIndicadores(sessionEvaluar.getLstCriteriosMultiples());
