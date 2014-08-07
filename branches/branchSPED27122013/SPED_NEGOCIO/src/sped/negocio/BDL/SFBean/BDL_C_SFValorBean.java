@@ -8,11 +8,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFValorLocal;
 import sped.negocio.BDL.IR.BDL_C_SFValorRemote;
+import sped.negocio.Utils.Utiles;
+import sped.negocio.entidades.eval.Leyenda;
 import sped.negocio.entidades.eval.Valor;
 
 @Stateless(name = "BDL_C_SFValor", mappedName = "mapBDL_C_SFValor")
 public class BDL_C_SFValorBean implements BDL_C_SFValorRemote, 
-                                             BDL_C_SFValorLocal {
+                                          BDL_C_SFValorLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -36,24 +38,54 @@ public class BDL_C_SFValorBean implements BDL_C_SFValorRemote,
             throw re;
         }
     }
-    
+   
     public String getRangoValorByFicha(int nidFicha){
         try{
             String strQuery = "SELECT " +
-                              "CONCAT(MIN(v.valor) ,' - ' ,MAX(v.valor))" +
+                              "MIN(v.valor),MAX(v.valor) " +
                               "FROM Valor v, FichaValor fv " +
-                              "WHERE fv.valor = v " +
+                              "WHERE fv.valor.nidValoracion = v.nidValoracion " +//dfloresgonz 07.08.2014 se agrega nidValoracion
                               "AND fv.ficha.nidFicha = :nid_Ficha";
-            Object o = em.createQuery(strQuery).setParameter("nid_Ficha", nidFicha)
+            Object[] o = (Object[]) em.createQuery(strQuery).setParameter("nid_Ficha", nidFicha)
                                                .getSingleResult();
             String rango = "";
             if(o != null){
-                rango = o.toString();
+                rango = o[0]+ " - "+o[1];
             }
             return rango;
         }catch(Exception e){
             e.printStackTrace();
             return "";
+        }
+    }
+    
+      public String getValoresByCriterio(int nidCriterio,
+                                         int nidFicha){        
+        try{
+            String strQuery = "SELECT v.valor " +
+                              "FROM Leyenda ley, Valor v " +
+                              "WHERE ley.criterioIndicador.fichaCriterio.criterio.nidCriterio = :nidCriterio " +
+                              "AND ley.fichaValor.ficha.nidFicha = :nid_Ficha " +
+                              "AND ley.fichaValor.valor.nidValoracion = v.nidValoracion";
+            List<Double> o = em.createQuery(strQuery).setParameter("nidCriterio", nidCriterio)
+                                                     .setParameter("nid_Ficha", nidFicha)
+                                                     .getResultList();
+            if(o != null){
+                if(o.size() > 0){
+                    String vals = "";
+                    for(int i = 0; i < o.size(); i++){
+                        vals = vals + o.get(i)+"";
+                        if((i + 1) < o.size()){
+                            vals = vals + " , ";
+                        }
+                    }
+                    return "Valores: "+vals;
+                }
+            }
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

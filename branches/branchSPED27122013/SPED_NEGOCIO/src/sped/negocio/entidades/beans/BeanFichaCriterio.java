@@ -13,6 +13,15 @@ public class BeanFichaCriterio implements Serializable {
     private BeanResultadoCriterio resultadoCriterio;
     private List<BeanCriterioIndicador> LstcriterioIndicador;
     private String descripcionCriterio;
+    private int nidCriterio;//dfloresgonz 07.08.2014 Variable auxiliar usada en LN_C_SFFichaCriterioBean.getLstFichaCriterioByEvaluacion
+
+    public void setNidCriterio(int nidCriterio) {
+        this.nidCriterio = nidCriterio;
+    }
+
+    public int getNidCriterio() {
+        return nidCriterio;
+    }
 
     public void setCriterio(BeanCriterio criterio) {
         this.criterio = criterio;

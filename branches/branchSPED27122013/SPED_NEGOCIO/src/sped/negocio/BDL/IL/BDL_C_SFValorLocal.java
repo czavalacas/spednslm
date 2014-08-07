@@ -12,4 +12,5 @@ public interface BDL_C_SFValorLocal {
     List<Valor> getValoresAll_BDL(int valMin,int valMax);
     Valor findValorById(int id);
     String getRangoValorByFicha(int nidFicha);
+    String getValoresByCriterio(int nidCriterio,int nidFicha);
 }

@@ -247,6 +247,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
         for(FichaCriterio fc : lstFC){
             BeanFichaCriterio bean = new BeanFichaCriterio();
             bean.setDescripcionCriterio(fc.getCriterio().getDescripcionCriterio());
+            bean.setNidCriterio(fc.getCriterio().getNidCriterio());
             BeanFicha ficha = new BeanFicha();
             ficha.setNidFicha(fc.getFicha().getNidFicha());
             bean.setFicha(ficha);
