@@ -71,7 +71,10 @@ public class LN_C_SFGradoBean implements LN_C_SFGradoRemote,
     
     public BeanGrado findConstrainByIdLN(int id){
         try{
-            BeanGrado bean = (BeanGrado)mapper.map(bdl_C_SFGradoLocal.findGradoById(id),BeanGrado.class);
+            Grado entida=bdl_C_SFGradoLocal.findGradoById(id);
+            BeanGrado bean = new BeanGrado();
+            bean.setNidGrado(entida.getNidGrado());
+            bean.setDescripcionGrado(entida.getDescripcionGrado());      
             return bean;
         } catch(Exception e){
             e.printStackTrace();
