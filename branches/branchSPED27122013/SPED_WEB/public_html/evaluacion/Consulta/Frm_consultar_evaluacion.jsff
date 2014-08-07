@@ -209,7 +209,7 @@
                                    visible="#{(row.estadoEvaluacion == 'EJECUTADO') == true}">
                             <f:setPropertyActionListener value="#{row}"
                                                          target="#{sessionConsultarEvaluacion.evaluacion}"/>
-                            <af:fileDownloadActionListener filename="Evaluacion.docx"
+                            <af:fileDownloadActionListener filename="Evaluacion_ID_#{row.nidEvaluacion}.docx"
                                                            contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                            method="#{bConsultarEvaluacion.exportData}"/>
                         </af:button>
