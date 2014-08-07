@@ -14,6 +14,24 @@ public class BeanFichaCriterio implements Serializable {
     private List<BeanCriterioIndicador> LstcriterioIndicador;
     private String descripcionCriterio;
     private int nidCriterio;//dfloresgonz 07.08.2014 Variable auxiliar usada en LN_C_SFFichaCriterioBean.getLstFichaCriterioByEvaluacion
+    private double maxValCriterio;//dfloresgonz 07.08.2014 Variable auxiliar usada en LN_C_SFFichaCriterioBean.getLstFichaCriterioByEvaluacion
+    private double maxSumaFicha;//dfloresgonz 07.08.2014 igual valor en todo dependiendo de la ficha
+
+    public void setMaxSumaFicha(double maxSumaFicha) {
+        this.maxSumaFicha = maxSumaFicha;
+    }
+
+    public double getMaxSumaFicha() {
+        return maxSumaFicha;
+    }
+
+    public void setMaxValCriterio(double maxValCriterio) {
+        this.maxValCriterio = maxValCriterio;
+    }
+
+    public double getMaxValCriterio() {
+        return maxValCriterio;
+    }
 
     public void setNidCriterio(int nidCriterio) {
         this.nidCriterio = nidCriterio;

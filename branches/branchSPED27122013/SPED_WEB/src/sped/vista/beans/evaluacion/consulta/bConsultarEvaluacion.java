@@ -256,8 +256,7 @@ public class bConsultarEvaluacion {
     public void Data(OutputStream outputStream, BeanEvaluacionPlani eva){        
         if(eva != null){            
             try {
-                List<BeanFichaCriterio> LstBeanFC = ln_C_SFFichaCriterioRemote.
-                                                    getLstFichaCriterioByEvaluacion(eva.getNidEvaluacion());
+                List<BeanFichaCriterio> LstBeanFC = ln_C_SFFichaCriterioRemote.getLstFichaCriterioByEvaluacion(eva.getNidEvaluacion());
                 XWPFDocument document = new XWPFDocument();
                 XWPFParagraph paragraphOne = document.createParagraph();
                 paragraphStyle(paragraphOne, 1);
@@ -324,13 +323,18 @@ public class bConsultarEvaluacion {
                 rowOne.createCell();
                 rowOne.getCell(3).getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(cols[3]));
                 createParagraphCell(rowOne.getCell(3), "Descripci\u00f3n", 1, true, "000000", "ffffff",11);
+                double totalSuma = 0.0;
                 /** Empieza a Pintar los criterios/factores */
                 for(int i = 0; i < sizeCri; i++){
                     XWPFTableRow row = table.createRow();
                     createParagraphCell(row.getCell(0), (i+1)+"", 1, true,"808080","ffffff",11);
                     createParagraphCell(row.getCell(1), LstBeanFC.get(i).getDescripcionCriterio(), 0, true,"808080","ffffff",10);
                     double notaC = LstBeanFC.get(i).getResultadoCriterio().getValor();
-                    double sumaVals = this.sumaValoresByCriterio(LstBeanFC.get(i));
+                    String sumaVals = "";
+                    if(LstBeanFC.get(0).getFicha().getNidFicha() == 8 || LstBeanFC.get(0).getFicha().getNidFicha() == 9){//TODO dinamico
+                        sumaVals = this.sumaValoresByCriterio(LstBeanFC.get(i))[1]+"";
+                        totalSuma = totalSuma + new Double(this.sumaValoresByCriterio(LstBeanFC.get(i))[0]+"");
+                    }
                     createParagraphCell(row.getCell(2), Pnota(notaC)+ "   "+sumaVals, 1, true,colorNota(notaC),"000000",10);
                     String valoresPosibles = ln_C_SFValorLocal.getValoresPosiblesByCriterio(LstBeanFC.get(i).getNidCriterio(), 
                                                                                             LstBeanFC.get(0).getFicha().getNidFicha());
@@ -346,8 +350,17 @@ public class bConsultarEvaluacion {
                         createParagraphCell(subrow.getCell(3),crin.getLeyenda().getDescripcionLeyenda(), 0, false,"","",9); 
                     }
                 }
-                totalCriterios = totalCriterios/sizeCri;            
-                createParagraphCell(rowOne.getCell(2), Pnota(totalCriterios), 1, true, colorNota(totalCriterios), "000000",10);                
+                totalCriterios = totalCriterios/sizeCri;
+                String sumaValsTodo = "";
+                if(LstBeanFC.get(0).getFicha().getNidFicha() == 8 || LstBeanFC.get(0).getFicha().getNidFicha() == 9){//TODO dinamico
+                    int r = (int) Math.round( totalSuma * 100);
+                    totalSuma = r / 100.0;
+                    double total = LstBeanFC.get(0).getMaxSumaFicha();
+                    int r2 = (int) Math.round( total * 100);
+                    total = r2 / 100.0;
+                    sumaValsTodo = totalSuma+ "/"+total;
+                }
+                createParagraphCell(rowOne.getCell(2), Pnota(totalCriterios)+ "   "+sumaValsTodo, 1, true, colorNota(totalCriterios), "000000",10);                
                 document.write(outputStream);
                 outputStream.flush();
                 outputStream.close();
@@ -414,15 +427,23 @@ public class bConsultarEvaluacion {
         return color;
     }
     
-    public double sumaValoresByCriterio(BeanFichaCriterio beanfc){
+    public Object[] sumaValoresByCriterio(BeanFichaCriterio beanfc){
         double sumVal = 0.0;
+        String resul = "";
+        Object[] objVec = new Object[2];
+        double maxVal = new Double(beanfc.getLstcriterioIndicador().size()) * beanfc.getMaxValCriterio();
         for(int j = 0; j < beanfc.getLstcriterioIndicador().size(); j++){
             BeanCriterioIndicador crin = beanfc.getLstcriterioIndicador().get(j);
             sumVal = sumVal + crin.getResultadoEvaluacion().getValor();
         }
         int r = (int) Math.round( sumVal * 100);
         sumVal = r / 100.0;
-        return sumVal;
+        int r2 = (int) Math.round( maxVal * 100);
+        maxVal = r2 / 100.0;
+        resul = sumVal+ "/"+maxVal;
+        objVec[0] = sumVal;
+        objVec[1] = resul;
+        return objVec;
     }
     
     public void comentarEvaluacion(ActionEvent actionEvent) {
