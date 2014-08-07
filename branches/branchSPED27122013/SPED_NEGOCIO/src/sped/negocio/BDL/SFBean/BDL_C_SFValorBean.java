@@ -62,7 +62,7 @@ public class BDL_C_SFValorBean implements BDL_C_SFValorRemote,
       public String getValoresByCriterio(int nidCriterio,
                                          int nidFicha){        
         try{
-            String strQuery = "SELECT v.valor " +
+            String strQuery = "SELECT DISTINCT(v.valor) " +
                               "FROM Leyenda ley, Valor v " +
                               "WHERE ley.criterioIndicador.fichaCriterio.criterio.nidCriterio = :nidCriterio " +
                               "AND ley.fichaValor.ficha.nidFicha = :nid_Ficha " +
