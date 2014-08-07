@@ -72,7 +72,8 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
                               " WHERE EXTRACT(YEAR FROM f.fechaFicha) = :year " +
                               " AND EXTRACT(MONTH FROM f.fechaFicha) = :mes " +
                               " AND f.tipoFicha = :tipFicha " +
-                              " AND f.tipoFichaCurso = :tipFichaCurso ";
+                              " AND f.tipoFichaCurso = :tipFichaCurso " +
+                              " GROUP BY f.descripcionVersion ";
             return (Object[]) em.createQuery(qlString).setParameter("year",year).
                                                         setParameter("mes",mes).
                                                         setParameter("tipFicha",tipFicha).
@@ -133,7 +134,7 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
                               "WHERE c.nombreCampo = 'tipo_ficha_curso' " +
                               "AND   c.nombreTabla = 'evmfich' ";
             if(subDirector != null){
-                if(subDirector.equals("S")){
+                if("S".equals(subDirector)){
                     qlString = qlString.concat(" AND c.valorCampo = 'SD' ");
                 }else{
                     qlString = qlString.concat(" AND c.valorCampo <> 'SD' ");
