@@ -331,7 +331,7 @@ public class bConsultarEvaluacion {
                     createParagraphCell(row.getCell(1), LstBeanFC.get(i).getDescripcionCriterio(), 0, true,"808080","ffffff",10);
                     double notaC = LstBeanFC.get(i).getResultadoCriterio().getValor();
                     double sumaVals = this.sumaValoresByCriterio(LstBeanFC.get(i));
-                    createParagraphCell(row.getCell(2), Pnota(notaC)+ "   "+sumaVals, 1, true,colorNota(notaC),"808080",10);
+                    createParagraphCell(row.getCell(2), Pnota(notaC)+ "   "+sumaVals, 1, true,colorNota(notaC),"000000",10);
                     String valoresPosibles = ln_C_SFValorLocal.getValoresPosiblesByCriterio(LstBeanFC.get(i).getNidCriterio(), 
                                                                                             LstBeanFC.get(0).getFicha().getNidFicha());
                     createParagraphCell(row.getCell(3), valoresPosibles, 0, true,"808080","ffffff",10);
@@ -402,14 +402,14 @@ public class bConsultarEvaluacion {
     
     public String colorNota(double nota){
         String color = "";
-        if(nota <= 5){
+        if(nota <= 11.0){
             color = "ff0000";
-        }else if(nota <= 10){
+        }else if(nota >= 11.1 && nota <= 14.0){
             color = "ff4500";
-        }else if(nota <= 15){
+        }else if(nota >= 14.1 && nota <= 17.0){
             color = "ffff00";
         }else{
-            color = "00ff00";
+            color = "1cc100";
         }
         return color;
     }
