@@ -251,6 +251,9 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             BeanFicha ficha = new BeanFicha();
             ficha.setNidFicha(fc.getFicha().getNidFicha());
             bean.setFicha(ficha);
+            bean.setMaxValCriterio(fc.getCriterioIndicadorLista().get(0).getMaxValor());
+            double sumaCrit = bean.getMaxValCriterio() * new Double(fc.getCriterioIndicadorLista().size());
+            bean.setMaxSumaFicha(bean.getMaxSumaFicha() + sumaCrit);
             bean.setResultadoCriterio(ln_C_SFResultadoCriterioLocal.getResCriByFichaEvaLN(nidEvaluacion,fc));
             bean.setLstcriterioIndicador(ln_C_SFCriterioIndicadorLocal.transformLstCriterioIndicador(fc.getCriterioIndicadorLista(),
                                                                                                      nidEvaluacion));
