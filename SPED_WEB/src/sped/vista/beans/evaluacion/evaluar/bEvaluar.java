@@ -193,7 +193,6 @@ public class bEvaluar {
             Iterator itIndi = crit.getLstIndicadores().iterator();
             while(itIndi.hasNext()){
                 BeanCriterio indi = (BeanCriterio) itIndi.next();
-                Utils.sysout("indi: "+indi.getValorSpinBox2());
                 indi.setValorSpinBox(indi.getValorSpinBox2());
                 indi.setLstValoresPosCombo(Utils.llenarComboString(indi.getLstValoresPosibles()));
             }
