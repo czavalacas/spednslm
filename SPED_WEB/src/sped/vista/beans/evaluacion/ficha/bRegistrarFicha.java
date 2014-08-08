@@ -158,7 +158,7 @@ public class bRegistrarFicha {
     public void selectFicha(SelectionEvent se) {
         try{
             BeanFicha beanFicha = (BeanFicha) Utils.getRowTable(se);
-            if(beanFicha.getEstadoFicha().equals("0")){
+            if("0".equals(beanFicha.getEstadoFicha())){
                 sessionRegistrarFicha.setActDesEstilo("FondoVerdeLetraRoja");
             }else{
                 sessionRegistrarFicha.setActDesEstilo("FondoRojoLetraVerde");
@@ -179,9 +179,7 @@ public class bRegistrarFicha {
         }catch(Exception e){
             e.printStackTrace();
             ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(), 
-                                                          "BAC",
-                                                          CLASE, 
-                                                          "selectFicha(SelectionEvent se)",
+                                                          "BAC",CLASE, "selectFicha(SelectionEvent se)",
                                                           "Error al seleccionar la Ficha",Utils.getStack(e));
         }
     }
@@ -447,9 +445,9 @@ public class bRegistrarFicha {
     }
     
     public void cancelarPopUpCriterios(PopupCanceledEvent popupCanceledEvent) {
-        if(sessionRegistrarFicha.getLstCriteriosMultiples() != null){
+        /*if(sessionRegistrarFicha.getLstCriteriosMultiples() != null){
             Utils.sysout("lista: "+sessionRegistrarFicha.getLstCriteriosMultiples().size());
-        }
+        }*/
         if(treeCriIndi != null){ 
             treeCriIndi.setValue(sessionRegistrarFicha.getPermisosTree());
             Utils.addTarget(treeCriIndi);
@@ -457,11 +455,11 @@ public class bRegistrarFicha {
     }
     
     public void dialogOkCriterios(DialogEvent de) {
-        if (de.getOutcome() == DialogEvent.Outcome.ok){
+        /*if (de.getOutcome() == DialogEvent.Outcome.ok){
             for(BeanCriterio crit : sessionRegistrarFicha.getLstCriteriosMultiples()){
                 Utils.sysout("crit:"+crit.getDescripcionCriterio());   
             }
-        }
+        }*/
     }
     
     public void refrescarTablaFichas(ActionEvent actionEvent) {
@@ -497,7 +495,7 @@ public class bRegistrarFicha {
                     if (beanFicha.getBeanError() != null) {
                         BeanError error = beanFicha.getBeanError();
                         int severidad = 0;
-                        if (error.getCidError().equals("000")) {
+                        if ("000".equals(error.getCidError())) {
                             severidad = 3;
                             Utils.sysout("Grabo la Ficha");
                         } else {
@@ -1013,7 +1011,7 @@ public class bRegistrarFicha {
                 if(bCrit.getBeanError() != null){
                     BeanError error = bCrit.getBeanError();
                     int severidad = 0;
-                    if(error.getCidError().equals("000")){
+                    if("000".equals(error.getCidError())){
                         severidad = 3;
                         Utils.sysout("Grabo el criterio");
                     }else{
@@ -1048,7 +1046,7 @@ public class bRegistrarFicha {
                 if(bIndi.getBeanError() != null){
                     BeanError error = bIndi.getBeanError();
                     int severidad = 0;
-                    if(error.getCidError().equals("000")){
+                    if("000".equals(error.getCidError())){
                         severidad = 3;
                         Utils.sysout("Grabo el indicador");
                     }else{
@@ -1316,7 +1314,7 @@ public class bRegistrarFicha {
             String leyendaDesc = sessionRegistrarFicha.getLeyenda();
             boolean isHeader = true;
             if(shortDesc != null){
-                if(shortDesc.equalsIgnoreCase("1")){
+                if("1".equalsIgnoreCase(shortDesc)){
                     BeanCriterio critRaiz = sessionRegistrarFicha.getIndiHeaderSelectLeyenda();
                     if(critRaiz.getLstLeyenda() != null){
                         BeanLeyenda ley = this.getLeyendaByValor(sessionRegistrarFicha.getValorDesc(),critRaiz);
@@ -1327,7 +1325,7 @@ public class bRegistrarFicha {
                             ley.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
                             ley.setHeader(sessionRegistrarFicha.getValorDesc());
                             int indx = Integer.parseInt(sessionRegistrarFicha.getValorDesc().substring(sessionRegistrarFicha.getValorDesc().indexOf(" ")+1,
-                                                                                                          sessionRegistrarFicha.getValorDesc().length()) ) - 1;
+                                                                                                       sessionRegistrarFicha.getValorDesc().length()) ) - 1;
                             if(critRaiz.getLstLeyenda().size() < indx){
                                 critRaiz.getLstLeyenda().addAll(Collections.<BeanLeyenda>nCopies((indx - critRaiz.getLstLeyenda().size()), null));
                             }else if(critRaiz.getLstLeyenda().size() > indx){
@@ -1392,7 +1390,7 @@ public class bRegistrarFicha {
                     leye.setDescripcionLeyenda(sessionRegistrarFicha.getLeyenda());
                     leye.setHeader(sessionRegistrarFicha.getValorDesc());
                     int indx = Integer.parseInt(sessionRegistrarFicha.getValorDesc().substring(sessionRegistrarFicha.getValorDesc().indexOf(" ")+1,
-                                                                                                  sessionRegistrarFicha.getValorDesc().length())       );
+                                                                                               sessionRegistrarFicha.getValorDesc().length())       );
                     indiSelected.getLstLeyenda().add(indx,leye);
                     if(itLey != null){
                         itLey.resetValue();
@@ -1408,10 +1406,12 @@ public class bRegistrarFicha {
     public BeanLeyenda getLeyendaByValor(String val,BeanCriterio indiSelected){
         Iterator it = indiSelected.getLstLeyenda().iterator();
         try {
+            int ix = 0;
             while (it.hasNext()) {
+                ix++;
                 BeanLeyenda ley = (BeanLeyenda) it.next();
                 if (ley != null) {
-                    if (val.equalsIgnoreCase(ley.getHeader())) {
+                    if (val.equalsIgnoreCase("Valor "+ix)) {//ley.getHeader()
                         return ley;
                     }
                 } else {
@@ -1428,9 +1428,11 @@ public class bRegistrarFicha {
     public boolean contieneLeyenda(String valor){
         if(sessionRegistrarFicha.getLstLeyendas() != null){
             Iterator it = sessionRegistrarFicha.getLstLeyendas().iterator();
+            int ix = 0;
             while(it.hasNext()){
+                ix++;
                 BeanLeyenda ley = (BeanLeyenda) it.next();
-                if(ley.getHeader().equalsIgnoreCase(valor)){
+                if(valor.equalsIgnoreCase( "Valor "+ix)){//ley.getHeader() 
                     return true;
                 }
             }
@@ -1513,9 +1515,7 @@ public class bRegistrarFicha {
         } catch (Exception e) {
             e.printStackTrace();
             ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(),
-                                                          "BAC",
-                                                          CLASE,
-                                                          "void activarDesactivar(ActionEvent ae)",
+                                                          "BAC",CLASE,"void activarDesactivar(ActionEvent ae)",
                                                           "Error al activar/desactivar la Ficha",Utils.getStack(e));
         }
     }
@@ -1529,7 +1529,7 @@ public class bRegistrarFicha {
             if (beanFicha.getBeanError() != null) {
                 BeanError error = beanFicha.getBeanError();
                 int severidad = 0;
-                if (error.getCidError().equals("000")) {
+                if ("000".equals(error.getCidError())) {
                     severidad = 3;
                     Utils.sysout("Reactivo la Ficha y desactivo el resto");
                 } else {
@@ -1552,9 +1552,7 @@ public class bRegistrarFicha {
         } catch (Exception e) {
             e.printStackTrace();
             ln_T_SFLoggerLocal.registrarLogErroresSistema(usuario.getNidLog(),
-                                                          "BAC",
-                                                          CLASE,
-                                                          "dialogOKReactivarFicha(DialogEvent dialogEvent)",
+                                                          "BAC",CLASE,"dialogOKReactivarFicha(DialogEvent dialogEvent)",
                                                           "Error al reactivar la Ficha",Utils.getStack(e));
         }
     }
