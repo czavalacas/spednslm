@@ -106,7 +106,9 @@
                                   binding="#{bConsultaPlanificacion.tbPlanificacion}"
                                   value="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones}">
                             <af:column width="20" frozen="true">
+                                <af:spacer height="10"/>
                                 <af:outputText value="#{vs.index + 1}"/>
+                                <af:spacer height="10"/>
                             </af:column>
                             <af:column width="24" frozen="true" sortProperty="nidEvaluacion" headerText="ID"
                                        align="left">

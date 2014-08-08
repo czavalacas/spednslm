@@ -143,6 +143,23 @@
                                 <af:inputText id="it1" rendered="#{row.displayInput}" styleClass="#{row.estilo}"
                                               value="#{row.valorInput}" readOnly="true"/>
                             </af:column>
+                            <af:column width="170" headerText="Desc." align="left">
+                                <af:button icon="../recursos/img/usuarios/ver.png" id="bVerLey" actionListener="#{bEvaluar.verLeyenda}"
+                                           rendered="#{row.displaySpinBox}" binding="#{bEvaluar.bverLey}">
+                                    <f:attribute name="idcrit" value="#{row.nidCriterio}"/>
+                                    <f:attribute name="idcritPapa" value="#{row.nidCriterioPadre}"/>
+                                    <!--<af:showPopupBehavior popupId="popCerrar" triggerType="action"
+                                                          alignId="bVerLey" align="afterStart"/>-->
+                                </af:button>
+                                <af:popup id="popCerrar" binding="#{bEvaluar.popCerrar}">
+                                    <af:noteWindow>
+                                        <af:panelFormLayout rows="2" maxColumns="1">
+                                            <af:outputText value="#{sessionScope.sessionEvaluar.descLeyenda}" id="ot10"
+                                                           partialTriggers="bVerLey"/>
+                                        </af:panelFormLayout>
+                                    </af:noteWindow>
+                                </af:popup>
+                            </af:column>
                         </af:treeTable>
                     </af:panelGroupLayout>
                 </f:facet>

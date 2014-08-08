@@ -44,6 +44,7 @@ public class BeanCriterio implements Serializable, Cloneable {
     private double maxValor;
     private List<BeanComboString> lstValoresPosibles = new ArrayList<BeanComboString>();
     private List lstValoresPosCombo;
+    private String descLeyendaSeleccionada;//dfloresgonz 08.08.2014 para mostrar la desc. cuando se seleccione un valor al evaluar
 
     public Object clone() {
         Object clone = null;
@@ -79,6 +80,14 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+
+    public void setDescLeyendaSeleccionada(String descLeyendaSeleccionada) {
+        this.descLeyendaSeleccionada = descLeyendaSeleccionada;
+    }
+
+    public String getDescLeyendaSeleccionada() {
+        return descLeyendaSeleccionada;
     }
 
     public void setValorSpinBox2(double valorSpinBox2) {

@@ -32,6 +32,7 @@ import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCriterio;
 import sped.negocio.entidades.beans.BeanError;
 import sped.negocio.entidades.beans.BeanEvaluacionWS;
+import sped.negocio.entidades.beans.BeanLeyenda;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.ResultadoCriterio;
 
@@ -70,6 +71,8 @@ public class bEvaluar {
     private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
     private static final String CLASE = "sped.vista.beans.evaluacion.evaluar.bEvaluar";
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
+    private RichPopup popCerrar;
+    private RichButton bverLey;
 
     public bEvaluar() {
     
@@ -274,6 +277,15 @@ public class bEvaluar {
         }
     }
     
+    public String getDescLeyendaByValor(double valor,List<BeanLeyenda> lstLey){
+        for(BeanLeyenda ley : lstLey){
+            if(ley.getFichaValor().getValor().getValor() == valor){
+                return ley.getDescripcionLeyenda();
+            }
+        }
+        return null;
+    }
+    
     public void cambiarValor(ValueChangeEvent vce) {
         try {
             Integer param = (Integer) vce.getComponent().getAttributes().get("idcrit");
@@ -312,6 +324,8 @@ public class bEvaluar {
                                     indi.setValorSpinBox2(new Double((Double) vce.getNewValue()));
                                     indi.setValorSpinBox(new Double((Double) vce.getNewValue()));
                                 }
+                                indi.setDescLeyendaSeleccionada(this.getDescLeyendaByValor(indi.getValorSpinBox2(), 
+                                                                                           indi.getLstLeyenda()));
                             }
                         }
                         sumVal = sumVal + indi.getValorSpinBox2();
@@ -552,6 +566,30 @@ public class bEvaluar {
     public void abrirPopCommt(ActionEvent actionEvent) {//btnCmt
         Utils.showPopUpMIDDLE(popCmt);
     }
+    
+    public void verLeyenda(ActionEvent ae) {
+        Integer param = (Integer) ae.getComponent().getAttributes().get("idcrit");
+        Integer paramPapa = (Integer) ae.getComponent().getAttributes().get("idcritPapa");
+        ChildPropertyTreeModel permisosTree = sessionEvaluar.getPermisosTree();
+        List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) permisosTree.getWrappedData();
+        Iterator it = lstBeanCriterio.get(0).getLstIndicadores().iterator(); //sessionEvaluar.getLstCriteriosMultiples().iterator();
+        while (it.hasNext()) {
+            BeanCriterio crit = (BeanCriterio) it.next();
+            if (crit.getNidCriterio().compareTo(paramPapa) == 0) {
+                List<BeanCriterio> hijos = crit.getLstIndicadores();
+                Iterator itH = hijos.iterator();
+                while (itH.hasNext()) {
+                    BeanCriterio indi = (BeanCriterio) itH.next();
+                    if (indi.getNidCriterio().compareTo(param) == 0) {
+                        sessionEvaluar.setDescLeyenda(indi.getDescLeyendaSeleccionada());
+                        Utils.showPopUp(popCerrar,bverLey);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    
     /*
     public void cancelarDialogComment(ClientEvent clientEvent) {
         sessionEvaluar.setComentarioEvaluador(null);
@@ -712,5 +750,21 @@ public class bEvaluar {
 
     public RichButton getBtnGrabarAux() {
         return btnGrabarAux;
+    }
+
+    public void setPopCerrar(RichPopup popCerrar) {
+        this.popCerrar = popCerrar;
+    }
+
+    public RichPopup getPopCerrar() {
+        return popCerrar;
+    }
+
+    public void setBverLey(RichButton bverLey) {
+        this.bverLey = bverLey;
+    }
+
+    public RichButton getBverLey() {
+        return bverLey;
     }
 }
