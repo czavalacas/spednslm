@@ -317,7 +317,7 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                         resultado.setEvaluacion(eva);
                         resultado.setNidSede(eva.getMain().getAula().getSede().getNidSede());
                         resultado.setValor(beanIV.getValorSpinBox2());
-                        resultado.setNotaVigecimal((beanIV.getValorSpinBox2() * 20) / new Double(ci.getFichaCriterio().getFicha().getFichaValorLista().size()) );
+                        resultado.setNotaVigecimal((beanIV.getValorSpinBox2() * 20) / beanIV.getMaxValor() );
                         // SI UN INDICADOR ES DESAPROBATORIO SE ENVIA EL 1 AL ATRIBUTO TONOTIFICACION Y EL TRIGGER LO ENVIARA A LA TABLA DE NOTIFICACIONES
                         resultado.setToNotification("0");
                         bdL_T_SFResultadoLocal.persistResultado(resultado);
