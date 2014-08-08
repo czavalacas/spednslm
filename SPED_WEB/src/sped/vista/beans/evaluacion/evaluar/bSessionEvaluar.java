@@ -21,6 +21,15 @@ public class bSessionEvaluar {
     private String estiloFinal;
     private String comentarioEvaluador;
     private String temaEvaluacion;
+    private String descLeyenda;
+
+    public void setDescLeyenda(String descLeyenda) {
+        this.descLeyenda = descLeyenda;
+    }
+
+    public String getDescLeyenda() {
+        return descLeyenda;
+    }
 
     public void setTemaEvaluacion(String temaEvaluacion) {
         this.temaEvaluacion = temaEvaluacion;

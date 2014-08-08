@@ -115,9 +115,12 @@
                     <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row" varStatus="vs"
                           rowBandingInterval="-1" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
                           summary="Tabla de Evaluaciones" columnStretching="column:c9" styleClass="AFStretchWidth"
-                          binding="#{bConsultarEvaluacion.tbEval}" autoHeightRows="0" contentDelivery="immediate">
+                          binding="#{bConsultarEvaluacion.tbEval}" autoHeightRows="0" contentDelivery="immediate"
+                              fetchSize="20">
                     <af:column width="20" frozen="true">
+                        <af:spacer height="10"/>
                         <af:outputText value="#{vs.index + 1}"/>
+                        <af:spacer height="10"/>
                     </af:column>
                     <af:column width="24" frozen="true" sortProperty="nidEvaluacion" headerText="ID"  align="left">
                         <af:outputText value="#{row.nidEvaluacion}"/>

@@ -134,6 +134,18 @@ public class Utils {
         return null;
     }
 
+    public static String showPopUp(RichPopup p, UIComponent compAlign) {
+        try {
+            RichPopup.PopupHints ph = new RichPopup.PopupHints();
+            ph.add(RichPopup.PopupHints.HintTypes.HINT_ALIGN, RichPopup.PopupHints.AlignTypes.ALIGN_AFTER_START);
+            ph.add(RichPopup.PopupHints.HintTypes.HINT_ALIGN_ID, compAlign);
+            p.show(ph);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void addTargetMany(javax.faces.component.UIComponent... componente) {
         for (int i = 0; i < componente.length; i++) {
             addTarget(componente[i]);
