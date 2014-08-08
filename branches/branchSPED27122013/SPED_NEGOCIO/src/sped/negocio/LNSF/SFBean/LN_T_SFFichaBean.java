@@ -85,7 +85,7 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
             ficha.setDescripcionVersion(version);
             ficha.setEstadoFicha("0");
             if(evento == 2){
-                ficha.setEstadoFicha(ficha.getEstadoFicha().equals("1") ? "1" : "0");
+                ficha.setEstadoFicha("1".equals(ficha.getEstadoFicha()) ? "1" : "0");
             }
             ficha.setFechaFicha(new Timestamp(new Date().getTime()));
             ficha.setTipoFicha(tipFicha);
@@ -96,7 +96,7 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
             }
             if (evento == 2) {
                 ficha = bdL_T_SFFichaLocal.mergeFicha(ficha);
-                if (numVal < ficha.getFichaValorLista().size()) { //QUITARON VALORES
+                if (numVal < ficha.getCantidadValores()) { //QUITARON VALORES
                     int idx = 0;
                     Iterator it = ficha.getFichaValorLista().iterator();
                     while (it.hasNext()) {
@@ -109,8 +109,8 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
                             it.remove();
                         }
                     }
-                } else if(numVal > ficha.getFichaValorLista().size()){ //AGREGARON VALORES
-                    ficha.setFichaValorLista(this.setFichaValor(ficha.getFichaValorLista().size(), numVal, ficha));
+                } else if(numVal > ficha.getCantidadValores()){ //AGREGARON VALORES
+                    ficha.setFichaValorLista(this.setFichaValor(ficha.getCantidadValores(), numVal, ficha));
                 }
                 List<FichaCriterio> lstFichas = this.setFichaCriteriosLista(listaCritsIndis,ficha,evento);
                 for(FichaCriterio fc : lstFichas){

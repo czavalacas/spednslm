@@ -19,6 +19,7 @@ public class BeanFicha implements Serializable,Cloneable {
     private Timestamp fechaFicha;
     private BeanError beanError = new BeanError();
     private int cantidadValores;
+    private short cantidadValoresTabla;
 
     public Object clone() {
         Object clone = null;
@@ -28,6 +29,14 @@ public class BeanFicha implements Serializable,Cloneable {
             e.printStackTrace();
         }
         return clone;
+    }
+
+    public void setCantidadValoresTabla(short cantidadValoresTabla) {
+        this.cantidadValoresTabla = cantidadValoresTabla;
+    }
+
+    public short getCantidadValoresTabla() {
+        return cantidadValoresTabla;
     }
 
     public void setCantidadValores(int cantidadValores) {

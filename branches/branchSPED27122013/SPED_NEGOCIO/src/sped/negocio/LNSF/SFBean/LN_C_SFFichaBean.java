@@ -71,7 +71,7 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
                 beanFicha.setDescripcionTipoFichaCurso(constr.getDescripcionAMostrar());
                 constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("estado_ficha", "evmfich", ficha.getEstadoFicha());
                 beanFicha.setDescripcionEstadoFicha(constr.getDescripcionAMostrar());
-                beanFicha.setCantidadValores(ficha.getFichaValorLista().size());
+                beanFicha.setCantidadValores(ficha.getCantidadValores());
                 lstBeanFichas.add(beanFicha);
             }
             return lstBeanFichas;

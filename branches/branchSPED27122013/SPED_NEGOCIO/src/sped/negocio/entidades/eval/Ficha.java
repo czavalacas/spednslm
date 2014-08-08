@@ -43,6 +43,8 @@ public class Ficha implements Serializable {
     private List<FichaCriterio> fichaCriterioLista;
     @Column(name = "fecha_ficha", nullable = false)
     private Timestamp fechaFicha;
+    @Column(name = "cant_valores", nullable = false)
+    private short cantidadValores;
     
     public Ficha() {
     }
@@ -53,6 +55,14 @@ public class Ficha implements Serializable {
         this.nidFicha = nidFicha;
         this.tipoFicha = tipoFicha;
         this.tipoFichaCurso = tipoFichaCurso;
+    }
+
+    public void setCantidadValores(short cantidadValores) {
+        this.cantidadValores = cantidadValores;
+    }
+
+    public short getCantidadValores() {
+        return cantidadValores;
     }
 
     public void setFechaFicha(Timestamp fechaFicha) {
