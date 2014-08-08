@@ -8,7 +8,7 @@ public class BeanValor implements Serializable {
     
     private String descripcionValor;
     private int nidValoracion;
-    private short valor;
+    private double valor;
     //private List<FichaValor> fichaValorLista;
 
     public void setDescripcionValor(String descripcionValor) {
@@ -27,11 +27,11 @@ public class BeanValor implements Serializable {
         return nidValoracion;
     }
 
-    public void setValor(short valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 
-    public short getValor() {
+    public double getValor() {
         return valor;
     }
 }
