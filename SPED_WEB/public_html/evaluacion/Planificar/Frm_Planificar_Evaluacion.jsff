@@ -554,10 +554,11 @@
                                                    id="si33"/>
                                 </af:selectOneChoice>                        
                             </af:gridCell>
+                            <!-- borrado a peticion de CARLOS ZAVALA
+                            attributeChangeListener="#{bPlanificarEva.activarBotonEvaluar}"
+                                                    valueChangeListener="#{bPlanificarEva.activarbtnEvaluar}"-->
                             <af:gridCell marginStart="5px" width="33%" id="gc49">   
                                  <af:selectOneChoice label="Tipo De Visita" id="soc22"  value="#{sessionScope.sessionPlanificarEva.valorTipoVisita}" autoSubmit="true"
-                                                    attributeChangeListener="#{bPlanificarEva.activarBotonEvaluar}"
-                                                    valueChangeListener="#{bPlanificarEva.activarbtnEvaluar}"
                                                     binding="#{bPlanificarEva.choiceTipoVisita}">
                                    <f:selectItems value="#{sessionScope.sessionPlanificarEva.listatipoVisita}" id="si14"/>
                                     </af:selectOneChoice>
