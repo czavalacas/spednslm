@@ -22,6 +22,15 @@ public class bSessionEvaluar {
     private String comentarioEvaluador;
     private String temaEvaluacion;
     private String descLeyenda;
+    private boolean renderBtnParcRegist;
+
+    public void setRenderBtnParcRegist(boolean renderBtnParcRegist) {
+        this.renderBtnParcRegist = renderBtnParcRegist;
+    }
+
+    public boolean isRenderBtnParcRegist() {
+        return renderBtnParcRegist;
+    }
 
     public void setDescLeyenda(String descLeyenda) {
         this.descLeyenda = descLeyenda;
