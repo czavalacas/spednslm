@@ -265,11 +265,11 @@ public class LN_T_SFEvaluacionBean implements LN_T_SFEvaluacionRemote,
                 eva.setFlgParcial("0");
                 eva.setTemaEvaluacion(temaEvaluacion);
                 bdL_T_SFEvaluacionLocal.mergeEvaluacion(eva);
-                this.enviarCorreoProfesorEvaluador_LN(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres(),
+                /*this.enviarCorreoProfesorEvaluador_LN(eva.getMain().getProfesor().getApellidos()+" "+eva.getMain().getProfesor().getNombres(),
                                                       eva.getMain().getCurso().getDescripcionCurso(),eva.getNidEvaluador(),eva.getMain().getAula().getDescripcionAula(),
                                                       eva.getMain().getAula().getSede().getDescripcionSede(),
                                                       eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado()+" de "+eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel() ,
-                                                      eva.getMain().getProfesor().getDniProfesor(),nidLog,eva.getNidEvaluacion());
+                                                      eva.getMain().getProfesor().getDniProfesor(),nidLog,eva.getNidEvaluacion());*/
             }
         }catch (Exception e) {
             error = "111";

@@ -45,6 +45,8 @@ public class BeanCriterio implements Serializable, Cloneable {
     private List<BeanComboString> lstValoresPosibles = new ArrayList<BeanComboString>();
     private List lstValoresPosCombo;
     private String descLeyendaSeleccionada;//dfloresgonz 08.08.2014 para mostrar la desc. cuando se seleccione un valor al evaluar
+    private double sumaTotalIndicadores;
+    private String strSpinBox;
 
     public Object clone() {
         Object clone = null;
@@ -80,6 +82,22 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+
+    public void setStrSpinBox(String strSpinBox) {
+        this.strSpinBox = strSpinBox;
+    }
+
+    public String getStrSpinBox() {
+        return strSpinBox;
+    }
+
+    public void setSumaTotalIndicadores(double sumaTotalIndicadores) {
+        this.sumaTotalIndicadores = sumaTotalIndicadores;
+    }
+
+    public double getSumaTotalIndicadores() {
+        return sumaTotalIndicadores;
     }
 
     public void setDescLeyendaSeleccionada(String descLeyendaSeleccionada) {
