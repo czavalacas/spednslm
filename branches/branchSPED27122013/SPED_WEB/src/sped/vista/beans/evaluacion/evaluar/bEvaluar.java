@@ -516,11 +516,11 @@ public class bEvaluar {
         //Iterator it = sessionEvaluar.getLstCriteriosMultiples().iterator();
         int cant = 0;
         while(it.hasNext()){
-            BeanCriterio crit = (BeanCriterio) it.next();Utils.sysout(" not: "+crit.getNotaVige());
+            BeanCriterio crit = (BeanCriterio) it.next();
             List<BeanCriterio> hijos = crit.getLstIndicadores();
             Iterator itH = hijos.iterator();
             while(itH.hasNext()){
-                BeanCriterio indi = (BeanCriterio) itH.next();Utils.sysout("indi.getValorSpinBox2(): "+indi.getValorSpinBox2()+"  i1: "+indi.getValorSpinBox());
+                BeanCriterio indi = (BeanCriterio) itH.next();
                 if(indi.getValorSpinBox() > -1.0){
                     cant++;
                     if(cant >= 3){

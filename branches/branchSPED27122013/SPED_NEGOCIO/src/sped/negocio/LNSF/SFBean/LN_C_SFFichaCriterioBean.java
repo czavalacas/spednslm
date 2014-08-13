@@ -137,8 +137,8 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             }
             criterio.setEstilo(estilo);
             criterio.setNotaVige(vigecimal);
-            criterio.setValorInput(vigecimal+"");
             criterio.setLstIndicadores(this.getListaIndicadoresConValores(fichaCriterio.getCriterioIndicadorLista(),criterio.getNidCriterio(),nidEvaluacion));
+            criterio.setValorInput((criterio.getLstIndicadores().get((criterio.getLstIndicadores().size() - 1)).getSumaTotalIndicadores() < 0.0 ? "0.0" : criterio.getLstIndicadores().get((criterio.getLstIndicadores().size() - 1)).getSumaTotalIndicadores()) +" / "+vigecimal);
             criterio.setMostrarBoton(true);//lupita para agregar indicadores
             criterio.setMostrarUpDown(true);
             criterio.setSelected(true);
@@ -171,6 +171,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setOrden(critIndi.getOrden());
             crit.setSelected(true);
             crit.setValorSpinBox2(-1.0);
+            crit.setStrSpinBox("-1.0");
             crit.setNidCriterioIndicador(critIndi.getNidCriterioIndicador());
             crit.setMaxValor(critIndi.getMaxValor());
             //crit.setLstValoresPosCombo(Utiles.llenarCombo(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador())));
@@ -195,6 +196,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
     public List<BeanCriterio> getListaIndicadoresConValores(List<CriterioIndicador> lstCrisIndis,Integer nidPadre,int nidEvaluacion){
         List<BeanCriterio> lstIndis = new ArrayList<BeanCriterio>();
         int indx = 1;
+        double tot = 0.0;
         for(CriterioIndicador critIndi : lstCrisIndis){
             BeanCriterio crit = new BeanCriterio();
             crit.setDescripcionCriterio(critIndi.getIndicador().getDescripcionIndicador());
@@ -209,15 +211,21 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setNidCriterioIndicador(critIndi.getNidCriterioIndicador());
             crit.setMaxValor(critIndi.getMaxValor());
             double valorSBox = bdL_C_SFResultadoLocal.getValorResultadoByNidCriterioIndicador_Evaluacion(critIndi.getNidCriterioIndicador(),nidEvaluacion);
+            tot = tot + new Double(valorSBox);
+            crit.setSumaTotalIndicadores(tot);
             if(valorSBox == 0.0){
                 valorSBox = -1.0;
             }
             crit.setValorSpinBox2(valorSBox);
+            crit.setStrSpinBox(valorSBox+"");
             crit.setLstValoresPosibles(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador()));
             //crit.setLstValoresPosCombo(Utiles.llenarCombo(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador())));
             boolean bool = false;
             if(indx == lstCrisIndis.size()){
                 bool = true;
+                int r = (int) Math.round( tot * 100);
+                double notaFinal = r / 100.0;
+                crit.setSumaTotalIndicadores(notaFinal);
             }
             if(bool){
                 crit.setNoMostrarDown(true);
