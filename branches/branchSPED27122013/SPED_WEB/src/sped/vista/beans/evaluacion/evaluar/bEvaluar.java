@@ -130,6 +130,7 @@ public class bEvaluar {
             Utils.addTarget(btnRegistrar);
         }else{
             this.setError("Aun no es hora de evaluar, espero que llegue la hora de Inicio");
+            sessionEvaluar.setRenderBtnParcRegist(false);
             if(btnGrabarAux != null){
                 btnGrabarAux.setRendered(false);
                 btnRegistrarAux.setRendered(false);
@@ -328,7 +329,8 @@ public class bEvaluar {
                                                                                            indi.getLstLeyenda()));
                             }
                         }
-                        sumVal = sumVal + indi.getValorSpinBox2();
+                        sumVal = sumVal + (indi.getValorSpinBox2() == -1.0 ? 0.0 : indi.getValorSpinBox2());
+                        //sumVal = sumVal + indi.getValorSpinBox2();
                     }
                     if(maxVal > 0.0){
                         double vigecimal = (sumVal * 20) / new Double(maxVal);
@@ -397,6 +399,7 @@ public class bEvaluar {
             Boolean[] resultValida = this.isOKParcial();
             if(resultValida[1] == true){//Todos los indicadores estan con nota, mostrar popup
                 this.setError("Ha puesto notas a todos los indicadores.\nDesea grabar parcialmente (No sera considerado como completado)\n o \nDesea Registrar la evaluacion permanentemente?");
+                sessionEvaluar.setRenderBtnParcRegist(true);
                 if(btnGrabarAux != null){
                     btnGrabarAux.setRendered(true);
                     btnRegistrarAux.setRendered(true);
@@ -431,7 +434,7 @@ public class bEvaluar {
                 }
             } else {
                 severidad = 1;
-                error.setTituloError("Debe llenar al menos 5 indicadores");
+                error.setTituloError("Debe llenar al menos 3 indicadores");
                 error.setDescripcionError("Asigne un valor mayor a cero para los indicadores, minimo 5");
             }
             msjGen.setText(error.getTituloError());
@@ -504,20 +507,23 @@ public class bEvaluar {
     }
     
     private Boolean[] isOKParcial(){
-        Boolean[] resultValida = new Boolean[2];//0 = mas de 5 rpts (sufi para grabar parcial), 1 = true si todos tienen valor, necesario para mostrar el msj si quiere grabar del todo.
+        Boolean[] resultValida = new Boolean[2];//0 = mas de 3 rpts (sufi para grabar parcial), 1 = true si todos tienen valor, necesario para mostrar el msj si quiere grabar del todo.
         resultValida[0] = false;
         resultValida[1] = true;
-        Iterator it = sessionEvaluar.getLstCriteriosMultiples().iterator();
+        ChildPropertyTreeModel permisosTree = sessionEvaluar.getPermisosTree();
+        List<BeanCriterio> lstBeanCriterio = (List<BeanCriterio>) permisosTree.getWrappedData();
+        Iterator it = lstBeanCriterio.get(0).getLstIndicadores().iterator();
+        //Iterator it = sessionEvaluar.getLstCriteriosMultiples().iterator();
         int cant = 0;
         while(it.hasNext()){
-            BeanCriterio crit = (BeanCriterio) it.next();
+            BeanCriterio crit = (BeanCriterio) it.next();Utils.sysout(" not: "+crit.getNotaVige());
             List<BeanCriterio> hijos = crit.getLstIndicadores();
             Iterator itH = hijos.iterator();
             while(itH.hasNext()){
-                BeanCriterio indi = (BeanCriterio) itH.next();
-                if(indi.getValorSpinBox2() > 0){
+                BeanCriterio indi = (BeanCriterio) itH.next();Utils.sysout("indi.getValorSpinBox2(): "+indi.getValorSpinBox2()+"  i1: "+indi.getValorSpinBox());
+                if(indi.getValorSpinBox() > -1.0){
                     cant++;
-                    if(cant >= 5){
+                    if(cant >= 3){
                         resultValida[0] = true;
                     }else{
                         resultValida[0] = false;
@@ -527,7 +533,7 @@ public class bEvaluar {
                 }
             }
         }
-        if(cant < 5){
+        if(cant < 3){
             resultValida[0] = false;
             resultValida[1] = false;
         }
