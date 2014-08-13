@@ -104,10 +104,10 @@
                 <f:facet name="second">
                     <af:panelGroupLayout layout="vertical" inlineStyle="margin:0px 0px 0px 43px;">
                         <af:panelGroupLayout>
-                            <af:button text="Registrar Evaluacion" id="btnGrabar" binding="#{bEvaluar.btnGrabar}"
+                            <af:button text="Finalizar Evaluacion" id="btnGrabar" binding="#{bEvaluar.btnGrabar}"
                                        styleClass="FondoRojoLetraBlanca" actionListener="#{bEvaluar.grabarEvaluacion}"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"/>
-                            <af:button text="Grabar Evaluacion" id="btnParcial"
+                            <af:button text="Guardar Evaluacion" id="btnParcial"
                                        actionListener="#{bEvaluar.grabarEvaluacionParcial}"
                                        visible="#{bEvaluar.sessionEvaluar.visiblePanelBoxPanelBoxFicha}"
                                        binding="#{bEvaluar.btnParcial}"/>
@@ -185,10 +185,10 @@
                                              binding="#{bEvaluar.otError}" value="#{requestScope.bEvaluar.error}"/>
                         <af:panelGroupLayout>
                             <af:button text="Grabar Parcialmente" id="btnGrabarAux" actionListener="#{bEvaluar.grabarEvaluacionParcialFinal}"
-                                       rendered="false"
+                                       rendered="#{sessionScope.sessionEvaluar.renderBtnParcRegist}"
                                        binding="#{bEvaluar.btnGrabarAux}"/>
                             <af:button text="Registrar Evaluacion" id="btnRegistrarAux" styleClass="FondoRojoLetraBlanca" actionListener="#{bEvaluar.grabarEvaluacion}"
-                                       binding="#{bEvaluar.btnRegistrarAux}" rendered="false"/>
+                                       binding="#{bEvaluar.btnRegistrarAux}" rendered="#{sessionScope.sessionEvaluar.renderBtnParcRegist}"/>
                         </af:panelGroupLayout>
                     </af:panelFormLayout>
                 </af:dialog>
