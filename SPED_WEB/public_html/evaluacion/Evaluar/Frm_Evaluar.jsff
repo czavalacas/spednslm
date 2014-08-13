@@ -133,7 +133,7 @@
                             </f:facet>
                             <af:column width="90" headerText="Puntaje" align="center">
                                 <af:selectOneChoice id="soc1" simple="true" rendered="#{row.displaySpinBox}" 
-                                                    value="#{row.valorSpinBox2}"
+                                                    value="#{row.strSpinBox}"
                                                     autoSubmit="true" immediate="true" valueChangeListener="#{bEvaluar.cambiarValor}">
                                     <f:selectItems value="#{row.lstValoresPosCombo}" id="si1"/>
                                     <f:attribute name="idcrit" value="#{row.nidCriterio}"/>

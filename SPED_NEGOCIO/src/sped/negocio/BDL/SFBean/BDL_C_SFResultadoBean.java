@@ -85,8 +85,8 @@ public class BDL_C_SFResultadoBean implements BDL_C_SFResultadoRemote,
         }
     }
     
-    public int getValorResultadoByNidCriterioIndicador_Evaluacion(int nidCriterioIndicador,
-                                                                  int nidEvaluacion){
+    public double getValorResultadoByNidCriterioIndicador_Evaluacion(int nidCriterioIndicador,
+                                                                     int nidEvaluacion){
         try{
             String strQuery = "SELECT r.valor " +
                               "FROM Resultado r " +
@@ -97,7 +97,7 @@ public class BDL_C_SFResultadoBean implements BDL_C_SFResultadoRemote,
             if(lst.isEmpty()){
                 return 0;
             }else{
-                return Integer.parseInt(lst.get(0).toString());
+                return Double.parseDouble(lst.get(0).toString());
             }
         }catch(Exception e){
             e.printStackTrace();
