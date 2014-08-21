@@ -47,6 +47,8 @@ public class BeanCriterio implements Serializable, Cloneable {
     private String descLeyendaSeleccionada;//dfloresgonz 08.08.2014 para mostrar la desc. cuando se seleccione un valor al evaluar
     private double sumaTotalIndicadores;
     private String strSpinBox;
+    private List<BeanCriterioValor> lstCriteriosValor = new ArrayList<BeanCriterioValor>();//dfloresgonz 13.08.2014 variable auxiliar para mostrar en el tree de la ficha
+    private String displayValor;//dfloresgonz 13.08.2014 auxiliar para mostrar los valores de cada leyenda en el tree
 
     public Object clone() {
         Object clone = null;
@@ -82,6 +84,22 @@ public class BeanCriterio implements Serializable, Cloneable {
         }else{
             return false;
         }
+    }
+
+    public void setDisplayValor(String displayValor) {
+        this.displayValor = displayValor;
+    }
+
+    public String getDisplayValor() {
+        return displayValor;
+    }
+
+    public void setLstCriteriosValor(List<BeanCriterioValor> lstCriteriosValor) {
+        this.lstCriteriosValor = lstCriteriosValor;
+    }
+
+    public List<BeanCriterioValor> getLstCriteriosValor() {
+        return lstCriteriosValor;
     }
 
     public void setStrSpinBox(String strSpinBox) {

@@ -41,6 +41,7 @@ import org.apache.myfaces.trinidad.render.ExtendedRenderKitService;
 import org.apache.myfaces.trinidad.util.Service;
 import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboDouble2;
 import sped.negocio.entidades.beans.BeanComboString;
 
 /** Clase Utils contiene metodos reutilizables
@@ -109,6 +110,29 @@ public class Utils {
                         SelectItem selItm = (SelectItem) listaRoles.get(i);
                         if (((String) selItm.getValue()).equals((String) vce.getNewValue())) {
                             label = selItm.getLabel();
+                            return label;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return label;
+    }
+    
+    public static Double getChoiceLabelDouble(ValueChangeEvent vce) {
+        Double label = 0.0;
+        try {
+            RichSelectOneChoice csoc = (RichSelectOneChoice) vce.getComponent();
+            UISelectItems itms = (UISelectItems) csoc.getChildren().get(0);
+            List listaRoles = (List) itms.getValue();
+            if (listaRoles != null) {
+                if (listaRoles.size() > 0) {
+                    for (int i = 0; i < listaRoles.size(); i++) {
+                        SelectItem selItm = (SelectItem) listaRoles.get(i);
+                        if (((String) selItm.getValue()).equals((String) vce.getNewValue())) {
+                            label = new Double(selItm.getLabel());
                             return label;
                         }
                     }
@@ -290,6 +314,15 @@ public class Utils {
         ArrayList unItems = new ArrayList();
         unItems.add(new SelectItem("-1.0",":: Valor ::" ));
         for (BeanComboString c : lista) {
+            unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
+        }
+        return unItems;
+    }
+    
+    public static ArrayList llenarComboDouble(List<BeanComboDouble2> lista) {
+        ArrayList unItems = new ArrayList();
+        unItems.add(new SelectItem("-1.0",":: Valor ::" ));
+        for (BeanComboDouble2 c : lista) {
             unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
         }
         return unItems;

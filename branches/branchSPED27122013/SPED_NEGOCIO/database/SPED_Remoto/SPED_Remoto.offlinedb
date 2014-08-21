@@ -3,6 +3,6 @@
    <hash n="dataTypeSettings">
       <value n="sourceKey" v="oracle.javatools.db.mysql.MySQL5"/>
    </hash>
-   <value n="id" v="4e6b78bf-735d-4cf5-aca9-97431b8f8fd9"/>
+   <value n="id" v="4bcabc57-ccce-420e-9afd-501afb1af9c3"/>
    <value n="name" v="SPED_Remoto"/>
 </ProviderSettings>

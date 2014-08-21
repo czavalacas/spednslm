@@ -316,7 +316,7 @@
                         <af:outputText value="#{bRegistrarFicha.sessionRegistrarFicha.valorDesc}" id="ot14"
                                        inlineStyle="font-weight:bold;"/>
                         <af:inputText value="#{bRegistrarFicha.sessionRegistrarFicha.leyenda}" id="itLey"
-                                      binding="#{bRegistrarFicha.itLey}" rows="3"/>
+                                      binding="#{bRegistrarFicha.itLey}" rows="4" columns="100"/>
                         <af:button text="Asignar Leyenda" id="btnAsigLey"
                                    actionListener="#{bRegistrarFicha.asignarLeyenda}"/>
                     </af:panelFormLayout>
@@ -327,6 +327,33 @@
             <af:dialog type="okCancel" title="Activar la Ficha - Advertencia"
                        dialogListener="#{bRegistrarFicha.dialogOKReactivarFicha}">
                 <af:outputText value="#{sessionScope.sessionRegistrarFicha.advertenciaSPED0004}" id="ot15"/>
+            </af:dialog>
+        </af:popup>
+        <af:popup childCreation="deferred" autoCancel="disabled" id="popVal" binding="#{bRegistrarFicha.popVal}">
+            <af:dialog type="none" title="Valor de Criterio">
+                <af:subform defaultCommand="btnAsigVal">
+                    <af:panelFormLayout id="pflpopVal" maxColumns="2" rows="1">
+                         <af:selectOneChoice label="Valor" requiredMessageDetail="Seleccionar un valor" id="socVals"
+                                            value="#{sessionScope.sessionRegistrarFicha.valorDoubleString}"
+                                            valueChangeListener="#{bRegistrarFicha.changeChoiceValor}"
+                                            binding="#{bRegistrarFicha.socVals}" autoSubmit="true">
+                            <f:selectItems value="#{sessionScope.sessionRegistrarFicha.lstValores}" id="si4"/>
+                        </af:selectOneChoice>
+                        <af:button text="Asignar Valor" id="btnAsigVal" actionListener="#{bRegistrarFicha.asignarValor}"/>
+                    </af:panelFormLayout>
+                       
+                    <af:panelFormLayout id="pflpopVal2" maxColumns="2" rows="1">
+                        <af:inputText value="#{bRegistrarFicha.sessionRegistrarFicha.valorPopupTreeNew}" id="itVal"
+                                      binding="#{bRegistrarFicha.itVal}" simple="true">
+                        </af:inputText>
+                        <af:button text="Agregar Valor" id="btnNewVal"
+                                   actionListener="#{bRegistrarFicha.registrarNuevoValor}"/>
+                    </af:panelFormLayout>
+                         <af:activeOutputText id="otError"
+                                              value="#{requestScope.bLogin.msjError}"
+                                              inlineStyle="color:Red; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; text-align:center;"
+                                              binding="#{bRegistrarFicha.otError}"/>
+                </af:subform>
             </af:dialog>
         </af:popup>
         <!-- FIN POPUPS -->

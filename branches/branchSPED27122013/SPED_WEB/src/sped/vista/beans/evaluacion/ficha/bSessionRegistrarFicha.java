@@ -46,7 +46,7 @@ public class bSessionRegistrarFicha implements Serializable {
     private List<BeanIndicador> lstIndicadoresByCriterio = new ArrayList<BeanIndicador>();
     private String descCriterioSeleccionado;
     private List<BeanIndicador> lstIndisSelected = new ArrayList<BeanIndicador>();
-    private BeanCriterio critSelected;   
+    private BeanCriterio critSelected;
     private List<BeanLeyenda> lstLeyendas = new ArrayList<BeanLeyenda>();
     private BeanCriterio critSelectedAux;
     private Date fechaHoy = new Date();
@@ -69,9 +69,72 @@ public class bSessionRegistrarFicha implements Serializable {
     private String shortDesc;
     private List<BeanLeyenda> lstLeyendasRaiz = new ArrayList<BeanLeyenda>();
     private List lstTiposFichaCurso;
+    private Integer idValorSelected;
+    private double valorPopupTreeNew;
+    private double valorSelected;
+    private BeanCriterio critSelectedValor;
+    private String paramValor;
+    private List lstValores;
+    private String valorDoubleString;
     
     public bSessionRegistrarFicha() {
 
+    }
+
+    public void setValorSelected(double valorSelected) {
+        this.valorSelected = valorSelected;
+    }
+
+    public double getValorSelected() {
+        return valorSelected;
+    }
+
+    public void setValorPopupTreeNew(double valorPopupTreeNew) {
+        this.valorPopupTreeNew = valorPopupTreeNew;
+    }
+
+    public double getValorPopupTreeNew() {
+        return valorPopupTreeNew;
+    }
+
+    public void setValorDoubleString(String valorDoubleString) {
+        this.valorDoubleString = valorDoubleString;
+    }
+
+    public String getValorDoubleString() {
+        return valorDoubleString;
+    }
+
+    public void setLstValores(List lstValores) {
+        this.lstValores = lstValores;
+    }
+
+    public List getLstValores() {
+        return lstValores;
+    }
+
+    public void setParamValor(String paramValor) {
+        this.paramValor = paramValor;
+    }
+
+    public String getParamValor() {
+        return paramValor;
+    }
+
+    public void setCritSelectedValor(BeanCriterio critSelectedValor) {
+        this.critSelectedValor = critSelectedValor;
+    }
+
+    public BeanCriterio getCritSelectedValor() {
+        return critSelectedValor;
+    }
+
+    public void setIdValorSelected(Integer idValorSelected) {
+        this.idValorSelected = idValorSelected;
+    }
+
+    public Integer getIdValorSelected() {
+        return idValorSelected;
     }
 
     public void setLstTiposFichaCurso(List lstTiposFichaCurso) {

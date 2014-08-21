@@ -7,11 +7,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Valor.findAll", query = "select o from Valor o") })
@@ -21,6 +24,8 @@ public class Valor implements Serializable {
     @Column(name = "desc_valor", nullable = false)
     private String descripcionValor;
     @Id
+    @TableGenerator( name = "stmcodi.evmvalo", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "evmvalo.nidValoracion", valueColumnName = "APP_SEQ_VALUE", initialValue = 1, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi.evmvalo" )
     @Column(name = "idValoracion", nullable = false)
     private int nidValoracion;
     @Column(name = "valor", nullable = false)

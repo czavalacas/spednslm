@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboDouble2;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 
@@ -36,4 +37,5 @@ public interface LN_C_SFUtilsLocal {
     List<BeanCombo> getEvaluadoresByArea_LN(int nidArea);
     List<BeanCombo> getEvaluadoresByAreaByEstado_LN(int nidArea, boolean estado);
     List<BeanCombo> getEvaluadoresByEstado_LN(boolean estado);
+    List<BeanComboDouble2> getListaValores_LN();
 }

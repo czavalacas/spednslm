@@ -37,6 +37,8 @@ public class FichaCriterio implements Serializable {
     private Ficha ficha;
     @Column(name = "orden")
     private int orden;
+    @OneToMany(mappedBy = "fichaCriterio",fetch = FetchType.EAGER ,cascade = { CascadeType.ALL })
+    private List<CriterioValor> lstCriterioValores;
 
     public FichaCriterio() {
     }
@@ -44,6 +46,14 @@ public class FichaCriterio implements Serializable {
     public FichaCriterio(Criterio criterio, Ficha ficha) {
         this.criterio = criterio;
         this.ficha = ficha;
+    }
+
+    public void setLstCriterioValores(List<CriterioValor> lstCriterioValores) {
+        this.lstCriterioValores = lstCriterioValores;
+    }
+
+    public List<CriterioValor> getLstCriterioValores() {
+        return lstCriterioValores;
     }
 
     public void setOrden(int orden) {
