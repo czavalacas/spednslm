@@ -224,3 +224,17 @@ af|commandMenuItem::menu-item {
 af|commandMenuItem::bar-item {
     color: #666361; 
 }
+
+af|showDetailItem {
+    color: #666361; 
+}
+
+af|panelTabbed::tab-content {
+    color: #666361;
+}
+
+af|panelTabbed::body {
+    background-color: transparent; 
+    border-color: transparent; 
+    border: transparent; 
+}
