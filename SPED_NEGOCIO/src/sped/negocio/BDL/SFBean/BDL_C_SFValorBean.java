@@ -29,6 +29,23 @@ public class BDL_C_SFValorBean implements BDL_C_SFValorRemote,
                                "WHERE v.valor BETWEEN :valMin and :valor").setParameter("valMin",valMin).
                                                                            setParameter("valor",(valMax - 1)).getResultList();
     }
+
+    public int cantidadValoresByValor(double valor) {
+        try {
+            String strQuery = "SELECT COUNT(1) " +
+                              "FROM Valor v " +
+                              "WHERE v.valor = :valor ";
+            List lst = em.createQuery(strQuery).setParameter("valor",valor).getResultList();
+            if(lst.isEmpty()){
+                return 0;
+            }else{
+                return Integer.parseInt(lst.get(0).toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
     
     public Valor findValorById(int id) {
         try {

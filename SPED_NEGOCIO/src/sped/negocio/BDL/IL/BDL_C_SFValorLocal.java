@@ -13,4 +13,5 @@ public interface BDL_C_SFValorLocal {
     Valor findValorById(int id);
     String getRangoValorByFicha(int nidFicha);
     String getValoresByCriterio(int nidCriterio,int nidFicha);
+    int cantidadValoresByValor(double valor);
 }
