@@ -31,6 +31,9 @@
                                     </af:commandLink>
                                     <af:menuBar id="menu" var="item" binding="#{bMain.menu}"
                                                 inlineStyle="margin:10px -350px 0px -100px;"/>
+                                    <!--<af:panelTabbed id="ptMen" binding="#{bMain.ptMen}" inlineStyle="margin:0px 0px 0px -550px;">
+                                       
+                                    </af:panelTabbed>-->
                                 </af:panelFormLayout>
                             </af:gridCell>
                             <af:gridCell width="100%" id="gc2" halign="end">

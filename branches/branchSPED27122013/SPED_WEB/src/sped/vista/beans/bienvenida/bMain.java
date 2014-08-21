@@ -29,6 +29,10 @@ import oracle.adf.view.rich.component.rich.RichMenu;
 import oracle.adf.view.rich.component.rich.RichMenuBar;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.layout.RichGridCell;
+import oracle.adf.view.rich.component.rich.layout.RichPanelTabbed;
+import oracle.adf.view.rich.component.rich.layout.RichShowDetailItem;
+import oracle.adf.view.rich.component.rich.nav.RichButton;
+import oracle.adf.view.rich.component.rich.nav.RichCommandButton;
 import oracle.adf.view.rich.component.rich.nav.RichCommandLink;
 import oracle.adf.view.rich.component.rich.nav.RichCommandMenuItem;
 
@@ -92,6 +96,7 @@ public class bMain implements Serializable {
     private FacesContext ctx = FacesContext.getCurrentInstance();
     private String clave;
     private String msjError;
+    private RichPanelTabbed ptMen;
 
     public bMain(){
         super();
@@ -108,6 +113,7 @@ public class bMain implements Serializable {
     public void createMenus(PhaseEvent phaseEvent) {
         if(sessionMain.getExec() == 0){
             buildMenu();
+            //buildMenuTabbed();
             sessionMain.setExec(1);
         }
     }
@@ -190,8 +196,92 @@ public class bMain implements Serializable {
         }
     }
 
+    public String buildMenuTabbed(){
+        try {
+            if (sessionMain.getLstPermisos() != null) {
+                sessionMain.getLstPermisos().removeAll(sessionMain.getLstPermisos());
+                sessionMain.getLstPermisos().clear();
+                sessionMain.setLstPermisos(new ArrayList<BeanPermiso>());
+            }
+            List<BeanPermiso> lstPerm = ln_C_SFPermisosLocal.getCrearArbolNuevo(beanUsuario.getRol().getNidRol(), beanUsuario.getNidUsuario());
+            sessionMain.setLstPermisos(lstPerm);
+            List<Integer> lstPermisos = lstPerm.get(0).getLstPermisos();
+            beanUsuario.setLstPermisos(lstPermisos);
+            sessionMain.setVerNotificaciones(Utils.hasPermiso(lstPermisos,new Integer("19")));
+            sessionMain.setVerNotificacionesEvas(Utils.hasPermiso(lstPermisos,new Integer("16")));
+            sessionMain.setVerNotificacionesPOs(Utils.hasPermiso(lstPermisos,new Integer("17")));
+            if(ptMen != null){
+                if(ptMen.getChildren() != null){
+                    ptMen.getChildren().clear();
+                }
+            }
+            for (int i = 0; i < sessionMain.getLstPermisos().size(); i++) {
+                int hijoDeMBar = 0;
+                crearHijosTabbed(sessionMain.getLstPermisos().get(i), new RichShowDetailItem(), hijoDeMBar);
+            }
+            if(sessionMain.getExec() == 0 && popNew.getChildCount() == 0 ){
+                isNuevoUsuario();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public void crearHijosTabbed(BeanPermiso menuItem, RichShowDetailItem _menu, int hijoDeMBar) {
+        if (menuItem.getListaHijos() != null) {
+            if (menuItem.getListaHijos().size() > 0) {
+                RichShowDetailItem  menu2 = new RichShowDetailItem();
+                menu2.setId("hijosDe_" + menuItem.getNidPermiso());
+                menu2.setInlineStyle("color:rgb(102,98,96);");
+                menu2.setText(menuItem.getDescripcionPermiso());//menu2.setIcon("/recursos/img/usuarios/comment.png");//menuItem.getUrlIcono()
+                if (hijoDeMBar == 0) { //Es hijo directamente del menubar
+                    ptMen.getChildren().add(menu2);
+                } else if (hijoDeMBar > 0) {
+                    _menu.getChildren().add(menu2);
+                }
+                for (int j = 0; j < menuItem.getListaHijos().size(); j++) {
+                    hijoDeMBar++;
+                    crearHijosTabbed(menuItem.getListaHijos().get(j), menu2, hijoDeMBar);
+                }
+            }
+        } else {
+            RichButton rcni = new RichButton();
+            rcni.setText(menuItem.getDescripcionPermiso());
+            rcni.setId("menu" + menuItem.getNidPermiso());
+            rcni.setInlineStyle("color:rgb(102,98,96);");
+            rcni.setShortDesc(menuItem.getUrl());
+            rcni.setImmediate(true);//rcni.setIcon("/recursos/img/usuarios/comment.png");//menuItem.getUrlIcono()
+            try {
+                /*if (menuItem.getAccelerator() != null) {
+                    if (!menuItem.getAccelerator().equals("")) {
+                        rcni.setAccelerator(AWTKeyStroke.getAWTKeyStroke(menuItem.getAccelerator()));
+                    }
+                }*/
+            } catch (Exception e) {
+                // TODO: GRABAR EN EL LOG
+                e.printStackTrace();
+            }
+            rcni.setAccessKey(menuItem.getAccessKey());
+            rcni.setPartialSubmit(true);
+            rcni.setAction(Utils.createActionMethodBinding("#{beanRegion.getMainCall}"));
+            rcni.setActionListener(Utils.createActionListenerMethodBinding("#{bMain.getUrlTabbed}"));
+            if (hijoDeMBar == 0) { //Es hijo directamente del menubar
+                ptMen.getChildren().add(rcni);
+            } else if (hijoDeMBar > 0) {
+                _menu.getChildren().add(rcni);
+            }
+        }
+    }
+    
     public void getUrl(ActionEvent e) {
         RichCommandMenuItem componente = (RichCommandMenuItem) e.getComponent();
+        String url = componente.getShortDesc();
+        Utils.putSession("url", url);
+    }
+    
+    public void getUrlTabbed(ActionEvent e) {
+        RichButton componente = (RichButton) e.getComponent();
         String url = componente.getShortDesc();
         Utils.putSession("url", url);
     }
@@ -492,5 +582,13 @@ public class bMain implements Serializable {
 
     public RichCommandLink getClCantRptaProf() {
         return clCantRptaProf;
+    }
+
+    public void setPtMen(RichPanelTabbed ptMen) {
+        this.ptMen = ptMen;
+    }
+
+    public RichPanelTabbed getPtMen() {
+        return ptMen;
     }
 }
