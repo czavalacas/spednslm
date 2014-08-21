@@ -266,6 +266,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             beanCritValor.setNidCriterioValor(cval.getNidCriterioValor());
             beanCritValor.setDescripcionValor(cval.getDescripcionValor());
             beanCritValor.setIdValoracion(cval.getIdValoracion());
+            beanCritValor.setOrden(cval.getOrden());
             /*beanCritValor.setNidCriterio1(cval.getNidCriterio());
             beanCritValor.setNidFicha1(cval.getNidFicha());*/
             beanCritValor.setValor(cval.getValor());
