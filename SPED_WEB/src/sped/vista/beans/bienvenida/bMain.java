@@ -29,6 +29,7 @@ import oracle.adf.view.rich.component.rich.RichMenu;
 import oracle.adf.view.rich.component.rich.RichMenuBar;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.layout.RichGridCell;
+import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 import oracle.adf.view.rich.component.rich.layout.RichPanelTabbed;
 import oracle.adf.view.rich.component.rich.layout.RichShowDetailItem;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
@@ -112,8 +113,8 @@ public class bMain implements Serializable {
     
     public void createMenus(PhaseEvent phaseEvent) {
         if(sessionMain.getExec() == 0){
-            buildMenu();
-            //buildMenuTabbed();
+            //buildMenu();
+            buildMenuTabbed();
             sessionMain.setExec(1);
         }
     }
@@ -235,6 +236,8 @@ public class bMain implements Serializable {
                 menu2.setId("hijosDe_" + menuItem.getNidPermiso());
                 menu2.setInlineStyle("color:rgb(102,98,96);");
                 menu2.setText(menuItem.getDescripcionPermiso());//menu2.setIcon("/recursos/img/usuarios/comment.png");//menuItem.getUrlIcono()
+                RichPanelGroupLayout groupLO = new RichPanelGroupLayout();
+                menu2.getChildren().add(groupLO);
                 if (hijoDeMBar == 0) { //Es hijo directamente del menubar
                     ptMen.getChildren().add(menu2);
                 } else if (hijoDeMBar > 0) {
@@ -242,7 +245,8 @@ public class bMain implements Serializable {
                 }
                 for (int j = 0; j < menuItem.getListaHijos().size(); j++) {
                     hijoDeMBar++;
-                    crearHijosTabbed(menuItem.getListaHijos().get(j), menu2, hijoDeMBar);
+                    //crearHijosTabbed(menuItem.getListaHijos().get(j), menu2, hijoDeMBar);
+                    buscarHijosYAgregar_Recursive(menuItem.getListaHijos().get(j), hijoDeMBar, menu2,groupLO);
                 }
             }
         } else {
@@ -252,16 +256,6 @@ public class bMain implements Serializable {
             rcni.setInlineStyle("color:rgb(102,98,96);");
             rcni.setShortDesc(menuItem.getUrl());
             rcni.setImmediate(true);//rcni.setIcon("/recursos/img/usuarios/comment.png");//menuItem.getUrlIcono()
-            try {
-                /*if (menuItem.getAccelerator() != null) {
-                    if (!menuItem.getAccelerator().equals("")) {
-                        rcni.setAccelerator(AWTKeyStroke.getAWTKeyStroke(menuItem.getAccelerator()));
-                    }
-                }*/
-            } catch (Exception e) {
-                // TODO: GRABAR EN EL LOG
-                e.printStackTrace();
-            }
             rcni.setAccessKey(menuItem.getAccessKey());
             rcni.setPartialSubmit(true);
             rcni.setAction(Utils.createActionMethodBinding("#{beanRegion.getMainCall}"));
@@ -270,6 +264,32 @@ public class bMain implements Serializable {
                 ptMen.getChildren().add(rcni);
             } else if (hijoDeMBar > 0) {
                 _menu.getChildren().add(rcni);
+            }
+        }
+    }
+    
+    public void buscarHijosYAgregar_Recursive(BeanPermiso menuItem,int hijoDeMBar,RichShowDetailItem _menu,RichPanelGroupLayout groupLO){
+        if("N".equalsIgnoreCase(menuItem.getIsNodo()) ){//Hay hijos
+            for (int j = 0; j < menuItem.getListaHijos().size(); j++) {
+                hijoDeMBar++;
+                buscarHijosYAgregar_Recursive(menuItem.getListaHijos().get(j), hijoDeMBar, _menu,groupLO);
+            }
+        }else if("S".equalsIgnoreCase(menuItem.getIsNodo()) ){//Es nodo
+            RichButton rcni = new RichButton();
+            rcni.setText(menuItem.getDescripcionPermiso());
+            rcni.setId("menu" + menuItem.getNidPermiso());
+            rcni.setInlineStyle("color:rgb(102,98,96);");
+            rcni.setShortDesc(menuItem.getUrl());
+            rcni.setImmediate(true);//rcni.setIcon("/recursos/img/usuarios/comment.png");//menuItem.getUrlIcono()
+            rcni.setAccessKey(menuItem.getAccessKey());
+            rcni.setPartialSubmit(true);
+            rcni.setAction(Utils.createActionMethodBinding("#{beanRegion.getMainCall}"));
+            rcni.setActionListener(Utils.createActionListenerMethodBinding("#{bMain.getUrlTabbed}"));
+            if (hijoDeMBar == 0) { //Es hijo directamente del menubar
+                ptMen.getChildren().add(rcni);
+            } else if (hijoDeMBar > 0) {
+                //_menu.getChildren().add(rcni);
+                groupLO.getChildren().add(rcni);
             }
         }
     }
