@@ -8,6 +8,7 @@ import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.ConstraintPK;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboDouble;
+import sped.negocio.entidades.beans.BeanComboDouble2;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.sist.Log;
@@ -47,4 +48,5 @@ public interface BDL_C_SFUtilsLocal {
     List<BeanCombo> getEvaluadoresByEstado(String id, String desc, boolean estado);
     Log findLogById(int id);
     List<BeanComboDouble> getPosibleListaValoresIndicador(int nidCritIndi);
+    List<BeanComboDouble2> getListaValores();
 }

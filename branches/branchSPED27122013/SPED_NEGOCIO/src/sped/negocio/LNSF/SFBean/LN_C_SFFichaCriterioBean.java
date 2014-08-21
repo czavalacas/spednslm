@@ -1,6 +1,8 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,12 +32,14 @@ import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanComboDouble;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanCriterio;
+import sped.negocio.entidades.beans.BeanCriterioValor;
 import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanFicha;
 import sped.negocio.entidades.beans.BeanFichaCriterio;
 import sped.negocio.entidades.beans.BeanLeyenda;
 import sped.negocio.entidades.eval.Criterio;
 import sped.negocio.entidades.eval.CriterioIndicador;
+import sped.negocio.entidades.eval.CriterioValor;
 import sped.negocio.entidades.eval.FichaCriterio;
 import sped.negocio.entidades.eval.Leyenda;
 
@@ -105,8 +109,10 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             if(bool){
                 criterio.setNoMostrarDown(true);
             }
+            criterio.setLstCriteriosValor(this.getLstCriteriosValor(fichaCriterio.getLstCriterioValores()));
             criterio.setDisplayInput("true");
             criterio.setDisplaySpinBox("false");
+            criterio.setDisplayValor("display:block;");
             lstBeanCriterio.add(criterio);
             indx++;
         }
@@ -139,6 +145,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             criterio.setNotaVige(vigecimal);
             criterio.setLstIndicadores(this.getListaIndicadoresConValores(fichaCriterio.getCriterioIndicadorLista(),criterio.getNidCriterio(),nidEvaluacion));
             criterio.setValorInput((criterio.getLstIndicadores().get((criterio.getLstIndicadores().size() - 1)).getSumaTotalIndicadores() < 0.0 ? "0.0" : criterio.getLstIndicadores().get((criterio.getLstIndicadores().size() - 1)).getSumaTotalIndicadores()) +" / "+vigecimal);
+            criterio.setLstCriteriosValor(this.getLstCriteriosValor(fichaCriterio.getLstCriterioValores()));
             criterio.setMostrarBoton(true);//lupita para agregar indicadores
             criterio.setMostrarUpDown(true);
             criterio.setSelected(true);
@@ -150,6 +157,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             }
             criterio.setDisplayInput("true");
             criterio.setDisplaySpinBox("false");
+            criterio.setDisplayValor("display:block;");
             lstBeanCriterio.add(criterio);
             indx++;
         }
@@ -187,6 +195,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setDisplayInput("false");
             crit.setDisplaySpinBox("true");
             crit.setNidCriterioPadre(nidPadre);
+            crit.setDisplayValor("display:none;");
             lstIndis.add(crit);
             indx++;
         }
@@ -233,6 +242,7 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             crit.setDisplayInput("false");
             crit.setDisplaySpinBox("true");
             crit.setNidCriterioPadre(nidPadre);
+            crit.setDisplayValor("display:none;");
             lstIndis.add(crit);
             indx++;
         }
@@ -247,6 +257,26 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             lstLeyendas.add(bLey);
         }
         return lstLeyendas;
+    }
+    
+    public List<BeanCriterioValor> getLstCriteriosValor(List<CriterioValor> lstCritValor){
+        List<BeanCriterioValor> lstCriteriosValor = new ArrayList<BeanCriterioValor>();
+        for(CriterioValor cval : lstCritValor){
+            BeanCriterioValor beanCritValor = new BeanCriterioValor();
+            beanCritValor.setNidCriterioValor(cval.getNidCriterioValor());
+            beanCritValor.setDescripcionValor(cval.getDescripcionValor());
+            beanCritValor.setIdValoracion(cval.getIdValoracion());
+            /*beanCritValor.setNidCriterio1(cval.getNidCriterio());
+            beanCritValor.setNidFicha1(cval.getNidFicha());*/
+            beanCritValor.setValor(cval.getValor());
+            lstCriteriosValor.add(beanCritValor);
+        }
+        Collections.sort(lstCriteriosValor, new Comparator<BeanCriterioValor>() {
+            public int compare(BeanCriterioValor s1,BeanCriterioValor s2) {
+                return (s1.getOrden().compareTo(s2.getOrden()));
+            }
+        });
+        return lstCriteriosValor;
     }
     
     public List<BeanFichaCriterio> getLstFichaCriterioByEvaluacion(int nidEvaluacion){

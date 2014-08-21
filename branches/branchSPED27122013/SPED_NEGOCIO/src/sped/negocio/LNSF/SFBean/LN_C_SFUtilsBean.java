@@ -22,6 +22,7 @@ import sped.negocio.LNSF.IL.LN_C_SFUtilsLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboDouble2;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConstraint;
 
@@ -149,5 +150,9 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     
     public List<BeanCombo> getEvaluadoresByEstado_LN(boolean estado){
         return bdL_C_SFUtilsLocal.getEvaluadoresByEstado("e.nidUsuario", "e.nombres", estado);
+    }
+    
+    public List<BeanComboDouble2> getListaValores_LN(){
+        return bdL_C_SFUtilsLocal.getListaValores();
     }
 }

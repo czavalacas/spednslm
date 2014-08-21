@@ -7,7 +7,7 @@ public class BeanIndicadorValorWS implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private Integer nidCI;
-    private Double valor;
+    private Integer valor;
     //AUXILIARES PARA CONSULTAR EVALUACION - MOVIL
     private String descripcionIndicador;
     private String leyenda;
@@ -41,7 +41,7 @@ public class BeanIndicadorValorWS implements Serializable {
         return leyenda;
     }
 
-    public BeanIndicadorValorWS(Integer nidCI,Double valor){
+    public BeanIndicadorValorWS(Integer nidCI,Integer valor){
         this.nidCI = nidCI;
         this.valor = valor;
     }
@@ -54,11 +54,11 @@ public class BeanIndicadorValorWS implements Serializable {
         return nidCI;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(Integer valor) {
         this.valor = valor;
     }
 
-    public Double getValor() {
+    public Integer getValor() {
         return valor;
     }
 }
