@@ -14,7 +14,7 @@
                   logoutAction = 1;
               }
             </af:resource>
-            <af:panelSplitter orientation="vertical" splitterPosition="56" id="ps1"
+            <af:panelSplitter orientation="vertical" splitterPosition="60" id="ps1"
                               inlineStyle="margin:-10px 0px 0px 0px;" firstBorder="none" secondBorder="none">
                 <f:facet name="first">
                     <af:panelGridLayout id="pgl1"
@@ -23,17 +23,24 @@
                             <af:gridCell marginStart="1px" width="auto" id="gc1">
                                 <af:panelFormLayout maxColumns="4" rows="1" inlineStyle="margin:5px 0px 0px 0px;">
                                     <af:image source="/recursos/img/layout/_logo.png"
+                                              inlineStyle="height:37px;width:50px;margin:0px 0px 0px 0px;"/>
+                                    <af:image source="/recursos/img/layout/logotipo.png"
+                                              inlineStyle="height:32px;width:160px;margin:3px 0px 0px -200px;"/>
+                                    <af:commandLink action="#{bMain.buildMenuTabbed}" immediate="true">
+                                        <af:image source="../recursos/img/usuarios/refresh.png" 
+                                                  inlineStyle="margin:10px 0px 0px -280px;"/>
+                                    </af:commandLink>
+                                    <af:panelTabbed id="ptMen" binding="#{bMain.ptMen}" 
+                                                    inlineStyle="margin:0px 260px 0px -500px;" maxTabSize="250px"/>
+                                <!-- <af:image source="/recursos/img/layout/_logo.png"
                                               inlineStyle="height:37px;width:50px;margin:2px 0px 0px 20px;"/>
                                     <af:image source="/recursos/img/layout/logotipo.png"
                                               inlineStyle="height:32px;width:160px;margin:3px 0px 0px -45px;"/>
-                                    <af:commandLink action="#{bMain.buildMenu}" immediate="true">
+                                    <af:commandLink action="#{bMain.buildMenuTabbed}" immediate="true">
                                         <af:image source="../recursos/img/usuarios/refresh.png" inlineStyle="margin:10px 0px 0px 0px;"/>
                                     </af:commandLink>
                                     <af:menuBar id="menu" var="item" binding="#{bMain.menu}"
-                                                inlineStyle="margin:10px -350px 0px -100px;"/>
-                                    <!--<af:panelTabbed id="ptMen" binding="#{bMain.ptMen}" inlineStyle="margin:0px 0px 0px -550px;">
-                                       
-                                    </af:panelTabbed>-->
+                                                inlineStyle="margin:10px -350px 0px -100px;"/> -->
                                 </af:panelFormLayout>
                             </af:gridCell>
                             <af:gridCell width="100%" id="gc2" halign="end">
