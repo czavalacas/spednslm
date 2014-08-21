@@ -74,7 +74,9 @@
                               varStatus="vs" emptyText="No hay Partes de Ocurrencia" width="inherit;"
                               rowSelection="single" columnStretching="column:c7">
                         <af:column width="22" frozen="true">
+                            <af:spacer height="10"/>
                             <af:outputText value="#{vs.index + 1}"/>
+                            <af:spacer height="10"/>
                         </af:column>
                         <af:column sortable="true" headerText="Profesor" align="start" width="170" id="c6" sortProperty="profesor">
                             <af:outputText value="#{row.profesor}" id="ot6">
