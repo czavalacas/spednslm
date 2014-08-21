@@ -34,7 +34,7 @@ import sped.negocio.entidades.eval.Ficha;
 
 @Stateless(name = "LN_C_SFFicha", mappedName = "mapLN_C_SFFicha")
 public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
-                                            LN_C_SFFichaLocal {
+                                         LN_C_SFFichaLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -82,9 +82,9 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
     }
     
     public String getNextVersionFichaByAttr_LN(int year,
-                                                int mes,
-                                                String tipFicha,
-                                                String tipFichaCurso){
+                                               int mes,
+                                               String tipFicha,
+                                               String tipFichaCurso){
         String desc = "";
         try{
             Object[] o = bdL_C_SFFichaLocal.getLastestFichaVersionByAttr_BDL(year,mes,tipFicha,tipFichaCurso);
@@ -108,7 +108,7 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
     
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public BeanFicha checkSiSePuedeActivar(String tipFicha,
-                                            String tipCursoFicha){
+                                           String tipCursoFicha){
         String error = "000";
         BeanError beanError = new BeanError();
         BeanFicha bFicha = new BeanFicha();
