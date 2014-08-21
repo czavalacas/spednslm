@@ -109,6 +109,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                 u.setAreaAcademica(area);
                 u.setUsuario(usuario);   
                 u.setIsSupervisor((rol.getNidRol() == 2 && isSupervisor) ? "1" : "0");
+                u.setTipoFichaCurso(rol.getNidRol() == 2 ? "GE" : rol.getNidRol() == 4 ? "SD" : null);//dfloresgonz 21.08.2014
                 if(rutaImg != null){
                     u.setFoto(Utiles.Imagen(rutaImg));
                 }
@@ -191,31 +192,31 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
                                                           Utiles.getStack(e));
         }
     }
-    
-    public String cambiarEstadoUsuarioProfesores(List<BeanProfesor> listprofesores){
-        List<Usuario> listUsuarios=bdL_C_SFUsuarioLocal.getUsuarioTipoProfesor();
-        for(int i=0; i<listprofesores.size(); i++){
-        for(int j=0; j<listUsuarios.size(); j++){            
-            if(listprofesores.get(i).getDniProfesor().equals(listUsuarios.get(j).getDni())){
-                    Usuario usua=listUsuarios.get(j);
+
+    public String cambiarEstadoUsuarioProfesores(List<BeanProfesor> listprofesores) {
+        List<Usuario> listUsuarios = bdL_C_SFUsuarioLocal.getUsuarioTipoProfesor();
+        for (int i = 0; i < listprofesores.size(); i++) {
+            for (int j = 0; j < listUsuarios.size(); j++) {
+                if (listprofesores.get(i).getDniProfesor().equals(listUsuarios.get(j).getDni())) {
+                    Usuario usua = listUsuarios.get(j);
                     usua.setEstadoUsuario("1");
                     bdL_T_SFUsuarioLocal.mergeUsuario(usua);
-                    listUsuarios.remove(j);                     
+                    listUsuarios.remove(j);
                 }
-        }
+            }
         }
         /**Cambia de estado a 0 en usuario a los docentes que no vienen en la nueva carga*/
-        for(int i=0;i<listUsuarios.size(); i++){
-            Usuario usua=listUsuarios.get(i);
+        for (int i = 0; i < listUsuarios.size(); i++) {
+            Usuario usua = listUsuarios.get(i);
             usua.setEstadoUsuario("0");
             bdL_T_SFUsuarioLocal.mergeUsuario(usua);
             /**Cambiarle su estado en main a 0 a los docentes que ya no aparecen la nueva carga*/
             List<Main> listMain = bdl_C_SFMainRemote.getHorariosPorDocente(listUsuarios.get(i).getDni());
-            if(listMain!=null){
-            for(Main entida:listMain){
-                entida.setEstado("0");
-                bdl_T_SFMainRemoto.mergeMain(entida);
-            }
+            if (listMain != null) {
+                for (Main entida : listMain) {
+                    entida.setEstado("0");
+                    bdl_T_SFMainRemoto.mergeMain(entida);
+                }
             }
         }
         return null;

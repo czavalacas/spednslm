@@ -96,11 +96,13 @@
                 </f:facet>
                 <f:facet name="statusbar"/>
                 <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" id="t2"
-                          width="inherit;" fetchSize="25" inlineStyle="width:inherit; margin:0px 50px 0px 0px;"
+                          width="inherit;" fetchSize="15" inlineStyle="width:inherit; margin:0px 50px 0px 0px;"
                           binding="#{bGestionarUsuarios.t1}" rowSelection="single"
                           selectionListener="#{bGestionarUsuarios.selecionarUsuario}" varStatus="vs">
                     <af:column width="18">
+                        <af:spacer height="10"/>
                         <af:outputText value="#{vs.index + 1}"/>
+                        <af:spacer height="10"/>
                     </af:column>
                     <af:column sortable="true" headerText="Nombres" align="start" id="c1" width="300"
                                sortProperty="nombres">
