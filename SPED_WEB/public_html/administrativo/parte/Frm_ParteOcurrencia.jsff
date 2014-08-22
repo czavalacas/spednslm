@@ -54,7 +54,7 @@
                             <af:button text="Buscar" id="btnBuscarPO"
                                         action="#{bParteOcurrencia.buscarPartesOcurrencia}"/>
                             <af:button icon="../recursos/img/usuarios/refresh.png" immediate="true"
-                                        actionListener="#{bParteOcurrencia.limpiarPO}"/>
+                                       actionListener="#{bParteOcurrencia.limpiarPO}" id="btnRef"/>
                         <af:button text="Exportar Excel" id="btnEExl" visible="#{sessionScope.sessionParteOcurrencia.lstNotifPOs.size() > 0}"
                                    binding="#{bParteOcurrencia.btnEExl}">
                              <af:exportCollectionActionListener type="excelHTML" exportedId="pc1:tbPOs"
@@ -63,12 +63,13 @@
                         </af:button>
                     </af:panelGroupLayout>
                      <af:panelCollection id="pc1" inlineStyle="width:inherit;">
-                         <f:facet name="menus"/>
-                        <f:facet name="toolbar">
+                         <f:facet name="statusbar"/>
+                         <f:facet name="toolbar">
                             <af:toolbar id="t1">
+                                <af:outputText value="Se encontraron #{sessionParteOcurrencia.lstNotifPOs.size()} resultado(s)" id="otDesc"
+                                               partialTriggers="::btnBuscarPO ::btnRef" styleClass="errorColor"/>
                             </af:toolbar>
-                        </f:facet>
-                        <f:facet name="statusbar"/>
+                         </f:facet>
                         <af:table value="#{sessionScope.sessionParteOcurrencia.lstNotifPOs}" var="row" rowBandingInterval="0" id="tbPOs"
                               binding="#{bParteOcurrencia.tbPOs}" inlineStyle="width:inherit; margin:0px 50px 0px 0px;"
                               varStatus="vs" emptyText="No hay Partes de Ocurrencia" width="inherit;"

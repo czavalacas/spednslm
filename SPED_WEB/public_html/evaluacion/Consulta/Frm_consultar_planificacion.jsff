@@ -96,11 +96,14 @@
                 </af:panelGroupLayout>
                 <af:panelGroupLayout id="pgl4">
                     <af:panelCollection id="pc1" inlineStyle="width:inherit;">
-                        <f:facet name="menus"/>
-                        <f:facet name="toolbar">
-                            <af:toolbar></af:toolbar>
-                        </f:facet>
                         <f:facet name="statusbar"/>
+                        <f:facet name="toolbar">
+                            <af:toolbar>
+                                <af:outputText value="Se encontraron #{sessionConsultarPlanificacion.listaPlanificaciones.size()} resultado(s)" id="otDesc"
+                                               partialTriggers="::btnBuscar ::b2" styleClass="errorColor"/>
+                            </af:toolbar>
+                        </f:facet>
+                        
                         <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs"
                                   inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
                                   binding="#{bConsultaPlanificacion.tbPlanificacion}"
