@@ -44,6 +44,7 @@ import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 import oracle.adf.view.rich.component.rich.layout.RichShowDetail;
 
 import oracle.adf.view.rich.component.rich.nav.RichButton;
+import oracle.adf.view.rich.component.rich.output.RichOutputText;
 import oracle.adf.view.rich.event.DialogEvent;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;

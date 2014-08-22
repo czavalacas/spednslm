@@ -99,7 +99,6 @@
                                icon="../recursos/img/usuarios/refresh.png"/>
                 </af:panelGroupLayout>
             </af:subform>
-            <af:spacer width="10" height="10" id="s5"/>
             <af:button id="bExcel" immediate="true" text="Exportar a Excel" 
                        rendered="#{sessionConsultarEvaluacion.renderExcel}"
                        binding="#{bConsultarEvaluacion.bexcel}">
@@ -107,9 +106,12 @@
                                                    filename="Consultar_Evaluacion.xls" title="Evaluaciones"/>
             </af:button>
             <af:panelCollection id="pc1" inlineStyle="width:inherit;">
-                <f:facet name="menus"/>
+                <!--<f:facet name="menus"/>-->
                 <f:facet name="toolbar">
-                    <af:toolbar id="t1"></af:toolbar>
+                    <af:toolbar id="t1">
+                        <af:outputText value="Se encontraron #{sessionConsultarEvaluacion.lstBeanEvaluacion.size()} evaluaciones" id="otDesc"
+                                       partialTriggers="::s1:btnBuscar ::s1:btnRefreshFiltro" styleClass="errorColor"/>
+                    </af:toolbar>
                 </f:facet>
                 <f:facet name="statusbar"/> 
                     <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row" varStatus="vs"

@@ -92,7 +92,10 @@
             <af:panelCollection id="pc1" inlineStyle="width:inherit;">
                 <f:facet name="menus"/>
                 <f:facet name="toolbar">
-                    <af:toolbar id="t1"></af:toolbar>
+                    <af:toolbar id="t1">
+                        <af:outputText value="Se encontraron #{sessionGestionarUsuarios.lstUsuario.size()} Usuario(s)" id="otDesc"
+                                       partialTriggers="::s2:b5 ::s2:btnRefreshFiltro" styleClass="errorColor"/>
+                    </af:toolbar>
                 </f:facet>
                 <f:facet name="statusbar"/>
                 <af:table value="#{sessionGestionarUsuarios.lstUsuario}" var="row" rowBandingInterval="0" id="t2"
