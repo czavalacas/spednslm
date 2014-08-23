@@ -28,6 +28,8 @@ public class Sede implements Serializable {
     private int nidSede;
     @OneToMany(mappedBy = "sede", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Aula> aulaLista;
+    @Column(name = "abvr", nullable = false)
+    private String abvr;
 
     public Sede() {
     }
@@ -37,6 +39,13 @@ public class Sede implements Serializable {
         this.nidSede = nidSede;
     }
 
+    public void setAbvr(String abvr) {
+        this.abvr = abvr;
+    }
+
+    public String getAbvr() {
+        return abvr;
+    }
 
     public String getDescripcionSede() {
         return descripcionSede;

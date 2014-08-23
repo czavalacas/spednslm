@@ -20,7 +20,7 @@
                                 </af:inputText>
                                 <af:selectOneChoice label="Vigencia " value="#{sessionGestionarUsuarios.FNidEstado}"
                                                     id="choiceFTipoEstado" autoSubmit="true"
-                                                    labelStyle="text-align: left;"
+                                                    labelStyle="text-align: left;" unselectedLabel="::Todas::"
                                                     binding="#{bGestionarUsuarios.choiceFTipoEstado}"
                                                     clientComponent="true">
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstEstadoUsario}" id="si3"
@@ -37,7 +37,7 @@
                                 </af:inputText>
                                 <af:selectOneChoice label="Rol " value="#{sessionGestionarUsuarios.FNidRol}"
                                                     id="choiceFTipoRol" autoSubmit="true" labelStyle="text-align: left;"
-                                                    binding="#{bGestionarUsuarios.choiceFTipoRol}"
+                                                    binding="#{bGestionarUsuarios.choiceFTipoRol}" unselectedLabel="::Todos::"
                                                     valueChangeListener="#{bGestionarUsuarios.tipoRolFChangeListener}"
                                                     disabled="#{sessionGestionarUsuarios.disableFRol}">
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstRol}" id="si4"
@@ -45,7 +45,7 @@
                                 </af:selectOneChoice>
                                 <af:selectOneChoice label="Sede" value="#{sessionGestionarUsuarios.FNidSede}"
                                                     id="choiceFTipoSede" autoSubmit="true"
-                                                    labelStyle="text-align: left;"
+                                                    labelStyle="text-align: left;" unselectedLabel="::Todas::"
                                                     binding="#{bGestionarUsuarios.choiceFTipoSede}"
                                                     rendered="#{sessionScope.sessionGestionarUsuarios.fbooleanSede}">
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstSede}" id="si6"
@@ -62,7 +62,7 @@
                                 </af:inputText>
                                 <af:selectOneChoice label="Area " value="#{sessionGestionarUsuarios.FNidAreaAcademica}"
                                                     id="choiceFTipoArea" autoSubmit="true"
-                                                    labelStyle="text-align: left;"
+                                                    labelStyle="text-align: left;" unselectedLabel="::Todas::"
                                                     binding="#{bGestionarUsuarios.choiceFTipoArea}"
                                                     disabled="#{sessionGestionarUsuarios.disableFArea}">
                                     <f:selectItems value="#{sessionGestionarUsuarios.lstAreaAcademica}" id="si5"
@@ -94,7 +94,7 @@
                 <f:facet name="toolbar">
                     <af:toolbar id="t1">
                         <af:outputText value="Se encontraron #{sessionGestionarUsuarios.lstUsuario.size()} Usuario(s)" id="otDesc"
-                                       partialTriggers="::s2:b5 ::s2:btnRefreshFiltro" styleClass="errorColor"/>
+                                       partialTriggers="::s2:b5 ::s2:btnRefreshFiltro ::b4" styleClass="errorColor"/>
                     </af:toolbar>
                 </f:facet>
                 <f:facet name="statusbar"/>
