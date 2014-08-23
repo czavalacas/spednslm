@@ -13,20 +13,18 @@
                         <af:gridRow marginTop="5px" height="auto" id="gr1">
                             <af:gridCell marginStart="5px" width="34%" id="gc1">
                                 <af:selectOneChoice label="Evaluador" id="soc1"
-                                                    unselectedLabel="::Seleccionar Evaluador::"
                                                     binding="#{bConsultaPlanificacion.choiceEvaluadores}"
                                                     value="#{sessionScope.sessionConsultarPlanificacion.nidEvaluadorChoice}"
-                                                    autoSubmit="true"
+                                                    autoSubmit="true" unselectedLabel="::Todos::"
                                                     disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceEvaluador}">
                                     <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaEvaludaoresChoice}"
                                                    id="si1"/>
                                 </af:selectOneChoice>
                             </af:gridCell>
                             <af:gridCell marginStart="5px" width="33%" id="gc2">
-                                <af:selectOneChoice label="Sede" id="soc2" unselectedLabel="::Seleccionar Sede::"
+                                <af:selectOneChoice label="Sede" id="soc2" unselectedLabel="::Todas::" autoSubmit="true"
                                                     binding="#{bConsultaPlanificacion.choiceSedes}"
                                                     value="#{sessionScope.sessionConsultarPlanificacion.nidSedeChoice}"
-                                                    autoSubmit="true"
                                                     disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceSede}">
                                     <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaSedesChoice}"
                                                    id="si2"/>
@@ -38,10 +36,9 @@
                                               binding="#{bConsultaPlanificacion.inputFechaMin}"/>
                             </af:gridCell>
                             <af:gridCell marginStart="5px" width="33%" id="gc9">
-                                <af:selectOneChoice label="Area" id="soc6" unselectedLabel="::Seleccionar Area::"
+                                <af:selectOneChoice label="Area" id="soc6" unselectedLabel="::Todas::" autoSubmit="true"
                                                     binding="#{bConsultaPlanificacion.choiceAreaAcademica}"
                                                     value="#{sessionScope.sessionConsultarPlanificacion.nidAreaAcademicaChoice}"
-                                                    autoSubmit="true"
                                                     disabled="#{sessionScope.sessionConsultarPlanificacion.estadoChoiceArea}">
                                     <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaAreasChoice}"
                                                    id="si6"/>
@@ -55,8 +52,7 @@
                                               binding="#{bConsultaPlanificacion.inputProfesor}"/>
                             </af:gridCell>
                             <af:gridCell marginStart="5px" width="33%" id="gc5">
-                                <af:selectOneChoice label="Nivel" id="soc3" autoSubmit="true"
-                                                    unselectedLabel="::Seleccionar Nivel::"
+                                <af:selectOneChoice label="Nivel" id="soc3" autoSubmit="true" unselectedLabel="::Todos::"
                                                     value="#{sessionScope.sessionConsultarPlanificacion.nidNivelChoice}"
                                                     binding="#{bConsultaPlanificacion.choiceNivel}">
                                     <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaNvelesChoice}"
@@ -69,10 +65,9 @@
                                               binding="#{bConsultaPlanificacion.inputFechaMax}"/>
                             </af:gridCell>
                             <af:gridCell marginStart="5px" width="33%" id="gc8">
-                                <af:selectOneChoice label="Estado" id="soc5" unselectedLabel="::Seleccionar Estado::"
-                                                    binding="#{bConsultaPlanificacion.choiceEstado}"
-                                                    value="#{sessionScope.sessionConsultarPlanificacion.nidEstadoPlanificacion}"
-                                                    autoSubmit="true">
+                                <af:selectOneChoice label="Estado" id="soc5" unselectedLabel="::Todos::"
+                                                    binding="#{bConsultaPlanificacion.choiceEstado}" autoSubmit="true"
+                                                    value="#{sessionScope.sessionConsultarPlanificacion.nidEstadoPlanificacion}">
                                     <f:selectItems value="#{requestScope.bConsultaPlanificacion.listaEstadosChoice}"
                                                    id="si5"/>
                                 </af:selectOneChoice>
@@ -154,15 +149,15 @@
                                        sortProperty="main.curso.descripcionCurso">
                                 <af:outputText value="#{row.descCurso}" id="ot6"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Grado" id="c7" width="50"
+                            <af:column sortable="true" headerText="Grado" id="c7" width="30"
                                        sortProperty="main.aula.gradoNivel.grado.descripcionGrado">
                                 <af:outputText value="#{row.descGrado}" id="ot7"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Nivel" id="c8" width="70"
+                            <af:column sortable="true" headerText="Nivel" id="c8" width="30"
                                        sortProperty="main.aula.gradoNivel.nivel.descripcionNivel">
                                 <af:outputText value="#{row.descNivel}" id="ot8"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Sede" id="c9" width="70"
+                            <af:column sortable="true" headerText="Sede" id="c9" width="30"
                                        sortProperty="main.aula.sede.descripcionSede">
                                 <af:outputText value="#{row.descSede}" id="ot9"/>
                             </af:column>

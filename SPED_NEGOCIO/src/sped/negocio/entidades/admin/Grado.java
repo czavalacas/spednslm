@@ -25,8 +25,18 @@ public class Grado implements Serializable {
     private int nidGrado;
     @OneToMany(mappedBy = "grado", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<GradoNivel> gradoNivelLista;
+    @Column(name = "abvr", nullable = false)
+    private String abvr;
 
     public Grado() {
+    }
+
+    public void setAbvr(String abvr) {
+        this.abvr = abvr;
+    }
+
+    public String getAbvr() {
+        return abvr;
     }
 
     public Grado(String descripcionGrado, int nidGrado) {

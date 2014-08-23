@@ -297,7 +297,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                 //Utiles.sysout("eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso():"+eva.getMain().getCurso().getAreaAcademica().getTipoFichaCurso()+ " beanEva: "+beanEva.getTipoFichaCurso());
                 beanEva.setStartDate(eva.getStartDate());
                 beanEva.setEndDate(eva.getEndDate());
-                beanEva.setSede(eva.getMain().getAula().getSede().getDescripcionSede());
+                beanEva.setSede(eva.getMain().getAula().getSede().getAbvr());
                 beanEva.setAreaAcademica(eva.getMain().getCurso().getAreaAcademica().getDescripcionAreaAcademica());
                 BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
                 beanEva.setTipoVisita(constr.getDescripcionAMostrar());
@@ -360,7 +360,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setCurso(eva.getMain().getCurso().getDescripcionCurso());
             beanEva.setStartDate(eva.getStartDate());
             beanEva.setEndDate(eva.getEndDate());
-            beanEva.setSede(eva.getMain().getAula().getSede().getDescripcionSede());
+            beanEva.setSede(eva.getMain().getAula().getSede().getAbvr());
             beanEva.setAreaAcademica(eva.getMain().getCurso().getAreaAcademica().getDescripcionAreaAcademica());
             BeanConstraint constr = bdL_C_SFUtilsLocal.getCatalogoConstraints("tipo_visita", "evmeval", eva.getTipoVisita());
             beanEva.setTipoVisita(constr.getDescripcionAMostrar());
@@ -563,7 +563,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
    
 
       public List<BeanEvaluacion> getEvaluaciones_LN(String fechaHoy, Integer nidAreaAcademica, Integer nidEvaluador,
-                                                   String dniProfesor, String nidCurso, Integer nidSede) {
+                                                     String dniProfesor, String nidCurso, Integer nidSede) {
         List<BeanEvaluacion> lstBean = new ArrayList();
         List<Evaluacion> lstEva = bdL_C_SFEvaluacionLocal.getEvaluaciones(fechaHoy,nidAreaAcademica,nidEvaluador,dniProfesor,nidCurso,nidSede);
         for (Evaluacion a : lstEva) {
@@ -725,9 +725,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         bean.setNidAreaAcademicaCurso(eva.getMain().getCurso().getNidAreaNativa());
         bean.setNidCurso(eva.getMain().getCurso().getNidCurso());
         bean.setDescCurso(eva.getMain().getCurso().getDescripcionCurso());
-        bean.setDescGrado(eva.getMain().getAula().getGradoNivel().getGrado().getDescripcionGrado());
-        bean.setDescNivel(eva.getMain().getAula().getGradoNivel().getNivel().getDescripcionNivel());
-        bean.setDescSede(eva.getMain().getAula().getSede().getDescripcionSede());
+        bean.setDescGrado(eva.getMain().getAula().getGradoNivel().getGrado().getAbvr());
+        bean.setDescNivel(eva.getMain().getAula().getGradoNivel().getNivel().getAbvr());
+        bean.setDescSede(eva.getMain().getAula().getSede().getAbvr());
         bean.setDescAula(eva.getMain().getAula().getDescripcionAula());
         bean.setEndDate(eva.getEndDate());
         bean.setEstadoEvaluacion(eva.getEstadoEvaluacion());

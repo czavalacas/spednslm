@@ -8,6 +8,15 @@ public class BeanSede implements Serializable {
     
     private String descripcionSede;
     private Integer nidSede;
+    private String abvr;
+
+    public void setAbvr(String abvr) {
+        this.abvr = abvr;
+    }
+
+    public String getAbvr() {
+        return abvr;
+    }
 
     public void setDescripcionSede(String descripcionSede) {
         this.descripcionSede = descripcionSede;
