@@ -26,8 +26,18 @@ public class Nivel implements Serializable {
     private int nidNivel;
     @OneToMany(mappedBy = "nivel", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<GradoNivel> gradoNivelLista;
+    @Column(name = "abvr", nullable = false)
+    private String abvr;
 
     public Nivel() {
+    }
+
+    public void setAbvr(String abvr) {
+        this.abvr = abvr;
+    }
+
+    public String getAbvr() {
+        return abvr;
     }
 
     public Nivel(String descripcionNivel, int nidNivel) {

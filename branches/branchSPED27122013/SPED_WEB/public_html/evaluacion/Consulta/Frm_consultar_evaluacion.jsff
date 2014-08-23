@@ -41,27 +41,27 @@
                     </af:showDetail>
                     <af:selectOneChoice label="Sede" value="#{sessionConsultarEvaluacion.nidSede}" id="choiceFSede"
                                         binding="#{bConsultarEvaluacion.choiceFSede}" autoSubmit="true"
-                                        labelStyle="text-align: left;"
+                                        labelStyle="text-align: left;" unselectedLabel="::Todas::"
                                         rendered="#{sessionConsultarEvaluacion.columnSede}">
                         <f:selectItems value="#{sessionConsultarEvaluacion.lstSede}" id="si1"
                                        binding="#{bConsultarEvaluacion.si1}"/>
                     </af:selectOneChoice>
                     <af:selectOneChoice label="Nivel" value="#{sessionConsultarEvaluacion.nidNivel}" id="choiceFNivel"
                                         binding="#{bConsultarEvaluacion.choiceFNivel}" autoSubmit="true"
-                                        labelStyle="text-align: left;"
+                                        labelStyle="text-align: left;" unselectedLabel="::Todos::"
                                         rendered="#{sessionConsultarEvaluacion.columnNivel}">
                         <f:selectItems value="#{sessionConsultarEvaluacion.lstNivel}" id="si2"
                                        binding="#{bConsultarEvaluacion.si2}"/>
                     </af:selectOneChoice>
                     <af:selectOneChoice label="Area" value="#{sessionConsultarEvaluacion.nidArea}" id="choiceFArea"
                                         binding="#{bConsultarEvaluacion.choiceFArea}" autoSubmit="true"
-                                        labelStyle="text-align: left;"
+                                        labelStyle="text-align: left;" unselectedLabel="::Todas::"
                                         rendered="#{sessionConsultarEvaluacion.columnArea}">
                         <f:selectItems value="#{sessionConsultarEvaluacion.lstArea}" id="si3"
                                        binding="#{bConsultarEvaluacion.si3}"/>
                     </af:selectOneChoice>
                     <af:selectOneChoice label="Curso" value="#{sessionConsultarEvaluacion.nidCurso}" id="choiceFCurso"
-                                        binding="#{bConsultarEvaluacion.choiceFCurso}" autoSubmit="true"
+                                        binding="#{bConsultarEvaluacion.choiceFCurso}" autoSubmit="true" unselectedLabel="::Todos::"
                                         labelStyle="text-align: left;">
                         <f:selectItems value="#{sessionConsultarEvaluacion.lstCurso}" id="si4"
                                        binding="#{bConsultarEvaluacion.si4}"/>
@@ -77,7 +77,7 @@
                                                 suggestedItems="#{bConsultarEvaluacion.suggestEvaluador}"/>
                     </af:inputText>
                     <af:selectOneChoice label="Grado" value="#{sessionConsultarEvaluacion.nidGrado}" id="choiceFGrado"
-                                        binding="#{bConsultarEvaluacion.choiceFGrado}" autoSubmit="true"
+                                        binding="#{bConsultarEvaluacion.choiceFGrado}" autoSubmit="true" unselectedLabel="::Todos::"
                                         labelStyle="text-align: left;">
                         <f:selectItems value="#{sessionScope.sessionConsultarEvaluacion.lstGrado}" id="si5"/>
                     </af:selectOneChoice>
@@ -160,18 +160,18 @@
                                align="start" id="c3" width="130">
                         <af:outputText value="#{row.descCurso}" id="ot3"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="descSede" headerText="Sede"
+                    <af:column sortable="true" sortProperty="descSede" headerText="Sede" width="30"
                                align="start" id="c4" rendered="#{sessionConsultarEvaluacion.columnSede}">
                         <af:outputText value="#{row.descSede}" id="ot4"/>
                     </af:column>
-                    <af:column sortable="true" sortProperty="descNivel"
-                               headerText="Nivel" align="start" id="c5" width="80"
-                               rendered="#{sessionConsultarEvaluacion.columnNivel}">
-                        <af:outputText value="#{row.descNivel}" id="ot5"/>
-                    </af:column>
-                    <af:column sortable="true" sortProperty="descGrado" width="80"
+                     <af:column sortable="true" sortProperty="descGrado" width="30"
                                headerText="Grado" align="start" id="c6">
                         <af:outputText value="#{row.descGrado}" id="ot6"/>
+                    </af:column>
+                    <af:column sortable="true" sortProperty="descNivel"
+                               headerText="Nivel" align="start" id="c5" width="30"
+                               rendered="#{sessionConsultarEvaluacion.columnNivel}">
+                        <af:outputText value="#{row.descNivel}" id="ot5"/>
                     </af:column>
                     <af:column sortable="true" sortProperty="descAula" headerText="Aula" align="start"
                                id="c7">

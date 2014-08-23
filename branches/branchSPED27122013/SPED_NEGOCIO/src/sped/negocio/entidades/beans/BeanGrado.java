@@ -11,6 +11,15 @@ public class BeanGrado implements Serializable {
     private String descripcionGrado;
     private Integer nidGrado;
     private List<BeanGradoNivel> gradoNivelLista;
+    private String abvr;
+
+    public void setAbvr(String abvr) {
+        this.abvr = abvr;
+    }
+
+    public String getAbvr() {
+        return abvr;
+    }
 
     public void setDescripcionGrado(String descripcionGrado) {
         this.descripcionGrado = descripcionGrado;

@@ -7,6 +7,15 @@ public class BeanNivel implements Serializable {
     private static final long serialVersionUID = 1L;
     private String descripcionNivel;
     private Integer nidNivel;
+    private String abvr;
+
+    public void setAbvr(String abvr) {
+        this.abvr = abvr;
+    }
+
+    public String getAbvr() {
+        return abvr;
+    }
 
     public void setDescripcionNivel(String descripcionNivel) {
         this.descripcionNivel = descripcionNivel;

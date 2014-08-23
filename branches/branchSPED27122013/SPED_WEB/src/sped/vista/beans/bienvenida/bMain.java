@@ -113,8 +113,8 @@ public class bMain implements Serializable {
     
     public void createMenus(PhaseEvent phaseEvent) {
         if(sessionMain.getExec() == 0){
-            //buildMenu();
-            buildMenuTabbed();
+            buildMenu();
+            //buildMenuTabbed();
             sessionMain.setExec(1);
         }
     }
