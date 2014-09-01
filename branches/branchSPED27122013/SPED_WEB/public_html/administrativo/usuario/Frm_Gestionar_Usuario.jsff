@@ -8,7 +8,7 @@
                 <af:outputText value="Registrar Usuario" id="otTituloU" styleClass="titulos"/>
                 <af:spacer height="10"/>
             </af:panelGroupLayout>
-            <af:subform id="s2" defaultCommand="b5">
+            <af:subform id="s2" defaultCommand="::pc1:b5">
                 <af:panelGridLayout id="pgl2" binding="#{bGestionarUsuarios.pgl2}">
                     <af:gridRow marginTop="5px" height="auto" id="gr1">
                         <af:gridCell marginStart="5px" width="250px" id="gc1">
@@ -74,9 +74,6 @@
                     </af:gridRow>
                 </af:panelGridLayout>
                 <af:panelGroupLayout id="pgl3">
-                    <af:button text="Buscar" id="b5" actionListener="#{bGestionarUsuarios.buscarUsuarioFiltro}"/>
-                    <af:button id="btnRefreshFiltro" actionListener="#{bGestionarUsuarios.refrescarFiltro}"
-                               icon="../recursos/img/usuarios/refresh.png"/>
                 </af:panelGroupLayout>
             </af:subform>
             <af:separator id="s1"/>
@@ -88,13 +85,20 @@
                            actionListener="#{bGestionarUsuarios.modificarUsuario}"/>
                 <af:button text="Anular" id="b3" binding="#{bGestionarUsuarios.b3}" disabled="true"
                            actionListener="#{bGestionarUsuarios.anularUsuario}"/>
+                <af:button text="Editar Fechas" id="btnEdiFec"
+                           disabled="true"
+                           actionListener="#{bGestionarUsuarios.verFechasCalendario}"
+                           binding="#{bGestionarUsuarios.btnEdiFec}"/>
             </af:panelGroupLayout>
             <af:panelCollection id="pc1" inlineStyle="width:inherit;">
                 <f:facet name="menus"/>
                 <f:facet name="toolbar">
                     <af:toolbar id="t1">
                         <af:outputText value="Se encontraron #{sessionGestionarUsuarios.lstUsuario.size()} Usuario(s)" id="otDesc"
-                                       partialTriggers="::s2:b5 ::s2:btnRefreshFiltro ::b4" styleClass="errorColor"/>
+                                       partialTriggers="::b4 b5 btnRefreshFiltro" styleClass="errorColor"/>
+                        <af:button id="btnRefreshFiltro" actionListener="#{bGestionarUsuarios.refrescarFiltro}"
+                               icon="../recursos/img/usuarios/refresh.png"/>
+                        <af:button text="Buscar" id="b5" actionListener="#{bGestionarUsuarios.buscarUsuarioFiltro}"/>
                     </af:toolbar>
                 </f:facet>
                 <f:facet name="statusbar"/>
@@ -215,6 +219,101 @@
                       binding="#{bGestionarUsuarios.popConfirmar}">
                 <af:dialog id="d2" title="Mensaje" dialogListener="#{bGestionarUsuarios.confirmaAnular}">
                     <af:outputText value="Desea anular al usuario #{sessionGestionarUsuarios.usuario}" id="ot8"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popFecCalen"
+                      binding="#{bGestionarUsuarios.popFecCalen}">
+                <af:dialog id="d3">
+                    <af:selectOneChoice label="Mes" id="soc1" autoSubmit="true"
+                                        value="#{sessionScope.sessionGestionarUsuarios.cidMes}">
+                            <af:selectItem label="Enero" value="1"/>
+                            <af:selectItem label="Febrero" value="2"/>
+                            <af:selectItem label="Marzo" value="3"/>
+                            <af:selectItem label="Abril" value="4"/>
+                            <af:selectItem label="Mayo" value="5"/>
+                            <af:selectItem label="Junio" value="6"/>
+                            <af:selectItem label="Julio" value="7"/>
+                            <af:selectItem label="Agosto" value="8"/>
+                            <af:selectItem label="Setiembre" value="9"/>
+                            <af:selectItem label="Octubre" value="10"/>
+                            <af:selectItem label="Noviembre" value="11"/>
+                            <af:selectItem label="Diciembre" value="12"/>
+                        </af:selectOneChoice>
+                        <af:panelCollection id="pc2" inlineStyle="width:inherit;">
+                            <!--<f:facet name="menus"/>-->
+                            <f:facet name="toolbar">
+                                <af:toolbar id="tb1">
+                                <af:outputText value="Dias laborables: #{sessionScope.sessionGestionarUsuarios.cantEvasLaborables}" id="otMsjTbl"
+                                               binding="#{bGestionarUsuarios.otMsjTbl}" styleClass="errorColor" partialTriggers="btnRefresh"/>
+                                <af:button icon="../recursos/img/usuarios/refresh.png" immediate="true"
+                                               id="btnRefresh"
+                                               actionListener="#{bGestionarUsuarios.refrescarTabla}"/>
+                                </af:toolbar>
+                            </f:facet>
+                            <f:facet name="statusbar"/>
+                            <af:table value="#{sessionScope.sessionGestionarUsuarios.lstCalendario}" var="row"
+                                      rowBandingInterval="0" id="tbCalen" varStatus="vs" 
+                                      autoHeightRows="0" contentDelivery="immediate" fetchSize="31"
+                                      
+                                      emptyText="No hay dias en el calendario" partialTriggers="::btnRefresh"
+                                      rowSelection="single"
+                                      selectionListener="#{bGestionarUsuarios.selectCalendarioUsuario}"
+                                      binding="#{bGestionarUsuarios.tbCalen}" columnStretching="column:cdesc">
+                                <af:column sortable="false" headerText="Año" align="end" width="40" inlineStyle="#{row.estilo}">
+                                    <af:outputText value="#{row.year}"/>
+                                </af:column>
+                                <af:column sortable="false" headerText="Fecha" align="center" width="70" inlineStyle="#{row.estilo}">
+                                    <af:outputText value="#{row.nidFecha}">
+                                        <af:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </af:outputText>
+                                </af:column>
+                                <af:column sortable="false" headerText="Descripcion" id="cdesc" align="start" width="220" inlineStyle="#{row.estilo}">
+                                    <af:outputText value="#{row.descripcionDia}"/>
+                                </af:column>
+                                <af:column sortable="false" headerText="Día" align="start" width="70" inlineStyle="#{row.estilo}">
+                                    <af:outputText value="#{row.diaNombre}"/>
+                                </af:column>
+                                <af:column sortable="false" headerText="Mes" align="start" id="c8" width="60" inlineStyle="#{row.estilo}">
+                                    <af:outputText value="#{row.mesNombre}" id="ot9"/>
+                                </af:column>
+                                <af:column sortable="false" headerText="Dia N." align="end" id="c9" width="40" inlineStyle="#{row.estilo}">
+                                    <af:outputText value="#{row.diaNumero}"/>
+                                </af:column>
+                                <af:column sortable="false" headerText="Es Feriado" align="end" width="40" inlineStyle="#{row.estilo}">
+                                    <af:outputText value="#{row.esFeriado == 1 ? 'SI' : 'NO'}"/>
+                                </af:column>
+                                <af:column sortable="false" headerText="Es Laborable" align="end" width="50" inlineStyle="#{row.estilo}">
+                                    <af:outputText value="#{row.esLaborable == 1 ? 'SI' : 'NO'}" />
+                                </af:column>
+                            </af:table>
+                        </af:panelCollection>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popCaleDet"
+                      binding="#{bGestionarUsuarios.popCaleDet}">
+                <af:dialog id="d4" type="none">
+                    <af:panelFormLayout>
+                        <af:outputText value="#{sessionScope.sessionGestionarUsuarios.calenSelected.nidFecha}">
+                            <af:convertDateTime pattern="dd/MM/yyyy"/>
+                        </af:outputText>
+                        <af:inputText label="Descripcion" columns="100" rows="4" autoSubmit="true"
+                                      value="#{sessionScope.sessionGestionarUsuarios.descDia}"/>
+                        <af:selectOneChoice label="Tipo" requiredMessageDetail="Seleccionar un tipo de falta" 
+                                            value="#{sessionScope.sessionGestionarUsuarios.tipoFalta}" id="soc2">
+                            <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstItemsTiposFalta}"
+                                           id="si7"/>
+                        </af:selectOneChoice>
+                    </af:panelFormLayout>
+                    <af:panelFormLayout rows="1" maxColumns="3">
+                        <af:button text="Registrar" id="btnRegNoLab" rendered="#{sessionScope.sessionGestionarUsuarios.calenSelected.esLaborable == 1}"
+                                   actionListener="#{bGestionarUsuarios.insertarDiaCalendario}"/>
+                        <af:button text="Actualizar" id="btnAct" 
+                                   actionListener="#{bGestionarUsuarios.actualizarDiaCalendario}"/>
+                        <af:button text="Anular" id="btnAnu" rendered="#{sessionScope.sessionGestionarUsuarios.calenSelected.esLaborable == 0}"
+                                   actionListener="#{bGestionarUsuarios.anularDiaCalendario}"/>
+                    </af:panelFormLayout>
+                    <af:activeOutputText id="otError"
+                                         styleClass="errorColor" binding="#{bGestionarUsuarios.otError}"/>
                 </af:dialog>
             </af:popup>
         </af:panelGroupLayout>

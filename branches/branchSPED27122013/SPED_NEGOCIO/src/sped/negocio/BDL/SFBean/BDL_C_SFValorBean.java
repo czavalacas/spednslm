@@ -2,10 +2,14 @@ package sped.negocio.BDL.SFBean;
 
 import java.util.List;
 import javax.annotation.Resource;
+
+import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.BDL.IL.BDL_C_SFValorLocal;
 import sped.negocio.BDL.IR.BDL_C_SFValorRemote;
 import sped.negocio.Utils.Utiles;

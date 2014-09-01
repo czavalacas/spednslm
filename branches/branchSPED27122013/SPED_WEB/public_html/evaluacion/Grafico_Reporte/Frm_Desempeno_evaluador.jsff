@@ -133,7 +133,7 @@
                             <af:panelBox text="Evaluador(s)" id="pb2" showDisclosure="false"
                                          rendered="#{sessionDesempenoEvaluador.RGrafEvaA}">
                                 <af:componentDragSource/>
-                                <dvt:barGraph id="gEva" subType="BAR_VERT_CLUST" dynamicResize="DYNAMIC_SIZE"
+                                <dvt:barGraph id="gEva" subType="BAR_HORIZ_PERCENT" dynamicResize="DYNAMIC_SIZE"
                                               tabularData="#{sessionDesempenoEvaluador.lstEvaBarChart}"
                                               clickListener="#{bDesempenoEvaluador.clickListenerGraph1}"
                                               hideAndShowBehavior="withRescale" contentDelivery="immediate"
@@ -146,12 +146,10 @@
                                     </dvt:background>
                                     <dvt:graphPlotArea/>
                                     <dvt:seriesSet>
-                                        <dvt:series color="#008400"/>
-                                        <dvt:series color="#0042c6"/>
-                                        <dvt:series color="#FF7514"/>
-                                        <dvt:series color="#000000"/>
-                                        <dvt:series color="#A215A0"/>
-                                        <dvt:series color="#FF0000"/>
+                                        <dvt:series color="#f00000"/> <!-- ROJO -->
+                                        <dvt:series color="#2a8d04"/> <!-- VERDE -->
+                                        <dvt:series color="#0042c6"/> <!-- AZUL -->
+                                        <dvt:series color="#000000"/> <!-- NEGRO -->
                                     </dvt:seriesSet>
                                     <dvt:o1Axis/>
                                     <dvt:y1Axis/>
@@ -276,6 +274,22 @@
                                            sortProperty="cantInjustificado" width="60">
                                     <af:outputText value="#{row.cantInjustificado}" id="ot27"/>
                                 </af:column>
+                                <af:column sortable="true" headerText="Dias Laborables" align="center" 
+                                           sortProperty="cantDiasLaborables" width="60">
+                                    <af:outputText value="#{row.cantDiasLaborables}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Cant. Normal" align="center" 
+                                           sortProperty="cantNormal" width="60">
+                                    <af:outputText value="#{row.cantNormal}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Cant. Min. Optima" align="center" 
+                                           sortProperty="cantEvasMinimoOptimo" width="60">
+                                    <af:outputText value="#{row.cantEvasMinimoOptimo}"/>
+                                </af:column>
+                                <af:column sortable="true" headerText="Cant. Optima" align="center" 
+                                           sortProperty="cantOptima" width="60">
+                                    <af:outputText value="#{row.cantOptima}"/>
+                                </af:column>
                                 <af:column sortable="true" headerText="Desempeño( 0 - 100% )" align="center" id="c23"
                                            sortProperty="porcentajeDesempeno"
                                            inlineStyle="background-color:#{row.colorResultado}; color:Black; font-weight:bold;text-align:center;">
@@ -288,8 +302,8 @@
                     </af:panelGroupLayout>
                 </f:facet>
             </af:panelSplitter>
-            <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popDetalle"
-                      binding="#{bDesempenoEvaluador.popDetalle}">
+            <af:popup autoCancel="disabled" id="popDetalle"
+                      binding="#{bDesempenoEvaluador.popDetalle}" childCreation="deferred" contentDelivery="immediate">
                 <af:dialog id="d1" type="none" title="Detalle de Evaluaciones">
                     <af:panelGridLayout id="pgl3">
                         <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
@@ -297,7 +311,7 @@
                                 <af:image id="i1" inlineStyle="height:113px; width:100px;"
                                           source="/imageservlet?nomusuario=#{sessionDesempenoEvaluador.evaluador.nidUsuario}"/>
                             </af:gridCell>
-                            <af:gridCell marginStart="5px" width="50%" id="gc1">
+                            <af:gridCell marginStart="5px" width="auto" id="gc1">
                                 <af:panelFormLayout id="pfl2"
                                                     rendered="#{sessionDesempenoEvaluador.evaluador == null ? false : true}">
                                     <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;"
@@ -313,44 +327,63 @@
                                                   rendered="#{sessionDesempenoEvaluador.evaluador.areaAcademica == null ? false : true}"/>
                                     <af:inputText label="Evaluacion(s) " id="it6" labelStyle="text-align: left;"
                                                   disabled="true" value="#{sessionDesempenoEvaluador.estado}"/>
+                                    <af:inputText label="Cantidad min y MAX por dia " labelStyle="text-align: left;"
+                                                  disabled="true" value="#{sessionDesempenoEvaluador.descMinMAX}"/>
                                 </af:panelFormLayout>
                             </af:gridCell>
                         </af:gridRow>
                     </af:panelGridLayout>
-                    <af:table value="#{sessionDesempenoEvaluador.lstEvaDetalle}" var="row" rowBandingInterval="0"
-                              id="t2" width="600" varStatus="vs">
-                        <af:column width="18" frozen="true">
-                            <af:outputText value="#{vs.index + 1}"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Fecha Evaluacion" align="center" id="c9"
-                                   sortProperty="endDate">
-                            <af:outputText value="#{row.endDate}" id="ot9">
-                                <af:convertDateTime pattern="dd/MM/yyyy"/>
-                            </af:outputText>
-                        </af:column>
-                        <af:column sortable="true" headerText="Sede" align="start" id="c6" sortProperty="descSede">
-                            <af:outputText value="#{row.descSede}" id="ot6"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Nivel" align="start" id="c22" sortProperty="descNivel">
-                            <af:outputText value="#{row.descNivel}" id="ot22"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Area" align="start" id="c21" sortProperty="descArea">
-                            <af:outputText value="#{row.descArea}" id="ot21"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Problema" align="start" id="c30"
-                                   rendered="#{sessionDesempenoEvaluador.renderProblema}" sortProperty="descProblema">
-                            <af:outputText value="#{row.descProblema}" id="ot30"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Comentario Evaluador" align="start" id="c8"
-                                   rendered="#{sessionDesempenoEvaluador.renderProblema}"
-                                   sortProperty="comentarioEvaluador">
-                            <af:outputText value="#{row.comentarioEvaluador}" id="ot8"/>
-                        </af:column>
-                        <af:column sortable="true" headerText="Profesor" align="start" id="c7"
-                                   sortProperty="nombreCompletoProfesor">
-                            <af:outputText value="#{row.nombreCompletoProfesor}" id="ot7"/>
-                        </af:column>
-                    </af:table>
+                    <af:panelGridLayout id="pgl4">
+                        <af:gridRow marginTop="5px" height="auto" id="gr2">
+                            <af:gridCell marginStart="5px" marginEnd="5px" width="auto" id="gc3">
+                                <af:outputText value="#{sessionScope.sessionDesempenoEvaluador.descDiasLabsFechas}" id="ot6"
+                                               inlineStyle="font-weight:bold;"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="auto" id="gc4">
+                                <af:outputText value="#{sessionScope.sessionDesempenoEvaluador.cantDiasLaborables}" id="ot7"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="5px" height="auto" id="gr3">
+                            <af:gridCell marginStart="5px" width="50%" id="gc5">
+                                <af:outputText value="Cantidad Evaluaciones Realizadas" id="ot8" inlineStyle="font-weight:bold;"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="50%" marginEnd="5px" id="gc6">
+                                <af:outputText value="#{sessionScope.sessionDesempenoEvaluador.cantidadEvasEjec}" id="ot9"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="5px" height="auto" id="gr4">
+                            <af:gridCell marginStart="5px" width="50%" id="gc7">
+                                <af:outputText value="Cantidad Normal Evaluaciones" id="ot21" inlineStyle="font-weight:bold;"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="50%" marginEnd="5px" id="gc8">
+                                <af:outputText value="#{sessionScope.sessionDesempenoEvaluador.cantidadNormal}" id="ot22"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="5px" height="auto" id="gr5">
+                            <af:gridCell marginStart="5px" width="50%" id="gc9">
+                                <af:outputText value="Cantidad Minima Optima" id="ot30" inlineStyle="font-weight:bold;"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="50%" marginEnd="5px" id="gc10">
+                                <af:outputText value="#{sessionScope.sessionDesempenoEvaluador.cantMinimaOptima}" id="ot32"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="5px" height="auto" id="gr6">
+                            <af:gridCell marginStart="5px" width="50%" id="gc11">
+                                <af:outputText value="Cantidad Optima" id="ot33" inlineStyle="font-weight:bold;"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="50%" marginEnd="5px" id="gc12">
+                                <af:outputText value="#{sessionScope.sessionDesempenoEvaluador.cantidadOptima}" id="ot34"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="5px" height="auto" id="gr7">
+                            <af:gridCell marginStart="5px" width="50%" id="gc13">
+                                <af:outputText value="Estado" id="ot35" inlineStyle="font-weight:bold;"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="5px" width="50%" marginEnd="5px" id="gc14">
+                                <af:outputText value="#{sessionScope.sessionDesempenoEvaluador.estado}" id="ot36"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
                 </af:dialog>
             </af:popup>
             <af:popup childCreation="deferred" autoCancel="disabled" id="popDetPie"

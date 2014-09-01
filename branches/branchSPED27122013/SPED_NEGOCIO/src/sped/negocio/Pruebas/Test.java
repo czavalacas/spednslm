@@ -15,15 +15,21 @@ public class Test {
        // double c = 10.50;
         //int r = (int) Math.round(c * 100);
         //double f = r / 100.0;
-        List<Double> lst = new ArrayList<Double>();
+        /* List<Double> lst = new ArrayList<Double>();
         lst.add(1.0);
         double max = Collections.max(lst);
-        Utiles.sysout("max:"+max);
+        Utiles.sysout("max:"+max); */
        /* String cadenaPhoneData = "occam|Android|4.4.2|Android|Nexus 4|true|CarrierDataConnection|384|592|384|567|320|4.423300071425715";
         Utiles.sysout("cadenaPhoneData:"+cadenaPhoneData);
         String array1[] = cadenaPhoneData.split("\\|");
         for(String s : array1){
             Utiles.sysout("array1[]:"+s);
         }*/
+        /* int f = (5 * 13) / 16;
+        Utiles.sysout("f:"+f); */
+        int x = 5;
+        int y = 3;
+        // print the smaller number between x and y
+        System.out.println("Math.min(" + x + "," + y + ")=" + (Math.min(x, y) + 1) );
     }
 }

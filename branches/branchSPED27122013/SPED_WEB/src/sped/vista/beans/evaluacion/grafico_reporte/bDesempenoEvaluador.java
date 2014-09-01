@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -47,6 +48,8 @@ import sped.negocio.LNSF.IL.LN_C_SFUsuarioLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCorreoRemote;
 import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
+import sped.negocio.Utils.Utiles;
+
 import sped.vista.Utils.Utils;
 import sped.negocio.entidades.beans.BeanEvaluacionPlani;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -612,11 +615,8 @@ public class bDesempenoEvaluador {
         renderGraficos_Correo();     
     }
     
-    public List<BeanEvaluacionPlani> desempenoFiltro(int tipoEvento,
-                                                String nombre,
-                                                String estado,
-                                                String desProb,
-                                                String desRol){  
+    public List<BeanEvaluacionPlani> desempenoFiltro(int tipoEvento,String nombre,String estado,
+                                                     String desProb,String desRol){  
         try{
             return ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(tipoEvento,nombre,estado,desProb, desRol,
                                                                            sessionDesempenoEvaluador.getSelectedRol(),
@@ -639,11 +639,8 @@ public class bDesempenoEvaluador {
         }            
     }
     
-    public List<BeanEvaluacionPlani> desempenoFiltro_Aux(int tipoEvento,
-                                                    String nombre,
-                                                    String estado,
-                                                    String desProb,
-                                                    String desRol){
+    public List<BeanEvaluacionPlani> desempenoFiltro_Aux(int tipoEvento,String nombre,String estado,
+                                                         String desProb,String desRol){
         try{
             return ln_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroLN(tipoEvento,nombre,estado,desProb,desRol,
                                                                            sessionDesempenoEvaluador.getSelectedRol_aux(),
@@ -668,28 +665,30 @@ public class bDesempenoEvaluador {
     public void setListEvabarChart(List <BeanEvaluacionPlani> lst){
         List<Object[]> lstEva = new ArrayList();
         String nombreEvaluador;
-        int contEjecutados, contPendiente, contNoEjecutado, contJustificado, contPorJustificar, contInjustificado;
-        for(int i=0; i<lst.size(); i++){            
+        String estadoColor;
+        int contEjecutados,cantDifMax_Y_Ejec;
+        for(int i = 0; i < lst.size(); i++){            
             nombreEvaluador = lst.get(i).getNombreEvaluador();
             contEjecutados = lst.get(i).getCantEjecutado();
-            contPendiente = lst.get(i).getCantPendiente();
-            contNoEjecutado = lst.get(i).getCantNoEjecutado();
-            contJustificado = lst.get(i).getCantJustificado();
-            contPorJustificar = lst.get(i).getCantPorJustificar();
-            contInjustificado = lst.get(i).getCantInjustificado();
-            Object[] obj1 = { nombreEvaluador, "Ejecutado", contEjecutados};
-            Object[] obj2 = { nombreEvaluador, "Pendiente", contPendiente};
-            Object[] obj3 = { nombreEvaluador, "No ejecutado", contNoEjecutado};
-            Object[] obj4 = { nombreEvaluador, "Justificado", contJustificado};
-            Object[] obj5 = { nombreEvaluador, "Por Justificar", contPorJustificar};
-            Object[] obj6 = { nombreEvaluador, "Injustificado", contInjustificado};
+            cantDifMax_Y_Ejec = lst.get(i).getCantDiffEntreMaxEvas_Ejecut();
+            estadoColor = lst.get(i).getColorEstado();
+            Object[] obj1 = { nombreEvaluador, "BAJO", 0};//ROJO
+            Object[] obj2 = { nombreEvaluador, "NORMAL", 0};//VERDE
+            Object[] obj3 = { nombreEvaluador, "OPTIMO", 0};//AZUL
+            Object[] obj4 = { nombreEvaluador, "Faltantes", cantDifMax_Y_Ejec};
+            if("BAJO".equalsIgnoreCase(estadoColor) ){
+                obj1[2] = contEjecutados;
+            }
+            if("NORMAL".equalsIgnoreCase(estadoColor) ){
+                obj2[2] = contEjecutados;
+            }
+            if("OPTIMO".equalsIgnoreCase(estadoColor) ){
+                obj1[3] = contEjecutados;
+            }
             lstEva.add(obj1);
             lstEva.add(obj2);
             lstEva.add(obj3);
-            lstEva.add(obj3);
             lstEva.add(obj4);
-            lstEva.add(obj5);
-            lstEva.add(obj6);
         }        
         sessionDesempenoEvaluador.setLstEvaBarChart(lstEva);        
     }
@@ -735,7 +734,7 @@ public class bDesempenoEvaluador {
         List<Object[]> lstEva = new ArrayList();
         String descripcionRol;
         int contEjecutados, contPendiente, contNoEjecutado, contJustificado, contPorJustificar, contInjustificado;
-        for(int i=0; i<lst.size(); i++){            
+        for(int i = 0; i < lst.size(); i++){            
             descripcionRol = lst.get(i).getDescripcion();
             contEjecutados = lst.get(i).getCantEjecutado();
             contPendiente = lst.get(i).getCantPendiente();
@@ -768,34 +767,50 @@ public class bDesempenoEvaluador {
         }
         sessionDesempenoEvaluador.setLstEvaPieG(lstEva);
     }
-    
-    public void clickListenerGraph1(ClickEvent clickEvent) {  
+
+    public void clickListenerGraph1(ClickEvent clickEvent) {
         ComponentHandle handle = clickEvent.getComponentHandle();
         String nombre = null;
         String estado = null;
         if (handle instanceof DataComponentHandle) {
-            DataComponentHandle dhandle = (DataComponentHandle)handle;
+            DataComponentHandle dhandle = (DataComponentHandle) handle;
             Attributes[] groupInfo = dhandle.getGroupAttributes();
             Attributes[] seriesInfo = dhandle.getSeriesAttributes();
             if (groupInfo != null) {
-              for (Attributes attrs : groupInfo) {
-                nombre = (String)attrs.getValue(Attributes.LABEL_VALUE);
-              }
-              for (Attributes attrs : seriesInfo) {
-                  estado = (String)attrs.getValue(Attributes.LABEL_VALUE);
-              }
+                for (Attributes attrs : groupInfo) {
+                    nombre = (String) attrs.getValue(Attributes.LABEL_VALUE);
+                }
+                for (Attributes attrs : seriesInfo) {
+                    estado = (String) attrs.getValue(Attributes.LABEL_VALUE);
+                }
             }
         }
-        if(nombre != null && estado != null){
-            List <BeanEvaluacionPlani> lst = desempenoFiltro_Aux(2, nombre, estado, null, null);
-            sessionDesempenoEvaluador.setLstEvaDetalle(lst);
-            beanUsu = ln_C_SFUsuarioLocal.findConstrainByIdLN(lst.get(0).getNidEvaluador());
-            sessionDesempenoEvaluador.setEvaluador(beanUsu);
-            sessionDesempenoEvaluador.setEstado(estado);
-            estadoEvaluacion(estado);            
-            renderRol(beanUsu.getRol().getNidRol());
-            Utils.showPopUpMIDDLE(popDetalle); 
-        }        
+        sessionDesempenoEvaluador.setDescDiasLabsFechas("Dias laborables entre "+Utils.getFechaStr(sessionDesempenoEvaluador.getFechaEI())+" y "+Utils.getFechaStr(sessionDesempenoEvaluador.getFechaEF()));
+        getObjetoGrafEval(nombre, estado);
+        sessionDesempenoEvaluador.setEstado(estado);
+        if (nombre != null && estado != null) {
+            if(!"Faltantes".equalsIgnoreCase(estado)){
+                Utils.showPopUpMIDDLE(popDetalle);   
+            }
+        }
+    }
+    
+    public void getObjetoGrafEval(String nombreEval,String estado){
+        Iterator it = sessionDesempenoEvaluador.getLstEvaTable().iterator();
+        while(it.hasNext()){
+            BeanEvaluacionPlani pla = (BeanEvaluacionPlani) it.next();
+            if(estado.equalsIgnoreCase(pla.getColorEstado()) && nombreEval.equalsIgnoreCase(pla.getNombreEvaluador()) ){
+                sessionDesempenoEvaluador.setCantDiasLaborables(pla.getCantDiasLaborables());
+                sessionDesempenoEvaluador.setCantidadEvasEjec(pla.getCantEjecutado());
+                sessionDesempenoEvaluador.setCantidadNormal(pla.getCantNormal());
+                sessionDesempenoEvaluador.setCantidadOptima(pla.getCantOptima());
+                sessionDesempenoEvaluador.setCantMinimaOptima(pla.getCantEvasMinimoOptimo());
+                sessionDesempenoEvaluador.setDescMinMAX(pla.getCantMinConfigEvasxDia()+" - "+pla.getCantMaxConfigEvasxDia());
+                //sessionDesempenoEvaluador.setCantFaltantes(pla.getCantDiffEntreMaxEvas_Ejecut());
+                sessionDesempenoEvaluador.setEvaluador(pla.getUsuario());
+                return;
+            }
+        }
     }
     
     public void clickListenerHBar(ClickEvent clickEvent) {           

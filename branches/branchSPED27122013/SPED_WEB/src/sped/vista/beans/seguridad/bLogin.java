@@ -107,7 +107,7 @@ public class bLogin implements Serializable {
                 setMensajeCorreo("Te hemos enviado un correo con tu clave. Recuerda cambiarla por seguridad");
             }else{
                 setTituloPopup("Ocurrio un error al enviar tu clave");
-                setMensajeCorreo("Trata nuevamente o comunicate con el administrador del sistema.");
+                setMensajeCorreo("Asegurate de poner el usuario y correo Correcto. Trata nuevamente.");
             }
             Utils.showPopUpMIDDLE(popMsj);
         }

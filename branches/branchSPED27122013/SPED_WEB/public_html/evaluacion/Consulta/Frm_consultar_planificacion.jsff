@@ -7,7 +7,7 @@
                 <af:spacer height="10"/>
                 <af:outputText value="Consultar Planificacion de Evaluaciones" id="otTituloU" styleClass="titulos"/>
             </af:panelGroupLayout>
-            <af:subform id="s3" defaultCommand="btnBuscar">
+            <af:subform id="s3" defaultCommand="pc1:btnBuscar">
                 <af:panelGroupLayout id="pgl2">
                     <af:panelGridLayout id="pgl3">
                         <af:gridRow marginTop="5px" height="auto" id="gr1">
@@ -76,12 +76,6 @@
                     </af:panelGridLayout>
                 </af:panelGroupLayout>
                 <af:panelGroupLayout id="pgl1">
-                    <af:button text="Buscar" id="btnBuscar" binding="#{bConsultaPlanificacion.btnBuscar}"
-                               action="#{bConsultaPlanificacion.buscarPlani}"/>
-                    <af:spacer width="10" height="10" id="s1"/>
-                    <af:button icon="../recursos/img/usuarios/refresh.png" id="b2"
-                               actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
-                    <af:spacer width="10" height="10" id="s2"/>
                     <af:button text="Exportar Excel" id="btnExp"
                                visible="#{sessionScope.sessionConsultarPlanificacion.listaPlanificaciones.size() > 0}"
                                binding="#{bConsultaPlanificacion.btnExp}">
@@ -95,7 +89,11 @@
                         <f:facet name="toolbar">
                             <af:toolbar>
                                 <af:outputText value="Se encontraron #{sessionConsultarPlanificacion.listaPlanificaciones.size()} resultado(s)" id="otDesc"
-                                               partialTriggers="::btnBuscar ::b2" styleClass="errorColor"/>
+                                               partialTriggers="btnBuscar b2" styleClass="errorColor"/>
+                                <af:button text="Buscar" id="btnBuscar" binding="#{bConsultaPlanificacion.btnBuscar}"
+                                           action="#{bConsultaPlanificacion.buscarPlani}"/>
+                                <af:button icon="../recursos/img/usuarios/refresh.png" id="b2"
+                                           actionListener="#{bConsultaPlanificacion.limpiarPlanificacion}"/>
                             </af:toolbar>
                         </f:facet>
                         
