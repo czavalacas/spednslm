@@ -2,10 +2,12 @@ package sped.vista.beans.administrativo.usuario;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
 
+import sped.negocio.entidades.beans.BeanCalendario;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bSessionGestionarUsuarios implements Serializable {
@@ -55,8 +57,81 @@ public class bSessionGestionarUsuarios implements Serializable {
     private List<SelectItem> itemNombre;
     private boolean disableFArea;
     private boolean disableFRol;
+    //Calendario dfloresgonz 27.08.2014
+    private List<BeanCalendario> lstCalendario = new ArrayList<BeanCalendario>();
+    private String cidMes;
+    private BeanCalendario calenSelected = new BeanCalendario();
+    private String descDia;
+    private List lstItemsTiposFalta;
+    private String tipoFalta;
+    private String msjTabla;
+    private int cantEvasLaborables;
 
     public bSessionGestionarUsuarios() {
+    }
+
+    public void setCantEvasLaborables(int cantEvasLaborables) {
+        this.cantEvasLaborables = cantEvasLaborables;
+    }
+
+    public int getCantEvasLaborables() {
+        return cantEvasLaborables;
+    }
+
+    public void setMsjTabla(String msjTabla) {
+        this.msjTabla = msjTabla;
+    }
+
+    public String getMsjTabla() {
+        return msjTabla;
+    }
+
+    public void setTipoFalta(String tipoFalta) {
+        this.tipoFalta = tipoFalta;
+    }
+
+    public String getTipoFalta() {
+        return tipoFalta;
+    }
+
+    public void setLstItemsTiposFalta(List lstItemsTiposFalta) {
+        this.lstItemsTiposFalta = lstItemsTiposFalta;
+    }
+
+    public List getLstItemsTiposFalta() {
+        return lstItemsTiposFalta;
+    }
+
+    public void setCalenSelected(BeanCalendario calenSelected) {
+        this.calenSelected = calenSelected;
+    }
+
+    public BeanCalendario getCalenSelected() {
+        return calenSelected;
+    }
+
+    public void setDescDia(String descDia) {
+        this.descDia = descDia;
+    }
+
+    public String getDescDia() {
+        return descDia;
+    }
+
+    public void setCidMes(String cidMes) {
+        this.cidMes = cidMes;
+    }
+
+    public String getCidMes() {
+        return cidMes;
+    }
+
+    public void setLstCalendario(List<BeanCalendario> lstCalendario) {
+        this.lstCalendario = lstCalendario;
+    }
+
+    public List<BeanCalendario> getLstCalendario() {
+        return lstCalendario;
     }
 
     public void setNidRol(int nidRol) {

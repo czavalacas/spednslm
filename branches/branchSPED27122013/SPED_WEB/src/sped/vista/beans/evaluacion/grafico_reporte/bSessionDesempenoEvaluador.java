@@ -74,8 +74,90 @@ public class bSessionDesempenoEvaluador implements Serializable {
     private boolean renderFArea;
     private boolean renderFEvaluador;
     private boolean renderExcel;
-    
+    //dfloresgonz 31.08.2014
+    private String descDiasLabsFechas;
+    private int cantDiasLaborables;
+    private int cantidadEvasEjec;
+    private int cantidadNormal;
+    private int cantidadOptima;
+    private String estadoEvaluador;
+    private int cantMinimaOptima;
+    private int cantFaltantes;
+    private String descMinMAX;
+
+    public void setDescMinMAX(String descMinMAX) {
+        this.descMinMAX = descMinMAX;
+    }
+
+    public String getDescMinMAX() {
+        return descMinMAX;
+    }
+
+    public void setCantFaltantes(int cantFaltantes) {
+        this.cantFaltantes = cantFaltantes;
+    }
+
+    public int getCantFaltantes() {
+        return cantFaltantes;
+    }
+
+    public void setCantDiasLaborables(int cantDiasLaborables) {
+        this.cantDiasLaborables = cantDiasLaborables;
+    }
+
+    public int getCantDiasLaborables() {
+        return cantDiasLaborables;
+    }
+
     public bSessionDesempenoEvaluador() {
+    }
+
+    public void setCantMinimaOptima(int cantMinimaOptima) {
+        this.cantMinimaOptima = cantMinimaOptima;
+    }
+
+    public int getCantMinimaOptima() {
+        return cantMinimaOptima;
+    }
+
+    public void setDescDiasLabsFechas(String descDiasLabsFechas) {
+        this.descDiasLabsFechas = descDiasLabsFechas;
+    }
+
+    public String getDescDiasLabsFechas() {
+        return descDiasLabsFechas;
+    }
+
+    public void setCantidadEvasEjec(int cantidadEvasEjec) {
+        this.cantidadEvasEjec = cantidadEvasEjec;
+    }
+
+    public int getCantidadEvasEjec() {
+        return cantidadEvasEjec;
+    }
+
+    public void setCantidadNormal(int cantidadNormal) {
+        this.cantidadNormal = cantidadNormal;
+    }
+
+    public int getCantidadNormal() {
+        return cantidadNormal;
+    }
+
+    public void setCantidadOptima(int cantidadOptima) {
+        this.cantidadOptima = cantidadOptima;
+    }
+
+    public int getCantidadOptima() {
+        return cantidadOptima;
+    }
+
+    public void setEstadoEvaluador(String estadoEvaluador) {
+        this.estadoEvaluador = estadoEvaluador;
+    }
+
+    public String getEstadoEvaluador() {
+        return estadoEvaluador;
     }
 
     public void setExec(int exec) {

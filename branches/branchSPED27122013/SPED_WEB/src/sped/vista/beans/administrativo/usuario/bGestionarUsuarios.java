@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import javax.faces.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -37,13 +38,17 @@ import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGridLayout;
 import oracle.adf.view.rich.component.rich.nav.RichButton;
 
+import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.component.rich.output.RichImage;
+import oracle.adf.view.rich.component.rich.output.RichOutputText;
 import oracle.adf.view.rich.event.DialogEvent;
 
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
 
+import sped.negocio.LNSF.IL.LN_C_SFCalendarioLocal;
+import sped.negocio.LNSF.IL.LN_T_SFUsuarioCalendarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFRolRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
@@ -52,6 +57,7 @@ import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFLoggerRemote;
 import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
+import sped.negocio.entidades.beans.BeanCalendario;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanRol;
 import sped.negocio.entidades.beans.BeanSede;
@@ -89,7 +95,14 @@ public class bGestionarUsuarios {
     private UISelectItems si6;
     private UISelectItems si7;
     private RichInputFile fileImg;
-    private RichImage i1;    
+    private RichImage i1;
+    private RichSelectOneChoice choiceTipoSede;
+    private UISelectItems si8;
+    private UISelectItems si9;
+    private RichButton btnEdiFec;
+    private RichInputText itCor;
+    private RichPopup popFecCalen;
+    private RichPopup popCaleDet;
     private BeanUsuario beanUsuario = (BeanUsuario) Utils.getSession("USER");
     @EJB
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
@@ -101,11 +114,14 @@ public class bGestionarUsuarios {
     private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     @EJB
     private LN_T_SFLoggerRemote ln_T_SFLoggerRemote;
+    @EJB
+    private LN_C_SFCalendarioLocal ln_C_SFCalendarioLocal;
+    @EJB
+    private LN_T_SFUsuarioCalendarioLocal ln_T_SFUsuarioCalendarioLocal;
     private static final String CLASE = "sped.vista.beans.administrativo.usuario.bGestionarUsuarios";
-    private RichSelectOneChoice choiceTipoSede;
-    private UISelectItems si8;
-    private UISelectItems si9;
-    private RichInputText itCor;
+    private RichTable tbCalen;
+    private RichActiveOutputText otError;
+    private RichOutputText otMsjTbl;
 
     public bGestionarUsuarios() {
     }
@@ -118,7 +134,7 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setLstRolf(this.llenarComboRol(2));
             sessionGestionarUsuarios.setLstAreaAcademica(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
             sessionGestionarUsuarios.setLstEstadoUsario(this.llenarComboEstado());
-            sessionGestionarUsuarios.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));                    
+            sessionGestionarUsuarios.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
             validaUsuario();            
             buscarUsuarioFiltro_aux();
         } 
@@ -212,11 +228,15 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setRenderSede(true);
         }
         sessionGestionarUsuarios.setDisableRol(usuario.getRol().getNidRol() == 3);
-        if(i1!=null){
+        if(i1 != null){
             i1.setSource("/imageservlet?nomusuario="+usuario.getNidUsuario());
         }        
         b3.setText("1".compareTo(usuario.getEstadoUsuario()) == 0 ? "Anular" : "Activar");
         b2.setDisabled("1".compareTo(usuario.getEstadoUsuario()) == 0 ? false : true);
+        if(usuario.getRol().getNidRol() == 2 || usuario.getRol().getNidRol() == 4){//AREA || SEDE
+            btnEdiFec.setDisabled(false);
+            Utils.addTarget(btnEdiFec);
+        }
         Utils.addTargetMany(b2, b3);
     }
 
@@ -485,7 +505,7 @@ public class bGestionarUsuarios {
             e.printStackTrace();
         }        
     }
-
+    
     public List<SelectItem> suggestNombre(String string) {
         return Utils.getSuggestions(sessionGestionarUsuarios.getItemNombre(), string);
     }
@@ -496,6 +516,97 @@ public class bGestionarUsuarios {
 
     public List<SelectItem> suggestDni(String string) {
         return Utils.getSuggestions(sessionGestionarUsuarios.getItemDni(), string);
+    }
+    
+    public void verFechasCalendario(ActionEvent ae) {
+        Utils.showPopUpMIDDLE(popFecCalen);
+    }
+    
+    public void refrescarTabla(ActionEvent ae) {
+        if(sessionGestionarUsuarios.getCidMes() == null){
+            sessionGestionarUsuarios.setCidMes("1");
+        }
+        sessionGestionarUsuarios.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivoByUsuario_LN(Integer.parseInt(sessionGestionarUsuarios.getCidMes()) ,sessionGestionarUsuarios.getNidUsuario()));
+        actMsjTabla();
+    }
+    
+    public void selectCalendarioUsuario(SelectionEvent se) {
+        BeanCalendario calen = (BeanCalendario) Utils.getRowTable(se);
+        if(calen.getEsLaborable() == 1 || (calen.getEsLaborable() == 0 && calen.getEsFeriado() == 0 && calen.getEsDiaSemana() == 1) ){
+            sessionGestionarUsuarios.setCalenSelected(calen);
+            sessionGestionarUsuarios.setDescDia(calen.getDescripcionDia());
+            sessionGestionarUsuarios.setTipoFalta(calen.getTipoFalta());
+            sessionGestionarUsuarios.setLstItemsTiposFalta(Utils.llenarComboString(ln_C_SFUtilsRemote.getTiposFalta_LN()));
+            Utils.showPopUpMIDDLE(popCaleDet);
+        }
+    }
+    
+    public void insertarDiaCalendario(ActionEvent ae){
+        try{
+            if(sessionGestionarUsuarios.getTipoFalta() == null){
+                otError.setValue("Elija el tipo de Falta.");
+                Utils.addTarget(otError);
+                return;
+            }
+            ln_T_SFUsuarioCalendarioLocal.registrarDiaNoLaborableUsuario_LN(sessionGestionarUsuarios.getCalenSelected().getNidFecha(),
+                                                                            sessionGestionarUsuarios.getNidUsuario(), 
+                                                                            sessionGestionarUsuarios.getDescDia(),
+                                                                            sessionGestionarUsuarios.getTipoFalta());
+            actualizarTablaCalendario();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void actualizarDiaCalendario(ActionEvent ae) {
+        try {
+            if(sessionGestionarUsuarios.getTipoFalta() == null){
+                otError.setValue("Elija el tipo de Falta.");
+                Utils.addTarget(otError);
+                return;
+            }
+            ln_T_SFUsuarioCalendarioLocal.actualizarDiaNoLaborableUsuarioDescripcionTipo_LN(sessionGestionarUsuarios.getCalenSelected().getNidFecha(),
+                                                                                            sessionGestionarUsuarios.getNidUsuario(),
+                                                                                            sessionGestionarUsuarios.getDescDia(),
+                                                                                            sessionGestionarUsuarios.getTipoFalta());
+            actualizarTablaCalendario();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void anularDiaCalendario(ActionEvent ae) {
+        try {
+            ln_T_SFUsuarioCalendarioLocal.regresarADiaNoLaborableUsuarioCalendario_LN(sessionGestionarUsuarios.getCalenSelected().getNidFecha(),
+                                                                                      sessionGestionarUsuarios.getNidUsuario());
+            actualizarTablaCalendario();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void actualizarTablaCalendario(){
+        sessionGestionarUsuarios.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivoByUsuario_LN(sessionGestionarUsuarios.getCalenSelected().getMesNumero(),
+                                                                                                         sessionGestionarUsuarios.getNidUsuario()));
+        sessionGestionarUsuarios.setCalenSelected(null);
+        actMsjTabla();
+        Utils.unselectFilas(tbCalen);
+        popCaleDet.hide();
+    }
+    
+    public void actMsjTabla(){
+        Iterator it = sessionGestionarUsuarios.getLstCalendario().iterator();
+        int cantLab = 0;
+        while(it.hasNext()){
+            BeanCalendario bc = (BeanCalendario) it.next();
+            if(bc.getEsLaborable() == 1){
+                cantLab++;
+            }
+        }
+        sessionGestionarUsuarios.setCantEvasLaborables(cantLab);
+        sessionGestionarUsuarios.setMsjTabla("Hay "+cantLab+" dias Laborables");
+        otMsjTbl.setValue("Hay "+cantLab+" dias Laborables");
+        Utils.addTarget(otMsjTbl);
     }
     
     public void setB1(RichButton b1) {
@@ -761,5 +872,52 @@ public class bGestionarUsuarios {
     public RichInputText getItCor() {
         return itCor;
     }
-    
+
+    public void setBtnEdiFec(RichButton btnEdiFec) {
+        this.btnEdiFec = btnEdiFec;
+    }
+
+    public RichButton getBtnEdiFec() {
+        return btnEdiFec;
+    }
+
+    public void setPopFecCalen(RichPopup popFecCalen) {
+        this.popFecCalen = popFecCalen;
+    }
+
+    public RichPopup getPopFecCalen() {
+        return popFecCalen;
+    }
+
+    public void setPopCaleDet(RichPopup popCaleDet) {
+        this.popCaleDet = popCaleDet;
+    }
+
+    public RichPopup getPopCaleDet() {
+        return popCaleDet;
+    }
+
+    public void setTbCalen(RichTable tbCalen) {
+        this.tbCalen = tbCalen;
+    }
+
+    public RichTable getTbCalen() {
+        return tbCalen;
+    }
+
+    public void setOtError(RichActiveOutputText otError) {
+        this.otError = otError;
+    }
+
+    public RichActiveOutputText getOtError() {
+        return otError;
+    }
+
+    public void setOtMsjTbl(RichOutputText otMsjTbl) {
+        this.otMsjTbl = otMsjTbl;
+    }
+
+    public RichOutputText getOtMsjTbl() {
+        return otMsjTbl;
+    }
 }
