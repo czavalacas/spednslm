@@ -465,4 +465,16 @@ public class Utils {
     public static int transforString(String valor){
         return valor == null ? 0 : Integer.parseInt(valor);
     }
+    
+
+    public static String getFechaStr(Date fech){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String fec = sdf.format(fech.getTime()).toString();
+            return fec;
+        } catch (Exception pe) {
+            pe.printStackTrace();
+            return null;
+        }
+    }
 }

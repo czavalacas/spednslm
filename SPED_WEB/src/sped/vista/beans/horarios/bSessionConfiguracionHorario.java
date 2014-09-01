@@ -9,6 +9,7 @@ import java.util.List;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
 
+import sped.negocio.entidades.beans.BeanCalendario;
 import sped.negocio.entidades.beans.BeanConfiguracionEventoHorario;
 import sped.negocio.entidades.beans.BeanConfiguracionHorario;
 import sped.negocio.entidades.beans.BeanDuracionHorario;
@@ -22,35 +23,72 @@ public class bSessionConfiguracionHorario implements Serializable {
     private String nidNivelChoice;
     private List listaEventosHorariosChoice;
     private String nidEventoHorario;
-    private List<BeanConfiguracionHorario> listaEventosHorarioTabla=new ArrayList<BeanConfiguracionHorario>();
+    private List<BeanConfiguracionHorario> listaEventosHorarioTabla = new ArrayList<BeanConfiguracionHorario>();
     private String inputHoraInicioEventoHorario;
     private String inputHoraFinEventoHorario;
     private String inputHoraInicioClases;
     private String duracionPorBloque;
-    private int numeroDeBloques=0;
-    private int maxBloquesPorCurso=0;    
-    public int exec=0;
-    private boolean estadoDisableChoiceRestriccion=true;
-    private boolean estadoinPutHoraInicioRestriccion=true;
-    private boolean estadoinPutHoraFinRestriccion=true;
-    private boolean estadoBtnAgregarRestriccion=true;
-    private boolean estadobBtnRemoverRestriccion=true;
-    private boolean estadoHoraInicioClases=true;
-    private boolean estadoNumBloques=true;
-    private boolean estadoDuracionPorBloque=true;
-    private boolean estadoMaxBloquesXCurso=true;
-    private boolean estadoDisableChoiceNive=true;
-    private boolean estadoDisableBtnGuardar=true;
-    private boolean estadoDisableChoiceSede=false;
-    private boolean estadoBtnEditarRestriccion=true;
-    private int accionPersist=0;
-    private int seleccionTable=0;
-    private BeanDuracionHorario beanDuracionHorario=new BeanDuracionHorario();  
-    private BeanConfiguracionHorario beanconfiguracionHorario=new BeanConfiguracionHorario();  
+    private int numeroDeBloques = 0;
+    private int maxBloquesPorCurso = 0;
+    public int exec = 0;
+    private boolean estadoDisableChoiceRestriccion = true;
+    private boolean estadoinPutHoraInicioRestriccion = true;
+    private boolean estadoinPutHoraFinRestriccion = true;
+    private boolean estadoBtnAgregarRestriccion = true;
+    private boolean estadobBtnRemoverRestriccion = true;
+    private boolean estadoHoraInicioClases = true;
+    private boolean estadoNumBloques = true;
+    private boolean estadoDuracionPorBloque = true;
+    private boolean estadoMaxBloquesXCurso = true;
+    private boolean estadoDisableChoiceNive = true;
+    private boolean estadoDisableBtnGuardar = true;
+    private boolean estadoDisableChoiceSede = false;
+    private boolean estadoBtnEditarRestriccion = true;
+    private int accionPersist = 0;
+    private int seleccionTable = 0;
+    private BeanDuracionHorario beanDuracionHorario = new BeanDuracionHorario();  
+    private BeanConfiguracionHorario beanconfiguracionHorario = new BeanConfiguracionHorario();  
     private int nroBloque;
     private int maxBloque;
     private Time horas[];
     private String horaFinClases;
+    //Calendario dfloresgonz 26.08.2014
+    private List<BeanCalendario> lstCalendario = new ArrayList<BeanCalendario>();
+    private String cidMes;
+    private BeanCalendario calenSelected = new BeanCalendario();
+    private String descDia;
+
+    public void setDescDia(String descDia) {
+        this.descDia = descDia;
+    }
+
+    public String getDescDia() {
+        return descDia;
+    }
+
+    public void setCalenSelected(BeanCalendario calenSelected) {
+        this.calenSelected = calenSelected;
+    }
+
+    public BeanCalendario getCalenSelected() {
+        return calenSelected;
+    }
+
+    public void setCidMes(String cidMes) {
+        this.cidMes = cidMes;
+    }
+
+    public String getCidMes() {
+        return cidMes;
+    }
+
+    public void setLstCalendario(List<BeanCalendario> lstCalendario) {
+        this.lstCalendario = lstCalendario;
+    }
+
+    public List<BeanCalendario> getLstCalendario() {
+        return lstCalendario;
+    }
 
     public void setNroBloque(int nroBloque) {
         this.nroBloque = nroBloque;

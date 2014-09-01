@@ -182,19 +182,20 @@ public class bConsultaPlanificacion {
         
         return null;   
     }
-    
+
     public void limpiarPlanificacion(ActionEvent actionEvent) {
-      sessionConsultarPlanificacion.setApellidosDocente(null);
-      sessionConsultarPlanificacion.setFechaMaxPlanificacion(null);
-      sessionConsultarPlanificacion.setFechaMinPlanificacion(null);
-      sessionConsultarPlanificacion.setNidEvaluadorChoice(null);
-      sessionConsultarPlanificacion.setNidNivelChoice(null);
-      sessionConsultarPlanificacion.setNidSedeChoice(null);
-      sessionConsultarPlanificacion.setNidAreaAcademicaChoice(null);
-      sessionConsultarPlanificacion.setNidEstadoPlanificacion(null);       
-      llenarCombos();
-      Utils.addTargetMany(choiceEvaluadores, choiceAreaAcademica,choiceEstado,choiceNivel,choiceSedes,inputFechaMax,inputFechaMin,inputProfesor);
-      buscarPlani();
+        sessionConsultarPlanificacion.setApellidosDocente(null);
+        sessionConsultarPlanificacion.setFechaMaxPlanificacion(null);
+        sessionConsultarPlanificacion.setFechaMinPlanificacion(null);
+        sessionConsultarPlanificacion.setNidEvaluadorChoice(null);
+        sessionConsultarPlanificacion.setNidNivelChoice(null);
+        sessionConsultarPlanificacion.setNidSedeChoice(null);
+        sessionConsultarPlanificacion.setNidAreaAcademicaChoice(null);
+        sessionConsultarPlanificacion.setNidEstadoPlanificacion("PENDIENTE");
+        llenarCombos();
+        Utils.addTargetMany(choiceEvaluadores, choiceAreaAcademica, choiceEstado, choiceNivel, choiceSedes,
+                            inputFechaMax, inputFechaMin, inputProfesor);
+        buscarPlani();
     }
 
     public void abrirPopUpProblema(ActionEvent actionEvent) {

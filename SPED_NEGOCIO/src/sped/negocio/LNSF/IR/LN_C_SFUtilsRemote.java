@@ -38,5 +38,17 @@ public interface LN_C_SFUtilsRemote {
     List<BeanCombo> getEvaluadoresByAreaByEstado_LN(int nidArea, boolean estado);
     List<BeanCombo> getEvaluadoresByEstado_LN(boolean estado);
     List<BeanComboDouble2> getListaValores_LN();
-    
+    List<BeanComboString> getTiposFalta_LN();
+    /**
+     * Metodo que retorna el estado del evaluador
+     * @author dfloresgonz
+     * @param cantEjecutados = cantidad de evaluaciones que ha ejecutado el usuario
+     * @param cantMaxEvasPosib = cantidad de evaluaciones maximas posibles (cantConfiguradaMaxEnConstraint * cantDiasLaborablesUsuario)
+     * @param cantMaxDiaConstraint = valor de la tabla constraint cantMAX configuracion
+     * @param cantMinConstraint = valor de la tabla constraint cantMin configuracion
+     * @return nombre del estado para usarlo en el grafico 2 del dash
+     */
+    String getEstadoEvaluadorByDias(int cantEjecutados,int cantMaxEvasPosib, 
+                                    int cantMaxDiaConstraint,int cantMinConstraint);
+    int getCantidadEvasMinimoOptimo(int cantMaxEvasPosib,int cantMaxDiaConstraint, int cantMinConstraint);
 }

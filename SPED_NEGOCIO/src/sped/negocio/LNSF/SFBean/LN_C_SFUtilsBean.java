@@ -155,4 +155,40 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     public List<BeanComboDouble2> getListaValores_LN(){
         return bdL_C_SFUtilsLocal.getListaValores();
     }
+    
+    public List<BeanComboString> getTiposFalta_LN() {
+        return bdL_C_SFUtilsLocal.getTiposFalta("e.valorCampo", "e.descripcionAMostrar");
+    }
+    
+    /**
+     * Metodo que retorna el estado del evaluador
+     * @author dfloresgonz
+     * @param cantEjecutados = cantidad de evaluaciones que ha ejecutado el usuario
+     * @param cantMaxEvasPosib = cantidad de evaluaciones maximas posibles (cantConfiguradaMaxEnConstraint * cantDiasLaborablesUsuario)
+     * @param cantMaxDiaConstraint = valor de la tabla constraint cantMAX configuracion
+     * @param cantMinConstraint = valor de la tabla constraint cantMin configuracion
+     * @return nombre del estado para usarlo en el grafico 2 del dash
+     */
+    public String getEstadoEvaluadorByDias(int cantEjecutados,int cantMaxEvasPosib, 
+                                           int cantMaxDiaConstraint,int cantMinConstraint){
+        try{
+            int tresSimple = (cantMaxDiaConstraint * cantEjecutados) / cantMaxEvasPosib;
+            if(tresSimple < cantMinConstraint){
+                return "BAJO";
+            }else if(tresSimple == cantMinConstraint){
+                return "NORMAL";
+            }else if(tresSimple > cantMinConstraint){
+                return "OPTIMO";
+            }
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public int getCantidadEvasMinimoOptimo(int cantMaxEvasPosib,int cantMaxDiaConstraint, int cantMinConstraint){
+        return ( (Math.min(cantMaxDiaConstraint, cantMinConstraint) + 1) * cantMaxEvasPosib ) 
+                  / cantMaxDiaConstraint;
+    }
 }

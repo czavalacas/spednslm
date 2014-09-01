@@ -7,7 +7,7 @@
                 <af:spacer height="10" id="s3"/>
                 <af:outputText value="Consulta de Evaluaciones" id="otTituloU" styleClass="titulos"/>
             </af:panelGroupLayout>
-            <af:subform id="s1" binding="#{bConsultarEvaluacion.s1}" defaultCommand="btnBuscar">
+            <af:subform id="s1" binding="#{bConsultarEvaluacion.s1}" defaultCommand="::pc1:btnBuscar">
                 <af:panelFormLayout id="pfl7" rows="1" maxColumns="5" binding="#{bConsultarEvaluacion.pfl7}">
                     <af:showDetail disclosed="false" id="sd1" disclosedText="Fecha Planifiacion"
                                    undisclosedText="Fecha Planifiacion" binding="#{bConsultarEvaluacion.sd1}">
@@ -92,12 +92,6 @@
                         <f:selectItem itemLabel="Otros" itemValue="O"/>
                     </af:selectOneChoice>
                 </af:panelFormLayout>
-                <af:spacer height="10" id="s4"/>
-                <af:panelGroupLayout id="pgl2">
-                    <af:button text="Buscar" id="btnBuscar" actionListener="#{bConsultarEvaluacion.buscarByFiltro}"/>
-                    <af:button id="btnRefreshFiltro" actionListener="#{bConsultarEvaluacion.resetFiltro}"
-                               icon="../recursos/img/usuarios/refresh.png"/>
-                </af:panelGroupLayout>
             </af:subform>
             <af:button id="bExcel" immediate="true" text="Exportar a Excel" 
                        rendered="#{sessionConsultarEvaluacion.renderExcel}"
@@ -110,14 +104,17 @@
                 <f:facet name="toolbar">
                     <af:toolbar id="t1">
                         <af:outputText value="Se encontraron #{sessionConsultarEvaluacion.lstBeanEvaluacion.size()} evaluaciones" id="otDesc"
-                                       partialTriggers="::s1:btnBuscar ::s1:btnRefreshFiltro" styleClass="errorColor"/>
+                                       partialTriggers="btnBuscar btnRefreshFiltro" styleClass="errorColor"/>
+                        <af:button text="Buscar" id="btnBuscar" actionListener="#{bConsultarEvaluacion.buscarByFiltro}"/>
+                        <af:button id="btnRefreshFiltro" actionListener="#{bConsultarEvaluacion.resetFiltro}"
+                                   icon="../recursos/img/usuarios/refresh.png"/>
                     </af:toolbar>
                 </f:facet>
                 <f:facet name="statusbar"/> 
                     <af:table id="tbEval" value="#{sessionConsultarEvaluacion.lstBeanEvaluacion}" var="row" varStatus="vs"
-                          rowBandingInterval="-1" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
-                          summary="Tabla de Evaluaciones" columnStretching="column:c9" styleClass="AFStretchWidth"
-                          binding="#{bConsultarEvaluacion.tbEval}" autoHeightRows="0" contentDelivery="immediate"
+                              rowBandingInterval="-1" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" width="inherit;"
+                              summary="Tabla de Evaluaciones" columnStretching="column:c9" styleClass="AFStretchWidth"
+                              binding="#{bConsultarEvaluacion.tbEval}" autoHeightRows="0" contentDelivery="immediate"
                               fetchSize="20">
                     <af:column width="20" frozen="true">
                         <af:spacer height="10"/>

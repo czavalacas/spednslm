@@ -67,7 +67,7 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
             String ejbQl = "SELECT ev " +
                            "FROM Evaluacion ev " +
                            "WHERE 1 = 1 ";
-            if(beanEvaluacion.getMain()!=null){
+            if(beanEvaluacion.getMain() != null){
                 if(beanEvaluacion.getMain().getProfesor() != null){
                     if(beanEvaluacion.getMain().getProfesor().getDniProfesor() != null){
                         ejbQl = ejbQl.concat(" AND ev.main.profesor.dniProfesor = :dniProfesor " +

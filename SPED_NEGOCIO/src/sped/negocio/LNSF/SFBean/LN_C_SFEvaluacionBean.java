@@ -20,6 +20,8 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_C_SFEvaluacionLocal;
 import sped.negocio.LNSF.IL.LN_C_SFRolLocal;
+import sped.negocio.LNSF.IL.LN_C_SFUsuarioCalendarioLocal;
+import sped.negocio.LNSF.IL.LN_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
@@ -62,6 +64,10 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
     private LN_C_SFRolLocal ln_C_SFRolLocal;
     @EJB
     private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
+    @EJB
+    private LN_C_SFUsuarioCalendarioLocal ln_C_SFUsuarioCalendarioLocal;
+    @EJB
+    private LN_C_SFUtilsLocal ln_C_SFUtilsLocal;
     private MapperIF mapper = new DozerBeanMapper();
     private static final String CLASE = "sped.negocio.LNSF.SFBean.LN_C_SFEvaluacionBean";
 
@@ -426,20 +432,11 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
      * @param fachaEvaluacionF
      * @return List BeanEvaluacion
      */
-    public List<BeanEvaluacionPlani> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,
-                                                                 String nombre,
-                                                                 String estado,                                                                 
-                                                                 String desProblema,
-                                                                 String desRol,
-                                                                 List lstnidRol,
-                                                                 List lstnidEva,
-                                                                 List lstnidSede,
-                                                                 List lstnidArea,                                                                 
-                                                                 Date fechaPlanifiacion,
-                                                                 Date fechaPlanifiacionF,
-                                                                 Date fechaEvaluacion,
-                                                                 Date fachaEvaluacionF,
-                                                                 boolean estadoUsuario){
+    public List<BeanEvaluacionPlani> getDesempenoEvaluacionbyFiltroLN(int tipoBusqueda,String nombre,String estado,                                                                 
+                                                                      String desProblema,String desRol,List lstnidRol,
+                                                                      List lstnidEva,List lstnidSede,List lstnidArea,                                                                 
+                                                                      Date fechaPlanifiacion,Date fechaPlanifiacionF,
+                                                                      Date fechaEvaluacion,Date fachaEvaluacionF,boolean estadoUsuario){
         try{
             List<BeanEvaluacionPlani> lstBeanEva = new ArrayList();
             BeanEvaluacion beanEva = new BeanEvaluacion();            
@@ -451,16 +448,15 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             beanEva.setEstadoEvaluacion(estado);
             beanEva.setDescRol(desRol);
             beanEva.setEstadoUsuario(estadoUsuario ? "1" : null);
-            if(desProblema !=null){
+            if(desProblema != null){
                 int idProb = bdL_C_SFProblemaLocal.getNidProblemaByDescripcion(desProblema);
                 beanEva.setNidProblema(idProb != 0 ? idProb : 0);
             }
-            List listaBD = bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(tipoBusqueda,
-                                                                                     lstnidRol,
-                                                                                     lstnidEva,
-                                                                                     lstnidSede,
-                                                                                     lstnidArea,
-                                                                                     beanEva);
+            List listaBD = bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(tipoBusqueda,lstnidRol,lstnidEva,
+                                                                                     lstnidSede,lstnidArea,beanEva);
+            Integer vecMinMax[] = bdL_C_SFUtilsLocal.getMinMaxEvasPorDiaConstraint_LN();
+            int min = vecMinMax[0];
+            int max = vecMinMax[1];
             for(Object dato : listaBD){
                 BeanEvaluacionPlani bean = new BeanEvaluacionPlani();
                 Object[] datos = (Object[]) dato;
@@ -478,20 +474,28 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                     bean.setCantPorJustificar(Integer.parseInt(""+datos[4]));
                     bean.setCantInjustificado(Integer.parseInt(""+datos[5]));                    
                     //// 4 en adelante sera modficado
-                    if(tipoBusqueda == 1){                        
+                    if(tipoBusqueda == 1){//Grafico 2 Evaluador(s)
                         BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[6], BeanUsuario.class);
                         bean.setNombreEvaluador(usu.getNombres());
                         bean.setUsuario(usu);
+                        bean.setCantDiasLaborables(ln_C_SFUsuarioCalendarioLocal.getCantidadDiasLaborablesByUsuario(usu.getNidUsuario(),fechaEvaluacion,fachaEvaluacionF));
+                        bean.setCantNormal(bean.getCantDiasLaborables() * min);
+                        bean.setCantOptima(bean.getCantDiasLaborables() * max);
+                        bean.setCantDiffEntreMaxEvas_Ejecut( bean.getCantOptima() - bean.getCantEjecutado());
+                        bean.setColorEstado(ln_C_SFUtilsLocal.getEstadoEvaluadorByDias(bean.getCantEjecutado(),bean.getCantOptima(), max, min));
+                        bean.setCantMinConfigEvasxDia(min);
+                        bean.setCantMaxConfigEvasxDia(max);
+                        bean.setCantEvasMinimoOptimo(ln_C_SFUtilsLocal.getCantidadEvasMinimoOptimo(bean.getCantOptima(), max, min));
                         desempenoEvaluador(bean);
                     }
-                    if(tipoBusqueda == 3){
+                    if(tipoBusqueda == 3){//Grafico 3 Linea de Tiempo
                         bean.setEndDate((Date)datos[6]);
                     }
-                    if(tipoBusqueda == 5){
+                    if(tipoBusqueda == 5){//Grafico 1 Rol(s)
                         bean.setDescripcion(""+datos[6]);
-                    }                    
-                }                 
-                if(tipoBusqueda == 4){                       
+                    }
+                }
+                if(tipoBusqueda == 4){//Grafico 4 Evaluaciones Justificadas
                     int id = Integer.parseInt(""+datos[1]);
                     bean.setCantProblema(Integer.parseInt(""+datos[0]));
                     bean.setNidProblema(id);
@@ -515,12 +519,11 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
      * @param eva
      */
     public void desempenoEvaluador(BeanEvaluacionPlani eva){
-        try{            
-            double cant = eva.getCantEjecutado() + 
-                          eva.getCantNoEjecutado() + eva.getCantInjustificado();
-            double porcentaje = cant != 0 ? (eva.getCantEjecutado()/cant) : 0;
-            eva.setPorcentajeDesempeno(porcentaje*100);
-            eva.setColorResultado(colorNota(porcentaje*20));
+        try{
+            double prtje = ( eva.getCantEjecutado() * 100) / (eva.getCantDiasLaborables() * eva.getCantMaxConfigEvasxDia()) ;
+            eva.setPorcentajeDesempeno(prtje);
+            eva.setColorResultado("BAJO".equalsIgnoreCase(eva.getColorEstado()) ? "Red" : "NORMAL".equalsIgnoreCase(eva.getColorEstado()) ? 
+                                  "Green" : "OPTIMO".equalsIgnoreCase(eva.getColorEstado()) ? "Blue" : "");
         }catch(Exception e){
             ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "OTR", CLASE, 
                                                           "desempenoEvaluador(BeanEvaluacionPlani eva)", 

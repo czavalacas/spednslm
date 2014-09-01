@@ -46,8 +46,8 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     }
     
     public BeanConstraint getCatalogoConstraints(String nombreCampo, 
-                                                  String nombreTabla, 
-                                                  String valorCampo){
+                                                 String nombreTabla, 
+                                                 String valorCampo){
         try{
             ConstraintPK id = new ConstraintPK(nombreCampo,nombreTabla,valorCampo);
             Constraint constraint = this.findConstraintById(id);
@@ -447,6 +447,20 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         }
     }
     
+    public List<BeanComboString> getTiposFalta(String id, String desc){
+        try{
+            String qlString = this.getSelectBasicoBeanComboString(id, desc, "Constraint") +
+                              " WHERE e.nombreCampo = 'tipoFalta' " +
+                              " AND e.nombreTabla = 'addusca' "+
+                              " ORDER BY e.descripcionAMostrar ASC ";
+            List<BeanComboString> lstTiposFalta = em.createQuery(qlString).getResultList();        
+            return lstTiposFalta;       
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     private String getSelectBasicoBeanCombo(String id,String desc, String entidad){
         return "SELECT NEW sped.negocio.entidades.beans.BeanCombo("+id+","+desc+") " +
                 "FROM "+entidad+" e ";
@@ -455,5 +469,21 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     private String getSelectBasicoBeanComboString(String id,String desc, String entidad){
         return "SELECT NEW sped.negocio.entidades.beans.BeanComboString("+id+","+desc+") " +
                 "FROM "+entidad+" e ";
+    }
+    
+    public Integer[] getMinMaxEvasPorDiaConstraint_LN(){
+        try{
+            Integer vec[] = new Integer[2];
+            String qlString = "SELECT c.valorCampo " +
+                              "FROM Constraint c " +
+                              "WHERE c.nombreTabla = 'configuracion' ORDER BY c.valorCampo ASC ";
+            List<String> lstCants = em.createQuery(qlString).getResultList();
+            vec[0] = Integer.parseInt(lstCants.get(0));
+            vec[1] = Integer.parseInt(lstCants.get(1));
+            return vec;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

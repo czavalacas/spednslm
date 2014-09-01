@@ -58,6 +58,80 @@ public class BeanEvaluacionPlani implements Serializable{
     private String temaEvaluacion;
     private int nidCurso;
     private int nidAreaAcademicaCurso;
+    //dfloresgonz 31.08.2014 esta variable sirve para el grafico de stacked 100 bar (2do graf) en el dash de desempeno de profesores
+    //este valor aloja la cantidad maxima de evaluaciones que debio haber hecho un evaluador en el rango de fechas elejido.
+    private int cantDiasLaborables;
+    private int cantDiffEntreMaxEvas_Ejecut;
+    private String colorEstado;//sirve para pintar el grafico 2 en dash de evaluadores
+    private int cantMinConfigEvasxDia;
+    private int cantMaxConfigEvasxDia;
+    private int cantEvasMinimoOptimo;
+    private int cantNormal;
+    private int cantOptima;
+
+    public void setCantNormal(int cantNormal) {
+        this.cantNormal = cantNormal;
+    }
+
+    public int getCantNormal() {
+        return cantNormal;
+    }
+
+    public void setCantOptima(int cantOptima) {
+        this.cantOptima = cantOptima;
+    }
+
+    public int getCantOptima() {
+        return cantOptima;
+    }
+
+    public void setCantEvasMinimoOptimo(int cantEvasMinimoOptimo) {
+        this.cantEvasMinimoOptimo = cantEvasMinimoOptimo;
+    }
+
+    public int getCantEvasMinimoOptimo() {
+        return cantEvasMinimoOptimo;
+    }
+
+    public void setCantMinConfigEvasxDia(int cantMinConfigEvasxDia) {
+        this.cantMinConfigEvasxDia = cantMinConfigEvasxDia;
+    }
+
+    public int getCantMinConfigEvasxDia() {
+        return cantMinConfigEvasxDia;
+    }
+
+    public void setCantMaxConfigEvasxDia(int cantMaxConfigEvasxDia) {
+        this.cantMaxConfigEvasxDia = cantMaxConfigEvasxDia;
+    }
+
+    public int getCantMaxConfigEvasxDia() {
+        return cantMaxConfigEvasxDia;
+    }
+
+    public void setColorEstado(String colorEstado) {
+        this.colorEstado = colorEstado;
+    }
+
+    public String getColorEstado() {
+        return colorEstado;
+    }
+
+    public void setCantDiffEntreMaxEvas_Ejecut(int cantDiffEntreMaxEvas_Ejecut) {
+        this.cantDiffEntreMaxEvas_Ejecut = cantDiffEntreMaxEvas_Ejecut;
+    }
+
+    public int getCantDiffEntreMaxEvas_Ejecut() {
+        return cantDiffEntreMaxEvas_Ejecut;
+    }
+
+    public void setCantDiasLaborables(int cantDiasLaborables) {
+        this.cantDiasLaborables = cantDiasLaborables;
+    }
+
+    public int getCantDiasLaborables() {
+        return cantDiasLaborables;
+    }
 
     public void setTemaEvaluacion(String temaEvaluacion) {
         this.temaEvaluacion = temaEvaluacion;

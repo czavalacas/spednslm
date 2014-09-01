@@ -49,5 +49,7 @@ public interface BDL_C_SFUtilsRemote {
     Log findLogById(int id);
     List<BeanComboDouble> getPosibleListaValoresIndicador(int nidCritIndi);
     List<BeanComboDouble2> getListaValores();
+    List<BeanComboString> getTiposFalta(String id, String desc);
+    Integer[] getMinMaxEvasPorDiaConstraint_LN();
 }
 
