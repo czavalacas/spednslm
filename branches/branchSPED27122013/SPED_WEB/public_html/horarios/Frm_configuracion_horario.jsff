@@ -244,6 +244,26 @@
                             </af:table>
                         </af:panelCollection>
                     </af:showDetailItem>
+                    <af:showDetailItem text="Cantidad Evaluaciones" id="sdi3">
+                        <af:button text="Actualizar" id="btnActConf"
+                                   actionListener="#{bConfiguracionHorario.actualizarConfig_Action}"
+                                   partialTriggers="btnActConf"/>
+                        <af:outputText value="#{requestScope.bConfiguracionHorario.errorConfig}" id="otErrConf" styleClass="errorColor"
+                                       partialTriggers="btnActConf"/>
+                        <af:table value="#{sessionScope.sessionConfiguracionHorario.lstBeanCons}" var="row"
+                                  rowBandingInterval="0" id="tbConf"
+                                  selectionListener="#{bConfiguracionHorario.selectConfigDias}" rowSelection="single"
+                                  fetchSize="2">
+                            <af:column sortable="false" headerText="Descripcion" align="start" id="c12" width="200">
+                                <af:outputText value="#{row.descripcionAMostrar}" id="ot13"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Valor" align="end" id="c13">
+                                <af:inputText value="#{row.valorCampo}" id="it3" autoSubmit="true"
+                                              valueChangeListener="#{bConfiguracionHorario.cambiarValor}" columns="5"
+                                              maximumLength="2"/>
+                            </af:column>
+                        </af:table>
+                    </af:showDetailItem>
                 </af:panelTabbed>
                 <!--  <af:panelBox id="pb1"  showDisclosure="false"  inlineStyle="margin:0px 50px 0px 0px;" background="light"
                              text="Seleccionar Sede Y Nivel">

@@ -51,4 +51,5 @@ public interface LN_C_SFUtilsRemote {
     String getEstadoEvaluadorByDias(int cantEjecutados,int cantMaxEvasPosib, 
                                     int cantMaxDiaConstraint,int cantMinConstraint);
     int getCantidadEvasMinimoOptimo(int cantMaxEvasPosib,int cantMaxDiaConstraint, int cantMinConstraint);
+    List<BeanConstraint> getMinMaxEvasPorDiaConfigConstraint_LN();
 }

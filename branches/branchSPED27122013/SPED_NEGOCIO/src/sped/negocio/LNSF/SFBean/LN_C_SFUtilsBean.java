@@ -191,4 +191,22 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
         return ( (Math.min(cantMaxDiaConstraint, cantMinConstraint) + 1) * cantMaxEvasPosib ) 
                   / cantMaxDiaConstraint;
     }
+    
+    public List<BeanConstraint> getMinMaxEvasPorDiaConfigConstraint_LN(){
+        List<Constraint> lstCons = bdL_C_SFUtilsLocal.getMinMaxEvasPorDiaConfigConstraint_LN();
+        Iterator it = lstCons.iterator();
+        BeanConstraint beanCons = null;
+        Constraint cons = null;
+        List<BeanConstraint> lstBeanCons = new ArrayList<BeanConstraint>();
+        while(it.hasNext()){
+            beanCons = new BeanConstraint();
+            cons = (Constraint) it.next();
+            beanCons.setDescripcionAMostrar(cons.getDescripcionAMostrar());
+            beanCons.setNombreCampo(cons.getNombreCampo());
+            beanCons.setNombreTabla(cons.getNombreTabla());
+            beanCons.setValorCampo(cons.getValorCampo());
+            lstBeanCons.add(beanCons);
+        }
+        return lstBeanCons;
+    }
 }

@@ -1,55 +1,44 @@
 package sped.vista.beans.horarios;
 
 import java.sql.Time;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
-
 import javax.ejb.EJB;
-
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
-
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputNumberSpinbox;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
-
 import oracle.adf.view.rich.component.rich.nav.RichButton;
-
 import oracle.adf.view.rich.component.rich.output.RichOutputText;
-
 import org.apache.myfaces.trinidad.event.SelectionEvent;
-
 import sped.negocio.LNSF.IL.LN_C_SFCalendarioLocal;
+import sped.negocio.LNSF.IL.LN_C_SFUtilsLocal;
 import sped.negocio.LNSF.IL.LN_T_SFCalendarioLocal;
+import sped.negocio.LNSF.IL.LN_T_SFUtilsLocal;
 import sped.negocio.LNSF.IR.LN_C_SFConfiguracionEventoHorarioRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFConfiguracionHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFDuracionHorarioRemote;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.LNSF.IR.LN_C_SFNivelRemote;
 import sped.negocio.LNSF.IR.LN_C_SFSedeRemote;
-
 import sped.negocio.LNSF.IR.LN_T_SFConfiguracionHorarioRemoto;
 import sped.negocio.LNSF.IR.LN_T_SFDuracionHorarioRemoto;
 import sped.negocio.entidades.beans.BeanCalendario;
 import sped.negocio.entidades.beans.BeanConfiguracionEventoHorario;
 import sped.negocio.entidades.beans.BeanConfiguracionHorario;
+import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanDuracionHorario;
-import sped.negocio.entidades.beans.BeanMain;
-import sped.negocio.entidades.beans.BeanUsuario;
-
 import sped.vista.Utils.Utils;
 
 public class bConfiguracionHorario {
@@ -74,6 +63,7 @@ public class bConfiguracionHorario {
     private RichOutputText otError;
     private String errorDesc;
     private RichPopup popCalen;
+    private RichTable tbCalen;
     private bSessionConfiguracionHorario sessionConfiguracionHorario;
     FacesContext ctx = FacesContext.getCurrentInstance();
     @EJB
@@ -96,7 +86,11 @@ public class bConfiguracionHorario {
     private LN_C_SFCalendarioLocal ln_C_SFCalendarioLocal;
     @EJB
     private LN_T_SFCalendarioLocal ln_T_SFCalendarioLocal;
-    private RichTable tbCalen;
+    @EJB
+    private LN_C_SFUtilsLocal ln_C_SFUtilsLocal;
+    @EJB
+    private LN_T_SFUtilsLocal ln_T_SFUtilsLocal;
+    private String errorConfig;
 
     public bConfiguracionHorario() {
 
@@ -107,6 +101,7 @@ public class bConfiguracionHorario {
         if (sessionConfiguracionHorario.getExec() == 0) {
             sessionConfiguracionHorario.setExec(1);
             llenarCombos();
+            sessionConfiguracionHorario.setLstBeanCons(ln_C_SFUtilsLocal.getMinMaxEvasPorDiaConfigConstraint_LN());
         }
     }
 
@@ -116,7 +111,6 @@ public class bConfiguracionHorario {
             sessionConfiguracionHorario.setEstadoDisableChoiceNive(false);
         }
         Utils.addTarget(choiceNivel);
-
     }
 
     public String guardarConfiguracionDeHorario() {
@@ -224,44 +218,45 @@ public class bConfiguracionHorario {
 
         return null;
     }
-    
-    public String agregarEventoHorario() throws ParseException {            
-        if(choiceEventoHorario.getValue()!=null){
-            if(Time.valueOf(sessionConfiguracionHorario.getInputHoraFinEventoHorario()+":00").before(Time.valueOf(sessionConfiguracionHorario.getInputHoraInicioEventoHorario()+":00")) ){
-                Utils.mostrarMensaje(ctx,"Hora Fin de evento no puedo ser antes de la Hora inicio, porfavor ingrese datos correctos","Error",1);
-            }else{
-        BeanConfiguracionEventoHorario beanConfEv=ln_C_SFConfiguracionEventoHorarioRemoto.getEventoHorarioByID(Integer.parseInt(choiceEventoHorario.getValue().toString()));
-        BeanConfiguracionHorario beanConHora=new BeanConfiguracionHorario();
-        beanConHora.setStmconfev(beanConfEv);
-        beanConHora.setHoraInicio(sessionConfiguracionHorario.getInputHoraInicioEventoHorario());
-        beanConHora.setHoraFin(sessionConfiguracionHorario.getInputHoraFinEventoHorario());
-        sessionConfiguracionHorario.getListaEventosHorarioTabla().add(beanConHora);
-        sessionConfiguracionHorario.setNidEventoHorario(null);
-        sessionConfiguracionHorario.setInputHoraInicioEventoHorario(null);
-        sessionConfiguracionHorario.setInputHoraFinEventoHorario(null);
-        sessionConfiguracionHorario.setEstadoinPutHoraInicioRestriccion(true);
-        sessionConfiguracionHorario.setEstadoinPutHoraFinRestriccion(true);    
-        estadosPanel2(false);
-        }            
-        Utils.addTargetMany(choiceEventoHorario,inputHoraInicioRestriccion,inputHoraFinRestriccion,tbEventoHorario);
-            }        
+
+    public String agregarEventoHorario() throws ParseException {
+        if (choiceEventoHorario.getValue() != null) {
+            if (Time.valueOf(sessionConfiguracionHorario.getInputHoraFinEventoHorario() +":00").before(Time.valueOf(sessionConfiguracionHorario.getInputHoraInicioEventoHorario() +":00"))) {
+                Utils.mostrarMensaje(ctx,"Hora Fin de evento no puedo ser antes de la Hora inicio, porfavor ingrese datos correctos","Error", 1);
+            } else {
+                BeanConfiguracionEventoHorario beanConfEv = ln_C_SFConfiguracionEventoHorarioRemoto.getEventoHorarioByID(Integer.parseInt(choiceEventoHorario.getValue().toString()));
+                BeanConfiguracionHorario beanConHora = new BeanConfiguracionHorario();
+                beanConHora.setStmconfev(beanConfEv);
+                beanConHora.setHoraInicio(sessionConfiguracionHorario.getInputHoraInicioEventoHorario());
+                beanConHora.setHoraFin(sessionConfiguracionHorario.getInputHoraFinEventoHorario());
+                sessionConfiguracionHorario.getListaEventosHorarioTabla().add(beanConHora);
+                sessionConfiguracionHorario.setNidEventoHorario(null);
+                sessionConfiguracionHorario.setInputHoraInicioEventoHorario(null);
+                sessionConfiguracionHorario.setInputHoraFinEventoHorario(null);
+                sessionConfiguracionHorario.setEstadoinPutHoraInicioRestriccion(true);
+                sessionConfiguracionHorario.setEstadoinPutHoraFinRestriccion(true);
+                estadosPanel2(false);
+            }
+            Utils.addTargetMany(choiceEventoHorario, inputHoraInicioRestriccion, inputHoraFinRestriccion,
+                                tbEventoHorario);
+        }
         return null;
     }
-    
+
     public String aceptaExisteHorarios() {
-     popupExisteHorario.hide();
+        popupExisteHorario.hide();
         return null;
     }
-    
+
     public void seleccionaRestriccion(ValueChangeEvent valueChangeEvent) {
-        if(valueChangeEvent.getNewValue()!=null){
-             estadosPanel1(false);
-            estadosPanel2(true);    
-              }
-        if(valueChangeEvent.getNewValue()==null){
-           estadosPanel1(true);
-           estadosPanel2(false);
-              }
+        if (valueChangeEvent.getNewValue() != null) {
+            estadosPanel1(false);
+            estadosPanel2(true);
+        }
+        if (valueChangeEvent.getNewValue() == null) {
+            estadosPanel1(true);
+            estadosPanel2(false);
+        }
     }
 
     public void eventoChoiceNivel(ValueChangeEvent valueChangeEvent) {
@@ -414,16 +409,16 @@ public class bConfiguracionHorario {
     }
 
     public String removerEventoHorarioTabla() {
-        for(int i = 0; i < sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++){
-            if(sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin().equals(sessionConfiguracionHorario.getBeanconfiguracionHorario().getHoraFin()) &&
-               sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio().equals(sessionConfiguracionHorario.getBeanconfiguracionHorario().getHoraInicio()) && 
-               sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getStmconfev().equals(sessionConfiguracionHorario.getBeanconfiguracionHorario().getStmconfev())) {
-               sessionConfiguracionHorario.getListaEventosHorarioTabla().remove(i);               
-                            }
+        for (int i = 0; i < sessionConfiguracionHorario.getListaEventosHorarioTabla().size(); i++) {
+            if (sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraFin().equals(sessionConfiguracionHorario.getBeanconfiguracionHorario().getHoraFin()) &&
+                sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getHoraInicio().equals(sessionConfiguracionHorario.getBeanconfiguracionHorario().getHoraInicio()) &&
+                sessionConfiguracionHorario.getListaEventosHorarioTabla().get(i).getStmconfev().equals(sessionConfiguracionHorario.getBeanconfiguracionHorario().getStmconfev())) {
+                sessionConfiguracionHorario.getListaEventosHorarioTabla().remove(i);
             }
-        sessionConfiguracionHorario.setEstadobBtnRemoverRestriccion(true);        
+        }
+        sessionConfiguracionHorario.setEstadobBtnRemoverRestriccion(true);
         estadosPanel2(false);
-        Utils.addTargetMany(tbEventoHorario,btnRemoverEventoHorario);
+        Utils.addTargetMany(tbEventoHorario, btnRemoverEventoHorario);
         return null;
     }
     
@@ -568,6 +563,32 @@ public class bConfiguracionHorario {
         sessionConfiguracionHorario.setCalenSelected(null);
         Utils.unselectFilas(tbCalen);
         popCalen.hide();
+    }
+    
+    public void selectConfigDias(SelectionEvent se) {
+        BeanConstraint bc = (BeanConstraint) Utils.getRowTable(se);
+        sessionConfiguracionHorario.setEditCons(bc);
+    }
+    
+    public void actualizarConfig_Action(ActionEvent ae) {
+        String err = ln_T_SFUtilsLocal.actualizarConstraintConfigEvasXDia(sessionConfiguracionHorario.getLstBeanCons());
+        if(err == null){
+            this.setErrorConfig("Hubo un error inesperado.");
+            sessionConfiguracionHorario.setLstBeanCons(ln_C_SFUtilsLocal.getMinMaxEvasPorDiaConfigConstraint_LN());
+            return;
+        }
+        if("111".equalsIgnoreCase(err)){
+            this.setErrorConfig("Hay un error en los valores, verifique que el minimo no sea menor o igual a cero o mayor que el valor Maximo. Usar valores enteros positivos");
+        }else if("000".equalsIgnoreCase(err)){
+            this.setErrorConfig("Valores actualizados.");
+        }else if("222".equalsIgnoreCase(err)){
+            this.setErrorConfig("No hay cambios.");
+        }
+        sessionConfiguracionHorario.setLstBeanCons(ln_C_SFUtilsLocal.getMinMaxEvasPorDiaConfigConstraint_LN());
+    }
+    
+    public void cambiarValor(ValueChangeEvent vce) {
+        sessionConfiguracionHorario.getEditCons().setValorCampo(vce.getNewValue()+"");
     }
     
     public void setPopupConfigurarNuevaRestriccion(RichPopup popupConfigurarNuevaRestriccion) {
@@ -753,5 +774,13 @@ public class bConfiguracionHorario {
 
     public RichTable getTbCalen() {
         return tbCalen;
+    }
+
+    public void setErrorConfig(String errorConfig) {
+        this.errorConfig = errorConfig;
+    }
+
+    public String getErrorConfig() {
+        return errorConfig;
     }
 }
