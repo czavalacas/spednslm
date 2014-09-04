@@ -486,4 +486,31 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
             return null;
         }
     }
+    
+    public List<Constraint> getMinMaxEvasPorDiaConfigConstraint_LN(){
+        try{
+            String qlString = "SELECT c " +
+                              "FROM Constraint c " +
+                              "WHERE c.nombreTabla = 'configuracion' ORDER BY c.nombreCampo DESC ";
+            return em.createQuery(qlString).getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<Constraint> getConstraintByAttr_LN(String tabla,String campo,String desc){
+        try{
+            String qlString = "SELECT c " +
+                              "FROM Constraint c " +
+                              "WHERE c.nombreTabla = :tabla " +
+                              "AND c.nombreCampo = :campo " +
+                              "AND c.descripcionAMostrar = :desc " +
+                              "ORDER BY c.valorCampo ASC ";
+            return em.createQuery(qlString).setParameter("tabla",tabla).setParameter("campo",campo).setParameter("desc",desc).getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

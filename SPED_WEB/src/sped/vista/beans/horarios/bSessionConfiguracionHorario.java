@@ -12,6 +12,7 @@ import oracle.adf.view.rich.component.rich.RichPopup;
 import sped.negocio.entidades.beans.BeanCalendario;
 import sped.negocio.entidades.beans.BeanConfiguracionEventoHorario;
 import sped.negocio.entidades.beans.BeanConfiguracionHorario;
+import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanDuracionHorario;
 
 public class bSessionConfiguracionHorario implements Serializable {
@@ -57,6 +58,25 @@ public class bSessionConfiguracionHorario implements Serializable {
     private String cidMes;
     private BeanCalendario calenSelected = new BeanCalendario();
     private String descDia;
+    //dfloresgonz 01.09.2014 configuracion de dias min MAX x dia 
+    private List<BeanConstraint> lstBeanCons = new ArrayList<BeanConstraint>();
+    private BeanConstraint editCons = new BeanConstraint();
+
+    public void setEditCons(BeanConstraint editCons) {
+        this.editCons = editCons;
+    }
+
+    public BeanConstraint getEditCons() {
+        return editCons;
+    }
+
+    public void setLstBeanCons(List<BeanConstraint> lstBeanCons) {
+        this.lstBeanCons = lstBeanCons;
+    }
+
+    public List<BeanConstraint> getLstBeanCons() {
+        return lstBeanCons;
+    }
 
     public void setDescDia(String descDia) {
         this.descDia = descDia;
