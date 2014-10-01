@@ -14,7 +14,7 @@
                         <af:gridCell marginStart="5px" width="250px" id="gc1">
                             <af:panelFormLayout id="pfl2">
                                 <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;"
-                                              value="#{sessionGestionarUsuarios.FNombres}">
+                                              value="#{sessionGestionarUsuarios.FNombres}" autoSubmit="true">
                                     <af:autoSuggestBehavior maxSuggestedItems="5"
                                                             suggestedItems="#{bGestionarUsuarios.suggestNombre}"/>
                                 </af:inputText>
@@ -30,7 +30,7 @@
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="250px" id="gc2">
                             <af:panelFormLayout id="pfl3" binding="#{bGestionarUsuarios.pfl3}">
-                                <af:inputText label="Usuario " id="it2" labelStyle="text-align: left;"
+                                <af:inputText label="Usuario " id="it2" labelStyle="text-align: left;" autoSubmit="true"
                                               value="#{sessionScope.sessionGestionarUsuarios.FUsuario}">
                                     <af:autoSuggestBehavior maxSuggestedItems="5"
                                                             suggestedItems="#{bGestionarUsuarios.suggestUsuario}"/>
@@ -55,7 +55,7 @@
                         </af:gridCell>
                         <af:gridCell marginStart="5px" width="250px" id="gc3">
                             <af:panelFormLayout id="pfl4">
-                                <af:inputText label="Dni " id="it3" labelStyle="text-align: left;"
+                                <af:inputText label="Dni " id="it3" labelStyle="text-align: left;" autoSubmit="true"
                                               value="#{sessionScope.sessionGestionarUsuarios.FDni}">
                                     <af:autoSuggestBehavior maxSuggestedItems="5"
                                                             suggestedItems="#{bGestionarUsuarios.suggestDni}"/>
