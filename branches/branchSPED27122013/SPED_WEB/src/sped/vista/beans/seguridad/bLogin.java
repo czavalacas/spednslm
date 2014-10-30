@@ -105,8 +105,11 @@ public class bLogin implements Serializable {
             if("000".equals(enviar)){
                 setTituloPopup("Revisa tu correo");
                 setMensajeCorreo("Te hemos enviado un correo con tu clave. Recuerda cambiarla por seguridad");
-            }else{
-                setTituloPopup("Ocurrio un error al enviar tu clave");
+            }else if("111".equals(enviar)){
+                setTituloPopup("Error de conexion");
+                setMensajeCorreo("Hubo un problema al enviar el correo, comunicarlo al Administrador");
+            }else if("001".equals(enviar)){
+                setTituloPopup("El correo y la clave no coinciden");
                 setMensajeCorreo("Asegurate de poner el usuario y correo Correcto. Trata nuevamente.");
             }
             Utils.showPopUpMIDDLE(popMsj);

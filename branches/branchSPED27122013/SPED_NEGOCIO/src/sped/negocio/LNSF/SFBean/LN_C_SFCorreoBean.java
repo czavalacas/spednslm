@@ -179,6 +179,8 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
             ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "OTR", CLASE, "boolean enviarCorreoHTML(String data[])",
                                                           "Error al ejecutar enviarCorreoHTML correos: " + correos,
                                                           Utiles.getStack(ex));
+            Utiles.sysout("Error al enviar Correo de recuperar Clave LN_C_SFCorreoBean boolean enviarCorreoHTML(String data[]) ");
+            valida = false;
             return valida;
         }
         return valida;
@@ -360,12 +362,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
             Usuario u = bd_C_SFUsuarioLocal.getUsuarioByCorreo_Usuario_BDL(correo,usuario);
             if(u != null){
                 String clave = Utiles.getRandomClave();
-                u.setClave(clave);
-                u.setIsNuevo("1");
-                bdL_T_SFUsuarioLocal.mergeUsuario(u);
-                ln_T_SFLoggerLocal.registrarLogErroresSistema_nidEvento(0,"OTR",CLASE, 
-                                                                      "String recuperarClave(String correo, int evento, String ruta)",
-                                                                      "Notificacion de solicitud de Clave correo: "+correo+" usuario: "+u.getUsuario()+" Nombres: "+u.getNombres(),null,5);
+                
                 SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                 Calendar cal = new GregorianCalendar();
                 String[] data = new String[10];
@@ -383,11 +380,21 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
                 data[6] = clave;
                 data[7] = "0";
                 data[8] = ruta;
-                enviarCorreoHTML(data);
-                return "000";
+                boolean rpta = enviarCorreoHTML(data);
+                if(rpta){
+                    u.setClave(clave);
+                    u.setIsNuevo("1");
+                    bdL_T_SFUsuarioLocal.mergeUsuario(u);
+                    ln_T_SFLoggerLocal.registrarLogErroresSistema_nidEvento(0,"OTR",CLASE, 
+                                                                          "String recuperarClave(String correo, int evento, String ruta)",
+                                                                          "Notificacion de solicitud de Clave correo: "+correo+" usuario: "+u.getUsuario()+" Nombres: "+u.getNombres(),null,5);
+                    return "000";
+                }else{
+                    return "111";//problema al enviar el correo
+                }
             }            
         }
-        return "001";
+        return "001";//Correo y Usuario no coinciden
     }   
     
     public boolean correoPrueba(){
