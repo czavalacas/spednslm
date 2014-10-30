@@ -43,7 +43,7 @@ public class LN_C_SFCorreoRemoteClient {
             data[5] = "siatod2013@gmail.com";//correo del que envia
             data[6] = "taller2013";//contraseña del que envia
             data[7] = "0";//tipo de correo */
-            System.out.println(lN_C_SFCorreoRemote.recuperarClave("davidangeleshuaman@gmail.com", 1,"C:/Users/David/AppData/Roaming/JDeveloper/system12.1.2.0.40.66.68/o.j2ee/drs/SPED_APP/SPED_WEBWebApp.war/recursos/img/usuarios/"));
+            System.out.println(lN_C_SFCorreoRemote.recuperarClave("siatod2013@gmail.com", 1,"C:/Documents and Settings/All Users/Documentos/Mis imágenes/Imágenes de muestra/Invierno.jpg"));
            // System.out.println(msj);
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
