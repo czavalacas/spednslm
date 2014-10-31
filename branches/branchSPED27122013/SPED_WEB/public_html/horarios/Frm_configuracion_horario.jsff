@@ -253,8 +253,8 @@
                         <af:table value="#{sessionScope.sessionConfiguracionHorario.lstBeanCons}" var="row"
                                   rowBandingInterval="0" id="tbConf"
                                   selectionListener="#{bConfiguracionHorario.selectConfigDias}" rowSelection="single"
-                                  fetchSize="2">
-                            <af:column sortable="false" headerText="Descripcion" align="start" id="c12" width="200">
+                                  fetchSize="10">
+                            <af:column sortable="false" headerText="Descripcion" align="start" id="c12" width="300">
                                 <af:outputText value="#{row.descripcionAMostrar}" id="ot13"/>
                             </af:column>
                             <af:column sortable="false" headerText="Valor" align="end" id="c13">
