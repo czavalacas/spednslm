@@ -27,7 +27,9 @@ public class Constraint implements Serializable {
     @Id
     @Column(name = "valor", nullable = false)
     private String valorCampo;
-
+    @Column(name = "nidRole")
+    private int nidRole;
+    
     public Constraint() {
     }
 
@@ -38,6 +40,13 @@ public class Constraint implements Serializable {
         this.valorCampo = valorCampo;
     }
 
+    public void setNidRole(int nidRole) {
+        this.nidRole = nidRole;
+    }
+
+    public int getNidRole() {
+        return nidRole;
+    }
 
     public String getDescripcionAMostrar() {
         return descripcionAMostrar;
