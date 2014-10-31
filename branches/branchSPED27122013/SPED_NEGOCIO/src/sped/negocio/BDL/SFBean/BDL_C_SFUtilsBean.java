@@ -471,13 +471,15 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
                 "FROM "+entidad+" e ";
     }
     
-    public Integer[] getMinMaxEvasPorDiaConstraint_LN(){
+    public Integer[] getMinMaxEvasPorDiaConstraint_LN(int nidRole){
         try{
             Integer vec[] = new Integer[2];
             String qlString = "SELECT c.valorCampo " +
                               "FROM Constraint c " +
-                              "WHERE c.nombreTabla = 'configuracion' ORDER BY c.valorCampo ASC ";
-            List<String> lstCants = em.createQuery(qlString).getResultList();
+                              "WHERE c.nombreTabla = 'configuracion' " +
+                              "AND c.nidRole = :nidRole " +
+                              "ORDER BY c.valorCampo ASC ";
+            List<String> lstCants = em.createQuery(qlString).setParameter("nidRole", nidRole).getResultList();
             vec[0] = Integer.parseInt(lstCants.get(0));
             vec[1] = Integer.parseInt(lstCants.get(1));
             return vec;
@@ -491,7 +493,8 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         try{
             String qlString = "SELECT c " +
                               "FROM Constraint c " +
-                              "WHERE c.nombreTabla = 'configuracion' ORDER BY c.nombreCampo DESC ";
+                              "WHERE c.nombreTabla = 'configuracion' " +
+                              "ORDER BY c.nombreCampo DESC ";
             return em.createQuery(qlString).getResultList();
         }catch(Exception e){
             e.printStackTrace();

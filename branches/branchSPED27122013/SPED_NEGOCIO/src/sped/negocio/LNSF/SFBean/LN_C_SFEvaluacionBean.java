@@ -454,9 +454,6 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             }
             List listaBD = bdL_C_SFEvaluacionLocal.getDesempenoEvaluacionbyFiltroBDL(tipoBusqueda,lstnidRol,lstnidEva,
                                                                                      lstnidSede,lstnidArea,beanEva);
-            Integer vecMinMax[] = bdL_C_SFUtilsLocal.getMinMaxEvasPorDiaConstraint_LN();
-            int min = vecMinMax[0];
-            int max = vecMinMax[1];
             for(Object dato : listaBD){
                 BeanEvaluacionPlani bean = new BeanEvaluacionPlani();
                 Object[] datos = (Object[]) dato;
@@ -476,6 +473,9 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                     //// 4 en adelante sera modficado
                     if(tipoBusqueda == 1){//Grafico 2 Evaluador(s)
                         BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[6], BeanUsuario.class);
+                        Integer vecMinMax[] = bdL_C_SFUtilsLocal.getMinMaxEvasPorDiaConstraint_LN(usu.getNidRol());
+                        int min = vecMinMax[0];
+                        int max = vecMinMax[1];
                         bean.setNombreEvaluador(usu.getNombres());
                         bean.setUsuario(usu);
                         bean.setCantDiasLaborables(ln_C_SFUsuarioCalendarioLocal.getCantidadDiasLaborablesByUsuario(usu.getNidUsuario(),fechaEvaluacion,fachaEvaluacionF));
