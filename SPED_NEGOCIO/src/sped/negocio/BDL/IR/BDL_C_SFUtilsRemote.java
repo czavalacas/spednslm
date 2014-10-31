@@ -50,7 +50,7 @@ public interface BDL_C_SFUtilsRemote {
     List<BeanComboDouble> getPosibleListaValoresIndicador(int nidCritIndi);
     List<BeanComboDouble2> getListaValores();
     List<BeanComboString> getTiposFalta(String id, String desc);
-    Integer[] getMinMaxEvasPorDiaConstraint_LN();
+    Integer[] getMinMaxEvasPorDiaConstraint_LN(int nidRole);
     List<Constraint> getMinMaxEvasPorDiaConfigConstraint_LN();
     List<Constraint> getConstraintByAttr_LN(String tabla,String campo,String desc);
 }
