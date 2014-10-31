@@ -45,27 +45,44 @@ public class LN_T_SFUtilsBean implements LN_T_SFUtilsRemote,
             int valMin = 0;
             int valMax = 0;
             int cantUpt = 0;
+            //Area
+            int valMinArea = 0;
+            int valMaxArea = 0;
             while(it.hasNext()){
                 bc = (BeanConstraint) it.next();
-                if("cantEvasMinXDia".equalsIgnoreCase(bc.getNombreCampo())){
+                if("cantEvasMinXDiaES".equalsIgnoreCase(bc.getNombreCampo())){
                     if(Utiles.isNumeric(bc.getValorCampo())){
                         valMin = Integer.parseInt(bc.getValorCampo());   
                     }else{
                         return "111";
                     }
                 }
-                if("cantEvasMaxXDia".equalsIgnoreCase(bc.getNombreCampo())){
+                if("cantEvasMaxXDiaES".equalsIgnoreCase(bc.getNombreCampo())){
                     if(Utiles.isNumeric(bc.getValorCampo())){
                         valMax = Integer.parseInt(bc.getValorCampo());   
                     }else{
                         return "111";
                     }
                 }
+                if("cantEvasMinXDiaEA".equalsIgnoreCase(bc.getNombreCampo())){
+                    if(Utiles.isNumeric(bc.getValorCampo())){
+                        valMinArea = Integer.parseInt(bc.getValorCampo());   
+                    }else{
+                        return "111";
+                    }
+                }
+                if("cantEvasMaxXDiaEA".equalsIgnoreCase(bc.getNombreCampo())){
+                    if(Utiles.isNumeric(bc.getValorCampo())){
+                        valMaxArea = Integer.parseInt(bc.getValorCampo());   
+                    }else{
+                        return "111";
+                    }
+                }
             }
-            if(valMin <= 0){
+            if(valMin <= 0 || valMinArea <= 0){
                 return "111";
             }
-            if(valMin < valMax){
+            if(valMin < valMax || valMinArea < valMaxArea){
                 Iterator it2 = lstConstraConfig.iterator();
                 while(it2.hasNext()){
                     bc = (BeanConstraint) it2.next();
