@@ -473,7 +473,7 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                     //// 4 en adelante sera modficado
                     if(tipoBusqueda == 1){//Grafico 2 Evaluador(s)
                         BeanUsuario usu = (BeanUsuario)mapper.map((Usuario) datos[6], BeanUsuario.class);
-                        Integer vecMinMax[] = bdL_C_SFUtilsLocal.getMinMaxEvasPorDiaConstraint_LN(usu.getNidRol());
+                        Integer vecMinMax[] = bdL_C_SFUtilsLocal.getMinMaxEvasPorDiaConstraint_LN(usu.getRol().getNidRol());
                         int min = vecMinMax[0];
                         int max = vecMinMax[1];
                         bean.setNombreEvaluador(usu.getNombres());

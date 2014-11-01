@@ -10,14 +10,14 @@ public class BeanConstraint implements Serializable {
     private String nombreCampo;
     private String nombreTabla;
     private String valorCampo;
-    private int nidRole;
+    private int nidRol;
 
-    public void setNidRole(int nidRole) {
-        this.nidRole = nidRole;
+    public void setNidRol(int nidRol) {
+        this.nidRol = nidRol;
     }
 
-    public int getNidRole() {
-        return nidRole;
+    public int getNidRol() {
+        return nidRol;
     }
 
     public void setDescripcionAMostrar(String descripcionAMostrar) {
