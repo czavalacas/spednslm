@@ -477,7 +477,7 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
             String qlString = "SELECT c.valorCampo " +
                               "FROM Constraint c " +
                               "WHERE c.nombreTabla = 'configuracion' " +
-                              "AND c.nidRole = :nidRole " +
+                              "AND c.nidRol = :nidRole " +
                               "ORDER BY c.valorCampo ASC ";
             List<String> lstCants = em.createQuery(qlString).setParameter("nidRole", nidRole).getResultList();
             vec[0] = Integer.parseInt(lstCants.get(0));
