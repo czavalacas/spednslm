@@ -683,7 +683,7 @@ public class bDesempenoEvaluador {
                 obj2[2] = contEjecutados;
             }
             if("OPTIMO".equalsIgnoreCase(estadoColor) ){
-                obj1[3] = contEjecutados;
+                obj3[2] = contEjecutados;
             }
             lstEva.add(obj1);
             lstEva.add(obj2);
