@@ -2,6 +2,7 @@ package sped.negocio.LNSF.SFBean;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
@@ -502,7 +503,14 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
                     bean.setDescProblema(bdL_C_SFProblemaLocal.getDescripcionProblemaById(id));
                 }
                 lstBeanEva.add(bean);
-            }                         
+            }
+            Collections.sort(lstBeanEva, new Comparator<BeanEvaluacionPlani>(){
+                public int compare(BeanEvaluacionPlani s1, BeanEvaluacionPlani s2) {
+                    Double d1 = s1.getPorcentajeDesempeno();
+                    Double d2 = s2.getPorcentajeDesempeno();
+                    return d2.compareTo(d1);
+                }
+            });
             return lstBeanEva;
         } catch(Exception e){
             e.printStackTrace();
