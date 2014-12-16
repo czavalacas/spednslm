@@ -14,7 +14,8 @@
                         <af:gridCell marginStart="5px" width="250px" id="gc1">
                             <af:panelFormLayout id="pfl2">
                                 <af:inputText label="Nombre " id="it1" labelStyle="text-align: left;"
-                                              value="#{sessionGestionarUsuarios.FNombres}" autoSubmit="true">
+                                              value="#{sessionGestionarUsuarios.FNombres}" autoSubmit="true"
+                                              immediate="true">
                                     <af:autoSuggestBehavior maxSuggestedItems="5"
                                                             suggestedItems="#{bGestionarUsuarios.suggestNombre}"/>
                                 </af:inputText>
@@ -31,7 +32,8 @@
                         <af:gridCell marginStart="5px" width="250px" id="gc2">
                             <af:panelFormLayout id="pfl3" binding="#{bGestionarUsuarios.pfl3}">
                                 <af:inputText label="Usuario " id="it2" labelStyle="text-align: left;" autoSubmit="true"
-                                              value="#{sessionScope.sessionGestionarUsuarios.FUsuario}">
+                                              value="#{sessionScope.sessionGestionarUsuarios.FUsuario}"
+                                              immediate="true">
                                     <af:autoSuggestBehavior maxSuggestedItems="5"
                                                             suggestedItems="#{bGestionarUsuarios.suggestUsuario}"/>
                                 </af:inputText>
@@ -56,7 +58,7 @@
                         <af:gridCell marginStart="5px" width="250px" id="gc3">
                             <af:panelFormLayout id="pfl4">
                                 <af:inputText label="Dni " id="it3" labelStyle="text-align: left;" autoSubmit="true"
-                                              value="#{sessionScope.sessionGestionarUsuarios.FDni}">
+                                              value="#{sessionScope.sessionGestionarUsuarios.FDni}" immediate="true">
                                     <af:autoSuggestBehavior maxSuggestedItems="5"
                                                             suggestedItems="#{bGestionarUsuarios.suggestDni}"/>
                                 </af:inputText>
