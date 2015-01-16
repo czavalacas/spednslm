@@ -123,6 +123,18 @@ af|button.FondoRojoLetraVerde{
     background-color: rgb(205,0,0);
 }
 
+af|button.menu12 {
+    background-image: url("../../recursos/img/usuarios/menu.png");
+}
+
+af|button.ok {
+    background-image: url("../../recursos/img/usuarios/ok.png");
+}
+
+af|button.no {
+    background-image: url("../../recursos/img/usuarios/no.png");
+}
+
 af|button.flechaUp {
     background-image: url("../../recursos/img/usuarios/up.png");
 }
