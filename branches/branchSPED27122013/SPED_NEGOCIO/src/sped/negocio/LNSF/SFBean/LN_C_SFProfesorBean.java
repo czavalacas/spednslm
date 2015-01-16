@@ -47,7 +47,13 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
         List<BeanProfesor> lstBean = new ArrayList();
         List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.getProfesores();
         for(Profesor a : lstProfesores){
-            BeanProfesor bean = (BeanProfesor) mapper.map(a, BeanProfesor.class);
+            //BeanProfesor bean = (BeanProfesor) mapper.map(a, BeanProfesor.class);
+            BeanProfesor bean = new BeanProfesor();
+            bean.setApellidos(a.getApellidos());
+            bean.setDniProfesor(a.getDniProfesor());
+            bean.setNombres(a.getNombres());
+            bean.setApellidos(a.getApellidos());
+            bean.setNombreCompleto(a.getNombres()+ " "+a.getApellidos());
             lstBean.add(bean);
         }
         return lstBean;

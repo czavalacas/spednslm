@@ -417,7 +417,7 @@ public class bMigrarExcel {
             ln_T_SFProfesorRemoto.grabarProfesoresNuevos(listProfesoresAInsertar);
         }
         
-        System.out.println("TAMAÑO DE LA LISTA DE CURSOS : " + listProfesoresAInsertar.size());
+        System.out.println("SIZE DE LA LISTA DE CURSOS : " + listProfesoresAInsertar.size());
     }
     
     public void seleccionarTipoMigracion(ValueChangeEvent valueChangeEvent) {
