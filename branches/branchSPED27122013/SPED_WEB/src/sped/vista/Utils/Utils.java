@@ -477,4 +477,15 @@ public class Utils {
             return null;
         }
     }
+    
+    public static String rutaLocal(String carpeta){
+        String rutaLocal = "";
+        if(File.separator.equals("/")){
+            rutaLocal = File.separator+"recursos" + File.separator + "img" + File.separator + carpeta + File.separator ;     
+        }else{
+            rutaLocal = "recursos" + File.separator + "img" + File.separator + carpeta + File.separator ;   
+        }
+        return rutaLocal;
+    }
+    
 }
