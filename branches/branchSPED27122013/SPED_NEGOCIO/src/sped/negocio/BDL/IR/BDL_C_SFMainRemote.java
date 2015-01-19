@@ -43,4 +43,5 @@ public interface BDL_C_SFMainRemote {
                                           int nidMain);
     int findMainBySedeYNivel(int nidSede, 
                              int nidNivel);
+    List<Main> getlstMainByNidLeccion(int nidLeccion);
 }
