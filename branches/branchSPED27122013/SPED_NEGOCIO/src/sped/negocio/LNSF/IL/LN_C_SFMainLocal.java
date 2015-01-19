@@ -31,7 +31,13 @@ public interface LN_C_SFMainLocal {
                                         String profesor,
                                         String curso,
                                         String aula);
-    List<BeanMain> getLstMainByAttr_LN(String nidAula);
+    ////metodos usados para horarios//// 
+    List<BeanMain> getLstMainByAttr_LN_Aula(String aula);
+    List<BeanMain> getLstMainByAttr_LN_Profesor(String dato, 
+                                                int nidSede, 
+                                                int nidNivel, 
+                                                boolean tipoBusqueda);
+    ////fin metodos usados para horarios//// 
     Main getMainPorSedeNivelYCurso(String nidAula, 
                                    String nidCurso, 
                                    String dniProfesor);

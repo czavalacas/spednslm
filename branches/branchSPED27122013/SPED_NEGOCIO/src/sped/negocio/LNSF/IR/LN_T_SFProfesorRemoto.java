@@ -10,4 +10,5 @@ import sped.negocio.entidades.beans.BeanProfesor;
 public interface LN_T_SFProfesorRemoto {
     String grabarProfesoresNuevos(List<BeanProfesor> listaProfesores);
     String grabarProfesor(BeanProfesor profesor);
+    String grabarColorProfesor(String dni, String color);
 }

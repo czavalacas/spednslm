@@ -17,15 +17,11 @@ import javax.persistence.PersistenceContext;
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
 
-import sped.negocio.BDL.IL.BDL_C_SFAreaAcademicaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFProfesorLocal;
 import sped.negocio.LNSF.IL.LN_C_SFProfesorLocal;
 import sped.negocio.LNSF.IR.LN_C_SFProfesorRemote;
-import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Profesor;
-import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanComboString;
-import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanProfesor;
 
 @Stateless(name = "LN_C_SFProfesor", mappedName = "map-LN_C_SFProfesor")
@@ -43,7 +39,7 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
     public LN_C_SFProfesorBean() {
     }
     
-    public List<BeanProfesor> getProfesoresLN2(){        
+    public List<BeanProfesor> getProfesoresLN2(){
         List<BeanProfesor> lstBean = new ArrayList();
         List<Profesor> lstProfesores = bdl_C_SFProfesorLocal.getProfesores();
         for(Profesor a : lstProfesores){
@@ -56,7 +52,7 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
             bean.setNombreCompleto(a.getNombres()+ " "+a.getApellidos());
             lstBean.add(bean);
         }
-        return lstBean;
+        return lstBean;        
     }
     
     public List<BeanComboString> getProfesoresLN(){        
@@ -142,5 +138,23 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
           }
             return lstBean;
         } 
+    
+    public List<BeanProfesor> getProfesoresDistintoLista(List<String> lst_dni, BeanProfesor profesor){
+        List<Profesor> lstBean = bdl_C_SFProfesorLocal.getProfesoresDistintoLista(lst_dni, profesor);
+        return transferMapper(lstBean);
+    }
+    
+    public List<BeanProfesor> transferMapper(List<Profesor> lstProfesores){
+        List<BeanProfesor> lstBean = new ArrayList();
+        for(Profesor a : lstProfesores){
+            BeanProfesor bean = (BeanProfesor) mapper.map(a, BeanProfesor.class);
+            lstBean.add(bean);
+        }
+        return lstBean;
+    } 
+    
+    public String colorProfesor(String dni){
+        return bdl_C_SFProfesorLocal.getColorProfe(dni);
+    }
     
 }
