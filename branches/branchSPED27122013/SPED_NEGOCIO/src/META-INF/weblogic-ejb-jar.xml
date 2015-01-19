@@ -488,6 +488,22 @@
         <stateless-session-descriptor/>
     </weblogic-enterprise-bean>
     <weblogic-enterprise-bean>
+        <ejb-name>BDL_C_SFRestriccionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_C_SFRestriccionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>BDL_T_SFRestriccionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_T_SFRestriccionHorario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
         <ejb-name>BDL_C_SFCalendario</ejb-name>
         <stateless-session-descriptor/>
     </weblogic-enterprise-bean>
@@ -517,6 +533,22 @@
     </weblogic-enterprise-bean>
     <weblogic-enterprise-bean>
         <ejb-name>LN_C_SFUsuarioCalendario</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>BDL_T_SFLeccionBean</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>BDL_C_SFLeccion</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_T_SFLeccion</ejb-name>
+        <stateless-session-descriptor/>
+    </weblogic-enterprise-bean>
+    <weblogic-enterprise-bean>
+        <ejb-name>LN_C_SFLeccion</ejb-name>
         <stateless-session-descriptor/>
     </weblogic-enterprise-bean>
 </weblogic-ejb-jar>

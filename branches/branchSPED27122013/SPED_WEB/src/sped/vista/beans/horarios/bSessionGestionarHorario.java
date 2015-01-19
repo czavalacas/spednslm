@@ -15,7 +15,6 @@ import java.util.List;
 
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanDia;
-import sped.negocio.entidades.beans.BeanHorario;
 import sped.negocio.entidades.beans.BeanMain;
 
 import sped.vista.Utils.Utils;
@@ -27,13 +26,15 @@ public class bSessionGestionarHorario implements Serializable {
     private int exec;
     private String nidSede;
     private String nidNivel; 
+    private int nidSede_aux;
+    private int nidNivel_aux;
     private String nidCurso;
-    private String nidAula;
+    private String nidAulaProfesor;
     private String nidProfesor;
     private String nidArea;
     private List lstSede;
     private List lstNivel;
-    private List lstAula;
+    private List lstAulaProfesor;
     private List lstProfesor;
     private List lstCurso;
     private List lstCurso_aux;
@@ -42,7 +43,6 @@ public class bSessionGestionarHorario implements Serializable {
     private Time horas_fin[];
     private List<BeanMain> lstBeanMain;
     private String dias[];
-    private List<BeanHorario> lstHorario;
     private List<BeanDia> lstDia;
     private List<Integer> horasRandom;
     private List<String> duracion;
@@ -53,7 +53,7 @@ public class bSessionGestionarHorario implements Serializable {
     private String nombreCurso;
     private String nombreArea;
     private String nombreAula;
-    Format formatter = new SimpleDateFormat("hh:mm");
+    final static Format formatter = new SimpleDateFormat("hh:mm");
     private int nDia;
     private int nLeccion;
     private String selecNombreCurso;
@@ -68,7 +68,7 @@ public class bSessionGestionarHorario implements Serializable {
     private boolean renderEliminarModificar;
     private boolean renderHorario;
     private String nombreAula_aux;
-    private String nidAula_aux;
+    private String nidAulaProfesor_aux;
     private String nidDni_aux;
     private String nidArea_aux;
     private String nidCurso_aux;
@@ -78,7 +78,12 @@ public class bSessionGestionarHorario implements Serializable {
     private boolean renderAgregar_aux;
     private boolean renderGenerario;
     private boolean checkTrue = true; //se mantendra siempre en true
-    private boolean checkFalse = false;// se mantendra siempre en false
+    private boolean checkFalse = false;// se mantendra siempre en false    
+    
+    //// METODOS FINALES PARA ACABAR ESTO///
+    private List listaTipoVista;
+    private String nidTipoVista = "0";
+    private boolean booleanTipoVista;
     
     ///**** Metodos auxiliares ***///
     public String getDia(int nDia){
@@ -132,16 +137,24 @@ public class bSessionGestionarHorario implements Serializable {
     }
     
     public boolean renderLeccion_aux(int nLeccion, int nDia){
-        return  horario[nLeccion][nDia] != null && horario[nLeccion][nDia].getNidMain() == 0 ? true : false;
+        return  renderAgregar && horario[nLeccion][nDia] != null && horario[nLeccion][nDia].getNidMain() == 0;
     }
     
     public boolean existeLeccion(int nLeccion, int nDia){
-        return  horario[nLeccion][nDia] != null ? true : false;
+        return renderAgregar_aux && horario[nLeccion][nDia] == null;
     }
     
     public boolean renderLeccion(int nLeccion, int nDia){
-        return  horario[nLeccion][nDia] != null && horario[nLeccion][nDia].getNidMain() != 0 ? true : false;
+        return  horario[nLeccion][nDia] != null && horario[nLeccion][nDia].getNidMain() > 0;
     }
+    
+    public boolean renderRestricion(int nLeccion, int nDia){
+        return horario[nLeccion][nDia] != null && horario[nLeccion][nDia].getNidMain() == -1;
+    }
+    
+    public boolean renderOcupado(int nLeccion, int nDia){
+        return horario[nLeccion][nDia] != null && horario[nLeccion][nDia].getNidMain() == -2;
+    } 
     
     /**
      * Metodo que busca los dias que se dicta una leccion
@@ -215,12 +228,12 @@ public class bSessionGestionarHorario implements Serializable {
         return nidCurso;
     }
 
-    public void setNidAula(String nidAula) {
-        this.nidAula = nidAula;
+    public void setNidAulaProfesor(String nidAulaProfesor) {
+        this.nidAulaProfesor = nidAulaProfesor;
     }
 
-    public String getNidAula() {
-        return nidAula;
+    public String getNidAulaProfesor() {
+        return nidAulaProfesor;
     }
 
     public void setNidProfesor(String nidProfesor) {
@@ -263,12 +276,13 @@ public class bSessionGestionarHorario implements Serializable {
         return lstCurso;
     }
 
-    public void setLstAula(List lstAula) {
-        this.lstAula = lstAula;
+
+    public void setLstAulaProfesor(List lstAulaProfesor) {
+        this.lstAulaProfesor = lstAulaProfesor;
     }
 
-    public List getLstAula() {
-        return lstAula;
+    public List getLstAulaProfesor() {
+        return lstAulaProfesor;
     }
 
     public void setLstProfesor(List lstProfesor) {
@@ -366,15 +380,7 @@ public class bSessionGestionarHorario implements Serializable {
     public Time[] getHoras_fin() {
         return horas_fin;
     }
-
-    public void setLstHorario(List<BeanHorario> lstHorario) {
-        this.lstHorario = lstHorario;
-    }
-
-    public List<BeanHorario> getLstHorario() {
-        return lstHorario;
-    }
-
+    
     public void setDias(String[] dias) {
         this.dias = dias;
     }
@@ -495,12 +501,12 @@ public class bSessionGestionarHorario implements Serializable {
         return nombreAula_aux;
     }
 
-    public void setNidAula_aux(String nidAula_aux) {
-        this.nidAula_aux = nidAula_aux;
+    public void setNidAulaProfesor_aux(String nidAulaProfesor_aux) {
+        this.nidAulaProfesor_aux = nidAulaProfesor_aux;
     }
 
-    public String getNidAula_aux() {
-        return nidAula_aux;
+    public String getNidAulaProfesor_aux() {
+        return nidAulaProfesor_aux;
     }
 
     public void setNombreAula(String nombreAula) {
@@ -615,4 +621,43 @@ public class bSessionGestionarHorario implements Serializable {
         return renderGenerario;
     }
 
+    public void setBooleanTipoVista(boolean booleanTipoVista) {
+        this.booleanTipoVista = booleanTipoVista;
+    }
+
+    public boolean isBooleanTipoVista() {
+        return booleanTipoVista;
+    }
+
+    public void setListaTipoVista(List listaTipoVista) {
+        this.listaTipoVista = listaTipoVista;
+    }
+
+    public List getListaTipoVista() {
+        return listaTipoVista;
+    }
+
+    public void setNidTipoVista(String nidTipoVista) {
+        this.nidTipoVista = nidTipoVista;
+    }
+
+    public String getNidTipoVista() {
+        return nidTipoVista;
+    }
+
+    public void setNidSede_aux(int nidSede_aux) {
+        this.nidSede_aux = nidSede_aux;
+    }
+
+    public int getNidSede_aux() {
+        return nidSede_aux;
+    }
+
+    public void setNidNivel_aux(int nidNivel_aux) {
+        this.nidNivel_aux = nidNivel_aux;
+    }
+
+    public int getNidNivel_aux() {
+        return nidNivel_aux;
+    }
 }

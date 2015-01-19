@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+    <f:view>
+        <af:panelGroupLayout id="pgl1" layout="scroll" inlineStyle="margin:0px 0px 0px 43px;"
+                             binding="#{bGestionarHorarios.pgl1}">
+            <af:panelGroupLayout id="pgl2" halign="left">
+                <af:spacer height="10" id="s1"/>
+                <af:outputText value="Consultar Horario" id="ot2" styleClass="titulos"/>
+                <af:spacer height="10" id="s2"/>
+            </af:panelGroupLayout>
+            <af:panelFormLayout id="pfl2" rows="1" maxColumns="3">
+                <af:selectOneChoice label="Sede" value="#{sessionbGestionarHorarios.nidSede}" id="chSede"
+                                    autoSubmit="true" required="true" binding="#{bGestionarHorarios.chSede}"
+                                    valueChangeListener="#{bGestionarHorarios.changeListenerSede}"
+                                    unselectedLabel="::Seleccionar Sede::">
+                    <f:selectItems value="#{sessionbGestionarHorarios.listaSedesChoice}" id="si1"
+                                   binding="#{bGestionarHorarios.si1}"/>
+                </af:selectOneChoice>
+                <af:selectOneChoice label="Nivel" value="#{sessionbGestionarHorarios.nidNivel}" id="chNivel"
+                                    binding="#{bGestionarHorarios.chNivel}" autoSubmit="true" required="true"
+                                    valueChangeListener="#{bGestionarHorarios.changeListenerNivel}"
+                                    disabled="#{!sessionbGestionarHorarios.disableChoiceNivel}"
+                                    unselectedLabel="::Seleccionar Nivel::">
+                    <f:selectItems value="#{sessionbGestionarHorarios.listaNivelChoice}" id="si2"
+                                   binding="#{bGestionarHorarios.si2}"/>
+                </af:selectOneChoice>
+                <af:button text="Cargar" id="b1" action="#{bGestionarHorarios.cargarHorario}"/>
+            </af:panelFormLayout>
+            <!-- /////////////////////////////  PANEL DEL HORARIO ////////////////////////////// -->
+            <af:panelBox id="pbHor" showDisclosure="false" rendered="#{sessionbGestionarHorarios.renderHorario}"
+                         binding="#{bGestionarHorarios.pbHor}">
+                <af:panelFormLayout id="pfl3" inlineStyle="margin:0px 0px 0px 0px;" rows="1" maxColumns="5">
+                    <af:outputText value="HORARIO - SEDE: #{sessionbGestionarHorarios.nomSedeNivel}" id="ot6"
+                                   styleClass="titulos"/>
+                    <af:selectOneChoice label="Vista " value="#{sessionbGestionarHorarios.nidTipoVista}" id="soc1"
+                                        binding="#{bGestionarHorarios.soc1}" autoSubmit="true"
+                                        valueChangeListener="#{bGestionarHorarios.changeTipoVista}">
+                        <f:selectItems value="#{sessionbGestionarHorarios.listaTipoVista}" id="si3"/>
+                    </af:selectOneChoice>
+                    <af:selectBooleanCheckbox text="Color" label="Profesor(ok)/Curso" id="sbc5"
+                                              selected="#{sessionbGestionarHorarios.booleanTipoColor}" autoSubmit="true"
+                                              valueChangeListener="#{bGestionarHorarios.cambiarColor}"/>
+                    <af:button text="Exportar" actionListener="#{bGestionarHorarios.exportarConfig}"/>
+                    <af:button text="Añadir Profesor" id="bAgrPr" binding="#{bGestionarHorarios.bagrPr}"
+                               rendered="#{sessionbGestionarHorarios.booleanTipoVista}"
+                               actionListener="#{bGestionarHorarios.agregarProfesor}"/>
+                </af:panelFormLayout>
+                <af:spacer height="15" id="s6"/>
+                <!-- /////////////////////////////  TABLA HORARIO ////////////////////////////// -->
+                <af:table value="#{sessionbGestionarHorarios.listaHorario}" var="row" rowBandingInterval="0" id="t1"
+                          fetchSize="15" varStatus="v" disableColumnReordering="true" binding="#{bGestionarHorarios.t1}"
+                          inlineStyle="width:inherit; margin:0px 50px 0px 0px;">
+                    <af:column headerText="Titulo" align="start" id="c1" sortable="true" sortProperty="titulo"
+                               inlineStyle="background-color:#F0F4FA; color:Black; font-weight:bold;">
+                        <af:panelGroupLayout>
+                            <!-- /////////////////////////////  CELDAS CON TITULOS ////////////////////////////// -->
+                            <af:button id="b3" styleClass="menu12"
+                                       rendered="#{!sessionbGestionarHorarios.renderImprimir}"
+                                       inlineStyle="min-height:11px; max-height:11px; border-bottom-width:0px;min-width:12px; max-width:12px; width:12px;">
+                                <f:setPropertyActionListener value="#{row.posicion}"
+                                                             target="#{sessionbGestionarHorarios.posicionProfSalon}"/>
+                                <af:showPopupBehavior popupId="::popTitulo" triggerType="click"/>
+                            </af:button>
+                            <af:outputText value=" #{row.titulo}"/>
+                            <!-- /////////////////////////////  FIN CELDAS CON TITULOS ////////////////////////////// -->
+                        </af:panelGroupLayout>
+                    </af:column>
+                    <af:forEach varStatus="dia" begin="0" end="4">
+                        <af:column sortable="false" headerText="#{sessionbGestionarHorarios.getDia(dia.index)}"
+                                   align="center" width="250" id="c21">
+                            <af:forEach varStatus="lecc" begin="0" end="#{sessionbGestionarHorarios.nroBloque-1}">
+                                <af:column sortable="false"
+                                           rendered="#{sessionbGestionarHorarios.listaHorario.size() > 0 ? true : false}"
+                                           headerText="#{sessionbGestionarHorarios.duracion(lecc.index)} #{lecc.index}"
+                                           align="center" width="31" id="c22">
+                                    <!-- /////////////////////////////  CELDAS CON LAS LECCIONES ////////////////////////////// -->
+                                    <af:panelFormLayout rendered="#{sessionbGestionarHorarios.renderLeccion(row.posicion, lecc.index,dia.index)}" inlineStyle="background-color:#{sessionbGestionarHorarios.nomColor(row.posicion, lecc.index,dia.index)};
+                                                color:Black; font-weight:bold;text-align:center;">
+                                        <af:outputText value="#{sessionbGestionarHorarios.descripcionCurso(row.posicion, lecc.index,dia.index)}"/>
+                                        <af:outputText value="#{sessionbGestionarHorarios.descripcionProfSalon(row.posicion, lecc.index,dia.index)}"/>
+                                    </af:panelFormLayout>
+                                    <af:panelFormLayout rendered="#{sessionbGestionarHorarios.renderRestricion(row.posicion, lecc.index,dia.index)}"
+                                                        inlineStyle="background-color:#A20025;">
+                                        <af:image source="/recursos/img/usuarios/cancel.png"
+                                                  shortDesc="Leccion Restringida"/>
+                                    </af:panelFormLayout>
+                                    <af:panelFormLayout rendered="#{sessionbGestionarHorarios.renderOcupado(row.posicion, lecc.index,dia.index)}"
+                                                        inlineStyle="background-color:#D80073;">
+                                        <af:image source="/recursos/img/usuarios/cancel.png"
+                                                  shortDesc="#{sessionbGestionarHorarios.descripcionOcupado(row.posicion, lecc.index,dia.index)}"/>
+                                    </af:panelFormLayout>
+                                    <!-- ///////////////////////////// FIN CELDAS CON LAS LECCIONES ////////////////////////////// -->
+                                </af:column>
+                            </af:forEach>
+                        </af:column>
+                    </af:forEach>
+                </af:table>
+                <af:panelBox showDisclosure="false" id="pb1" binding="#{bGestionarHorarios.pb1}"
+                             rendered="#{sessionbGestionarHorarios.leccionesTree != null ? true : false}">
+                    <af:panelFormLayout id="pfl4" rows="1">
+                        <af:button text="Generar Horario " id="b11"
+                                   actionListener="#{bGestionarHorarios.generarHorarioTotal}"/>
+                        <af:selectBooleanCheckbox label="Volver a generar" id="sbc6"
+                                                  value="#{sessionbGestionarHorarios.volverAGenerar}"/>
+                    </af:panelFormLayout>
+                    <af:treeTable value="#{sessionbGestionarHorarios.leccionesTree}" var="row" rowBandingInterval="0"
+                                  id="treeLec" initiallyExpanded="true"
+                                  rendered="#{sessionbGestionarHorarios.leccionesTree != null ? true : false}"
+                                  emptyText="No hay lecciones ha generar" binding="#{bGestionarHorarios.treeLec}">
+                        <f:facet name="nodeStamp">
+                            <af:column sortable="false" headerText="Nombre" align="start" id="c15" width="320">
+                                <af:outputText value="#{row.titulo}" id="ot1"/>
+                            </af:column>
+                        </f:facet>
+                        <af:column id="c16" headerText="Curso" width="320">
+                            <af:outputText value="#{row.curso.descripcionCurso}" id="ot13"/>
+                        </af:column>
+                        <af:column id="c17" headerText="Duracion">
+                            <af:outputText value="#{row.nroDuracion}" id="ot14" rendered="#{row.nroDuracion != 0}"/>
+                        </af:column>
+                        <af:column id="c18" headerText="Nro horas">
+                            <af:outputText value="#{row.nroHoras_aux}" id="ot15" rendered="#{row.nroHoras_aux != 0}"/>
+                        </af:column>
+                        <af:column id="c19" headerText="Ingresado">
+                            <af:outputText value="#{row.nroHoras_aux - row.nroHoras}"
+                                           rendered="#{row.lstBeanLeccion==null ? true : false}" id="ot16"/>
+                        </af:column>
+                        <af:column id="c20" headerText="Errores" align="center"
+                                   rendered="#{sessionbGestionarHorarios.renderGenerarHorarioTotal} ">
+                            <af:button icon="../recursos/img/usuarios/ver.png"
+                                       actionListener="#{bGestionarHorarios.verErrorLeccion(row)}"/>
+                        </af:column>
+                    </af:treeTable>
+                </af:panelBox>
+            </af:panelBox>
+            <!-- ///////////////////////////// POP UP - POP UP - POP UP POP UP - POP UP - POP UP////////////////////////////////////////// -->
+            <!-- ///////////////////////////// POP HORAS DISPONIBLES ////////////////////////////////////////// -->
+            <af:popup childCreation="deferred" id="popDis" binding="#{bGestionarHorarios.popDis}">
+                <af:dialog id="d1" title="#{sessionbGestionarHorarios.titlePopDis}" closeIconVisible="false"
+                           type="none">
+                    <af:table value="#{sessionbGestionarHorarios.rango_horas}" var="row" rowBandingInterval="0"
+                              id="tDis" varStatus="v" binding="#{bGestionarHorarios.tdis}"
+                              disableColumnReordering="true">
+                        <af:column id="c2" sortable="false" align="center" sortProperty="true"
+                                   inlineStyle="background-color:#F0F4FA; color:Black; font-weight:bold;text-align:center;">
+                            <af:button id="b12" styleClass="menu12"
+                                       actionListener="#{bGestionarHorarios.popUpHorasDisponiblesLecc}"
+                                       inlineStyle="min-height:11px; max-height:11px; border-bottom-width:0px;min-width:12px; max-width:12px; width:12px;">
+                                <f:setPropertyActionListener value="#{v.index}"
+                                                             target="#{sessionbGestionarHorarios.posDiaLecHD}"/>
+                            </af:button>
+                            <af:outputText value="#{row}" id="ot12"/>
+                        </af:column>
+                        <af:forEach varStatus="vs" begin="0" end="4">
+                            <af:column idsortable="false" align="center" width="80">
+                                <f:facet name="header">
+                                    <af:button styleClass="menu12"
+                                               actionListener="#{bGestionarHorarios.popUpHorasDisponiblesDia}"
+                                               inlineStyle="min-height:11px; max-height:11px; border-bottom-width:0px;min-width:12px; max-width:12px; width:12px;">
+                                        <f:setPropertyActionListener value="#{vs.index}"
+                                                                     target="#{sessionbGestionarHorarios.posDiaLecHD}"/>
+                                    </af:button>
+                                    <af:outputText value="#{vs.index}    #{sessionbGestionarHorarios.getDia(vs.index)}"/>
+                                </f:facet>
+                                <!-- ///////////////////////////// Celdas con las horas disponibles ////////////////////////////////////////// -->
+                                <af:panelFormLayout inlineStyle="background-color:#647687;"
+                                                    rendered="#{sessionbGestionarHorarios.renderLeccion_aux(v.index, vs.index)}">
+                                    <af:image source="/recursos/img/usuarios/ok.png"/>
+                                </af:panelFormLayout>
+                                <af:panelFormLayout rendered="#{!sessionbGestionarHorarios.renderLeccion_aux(v.index, vs.index)}">
+                                    <af:button icon="/recursos/img/usuarios/no.png"
+                                               hoverIcon="/recursos/img/usuarios/ok.png"
+                                               rendered="#{sessionbGestionarHorarios.horasDisponibles(v.index, vs.index)}"
+                                               actionListener="#{bGestionarHorarios.cambiarHorasDisponibles}">
+                                        <f:setPropertyActionListener value="#{v.index}"
+                                                                     target="#{sessionbGestionarHorarios.posicionLecc}"/>
+                                        <f:setPropertyActionListener value="#{vs.index}"
+                                                                     target="#{sessionbGestionarHorarios.posicionDia}"/>
+                                    </af:button>
+                                    <af:button icon="/recursos/img/usuarios/ok.png"
+                                               hoverIcon="/recursos/img/usuarios/no.png"
+                                               rendered="#{!sessionbGestionarHorarios.horasDisponibles(v.index, vs.index)}"
+                                               actionListener="#{bGestionarHorarios.cambiarHorasDisponibles}">
+                                        <f:setPropertyActionListener value="#{v.index}"
+                                                                     target="#{sessionbGestionarHorarios.posicionLecc}"/>
+                                        <f:setPropertyActionListener value="#{vs.index}"
+                                                                     target="#{sessionbGestionarHorarios.posicionDia}"/>
+                                    </af:button>
+                                </af:panelFormLayout>
+                                <!-- ///////////////////////////// Fin celdas con las horas disponibles ////////////////////////////////////////// -->
+                            </af:column>
+                        </af:forEach>
+                    </af:table>
+                    <af:panelFormLayout rows="1" styleClass="float:right;" inlineStyle="float:right;">
+                        <af:button text="Grabar" action="#{bGestionarHorarios.grabarHorasDisponibles}"/>
+                        <af:button text="Cancelar" action="#{bGestionarHorarios.cancelarHorasDisponibles}"/>
+                    </af:panelFormLayout>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" id="popDis_aux" binding="#{bGestionarHorarios.popDis_aux}"
+                      popupCanceledListener="#{bGestionarHorarios.cerrarPopDis_aux}">
+                <af:dialog id="d7" title="#{sessionbGestionarHorarios.titleDiaLecHD}" type="none">
+                    <af:outputText value="Selecione las horas no disponibles" id="ot17"/>
+                    <af:selectManyChoice id="choice" labelStyle="text-align: left;" autoSubmit="true"
+                                         value="#{sessionbGestionarHorarios.selectedDiaLecHD}">
+                        <f:selectItems value="#{sessionbGestionarHorarios.lstDiaLecHD}" id="si4"/>
+                    </af:selectManyChoice>
+                </af:dialog>
+            </af:popup>
+            <!-- ///////////////////////////// FIN POP HORAS DISPONIBLES ////////////////////////////////////////// -->
+            <!-- ///////////////////////////// POP VER HORARIO ////////////////////////////////////////// -->
+            <af:popup childCreation="deferred" id="popVer" binding="#{bGestionarHorarios.popVer}">
+                <af:dialog id="d2" closeIconVisible="false" title="#{sessionbGestionarHorarios.titlePopDis}"
+                           type="cancel">
+                    <af:panelFormLayout id="pfl6" maxColumns="3" rows="1" binding="#{bGestionarHorarios.pfl6}">
+                        <af:button text="Exportar" id="bExp1" binding="#{bGestionarHorarios.bexp1}">
+                            <af:fileDownloadActionListener filename="Horario_#{sessionbGestionarHorarios.titileListaHorarioByPosicion()}.docx"
+                                                           contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                           method="#{bGestionarHorarios.exportDataOne}"/>
+                        </af:button>
+                        <af:selectBooleanCheckbox label="Color" id="sbc1" binding="#{bGestionarHorarios.sbc1}"
+                                                  autoSubmit="true" selected="#{sessionbGestionarHorarios.booleanColor}"
+                                                  partialTriggers="sbc2 pfl6"
+                                                  valueChangeListener="#{bGestionarHorarios.selectColorIndividual}"/>
+                        <af:selectBooleanCheckbox label="Profesor(ok)/Curso" id="sbc2"
+                                                  binding="#{bGestionarHorarios.sbc2}" autoSubmit="true"
+                                                  rendered="#{sessionbGestionarHorarios.booleanColor}"
+                                                  selected="#{sessionbGestionarHorarios.booleanTipoColor}"/>
+                    </af:panelFormLayout>
+                    <af:spacer height="10" id="s5"/>
+                    <af:table var="row" rowBandingInterval="0" id="t2" value="#{sessionbGestionarHorarios.rango_horas}"
+                              binding="#{bGestionarHorarios.t2}" varStatus="l">
+                        <af:column id="c3" sortable="false" align="center" sortProperty="true"
+                                   inlineStyle="background-color:#F0F4FA; color:Black; font-weight:bold;text-align:center;">
+                            <af:outputText value="#{row}"/>
+                        </af:column>
+                        <af:forEach varStatus="d" begin="0" end="4">
+                            <af:column sortable="false" headerText="#{sessionbGestionarHorarios.getDia(d.index)}"
+                                       align="center" width="80">
+                                <!-- ///////////////////////////// Celdas con las horas disponibles ////////////////////////////////////////// -->
+                                <af:panelFormLayout rendered="#{sessionbGestionarHorarios.renderLeccion_aux(l.index,d.index)}" inlineStyle="background-color:#{sessionbGestionarHorarios.nomColor_aux(l.index,d.index)};
+                                                                 color:Black; font-weight:bold;text-align:center;">
+                                    <af:outputText value="#{sessionbGestionarHorarios.descripcionCurso_aux(l.index,d.index)}"/>
+                                    <af:outputText value="#{sessionbGestionarHorarios.descripcionProfSalon_aux(l.index,d.index)}"/>
+                                </af:panelFormLayout>
+                                <!-- ///////////////////////////// Fin celdas con las horas disponibles ////////////////////////////////////////// -->
+                            </af:column>
+                        </af:forEach>
+                    </af:table>
+                </af:dialog>
+            </af:popup>
+            <!-- ///////////////////////////// FIN POP VER HORARIO ////////////////////////////////////////// -->
+            <!-- ///////////////////////////// POP AGREGAR PROFESOR ////////////////////////////////////////// -->
+            <af:popup childCreation="deferred" contentDelivery="immediate" autoCancel="disabled" id="popAProf"
+                      binding="#{bGestionarHorarios.popAProf}">
+                <af:dialog id="d3" title="Agregar Profesor" binding="#{bGestionarHorarios.d3}" type="none">
+                    <af:subform id="s3" defaultCommand="b2">
+                        <af:panelFormLayout id="pfl1" rows="1" binding="#{bGestionarHorarios.pfl1}">
+                            <af:inputText label="Apellido" id="it1"
+                                          value="#{sessionbGestionarHorarios.profesor.apellidos}"/>
+                            <af:inputText label="Nombre" id="it2"
+                                          value="#{sessionbGestionarHorarios.profesor.nombres}"/>
+                            <af:inputText label="DNI" id="it3" value="#{sessionbGestionarHorarios.profesor.dniProfesor}"
+                                          columns="10"/>
+                        </af:panelFormLayout>
+                        <af:spacer height="10" id="s4"/>
+                        <af:button text="Buscar" id="b2" actionListener="#{bGestionarHorarios.buscarProfesorAgregar}"/>
+                        <af:button text="Limpiar" id="b4"
+                                   actionListener="#{bGestionarHorarios.LimpiarProfesorAgregar}"/>
+                    </af:subform>
+                    <af:table value="#{sessionbGestionarHorarios.listaProfesor}" var="row" rowBandingInterval="0"
+                              id="t3" fetchSize="25" width="590" binding="#{bGestionarHorarios.t3}">
+                        <af:column sortable="false" headerText="Apellidos" align="start" id="c4" width="200">
+                            <af:outputText value="#{row.apellidos}" id="ot7"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Nombres" align="start" id="c5" width="200">
+                            <af:outputText value="#{row.nombres}" id="ot8"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Dni Profesor" align="start" id="c6">
+                            <af:outputText value="#{row.dniProfesor}" id="ot9"/>
+                        </af:column>
+                        <af:column id="c7" width="50" headerText="Agregar" align="center">
+                            <af:button id="b5" icon="/recursos/img/usuarios/plus.png"
+                                       actionListener="#{bGestionarHorarios.checkAgregarProfesor}">
+                                <f:setPropertyActionListener value="#{row}"
+                                                             target="#{sessionbGestionarHorarios.profesor_aux}"/>
+                            </af:button>
+                        </af:column>
+                    </af:table>
+                </af:dialog>
+            </af:popup>
+            <!-- ///////////////////////////// FIN POP AGREGAR PROFESOR ////////////////////////////////////////// -->
+            <!-- ///////////////////////////// POP OPCION EXPORTACION ////////////////////////////////////////// -->
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popCo" binding="#{bGestionarHorarios.popCo}">
+                <af:dialog id="d5" title="Opciones de Exportacion" type="none">
+                    <af:panelFormLayout id="pfl7" binding="#{bGestionarHorarios.pfl7}">
+                        <af:selectManyChoice label="#{sessionbGestionarHorarios.nidTipoVista == '1' ? 'Profesor' : 'Aula'}"
+                                             value="#{sessionbGestionarHorarios.listaItemsSelect}" autoSubmit="true"
+                                             labelStyle="text-align: left;" id="smc1"
+                                             binding="#{bGestionarHorarios.smc1}">
+                            <f:selectItems value="#{sessionbGestionarHorarios.listaItems}" id="si9"/>
+                        </af:selectManyChoice>
+                        <af:selectBooleanCheckbox text="Color" id="sbc3" autoSubmit="true"
+                                                  selected="#{sessionbGestionarHorarios.booleanColor}"
+                                                  labelStyle="text-align: left;"
+                                                  valueChangeListener="#{bGestionarHorarios.selectColorIndividual2}"/>
+                        <af:selectBooleanCheckbox text="Profesor/Curso" id="sbc4" autoSubmit="true"
+                                                  selected="#{sessionbGestionarHorarios.booleanTipoColor}"
+                                                  labelStyle="text-align: left;"
+                                                  rendered="#{sessionbGestionarHorarios.booleanColor}"/>
+                    </af:panelFormLayout>
+                    <af:panelFormLayout rows="1" styleClass="float:right;" inlineStyle="float:right;">
+                        <af:button text="Aceptar" id="bexp2" binding="#{bGestionarHorarios.bexp2}">
+                            <af:fileDownloadActionListener filename="#{sessionbGestionarHorarios.titleExportacion()}"
+                                                           contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                           method="#{bGestionarHorarios.exportDataTwo}"/>
+                        </af:button>
+                        <af:button text="Cancelar" id="b8"
+                                   actionListener="#{bGestionarHorarios.opcionExportarCancelar}"/>
+                    </af:panelFormLayout>
+                </af:dialog>
+            </af:popup>
+            <!-- ///////////////////////////// POP OPCION EXPORTACION ////////////////////////////////////////// -->
+            <!-- ///////////////////////////// POP CAMBIAR COLOR ////////////////////////////////////////// -->
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popColor"
+                      binding="#{bGestionarHorarios.popColor}">
+                <af:dialog id="d6" title="#{sessionbGestionarHorarios.titlePopDis}"
+                           dialogListener="#{bGestionarHorarios.confirmarCambioColor}">
+                    <af:chooseColor id="cc1"/>
+                    <af:inputColor label="Seleccione el color de la paleta" id="ic1" chooseId="cc1" required="true"
+                                   shortDesc="Seleccione el color de la paleta"
+                                   value="#{sessionbGestionarHorarios.color}" autoSubmit="true" usage="text"/>
+                </af:dialog>
+            </af:popup>
+            <!-- ///////////////////////////// FIN POP CAMBIAR COLOR ////////////////////////////////////////// -->
+            <!-- ///////////////////////////// POP AGREGAR LECCION ////////////////////////////////////////// -->
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popAlec"
+                      binding="#{bGestionarHorarios.popAlec}"
+                      popupCanceledListener="#{bGestionarHorarios.cerrarPopLeccion}">
+                <af:dialog id="d4" binding="#{bGestionarHorarios.d4}" title="#{sessionbGestionarHorarios.titlePopDis}"
+                           type="none">
+                    <af:subform id="s7" defaultCommand="b6">
+                        <af:panelFormLayout id="pfl5" maxColumns="2" rows="3">
+                            <af:inputText label="#{sessionbGestionarHorarios.booleanTipoVista ? 'Profesor' : 'Aula'}"
+                                          id="it4" value="#{sessionbGestionarHorarios.titileListaHorarioByPosicion()}"/>
+                            <af:selectOneChoice label="#{sessionbGestionarHorarios.booleanTipoVista ? 'Aula' : 'Profesor'}" value="#{sessionbGestionarHorarios.booleanTipoVista ? sessionbGestionarHorarios.aula.nidAula 
+                                                : sessionbGestionarHorarios.dni.dniProfesor}" id="chAulaProfesor"
+                                                binding="#{bGestionarHorarios.chAulaProfesor}" autoSubmit="true"
+                                                required="true"
+                                                valueChangeListener="#{bGestionarHorarios.changeListenerProfesorAula}">
+                                <f:selectItems value="#{sessionbGestionarHorarios.listaItems_aux}" id="si5"/>
+                            </af:selectOneChoice>
+                            <af:selectOneChoice label="Area" value="#{sessionbGestionarHorarios.nidArea}" id="chArea"
+                                                valueChangeListener="#{bGestionarHorarios.changeListenerArea}"
+                                                autoSubmit="true" binding="#{bGestionarHorarios.chArea}"
+                                                required="true">
+                                <f:selectItems value="#{sessionbGestionarHorarios.listaAreaChoice}" id="si6"/>
+                            </af:selectOneChoice>
+                            <af:selectOneChoice label="Curso" value="#{sessionbGestionarHorarios.nidCurso}" id="chCurso"
+                                                binding="#{bGestionarHorarios.chCurso}" autoSubmit="true"
+                                                required="true"
+                                                valueChangeListener="#{bGestionarHorarios.changeListenerCurso}">
+                                <f:selectItems value="#{sessionbGestionarHorarios.listaCursoChoice}" id="si7"/>
+                            </af:selectOneChoice>
+                            <af:inputNumberSpinbox label="Cantidad" id="cant"
+                                                   value="#{sessionbGestionarHorarios.leccion.nroHoras}"
+                                                   binding="#{bGestionarHorarios.cant}" required="true" minimum="1"
+                                                   autoSubmit="true"
+                                                   valueChangeListener="#{bGestionarHorarios.changeListenerCantidadH}"/>
+                            <af:selectOneChoice label="Duración" id="chDuracion"
+                                                binding="#{bGestionarHorarios.chDuracion}"
+                                                value="#{sessionbGestionarHorarios.leccion.nroDuracion}"
+                                                autoSubmit="true" required="true"
+                                                valueChangeListener="#{bGestionarHorarios.changeListenerDuracionH}"
+                                                validator="restricionHorasDuracion">
+                                <f:selectItems value="#{sessionbGestionarHorarios.listaDuracion}" id="si8"/>
+                            </af:selectOneChoice>
+                        </af:panelFormLayout>
+                        <af:button text="Agregar" id="b6" actionListener="#{bGestionarHorarios.AgregarLeccion}"/>
+                        <af:spacer height="10" id="s8"/>
+                    </af:subform>
+                    <af:table value="#{sessionbGestionarHorarios.lstLecciones}" var="row" rowBandingInterval="0" id="t4"
+                              binding="#{bGestionarHorarios.t4}">
+                        <af:column sortable="false"
+                                   headerText="Nombre #{sessionbGestionarHorarios.booleanTipoVista ? 'Aula' : 'Profesor'}"
+                                   align="start" id="c8">
+                            <af:outputText value="#{sessionbGestionarHorarios.booleanTipoVista ? row.aula.descripcionAula : row.profesor.nombreCompleto}"
+                                           id="ot3"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Nombre Curso" align="start" id="c10" width="250">
+                            <af:outputText value="#{row.curso.descripcionCurso}" id="ot5"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Duracion" align="end" id="c12" width="50">
+                            <af:outputText value="#{row.nroDuracion}" id="ot11"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="Nro Horas" align="end" id="c11" width="50">
+                            <af:outputText value="#{row.nroHoras_aux}" id="ot10"/>
+                        </af:column>
+                        <af:column id="c9" sortable="false" headerText="Ingresado" align="end" width="50">
+                            <af:outputText value="#{row.nroHoras_aux - row.nroHoras}" id="ot4"/>
+                        </af:column>
+                        <af:column id="c13" sortable="false"  align="center">
+                            <f:facet name="header">
+                                <af:outputText value="Eliminar  "/>
+                                <af:button icon="../recursos/img/usuarios/borrar.png" actionListener="#{bGestionarHorarios.eliminarHorarioAction}"/>
+                            </f:facet>
+                            <af:button id="b7" icon="../recursos/img/usuarios/cancel.png"
+                                       actionListener="#{bGestionarHorarios.EliminarLeccion(row)}"/>
+                        </af:column>
+                        <af:column id="c14" sortable="false" headerText="Errores" align="end" width="50"
+                                   rendered="#{sessionbGestionarHorarios.renderGenerarHorario}">
+                            <af:button icon="../recursos/img/usuarios/ver.png"
+                                       disabled="#{!bGestionarHorarios.disableErrorLeccion(row)}"
+                                       actionListener="#{bGestionarHorarios.verErrorLeccion(row)}"/>
+                        </af:column>
+                    </af:table>
+                    <af:panelFormLayout rows="1" styleClass="float:right;" inlineStyle="float:right;">
+                        <af:selectBooleanCheckbox label="Volver a generar" id="sbc7"
+                                                  value="#{sessionbGestionarHorarios.volverAGenerar}"/>
+                        <af:button text="Generar" id="b9" actionListener="#{bGestionarHorarios.generarHorarioParcial}"/>
+                        <af:button text="Guardar" id="b10"
+                                   actionListener="#{bGestionarHorarios.guardarHorarioParcial}"/>
+                    </af:panelFormLayout>
+                </af:dialog>
+            </af:popup>
+            <!-- ///////////////////////////// FIN POP AGREGAR LECCION ////////////////////////////////////////// -->
+            <!-- /////////////////////////////  showPopupBehavior ////////////////////////////// -->
+            <af:popup id="popTitulo" contentDelivery="lazyUncached" eventContext="launcher">
+                <af:noteWindow>
+                    <af:panelFormLayout rows="2" maxColumns="1">
+                        <af:commandLink text="Horas Disponibles" id="txt1"
+                                        actionListener="#{bGestionarHorarios.actionHorasDisponibles}"></af:commandLink>
+                        <af:commandLink text="Ver Horario" id="txt2"
+                                        actionListener="#{bGestionarHorarios.actionVerHorario}"></af:commandLink>
+                        <af:commandLink text="Agregar Lección" id="txt3"
+                                        actionListener="#{bGestionarHorarios.actionAgregarLeccion}"></af:commandLink>
+                        <af:commandLink text="Cambiar Color" id="txt4"
+                                        rendered="#{sessionbGestionarHorarios.booleanTipoVista}"
+                                        actionListener="#{bGestionarHorarios.cambiarColor}"></af:commandLink>
+                    </af:panelFormLayout>
+                </af:noteWindow>
+            </af:popup>
+        </af:panelGroupLayout>
+    </f:view>
+</ui:composition>
