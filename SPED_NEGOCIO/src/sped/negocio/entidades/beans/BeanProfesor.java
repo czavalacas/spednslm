@@ -10,6 +10,7 @@ public class BeanProfesor implements Serializable {
     private String apellidos;
     private String dniProfesor;
     private String nombres;
+    private String color;
     private String nombreCompleto;
     private List<BeanMain> mainLista;
     private String correo; 
@@ -60,5 +61,13 @@ public class BeanProfesor implements Serializable {
 
     public String getCorreo() {
         return correo;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
     }
 }
