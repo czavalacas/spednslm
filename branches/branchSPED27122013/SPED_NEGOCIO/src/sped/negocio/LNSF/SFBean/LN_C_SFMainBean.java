@@ -103,14 +103,36 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
      * @param nidAula
      * @return
      */
-    public List<BeanMain> getLstMainByAttr_LN(String nidAula) {
+    public List<BeanMain> getLstMainByAttr_LN_Aula(String dato) {
         BeanMain beanMain = new BeanMain();
-        beanMain.setNidAula(Integer.parseInt(nidAula));//paso el nidAula a un bean por si despues vuelvo utilizar este metodo
+        beanMain.setNidAula(Integer.parseInt(dato));        
+        return getLstMainByAttr_LN(beanMain);
+    }
+    
+    /**
+     * Metodo que busca las lecciones de los profesores segun el sede y nivel
+     * @param dato
+     * @param nidSede
+     * @param nidNivel
+     * @param tipoBusqueda // para saber los horarios de esa sede y nivel y cuales no son.
+     * @return
+     */
+    public List<BeanMain> getLstMainByAttr_LN_Profesor(String dato, int nidSede, int nidNivel, boolean tipoBusqueda) {
+        BeanMain beanMain = new BeanMain();
+        beanMain.setDniProfesor(dato); 
+        beanMain.setNidSede(nidSede);
+        beanMain.setNidNivel(nidNivel);
+        beanMain.setSelec(tipoBusqueda);        
+        return getLstMainByAttr_LN(beanMain);
+    }
+    
+    public List<BeanMain> getLstMainByAttr_LN(BeanMain beanMain){
         List<BeanMain> lstBean = new ArrayList();
         for(Main main : bdl_C_SFMainLocal.getLstMainByAttr_BDL(beanMain)){
             BeanMain bean = trasnferMainNoMapper(main);
             bean.setNidCurso(main.getCurso().getNidCurso());           
-            bean.setColor(main.getCurso().getColor() == null ? "647687" : main.getCurso().getColor());
+            bean.setColor(main.getCurso().getColor() == null || main.getCurso().getColor().length() != 6 ? "647687" : main.getCurso().getColor());
+            bean.setColor_prof(main.getProfesor().getColor() == null || main.getProfesor().getColor().length() != 6 ? "647687" : main.getProfesor().getColor());
             lstBean.add(bean);
         }
         return lstBean;
@@ -159,11 +181,13 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
     public BeanMain trasnferMainNoMapper(Main main){
         BeanMain bean = new BeanMain();
         bean.setNidMain(main.getNidMain());
+        bean.setNidLecc(main.getNidLeccion());
         bean.setHoraInicio(main.getHoraInicio());
         bean.setHoraFin(main.getHoraFin());
         bean.setNDia(main.getNDia());
         bean.setNombreCurso(main.getCurso().getDescripcionCurso());
         bean.setNombreProfesor(main.getProfesor().getApellidos()+", "+main.getProfesor().getNombres());
+        bean.setNombreAula(main.getAula().getDescripcionAula());
         return bean;
     }
     

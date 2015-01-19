@@ -1,6 +1,9 @@
 package sped.negocio.LNSF.SFBean;
 
 import java.sql.Time;
+
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
@@ -18,6 +21,7 @@ import sped.negocio.LNSF.IL.LN_T_SFMainLocal;
 import sped.negocio.LNSF.IR.LN_T_SFMainRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Main;
+import sped.negocio.entidades.beans.BeanMain;
 
 @Stateless(name = "LN_T_SFMain", mappedName = "map-LN_T_SFMain")
 public class LN_T_SFMainBean implements LN_T_SFMainRemote, 
@@ -62,6 +66,7 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
                                  int nidAula,
                                  int nidCurso,
                                  int nDia,
+                                 int nidLeccion,
                                  Time horaInicio,
                                  Time horaFin){
         try{
@@ -74,11 +79,8 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
                    main.getNDia() == nDia &&
                    main.getHoraInicio().equals(horaInicio) &&
                    main.getHoraFin().equals(horaFin) ){
-                    /////valida si los datos son iguales  
-                    System.out.println("Son igulillos");
                     return; 
-                }else{
-                    System.out.println("NO Son igulillos");
+                }else{                    
                     if(bdL_C_SFEvaluacionLocal.countEvaluacionByNidMain(nidMain) > 0){
                         main.setEstado("0");                        
                         bdL_T_SFMainLocal.mergeMain(main);
@@ -94,6 +96,7 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
             main.setHoraInicio(horaInicio);
             main.setHoraFin(horaFin);
             main.setEstado("1");
+            main.setNidLeccion(nidLeccion);
             if(tipoEvento == 1){
                 bdL_T_SFMainLocal.persistMain(main);
             }
@@ -106,6 +109,29 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
                                                           Utiles.getStack(e));
             e.printStackTrace();
         }        
+    }
+    
+    /**
+     * metodo auxiliar para comprobar y elimar cosas q no eliminaron en caso de estar bien no ejecutara
+     * @param codigo
+     * @param nidSede
+     * @param nidNivel
+     * @param vista
+     */
+    public void eliminarMainByAulaProfesor(String codigo, int nidSede, int nidNivel, boolean vista){
+        BeanMain beanMain = new BeanMain();
+        if(vista){
+            beanMain.setNidAula(Integer.parseInt(codigo)); 
+        }else{
+            beanMain.setDniProfesor(codigo); 
+            beanMain.setNidSede(nidSede);
+            beanMain.setNidNivel(nidNivel);
+            beanMain.setSelec(true);
+        }
+        List<Main> lst = bdL_C_SFMainLocal.getLstMainByAttr_BDL(beanMain);
+        for(Main m : lst){
+            eliminarMain_LN(m.getNidMain());
+        }
     }
     
     /**

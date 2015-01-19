@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import sped.negocio.BDL.IL.BDL_C_SFProfesorLocal;
 import sped.negocio.BDL.IL.BDL_C_SFRolPermisoLocal;
 import sped.negocio.BDL.IL.BDL_T_SFCursoLocal;
 import sped.negocio.BDL.IL.BDL_T_SFProfesorLocal;
@@ -50,6 +51,8 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
     private BDL_C_SFRolPermisoLocal bdl_C_SFRolPermisoLocal;
     @EJB
     private BDL_T_SFUsuarioPermisoLocal bdl_T_SFUsuarioPermisoLocal;    
+    @EJB
+    private BDL_C_SFProfesorLocal bdl_C_SFProfesorLocal;
 
     public LN_T_SFProfesorBean() {
     }
@@ -120,6 +123,22 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
             prof.setNombres(profesor.getNombres());
             prof.setApellidos(profesor.getApellidos());
             bdl_T_SFProfesorLocal.persistProfesor(prof);         
+        }catch (Exception e) {            
+            e.printStackTrace();
+            error = "111";
+            beanError = ln_C_SFErrorLocal.getCatalogoErrores(error);
+            error = beanError.getDescripcionError();
+        }
+        return error;
+    }
+    
+    public String grabarColorProfesor(String dni, String color){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {      
+            Profesor prof = bdl_C_SFProfesorLocal.getProfesorBydni(dni);
+            prof.setColor(color);
+            bdl_T_SFProfesorLocal.mergeProfesor(prof);
         }catch (Exception e) {            
             e.printStackTrace();
             error = "111";
