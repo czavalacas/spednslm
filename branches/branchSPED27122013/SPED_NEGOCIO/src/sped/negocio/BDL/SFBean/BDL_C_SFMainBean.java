@@ -237,20 +237,35 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
    public List<Main> getLstMainByAttr_BDL(BeanMain beanMain){
        try{
            String ejbQl =  " SELECT ma FROM Main ma " +
-                           " WHERE ma.aula.nidAula = :nidAula " +
-                           " AND ma.estado = :estado " +
+                           " WHERE ma.estado = :estado " +
                            " AND ma.horaInicio != NULL " +
-                           " AND ma.horaFin != NULL " +
-                           " ORDER BY ma.horaInicio ASC";
-           List<Main> lstMain = em.createQuery(ejbQl).setParameter("nidAula", beanMain.getNidAula())
-                                                     .setParameter("estado", "1")
-                                                     .getResultList();
+                           " AND ma.horaFin != NULL AND" ;
+           if(beanMain.getDniProfesor() == null){
+               ejbQl = ejbQl.concat(" ma.aula.nidAula = :nidAula ");
+           }else{
+               ejbQl = ejbQl.concat(" ma.profesor.dniProfesor = :dniProfesor ");
+               String validacion = beanMain.isSelec() ? " = " : " != ";
+               ejbQl = ejbQl.concat(" AND ma.aula.sede.nidSede "+validacion+" :nidSede ");
+               ejbQl = ejbQl.concat(" AND ma.aula.gradoNivel.nivel.nidNivel "+validacion+" :nidNivel ");
+           }           
+           ejbQl = ejbQl.concat(" ORDER BY ma.horaInicio ASC, ma.nDia ASC");
+           Query query = em.createQuery(ejbQl);
+           query.setParameter("estado", "1");
+           if(beanMain.getDniProfesor() == null){
+               query.setParameter("nidAula", beanMain.getNidAula());
+           }else{
+               query.setParameter("dniProfesor", beanMain.getDniProfesor());
+               query.setParameter("nidSede", beanMain.getNidSede());
+               query.setParameter("nidNivel", beanMain.getNidNivel());
+           }
+           List<Main> lstMain = query.getResultList();
            return lstMain;
        }catch(Exception e){
            e.printStackTrace();
            return new ArrayList();
-}
+       }
     }
+   
     public List<Main> getHorariosPorDocente(String dniDocente) {
            try {
                String ejbQl =  " SELECT ma FROM Main ma " +                            
@@ -333,6 +348,22 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
             cont = Integer.parseInt(object.toString());
         }
         return cont;
+    }
+     
+    /**
+     * Metodo para buscar todos las entidades main q se generaron de una leccion
+     * @param nidLeccion
+     * @return
+     */
+    public List<Main> getlstMainByNidLeccion(int nidLeccion){
+        try {
+            String ejbQl =  " SELECT ma FROM Main ma " +                            
+                            " WHERE ma.nidLeccion= :nidLeccion";
+            return em.createQuery(ejbQl).setParameter("nidLeccion", nidLeccion).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList();
+        }
     }
     
 
