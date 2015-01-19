@@ -10,43 +10,77 @@ public class BeanHorario implements Serializable {
     @SuppressWarnings("compatibility:-7442992646229351967")
     private static final long serialVersionUID = 1L;
 
-    private Time inicio;
-    private Time fin;
-    private BeanMain lunes;
-    private List<BeanMain> lstMain;
+    private int posicion;
+    private String titulo;
+    private String codigo;
+    private String color;
+    private BeanMain horario[][];
+    private List<BeanDia> lstDias;
+    private int horasLibres;
+    private int horasLibres_aux;
 
-    public BeanHorario(){}
-
-    public void setInicio(Time inicio) {
-        this.inicio = inicio;
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
     }
 
-    public Time getInicio() {
-        return inicio;
+    public int getPosicion() {
+        return posicion;
     }
 
-    public void setFin(Time fin) {
-        this.fin = fin;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public Time getFin() {
-        return fin;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setLunes(BeanMain lunes) {
-        this.lunes = lunes;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    public BeanMain getLunes() {
-        return lunes;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setLstMain(List<BeanMain> lstMain) {
-        this.lstMain = lstMain;
+    public void setHorario(BeanMain[][] horario) {
+        this.horario = horario;
     }
 
-    public List<BeanMain> getLstMain() {
-        return lstMain;
+    public BeanMain[][] getHorario() {
+        return horario;
+    }
+
+    public void setLstDias(List<BeanDia> lstDias) {
+        this.lstDias = lstDias;
+    }
+
+    public List<BeanDia> getLstDias() {
+        return lstDias;
+    }
+
+    public void setHorasLibres(int horasLibres) {
+        this.horasLibres = horasLibres;
+    }
+
+    public int getHorasLibres() {
+        return horasLibres;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setHorasLibres_aux(int horasLibres_aux) {
+        this.horasLibres_aux = horasLibres_aux;
+    }
+
+    public int getHorasLibres_aux() {
+        return horasLibres_aux;
     }
 
 }
