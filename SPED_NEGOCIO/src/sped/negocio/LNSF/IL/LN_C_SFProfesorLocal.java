@@ -17,4 +17,6 @@ public interface LN_C_SFProfesorLocal {
     List getNombreProfesor_LN();
     String getDniProfesorPorNombreCompleto(String nombreCompleto);
     List<BeanComboString> getPRofesorPorSedeYNivel(String nidSede, String nidNivel, int nidAreaAcademica);
+    List<BeanProfesor> getProfesoresDistintoLista(List<String> lst_dni, BeanProfesor profesor);
+    String colorProfesor(String dni);
 }
