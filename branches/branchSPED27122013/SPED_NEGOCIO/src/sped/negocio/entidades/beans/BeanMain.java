@@ -4,17 +4,12 @@ import java.io.Serializable;
 
 import java.sql.Time;
 
-import java.util.Date;
-import java.util.List;
-
-import sped.negocio.entidades.admin.Aula;
-import sped.negocio.entidades.admin.Curso;
-import sped.negocio.entidades.admin.Profesor;
+import sped.negocio.entidades.sist.RestriccionHorario;
 
 public class BeanMain implements Serializable {
-    @SuppressWarnings("compatibility:-8366719624247402844")
+    @SuppressWarnings("compatibility:6865430999452328518")
     private static final long serialVersionUID = 1L;
-    
+
     private String dia;
     private String estado;
     private Time horaFin;
@@ -24,6 +19,7 @@ public class BeanMain implements Serializable {
     private BeanCurso curso;
     private BeanProfesor profesor;
     private int nDia;
+    private int nidLecc;
     ////////////////
     private String dniProfesor;
     private int nidAula;
@@ -32,12 +28,17 @@ public class BeanMain implements Serializable {
     private int nroHoras_aux;
     private int nroHorasReal;
     private String nombreProfesor;
+    private String nombreProfesorAula;
     private String nombreCurso;
     private String nombreArea;
     private String nombreAula;
     private String tipoFicha;
     private String color;
+    private String color_prof;
     private boolean selec;
+    private BeanRestriccionHorario restric;
+    private int nidSede;
+    private int nidNivel;
 
     public void setCurso(BeanCurso curso) {
         this.curso = curso;
@@ -95,7 +96,6 @@ public class BeanMain implements Serializable {
     public int getNidMain() {
         return nidMain;
     }
-
 
 
     public void setAula(BeanAula aula) {
@@ -216,5 +216,53 @@ public class BeanMain implements Serializable {
 
     public int getNroHorasReal() {
         return nroHorasReal;
+    }
+
+    public void setRestric(BeanRestriccionHorario restric) {
+        this.restric = restric;
+    }
+
+    public BeanRestriccionHorario getRestric() {
+        return restric;
+    }
+
+    public void setNidSede(int nidSede) {
+        this.nidSede = nidSede;
+    }
+
+    public int getNidSede() {
+        return nidSede;
+    }
+
+    public void setNidNivel(int nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public int getNidNivel() {
+        return nidNivel;
+    }
+
+    public void setNombreProfesorAula(String nombreProfesorAula) {
+        this.nombreProfesorAula = nombreProfesorAula;
+    }
+
+    public String getNombreProfesorAula() {
+        return nombreProfesorAula;
+    }
+
+    public void setColor_prof(String color_prof) {
+        this.color_prof = color_prof;
+    }
+
+    public String getColor_prof() {
+        return color_prof;
+    }
+
+    public void setNidLecc(int nidLecc) {
+        this.nidLecc = nidLecc;
+    }
+
+    public int getNidLecc() {
+        return nidLecc;
     }
 }

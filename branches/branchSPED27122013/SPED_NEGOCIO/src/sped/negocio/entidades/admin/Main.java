@@ -54,7 +54,9 @@ public class Main implements Serializable {
     @JoinColumn(name = "dniProfesor")
     private Profesor profesor;
     @Column(name = "nDia")
-    private int nDia;
+    private int nDia;    
+    @Column(name = "nidLeccion")
+    private int nidLeccion;
 
     public Main() {
     }
@@ -164,6 +166,14 @@ public class Main implements Serializable {
 
     public int getNDia() {
         return nDia;
+    }
+
+    public void setNidLeccion(int nidLeccion) {
+        this.nidLeccion = nidLeccion;
+    }
+
+    public int getNidLeccion() {
+        return nidLeccion;
     }
 
     @Override

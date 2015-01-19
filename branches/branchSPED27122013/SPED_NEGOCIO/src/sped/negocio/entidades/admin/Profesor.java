@@ -25,6 +25,8 @@ public class Profesor implements Serializable {
     private String dniProfesor;
     @Column(name = "nombres")
     private String nombres;
+    @Column(name = "color")
+    private String color;
     @OneToMany(mappedBy = "profesor", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Main> mainLista;
 
@@ -60,6 +62,14 @@ public class Profesor implements Serializable {
 
     public void setNombres(String nombres) {
         this.nombres = nombres;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     public List<Main> getMainLista() {
