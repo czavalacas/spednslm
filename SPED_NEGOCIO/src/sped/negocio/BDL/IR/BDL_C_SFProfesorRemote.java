@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import sped.negocio.entidades.admin.Profesor;
+import sped.negocio.entidades.beans.BeanProfesor;
 
 @Remote
 public interface BDL_C_SFProfesorRemote {
@@ -16,4 +17,6 @@ public interface BDL_C_SFProfesorRemote {
     List getNombreProfesor();
     String getDniProfe(String nombreCompleto);
     List<Profesor> getProfesoresPorSedeNivelYArea(String nidSede, String nidNivel, Integer nidAreaAcademica);
+    List<Profesor> getProfesoresDistintoLista(List<String> lst_dni, BeanProfesor profesor);
+    String getColorProfe(String dni);
 }

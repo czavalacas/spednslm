@@ -22,6 +22,7 @@ import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanCriterio;
+import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.beans.BeanUsuario;
 import sped.negocio.entidades.eval.Criterio;
 import sped.negocio.entidades.eval.Evaluacion;
@@ -182,7 +183,71 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
             e.printStackTrace();
             return null;
         }
+    }    
+    
+    
+    public List<Profesor> getProfesoresDistintoLista(List<String> lst_dni, BeanProfesor profesor){
+        try{
+            String strQuery = " SELECT distinct p FROM Profesor p " +
+                           " WHERE 1 = 1 ";
+            if(lst_dni != null && lst_dni.size() > 0){
+                strQuery = strQuery.concat(" AND ( ");
+                for(int i=0 ; i < lst_dni.size(); i++){
+                    if(i != 0){
+                        strQuery = strQuery.concat(" AND ");
+                    }
+                    strQuery = strQuery.concat(" p.dniProfesor != :dni"+i+" ");                    
+                }
+                strQuery = strQuery.concat(" ) ");
+            }
+            if(profesor.getApellidos() != null){
+                strQuery = strQuery.concat(" AND upper(p.apellidos) like :p_ape ");
+            }
+            if(profesor.getNombres() != null){
+                strQuery = strQuery.concat(" AND upper(p.nombres) like :p_nom ");
+            }
+            if(profesor.getDniProfesor() != null){
+                strQuery = strQuery.concat(" AND p.dniProfesor like :p_dni ");
+            }
+            strQuery = strQuery.concat(" Order by p.apellidos ");            
+            Query query = em.createQuery(strQuery);
+            if(lst_dni != null && lst_dni.size() > 0){
+                for(int i=0 ; i < lst_dni.size(); i++){
+                    query.setParameter("dni"+i, lst_dni.get(i));                  
+                }
+            }
+            if(profesor.getApellidos() != null){
+                query.setParameter("p_ape", "%"+profesor.getApellidos()+"%");  
+            }
+            if(profesor.getNombres() != null){
+                query.setParameter("p_nom", "%"+profesor.getNombres()+"%");  
+            }
+            if(profesor.getDniProfesor() != null){
+                query.setParameter("p_dni", "%"+profesor.getDniProfesor()+"%"); 
+            }
+            return query.getResultList(); 
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
- 
+    
+    public String getColorProfe(String dni){
+        try{
+            String ejbQl = " SELECT p.color" +
+                           " FROM Profesor p " +
+                           " where p.dniProfesor = :dni";   
+            Object o = em.createQuery(ejbQl).setParameter("dni", dni).getSingleResult();
+            String color = "";
+            if(o != null){
+                color = o.toString();
+            }else{
+                color = "647687";
+            }
+            return color;
+        }catch(Exception e){
+            return null;
+        }
+    }
     
 }
