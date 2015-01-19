@@ -341,4 +341,27 @@
     <managed-bean-class>sped.vista.beans.horarios.bSessionConfiguracionHorario</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+  <managed-bean>
+    <managed-bean-name>bGestionarHorarios</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.horarios.bGestionarHorarios</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionbGestionarHorarios</property-name>
+      <property-class>sped.vista.beans.horarios.bSessionbGestionarHorarios</property-class>
+      <value>#{sessionbGestionarHorarios}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionbGestionarHorarios</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.horarios.bSessionbGestionarHorarios</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
+  <validator>
+    <validator-id>restricionHorasDuracion</validator-id>
+    <validator-class>sped.vista.Utils.Validators.restricionHorasDuracion</validator-class>
+  </validator>
+  <validator>
+    <validator-id>restricionHorasCantidad</validator-id>
+    <validator-class>sped.vista.Utils.Validators.restricionHorasCantidad</validator-class>
+  </validator>
 </faces-config>
