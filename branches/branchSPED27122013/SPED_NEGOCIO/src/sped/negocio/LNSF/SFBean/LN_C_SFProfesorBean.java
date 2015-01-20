@@ -63,7 +63,7 @@ public class LN_C_SFProfesorBean implements LN_C_SFProfesorRemote,
             Profesor entida=(Profesor)it.next();
             BeanComboString bean=new BeanComboString();
             bean.setId(entida.getDniProfesor());
-            bean.setDescripcion(entida.getApellidos()+" "+entida.getNombres());
+            bean.setDescripcion(entida.getApellidos()+" , "+entida.getNombres());
             lstBean.add(bean);          
           }
             return lstBean;

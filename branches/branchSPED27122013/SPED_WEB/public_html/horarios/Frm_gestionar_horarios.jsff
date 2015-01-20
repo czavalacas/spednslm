@@ -72,7 +72,7 @@
                             <af:forEach varStatus="lecc" begin="0" end="#{sessionbGestionarHorarios.nroBloque-1}">
                                 <af:column sortable="false"
                                            rendered="#{sessionbGestionarHorarios.listaHorario.size() > 0 ? true : false}"
-                                           headerText="#{sessionbGestionarHorarios.duracion(lecc.index)} #{lecc.index}"
+                                           headerText="#{sessionbGestionarHorarios.duracion(lecc.index)}"
                                            align="center" width="31" id="c22">
                                     <!-- /////////////////////////////  CELDAS CON LAS LECCIONES ////////////////////////////// -->
                                     <af:panelFormLayout rendered="#{sessionbGestionarHorarios.renderLeccion(row.posicion, lecc.index,dia.index)}" inlineStyle="background-color:#{sessionbGestionarHorarios.nomColor(row.posicion, lecc.index,dia.index)};

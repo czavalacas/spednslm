@@ -340,7 +340,7 @@ public class bGestionarHorarios {
             listComString = Utils.llenarCombo(ln_C_SFUtilsRemote.getAulaByNidSedeNivel(sessionbGestionarHorarios.getNidSede_aux(), 
                                                                                        sessionbGestionarHorarios.getNidNivel_aux()));
         }else{            
-            listComString = Utils.llenarComboString(ln_C_SFUtilsRemote.getProfesor_LN());
+            listComString = Utils.llenarComboString(ln_C_SFProfesorRemote.getProfesoresLN());
         }   
         sessionbGestionarHorarios.setListaItems_aux(listComString);
     }
