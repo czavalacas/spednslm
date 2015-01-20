@@ -86,7 +86,8 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
     public List<Usuario> getEvaluadores(String nidAreaAcademica){
         try{
             String strQuery = "SELECT ma FROM Usuario ma " +
-                             " WHERE ma.rol.nidRol = 2 ";
+                             " WHERE (ma.rol.nidRol = 2 Or ma.rol.nidRol = 7) " +
+                             " And ma.estadoUsuario = '1' ";
             if (nidAreaAcademica!= null) {               
                 strQuery = strQuery.concat(" AND ma.areaAcademica.nidAreaAcademica = "+nidAreaAcademica);  
             }
