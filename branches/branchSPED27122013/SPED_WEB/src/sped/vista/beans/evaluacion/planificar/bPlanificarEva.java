@@ -198,7 +198,8 @@ public class bPlanificarEva {
         sessionPlanificarEva.setNidRol(beanUsuario.getRol().getNidRol());
         //rol=1 Director // rol=6 Administrador // Podran Asignar Evaluaciones
         if (beanUsuario.getRol().getNidRol() == 1 || beanUsuario.getRol().getNidRol() == 6 ||
-            beanUsuario.getRol().getNidRol() == 2 && "1".equals(beanUsuario.getIsSupervisor())) {
+            (beanUsuario.getRol().getNidRol() == 2 && "1".equals(beanUsuario.getIsSupervisor()) ) ||
+            (beanUsuario.getRol().getNidRol() == 7) ) {//Directora academica
             sessionPlanificarEva.setEstadoChoiceEvaluadores(true);
         } else {
             sessionPlanificarEva.setEstadoChoiceEvaluadores(false);
@@ -535,7 +536,7 @@ public class bPlanificarEva {
                         sessionPlanificarEva.setEstadoChoiceTemporalNivel(false);
                         sessionPlanificarEva.setEstadoVisibleComboAreaacademica(false);
                     }
-                    if(evaluador.getRol().getNidRol() == 2){
+                    if(evaluador.getRol().getNidRol() == 2 || evaluador.getRol().getNidRol() == 7){
                             sessionPlanificarEva.setNidAreaAcademicaChoice(""+evaluador.getAreaAcademica().getNidAreaAcademica());
                             sessionPlanificarEva.setEstadoDisableChoiceArea(true);
                     }

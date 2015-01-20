@@ -96,7 +96,7 @@ public class bEvaluar {
         try {
             sessionEvaluar.setLstPlanificacionesXEvaluar(ln_C_SFEvaluacionRemote.getPlanificaciones_LN_WS(usuario.getRol().getNidRol(),
                                                                                                           usuario.getRol().getNidRol() == 4 ? usuario.getSede().getNidSede() : 0,
-                                                                                                          usuario.getRol().getNidRol() == 2 ? usuario.getAreaAcademica().getNidAreaAcademica() : 0,
+                                                                                                          (usuario.getRol().getNidRol() == 2 || usuario.getRol().getNidRol() == 7) ? usuario.getAreaAcademica().getNidAreaAcademica() : 0,
                                                                                                           usuario.getNidUsuario(),
                                                                                                           null, 
                                                                                                           null,
@@ -152,7 +152,7 @@ public class bEvaluar {
     }
     
     public void registrarEvaluacion(ActionEvent actionEvent) {
-        String tipoFicha = getUsuario().getRol().getNidRol() == 4 ? "S" : getUsuario().getRol().getNidRol() == 2 ? "E" : "";
+        String tipoFicha = getUsuario().getRol().getNidRol() == 4 ? "S" : (getUsuario().getRol().getNidRol() == 2 || getUsuario().getRol().getNidRol() == 7) ? "E" : "";
         int valoresFicha[] = ln_C_SFFichaLocal.getFichaToEvaluar(tipoFicha,sessionEvaluar.getPlanifSelect().getTipoFichaCurso());
         if(valoresFicha != null){
             if(valoresFicha[0] != 0){
