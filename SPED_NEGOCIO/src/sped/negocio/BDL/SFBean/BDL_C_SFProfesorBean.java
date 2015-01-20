@@ -1,5 +1,6 @@
 package sped.negocio.BDL.SFBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -156,6 +157,7 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
     }
     
     public List<Profesor> getProfesoresPorSedeNivelYArea(String nidSede, String nidNivel, Integer nidAreaAcademica) {
+        List<Profesor> lstMain = new ArrayList<Profesor>();
         try {
             String ejbQl =    " SELECT distinct prof FROM Main ma, " +
                               " Curso cur , " +
@@ -175,13 +177,12 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
                         ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);    
                     }
             }  }  
-                    ejbQl = ejbQl.concat(" ORDER BY prof.apellidos");  
-            List<Profesor> lstMain = em.createQuery(ejbQl).getResultList();
+            ejbQl = ejbQl.concat(" ORDER BY prof.apellidos");  
+            lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;
-
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return lstMain;
         }
     }    
     
