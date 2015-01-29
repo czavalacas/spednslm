@@ -42,6 +42,7 @@ import org.apache.myfaces.trinidad.util.Service;
 import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboDouble2;
+import sped.negocio.entidades.beans.BeanComboInteger;
 import sped.negocio.entidades.beans.BeanComboString;
 
 /** Clase Utils contiene metodos reutilizables
@@ -314,6 +315,14 @@ public class Utils {
         ArrayList unItems = new ArrayList();
         unItems.add(new SelectItem("-1.0",":: Valor ::" ));
         for (BeanComboString c : lista) {
+            unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
+        }
+        return unItems;
+    }
+    
+    public static ArrayList llenarComboStringInt(List<BeanComboInteger> lista) {
+        ArrayList unItems = new ArrayList();
+        for (BeanComboInteger c : lista) {
             unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
         }
         return unItems;

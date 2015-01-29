@@ -307,6 +307,7 @@ public class bConfiguracionHorario {
     public void llenarCombos(){
         sessionConfiguracionHorario.setListaSedesChoice(Utils.llenarCombo(ln_C_SFSedeRemote.getAllSedes()));        
         sessionConfiguracionHorario.setListaEventosHorariosChoice(Utils.llenarCombo(ln_C_SFConfiguracionEventoHorarioRemoto.getAllEventosDeHorario()));
+        sessionConfiguracionHorario.setLstYears(Utils.llenarComboString(ln_C_SFCalendarioLocal.getYearsCalendario()));
     }
 
     public String realizarNuevaRestriccion() {
@@ -536,7 +537,8 @@ public class bConfiguracionHorario {
         if(sessionConfiguracionHorario.getCidMes() == null){
             sessionConfiguracionHorario.setCidMes("1");
         }
-        sessionConfiguracionHorario.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivo_LN(Integer.parseInt(sessionConfiguracionHorario.getCidMes()) ));
+        sessionConfiguracionHorario.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivo_LN(Integer.parseInt(sessionConfiguracionHorario.getCidMes()),
+                                                                                                   Integer.parseInt(sessionConfiguracionHorario.getYear()) ));
     }
     
     public void selectTablaCalendario(SelectionEvent se) {
@@ -551,7 +553,8 @@ public class bConfiguracionHorario {
     public void actualizarDiaCalendario(ActionEvent ae) {
         ln_T_SFCalendarioLocal.registrarDiaNoLaborable(sessionConfiguracionHorario.getCalenSelected().getNidFecha(),
                                                        sessionConfiguracionHorario.getDescDia());
-        sessionConfiguracionHorario.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivo_LN(sessionConfiguracionHorario.getCalenSelected().getMesNumero() ));
+        sessionConfiguracionHorario.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivo_LN(sessionConfiguracionHorario.getCalenSelected().getMesNumero(),
+                                                                                                   sessionConfiguracionHorario.getCalenSelected().getYear() ));
         sessionConfiguracionHorario.setCalenSelected(null);
         Utils.unselectFilas(tbCalen);
         popCalen.hide();
@@ -559,7 +562,8 @@ public class bConfiguracionHorario {
     
     public void anularDiaCalendario(ActionEvent ae) {
         ln_T_SFCalendarioLocal.registrarDiaLaborable(sessionConfiguracionHorario.getCalenSelected().getNidFecha());
-        sessionConfiguracionHorario.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivo_LN(sessionConfiguracionHorario.getCalenSelected().getMesNumero() ));
+        sessionConfiguracionHorario.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivo_LN(sessionConfiguracionHorario.getCalenSelected().getMesNumero(),
+                                                                                                   sessionConfiguracionHorario.getCalenSelected().getYear() ));
         sessionConfiguracionHorario.setCalenSelected(null);
         Utils.unselectFilas(tbCalen);
         popCalen.hide();
