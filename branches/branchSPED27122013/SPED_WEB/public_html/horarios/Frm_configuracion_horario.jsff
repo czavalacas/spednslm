@@ -183,6 +183,10 @@
                         <af:spacer width="80" height="40"/>
                     </af:showDetailItem>
                     <af:showDetailItem text="Calendario" id="sdi2" immediate="true">
+                        <af:selectOneChoice label="Año" requiredMessageDetail="Seleccionar el año" id="socYear" autoSubmit="true"
+                                            value="#{sessionScope.sessionConfiguracionHorario.year}">
+                            <f:selectItems value="#{sessionScope.sessionConfiguracionHorario.lstYears}" id="si16"/>
+                        </af:selectOneChoice>
                         <af:selectOneChoice label="Mes" id="soc1" autoSubmit="true"
                                             value="#{sessionScope.sessionConfiguracionHorario.cidMes}">
                             <af:selectItem label="Enero" value="1" id="si1"/>

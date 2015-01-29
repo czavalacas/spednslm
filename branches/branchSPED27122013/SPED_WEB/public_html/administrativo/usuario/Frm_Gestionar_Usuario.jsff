@@ -226,6 +226,10 @@
             <af:popup childCreation="deferred" autoCancel="disabled" id="popFecCalen"
                       binding="#{bGestionarUsuarios.popFecCalen}">
                 <af:dialog id="d3">
+                    <af:selectOneChoice label="Año" requiredMessageDetail="Seleccionar el año" id="socYear" autoSubmit="true"
+                                            value="#{sessionScope.sessionGestionarUsuarios.year}">
+                        <f:selectItems value="#{sessionScope.sessionGestionarUsuarios.lstYears}" id="si16"/>
+                    </af:selectOneChoice>
                     <af:selectOneChoice label="Mes" id="soc1" autoSubmit="true"
                                         value="#{sessionScope.sessionGestionarUsuarios.cidMes}">
                             <af:selectItem label="Enero" value="1"/>

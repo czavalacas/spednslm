@@ -10,6 +10,7 @@ import java.util.List;
 import oracle.adf.view.rich.component.rich.RichPopup;
 
 import sped.negocio.entidades.beans.BeanCalendario;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanConfiguracionEventoHorario;
 import sped.negocio.entidades.beans.BeanConfiguracionHorario;
 import sped.negocio.entidades.beans.BeanConstraint;
@@ -61,6 +62,25 @@ public class bSessionConfiguracionHorario implements Serializable {
     //dfloresgonz 01.09.2014 configuracion de dias min MAX x dia 
     private List<BeanConstraint> lstBeanCons = new ArrayList<BeanConstraint>();
     private BeanConstraint editCons = new BeanConstraint();
+    //dfloresgonz 28.01.2015 Combo year
+    private List<BeanComboString> lstYears = new ArrayList<BeanComboString>();
+    private String year;
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setLstYears(List<BeanComboString> lstYears) {
+        this.lstYears = lstYears;
+    }
+
+    public List<BeanComboString> getLstYears() {
+        return lstYears;
+    }
 
     public void setEditCons(BeanConstraint editCons) {
         this.editCons = editCons;

@@ -137,6 +137,7 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
             validaUsuario();            
             buscarUsuarioFiltro_aux();
+            sessionGestionarUsuarios.setLstYears(Utils.llenarComboString(ln_C_SFCalendarioLocal.getYearsCalendario()));
         } 
     }
 
@@ -526,7 +527,8 @@ public class bGestionarUsuarios {
         if(sessionGestionarUsuarios.getCidMes() == null){
             sessionGestionarUsuarios.setCidMes("1");
         }
-        sessionGestionarUsuarios.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivoByUsuario_LN(Integer.parseInt(sessionGestionarUsuarios.getCidMes()) ,sessionGestionarUsuarios.getNidUsuario()));
+        sessionGestionarUsuarios.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivoByUsuario_LN(Integer.parseInt(sessionGestionarUsuarios.getCidMes()) ,sessionGestionarUsuarios.getNidUsuario(),
+                                                                                                         Integer.parseInt(sessionGestionarUsuarios.getYear()) ));
         actMsjTabla();
     }
     
@@ -587,7 +589,8 @@ public class bGestionarUsuarios {
     
     public void actualizarTablaCalendario(){
         sessionGestionarUsuarios.setLstCalendario(ln_C_SFCalendarioLocal.getCalendarioActivoByUsuario_LN(sessionGestionarUsuarios.getCalenSelected().getMesNumero(),
-                                                                                                         sessionGestionarUsuarios.getNidUsuario()));
+                                                                                                         sessionGestionarUsuarios.getNidUsuario(),
+                                                                                                         sessionGestionarUsuarios.getCalenSelected().getYear()));
         sessionGestionarUsuarios.setCalenSelected(null);
         actMsjTabla();
         Utils.unselectFilas(tbCalen);

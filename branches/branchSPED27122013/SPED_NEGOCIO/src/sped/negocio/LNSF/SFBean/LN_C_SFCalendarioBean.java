@@ -20,6 +20,8 @@ import sped.negocio.LNSF.IL.LN_C_SFCalendarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCalendarioRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCalendario;
+import sped.negocio.entidades.beans.BeanComboInteger;
+import sped.negocio.entidades.beans.BeanComboString;
 
 @Stateless(name = "LN_C_SFCalendario", mappedName = "mapLN_C_SFCalendario")
 public class LN_C_SFCalendarioBean implements LN_C_SFCalendarioRemote, 
@@ -32,12 +34,12 @@ public class LN_C_SFCalendarioBean implements LN_C_SFCalendarioRemote,
     public LN_C_SFCalendarioBean() {
     }
     
-    public List<BeanCalendario> getCalendarioActivo_LN(int mesNumero){
-        return bdL_C_SFCalendarioLocal.getCalendarioActivo_BDL(mesNumero);
+    public List<BeanCalendario> getCalendarioActivo_LN(int mesNumero, int year){
+        return bdL_C_SFCalendarioLocal.getCalendarioActivo_BDL(mesNumero,year);
     }
     
-    public List<BeanCalendario> getCalendarioActivoByUsuario_LN(int mesNumero,int nidUsuario){
-        List<Object[]> c = bdL_C_SFCalendarioLocal.getCalendarioActivoByUsuario_BDL(mesNumero,nidUsuario);
+    public List<BeanCalendario> getCalendarioActivoByUsuario_LN(int mesNumero,int nidUsuario, int year){
+        List<Object[]> c = bdL_C_SFCalendarioLocal.getCalendarioActivoByUsuario_BDL(mesNumero,nidUsuario, year);
         Iterator it = c.iterator();
         List<BeanCalendario> lstRet = new ArrayList<BeanCalendario>();
         while(it.hasNext()){
@@ -63,5 +65,9 @@ public class LN_C_SFCalendarioBean implements LN_C_SFCalendarioRemote,
             lstRet.add(bc);
         }
         return lstRet;
+    }
+    
+    public List<BeanComboString> getYearsCalendario(){
+        return bdL_C_SFCalendarioLocal.getYearsCalendario();
     }
 }

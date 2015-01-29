@@ -1,5 +1,6 @@
 package sped.negocio.BDL.SFBean;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import sped.negocio.BDL.IR.BDL_C_SFUsuarioCalendarioRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.UsuarioCalendario;
 import sped.negocio.entidades.admin.UsuarioCalendarioPK;
+import sped.negocio.entidades.beans.BeanComboString;
 
 @Stateless(name = "BDL_C_SFUsuarioCalendario", mappedName = "mapBDL_C_SFUsuarioCalendario")
 public class BDL_C_SFUsuarioCalendarioBean implements BDL_C_SFUsuarioCalendarioRemote, 
