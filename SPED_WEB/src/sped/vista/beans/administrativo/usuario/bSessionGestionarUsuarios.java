@@ -8,6 +8,7 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 
 import sped.negocio.entidades.beans.BeanCalendario;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 public class bSessionGestionarUsuarios implements Serializable {
@@ -66,10 +67,29 @@ public class bSessionGestionarUsuarios implements Serializable {
     private String tipoFalta;
     private String msjTabla;
     private int cantEvasLaborables;
+    //dfloresgonz 28.01.2015 Combo year
+    private List<BeanComboString> lstYears = new ArrayList<BeanComboString>();
+    private String year;
 
     public bSessionGestionarUsuarios() {
     }
 
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setLstYears(List<BeanComboString> lstYears) {
+        this.lstYears = lstYears;
+    }
+
+    public List<BeanComboString> getLstYears() {
+        return lstYears;
+    }
+    
     public void setCantEvasLaborables(int cantEvasLaborables) {
         this.cantEvasLaborables = cantEvasLaborables;
     }

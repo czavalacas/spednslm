@@ -474,6 +474,7 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     public Integer[] getMinMaxEvasPorDiaConstraint_LN(int nidRole){
         try{
             Integer vec[] = new Integer[2];
+            nidRole = nidRole == 7 ? 2 : nidRole;//El rol de directora academica que pase como Evaluador de area
             String qlString = "SELECT c.valorCampo " +
                               "FROM Constraint c " +
                               "WHERE c.nombreTabla = 'configuracion' " +

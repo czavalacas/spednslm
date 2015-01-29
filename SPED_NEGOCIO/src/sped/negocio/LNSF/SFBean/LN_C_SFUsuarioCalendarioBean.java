@@ -2,6 +2,8 @@ package sped.negocio.LNSF.SFBean;
 
 import java.util.Date;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import javax.ejb.EJB;
@@ -16,6 +18,7 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioCalendarioLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioCalendarioLocal;
 import sped.negocio.LNSF.IR.LN_C_SFUsuarioCalendarioRemote;
 import sped.negocio.Utils.Utiles;
+import sped.negocio.entidades.beans.BeanComboString;
 
 @Stateless(name = "LN_C_SFUsuarioCalendario", mappedName = "mapLN_C_SFUsuarioCalendario")
 public class LN_C_SFUsuarioCalendarioBean implements LN_C_SFUsuarioCalendarioRemote, 
