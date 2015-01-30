@@ -234,11 +234,13 @@ public class bGestionarUsuarios {
         }        
         b3.setText("1".compareTo(usuario.getEstadoUsuario()) == 0 ? "Anular" : "Activar");
         b2.setDisabled("1".compareTo(usuario.getEstadoUsuario()) == 0 ? false : true);
-        if(usuario.getRol().getNidRol() == 2 || usuario.getRol().getNidRol() == 4){//AREA || SEDE
-            btnEdiFec.setDisabled(false);
-            Utils.addTarget(btnEdiFec);
+        if(usuario.getRol().getNidRol() == 2 || usuario.getRol().getNidRol() == 4 
+        || usuario.getRol().getNidRol() == 7){//AREA || SEDE || DIRECTORA ACADEMICA
+            btnEdiFec.setDisabled(false);            
+        }else{ 
+            btnEdiFec.setDisabled(true);
         }
-        Utils.addTargetMany(b2, b3);
+        Utils.addTargetMany(b2, b3,btnEdiFec);
     }
 
     public void nuevoUsuario(ActionEvent actionEvent) {
