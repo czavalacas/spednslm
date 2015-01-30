@@ -222,9 +222,9 @@ public class LN_C_SFFichaCriterioBean implements LN_C_SFFichaCriterioRemote,
             double valorSBox = bdL_C_SFResultadoLocal.getValorResultadoByNidCriterioIndicador_Evaluacion(critIndi.getNidCriterioIndicador(),nidEvaluacion);
             tot = tot + new Double(valorSBox);
             crit.setSumaTotalIndicadores(tot);
-            if(valorSBox == 0.0){
+            /* if(valorSBox == 0.0){
                 valorSBox = -1.0;
-            }
+            } */
             crit.setValorSpinBox2(valorSBox);
             crit.setStrSpinBox(valorSBox+"");
             crit.setLstValoresPosibles(this.getLstValoresPosibles(critIndi.getNidCriterioIndicador()));
