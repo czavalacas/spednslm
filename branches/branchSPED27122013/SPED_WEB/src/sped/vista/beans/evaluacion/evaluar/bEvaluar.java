@@ -13,6 +13,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+
+import oracle.adf.view.rich.component.rich.RichPoll;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
@@ -21,6 +23,8 @@ import oracle.adf.view.rich.component.rich.nav.RichButton;
 import oracle.adf.view.rich.component.rich.output.RichActiveOutputText;
 import oracle.adf.view.rich.component.rich.output.RichMessages;
 import oracle.adf.view.rich.render.ClientEvent;
+
+import org.apache.myfaces.trinidad.event.PollEvent;
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 import org.apache.myfaces.trinidad.model.ChildPropertyTreeModel;
 import sped.negocio.LNSF.IL.LN_C_SFFichaCriterioLocal;
@@ -73,6 +77,7 @@ public class bEvaluar {
     private BeanUsuario usuario = (BeanUsuario) Utils.getSession("USER");
     private RichPopup popCerrar;
     private RichButton bverLey;
+    private RichPoll poEvaParc;
 
     public bEvaluar() {
     
@@ -96,7 +101,7 @@ public class bEvaluar {
         try {
             sessionEvaluar.setLstPlanificacionesXEvaluar(ln_C_SFEvaluacionRemote.getPlanificaciones_LN_WS(usuario.getRol().getNidRol(),
                                                                                                           usuario.getRol().getNidRol() == 4 ? usuario.getSede().getNidSede() : 0,
-                                                                                                          (usuario.getRol().getNidRol() == 2 || usuario.getRol().getNidRol() == 7) ? usuario.getAreaAcademica().getNidAreaAcademica() : 0,
+                                                                                                          (usuario.getRol().getNidRol() == 2 /*  || usuario.getRol().getNidRol() == 7 */) ? usuario.getAreaAcademica().getNidAreaAcademica() : 0,
                                                                                                           usuario.getNidUsuario(),
                                                                                                           null, 
                                                                                                           null,
@@ -154,6 +159,9 @@ public class bEvaluar {
     public void registrarEvaluacion(ActionEvent actionEvent) {
         String tipoFicha = getUsuario().getRol().getNidRol() == 4 ? "S" : (getUsuario().getRol().getNidRol() == 2 || getUsuario().getRol().getNidRol() == 7) ? "E" : "";
         int valoresFicha[] = ln_C_SFFichaLocal.getFichaToEvaluar(tipoFicha,sessionEvaluar.getPlanifSelect().getTipoFichaCurso());
+        sessionEvaluar.setFlgEvaluado(1);
+        poEvaParc.setInterval(61000);
+        Utils.addTarget(poEvaParc);
         if(valoresFicha != null){
             if(valoresFicha[0] != 0){
                 sessionEvaluar.setMaxValor(valoresFicha[1]);
@@ -385,6 +393,9 @@ public class bEvaluar {
                                                           "void grabarEvaluacion(ActionEvent actionEvent)",
                                                           "Error en el backing al registrar la Evaluacion "+e.getMessage()+" err: "+err,Utils.getStack(e));
         } finally {
+            sessionEvaluar.setFlgEvaluado(0);
+            poEvaParc.setInterval(-1);
+            Utils.addTarget(poEvaParc);
             if(reset){
                 resetearAfterGrabar();
                 if(popMsj != null){
@@ -540,6 +551,19 @@ public class bEvaluar {
         return resultValida;
     }
     
+    public void pollGrabarParcialEva(PollEvent pe) {
+        try {
+            if(sessionEvaluar.getFlgEvaluado() == 1){
+                Boolean[] resultValida = this.isOKParcial();
+                if(resultValida[0] == true){
+                    this.grabarEvaluacionParcialAux(resultValida[0]);
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();            
+        }
+    }
+
     public void resetearAfterGrabar(){
         sessionEvaluar.setVisiblePanelBoxPanelBoxFicha(false);
         sessionEvaluar.setPlanifSelect(null);
@@ -772,5 +796,13 @@ public class bEvaluar {
 
     public RichButton getBverLey() {
         return bverLey;
+    }
+
+    public void setPoEvaParc(RichPoll poEvaParc) {
+        this.poEvaParc = poEvaParc;
+    }
+
+    public RichPoll getPoEvaParc() {
+        return poEvaParc;
     }
 }

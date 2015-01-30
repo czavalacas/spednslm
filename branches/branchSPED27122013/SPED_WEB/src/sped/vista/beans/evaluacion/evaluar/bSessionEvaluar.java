@@ -23,6 +23,15 @@ public class bSessionEvaluar {
     private String temaEvaluacion;
     private String descLeyenda;
     private boolean renderBtnParcRegist;
+    private int flgEvaluado;
+
+    public void setFlgEvaluado(int flgEvaluado) {
+        this.flgEvaluado = flgEvaluado;
+    }
+
+    public int getFlgEvaluado() {
+        return flgEvaluado;
+    }
 
     public void setRenderBtnParcRegist(boolean renderBtnParcRegist) {
         this.renderBtnParcRegist = renderBtnParcRegist;

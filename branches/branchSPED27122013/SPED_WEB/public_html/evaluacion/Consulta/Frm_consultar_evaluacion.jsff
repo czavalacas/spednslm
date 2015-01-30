@@ -10,7 +10,7 @@
             <af:subform id="s1" binding="#{bConsultarEvaluacion.s1}" defaultCommand="::pc1:btnBuscar">
                 <af:panelFormLayout id="pfl7" rows="1" maxColumns="5" binding="#{bConsultarEvaluacion.pfl7}">
                     <af:showDetail disclosed="false" id="sd1" disclosedText="Fecha Planifiacion"
-                                   undisclosedText="Fecha Planifiacion" binding="#{bConsultarEvaluacion.sd1}">
+                                   undisclosedText="Fecha Planificacion" binding="#{bConsultarEvaluacion.sd1}">
                         <af:panelFormLayout id="pfl5" labelAlignment="start">
                             <af:inputDate label="Inicio" id="idfechaInicio" columns="8"
                                           value="#{sessionConsultarEvaluacion.fechaP}" labelStyle="text-align: left;"
@@ -24,7 +24,7 @@
                             </af:inputDate>
                         </af:panelFormLayout>
                     </af:showDetail>
-                    <af:showDetail disclosed="false" id="sd2" disclosedText="Fecha Evaluación"
+                    <af:showDetail disclosed="true" id="sd2" disclosedText="Fecha Evaluación"
                                    undisclosedText="Fecha Evaluación" binding="#{bConsultarEvaluacion.sd2}">
                         <af:panelFormLayout id="pfl6" labelAlignment="start">
                             <af:inputDate label="Inicio" id="idfechaEvaluacion" columns="8" autoSubmit="true"
