@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -117,6 +119,7 @@ public class bConsultarEvaluacion {
     private String comentarioProf;
     private String comentarioEvaluador;
     private String tema;
+    Calendar cal = new GregorianCalendar();
 
     public bConsultarEvaluacion() {
         
@@ -134,6 +137,9 @@ public class bConsultarEvaluacion {
             sessionConsultarEvaluacion.setLstGrado(Utils.llenarCombo(ln_C_SFUtilsRemote.getGrados_LN()));
             sessionConsultarEvaluacion.setLstEstadoEvaluacion(Utils.llenarComboString(ln_C_SFUtilsRemote.getEstadoEvaluacionFromConstraint()));            
             sessionConsultarEvaluacion.setItemProfesor(Utils.llenarListItem(ln_C_SFProfesorRemote.getNombreProfesor_LN()));
+            sessionConsultarEvaluacion.setFechaFf(Utils.removeTime(cal.getTime()));
+            cal.add(Calendar.MONTH, -1);
+            sessionConsultarEvaluacion.setFechaF(Utils.removeTime(cal.getTime()));
             llenarTabla();
         }
     }

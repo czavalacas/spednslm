@@ -166,6 +166,7 @@
                     </af:panelGroupLayout>
                 </f:facet>
             </af:panelSplitter>
+            
             <af:popup childCreation="deferred" autoCancel="disabled" id="popCmt" binding="#{bEvaluar.popCmt}">
                 <af:dialog type="okCancel" title="Ingresar el Comentario y/o el Tema de la Evaluacion">
                     <af:panelFormLayout>
@@ -196,5 +197,7 @@
                 </af:dialog>
             </af:popup>
         </af:panelGroupLayout>
+        <af:poll id="pollGrabarParcial" interval="61000" pollListener="#{bEvaluar.pollGrabarParcialEva}"
+                     immediate="true" binding="#{bEvaluar.poEvaParc}"/>
     </f:view>
 </ui:composition>
