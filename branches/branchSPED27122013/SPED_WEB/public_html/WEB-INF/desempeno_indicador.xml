@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="desempeno_indicador">
+    <default-activity>Frm_Desempeno_indicador</default-activity>
+    <view id="Frm_Desempeno_indicador">
+      <page>/evaluacion/Grafico_Reporte/Frm_Desempeno_indicador.jsff</page>
+    </view>
+    <use-page-fragments/>
+  </task-flow-definition>
+</adfc-config>

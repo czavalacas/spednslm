@@ -88,9 +88,9 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
         String desc = "";
         try{
             Object[] o = bdL_C_SFFichaLocal.getLastestFichaVersionByAttr_BDL(year,mes,tipFicha,tipFichaCurso);
+            String strMes = "";
             if(o != null){
                 int vers = 1;
-                String strMes = "";
                 if(o[0] != null){
                     vers = Integer.parseInt(o[0].toString()) + 1;
                 }
@@ -98,6 +98,8 @@ public class LN_C_SFFichaBean implements LN_C_SFFichaRemote,
                     strMes = "0"+mes;
                 }
                 desc = "v."+tipFicha+"."+tipFichaCurso+"."+year+"."+strMes+"."+vers;
+            }else{
+                desc = "v."+tipFicha+"."+tipFichaCurso+"."+year+"."+strMes+".1";
             }
             return desc;
         }catch(Exception e){

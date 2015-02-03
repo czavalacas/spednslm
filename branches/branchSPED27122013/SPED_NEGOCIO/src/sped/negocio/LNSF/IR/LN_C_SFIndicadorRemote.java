@@ -17,4 +17,5 @@ public interface LN_C_SFIndicadorRemote {
     List<BeanIndicador> getIndicadoresByDescripcion_LN(String Indicador);
     List getNombreIndicadores_LN();
     BeanIndicador getIndicadorByDescripcion(String descripcion);
+    List<Object[]> getNombreIndicadoresNew_LN();
 }

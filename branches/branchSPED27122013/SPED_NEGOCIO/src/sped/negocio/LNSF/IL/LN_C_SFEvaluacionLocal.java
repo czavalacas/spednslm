@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import sped.negocio.entidades.beans.BeanConsDesem;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanEvaluacionPlani;
@@ -97,4 +98,5 @@ public interface LN_C_SFEvaluacionLocal {
     double promedioGeneralPorFiltroDesempenoDocente(List<BeanEvaluacion_DP> listaEva_WS);
     double resultadoPromediodeIndicador(BeanFiltrosGraficos beanFiltros, Integer nidIndicador, String fechaHoy);
     List<BeanEvaluacion>getEvaluacionesEnRango(Date hoy, int nidMain);
+    List<BeanConsDesem> getConsultaDesempenoValores_LN(int nidIndicador,Integer nidNivel,Integer nidAreaAcad,Integer nidSede,Date fecMin,Date fecMax);
 }

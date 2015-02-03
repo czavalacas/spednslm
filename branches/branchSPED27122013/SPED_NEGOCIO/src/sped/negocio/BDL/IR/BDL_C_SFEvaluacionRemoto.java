@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import sped.negocio.entidades.admin.Constraint;
+import sped.negocio.entidades.beans.BeanConsDesem;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -55,4 +56,5 @@ public interface BDL_C_SFEvaluacionRemoto {
     int countNidProblema(int nidProblema);
     int countEvaluacionByNidMain(int nidMain);
     List<Evaluacion> getEvaluacionesEnrangoDeHoras(Date hoy, int nidMain);
+    List<Object[]> getConsultaDesempenoValores(int nidIndicador,Integer nidNivel,Integer nidAreaAcad,Integer nidSede,Date fecMin,Date fecMax);
 }
