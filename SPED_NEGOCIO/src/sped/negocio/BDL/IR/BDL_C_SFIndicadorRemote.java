@@ -14,4 +14,5 @@ public interface BDL_C_SFIndicadorRemote {
     List<Indicador> getIndicadoresByDescripcion(String Indicador);
     List getNombreIndicadores();
     Indicador getIndicadorByDescripcion(String descripcion);
+    List<Object[]> getNombreIndicadores_BDL();
 }

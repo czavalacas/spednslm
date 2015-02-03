@@ -14,12 +14,9 @@
                         <af:resource type="javascript">
                           function busquedaTecleando(evt) {
                               var valor = evt.getSource();
-                              //var val = valor.getSubmittedValue(); 
-                              //alert('valor: '+val);
+                              //var val = valor.getSubmittedValue();
                               AdfCustomEvent.queue(valor, "teclaEvento", 
-                              {
-                                  fvalue : valor.getSubmittedValue()
-                              },false);
+                              {fvalue : valor.getSubmittedValue()},false);
                               evt.cancel();
                           }
                         </af:resource>

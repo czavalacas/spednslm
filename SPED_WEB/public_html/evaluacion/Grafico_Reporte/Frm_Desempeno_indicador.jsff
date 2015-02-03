@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <f:view>
+        <af:panelGroupLayout layout="scroll" id="pgl1">
+        <af:resource type="javascript">
+          function handleKeyUpOnSuggestField(evt){
+                    // start the popup aligned to the component that launched it
+                    suggestPopup = evt.getSource().findComponent("suggestPopup");                    
+                    inputField = evt.getSource();                 
+                    
+                    //don't open when user "tabs" into field
+                    if (suggestPopup.isShowing() == false &amp;&amp;
+                        evt.getKeyCode()!= AdfKeyStroke.TAB_KEY){
+                      hints = {align:AdfRichPopup.ALIGN_AFTER_START, alignId:evt.getSource().getClientId()+"::content"};
+                      suggestPopup.show(hints);
+                      //disable popup hide to avoid popup to flicker on 
+                      //key press                    
+                      suggestPopup.hide = function(){}
+                    }
+                    
+                    //suppress server access for the following keys
+                    //for better performance
+                    if (evt.getKeyCode() == AdfKeyStroke.ARROWLEFT_KEY ||
+                        evt.getKeyCode() == AdfKeyStroke.ARROWRIGHT_KEY ||
+                        evt.getKeyCode() == AdfKeyStroke.ARROWDOWN_KEY ||
+                        evt.getKeyCode() == AdfKeyStroke.SHIFT_MASK ||
+                        evt.getKeyCode() == AdfKeyStroke.END_KEY ||
+                        evt.getKeyCode() == AdfKeyStroke.ALT_KEY ||
+                        evt.getKeyCode() == AdfKeyStroke.HOME_KEY) {
+                        return false;
+                    }
+                    
+                    if (evt.getKeyCode() == AdfKeyStroke.ESC_KEY){
+                        hidePopup(evt);
+                        return false;
+                    }
+                                                            
+                    // get the user typed values
+                    valueStr = inputField.getSubmittedValue();
+                    // query suggest list on the server
+                    AdfCustomEvent.queue(suggestPopup,"suggestServerListener",
+                                          // Send single parameter
+                                         {filterString:valueStr},true);                    
+                    // put focus back to the input text field
+                    setTimeout("inputField.focus();",400);
+                }
+                
+                //TAB and ARROW DOWN keys navigate to the suggest popup
+                //we need to handle this in the key down event as otherwise
+                //the TAB doesn't work
+                function handleKeyDownOnSuggestField(evt){                
+                if (evt.getKeyCode() == AdfKeyStroke.ARROWDOWN_KEY) {                    
+                          selectList   = evt.getSource().findComponent("indlist");                        
+                          selectList.focus();
+                          return false;
+                    }
+                    else{
+                        return false;
+                    }                    
+                }
+                
+                //method called when pressing a key or a mouse button
+                //on the list
+                function handleListSelection(evt){
+                 if(evt.getKeyCode() == AdfKeyStroke.ENTER_KEY ||
+                    evt.getType() == AdfUIInputEvent.CLICK_EVENT_TYPE){                                           
+                       var list = evt.getSource();
+                       evt.cancel(); 
+                       var listValue = list.getProperty("value");
+                       hidePopup(evt);
+                       AdfCustomEvent.queue(suggestPopup,"mandarValorSeleccionadoServerListener", {subValue:listValue},true);
+                       /*inputField = evt.getSource().findComponent("itInd");
+                       inputField.setValue(listLabel); */
+                  }
+                  //cancel dialog
+                  else if (evt.getKeyCode() == AdfKeyStroke.ESC_KEY){
+                    hidePopup(evt);
+                 }
+                }
+                
+                //function that re-implements the node functionality for the 
+                //popup to then call it
+                function hidePopup(evt){
+                    var suggestPopup = evt.getSource().findComponent("suggestPopup");
+                    //re-implement close functionality
+                    suggestPopup.hide = AdfRichPopup.prototype.hide;
+                    suggestPopup.hide();
+                }
+        </af:resource>
+            <af:panelGridLayout id="pgl2">
+                <af:gridRow marginTop="5px" height="auto" id="gr1">
+                    <af:gridCell marginStart="5px" width="34%" id="gc1">
+                       <af:inputText label="Indicador " id="itInd" labelStyle="text-align: left;"
+                                     value="#{sessionDesempenoIndicador.indicador}"
+                                     binding="#{bDesempenoIndicador.itInd}" columns="50" rows="4">
+                         <af:clientListener method="handleKeyUpOnSuggestField" type="keyUp"/>
+                         <af:clientListener method="handleKeyDownOnSuggestField" type="keyDown"/>
+                       </af:inputText>
+                    <af:popup id="suggestPopup" contentDelivery="immediate" animate="false" clientComponent="true">
+                        <af:selectOneListbox id="indlist" contentStyle="width: 350px;"
+                                             size="5" valuePassThru="true" binding="#{bDesempenoIndicador.indlist}">
+                           <f:selectItems value="#{bDesempenoIndicador.indisList}"/>               
+                           <af:clientListener method="handleListSelection" type="keyUp"/>
+                           <af:clientListener method="handleListSelection" type="click"/>
+                        </af:selectOneListbox>                    
+                        <af:serverListener type="suggestServerListener"
+                                           method="#{bDesempenoIndicador.doFilterList}"/>
+                        <af:serverListener type="mandarValorSeleccionadoServerListener"
+                                           method="#{bDesempenoIndicador.busquedaConTecla}"/>
+                    </af:popup>
+                    </af:gridCell>
+                    <af:gridCell marginStart="1px" width="33%" id="gc2">
+                       <af:selectOneChoice label="Sede" id="smc1"
+                                           value="#{sessionDesempenoIndicador.nidSede}"
+                                           autoSubmit="true" unselectedLabel="::Seleccionar Sede::"
+                                           disabled="#{sessionScope.sessionDesempenoIndicador.estadoChoiceSede}">
+                            <f:selectItems value="#{sessionDesempenoIndicador.listaSedesFiltro}" id="si1"/>
+                        </af:selectOneChoice>
+                    </af:gridCell>
+                    <af:gridCell marginStart="1px" width="33%" marginEnd="5px" id="gc3">
+                       <af:selectOneChoice label="Nivel" id="smc2" autoSubmit="true"
+                                           value="#{sessionDesempenoIndicador.nidNivele}"
+                                           unselectedLabel="::Seleccionar Nivel::">
+                            <f:selectItems value="#{sessionDesempenoIndicador.listaNivelesFiltro}" id="si2"/>
+                        </af:selectOneChoice>
+                    </af:gridCell>
+                </af:gridRow>
+                <af:gridRow marginTop="1px" height="auto" marginBottom="5px" id="gr2">
+                    <af:gridCell marginStart="5px" width="34%" id="gc4">
+                       <af:selectOneChoice label="Area" id="smc3" autoSubmit="true"
+                                           value="#{sessionDesempenoIndicador.nidArea}"
+                                           unselectedLabel="::Seleccionar Area::">
+                            <f:selectItems value="#{sessionDesempenoIndicador.listaAreasFiltro}" id="si3"/>
+                        </af:selectOneChoice>
+                    </af:gridCell>
+                    <af:gridCell marginStart="1px" width="33%" id="gc5">
+                       <af:inputDate label="Inicio" id="id1" autoSubmit="true" value="#{sessionScope.sessionDesempenoIndicador.fechaInicio}">
+                            <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </af:inputDate>
+                    </af:gridCell>
+                    <af:gridCell marginStart="1px" width="33%" marginEnd="5px" id="gc6">
+                       <af:inputDate label="Fin" id="id2" autoSubmit="true" value="#{sessionScope.sessionDesempenoIndicador.fechaFin}">
+                            <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                        </af:inputDate>
+                    </af:gridCell>
+                </af:gridRow>
+            </af:panelGridLayout>
+            <af:spacer width="10" height="10"/>
+            <af:button text="Buscar" id="btnBuscar" actionListener="#{bDesempenoIndicador.buscarInforPieIndicadores}"/>
+            <af:spacer width="10" height="10"/>
+            <af:carousel id="carPies" value="#{sessionScope.sessionDesempenoIndicador.lstGrafPies}" var="item"
+                         binding="#{bDesempenoIndicador.carPies}" inlineStyle="height:450px;width:900px">
+                <f:facet name="nodeStamp">
+                    <af:carouselItem id="crslItem"  text="#{item.descFicha}" shortDesc="#{item.nidFicha}">
+                       <dvt:pieGraph subType="RING"
+                                     tabularData="#{item.lstVals}"
+                                     hideAndShowBehavior="withRescale" contentDelivery="immediate" shortDesc="Grafico Pie"
+                                     emptyText="No hay ningún dato que mostrar">
+                            <dvt:background>
+                                <dvt:specialEffects/>
+                            </dvt:background>
+                            <dvt:graphPieFrame/>
+                            <dvt:seriesSet>
+                                <dvt:series/>
+                            </dvt:seriesSet>
+                            <dvt:sliceLabel/>
+                            <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
+                            <dvt:pieLabel rendered="true"/>
+                       </dvt:pieGraph>
+                    </af:carouselItem>
+                </f:facet>
+            </af:carousel>
+
+        </af:panelGroupLayout>
+    </f:view>
+</ui:composition>

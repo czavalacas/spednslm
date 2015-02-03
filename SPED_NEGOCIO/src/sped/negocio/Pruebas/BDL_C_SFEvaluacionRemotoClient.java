@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
+import sped.negocio.entidades.beans.BeanConsDesem;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanProfesor;
@@ -41,7 +42,7 @@ public class BDL_C_SFEvaluacionRemotoClient {
             }
              System.out.println();
        */
-            BeanEvaluacion bean = new BeanEvaluacion();
+            /* BeanEvaluacion bean = new BeanEvaluacion();
             BeanProfesor prof = new BeanProfesor();
             prof.setDniProfesor("12344321");
             BeanMain main=new BeanMain();
@@ -51,7 +52,7 @@ public class BDL_C_SFEvaluacionRemotoClient {
             for(Evaluacion entida: lstevas){
                 System.out.println(entida.getStartDate()+ " - "+new Date());
             }
-            System.out.println(lstevas.size());  
+            System.out.println(lstevas.size());   */
         } catch (CommunicationException ex) {
             System.out.println(ex.getClass().getName());
             System.out.println(ex.getRootCause().getLocalizedMessage());
