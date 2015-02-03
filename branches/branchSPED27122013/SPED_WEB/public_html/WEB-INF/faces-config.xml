@@ -364,4 +364,19 @@
     <validator-id>restricionHorasCantidad</validator-id>
     <validator-class>sped.vista.Utils.Validators.restricionHorasCantidad</validator-class>
   </validator>
+  <managed-bean>
+    <managed-bean-name>bDesempenoIndicador</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.grafico_reporte.bDesempenoIndicador</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>sessionDesempenoIndicador</property-name>
+      <property-class>sped.vista.beans.evaluacion.grafico_reporte.bSessionDesempenoIndicador</property-class>
+      <value>#{sessionDesempenoIndicador}</value>
+    </managed-property>
+  </managed-bean>
+  <managed-bean>
+    <managed-bean-name>sessionDesempenoIndicador</managed-bean-name>
+    <managed-bean-class>sped.vista.beans.evaluacion.grafico_reporte.bSessionDesempenoIndicador</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
 </faces-config>

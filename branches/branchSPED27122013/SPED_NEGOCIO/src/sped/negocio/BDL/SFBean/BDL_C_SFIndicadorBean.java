@@ -23,7 +23,7 @@ import sped.negocio.entidades.eval.Indicador;
 
 @Stateless(name = "BDL_C_SFIndicador", mappedName = "mapBDL_C_SFIndicador")
 public class BDL_C_SFIndicadorBean implements BDL_C_SFIndicadorRemote, 
-                                                 BDL_C_SFIndicadorLocal {
+                                              BDL_C_SFIndicadorLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -98,6 +98,17 @@ public class BDL_C_SFIndicadorBean implements BDL_C_SFIndicadorRemote,
         }
     }
     
+    public List<Object[]> getNombreIndicadores_BDL(){
+        try{
+            String ejbQl = " SELECT indi.nidIndicador,indi.descripcionIndicador" +
+                           " FROM Indicador indi " +
+                           " ORDER BY indi.descripcionIndicador ASC";   
+            return em.createQuery(ejbQl).getResultList();
+        }catch(Exception e){
+            return null;
+        }
+    }
+    
     public Indicador getIndicadorByDescripcion(String descripcion) {
         try{
             String ejbQl = " SELECT ind " +
@@ -109,6 +120,5 @@ public class BDL_C_SFIndicadorBean implements BDL_C_SFIndicadorRemote,
             e.printStackTrace();  
             return null;
         }   
-        }
-    
+    }
 }

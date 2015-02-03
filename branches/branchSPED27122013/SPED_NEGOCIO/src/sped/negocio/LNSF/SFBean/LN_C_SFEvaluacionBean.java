@@ -1,11 +1,14 @@
 package sped.negocio.LNSF.SFBean;
 
+import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -30,6 +33,8 @@ import sped.negocio.LNSF.IR.LN_C_SFEvaluacionRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
 import sped.negocio.entidades.admin.Usuario;
+import sped.negocio.entidades.beans.BeanCalendario;
+import sped.negocio.entidades.beans.BeanConsDesem;
 import sped.negocio.entidades.beans.BeanConstraint;
 import sped.negocio.entidades.beans.BeanCriterioWS;
 import sped.negocio.entidades.beans.BeanEvaluacion;
@@ -756,5 +761,49 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
         bean.setTemaEvaluacion(eva.getTemaEvaluacion());
         bean.setNotificacionEvaluadorComentarioProfesor(eva.getNotificacionEvaluadorComentarioProfesor());
         return bean;
+    }
+    
+    public List<BeanConsDesem> getConsultaDesempenoValores_LN(int nidIndicador,Integer nidNivel,Integer nidAreaAcad,Integer nidSede,Date fecMin,Date fecMax){
+        List<Object[]> c = bdL_C_SFEvaluacionLocal.getConsultaDesempenoValores(nidIndicador,nidNivel, nidAreaAcad, nidSede, fecMin, fecMax);
+        Iterator it = c.iterator();
+        List<BeanConsDesem> lstCons = new ArrayList<BeanConsDesem>();
+        int nidFicha = 0;
+        while(it.hasNext()){
+            Object[] b = (Object[]) it.next();
+            float val = (Float) b[1];
+            double v = val;
+            BigDecimal bd = (BigDecimal) b[5];
+            if(nidFicha != (Integer) b[2]){
+                nidFicha = (Integer) b[2];
+                BeanConsDesem bc = new BeanConsDesem();
+                bc.setNidFicha(nidFicha);
+                bc.setNidIndicador( (Integer) b[0]);
+                bc.setDescFicha((String) b[3]);
+                Object[] obj1 = { bc.getDescFicha(),v, bd.doubleValue()};
+                bc.getLstVals().add(obj1);
+                lstCons.add(bc);
+            }else{
+                Object[] obj1 = { (String) b[3],v, bd.doubleValue()};
+                BeanConsDesem o = this.getConsDesem(nidFicha, lstCons);
+                o.getLstVals().add(obj1);
+            }
+        }
+        c = null;
+        return lstCons;
+    }
+    
+    public BeanConsDesem getConsDesem(int nidFicha,List<BeanConsDesem> lstCons){
+        if(lstCons != null){
+            Iterator it = lstCons.iterator();
+            BeanConsDesem o = null;
+            while(it.hasNext()){    
+                o = (BeanConsDesem) it.next();
+                if(nidFicha == o.getNidFicha().intValue()){
+                    return o;
+                }
+            }
+            return null;
+        }
+        return null;
     }
 }

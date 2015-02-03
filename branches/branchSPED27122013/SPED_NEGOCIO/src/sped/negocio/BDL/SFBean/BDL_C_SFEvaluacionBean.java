@@ -19,6 +19,7 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFEvaluacionRemoto;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Constraint;
+import sped.negocio.entidades.beans.BeanConsDesem;
 import sped.negocio.entidades.beans.BeanEvaluacion;
 import sped.negocio.entidades.beans.BeanFiltrosGraficos;
 import sped.negocio.entidades.beans.BeanUsuario;
@@ -964,6 +965,66 @@ public class BDL_C_SFEvaluacionBean implements BDL_C_SFEvaluacionRemoto,
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    public List<Object[]> getConsultaDesempenoValores(int nidIndicador,Integer nidNivel,Integer nidAreaAcad,Integer nidSede,Date fecMin,Date fecMax){
+        try {
+           String qlString = "select c.nidIndicador,\n" + 
+                             "       r.valor,\n" + 
+                             "       c.nidFicha,\n" + 
+                             "       Concat((Select k.descripcion from evmfich f, admcons k where k.tabla = 'evmfich' And k.campo = 'tipo_ficha' And f.tipo_ficha = k.valor And f.nidFicha = c.nidFicha),' - ',\n" + 
+                             "              (Select k.descripcion from evmfich f, admcons k where k.tabla = 'evmfich' And k.campo = 'tipo_ficha_curso' And f.tipo_ficha_curso = k.valor And f.nidFicha = c.nidFicha))\n" + 
+                             "       ,Count(1),\n" + 
+                             "       (Count(1) / (select Count(1)\n" + 
+                             "			    From evdcrin z,\n" + 
+                             "			         evdresu r,\n" + 
+                             "			         evmeval e,\n" + 
+                             "			         addmain m,\n" + 
+                             "			         admcurs cu,\n" + 
+                             "			         admaula a\n" + 
+                             "			  Where z.nidCriterioIndicador = r.nidCriterioIndicador\n" + 
+                             "			    And z.nidIndicador = ? \n" + 
+                             "                      And e.estado_evaluacion = 'EJECUTADO'\n" + 
+                             "                      And z.nidFicha = c.nidFicha\n" + 
+                             "                      And r.nidEvaluacion     = e.nidEvaluacion\n" + 
+                             "			    And e.nidMain           = m.nidMain\n" + 
+                             "			    And m.nidCurso          = cu.nidCurso\n" + 
+                             "			    And m.nidAula           = a.nidAula\n" + 
+                             "			    And a.nidNivel          = IfNull(?,a.nidNivel) \n" + 
+                             "			    And cu.nidAreaAcademica = IfNull(?,cu.nidAreaAcademica)\n" + 
+                             "			    And r.nidSede           = IfNull(?,r.nidSede)\n" + 
+                             "			    And e.fecha_evaluacion Between ? And ? ) ) * 100 \n" + 
+                             "  from evdcrin c,\n" + 
+                             "       evdresu r,\n" + 
+                             "       evmeval e,\n" + 
+                             "	     addmain m,\n" + 
+                             "	     admcurs cu,\n" + 
+                             "       admaula a\n" + 
+                             "  Where c.nidCriterioIndicador = r.nidCriterioIndicador\n" + 
+                             "    And c.nidIndicador      = ? \n" + 
+                             "    And e.estado_evaluacion = 'EJECUTADO' \n" + 
+                             "    And r.nidEvaluacion     = e.nidEvaluacion\n" + 
+                             "    And e.nidMain           = m.nidMain\n" + 
+                             "    And m.nidCurso          = cu.nidCurso\n" + 
+                             "    And m.nidAula           = a.nidAula\n" + 
+                             "    And a.nidNivel          = IfNull(?,a.nidNivel) \n" + 
+                             "    And cu.nidAreaAcademica = IfNull(?,cu.nidAreaAcademica) \n" + 
+                             "    And r.nidSede           = IfNull(?,r.nidSede)\n" + 
+                             "    And e.fecha_evaluacion Between ? And ? \n" + 
+                             "  Group By r.valor,c.nidFicha\n" + 
+                             "  Order By c.nidFicha ";
+            return em.createNativeQuery(qlString).setParameter(1, nidIndicador).setParameter(7, nidIndicador).
+                      setParameter(2, nidNivel).setParameter(8, nidNivel).
+                      setParameter(3, nidAreaAcad).setParameter(9, nidAreaAcad).
+                      setParameter(4, nidSede).setParameter(10, nidSede).
+                      setParameter(5, fecMin, TemporalType.DATE).
+                      setParameter(6, fecMax, TemporalType.DATE).
+                      setParameter(11, fecMin, TemporalType.DATE).
+                      setParameter(12, fecMax, TemporalType.DATE).getResultList();
+       } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<Object[]>();
         }
     }
 }

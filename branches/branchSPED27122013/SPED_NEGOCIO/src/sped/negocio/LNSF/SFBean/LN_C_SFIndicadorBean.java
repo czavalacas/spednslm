@@ -27,7 +27,7 @@ import sped.negocio.entidades.eval.Indicador;
 
 @Stateless(name = "LN_C_SFIndicador", mappedName = "mapLN_C_SFIndicador")
 public class LN_C_SFIndicadorBean implements LN_C_SFIndicadorRemote,
-                                                LN_C_SFIndicadorLocal {
+                                             LN_C_SFIndicadorLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
@@ -98,6 +98,11 @@ public class LN_C_SFIndicadorBean implements LN_C_SFIndicadorRemote,
     public List getNombreIndicadores_LN(){
         return bdL_C_SFIndicadorLocal.getNombreIndicadores();
     }
+    
+    public List<Object[]> getNombreIndicadoresNew_LN(){
+        return bdL_C_SFIndicadorLocal.getNombreIndicadores_BDL();
+    }
+    
     public BeanIndicador getIndicadorByDescripcion(String descripcion){
         Indicador indicador=bdL_C_SFIndicadorLocal.getIndicadorByDescripcion(descripcion);
         BeanIndicador beanIndi=new BeanIndicador();

@@ -74,11 +74,16 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
                               " AND f.tipoFicha = :tipFicha " +
                               " AND f.tipoFichaCurso = :tipFichaCurso " +
                               " GROUP BY f.descripcionVersion ";
-            return (Object[]) em.createQuery(qlString).setParameter("year",year).
+            List<Object[]> obj = (ArrayList<Object[]>) em.createQuery(qlString).setParameter("year",year).
                                                         setParameter("mes",mes).
                                                         setParameter("tipFicha",tipFicha).
                                                         setParameter("tipFichaCurso",tipFichaCurso).
-                                                        getSingleResult();
+                                                        getResultList();
+            if(obj != null){
+                return obj.get(0);
+            }else{
+                return null;
+            }
         }catch(Exception e){
             e.printStackTrace();
             return null;

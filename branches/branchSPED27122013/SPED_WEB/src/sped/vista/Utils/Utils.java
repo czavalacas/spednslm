@@ -396,6 +396,14 @@ public class Utils {
         return items;
     }
     
+    public static List<SelectItem> llenarListItemAux(List<Object[]> lst){
+        List<SelectItem> lstItems  = new ArrayList<SelectItem>();
+        for(Object[] dato : lst){
+            lstItems.add(new SelectItem(dato[0].toString(),dato[1].toString()));
+        }
+        return lstItems;
+    }
+    
     public static String rutaImagenes(){
         String rutaLocal = "";
         FacesContext ctx = FacesContext.getCurrentInstance();
