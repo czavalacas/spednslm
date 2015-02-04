@@ -163,7 +163,7 @@
             </div>
             <!-- <a href="javascript: void(0);" onclick="hola();">Click</a> #{sessionScope.sessionMain.verNotificaciones}-->
             <af:poll id="p2" immediate="true" pollListener="#{bMain.getNumeroNotificacionesAll}"
-                     rendered="false"/>
+                     rendered="false" interval="-1"/>
         </af:form>
     </af:document>
 </f:view>
