@@ -152,9 +152,8 @@
                 </af:gridRow>
             </af:panelGridLayout>
             <af:spacer width="10" height="10"/>
-            <af:button text="Buscar" id="btnBuscar" actionListener="#{bDesempenoIndicador.buscarInforPieIndicadores}"/>
-            <af:spacer width="10" height="10"/>
-        <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="100px" bottomHeight="33%">
+
+            <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="100px" bottomHeight="33%">
                 <f:facet name="center">
                     <af:panelGroupLayout halign="center" layout="vertical">
                         <af:carousel id="carPies" value="#{sessionDesempenoIndicador.lstGrafPies}" var="item"
@@ -185,7 +184,9 @@
                     <af:panelGroupLayout id="pgl5"/>
                 </f:facet>
                 <f:facet name="top">
-                    <af:panelGroupLayout id="pgl4"/>
+                    <af:panelGroupLayout id="pgl4" halign="center" layout="vertical">
+                       <af:button text="Buscar" id="btnBuscar" actionListener="#{bDesempenoIndicador.buscarInforPieIndicadores}"/>
+                    </af:panelGroupLayout>
                 </f:facet>
             </af:panelStretchLayout>
         </af:panelGroupLayout>
