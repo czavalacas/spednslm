@@ -166,7 +166,7 @@
                                                  hideAndShowBehavior="withRescale" contentDelivery="immediate" shortDesc="Grafico Pie"
                                                  emptyText="No hay ningún dato que mostrar" inlineStyle="height:480px;"
                                                  seriesRolloverBehavior="RB_HIGHLIGHT"
-                                                 markerTooltipType="MTT_PERCENT_VAL_TEXT">
+                                                 markerTooltipType="MTT_PERCENT_VAL_TEXT" dataSelection="single">
                                         <dvt:background>
                                             <dvt:specialEffects/>
                                         </dvt:background>
