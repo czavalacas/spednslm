@@ -1,10 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
-                xmlns:f="http://java.sun.com/jsf/core" xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces">
     <f:view>
         <af:panelGroupLayout layout="scroll" id="pgl1">
-        <af:resource type="javascript">
+            <af:resource type="javascript">
           function handleKeyUpOnSuggestField(evt){
                     // start the popup aligned to the component that launched it
                     suggestPopup = evt.getSource().findComponent("suggestPopup");                    
@@ -88,13 +87,14 @@
                     suggestPopup.hide = AdfRichPopup.prototype.hide;
                     suggestPopup.hide();
                 }
-        </af:resource>
+        </af:resource> 
             <af:panelGridLayout id="pgl2">
                 <af:gridRow marginTop="5px" height="auto" id="gr1">
-                    <af:gridCell marginStart="5px" width="34%" id="gc1">
+                    <af:gridCell marginStart="5px" width="67%" id="gc1">
                        <af:inputText label="Indicador " id="itInd" labelStyle="text-align: left;"
-                                     value="#{sessionDesempenoIndicador.indicador}"
-                                     binding="#{bDesempenoIndicador.itInd}" columns="50" rows="4">
+                                     value="#{sessionDesempenoIndicador.indicador}" autoSubmit="true"
+                                     binding="#{bDesempenoIndicador.itInd}" rows="4"
+                                     dimensionsFrom="auto" columns="80">
                          <af:clientListener method="handleKeyUpOnSuggestField" type="keyUp"/>
                          <af:clientListener method="handleKeyDownOnSuggestField" type="keyDown"/>
                        </af:inputText>
@@ -111,37 +111,41 @@
                                            method="#{bDesempenoIndicador.busquedaConTecla}"/>
                     </af:popup>
                     </af:gridCell>
-                    <af:gridCell marginStart="1px" width="33%" id="gc2">
-                       <af:selectOneChoice label="Sede" id="smc1"
-                                           value="#{sessionDesempenoIndicador.nidSede}"
-                                           autoSubmit="true" unselectedLabel="::Seleccionar Sede::"
-                                           disabled="#{sessionScope.sessionDesempenoIndicador.estadoChoiceSede}">
-                            <f:selectItems value="#{sessionDesempenoIndicador.listaSedesFiltro}" id="si1"/>
-                        </af:selectOneChoice>
-                    </af:gridCell>
+                    
                     <af:gridCell marginStart="1px" width="33%" marginEnd="5px" id="gc3">
-                       <af:selectOneChoice label="Nivel" id="smc2" autoSubmit="true"
+                       <af:selectOneChoice label="Nivel" id="smcNivel" autoSubmit="true"
                                            value="#{sessionDesempenoIndicador.nidNivele}"
-                                           unselectedLabel="::Seleccionar Nivel::">
+                                           unselectedLabel="::Seleccionar Nivel::" labelStyle="text-align: left;"
+                                           binding="#{bDesempenoIndicador.smcNivel}">
                             <f:selectItems value="#{sessionDesempenoIndicador.listaNivelesFiltro}" id="si2"/>
                         </af:selectOneChoice>
                     </af:gridCell>
                 </af:gridRow>
+             </af:panelGridLayout>
+            <af:panelGridLayout id="pgl3">
                 <af:gridRow marginTop="1px" height="auto" marginBottom="5px" id="gr2">
                     <af:gridCell marginStart="5px" width="34%" id="gc4">
                        <af:selectOneChoice label="Area" id="smc3" autoSubmit="true"
                                            value="#{sessionDesempenoIndicador.nidArea}"
-                                           unselectedLabel="::Seleccionar Area::">
+                                           unselectedLabel="::Seleccionar Area::" labelStyle="text-align: left;">
                             <f:selectItems value="#{sessionDesempenoIndicador.listaAreasFiltro}" id="si3"/>
                         </af:selectOneChoice>
                     </af:gridCell>
+                    <af:gridCell marginStart="1px" width="33%" id="gc2">
+                       <af:selectOneChoice label="Sede" id="smc1" labelStyle="text-align: left;"
+                                           value="#{sessionDesempenoIndicador.nidSede}"
+                                           autoSubmit="true" unselectedLabel="::Seleccionar Sede::"
+                                           disabled="#{sessionDesempenoIndicador.estadoChoiceSede}">
+                            <f:selectItems value="#{sessionDesempenoIndicador.listaSedesFiltro}" id="si1"/>
+                        </af:selectOneChoice>
+                    </af:gridCell>
                     <af:gridCell marginStart="1px" width="33%" id="gc5">
-                       <af:inputDate label="Inicio" id="id1" autoSubmit="true" value="#{sessionScope.sessionDesempenoIndicador.fechaInicio}">
+                       <af:inputDate label="Inicio" id="id1" autoSubmit="true" value="#{sessionDesempenoIndicador.fechaInicio}">
                             <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                         </af:inputDate>
                     </af:gridCell>
                     <af:gridCell marginStart="1px" width="33%" marginEnd="5px" id="gc6">
-                       <af:inputDate label="Fin" id="id2" autoSubmit="true" value="#{sessionScope.sessionDesempenoIndicador.fechaFin}">
+                       <af:inputDate label="Fin" id="id2" autoSubmit="true" value="#{sessionDesempenoIndicador.fechaFin}">
                             <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                         </af:inputDate>
                     </af:gridCell>
@@ -150,29 +154,40 @@
             <af:spacer width="10" height="10"/>
             <af:button text="Buscar" id="btnBuscar" actionListener="#{bDesempenoIndicador.buscarInforPieIndicadores}"/>
             <af:spacer width="10" height="10"/>
-            <af:carousel id="carPies" value="#{sessionScope.sessionDesempenoIndicador.lstGrafPies}" var="item"
-                         binding="#{bDesempenoIndicador.carPies}" inlineStyle="height:450px;width:900px">
-                <f:facet name="nodeStamp">
-                    <af:carouselItem id="crslItem"  text="#{item.descFicha}" shortDesc="#{item.nidFicha}">
-                       <dvt:pieGraph subType="RING"
-                                     tabularData="#{item.lstVals}"
-                                     hideAndShowBehavior="withRescale" contentDelivery="immediate" shortDesc="Grafico Pie"
-                                     emptyText="No hay ningún dato que mostrar">
-                            <dvt:background>
-                                <dvt:specialEffects/>
-                            </dvt:background>
-                            <dvt:graphPieFrame/>
-                            <dvt:seriesSet>
-                                <dvt:series/>
-                            </dvt:seriesSet>
-                            <dvt:sliceLabel/>
-                            <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
-                            <dvt:pieLabel rendered="true"/>
-                       </dvt:pieGraph>
-                    </af:carouselItem>
+        <af:panelStretchLayout id="psl1" startWidth="33%" endWidth="33%" topHeight="100px" bottomHeight="33%">
+                <f:facet name="center">
+                    <af:panelGroupLayout halign="center" layout="vertical">
+                        <af:carousel id="carPies" value="#{sessionDesempenoIndicador.lstGrafPies}" var="item"
+                                     binding="#{bDesempenoIndicador.carPies}" inlineStyle="height:450px;width:900px">
+                            <f:facet name="nodeStamp">
+                                <af:carouselItem id="crslItem"  text="#{item.descFicha}" shortDesc="#{item.nidFicha}">
+                                   <dvt:pieGraph subType="RING"
+                                                 tabularData="#{item.lstVals}"
+                                                 hideAndShowBehavior="withRescale" contentDelivery="immediate" shortDesc="Grafico Pie"
+                                                 emptyText="No hay ningún dato que mostrar">
+                                        <dvt:background>
+                                            <dvt:specialEffects/>
+                                        </dvt:background>
+                                        <dvt:graphPieFrame/>
+                                        <dvt:seriesSet>
+                                            <dvt:series/>
+                                        </dvt:seriesSet>
+                                        <dvt:sliceLabel/>
+                                        <dvt:legendArea automaticPlacement="AP_ALWAYS" position="LAP_TOP"/>
+                                        <dvt:pieLabel rendered="true"/>
+                                   </dvt:pieGraph>
+                                </af:carouselItem>
+                            </f:facet>
+                        </af:carousel>
+                    </af:panelGroupLayout>
                 </f:facet>
-            </af:carousel>
-
+                <f:facet name="bottom">
+                    <af:panelGroupLayout id="pgl5"/>
+                </f:facet>
+                <f:facet name="top">
+                    <af:panelGroupLayout id="pgl4"/>
+                </f:facet>
+            </af:panelStretchLayout>
         </af:panelGroupLayout>
     </f:view>
 </ui:composition>
