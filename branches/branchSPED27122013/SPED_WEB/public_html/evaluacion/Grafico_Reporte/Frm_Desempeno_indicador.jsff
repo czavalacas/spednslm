@@ -140,12 +140,13 @@
                         </af:selectOneChoice>
                     </af:gridCell>
                     <af:gridCell marginStart="1px" width="33%" id="gc5">
-                       <af:inputDate label="Inicio" id="id1" autoSubmit="true" value="#{sessionDesempenoIndicador.fechaInicio}">
+                       <af:inputDate label="Inicio" id="id1" autoSubmit="true" value="#{sessionDesempenoIndicador.fechaInicio}"
+                                     columns="8">
                             <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                         </af:inputDate>
                     </af:gridCell>
                     <af:gridCell marginStart="1px" width="33%" marginEnd="5px" id="gc6">
-                       <af:inputDate label="Fin" id="id2" autoSubmit="true" value="#{sessionDesempenoIndicador.fechaFin}">
+                       <af:inputDate label="Fin" id="id2" autoSubmit="true" columns="8" value="#{sessionDesempenoIndicador.fechaFin}">
                             <af:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                         </af:inputDate>
                     </af:gridCell>
