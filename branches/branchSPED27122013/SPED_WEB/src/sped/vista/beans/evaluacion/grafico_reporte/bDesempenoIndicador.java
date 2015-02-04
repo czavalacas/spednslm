@@ -10,10 +10,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import oracle.adf.view.rich.component.rich.data.RichCarousel;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
+import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneListbox;
 import oracle.adf.view.rich.component.rich.layout.RichPanelDashboard;
 import oracle.adf.view.rich.context.AdfFacesContext;
@@ -42,6 +44,7 @@ public class bDesempenoIndicador {
     private RichSelectOneListbox indlist;
     private RichCarousel carPies;
     Calendar cal= new GregorianCalendar();
+    private RichSelectOneChoice smcNivel;
 
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
@@ -65,6 +68,10 @@ public class bDesempenoIndicador {
     }
 
     public void buscarInforPieIndicadores(ActionEvent ae) {
+        ejecutarBusqueda();
+    }
+
+    public void ejecutarBusqueda(){
         if(sessionDesempenoIndicador.getCidIndicador() != null){
             sessionDesempenoIndicador.setLstGrafPies(ln_C_SFEvaluacionLocal.getConsultaDesempenoValores_LN(Integer.parseInt(sessionDesempenoIndicador.getCidIndicador()),
                                                                                                            sessionDesempenoIndicador.getNidNivele() == null ? null : Integer.parseInt(sessionDesempenoIndicador.getNidNivele()),
@@ -78,14 +85,20 @@ public class bDesempenoIndicador {
     }
     
     public void busquedaConTecla(ClientEvent ce){
-        String message = (String) ce.getParameters().get("subValue");
-        sessionDesempenoIndicador.setCidIndicador(message);
-        Utils.sysout("indicador: "+message);
-        for(SelectItem item : getIndisList()){
-            if(item.getValue() == Integer.parseInt(message) ){
-                itInd.setValue(item.getLabel());
-                Utils.addTarget(itInd);
+        try {
+            String message = (String) ce.getParameters().get("subValue");
+            sessionDesempenoIndicador.setCidIndicador(message);
+            Utils.sysout("indicador: " + message);
+            for (SelectItem item : getIndisList()) {
+                if (item.getValue() == Integer.parseInt(message)) {
+                    itInd.setValue(item.getLabel());
+                    ejecutarBusqueda();
+                    Utils.addTarget(itInd);
+                    return;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -136,6 +149,30 @@ public class bDesempenoIndicador {
         Utils.addTarget(indlist);
     }
     
+    public void vcl_Areas(ValueChangeEvent vce) {
+        Utils.sysout("vcl_Areas");
+        sessionDesempenoIndicador.setNidArea((String) vce.getNewValue());
+        ejecutarBusqueda();
+    }
+
+    public void vcl_Sedes(ValueChangeEvent vce) {Utils.sysout("vcl_Sedes");
+        sessionDesempenoIndicador.setNidSede((String) vce.getNewValue());
+        ejecutarBusqueda();
+    }
+
+    public void vcl_Niveles(ValueChangeEvent vce) {Utils.sysout("vcl_Niveles");
+        sessionDesempenoIndicador.setNidNivele((String) vce.getNewValue());
+        ejecutarBusqueda();
+    }
+    
+    public void vcl_fecInicio(ValueChangeEvent vce) {Utils.sysout("vcl_fecInicio");
+        ejecutarBusqueda();
+    }
+
+    public void vcl_fecFinal(ValueChangeEvent vce) {Utils.sysout("vcl_fecFinal");
+        ejecutarBusqueda();
+    }
+    
     public void setSessionDesempenoIndicador(bSessionDesempenoIndicador sessionDesempenoIndicador) {
         this.sessionDesempenoIndicador = sessionDesempenoIndicador;
     }
@@ -166,5 +203,13 @@ public class bDesempenoIndicador {
 
     public RichCarousel getCarPies() {
         return carPies;
+    }
+
+    public void setSmcNivel(RichSelectOneChoice smcNivel) {
+        this.smcNivel = smcNivel;
+    }
+
+    public RichSelectOneChoice getSmcNivel() {
+        return smcNivel;
     }
 }
