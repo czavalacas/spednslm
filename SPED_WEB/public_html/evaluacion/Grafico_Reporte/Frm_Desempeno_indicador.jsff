@@ -158,13 +158,15 @@
                 <f:facet name="center">
                     <af:panelGroupLayout halign="center" layout="vertical">
                         <af:carousel id="carPies" value="#{sessionDesempenoIndicador.lstGrafPies}" var="item"
-                                     binding="#{bDesempenoIndicador.carPies}" inlineStyle="height:450px;width:900px">
+                                     binding="#{bDesempenoIndicador.carPies}" inlineStyle="height:500px;width:900px">
                             <f:facet name="nodeStamp">
                                 <af:carouselItem id="crslItem"  text="#{item.descFicha}" shortDesc="#{item.nidFicha}">
                                    <dvt:pieGraph subType="RING"
                                                  tabularData="#{item.lstVals}"
                                                  hideAndShowBehavior="withRescale" contentDelivery="immediate" shortDesc="Grafico Pie"
-                                                 emptyText="No hay ningún dato que mostrar">
+                                                 emptyText="No hay ningún dato que mostrar" inlineStyle="height:480px;"
+                                                 seriesRolloverBehavior="RB_HIGHLIGHT"
+                                                 markerTooltipType="MTT_PERCENT_VAL_TEXT">
                                         <dvt:background>
                                             <dvt:specialEffects/>
                                         </dvt:background>
