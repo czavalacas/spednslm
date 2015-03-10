@@ -989,13 +989,6 @@ public class bGestionarHorario {
         return null;
     }
     
-    public String actionAgregarCurso() {
-        sessionGestionarHorario.setRenderAgregar(true);
-        renderAgregar_aux();
-        Utils.addTarget(pbHor);
-        return null;
-    }
-    
     public String actionCancelar() {
         sessionGestionarHorario.setRenderAgregar(false);
         sessionGestionarHorario.setRenderAgregar_aux(false);

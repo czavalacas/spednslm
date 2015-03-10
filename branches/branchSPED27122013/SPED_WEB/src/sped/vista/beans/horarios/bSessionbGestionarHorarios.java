@@ -38,6 +38,12 @@ public class bSessionbGestionarHorarios implements Serializable {
     private int posicionLecc;
     private int posicionDia;
     private int posDiaLecHD;
+    private int cont_curso;
+    private int eventoEliminarModificar;
+    //// valores para la eliminacion//
+    private int lecc;
+    private int nDia;
+    private int nCurso;
     
     private String nidSede;
     private String nidNivel; 
@@ -50,6 +56,8 @@ public class bSessionbGestionarHorarios implements Serializable {
     private String nidTipoVista = "0";
     private String titlePopDis;
     private String titleDiaLecHD;
+    private String tituloEliminarModificar;
+    private String nidProfesor;
     
     private String vectorDias[];
     
@@ -65,6 +73,17 @@ public class bSessionbGestionarHorarios implements Serializable {
     private List listaItems_aux;
     private List listaItemsSelect;
     private List selectedDiaLecHD;
+    private List listAC_ProfSalon;
+    private List listAC_Area;
+    private List listAC_Curso;
+    private List lstProfesor;
+    private List lstSelecDias;
+    private List lstDiasSelec;
+    
+    private List nidAC_ProfSalon;
+    private List nidAC_Area;
+    private List nidAC_Curso;
+    
     private List lstDiaLecHD;
     
     private List<BeanHorario> listaHorario;
@@ -75,9 +94,11 @@ public class bSessionbGestionarHorarios implements Serializable {
     private List<BeanConfiguracionHorario> lstConfHorario;
     private List<Integer> horasRandom;
     private BeanLeccion leccion;
+    private BeanLeccion leccion_aux;
     private BeanMain horario[][];
     private BeanProfesor profesor;
     private BeanProfesor profesor_aux;
+    private BeanProfesor profesor_aux2;
     
     private BeanCurso curso;
     private BeanAula aula;
@@ -94,6 +115,8 @@ public class bSessionbGestionarHorarios implements Serializable {
     private boolean validarEliminacionLecciones;
     private boolean volverAGenerar;
     private boolean booDiaLecHD;
+    private boolean renderAgregarCurso;
+    private boolean renderEliminarModificar;
     
     private transient ChildPropertyTreeModel leccionesTree;
     
@@ -216,7 +239,7 @@ public class bSessionbGestionarHorarios implements Serializable {
     }
     
     public String descripcionProfSalon_aux(int l, int d){   
-        if(tipoVistaAula()){
+        if(!tipoVistaAula()){
             return horario[l][d].getNombreProfesor();
         }
         return horario[l][d].getNombreAula();
@@ -757,5 +780,173 @@ public class bSessionbGestionarHorarios implements Serializable {
 
     public List<BeanLeccion> getLstLecciones_aux() {
         return lstLecciones_aux;
+    }
+
+    public void setRenderAgregarCurso(boolean renderAgregarCurso) {
+        this.renderAgregarCurso = renderAgregarCurso;
+    }
+
+    public boolean isRenderAgregarCurso() {
+        return renderAgregarCurso;
+    }
+    
+    public boolean isRenderSelecionarCurso(int l, int d){
+        return renderAgregarCurso && horario[l][d] == null && nidCurso != null && dni != null;
+    }
+    
+    public boolean isRenderSelecionarCurso_aux(int l, int d){
+        return renderAgregarCurso && horario[l][d]!= null && horario[l][d].getNidMain() == 0;
+    }
+
+    public void setListAC_ProfSalon(List listAC_ProfSalon) {
+        this.listAC_ProfSalon = listAC_ProfSalon;
+    }
+
+    public List getListAC_ProfSalon() {
+        return listAC_ProfSalon;
+    }
+
+    public void setListAC_Area(List listAC_Area) {
+        this.listAC_Area = listAC_Area;
+    }
+
+    public List getListAC_Area() {
+        return listAC_Area;
+    }
+
+    public void setListAC_Curso(List listAC_Curso) {
+        this.listAC_Curso = listAC_Curso;
+    }
+
+    public List getListAC_Curso() {
+        return listAC_Curso;
+    }
+
+    public void setNidAC_ProfSalon(List nidAC_ProfSalon) {
+        this.nidAC_ProfSalon = nidAC_ProfSalon;
+    }
+
+    public List getNidAC_ProfSalon() {
+        return nidAC_ProfSalon;
+    }
+
+    public void setNidAC_Area(List nidAC_Area) {
+        this.nidAC_Area = nidAC_Area;
+    }
+
+    public List getNidAC_Area() {
+        return nidAC_Area;
+    }
+
+    public void setNidAC_Curso(List nidAC_Curso) {
+        this.nidAC_Curso = nidAC_Curso;
+    }
+
+    public List getNidAC_Curso() {
+        return nidAC_Curso;
+    }
+
+    public void setLeccion_aux(BeanLeccion leccion_aux) {
+        this.leccion_aux = leccion_aux;
+    }
+
+    public BeanLeccion getLeccion_aux() {
+        return leccion_aux;
+    }
+
+    public void setCont_curso(int cont_curso) {
+        this.cont_curso = cont_curso;
+    }
+
+    public int getCont_curso() {
+        return cont_curso;
+    }
+
+    public void setTituloEliminarModificar(String tituloEliminarModificar) {
+        this.tituloEliminarModificar = tituloEliminarModificar;
+    }
+
+    public String getTituloEliminarModificar() {
+        return tituloEliminarModificar;
+    }
+
+    public void setNidProfesor(String nidProfesor) {
+        this.nidProfesor = nidProfesor;
+    }
+
+    public String getNidProfesor() {
+        return nidProfesor;
+    }
+
+    public void setProfesor_aux2(BeanProfesor profesor_aux2) {
+        this.profesor_aux2 = profesor_aux2;
+    }
+
+    public BeanProfesor getProfesor_aux2() {
+        return profesor_aux2;
+    }
+
+    public void setRenderEliminarModificar(boolean renderEliminarModificar) {
+        this.renderEliminarModificar = renderEliminarModificar;
+    }
+
+    public boolean isRenderEliminarModificar() {
+        return renderEliminarModificar;
+    }
+
+    public void setLstProfesor(List lstProfesor) {
+        this.lstProfesor = lstProfesor;
+    }
+
+    public List getLstProfesor() {
+        return lstProfesor;
+    }
+
+    public void setLstSelecDias(List lstSelecDias) {
+        this.lstSelecDias = lstSelecDias;
+    }
+
+    public List getLstSelecDias() {
+        return lstSelecDias;
+    }
+
+    public void setLstDiasSelec(List lstDiasSelec) {
+        this.lstDiasSelec = lstDiasSelec;
+    }
+
+    public List getLstDiasSelec() {
+        return lstDiasSelec;
+    }
+
+    public void setEventoEliminarModificar(int eventoEliminarModificar) {
+        this.eventoEliminarModificar = eventoEliminarModificar;
+    }
+
+    public int getEventoEliminarModificar() {
+        return eventoEliminarModificar;
+    }
+
+    public void setLecc(int lecc) {
+        this.lecc = lecc;
+    }
+
+    public int getLecc() {
+        return lecc;
+    }
+
+    public void setNCurso(int nCurso) {
+        this.nCurso = nCurso;
+    }
+
+    public int getNCurso() {
+        return nCurso;
+    }
+
+    public void setNDia(int nDia) {
+        this.nDia = nDia;
+    }
+
+    public int getNDia() {
+        return nDia;
     }
 }

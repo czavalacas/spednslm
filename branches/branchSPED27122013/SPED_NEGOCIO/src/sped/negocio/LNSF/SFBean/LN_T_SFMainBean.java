@@ -78,7 +78,8 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
                    main.getCurso().getNidCurso() == nidCurso &&
                    main.getNDia() == nDia &&
                    main.getHoraInicio().equals(horaInicio) &&
-                   main.getHoraFin().equals(horaFin) ){
+                   main.getHoraFin().equals(horaFin) &&
+                   main.getNidLeccion() == nidLeccion){
                     return; 
                 }else{                    
                     if(bdL_C_SFEvaluacionLocal.countEvaluacionByNidMain(nidMain) > 0){
@@ -153,6 +154,18 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
                                                           "Error al eliminar MAIN. Tipo Evento ", 
                                                           Utiles.getStack(e));
             e.printStackTrace();
+        }
+    }
+    
+    public void eliminarMainByLecc(int nidLeccion, int cantidad){
+        List<Main> lst = bdL_C_SFMainLocal.getlstMainByNidLeccion(nidLeccion);
+        if(lst.size() != cantidad){
+            ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "LOG", CLASE, "eliminarLeccion(BeanLeccion lec)", 
+                                                          "Cantidad de entidad main no coincide con las lecciones a eliminar ", 
+                                                          null);
+        }
+        for(Main main : lst){
+            eliminarMain_LN(main.getNidMain());
         }
     }
 }

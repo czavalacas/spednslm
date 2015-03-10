@@ -54,31 +54,36 @@ public class LN_T_SFLeccionBean implements LN_T_SFLeccionRemote,
     
     public List<BeanLeccion> gestionarLecciones(boolean valida, List<BeanLeccion> lst){
         for(BeanLeccion l : lst){
-            if(l.getNidLecc() == 0){
-                Leccion lec = new Leccion();
-                Aula a = new Aula();
-                a.setNidAula(l.getAula().getNidAula());
-                lec.setAula(a);
-                Profesor p = new Profesor();
-                p.setDniProfesor(l.getProfesor().getDniProfesor());
-                lec.setProfesor(p);
-                Curso c = new Curso();
-                c.setNidCurso(l.getCurso().getNidCurso());
-                lec.setCurso(c);
-                lec.setNroDuracion(l.getNroDuracion());
-                lec.setNroHoras(l.getNroHoras());
-                lec.setNroHoras_aux(l.getNroHoras_aux());
-                lec.setEstado("1");
-                bdL_T_SFLeccionBeanLocal.persistLecciones(lec);           
-                l.setNidLecc(lec.getNidLecc());
-            }else if(valida){
-                Leccion lec = bdL_C_SFLeccionLocal.findLeccionById(l.getNidLecc());
-                lec.setNroHoras(l.getNroHoras());
-                lec.setNroHoras_aux(l.getNroHoras_aux());
-                bdL_T_SFLeccionBeanLocal.mergeLecciones(lec);
-            }
+            l = gestionarLeccion(valida, l);
         }
         return lst;
+    }
+    
+    public BeanLeccion gestionarLeccion(boolean valida, BeanLeccion l){
+        if(l.getNidLecc() == 0){
+            Leccion lec = new Leccion();
+            Aula a = new Aula();
+            a.setNidAula(l.getAula().getNidAula());
+            lec.setAula(a);
+            Profesor p = new Profesor();
+            p.setDniProfesor(l.getProfesor().getDniProfesor());
+            lec.setProfesor(p);
+            Curso c = new Curso();
+            c.setNidCurso(l.getCurso().getNidCurso());
+            lec.setCurso(c);
+            lec.setNroDuracion(l.getNroDuracion());
+            lec.setNroHoras(l.getNroHoras());
+            lec.setNroHoras_aux(l.getNroHoras_aux());
+            lec.setEstado("1");
+            bdL_T_SFLeccionBeanLocal.persistLecciones(lec);           
+            l.setNidLecc(lec.getNidLecc());
+        }else if(valida){
+            Leccion lec = bdL_C_SFLeccionLocal.findLeccionById(l.getNidLecc());
+            lec.setNroHoras(l.getNroHoras());
+            lec.setNroHoras_aux(l.getNroHoras_aux());
+            bdL_T_SFLeccionBeanLocal.mergeLecciones(lec);
+        }
+        return l;
     }
     
     /**
@@ -87,24 +92,18 @@ public class LN_T_SFLeccionBean implements LN_T_SFLeccionRemote,
      */
     public void eliminarLeccion(BeanLeccion lec){
         try{
-            List<Main> lst = bdL_C_SFMainLocal.getlstMainByNidLeccion(lec.getNidLecc());
-            boolean valida = true;
-            if(lst.size() != (lec.getNroHoras_aux() - lec.getNroHoras())){
-                valida = false;
-                ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "LOG", CLASE, "eliminarLeccion(BeanLeccion lec)", 
-                                                              "Cantidad de entidad main no coincide con las lecciones a eliminar ", 
-                                                              null);
-            }
-            for(Main main : lst){
-                ln_T_SFMainLocal.eliminarMain_LN(main.getNidMain());
-            }
-            Leccion leccion = bdL_C_SFLeccionLocal.findLeccionById(lec.getNidLecc());
-            bdL_T_SFLeccionBeanLocal.removeLecciones(leccion);
+            ln_T_SFMainLocal.eliminarMainByLecc(lec.getNidLecc(), lec.getNroHoras_aux() * lec.getNroDuracion());
+            removeLeccion(lec.getNidLecc());
         }catch(Exception e){
             ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "TRA", CLASE, "eliminarLeccion(BeanLeccion lec)", 
                                                           "Error al eliminar la leccion", 
                                                           Utiles.getStack(e)); 
         }
+    }
+    
+    public void removeLeccion(int nidLeccion){
+        Leccion leccion = bdL_C_SFLeccionLocal.findLeccionById(nidLeccion);
+        bdL_T_SFLeccionBeanLocal.removeLecciones(leccion);
     }
     
     /**
