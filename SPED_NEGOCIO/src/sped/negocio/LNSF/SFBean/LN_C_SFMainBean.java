@@ -186,8 +186,11 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
         bean.setHoraFin(main.getHoraFin());
         bean.setNDia(main.getNDia());
         bean.setNombreCurso(main.getCurso().getDescripcionCurso());
+        bean.setNidCurso(main.getCurso().getNidCurso());
         bean.setNombreProfesor(main.getProfesor().getApellidos()+", "+main.getProfesor().getNombres());
+        bean.setDniProfesor(main.getProfesor().getDniProfesor());
         bean.setNombreAula(main.getAula().getDescripcionAula());
+        bean.setNidAula(main.getAula().getNidAula());
         return bean;
     }
     

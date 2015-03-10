@@ -21,6 +21,7 @@ public class BeanMain implements Serializable {
     private int nDia;
     private int nidLecc;
     ////////////////
+    private int nidLeccRef;
     private String dniProfesor;
     private int nidAula;
     private int nidCurso;
@@ -264,5 +265,13 @@ public class BeanMain implements Serializable {
 
     public int getNidLecc() {
         return nidLecc;
+    }
+
+    public void setNidLeccRef(int nidLeccRef) {
+        this.nidLeccRef = nidLeccRef;
+    }
+
+    public int getNidLeccRef() {
+        return nidLeccRef;
     }
 }

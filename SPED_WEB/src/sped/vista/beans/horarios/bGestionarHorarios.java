@@ -44,6 +44,7 @@ import jxl.write.WriteException;
 
 import oracle.adf.view.rich.component.rich.RichDialog;
 import oracle.adf.view.rich.component.rich.RichPopup;
+import oracle.adf.view.rich.component.rich.RichSubform;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
 import oracle.adf.view.rich.component.rich.input.RichInputNumberSpinbox;
@@ -182,6 +183,15 @@ public class bGestionarHorarios {
     private RichTreeTable treeLec;
     private ChildPropertyTreeModel leccionesTree;
     private RichPopup popDis_aux;
+    private RichSubform subAgr;
+    private RichPanelFormLayout pfl8;
+    private RichPanelBox pb2;
+    private RichSelectOneChoice chAulaProfesor2;
+    private RichSelectOneChoice chArea2;
+    private RichSelectOneChoice chCurso2;
+    private RichPopup popEM;
+    private RichSelectOneChoice chProf;
+    private RichSelectManyChoice choiceDia;
 
     public bGestionarHorarios() {
     }
@@ -311,10 +321,7 @@ public class bGestionarHorarios {
         }
     }
     
-    
-
-    ////////////////////////// TRAER DATOS DEL HORARIO ///////////////////////////////////////
-    
+    ////////////////////////// TRAER DATOS DEL HORARIO ///////////////////////////////////////    
     /**
      * Carga los datos de los profesores o aulas segun sea el caso
      */
@@ -322,7 +329,7 @@ public class bGestionarHorarios {
         List listComString = new ArrayList();
         if(tipoVistaAula()){            
             listComString = Utils.llenarCombo(ln_C_SFUtilsRemote.getAulaByNidSedeNivel(sessionbGestionarHorarios.getNidSede_aux(), 
-                                                                                       sessionbGestionarHorarios.getNidNivel_aux()));
+                                                                                       sessionbGestionarHorarios.getNidNivel_aux()));            
         }else{
             listComString = Utils.llenarComboString(ln_C_SFProfesorRemote.getPRofesorPorSedeYNivel(sessionbGestionarHorarios.getNidSede_aux()+"", 
                                                                                                    sessionbGestionarHorarios.getNidNivel_aux()+"", 
@@ -343,6 +350,17 @@ public class bGestionarHorarios {
             listComString = Utils.llenarComboString(ln_C_SFProfesorRemote.getProfesoresLN());
         }   
         sessionbGestionarHorarios.setListaItems_aux(listComString);
+    }
+    
+    public void cargarDatosVista_aux2(){
+        List listComString = new ArrayList();
+        if(!tipoVistaAula()){            
+            listComString = Utils.llenarCombo(ln_C_SFUtilsRemote.getAulaByNidSedeNivel(sessionbGestionarHorarios.getNidSede_aux(), 
+                                                                                       sessionbGestionarHorarios.getNidNivel_aux()));
+        }else{            
+            listComString = Utils.llenarComboString(ln_C_SFUtilsRemote.getProfesor_LN());
+        }   
+        sessionbGestionarHorarios.setListAC_ProfSalon(listComString);
     }
     
     public void cargarDatosHorarios(){
@@ -475,10 +493,42 @@ public class bGestionarHorarios {
     }
     
     public void actionVerHorario(ActionEvent event) {
-        sessionbGestionarHorarios.setTitlePopDis("Horario - "+ 
-                                                 sessionbGestionarHorarios.titileListaHorarioByPosicion());
-        horario_auxiliar();
+        BeanHorario horario = sessionbGestionarHorarios.horarioSelect();
+        sessionbGestionarHorarios.setTitlePopDis("Horario - "+ horario.getTitulo());
+        Utils.putSession("horasLibres", horario.getHorasLibres_aux());
+        cargarDatosVista_aux();
+        if(sessionbGestionarHorarios.getExec2() == 0){
+           sessionbGestionarHorarios.setListaAreaChoice(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
+           sessionbGestionarHorarios.setExec2(1);
+        }
+        sessionbGestionarHorarios.setLeccion(new BeanLeccion());      
+        cargarDatosHorario(horario);        
+        ///// pasamos el codigo del aula o profesor
+        if(tipoVistaAula()){
+            BeanAula aula = new BeanAula();
+            aula.setNidAula(Utils.transforString(obtenerCodigo()));
+            sessionbGestionarHorarios.setAula(aula);
+        }else{
+            BeanProfesor dni = new BeanProfesor();
+            dni.setDniProfesor(obtenerCodigo());
+            sessionbGestionarHorarios.setDni(dni);
+        }         
         Utils.showPopUpMIDDLE(popVer);
+    }
+    
+    public void cargarDatosHorario(BeanHorario horario){
+        ///Cargamos los datos de ese horario ///
+        List<BeanHorario> listaHorario = new ArrayList(); 
+        Time t_inicio[] = sessionbGestionarHorarios.getHoras();
+        Time t_fin[] = sessionbGestionarHorarios.getHoras_fin();
+        int nro_bloque = sessionbGestionarHorarios.getNroBloque(); 
+        List<BeanMain> lstLecciones = cargarleccionProfesorAula(horario.getCodigo(), true);
+        BeanHorario new_horario = new BeanHorario();
+        new_horario.setTitulo(horario.getTitulo());
+        new_horario.setCodigo(horario.getCodigo());
+        llenarHorario(listaHorario, new_horario,lstLecciones, nro_bloque, t_inicio, t_fin);
+        sessionbGestionarHorarios.setHorario(listaHorario.get(0).getHorario());
+        ///FIN Cargamos los datos de ese horario ///
     }
     
     public void horario_auxiliar(){
@@ -737,9 +787,7 @@ public class bGestionarHorarios {
     }
     
     
-    public void 
-    
-    AgregarLeccion(ActionEvent actionEvent) {
+    public void AgregarLeccion(ActionEvent actionEvent) {
         BeanLeccion lec = sessionbGestionarHorarios.getLeccion();
         int horasLibres = Utils.transforString(Utils.getSession("horasLibres").toString());
         int resta = horasLibres - (lec.getNroDuracion() * lec.getNroHoras());
@@ -843,8 +891,10 @@ public class bGestionarHorarios {
     public void generarHorarioParcial(ActionEvent actionEvent) {
         if(sessionbGestionarHorarios.getLstLecciones().size() > 0){
             BeanHorario horario = sessionbGestionarHorarios.horarioSelect();
-            // si quiere volver a generar borro XD
-            eliminarHorario(horario, sessionbGestionarHorarios.getLstLecciones());
+            // si quiere volver a generar borro 
+            if(sessionbGestionarHorarios.isVolverAGenerar()){
+                eliminarHorario(horario, sessionbGestionarHorarios.getLstLecciones());
+            }            
             generarHorarioParcial_aux(horario, sessionbGestionarHorarios.getLstLecciones());
             cargarDatosHorarios();    
             sessionbGestionarHorarios.setRenderGenerarHorario(true);
@@ -908,8 +958,9 @@ public class bGestionarHorarios {
             for(BeanLeccion lec : sessionbGestionarHorarios.getLstLeccionesTotal()){
                 BeanHorario horario = getHorarioByCodigo(lec.getCodigoDniAula());
                 // si quiere volver a generar borro XD
-                eliminarHorario(horario, lec.getLstBeanLeccion());
-                
+                if(sessionbGestionarHorarios.isVolverAGenerar()){
+                    eliminarHorario(horario, sessionbGestionarHorarios.getLstLecciones());
+                }         
                 generarHorarioParcial_aux(horario, lec.getLstBeanLeccion());
             }
             cargarDatosHorarios();
@@ -1006,23 +1057,12 @@ public class bGestionarHorarios {
             if(leccion.getNroHoras() > 0){
                 if(leccion.getExec() == 0){
                     leccion.setExec(1);
-                    System.out.println("//////////////////////////");
-                    System.out.println(leccion.getLstErrores());
-                    for(String str : leccion.getLstErrores()){
-                        System.out.println(str);
-                    }
                     //leccion.setLstErrores(new ArrayList());                    
                     ubicaMain(h, leccion, ordenarLstDiasByHoras(h), maxBloque, nroBloque);
                 }else if(leccion.getExec() == 1){
                     leccion.setExec(2);
-                    System.out.println("//////////////////////////");
-                    System.out.println(leccion.getLstErrores());
-                    for(String str : leccion.getLstErrores()){
-                        System.out.println(str);
-                    }
                     //leccion.setLstErrores(new ArrayList());
                     encuentraEspacioCom(h, leccion, ordenarLstDiasByHoras(h), randomHorasDuracion(leccion.getNroHoras(), nroBloque), maxBloque, nroBloque);
-                    System.out.println(leccion);
                 }                  
             }             
             return;
@@ -1040,10 +1080,8 @@ public class bGestionarHorarios {
         try{
             BeanMain horario[][] = h.getHorario();
             if(dia == null){     
-                System.out.println(" 1");
                 encuentraEspacioCom(h, lec, dias, randomHorasDuracion(duracion, nroBloque), maxBloque, nroBloque);                
             }else{
-                System.out.println(" 2");
                 int cont = 0 ;
                 for(int i = 0 ; i < maxBloque; i++){
                     if(horario[i][dia.getNDia()] != null){
@@ -1214,6 +1252,9 @@ public class bGestionarHorarios {
     
     public void validarCruceMsj(BeanLeccion lec, int tipo, String msj){
         if(tipo == 1){
+            if(lec.getLstErrores() == null){
+                lec.setLstErrores(new ArrayList());
+            }
             lec.getLstErrores().add(msj);
         }else{
             Utils.mostrarMensaje(ctx, msj, null, 2);   
@@ -1407,10 +1448,8 @@ public class bGestionarHorarios {
      * @return
      */
     public BeanDia encontrarDiaNoDivisible(List<BeanDia> lst, int maxBloque){
-        System.out.println("encontrarDiaNoDivisible");
         for(BeanDia dia : lst){
             if(dia.getHoras() % maxBloque != 0){
-                System.out.println(dia.getNDia()+" "+dia.getHoras());
                 return dia;
             }
         }        
@@ -1436,6 +1475,19 @@ public class bGestionarHorarios {
         main.setNidCurso(lec.getCurso().getNidCurso());
         main.setDniProfesor(lec.getProfesor().getDniProfesor());
         main.setNidAula(lec.getAula().getNidAula());
+        main.setNidLecc(lec.getNidLecc());
+        main.setEstado("1");
+        return main;
+    }
+    
+    public BeanMain converterLecMain_aux(BeanLeccion lec){
+        BeanMain main = new BeanMain();
+        main.setNidCurso(lec.getCurso().getNidCurso());
+        main.setNombreCurso(lec.getCurso().getDescripcionCurso());
+        main.setDniProfesor(lec.getProfesor().getDniProfesor());
+        main.setNombreProfesor(lec.getProfesor().getNombreCompleto());
+        main.setNidAula(lec.getAula().getNidAula());
+        main.setNombreAula(lec.getAula().getDescripcionAula());
         main.setNidLecc(lec.getNidLecc());
         main.setEstado("1");
         return main;
@@ -1484,20 +1536,27 @@ public class bGestionarHorarios {
 
     public void changeListenerArea(ValueChangeEvent valueChangeEvent) {
         if (valueChangeEvent.getNewValue() != null) {
-            chArea.setValue(valueChangeEvent.getNewValue());
             sessionbGestionarHorarios.setListaCursoChoice(Utils.llenarCombo(
                 ln_C_SFUtilsRemote.getCursosByArea_LN(Integer.parseInt(valueChangeEvent.getNewValue().toString()))));
-            Utils.addTarget(chCurso);
+            sessionbGestionarHorarios.setNidCurso(null);
+            if (chCurso != null){
+                Utils.addTarget(chCurso);
+            }
+            if (chCurso2 != null){
+                Utils.addTarget(chCurso2);
+            }
         }
-    }    
-
+    }
+    
     public void changeListenerCurso(ValueChangeEvent valueChangeEvent) {
         if (valueChangeEvent.getNewValue() != null) {
-            chCurso.setValue(valueChangeEvent.getNewValue());
             BeanCurso curso = new BeanCurso();
             curso.setNidCurso(Utils.transforString(valueChangeEvent.getNewValue().toString()));
             curso.setDescripcionCurso(Utils.getChoiceLabel(valueChangeEvent));
-            sessionbGestionarHorarios.setCurso(curso);      
+            sessionbGestionarHorarios.setCurso(curso);
+            if(t2 != null && sessionbGestionarHorarios.getCurso() != null && sessionbGestionarHorarios.getDni() != null && sessionbGestionarHorarios.getAula() != null){
+                Utils.addTarget(t2);
+            }
         }
     }
     
@@ -1515,6 +1574,9 @@ public class bGestionarHorarios {
                 aula.setNidAula(Utils.transforString(codigo));
                 aula.setDescripcionAula(Utils.getChoiceLabel(vce));
                 sessionbGestionarHorarios.setAula(aula);
+            }
+            if(t2 != null && sessionbGestionarHorarios.getCurso() != null && sessionbGestionarHorarios.getDni() != null && sessionbGestionarHorarios.getAula() != null){
+                Utils.addTarget(t2);
             }
         }
     }
@@ -1573,6 +1635,351 @@ public class bGestionarHorarios {
     public void cambiarColor(ValueChangeEvent valueChangeEvent) {
         Utils.addTarget(pgl1);
     }
+    ///////////////////////////////////////AGREGAR CURSO xxx///////////////////////////////////////////////////
+    public void cambiarEstado(ActionEvent actionEvent){
+        sessionbGestionarHorarios.setRenderAgregarCurso(true);
+        Utils.addTargetMany(pfl6, t2, pfl8);
+    }
+    
+    public void cancelarAgregarCurso(ActionEvent actionEvent){
+        sessionbGestionarHorarios.setRenderAgregarCurso(false);
+        Utils.addTargetMany(pfl6, t2, pfl8);
+    }
+    
+    public void AgregarCurso(ActionEvent actionEvent){
+        int nDia = (Integer) actionEvent.getComponent().getAttributes().get("nDia");
+        int nLeccion = (Integer) actionEvent.getComponent().getAttributes().get("nLec");
+        AgregarCurso_aux(nDia, nLeccion);        
+    }
+    
+    public void AgregarCurso_aux(int dia, int leccion) {
+        BeanLeccion lec = sessionbGestionarHorarios.getLeccion();
+        int horasLibres = Utils.transforString(Utils.getSession("horasLibres").toString());
+        int resta = horasLibres - 1;
+        if(resta >= 0 ){                        
+            lec.setCurso(sessionbGestionarHorarios.getCurso());
+            lec.setAula(sessionbGestionarHorarios.getAula());
+            lec.setProfesor(sessionbGestionarHorarios.getDni());  
+            lec.setNroDuracion(1);
+            lec.setNroHoras(1);
+            lec.setCodigoDniAula(!tipoVistaAula() ? (lec.getAula().getNidAula()+"") : lec.getProfesor().getDniProfesor());
+            boolean vista = tipoVistaAula();
+            lec.setTitulo(vista ? lec.getProfesor().getNombreCompleto() : lec.getAula().getDescripcionAula());
+            sessionbGestionarHorarios.setLeccion(pasarDatosLeccion(lec));
+            ////////////////////// validando si la leccion esta ocupada o no //////////////////////////    
+            BeanMain[][] m = sessionbGestionarHorarios.getHorario();
+            if(m[leccion][dia] != null || !validarCruce(lec, dia, leccion, 0, 2)){              
+                return;
+            }
+            sumarHorasLibres(resta);
+            Utils.putSession("horasLibres", resta);
+            sessionbGestionarHorarios.getHorario()[leccion][dia] = converterLecMain_aux(lec);
+            sessionbGestionarHorarios.setCont_curso(sessionbGestionarHorarios.getCont_curso() + 1);
+            Utils.addTarget(t2);
+        }else{
+            Utils.mostrarMensaje(ctx, "Se sobre paso el numero de horas Libre", null, 2);  
+        }        
+    }
+    
+    public void EliminarCurso(ActionEvent actionEvent){
+        int nDia = (Integer) actionEvent.getComponent().getAttributes().get("nDia");
+        int nLeccion = (Integer) actionEvent.getComponent().getAttributes().get("nLec");
+        sessionbGestionarHorarios.getHorario()[nLeccion][nDia] = null;
+        sessionbGestionarHorarios.setCont_curso(sessionbGestionarHorarios.getCont_curso() - 1);       
+        ////////////////////////////////////////////////////////////////////////
+        int horasLibres = Utils.transforString(Utils.getSession("horasLibres").toString());
+        int suma = horasLibres + 1;
+        sumarHorasLibres(suma);
+        Utils.putSession("horasLibres", suma);
+        ////////////////////////////////////////
+        Utils.addTarget(t2);
+    }
+    
+    public void GuardarCurso(ActionEvent actionEvent){
+        if(sessionbGestionarHorarios.getCont_curso() > 0){
+            restructurarMain();
+        }
+    }
+    
+    public void restructurarMain(){
+        if(!existeenHorarioTotal(sessionbGestionarHorarios.horarioSelect())){
+            sessionbGestionarHorarios.setLstLecciones(new ArrayList());
+        }
+        //// calculando la nueva lista de lecciones
+        List<BeanLeccion> list = new ArrayList();
+        BeanMain[][] m = sessionbGestionarHorarios.getHorario();
+        restructurarLecciones(m, list);
+        
+        List<BeanLeccion> l_old = sessionbGestionarHorarios.getLstLecciones();
+        //// eliminamos los main que fueron creados para volver a generarlos
+        ln_T_SFMainRemote.eliminarMainByLecc(0, 0); //x si algo salio mal
+        for(BeanLeccion l : l_old){
+            ln_T_SFMainRemote.eliminarMainByLecc(l.getNidLecc(), l.getNroDuracion()*l.getNroHoras_aux());
+        }            
+        ////comparamos las lecciones iguales
+        for(int i = 0; i < list.size(); i++){
+            for(BeanLeccion l : l_old){
+                if(list.get(i).getAula().getNidAula().compareTo(l.getAula().getNidAula()) == 0 &&
+                   list.get(i).getCurso().getNidCurso().compareTo(l.getCurso().getNidCurso()) == 0 &&
+                   list.get(i).getProfesor().getDniProfesor().compareTo(l.getProfesor().getDniProfesor()) == 0 &&
+                   list.get(i).getNroDuracion() == l.getNroDuracion() && !list.get(i).isUpdate()){
+                    list.get(i).setNroHoras(l.getNroHoras());
+                    list.get(i).setNidLecc(l.getNidLecc());
+                    list.get(i).setUpdate(true);
+                    l_old.remove(l);
+                    break;
+                }
+            }
+        }
+        
+        //// eliminamos de la lista las lecciones que no han sido generadas            
+        List<BeanLeccion> l_old_aux = new ArrayList();
+        for(BeanLeccion l : l_old){
+            if(l.getNroHoras() > 0 && l.getNroHoras_aux() == 0){
+                l_old_aux.add(l); //no lo tocamos
+            }else if(l.getNroHoras_aux() > 0 && l.getNroHoras() > 0){
+                l.setUpdate(true);
+                l.setNroHoras_aux(0);
+            }
+        }
+        int size = l_old_aux.size();
+        for(int i = 0; i < size; i++){
+            l_old.remove(l_old_aux.get(i));
+        }
+        ///--------------------------------------------------------------
+        for(BeanLeccion l : l_old){
+            if(l.isUpdate()){
+                ln_T_SFLeccionRemote.gestionarLeccion(true, l);                                        
+            }else{
+                ln_T_SFLeccionRemote.removeLeccion(l.getNidLecc());
+            }                
+        } 
+        ///--------------------------------------------------------------
+        for(int i=0; i < list.size(); i++){
+            BeanLeccion l = ln_T_SFLeccionRemote.gestionarLeccion(list.get(i).isUpdate(), list.get(i));
+            list.get(i).setNidLecc(l.getNidLecc());
+        }
+        for(int i = 0 ; i < sessionbGestionarHorarios.getNroBloque(); i++){
+            for(int j = 0; j < 5 ; j++){                   
+                if(m[i][j] != null){
+                    for(BeanLeccion l : list){
+                        if(m[i][j].getNidLeccRef() == l.getNidLeccRef()){
+                            m[i][j].setNidLecc(l.getNidLecc());
+                            m[i][j].setEstado("1");
+                        }
+                    }
+                }
+            }
+        }
+        Time ini[] = sessionbGestionarHorarios.getHoras();
+        Time fin[] = sessionbGestionarHorarios.getHoras_fin();
+        BeanHorario h = new BeanHorario();
+        h.setHorario(m);
+        guardarGenerarHorario(h, ini, fin);             
+        cargarDatosHorarios();   
+        Utils.addTarget(t1);
+        BeanHorario horario = sessionbGestionarHorarios.horarioSelect();
+        cargarDatosHorario(horario);
+        Utils.addTargetMany(t2, treeLec);
+    }
+    
+    /////////////////////////////// yyy RECALCULAR LAS LECCIONES -- ESTO BORRA LO QUE NO HAY :( ----------------------
+    
+    public int sumar(int c, BeanMain main[][], int d) {
+        if (c + 1 >= sessionbGestionarHorarios.getNroBloque()) {
+            return 0;
+        } else {
+            if (main[c+1][d] != null && 
+                main[c][d].getNidAula() == main[c+1][d].getNidAula() &&
+                main[c][d].getNidCurso() == main[c+1][d].getNidCurso() &&
+                main[c][d].getDniProfesor() == main[c+1][d].getDniProfesor()) {
+                return 1 + sumar(c + 1, main, d);
+            } else {
+                return 0;
+            }
+        }
+    }
+    
+    public int buscarLeccion(List<BeanLeccion> list, BeanMain m, int duracion) {
+        boolean valida = true;
+        int ref = -1;
+        for (BeanLeccion lec : list) {
+            if (verificarLeccionIgual_aux(lec, m) && lec.getNroDuracion() == duracion) {
+                lec.setNroHoras_aux(lec.getNroHoras_aux() + 1);
+                ref = lec.getNidLeccRef();
+                valida = false;
+                break;
+            }
+        }
+        if (valida) {
+            BeanLeccion lec = new BeanLeccion();
+            lec.setNidLeccRef(list.size() + 1);
+            BeanCurso c = new BeanCurso();
+            c.setNidCurso(m.getNidCurso());
+            lec.setCurso(c);
+            BeanAula a = new BeanAula();
+            a.setNidAula(m.getNidAula());
+            lec.setAula(a);
+            BeanProfesor p = new BeanProfesor();
+            p.setDniProfesor(m.getDniProfesor());
+            lec.setProfesor(p);
+            lec.setNroDuracion(duracion);
+            lec.setNroHoras_aux(1);
+            list.add(lec);
+            ref = lec.getNidLeccRef();
+        }
+        return ref;
+    }
+    
+    public boolean verificarLeccionIgual_aux(BeanLeccion l, BeanMain m){
+        if(l.getCurso().getNidCurso() == m.getNidCurso() && (l.getProfesor().getDniProfesor().compareTo(m.getDniProfesor()) == 0)
+            && (l.getAula().getNidAula() == m.getNidAula())){ 
+            return true;
+        }
+        return false;
+    }
+    
+    public void restructurarLecciones(BeanMain main[][], List<BeanLeccion> list) {
+        for(int i = 0; i < 5 ; i++){
+            for (int j = 0; j < sessionbGestionarHorarios.getNroBloque(); j++) {
+                if(main[j][i] != null){
+                    int suma = sumar(j, main, i);
+                    int ref = buscarLeccion(list, main[j][i], suma + 1);
+                    if(ref != -1){
+                        for (int k = j; k < (j + suma + 1); k++) {                            
+                            main[k][i].setNidLeccRef(ref);
+                        }                        
+                    }
+                    j = j + suma;
+                }                
+            }
+        }
+    }
+    
+    ///////////////////ZZZ  ELIMINAR CURSO Y MODIFICAR PROFESOR //////////////////////////////////////////////////////////
+    
+    public void obtenerposicion(ActionEvent actionEvent) {
+        int nDia = (Integer) actionEvent.getComponent().getAttributes().get("nDia");
+        int nLeccion = (Integer) actionEvent.getComponent().getAttributes().get("nLec");
+        sessionbGestionarHorarios.setLecc(nLeccion);
+        sessionbGestionarHorarios.setNDia(nDia);
+    }
+    
+    
+    /**
+     * Metodo que carga los datos de la leccion selecionada en session y abre el popEM(ELIMINAR MODIFICAR)
+     * @param actionEvent
+     */
+    public void eliminarLecciones(ActionEvent actionEvent) {
+        int nDia = sessionbGestionarHorarios.getNDia();
+        int nLeccion = sessionbGestionarHorarios.getLecc();
+        modificarEliminarLecciones_aux(nDia, nLeccion, 1);
+        sessionbGestionarHorarios.setEventoEliminarModificar(3);
+        sessionbGestionarHorarios.setRenderEliminarModificar(false);
+    }       
+    
+    /**
+     * Metodo que carga los datos de la leccion selecionada en session y abre el popEM(MODIFICAR)
+     * @param actionEvent
+     */
+    public void modificarLecciones(ActionEvent actionEvent) {        
+        int nDia = sessionbGestionarHorarios.getNDia();
+        int nLeccion = sessionbGestionarHorarios.getLecc();
+        modificarEliminarLecciones_aux(nDia, nLeccion, 1);
+        sessionbGestionarHorarios.setEventoEliminarModificar(2);
+        sessionbGestionarHorarios.setRenderEliminarModificar(true);
+    }
+    
+    public void modificarEliminarLecciones_aux(int dia, int lec, int tipo){
+        String codigo = tipo == 1 ? (sessionbGestionarHorarios.getHorario()[lec][dia].getNidCurso()+"") : (sessionbGestionarHorarios.getHorario()[lec][dia].getDniProfesor());
+        sessionbGestionarHorarios.setNCurso(sessionbGestionarHorarios.getHorario()[lec][dia].getNidCurso());
+        String pre = tipo == 1 ? "Eliminar leccion(s)" : "Modificar Profesor";
+        sessionbGestionarHorarios.setTituloEliminarModificar(pre + " del Curso "+sessionbGestionarHorarios.getHorario()[lec][dia].getNombreCurso());
+        encontrarDiaLecccion(sessionbGestionarHorarios.getHorario(), codigo, dia, tipo);
+        Utils.showPopUpMIDDLE(popEM);
+    }
+    
+    /**
+     * Metodo que busca los dias que se dicta una leccion
+     * tipo 1 = curso and tipo 2 = profesor
+     */
+    public void encontrarDiaLecccion(BeanMain horario[][], String codigo, int nDia, int tipo){
+        List<BeanCombo> lista = new ArrayList();
+        int cont = 0;
+        llenarLstComboString(9, "Lecci\u00f3n selecionada", lista);
+        for(int j = 0; j < 5; j++){
+            for(int i = 0; i < sessionbGestionarHorarios.getNroBloque(); i++){
+                if(horario[i][j] != null && 
+                  (tipo == 1 ? ((horario[i][j].getNidCurso()+"").compareTo(codigo) == 0) : (horario[i][j].getDniProfesor().compareTo(codigo) == 0))){
+                    if(nDia == j){
+                        cont++;
+                    }else{
+                        llenarLstComboString(j, sessionbGestionarHorarios.getDia(j), lista);
+                        i = sessionbGestionarHorarios.getNroBloque();
+                    }                        
+                }
+            }
+            if(cont > 1){
+                llenarLstComboString(nDia, sessionbGestionarHorarios.getDia(j), lista);
+                cont = 0;
+            }
+        }
+        sessionbGestionarHorarios.setLstSelecDias(Utils.llenarCombo(lista));
+        ///seleciono por default el dia que se seleciono
+        List lst = new ArrayList();
+        lst.add(9+"");
+        sessionbGestionarHorarios.setLstDiasSelec(lst);
+    }
+    
+    public void llenarLstComboString(int id, String descripcion, List<BeanCombo> lista){
+        BeanCombo combo = new BeanCombo();
+        combo.setId(id);
+        combo.setDescripcion(descripcion);
+        lista.add(combo);
+    }    
+    
+    public void modificarEliminarLecciones(DialogEvent dialogEvent) {
+        DialogEvent.Outcome outcome = dialogEvent.getOutcome();
+        if(outcome == DialogEvent.Outcome.ok){            
+            eliminarDiasSelecionados(sessionbGestionarHorarios.getEventoEliminarModificar());
+        }
+    }
+    
+    /**
+     * Elimina los dias seleccionados en la vista
+     * @param evento
+     */
+    public void eliminarDiasSelecionados(int evento){
+        try{
+            BeanMain main[][] = sessionbGestionarHorarios.getHorario(); 
+            Time ini[] = sessionbGestionarHorarios.getHoras();
+            Time fin[] = sessionbGestionarHorarios.getHoras_fin();
+            for(Object o : sessionbGestionarHorarios.getLstDiasSelec()){
+                int dia = Integer.parseInt(o.toString());
+                if(dia == 9){
+                    int lec = sessionbGestionarHorarios.getLecc();
+                    int ndia = sessionbGestionarHorarios.getNDia();
+                    gestionarMain_aux(evento, main[lec][ndia], ndia, lec, ini, fin);
+                    main[lec][ndia] = null;
+                }else{
+                    for(int i = 0; i < sessionbGestionarHorarios.getNroBloque(); i++){
+                        if(main[i][dia] != null && main[i][dia].getNidMain() > 0 &&
+                           main[i][dia].getNidCurso() == sessionbGestionarHorarios.getNCurso()){
+                            gestionarMain_aux(evento, main[i][dia], dia, i, ini, fin);
+                        }
+                    }
+                }
+            }  
+            BeanHorario horario = sessionbGestionarHorarios.horarioSelect();
+            cargarDatosHorario(horario);
+            restructurarMain();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
     
     /////////////////////////////////////// EXPORTAR DATOS A WORD ////////////////////////////////////////
             
@@ -2319,4 +2726,75 @@ public class bGestionarHorarios {
         return popDis_aux;
     }
 
+    public void setSubAgr(RichSubform subAgr) {
+        this.subAgr = subAgr;
+    }
+
+    public RichSubform getSubAgr() {
+        return subAgr;
+    }
+
+    public void setPfl8(RichPanelFormLayout pfl8) {
+        this.pfl8 = pfl8;
+    }
+
+    public RichPanelFormLayout getPfl8() {
+        return pfl8;
+    }
+
+    public void setPb2(RichPanelBox pb2) {
+        this.pb2 = pb2;
+    }
+
+    public RichPanelBox getPb2() {
+        return pb2;
+    }
+
+    public void setChAulaProfesor2(RichSelectOneChoice chAulaProfesor2) {
+        this.chAulaProfesor2 = chAulaProfesor2;
+    }
+
+    public RichSelectOneChoice getChAulaProfesor2() {
+        return chAulaProfesor2;
+    }
+
+    public void setChArea2(RichSelectOneChoice chArea2) {
+        this.chArea2 = chArea2;
+    }
+
+    public RichSelectOneChoice getChArea2() {
+        return chArea2;
+    }
+
+    public void setChCurso2(RichSelectOneChoice chCurso2) {
+        this.chCurso2 = chCurso2;
+    }
+
+    public RichSelectOneChoice getChCurso2() {
+        return chCurso2;
+    }
+
+    public void setPopEM(RichPopup popEM) {
+        this.popEM = popEM;
+    }
+
+    public RichPopup getPopEM() {
+        return popEM;
+    }
+
+    public void setChProf(RichSelectOneChoice chProf) {
+        this.chProf = chProf;
+    }
+
+    public RichSelectOneChoice getChProf() {
+        return chProf;
+    }
+
+    public void setChoiceDia(RichSelectManyChoice choiceDia) {
+        this.choiceDia = choiceDia;
+    }
+
+    public RichSelectManyChoice getChoiceDia() {
+        return choiceDia;
+    }
 }
