@@ -17,4 +17,5 @@ public interface LN_T_SFMainLocal {
                           Time horaFin);
     void eliminarMain_LN(int nidMain);
     void eliminarMainByAulaProfesor(String codigo, int nidSede, int nidNivel, boolean vista);
+    void eliminarMainByLecc(int nidLeccion, int cantidad);
 }

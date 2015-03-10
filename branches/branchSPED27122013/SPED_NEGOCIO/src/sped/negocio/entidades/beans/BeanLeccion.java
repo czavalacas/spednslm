@@ -15,6 +15,7 @@ public class BeanLeccion implements Serializable{
     private static final long serialVersionUID = 1L;
 
     private int nidLecc;
+    private int nidLeccRef;
     private String codigoDniAula;
     private String titulo;
     private BeanCurso curso;
@@ -132,6 +133,14 @@ public class BeanLeccion implements Serializable{
 
     public String getCodigoDniAula() {
         return codigoDniAula;
+    }
+
+    public void setNidLeccRef(int nidLeccRef) {
+        this.nidLeccRef = nidLeccRef;
+    }
+
+    public int getNidLeccRef() {
+        return nidLeccRef;
     }
 
 }
