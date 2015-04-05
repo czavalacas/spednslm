@@ -404,8 +404,7 @@ public class bMigrarExcel {
             for (int j = 0; j < listaActual.size(); j++) {
                 for (int i = 0; i < listProfesoresAInsertar.size(); i++) {
                     if (listaActual.get(j).getDniProfesor().equals(listProfesoresAInsertar.get(i).getDniProfesor())) {
-                        listProfesoresAInsertar.remove(i);                        
-                        System.out.println("QUITO:");
+                        listProfesoresAInsertar.remove(i);
                     }
                 }
             }
@@ -416,8 +415,6 @@ public class bMigrarExcel {
         } else {
             ln_T_SFProfesorRemoto.grabarProfesoresNuevos(listProfesoresAInsertar);
         }
-        
-        System.out.println("SIZE DE LA LISTA DE CURSOS : " + listProfesoresAInsertar.size());
     }
     
     public void seleccionarTipoMigracion(ValueChangeEvent valueChangeEvent) {
