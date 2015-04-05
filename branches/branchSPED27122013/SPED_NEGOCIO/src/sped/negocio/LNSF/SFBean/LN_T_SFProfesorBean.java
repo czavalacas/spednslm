@@ -22,6 +22,7 @@ import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFProfesorLocal;
 import sped.negocio.LNSF.IR.LN_T_SFProfesorRemoto;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Profesor;
@@ -60,7 +61,7 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
     public String grabarProfesoresNuevos(List<BeanProfesor> listaProfesores){
         BeanError beanError = new BeanError();
         String error = "000";
-        try {            
+        try {
             for(int i=0; i<listaProfesores.size(); i++){
                 /** Agrega los profesores nuevos a admprof*/
                 Profesor prof=new Profesor();
@@ -69,7 +70,6 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
                 prof.setApellidos(listaProfesores.get(i).getApellidos());
                 prof.setFlgActi(1);
                 bdl_T_SFProfesorLocal.persistProfesor(prof);
-                
                 /** Crea usuario nuevos de rol Profesor*/
                 Usuario usua = new Usuario();
                 Rol role = new Rol();

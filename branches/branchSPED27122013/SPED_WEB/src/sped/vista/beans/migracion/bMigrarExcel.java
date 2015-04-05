@@ -398,7 +398,6 @@ public class bMigrarExcel {
             }
         }
         ln_T_SFUsuarioRemote.cambiarEstadoUsuarioProfesores(listProfesoresAInsertar);
-        
         List<BeanProfesor> listaActual = ln_C_SFProfesorRemote.getProfesoresLN2();    
         if (listaActual != null) {
             for (int j = 0; j < listaActual.size(); j++) {
@@ -408,7 +407,7 @@ public class bMigrarExcel {
                     }
                 }
             }
-            if (listProfesoresAInsertar != null) {
+            if (listProfesoresAInsertar != null && listProfesoresAInsertar.size() > 0) {
                 ln_T_SFProfesorRemoto.grabarProfesoresNuevos(listProfesoresAInsertar);
             }
 
