@@ -29,6 +29,8 @@ public class Profesor implements Serializable {
     private String color;
     @OneToMany(mappedBy = "profesor", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Main> mainLista;
+    @Column(name = "flg_acti")
+    private int flgActi;
 
     public Profesor() {
     }
@@ -39,6 +41,13 @@ public class Profesor implements Serializable {
         this.nombres = nombres;
     }
 
+    public void setFlgActi(int flgActi) {
+        this.flgActi = flgActi;
+    }
+
+    public int getFlgActi() {
+        return flgActi;
+    }
 
     public String getApellidos() {
         return apellidos;
