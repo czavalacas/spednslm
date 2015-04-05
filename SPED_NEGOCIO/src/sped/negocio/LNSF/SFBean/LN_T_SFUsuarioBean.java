@@ -206,19 +206,20 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
             }
         }
         /**Cambia de estado a 0 en usuario a los docentes que no vienen en la nueva carga*/
-        for (int i = 0; i < listUsuarios.size(); i++) {
+        //dfloresgonz 04/04/2015 Se comenta porque se cargan docentes parcialmente
+        /*for (int i = 0; i < listUsuarios.size(); i++) {
             Usuario usua = listUsuarios.get(i);
             usua.setEstadoUsuario("0");
             bdL_T_SFUsuarioLocal.mergeUsuario(usua);
             /**Cambiarle su estado en main a 0 a los docentes que ya no aparecen la nueva carga*/
-            List<Main> listMain = bdl_C_SFMainRemote.getHorariosPorDocente(listUsuarios.get(i).getDni());
+            /*List<Main> listMain = bdl_C_SFMainRemote.getHorariosPorDocente(listUsuarios.get(i).getDni());
             if (listMain != null) {
                 for (Main entida : listMain) {
                     entida.setEstado("0");
                     bdl_T_SFMainRemoto.mergeMain(entida);
                 }
             }
-        }
+        }*/
         return null;
     }
 }
