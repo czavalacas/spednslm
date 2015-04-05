@@ -205,7 +205,7 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
             Leyenda leyenda = new Leyenda();
             leyenda.setCriterioIndicador(criterioIndicador);
             leyenda.setDescripcionLeyenda(ley.getDescripcionLeyenda());
-            int indx = Integer.parseInt(ley.getHeader().substring(ley.getHeader().indexOf(" ") + 1,
+            double indx = Double.parseDouble(ley.getHeader().substring(ley.getHeader().indexOf(" ") + 1,
                                                                   ley.getHeader().length())       );
             FichaValor fichaValor = new FichaValor();
             if(evento == 1){
@@ -231,7 +231,7 @@ public class LN_T_SFFichaBean implements LN_T_SFFichaRemote,
         return lstaFichaValor;
     }
     
-    public FichaValor getFichaValorBy(int valor,List<FichaValor> lstFichasValor){
+    public FichaValor getFichaValorBy(double valor,List<FichaValor> lstFichasValor){
         for(FichaValor fichVal : lstFichasValor){
             if(valor == fichVal.getValor().getValor()){
                 return fichVal;

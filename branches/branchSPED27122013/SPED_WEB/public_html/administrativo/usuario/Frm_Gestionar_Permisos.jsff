@@ -51,11 +51,13 @@
                            binding="#{bGestionarPermisos.dialogU}">
                     <af:subform id="s6" defaultCommand="b1">
                         <af:panelFormLayout id="pfl2" rows="1" binding="#{bGestionarPermisos.pfl2}">
-                            <af:inputText label="Nombre" id="it4" value="#{sessionGestionarPermisos.nombreF}">
+                            <af:inputText label="Nombre" id="itNombUsuBusq" value="#{sessionGestionarPermisos.nombreF}"
+                                          binding="#{bGestionarPermisos.itNombUsuBusq}">
                                 <af:autoSuggestBehavior maxSuggestedItems="5"
                                                         suggestedItems="#{bGestionarPermisos.suggestNombre}"/>
                             </af:inputText>
-                            <af:inputText label="Usuario" id="it5" value="#{sessionGestionarPermisos.usuarioF}">
+                            <af:inputText label="Usuario" id="itUsuBusq" value="#{sessionGestionarPermisos.usuarioF}"
+                                          binding="#{bGestionarPermisos.itUsuBusq}">
                                 <af:autoSuggestBehavior maxSuggestedItems="5"
                                                         suggestedItems="#{bGestionarPermisos.suggestUsuario}"/>
                             </af:inputText>
