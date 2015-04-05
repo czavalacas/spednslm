@@ -67,6 +67,7 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
                 prof.setDniProfesor(listaProfesores.get(i).getDniProfesor());
                 prof.setNombres(listaProfesores.get(i).getNombres());
                 prof.setApellidos(listaProfesores.get(i).getApellidos());
+                prof.setFlgActi(1);
                 bdl_T_SFProfesorLocal.persistProfesor(prof);
                 
                 /** Crea usuario nuevos de rol Profesor*/
