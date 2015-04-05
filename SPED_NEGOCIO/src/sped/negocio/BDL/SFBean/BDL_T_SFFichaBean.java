@@ -52,7 +52,7 @@ public class BDL_T_SFFichaBean implements BDL_T_SFFichaRemote,
                                                   String tipCursoFicha,
                                                   int nidFicha){
         try{
-            String sql = "UPDATE `sped`.`evmfich`  " +
+            String sql = "UPDATE `mmsi_sped`.`evmfich`  " +
                          "SET   `estado_ficha` = '0' " +
                          "WHERE `tipo_ficha` = '"+tipFicha+"' " +
                          "AND   `tipo_ficha_curso` = '"+tipCursoFicha+"' " +

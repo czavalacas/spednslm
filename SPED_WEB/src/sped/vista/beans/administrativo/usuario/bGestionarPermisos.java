@@ -13,6 +13,7 @@ import oracle.adf.view.rich.component.rich.RichDialog;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
+import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectBooleanCheckbox;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelFormLayout;
@@ -58,6 +59,8 @@ public class bGestionarPermisos {
     private bSessionGestionarPermisos sessionGestionarPermisos;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private static final String CLASE = "sped.vista.beans.administrativo.usuario.bGestionarPermisos";
+    private RichInputText itUsuBusq;
+    private RichInputText itNombUsuBusq;
 
     public bGestionarPermisos() {
     }
@@ -99,6 +102,10 @@ public class bGestionarPermisos {
     }
     
     public String mostrarUsuarios() {
+        if(itNombUsuBusq != null){
+            itNombUsuBusq.resetValue();
+            itUsuBusq.resetValue();
+        }
         Utils.showPopUpMIDDLE(popUsu);
         return null;
     }
@@ -313,5 +320,21 @@ public class bGestionarPermisos {
 
     public RichDialog getDialogU() {
         return dialogU;
+    }
+
+    public void setItUsuBusq(RichInputText itUsuBusq) {
+        this.itUsuBusq = itUsuBusq;
+    }
+
+    public RichInputText getItUsuBusq() {
+        return itUsuBusq;
+    }
+
+    public void setItNombUsuBusq(RichInputText itNombUsuBusq) {
+        this.itNombUsuBusq = itNombUsuBusq;
+    }
+
+    public RichInputText getItNombUsuBusq() {
+        return itNombUsuBusq;
     }
 }
