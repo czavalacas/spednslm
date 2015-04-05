@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFFichaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFFichaRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.eval.Ficha;
 
@@ -59,9 +60,9 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
     }
     
     public Object[] getLastestFichaVersionByAttr_BDL(int year,
-                                                      int mes,
-                                                      String tipFicha,
-                                                      String tipFichaCurso){
+                                                     int mes,
+                                                     String tipFicha,
+                                                     String tipFichaCurso){
         try{
             String qlString = "SELECT MAX(SUBSTRING(f.descripcionVersion,16,Length(f.descripcionVersion)))," +
                               "       f.descripcionVersion," +
@@ -73,14 +74,18 @@ public class BDL_C_SFFichaBean implements BDL_C_SFFichaRemote,
                               " AND EXTRACT(MONTH FROM f.fechaFicha) = :mes " +
                               " AND f.tipoFicha = :tipFicha " +
                               " AND f.tipoFichaCurso = :tipFichaCurso " +
-                              " GROUP BY f.descripcionVersion ";
-            List<Object[]> obj = (ArrayList<Object[]>) em.createQuery(qlString).setParameter("year",year).
-                                                        setParameter("mes",mes).
-                                                        setParameter("tipFicha",tipFicha).
-                                                        setParameter("tipFichaCurso",tipFichaCurso).
-                                                        getResultList();
+                              " GROUP BY f.descripcionVersion ";//Utiles.sysout("y: "+year+" mes: "+mes+"  tipFicha: "+tipFicha+" tipFichaCurso: "+tipFichaCurso);
+            List<Object[]> obj =  em.createQuery(qlString).setParameter("year",year).
+                                                           setParameter("mes",mes).
+                                                           setParameter("tipFicha",tipFicha).
+                                                           setParameter("tipFichaCurso",tipFichaCurso).
+                                                           getResultList();
             if(obj != null){
-                return obj.get(0);
+                if(obj.size() > 0){
+                    return obj.get(0);
+                }else{
+                    return null;
+                }
             }else{
                 return null;
             }
