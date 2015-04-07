@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanProfesor;
 
@@ -19,4 +20,5 @@ public interface LN_C_SFProfesorLocal {
     List<BeanComboString> getPRofesorPorSedeYNivel(String nidSede, String nidNivel, int nidAreaAcademica);
     List<BeanProfesor> getProfesoresDistintoLista(List<String> lst_dni, BeanProfesor profesor);
     String colorProfesor(String dni);
+    Profesor getProfesorByDNI(String dni);
 }
