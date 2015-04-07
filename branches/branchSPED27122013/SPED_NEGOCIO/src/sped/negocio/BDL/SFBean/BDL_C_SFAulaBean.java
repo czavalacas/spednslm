@@ -100,7 +100,7 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
         try {
             String ejbQl =
                 " SELECT distinct au FROM Main ma, " + " Curso cur , " + " Profesor prof," + " Aula au" +
-                " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " + 
+                " WHERE prof.flgActi = 1 And prof.dniProfesor=ma.profesor.dniProfesor  " + 
                 " AND ma.aula.nidAula=au.nidAula " +
                 " AND au.gradoNivel.nivel.nidNivel=" + nidNivel +
                 " AND au.sede.nidSede=" + nidSede +
