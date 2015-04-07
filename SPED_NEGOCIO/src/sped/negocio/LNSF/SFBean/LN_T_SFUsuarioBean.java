@@ -14,6 +14,8 @@ import sped.negocio.BDL.IL.BDL_C_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
 import sped.negocio.BDL.IR.BDL_T_SFMainRemoto;
+import sped.negocio.BDL.SFBean.BDL_C_SFProfesorBean;
+import sped.negocio.BDL.SFBean.BDL_T_SFProfesorBean;
 import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFUsuarioPermisoLocal;
 import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
@@ -22,6 +24,7 @@ import sped.negocio.LNSF.IR.LN_T_SFUsuarioRemote;
 import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Main;
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.admin.Usuario;
 import sped.negocio.entidades.beans.BeanProfesor;
@@ -44,9 +47,9 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
     @EJB
     private BDL_C_SFSedeLocal bdL_C_SFSedeLocal;    
     @EJB
-    private BDL_C_SFMainRemote bdl_C_SFMainRemote;
+    private BDL_C_SFProfesorBean bdL_C_SFProfesorBean;
     @EJB
-    private BDL_T_SFMainRemoto bdl_T_SFMainRemoto;
+    private BDL_T_SFProfesorBean bdL_T_SFProfesorBean;
     @EJB
     private BDL_T_SFUsuarioLocal bdL_T_SFUsuarioLocal;
     @EJB
