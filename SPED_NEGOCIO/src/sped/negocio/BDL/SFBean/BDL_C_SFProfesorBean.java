@@ -103,7 +103,7 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
         }}
     
     public int existeDni(String dni){
-        String ejbQL = "SELECT  count(p) FROM Profesor p " + 
+        String ejbQL = "SELECT  Count(1) FROM Profesor p " + 
                        "WHERE p.dniProfesor = :dni ";
         List<Object> lstObject = em.createQuery(ejbQL).setParameter("dni", dni)
                                                       .getResultList();
@@ -159,25 +159,27 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
     public List<Profesor> getProfesoresPorSedeNivelYArea(String nidSede, String nidNivel, Integer nidAreaAcademica) {
         List<Profesor> lstMain = new ArrayList<Profesor>();
         try {
-            String ejbQl =    " SELECT distinct prof FROM Main ma, " +
-                              " Curso cur , " +
-                              " Profesor prof," +
-                              " Aula au" +
-                              " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " +
-                              " and ma.aula.nidAula=au.nidAula " +
-                              " and au.gradoNivel.nivel.nidNivel=" +nidNivel+
-                              " and au.sede.nidSede=" +nidSede+
-                              " and ma.curso.nidCurso=cur.nidCurso";
+            String ejbQl =    " Select distinct prof " +
+                              "   From Main ma,      " +
+                              "        Curso cur ,   " +
+                              "        Profesor prof," +
+                              "        Aula au       " +
+                              " Where prof.flgActi = 1 " +
+                              " And prof.dniProfesor  = ma.profesor.dniProfesor  " +
+                              " And ma.aula.nidAula   = au.nidAula " +
+                              " And au.gradoNivel.nivel.nidNivel = " +nidNivel+
+                              " And au.sede.nidSede   = " +nidSede+
+                              " And ma.curso.nidCurso = cur.nidCurso";
 
             if (nidAreaAcademica != null) {
                 if (nidAreaAcademica != 0){
                    if(nidAreaAcademica==12 || nidAreaAcademica==13) { //12 = Primer Ciclo 13 = Inicial                   
-                    ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);    
+                    ejbQl = ejbQl.concat(" And cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);    
                     }else{
-                        ejbQl = ejbQl.concat(" and cur.nidAreaNativa =" + nidAreaAcademica);    
+                        ejbQl = ejbQl.concat(" And cur.nidAreaNativa =" + nidAreaAcademica);    
                     }
             }  }  
-            ejbQl = ejbQl.concat(" ORDER BY prof.apellidos");  
+            ejbQl = ejbQl.concat(" Order By prof.apellidos");  
             lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;
         } catch (Exception e) {
