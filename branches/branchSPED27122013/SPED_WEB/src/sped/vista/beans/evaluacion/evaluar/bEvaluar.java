@@ -344,7 +344,10 @@ public class bEvaluar {
                         double vigecimal = (sumVal * 20) / new Double(maxVal);
                         crit.setNotaVige(vigecimal);
                     }else{
-                        Utils.sysout("SE CALCULO 0 COMO MAXVAL Y ESTA MAL.");
+                        msjGen.setText("Error de cálculo");
+                        Utils.addTarget(msjGen);
+                        Utils.mostrarMensaje(ctx,"Hubo un error en el cálculo, notificar al administrador enviando una imagen de este error. "+maxVal,"Error de cálculo",2);
+                        return;
                     }
                 }
             }
