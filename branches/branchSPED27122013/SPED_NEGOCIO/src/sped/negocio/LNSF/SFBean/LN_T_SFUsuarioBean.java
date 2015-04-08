@@ -45,11 +45,7 @@ public class LN_T_SFUsuarioBean implements LN_T_SFUsuarioRemote,
     @EJB
     private BDL_C_SFAreaAcademicaLocal bdL_C_SFAreaAcademicaLocal;
     @EJB
-    private BDL_C_SFSedeLocal bdL_C_SFSedeLocal;    
-    @EJB
-    private BDL_C_SFProfesorBean bdL_C_SFProfesorBean;
-    @EJB
-    private BDL_T_SFProfesorBean bdL_T_SFProfesorBean;
+    private BDL_C_SFSedeLocal bdL_C_SFSedeLocal;
     @EJB
     private BDL_T_SFUsuarioLocal bdL_T_SFUsuarioLocal;
     @EJB
