@@ -45,7 +45,7 @@ public class BDL_T_SFResultadoBean implements BDL_T_SFResultadoRemote,
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Resultado persistResultado(Resultado resultado) {
         em.persist(resultado);
-        em.flush();
+       // em.flush();
         return resultado;
     }
 
