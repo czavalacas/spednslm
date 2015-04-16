@@ -105,7 +105,9 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
                 " AND au.gradoNivel.nivel.nidNivel=" + nidNivel +
                 " AND au.sede.nidSede=" + nidSede +
                 " AND ma.curso.nidCurso=cur.nidCurso" + 
-                " AND prof.dniProfesor = :dniProfesor" + " AND cur.nidCurso = " +nidCurso;
+                " AND prof.dniProfesor = :dniProfesor" + " AND cur.nidCurso = " +nidCurso +
+                " AND ma.estado=1";
+            
             if (nidAreaAcademica != null) {
                 if (nidAreaAcademica != 0) {
                     if (nidAreaAcademica == 12 || nidAreaAcademica == 13) { //12 = Primer Ciclo 13 = Inicial

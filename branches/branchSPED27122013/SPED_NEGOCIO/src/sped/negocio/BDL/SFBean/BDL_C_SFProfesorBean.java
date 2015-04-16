@@ -169,7 +169,8 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
                               " And ma.aula.nidAula   = au.nidAula " +
                               " And au.gradoNivel.nivel.nidNivel = " +nidNivel+
                               " And au.sede.nidSede   = " +nidSede+
-                              " And ma.curso.nidCurso = cur.nidCurso";
+                              " And ma.curso.nidCurso = cur.nidCurso" +
+                              " And ma.estado=1";
 
             if (nidAreaAcademica != null) {
                 if (nidAreaAcademica != 0){
@@ -180,6 +181,7 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
                     }
             }  }  
             ejbQl = ejbQl.concat(" Order By prof.apellidos");  
+            System.out.println("::::::::::QUERY::::::::::::::"+ejbQl);
             lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;
         } catch (Exception e) {
