@@ -130,9 +130,14 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
                 " Curso cur , " +
                 " Profesor prof," + 
                 " Aula au" +
-                " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " + " and ma.aula.nidAula=au.nidAula " +
-                " and au.gradoNivel.nivel.nidNivel=" + nidNivel + " and au.sede.nidSede=" + nidSede +
-                " and ma.curso.nidCurso=cur.nidCurso" + " and prof.dniProfesor= :dniProfesor";
+                " WHERE prof.dniProfesor=ma.profesor.dniProfesor  " + 
+                " and ma.aula.nidAula=au.nidAula " +
+                " and au.gradoNivel.nivel.nidNivel=" + nidNivel + 
+                " and au.sede.nidSede=" + nidSede +
+                " and ma.curso.nidCurso=cur.nidCurso" +
+                " and prof.dniProfesor= :dniProfesor" +
+                " and ma.estado=1";
+                
             if (nidAreaAcademica != null) {
                 if (nidAreaAcademica != 0) {
                     if (nidAreaAcademica == 12 || nidAreaAcademica == 13) { //12 = Primer Ciclo 13 = Inicial
