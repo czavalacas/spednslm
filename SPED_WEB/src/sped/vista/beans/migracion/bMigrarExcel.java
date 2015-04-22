@@ -391,7 +391,8 @@ public class bMigrarExcel {
                     profe.setDniProfesor(cell.getStringCellValue());
                     profe.setNombres(list.get(1).toString());
                     profe.setApellidos(list.get(2).toString());
-                    profe.setCorreo(list.get(3).toString());
+                    profe.setCorreo(list.get(3).toString());Utils.sysout("dni: "+profe.getDniProfesor()+" corr: "+profe.getCorreo()+" nom: "+profe.getNombres()
+                                                                         +" ape: "+profe.getApellidos());
                     listProfesoresAInsertar.add(profe);
                 }
                 //FIN dfloresgonz 12.04.2014
