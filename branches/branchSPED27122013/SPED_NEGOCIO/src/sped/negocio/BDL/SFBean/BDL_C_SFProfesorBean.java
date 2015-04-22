@@ -67,7 +67,7 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
         }
     
     public List<Profesor> findProfesorPorSede_ByOrden(String nidSede, String nidArea, String nidCurso, String nidNivel, String nidGrado) {
-        try {
+        try {//VER SI ESTE QUERY NECESITA DE ma.estado)1 para que traiga solo los profesores que esten ense;ando
             String ejbQl =    " SELECT distinct pro from Profesor pro, Sede sed, Aula au, Main ma, Curso cu, AreaAcademica aca, Nivel niv, Grado gra"+
                               " where pro.dniProfesor=ma.profesor.dniProfesor "+ 
                               " and ma.aula.nidAula=au.nidAula "+ 
