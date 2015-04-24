@@ -44,6 +44,7 @@ import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboDouble2;
 import sped.negocio.entidades.beans.BeanComboInteger;
 import sped.negocio.entidades.beans.BeanComboString;
+import sped.negocio.entidades.beans.BeanComboStringCalend;
 
 /** Clase Utils contiene metodos reutilizables
  * @author dfloresgonz
@@ -306,6 +307,14 @@ public class Utils {
     public static ArrayList llenarComboString(List<BeanComboString> lista) {
         ArrayList unItems = new ArrayList();
         for (BeanComboString c : lista) {
+            unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
+        }
+        return unItems;
+    }
+    
+    public static ArrayList llenarComboStringCalend(List<BeanComboStringCalend> lista) {
+        ArrayList unItems = new ArrayList();
+        for (BeanComboStringCalend c : lista) {
             unItems.add(new SelectItem(c.getId().toString(), c.getDescripcion().toString()));
         }
         return unItems;
