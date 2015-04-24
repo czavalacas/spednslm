@@ -55,4 +55,5 @@ public interface LN_C_SFUtilsLocal {
     List<BeanComboString> getCursosActivos_LN();
     List<BeanComboString> getAulasBySede_Activos_LN(int nidSede);
     List<BeanComboString> getSedesString_LN();
+    List<BeanComboString> getProfesorActivosFull_LN();
 }
