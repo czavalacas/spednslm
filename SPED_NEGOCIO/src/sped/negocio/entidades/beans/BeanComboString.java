@@ -28,6 +28,16 @@ public class BeanComboString implements Serializable {
         this.descripcion = desc;
     }
     
+    public BeanComboString(String id,String desc, String desc2){
+        this.id = id;
+        this.descripcion = desc2+" "+desc;
+    }
+    
+    public BeanComboString(Integer id,String desc, String desc2, String desc3){
+        this.id = String.valueOf(id);
+        this.descripcion = desc+" / "+desc2+" "+desc3;
+    }
+    
     public void setId(String id) {
         this.id = id;
     }

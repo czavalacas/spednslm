@@ -61,7 +61,8 @@
                     <af:panelFormLayout id="pfl1">
                         <af:selectOneChoice label="Accion" requiredMessageDetail="Seleccionar la accion" id="soc2"
                                     value="#{sessionScope.sessionMigrarExcel.accionSess}" autoSubmit="true"
-                                    valueChangeListener="#{requestScope.bMigrarExcel.vclAccion}">
+                                    valueChangeListener="#{requestScope.bMigrarExcel.vclAccion}"
+                                            unselectedLabel=":: Seleccionar Accion::">
                     <af:selectItem label="Nuevo" value="NEW" id="si9"/>
                     <af:selectItem label="Modificar" value="MOD" id="si10"/>
                 </af:selectOneChoice>

@@ -140,6 +140,10 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
         return bdL_C_SFUtilsLocal.getProfesor("e.dniProfesor", "e.nombres");
     }
     
+    public List<BeanComboString> getProfesorActivosFull_LN() {
+        return bdL_C_SFUtilsLocal.getProfesorActivos();
+    }
+    
     public List<BeanCombo> getRol_LN(){
         return bdL_C_SFUtilsLocal.getRolNoAdmin("e.nidRol", "e.descripcionRol");
     }
