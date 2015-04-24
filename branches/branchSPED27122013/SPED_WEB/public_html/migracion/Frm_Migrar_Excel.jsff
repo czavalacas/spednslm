@@ -90,8 +90,36 @@
                                     binding="#{bMigrarExcel.cbCurso}">
                     <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaCursosChoice}" id="si11"/>
                 </af:selectOneChoice>
-                    </af:panelFormLayout>
-               </af:panelGroupLayout>       
+              </af:panelFormLayout>
+                        <af:separator id="s2"/>
+                        <af:table value="#{sessionScope.sessionMigrarExcel.lstMain}" var="row" rowBandingInterval="0"
+                                  id="t1">
+                            <af:column sortable="false" headerText="Id" align="end" id="c1">
+                                <af:outputText value="#{row.nidMain}" id="ot1"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Sede" align="start" id="c2">
+                                <af:outputText value="#{row.sede}" id="ot2"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Dni" align="start" id="c3">
+                                <af:outputText value="#{row.dniProfesor}" id="ot3"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Profesor" align="start" id="c4">
+                                <af:outputText value="#{row.profesor}" id="ot4"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Aula" align="start" id="c5">
+                                <af:outputText value="#{row.aula}" id="ot5"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Curso" align="start" id="c6">
+                                <af:outputText value="#{row.curso}" id="ot6"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Area Acad." align="start" id="c7">
+                                <af:outputText value="#{row.areaAcademica}" id="ot7"/>
+                            </af:column>
+                            <af:column sortable="false" headerText="Grado Nivel" align="start" id="c8">
+                                <af:outputText value="#{row.gradoNivel}" id="ot8"/>
+                            </af:column>
+                        </af:table>
+                    </af:panelGroupLayout>
             </af:showDetailItem>
         </af:panelTabbed>
         </af:panelGroupLayout>
