@@ -22,6 +22,7 @@ import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCalendario;
 import sped.negocio.entidades.beans.BeanComboInteger;
 import sped.negocio.entidades.beans.BeanComboString;
+import sped.negocio.entidades.beans.BeanComboStringCalend;
 
 @Stateless(name = "LN_C_SFCalendario", mappedName = "mapLN_C_SFCalendario")
 public class LN_C_SFCalendarioBean implements LN_C_SFCalendarioRemote, 
@@ -67,7 +68,7 @@ public class LN_C_SFCalendarioBean implements LN_C_SFCalendarioRemote,
         return lstRet;
     }
     
-    public List<BeanComboString> getYearsCalendario(){
+    public List<BeanComboStringCalend> getYearsCalendario(){
         return bdL_C_SFCalendarioLocal.getYearsCalendario();
     }
 }

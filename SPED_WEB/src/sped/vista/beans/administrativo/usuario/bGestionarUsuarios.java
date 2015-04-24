@@ -135,9 +135,9 @@ public class bGestionarUsuarios {
             sessionGestionarUsuarios.setLstAreaAcademica(Utils.llenarCombo(ln_C_SFUtilsRemote.getAreas_LN_WS()));
             sessionGestionarUsuarios.setLstEstadoUsario(this.llenarComboEstado());
             sessionGestionarUsuarios.setLstSede(Utils.llenarCombo(ln_C_SFUtilsRemote.getSedes_LN()));
-            validaUsuario();            
+            validaUsuario();
             buscarUsuarioFiltro_aux();
-            sessionGestionarUsuarios.setLstYears(Utils.llenarComboString(ln_C_SFCalendarioLocal.getYearsCalendario()));
+            sessionGestionarUsuarios.setLstYears(Utils.llenarComboStringCalend(ln_C_SFCalendarioLocal.getYearsCalendario()));
         } 
     }
 

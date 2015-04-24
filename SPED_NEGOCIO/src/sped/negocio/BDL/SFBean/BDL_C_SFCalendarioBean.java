@@ -14,6 +14,7 @@ import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.beans.BeanCalendario;
 import sped.negocio.entidades.beans.BeanComboInteger;
 import sped.negocio.entidades.beans.BeanComboString;
+import sped.negocio.entidades.beans.BeanComboStringCalend;
 import sped.negocio.entidades.sist.Calendario;
 
 @Stateless(name = "BDL_C_SFCalendario", mappedName = "mapBDL_C_SFCalendario")
@@ -88,17 +89,17 @@ public class BDL_C_SFCalendarioBean implements BDL_C_SFCalendarioRemote,
         }
     }
     
-    public List<BeanComboString> getYearsCalendario(){
+    public List<BeanComboStringCalend> getYearsCalendario(){//(Cast(e.year As Char)
         try{
-            String qlString = "Select NEW sped.negocio.entidades.beans.BeanComboString(Cast(e.year As Char),Cast(e.year As Char) ) " +
+            String qlString = "Select NEW sped.negocio.entidades.beans.BeanComboStringCalend(Cast(e.year As Char),Cast(e.year As Char)) " +
                               "From Calendario e "+
                               "Group By e.year "+
                               "Order By e.year Asc ";
-            List<BeanComboString> lstYears = em.createQuery(qlString).getResultList();
+            List<BeanComboStringCalend> lstYears = em.createQuery(qlString).getResultList();
             return lstYears;
         }catch(Exception e){
             e.printStackTrace();
-            return new ArrayList<BeanComboString>();
+            return new ArrayList<BeanComboStringCalend>();
         }
     }
 }

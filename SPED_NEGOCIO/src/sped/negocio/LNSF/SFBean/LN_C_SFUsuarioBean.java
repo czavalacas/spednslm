@@ -196,7 +196,7 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
             beanUsuario.setEstadoUsuario(estadoUsuario != 0 ? (estadoUsuario-1)+"" : null);
             return transformLstUsuario(bdL_C_SFUsuarioLocal.getUsuariobyByAttrBDL(beanUsuario));
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return new ArrayList<BeanUsuario>();
         }    
     }
@@ -219,7 +219,7 @@ public class LN_C_SFUsuarioBean implements LN_C_SFUsuarioRemote,
                 lstBean.add(beanUsuario);
             }
             return lstBean;
-        }catch(MappingException me){
+        }catch(Exception me){
             me.printStackTrace();
             return null;
         }        
