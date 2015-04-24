@@ -56,4 +56,5 @@ public interface BDL_C_SFUtilsRemote {
     List<BeanComboString> getCursosActivos();
     List<BeanComboString> getAulaActivas(int nidSede);
     List<BeanComboString> getSedesString();
+    List<BeanComboString> getProfesorActivos();
 }

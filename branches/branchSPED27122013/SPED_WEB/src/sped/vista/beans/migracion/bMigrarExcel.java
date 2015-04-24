@@ -112,7 +112,7 @@ public class bMigrarExcel {
     public void llenarCombos() {
         //this.setListaSedesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getSedesString_LN()));
         sessionMigrarExcel.setListaSedesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getSedesString_LN()));
-        sessionMigrarExcel.setListaProfesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getProfesor_LN()));
+        sessionMigrarExcel.setListaProfesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getProfesorActivosFull_LN()));
         sessionMigrarExcel.setListaCursosChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getCursosActivos_LN()));
         sessionMigrarExcel.setEstChoiceSede(false);
         sessionMigrarExcel.setEstChoiceProf(false);

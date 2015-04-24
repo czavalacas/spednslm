@@ -19,6 +19,10 @@ public class BeanMainWS implements Serializable {
     private String gradoNivel;
     private String areaAcademica;
     private Integer nidSede;
+    /** Carga nueva dfloresgonz 24.04.2015 */
+    private String dniProfesor;
+    private Integer nidAula;
+    private Integer nidCurso;
     
     public BeanMainWS(){
         
@@ -48,6 +52,32 @@ public class BeanMainWS implements Serializable {
         this.gradoNivel = grado+ " de "+nivel;
         this.areaAcademica = areaAcademica;
         this.nidSede = nidSede;
+    }
+    
+    public BeanMainWS(int nidMain,
+                      String apellidos,
+                      String nombres,
+                      String curso,
+                      String sede,
+                      String aula,
+                      String grado,
+                      String nivel,
+                      String areaAcademica,
+                      Integer nidSede,
+                      String dniProfesor,
+                      Integer nidAula,
+                      Integer nidCurso){
+        this.nidMain = nidMain;
+        this.dniProfesor = dniProfesor;
+        this.profesor = apellidos+" "+nombres;
+        this.curso = curso;
+        this.nidCurso = nidCurso;
+        this.nidSede = nidSede;
+        this.sede = sede;
+        this.nidAula = nidAula;
+        this.aula = aula;
+        this.gradoNivel = grado+ " de "+nivel;
+        this.areaAcademica = areaAcademica;
     }
 
     public void setNidSede(Integer nidSede) {
@@ -136,5 +166,29 @@ public class BeanMainWS implements Serializable {
 
     public String getGradoNivel() {
         return gradoNivel;
+    }
+
+    public void setDniProfesor(String dniProfesor) {
+        this.dniProfesor = dniProfesor;
+    }
+
+    public String getDniProfesor() {
+        return dniProfesor;
+    }
+
+    public void setNidAula(Integer nidAula) {
+        this.nidAula = nidAula;
+    }
+
+    public Integer getNidAula() {
+        return nidAula;
+    }
+
+    public void setNidCurso(Integer nidCurso) {
+        this.nidCurso = nidCurso;
+    }
+
+    public Integer getNidCurso() {
+        return nidCurso;
     }
 }

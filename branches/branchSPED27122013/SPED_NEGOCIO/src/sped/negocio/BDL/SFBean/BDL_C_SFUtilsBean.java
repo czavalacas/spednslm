@@ -326,9 +326,11 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     
     public List<BeanComboString> getAulaActivas(int nidSede){
         try{
-            String qlString = this.getSelectBasicoBeanComboString("e.nidAula","e.descripcionAula", "Aula") +
-                              " WHERE e.sede.nidSede = :nidSede " +
-                              " AND e.flgActi = 1 " +
+            String qlString = "SELECT NEW sped.negocio.entidades.beans.BeanComboString(e.nidAula,e.descripcionAula,g.abvr,n.abvr) "+
+                              " From Aula e,Grado g, Nivel n WHERE e.sede.nidSede = :nidSede " +
+                              " And e.flgActi = 1 "+
+                              " And e.gradoNivel.grado.nidGrado = g.nidGrado "+
+                              " And e.gradoNivel.nivel.nidNivel = n.nidNivel "+
                               " ORDER BY e.descripcionAula ASC";
             List<BeanComboString> lstAulas = em.createQuery(qlString).setParameter("nidSede", nidSede)
                                             .getResultList();
@@ -374,6 +376,19 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
                               " Where e.flgActi = 1 ORDER BY e.nombres ASC";
             List<BeanComboString> lstCurso = em.createQuery(qlString).getResultList();        
             return lstCurso;       
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public List<BeanComboString> getProfesorActivos(){
+        try{
+            String qlString = "SELECT NEW sped.negocio.entidades.beans.BeanComboString(e.dniProfesor,e.nombres,e.apellidos)"+
+                              " From Profesor e "+
+                              " Where e.flgActi = 1 ORDER BY e.nombres ASC";
+            List<BeanComboString> lstProf = em.createQuery(qlString).getResultList();        
+            return lstProf;
         }catch(Exception e){
             e.printStackTrace();
             return null;
