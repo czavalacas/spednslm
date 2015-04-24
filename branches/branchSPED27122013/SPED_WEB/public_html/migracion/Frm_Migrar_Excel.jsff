@@ -47,7 +47,53 @@
                 </f:facet>
             </af:dialog>
         </af:popup>
+            <af:separator id="s1"/>
+            
+            <af:panelTabbed id="pt1">
+            <af:showDetailItem text="Aulas" id="sdAula">
+            
+            </af:showDetailItem>
+            <af:showDetailItem text="Cursos" id="sdCurso">
+                    <af:button text="button 1" id="b2"/>
+            </af:showDetailItem>
+            <af:showDetailItem text="Horario" id="sdHora">
+               <af:panelGroupLayout id="pgl18" layout="vertical">
+                    <af:panelFormLayout id="pfl1">
+                        <af:selectOneChoice label="Accion" requiredMessageDetail="Seleccionar la accion" id="soc2"
+                                    value="#{sessionScope.sessionMigrarExcel.accionSess}" autoSubmit="true"
+                                    valueChangeListener="#{requestScope.bMigrarExcel.vclAccion}">
+                    <af:selectItem label="Nuevo" value="NEW" id="si9"/>
+                    <af:selectItem label="Modificar" value="MOD" id="si10"/>
+                </af:selectOneChoice>
+                <af:selectOneChoice label="Sede" requiredMessageDetail="Seleccionar Sede" autoSubmit="true"
+                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceSede}"
+                                    value="#{sessionScope.sessionMigrarExcel.cidSedeSess}" id="cbSede"
+                                    binding="#{bMigrarExcel.cbSede}" valueChangeListener="#{requestScope.bMigrarExcel.vclSede}">
+                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaSedesChoice}" id="si6"/>
+                </af:selectOneChoice>
+                <af:selectOneChoice label="Aula" requiredMessageDetail="Seleccionar Aula"
+                                    value="#{sessionScope.sessionMigrarExcel.cidAulaSess}" id="cbAula"
+                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceAula}"
+                                    binding="#{bMigrarExcel.cbAula}">
+                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaAulasChoice}" id="si7"/>
+                </af:selectOneChoice>
+                <af:selectOneChoice label="Profesor" requiredMessageDetail="Seleccionar Profesor"
+                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceProf}"
+                                    value="#{sessionScope.sessionMigrarExcel.dniProfSess}" id="cbProf"
+                                    binding="#{bMigrarExcel.cbProf}">
+                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaProfesChoice}" id="si8"/>
+                </af:selectOneChoice>
+                <af:selectOneChoice label="Curso" requiredMessageDetail="Seleccionar Curso"
+                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceCurso}"
+                                    value="#{sessionScope.sessionMigrarExcel.cidCursoSess}" id="cbCurso"
+                                    binding="#{bMigrarExcel.cbCurso}">
+                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaCursosChoice}" id="si11"/>
+                </af:selectOneChoice>
+                    </af:panelFormLayout>
+               </af:panelGroupLayout>       
+            </af:showDetailItem>
+        </af:panelTabbed>
         </af:panelGroupLayout>
-       
+        
     </f:view>
 </ui:composition>

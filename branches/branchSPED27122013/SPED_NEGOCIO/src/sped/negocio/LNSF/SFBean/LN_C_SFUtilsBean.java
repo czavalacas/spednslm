@@ -104,6 +104,10 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
         return bdL_C_SFUtilsLocal.getSedes("e.nidSede", "e.descripcionSede");
     }
     
+    public List<BeanComboString> getSedesString_LN(){
+        return bdL_C_SFUtilsLocal.getSedesString();
+    }
+    
     public List<BeanCombo> getNiveles_LN(){
         return bdL_C_SFUtilsLocal.getNiveles("e.nidNivel", "e.descripcionNivel");
     }
@@ -158,6 +162,14 @@ public class LN_C_SFUtilsBean implements LN_C_SFUtilsRemote,
     
     public List<BeanComboString> getTiposFalta_LN() {
         return bdL_C_SFUtilsLocal.getTiposFalta("e.valorCampo", "e.descripcionAMostrar");
+    }
+    
+    public List<BeanComboString> getCursosActivos_LN(){
+        return bdL_C_SFUtilsLocal.getCursosActivos();
+    }
+    
+    public List<BeanComboString> getAulasBySede_Activos_LN(int nidSede){
+        return bdL_C_SFUtilsLocal.getAulaActivas(nidSede);
     }
     
     /**

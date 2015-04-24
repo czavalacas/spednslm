@@ -34,6 +34,8 @@ public class Curso implements Serializable {
     private int nidAreaNativa;
     @Column(name = "color")
     private String color;
+    @Column(name = "flg_acti")
+    private int flgActi;
     
     public Curso() {
     }
@@ -117,5 +119,13 @@ public class Curso implements Serializable {
 
     public int getNidAreaNativa() {
         return nidAreaNativa;
+    }
+
+    public void setFlgActi(int flgActi) {
+        this.flgActi = flgActi;
+    }
+
+    public int getFlgActi() {
+        return flgActi;
     }
 }

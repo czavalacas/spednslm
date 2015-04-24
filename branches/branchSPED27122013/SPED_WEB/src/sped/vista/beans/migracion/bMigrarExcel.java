@@ -39,6 +39,7 @@ import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFAulaRemote;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.LNSF.IR.LN_C_SFProfesorRemote;
+import sped.negocio.LNSF.IR.LN_C_SFUtilsRemote;
 import sped.negocio.LNSF.IR.LN_T_SFAreaAcademicaRemoto;
 import sped.negocio.LNSF.IR.LN_T_SFAulaRemoto;
 import sped.negocio.LNSF.IR.LN_T_SFCursoRemoto;
@@ -65,7 +66,6 @@ import sped.vista.Utils.Utils;
 import utils.system;
 
 public class bMigrarExcel {
-
     @EJB
     private LN_C_SFCursoRemoto ln_C_SFCursoRemoto;
     @EJB
@@ -84,25 +84,24 @@ public class bMigrarExcel {
     private LN_T_SFProfesorRemoto ln_T_SFProfesorRemoto;
     @EJB
     private LN_T_SFUsuarioRemote ln_T_SFUsuarioRemote;
-        
+    @EJB
+    private LN_C_SFUtilsRemote ln_C_SFUtilsRemote;
     /** Temporal  */
     @EJB
     private BDL_T_SFMainRemoto bDL_T_SFMainRemoto;
-        
     private bSessionMigrarExcel sessionMigrarExcel;
     private RichSelectOneChoice choiceSede;
     private RichInputFile inputFileExcel;
     FacesContext ctx = FacesContext.getCurrentInstance();
     private RichPopup popupConfirmarMigracion;
     private RichButton btnSubirArchivo;
-
+    /** Nueva carga */
+    private RichSelectOneChoice cbSede;
+    private RichSelectOneChoice cbProf;
+    private RichSelectOneChoice cbCurso;
+    private RichSelectOneChoice cbAula;
 
     public bMigrarExcel() {
-        try {
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @PostConstruct
@@ -110,7 +109,47 @@ public class bMigrarExcel {
         sessionMigrarExcel.setNidSede("2");
     }
 
+    public void llenarCombos() {
+        //this.setListaSedesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getSedesString_LN()));
+        sessionMigrarExcel.setListaSedesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getSedesString_LN()));
+        sessionMigrarExcel.setListaProfesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getProfesor_LN()));
+        sessionMigrarExcel.setListaCursosChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getCursosActivos_LN()));
+        sessionMigrarExcel.setEstChoiceSede(false);
+        sessionMigrarExcel.setEstChoiceProf(false);
+        sessionMigrarExcel.setEstChoiceCurso(false);
+        Utils.addTargetMany(cbSede,cbProf,cbCurso);
+    }
 
+    /** ****************************************************************************************************************/
+    public void vclAccion(ValueChangeEvent vcl) {
+        try{
+            String val = (String) vcl.getNewValue();
+            if(val != null){
+                llenarCombos();
+                sessionMigrarExcel.setAccionSess(val);
+                if("NEW".equals(val)){
+                    
+                }else if("MOD".equals(val)){
+                    
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void vclSede(ValueChangeEvent vcl) {
+        String cidSede = (String) vcl.getNewValue();
+        sessionMigrarExcel.setListaAulasChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getAulasBySede_Activos_LN(Integer.parseInt(cidSede))));
+        sessionMigrarExcel.setEstChoiceAula(false);
+        Utils.addTarget(cbAula);
+        if("NEW".equals(sessionMigrarExcel.getAccionSess()) ){
+            
+        }else if("MOD".equals(sessionMigrarExcel.getAccionSess()) ){
+            
+        }
+    }
+    
     public String migrarExcel() {
         Utils.showPopUpMIDDLE(popupConfirmarMigracion);
         return null;
@@ -145,14 +184,15 @@ public class bMigrarExcel {
         }
 
     }
-    
-    public List leerExcelXLSX(InputStream file){
+
+    public List leerExcelXLSX(InputStream file) {
         List sheetData = new ArrayList();
-        try{
+        try {
             XSSFWorkbook wb = new XSSFWorkbook(file);
             XSSFSheet sheet = wb.getSheetAt(0);
             Iterator<Row> rows = sheet.rowIterator();
-            Row row; Cell cell;
+            Row row;
+            Cell cell;
             while (rows.hasNext()) {
                 row = rows.next();
                 Iterator<Cell> cellIterator = row.cellIterator();
@@ -164,15 +204,15 @@ public class bMigrarExcel {
                 sheetData.add(data);
             }
             return sheetData;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
     }
-    
-    public List leerExcelXLS(InputStream file){
+
+    public List leerExcelXLS(InputStream file) {
         List sheetData = new ArrayList();
-        try{
+        try {
             HSSFWorkbook workbook = new HSSFWorkbook(file);
             HSSFSheet sheet = workbook.getSheetAt(0);
             Iterator rows = sheet.rowIterator();
@@ -188,7 +228,7 @@ public class bMigrarExcel {
                 sheetData.add(data);
             }
             return sheetData;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
@@ -197,35 +237,36 @@ public class bMigrarExcel {
     public void leerExcel(InputStream file) throws IOException {
         List sheetData = new ArrayList();
         try {
-            String extension = sessionMigrarExcel.getNombreArchivo().substring(sessionMigrarExcel.getNombreArchivo().lastIndexOf(".") + 1, 
-                                                                               sessionMigrarExcel.getNombreArchivo().length());
-            if (extension.equalsIgnoreCase("xls")){
+            String extension =
+                sessionMigrarExcel.getNombreArchivo().substring(sessionMigrarExcel.getNombreArchivo().lastIndexOf(".") +
+                                                                1, sessionMigrarExcel.getNombreArchivo().length());
+            if (extension.equalsIgnoreCase("xls")) {
                 sheetData = leerExcelXLS(file);
-            }else{
+            } else {
                 sheetData = leerExcelXLSX(file);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (file != null) {
                 file.close();
             }
-        }        
-        if(sessionMigrarExcel.getTipoMigracion()==1){
-            insertarCursos(sheetData);  
         }
-        if(sessionMigrarExcel.getTipoMigracion()==2){
+        if (sessionMigrarExcel.getTipoMigracion() == 1) {
+            insertarCursos(sheetData);
+        }
+        if (sessionMigrarExcel.getTipoMigracion() == 2) {
             insertarAreaAcademica(sheetData);
         }
-        if(sessionMigrarExcel.getTipoMigracion()==3){
+        if (sessionMigrarExcel.getTipoMigracion() == 3) {
             insertarAulas(sheetData);
         }
-        if(sessionMigrarExcel.getTipoMigracion()==4){
-            insertarProfesores(sheetData);  
+        if (sessionMigrarExcel.getTipoMigracion() == 4) {
+            insertarProfesores(sheetData);
         }
         /**Temporal */
-        if(sessionMigrarExcel.getTipoMigracion()==5){
+        if (sessionMigrarExcel.getTipoMigracion() == 5) {
             insertarMain(sheetData);
         }
     }
@@ -255,7 +296,8 @@ public class bMigrarExcel {
         if (listaActual != null) {
             for (int j = 0; j < listaActual.size(); j++) {
                 for (int i = 0; i < listcursosAInsertar.size(); i++) {
-                    if (listaActual.get(j).getNidCurso().intValue() == listcursosAInsertar.get(i).getNidCurso().intValue()) {
+                    if (listaActual.get(j).getNidCurso().intValue() ==
+                        listcursosAInsertar.get(i).getNidCurso().intValue()) {
                         listcursosAInsertar.remove(i);
                     }
                 }
@@ -268,7 +310,7 @@ public class bMigrarExcel {
             ln_T_SFCursoRemoto.grabarCursosNuevos(listcursosAInsertar);
         }
 
-        System.out.println("TAMAÃ‘O DE LA LISTA DE CURSOS : " + listcursosAInsertar.size());
+        System.out.println("TAMAÑO DE LA LISTA DE CURSOS : " + listcursosAInsertar.size());
     }
 
     private void insertarAreaAcademica(List sheetData) {
@@ -291,7 +333,8 @@ public class bMigrarExcel {
         if (listaActual != null) {
             for (int j = 0; j < listaActual.size(); j++) {
                 for (int i = 0; i < listAreasAInsertar.size(); i++) {
-                    if (listaActual.get(j).getNidAreaAcademica().intValue() == listAreasAInsertar.get(i).getNidAreaAcademica().intValue()) {
+                    if (listaActual.get(j).getNidAreaAcademica().intValue() ==
+                        listAreasAInsertar.get(i).getNidAreaAcademica().intValue()) {
                         listAreasAInsertar.remove(i);
                         System.out.println("QUITO:");
                     }
@@ -304,17 +347,17 @@ public class bMigrarExcel {
         } else {
             ln_T_SFAreaAcademicaRemoto.grabarAreasNuevas(listAreasAInsertar);
         }
-        System.out.println("TAMAÃ‘O DE LA LISTA DE CURSOS : " + listAreasAInsertar.size());
+        System.out.println("TAMAÑO DE LA LISTA DE CURSOS : " + listAreasAInsertar.size());
     }
-    
+
     private void insertarAulas(List sheetData) {
         List<BeanAula> listaulasAInsertar = new ArrayList<BeanAula>();
         for (int i = 0; i < sheetData.size(); i++) {
             BeanAula aula = new BeanAula();
-            BeanGrado grado=new BeanGrado();
-            BeanNivel nivel=new BeanNivel();
-            BeanGradoNivel grani=new BeanGradoNivel();
-            BeanSede sede=new BeanSede();
+            BeanGrado grado = new BeanGrado();
+            BeanNivel nivel = new BeanNivel();
+            BeanGradoNivel grani = new BeanGradoNivel();
+            BeanSede sede = new BeanSede();
             List list = (List) sheetData.get(i);
             if (!list.isEmpty()) {
                 Cell cell = (Cell) list.get(0);
@@ -331,7 +374,7 @@ public class bMigrarExcel {
                     grani.setGrado(grado);
                     grani.setNivel(nivel);
                     aula.setGradoNivel(grani);
-                  /* Utils.sysout(curso.getNidCurso() + " - " + curso.getDescripcionCurso() + " - " +
+                    /* Utils.sysout(curso.getNidCurso() + " - " + curso.getDescripcionCurso() + " - " +
                        curso.getAreaAcademica().getNidAreaAcademica() + " - " + curso.getTipoFichaCurso());*/
                     listaulasAInsertar.add(aula);
                 }
@@ -341,8 +384,9 @@ public class bMigrarExcel {
         if (listaActual != null) {
             for (int j = 0; j < listaActual.size(); j++) {
                 for (int i = 0; i < listaulasAInsertar.size(); i++) {
-                    System.out.println(listaActual.get(j).getNidAula() +"=="+ listaulasAInsertar.get(i).getNidAula());
-                    if (listaActual.get(j).getNidAula().intValue() == listaulasAInsertar.get(i).getNidAula().intValue()) {
+                    System.out.println(listaActual.get(j).getNidAula() + "==" + listaulasAInsertar.get(i).getNidAula());
+                    if (listaActual.get(j).getNidAula().intValue() ==
+                        listaulasAInsertar.get(i).getNidAula().intValue()) {
                         listaulasAInsertar.remove(i);
                         System.out.println("QUITO:");
                     }
@@ -356,50 +400,51 @@ public class bMigrarExcel {
             ln_T_SFAulaRemoto.grabarAulasNuevas(listaulasAInsertar);
         }
 
-        System.out.println("TAMAÃ‘O DE LA LISTA DE CURSOS : " + listaulasAInsertar.size());
+        System.out.println("TAMAÑO DE LA LISTA DE CURSOS : " + listaulasAInsertar.size());
     }
-    
+
     /**
      * Metodo que verifica si la celda el DNI tiene 8 caracteres y es numerico
      * @author dfloresgonz
      * @since 12.04.2014
      * @param valorCelda - el valor de la celda
-     * @return si es TRUE = es dni, FALSE = titulo 
+     * @return si es TRUE = es dni, FALSE = titulo
      */
-    public boolean isDNI(String valorCelda){//puede ser el titulo/dni
-        if(Utils.isNumeric(valorCelda)){
+    public boolean isDNI(String valorCelda) { //puede ser el titulo/dni
+        if (Utils.isNumeric(valorCelda)) {
             int len = valorCelda.length();
-            if(len == 8){
+            if (len == 8) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
         return false;
     }
-    
+
     private void insertarProfesores(List sheetData) {
-        List<BeanProfesor> listProfesoresAInsertar = new ArrayList<BeanProfesor>();        
-        for (int i = 0; i < sheetData.size(); i++) {         
+        List<BeanProfesor> listProfesoresAInsertar = new ArrayList<BeanProfesor>();
+        for (int i = 0; i < sheetData.size(); i++) {
             List list = (List) sheetData.get(i);
             if (!list.isEmpty()) {
-                BeanProfesor profe=new BeanProfesor();               
+                BeanProfesor profe = new BeanProfesor();
                 Cell cell = (Cell) list.get(0);
                 //dfloresgonz 12.04.2014
                 //EDUSYS tiene que mandar la celda como string sino no vendran ls dni con 8 caracteres
-                if(this.isDNI(cell.getStringCellValue())){
+                if (this.isDNI(cell.getStringCellValue())) {
                     profe.setDniProfesor(cell.getStringCellValue());
                     profe.setNombres(list.get(1).toString());
                     profe.setApellidos(list.get(2).toString());
-                    profe.setCorreo(list.get(3).toString());Utils.sysout("dni: "+profe.getDniProfesor()+" corr: "+profe.getCorreo()+" nom: "+profe.getNombres()
-                                                                         +" ape: "+profe.getApellidos());
+                    profe.setCorreo(list.get(3).toString());
+                    Utils.sysout("dni: " + profe.getDniProfesor() + " corr: " + profe.getCorreo() + " nom: " +
+                                 profe.getNombres() + " ape: " + profe.getApellidos());
                     listProfesoresAInsertar.add(profe);
                 }
                 //FIN dfloresgonz 12.04.2014
             }
         }
         ln_T_SFUsuarioRemote.cambiarEstadoUsuarioProfesores(listProfesoresAInsertar);
-        List<BeanProfesor> listaActual = ln_C_SFProfesorRemote.getProfesoresLN2();    
+        List<BeanProfesor> listaActual = ln_C_SFProfesorRemote.getProfesoresLN2();
         if (listaActual != null) {
             for (int j = 0; j < listaActual.size(); j++) {
                 for (int i = 0; i < listProfesoresAInsertar.size(); i++) {
@@ -416,17 +461,18 @@ public class bMigrarExcel {
             ln_T_SFProfesorRemoto.grabarProfesoresNuevos(listProfesoresAInsertar);
         }
     }
-    
+
     public void seleccionarTipoMigracion(ValueChangeEvent valueChangeEvent) {
-        if(choiceSede.getValue()==1||choiceSede.getValue()==2||choiceSede.getValue()==3||choiceSede.getValue()==4||choiceSede.getValue()==5){
+        if (choiceSede.getValue() == 1 || choiceSede.getValue() == 2 || choiceSede.getValue() == 3 ||
+            choiceSede.getValue() == 4 || choiceSede.getValue() == 5) {
             sessionMigrarExcel.setEstadouploadFile(false);
             Utils.addTarget(inputFileExcel);
-        }else {
+        } else {
             sessionMigrarExcel.setEstadouploadFile(true);
             Utils.addTarget(inputFileExcel);
         }
     }
-
+    
     public void setPopupConfirmarMigracion(RichPopup popupConfirmarMigracion) {
         this.popupConfirmarMigracion = popupConfirmarMigracion;
     }
@@ -466,34 +512,65 @@ public class bMigrarExcel {
     public RichInputFile getInputFileExcel() {
         return inputFileExcel;
     }
-/** BORRRAR LO DE ABAJO LUEGO DE MIGRAR */
-    
-     private void insertarMain(List sheetData) {
-    try{
-                 for (int i = 0; i < sheetData.size(); i++) {
-                    
-                     List list = (List) sheetData.get(i);
-                     if (!list.isEmpty()) {
-                       
-                             
-                         Main ma=new Main();
-                         Profesor profesor=new Profesor();
-                         profesor.setDniProfesor(list.get(0).toString());
-                         Aula aula=new Aula();
-                         Cell cell = (Cell) list.get(1);
-                         aula.setNidAula((int) cell.getNumericCellValue());
-                         Curso curso=new Curso();
-                         Cell cell2 = (Cell) list.get(2);
-                         curso.setNidCurso((int) cell2.getNumericCellValue());
-                             
-                         ma.setAula(aula);
-                              ma.setCurso(curso);
-                              ma.setProfesor(profesor);
-                              ma.setEstado("1");
-                        bDL_T_SFMainRemoto.persistMain(ma);
-                     }
-             }} catch (Exception e) {
-                  e.printStackTrace();
-         }}
-   
+
+    /** BORRRAR LO DE ABAJO LUEGO DE MIGRAR */
+
+    private void insertarMain(List sheetData) {
+        try {
+            for (int i = 0; i < sheetData.size(); i++) {
+                List list = (List) sheetData.get(i);
+                if (!list.isEmpty()) {
+                    Main ma = new Main();
+                    Profesor profesor = new Profesor();
+                    profesor.setDniProfesor(list.get(0).toString());
+                    Aula aula = new Aula();
+                    Cell cell = (Cell) list.get(1);
+                    aula.setNidAula((int) cell.getNumericCellValue());
+                    Curso curso = new Curso();
+                    Cell cell2 = (Cell) list.get(2);
+                    curso.setNidCurso((int) cell2.getNumericCellValue());
+
+                    ma.setAula(aula);
+                    ma.setCurso(curso);
+                    ma.setProfesor(profesor);
+                    ma.setEstado("1");
+                    bDL_T_SFMainRemoto.persistMain(ma);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setCbSede(RichSelectOneChoice cbSede) {
+        this.cbSede = cbSede;
+    }
+
+    public RichSelectOneChoice getCbSede() {
+        return cbSede;
+    }
+
+    public void setCbProf(RichSelectOneChoice cbProf) {
+        this.cbProf = cbProf;
+    }
+
+    public RichSelectOneChoice getCbProf() {
+        return cbProf;
+    }
+
+    public void setCbCurso(RichSelectOneChoice cbCurso) {
+        this.cbCurso = cbCurso;
+    }
+
+    public RichSelectOneChoice getCbCurso() {
+        return cbCurso;
+    }
+
+    public void setCbAula(RichSelectOneChoice cbAula) {
+        this.cbAula = cbAula;
+    }
+
+    public RichSelectOneChoice getCbAula() {
+        return cbAula;
+    }
 }

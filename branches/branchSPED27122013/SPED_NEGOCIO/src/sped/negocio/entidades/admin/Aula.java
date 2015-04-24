@@ -37,7 +37,9 @@ public class Aula implements Serializable {
     private GradoNivel gradoNivel;
     @OneToMany(mappedBy = "aula", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Main> mainLista;
-
+    @Column(name = "flg_acti")
+    private int flgActi;
+    
     public Aula() {
     }
 
@@ -100,6 +102,14 @@ public class Aula implements Serializable {
         getMainLista().remove(main);
         main.setAula(null);
         return main;
+    }
+
+    public void setFlgActi(int flgActi) {
+        this.flgActi = flgActi;
+    }
+
+    public int getFlgActi() {
+        return flgActi;
     }
 
     @Override
