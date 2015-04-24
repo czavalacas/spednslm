@@ -4,9 +4,12 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
+
+import sped.negocio.entidades.beans.BeanMainWS;
 
 public class bSessionMigrarExcel implements Serializable {
     private String nidSede;
@@ -30,8 +33,17 @@ public class bSessionMigrarExcel implements Serializable {
     private List listaAulasChoice;
     private List listaProfesChoice;
     private List listaCursosChoice;
+    private List<BeanMainWS> lstMain = new ArrayList<BeanMainWS>();
     
     public bSessionMigrarExcel() {
+    }
+
+    public void setLstMain(List<BeanMainWS> lstMain) {
+        this.lstMain = lstMain;
+    }
+
+    public List<BeanMainWS> getLstMain() {
+        return lstMain;
     }
 
     public void setListaAulasChoice(List listaAulasChoice) {
