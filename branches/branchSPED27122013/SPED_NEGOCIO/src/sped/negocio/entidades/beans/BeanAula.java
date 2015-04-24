@@ -21,6 +21,7 @@ public class BeanAula implements Serializable {
     private BeanSede sede;
     private int nidSede;
     private int nidNivel;
+    private int flgActi;
 
     public void setDescripcionAula(String descripcionAula) {
         this.descripcionAula = descripcionAula;
@@ -78,4 +79,11 @@ public class BeanAula implements Serializable {
         return nidNivel;
     }
 
+    public void setFlgActi(int flgActi) {
+        this.flgActi = flgActi;
+    }
+
+    public int getFlgActi() {
+        return flgActi;
+    }
 }
