@@ -307,7 +307,7 @@ public class bConfiguracionHorario {
     public void llenarCombos(){
         sessionConfiguracionHorario.setListaSedesChoice(Utils.llenarCombo(ln_C_SFSedeRemote.getAllSedes()));        
         sessionConfiguracionHorario.setListaEventosHorariosChoice(Utils.llenarCombo(ln_C_SFConfiguracionEventoHorarioRemoto.getAllEventosDeHorario()));
-        sessionConfiguracionHorario.setLstYears(Utils.llenarComboString(ln_C_SFCalendarioLocal.getYearsCalendario()));
+        sessionConfiguracionHorario.setLstYears(Utils.llenarComboStringCalend(ln_C_SFCalendarioLocal.getYearsCalendario()));
     }
 
     public String realizarNuevaRestriccion() {

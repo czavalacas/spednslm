@@ -240,6 +240,7 @@ public class BDL_C_SFUsuarioBean implements BDL_C_SFUsuarioRemote,
             }
             return query.getResultList();
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
