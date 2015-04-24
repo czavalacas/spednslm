@@ -52,4 +52,7 @@ public interface LN_C_SFUtilsRemote {
                                     int cantMaxDiaConstraint,int cantMinConstraint);
     int getCantidadEvasMinimoOptimo(int cantMaxEvasPosib,int cantMaxDiaConstraint, int cantMinConstraint);
     List<BeanConstraint> getMinMaxEvasPorDiaConfigConstraint_LN();
+    List<BeanComboString> getCursosActivos_LN();
+    List<BeanComboString> getAulasBySede_Activos_LN(int nidSede);
+    List<BeanComboString> getSedesString_LN();
 }

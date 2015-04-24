@@ -53,4 +53,7 @@ public interface BDL_C_SFUtilsRemote {
     Integer[] getMinMaxEvasPorDiaConstraint_LN(int nidRole);
     List<Constraint> getMinMaxEvasPorDiaConfigConstraint_LN();
     List<Constraint> getConstraintByAttr_LN(String tabla,String campo,String desc);
+    List<BeanComboString> getCursosActivos();
+    List<BeanComboString> getAulaActivas(int nidSede);
+    List<BeanComboString> getSedesString();
 }

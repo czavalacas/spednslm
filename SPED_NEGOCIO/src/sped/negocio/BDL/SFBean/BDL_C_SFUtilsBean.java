@@ -55,7 +55,6 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
                 BeanConstraint beanConstraint = (BeanConstraint) mapper.map(constraint, BeanConstraint.class);
                 return beanConstraint;
             }else{
-                Utiles.sysout("Constraint no encontrado");
                 return null;
             }
         }catch(Exception e){
@@ -102,10 +101,10 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
     }
     
     public int findCountByProperty(String atributoDesc, 
-                                    Object atributoValor, 
-                                    String entidad, 
-                                    boolean changeCase,
-                                    boolean isUpdate) {
+                                   Object atributoValor, 
+                                   String entidad, 
+                                   boolean changeCase,
+                                   boolean isUpdate) {
          try {
              String queryString = "select count(model) " +
                                   "from "+entidad+" model " +
@@ -228,6 +227,18 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         }
     }
     
+    public List<BeanComboString> getSedesString(){
+        try{
+            String qlString = this.getSelectBasicoBeanComboString("e.nidSede", "e.descripcionSede", "Sede") +
+                              " ORDER BY e.descripcionSede ASC ";
+            List<BeanComboString> lstSedes = em.createQuery(qlString).getResultList();        
+            return lstSedes;       
+        }catch(Exception e){
+            e.printStackTrace();  
+            return null;
+        }
+    }
+    
     public List<BeanCombo> getNiveles(String id, String desc){
         try{
             String qlString = this.getSelectBasicoBeanCombo(id, desc, "Nivel") +
@@ -313,6 +324,21 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         }
     }
     
+    public List<BeanComboString> getAulaActivas(int nidSede){
+        try{
+            String qlString = this.getSelectBasicoBeanComboString("e.nidAula","e.descripcionAula", "Aula") +
+                              " WHERE e.sede.nidSede = :nidSede " +
+                              " AND e.flgActi = 1 " +
+                              " ORDER BY e.descripcionAula ASC";
+            List<BeanComboString> lstAulas = em.createQuery(qlString).setParameter("nidSede", nidSede)
+                                            .getResultList();
+            return lstAulas;       
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public List<BeanCombo> getCursosByArea(String id, String desc, int nidArea){
         try{
             String qlString = this.getSelectBasicoBeanCombo(id, desc, "Curso") +
@@ -327,10 +353,25 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         }
     }
     
+    public List<BeanComboString> getCursosActivos(){
+        try{
+            String qlString = "Select New sped.negocio.entidades.beans.BeanComboString(c.nidCurso,c.descripcionCurso,a.descripcionAreaAcademica)"+
+                              " From Curso c, AreaAcademica a "+
+                              " Where c.flgActi = 1 "+
+                              " And c.areaAcademica.nidAreaAcademica = a.nidAreaAcademica "+
+                              " Order By c.descripcionCurso Asc";
+            List<BeanComboString> lstCurso = em.createQuery(qlString).getResultList();        
+            return lstCurso;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public List<BeanComboString> getProfesor(String id, String desc){
         try{
             String qlString = this.getSelectBasicoBeanComboString(id, desc, "Profesor") +
-                              " ORDER BY e.nombres ASC";
+                              " Where e.flgActi = 1 ORDER BY e.nombres ASC";
             List<BeanComboString> lstCurso = em.createQuery(qlString).getResultList();        
             return lstCurso;       
         }catch(Exception e){
