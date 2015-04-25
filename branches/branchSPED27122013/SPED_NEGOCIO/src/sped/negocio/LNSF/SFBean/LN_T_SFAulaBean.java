@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
+import sped.negocio.BDL.IL.BDL_C_SFAulaLocal;
 import sped.negocio.BDL.IL.BDL_T_SFAulaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFAulaLocal;
@@ -35,6 +36,8 @@ public class LN_T_SFAulaBean implements LN_T_SFAulaRemoto,
     private EntityManager em;
     @EJB    
     private BDL_T_SFAulaLocal bdl_T_SFAulaLocal;
+    @EJB    
+    private BDL_C_SFAulaLocal bdl_C_SFAulaLocal;
     @EJB
     private LN_C_SFErrorLocal LN_C_SFErrorLocal;
     public LN_T_SFAulaBean() {
@@ -80,7 +83,9 @@ public class LN_T_SFAulaBean implements LN_T_SFAulaRemoto,
             Grado gra=new Grado();
             Nivel nive=new Nivel();
             Sede sed=new Sede();
-                aula.setNidAula(aulaNueva.getNidAula());
+            if(aulaNueva.getNidAula()!=null){
+                aula.setNidAula(aulaNueva.getNidAula());  
+            }               
                 aula.setDescripcionAula(aulaNueva.getDescripcionAula());
                 gra.setNidGrado(aulaNueva.getGradoNivel().getGrado().getNidGrado());
                 nive.setNidNivel(aulaNueva.getGradoNivel().getNivel().getNidNivel());
@@ -88,8 +93,27 @@ public class LN_T_SFAulaBean implements LN_T_SFAulaRemoto,
                 grani.setGrado(gra);
                 grani.setNivel(nive);
                 aula.setGradoNivel(grani);
-                aula.setSede(sed);                
+                aula.setSede(sed); 
+                aula.setFlgActi(aulaNueva.getFlgActi());
                 bdl_T_SFAulaLocal.persistAula(aula);
+            
+        }catch (Exception e) {            
+        e.printStackTrace();
+        error = "111";
+        beanError = LN_C_SFErrorLocal.getCatalogoErrores(error);
+        error = beanError.getDescripcionError();
+        }
+        return error;
+    }
+    
+    public String actualizarAula(BeanAula aulaNueva){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {
+            Aula aula=bdl_C_SFAulaLocal.findAulaById(aulaNueva.getNidAula());
+            aula.setDescripcionAula(aulaNueva.getDescripcionAula());
+            aula.setFlgActi(aulaNueva.getFlgActi());
+            bdl_T_SFAulaLocal.mergeAula(aula);
             
         }catch (Exception e) {            
         e.printStackTrace();

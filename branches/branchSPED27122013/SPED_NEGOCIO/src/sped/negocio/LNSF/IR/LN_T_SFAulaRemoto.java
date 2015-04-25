@@ -10,4 +10,5 @@ import sped.negocio.entidades.beans.BeanAula;
 public interface LN_T_SFAulaRemoto {
     String grabarAulasNuevas(List<BeanAula> listaAulas);
     String grabarAula(BeanAula aulaNueva);
+    String actualizarAula(BeanAula aulaNueva);
 }

@@ -15,4 +15,5 @@ public interface LN_C_SFAulaRemote {
     List<BeanAula> getAreaAulaLN();
     List<BeanCombo> getAulaPorSedeNivelYGrado(String nidSede, String nidGrado, String nidNivel);
     List<BeanCombo> getAulaPorSedeNivelProfesorYCurso(String nidSede, String nidNivel, String dniProfesor, int nidAreaAcademica, String nidCurso);
+    List<BeanAula> getAulasBySedeGradoYNivelMigracion(String nidSede, String nidGrado, String nidNivel);
 }
