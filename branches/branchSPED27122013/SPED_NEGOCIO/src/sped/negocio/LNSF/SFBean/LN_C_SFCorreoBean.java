@@ -279,7 +279,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
         .concat("<strong>Grado</strong></td></tr><tr><td>"+data[3]+"</td><td>"+data[4]+"</td>")
         .concat("<td>"+data[5]+"</td><td>"+data[6]+"</td></tr></tbody></table><p>")
                          .concat("Puede consultar sus resultados en la opcion de Consultar Evaluaciones en el sistema SPED. ID: "+data[9]+"</p>")
-        .concat("<p>Para entrar al sistema entre a <a href=\"http://181.224.241.219:7101/sped/faces/Frm_login\">Sistema SPED</a>. Su usuario y clave es su DNI.</p>");
+        .concat("<p>Para entrar al sistema entre al <a href=\"http://181.224.241.219:7101/sped/faces/Frm_login\">Sistema SPED</a>. Su usuario y clave es su DNI.</p>");
       return contenido;
     }
     

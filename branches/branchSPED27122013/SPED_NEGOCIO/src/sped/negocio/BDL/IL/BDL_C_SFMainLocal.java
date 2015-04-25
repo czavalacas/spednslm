@@ -44,4 +44,5 @@ public interface BDL_C_SFMainLocal {
     int findMainBySedeYNivel(int nidSede, 
                              int nidNivel);
     List<Main> getlstMainByNidLeccion(int nidLeccion);
+    int countMainByNidsEstado(String nidCurso, String nidAula, String dni);
 }
