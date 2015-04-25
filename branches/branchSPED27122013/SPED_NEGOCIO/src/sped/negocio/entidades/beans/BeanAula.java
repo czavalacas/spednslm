@@ -22,6 +22,7 @@ public class BeanAula implements Serializable {
     private int nidSede;
     private int nidNivel;
     private int flgActi;
+    private String styleColor;
 
     public void setDescripcionAula(String descripcionAula) {
         this.descripcionAula = descripcionAula;
@@ -85,5 +86,13 @@ public class BeanAula implements Serializable {
 
     public int getFlgActi() {
         return flgActi;
+    }
+
+    public void setStyleColor(String styleColor) {
+        this.styleColor = styleColor;
+    }
+
+    public String getStyleColor() {
+        return styleColor;
     }
 }

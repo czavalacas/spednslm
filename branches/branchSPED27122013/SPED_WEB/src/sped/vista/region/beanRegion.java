@@ -3,6 +3,7 @@ package sped.vista.region;
 import java.io.Serializable;
 import oracle.adf.controller.TaskFlowId;
 import sped.vista.Utils.Utils;
+import sped.vista.beans.migracion.bSessionMigrarExcel;
 
 /** Clase que maneja al componente Region y redirecciona a las paginas seleccionadas
  * @author dfloresgonz
@@ -40,6 +41,7 @@ public class beanRegion implements Serializable {
         Utils.removeSession("sessionGestionarHorario");
         Utils.removeSession("sessionbGestionarHorarios");
         Utils.removeSession("sessionConfiguracion");
+        Utils.removeSession("bSessionMigrarExcel");        
     }
     
     public TaskFlowId getDynamicTaskFlowId() {

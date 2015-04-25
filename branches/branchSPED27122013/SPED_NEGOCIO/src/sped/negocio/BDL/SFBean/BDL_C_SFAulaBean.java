@@ -123,4 +123,25 @@ public class BDL_C_SFAulaBean implements BDL_C_SFAulaRemote,
             return null;
         }
     }
+    
+    public List<Aula> getAulaBySedeNivelYGrado(String nidSede, String nidGrado, String nidNivel) {
+        try {
+            String ejbQl = " SELECT distinct au FROM Aula au" + 
+                           " WHERE 1=1 ";
+            if (nidSede != null) {
+                ejbQl = ejbQl.concat(" and au.sede.nidSede=  " + nidSede);
+            }
+            if (nidGrado != null) {
+                ejbQl = ejbQl.concat(" and au.gradoNivel.grado.nidGrado = " + nidGrado);
+            }
+            if (nidNivel != null) {
+                ejbQl = ejbQl.concat(" and au.gradoNivel.nivel.nidNivel = " + nidNivel);
+            }
+            ejbQl = ejbQl.concat(" ORDER by au.gradoNivel.nivel.nidNivel asc, au.gradoNivel.grado.nidGrado asc, au.descripcionAula asc ");
+            return em.createQuery(ejbQl).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

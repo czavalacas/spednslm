@@ -24,6 +24,9 @@ import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Aula;
 import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanGrado;
+import sped.negocio.entidades.beans.BeanGradoNivel;
+import sped.negocio.entidades.beans.BeanNivel;
 
 @Stateless(name = "LN_C_SFAula", mappedName = "map-LN_C_SFAula")
 public class LN_C_SFAulaBean implements LN_C_SFAulaRemote, 
@@ -82,6 +85,37 @@ public class LN_C_SFAulaBean implements LN_C_SFAulaRemote,
             BeanCombo bean=new BeanCombo();
             bean.setId(entida.getNidAula());
             bean.setDescripcion(entida.getDescripcionAula());
+            lstBean.add(bean);
+        }
+        return lstBean;
+    }
+    
+    public List<BeanAula> getAulasBySedeGradoYNivelMigracion(String nidSede, String nidGrado, String nidNivel){        
+        List<BeanAula> lstBean = new ArrayList();
+        List<Aula> listAulas = bdL_C_SFAulaLocal.getAulaBySedeNivelYGrado(nidSede, nidGrado, nidNivel);        
+        for(Aula a : listAulas){
+            BeanAula bean = new BeanAula();
+            bean.setNidAula(a.getNidAula());
+            bean.setDescripcionAula(a.getDescripcionAula());
+            BeanGradoNivel grani=new BeanGradoNivel();
+            BeanGrado grado=new BeanGrado();
+            grado.setDescripcionGrado(a.getGradoNivel().getGrado().getDescripcionGrado());
+            grado.setNidGrado(a.getGradoNivel().getGrado().getNidGrado());
+            grani.setGrado(grado);
+            BeanNivel nivel=new BeanNivel();
+            nivel.setNidNivel(a.getGradoNivel().getNivel().getNidNivel());
+            nivel.setDescripcionNivel(a.getGradoNivel().getNivel().getDescripcionNivel());
+            grani.setNivel(nivel);
+            bean.setGradoNivel(grani);
+            
+            if(a.getFlgActi()==0){                         
+                            bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:red");
+                            bean.setFlgActi(a.getFlgActi());
+                        }
+            if(a.getFlgActi()==1){
+                bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:green");
+                bean.setFlgActi(a.getFlgActi());
+            }
             lstBean.add(bean);
         }
         return lstBean;
