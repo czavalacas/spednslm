@@ -48,4 +48,5 @@ public interface LN_C_SFMainRemote {
                                          Time inicio, 
                                          Time fin,
                                          int nidMain);
+    int countMainByNidsEstado_LN(String nidCurso, String nidAula, String dni);
 }

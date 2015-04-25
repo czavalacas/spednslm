@@ -349,7 +349,24 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         }
         return cont;
     }
-     
+    
+     public int countMainByNidsEstado(String nidCurso, String nidAula, String dni){
+         String quer = "Select Count(1) " +
+                       "  From Main m "+
+                       " Where m.estado = 1 " + 
+                       " and m.curso.nidCurso = :nidCurso "+
+                       " and m.aula.nidAula   = :nidAula "+
+                       " and m.profesor.dniProfesor = :dni";
+         Object object = em.createQuery(quer)
+                                  .setParameter("nidCurso", Integer.parseInt(nidCurso))
+                                  .setParameter("nidAula", Integer.parseInt(nidAula)).setParameter("dni", dni)
+                                  .getSingleResult();
+         int cont = 0;
+         if(object != null){
+             cont = Integer.parseInt(object.toString());
+         }
+         return cont;
+     }
     /**
      * Metodo para buscar todos las entidades main q se generaron de una leccion
      * @param nidLeccion

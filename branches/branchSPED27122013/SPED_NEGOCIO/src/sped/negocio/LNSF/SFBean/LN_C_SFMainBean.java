@@ -194,4 +194,7 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
         return bean;
     }
     
+    public int countMainByNidsEstado_LN(String nidCurso, String nidAula, String dni){
+        return bdl_C_SFMainLocal.countMainByNidsEstado(nidCurso, nidAula, dni);
+    }
 }
