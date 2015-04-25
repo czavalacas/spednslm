@@ -37,7 +37,6 @@ public class bSessionMigrarExcel implements Serializable {
     private String nidNivel;
     private List listGrados;
     private String nidGrado;
-    private String descAula;
     private boolean estadoDescAula=false;
     private boolean disableChoiceSede=false;
     private boolean disableChoiceNivel=false;
@@ -53,8 +52,53 @@ public class bSessionMigrarExcel implements Serializable {
     private int exec=0;
     private boolean requeridInput=false;
     private List<BeanMainWS> lstMain = new ArrayList<BeanMainWS>();
+    private String descSede;
+    private String nombresProf;
+    private String descAula;
+    private String descCurso;
+    private Integer nidMainModif;
     
     public bSessionMigrarExcel() {
+    }
+
+    public void setNidMainModif(Integer nidMainModif) {
+        this.nidMainModif = nidMainModif;
+    }
+
+    public Integer getNidMainModif() {
+        return nidMainModif;
+    }
+
+    public void setDescSede(String descSede) {
+        this.descSede = descSede;
+    }
+
+    public String getDescSede() {
+        return descSede;
+    }
+
+    public void setNombresProf(String nombresProf) {
+        this.nombresProf = nombresProf;
+    }
+
+    public String getNombresProf() {
+        return nombresProf;
+    }
+
+    public void setDescAula(String descAula) {
+        this.descAula = descAula;
+    }
+
+    public String getDescAula() {
+        return descAula;
+    }
+
+    public void setDescCurso(String descCurso) {
+        this.descCurso = descCurso;
+    }
+
+    public String getDescCurso() {
+        return descCurso;
     }
 
     public void setLstMain(List<BeanMainWS> lstMain) {
@@ -265,14 +309,6 @@ public class bSessionMigrarExcel implements Serializable {
 
     public String getNidGrado() {
         return nidGrado;
-    }
-
-    public void setDescAula(String descAula) {
-        this.descAula = descAula;
-    }
-
-    public String getDescAula() {
-        return descAula;
     }
 
     public void setEstadoDescAula(boolean estadoDescAula) {

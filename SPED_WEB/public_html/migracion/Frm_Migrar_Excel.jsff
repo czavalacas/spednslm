@@ -1,5 +1,5 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+                xmlns:af="http://xmlns.oracle.com/adf/faces/rich" xmlns:h="http://java.sun.com/jsf/html">
     <f:view>
         <af:panelGroupLayout layout="scroll" inlineStyle="margin:0px 0px 0px 43px;">
             <af:panelGroupLayout halign="left">
@@ -165,69 +165,95 @@
                     <af:button text="button 1" id="b2"/>
             </af:showDetailItem>
             <af:showDetailItem text="Horario" id="sdHora">
-               <af:panelGroupLayout id="pgl18" layout="vertical">
-                    <af:panelFormLayout id="pfl1">
-                        <af:selectOneChoice label="Accion" requiredMessageDetail="Seleccionar la accion" id="soc2"
+                <af:selectOneChoice requiredMessageDetail="Seleccionar la accion" id="soc2"
                                     value="#{sessionScope.sessionMigrarExcel.accionSess}" autoSubmit="true"
                                     valueChangeListener="#{requestScope.bMigrarExcel.vclAccion}"
                                             unselectedLabel=":: Seleccionar Accion::">
                     <af:selectItem label="Nuevo" value="NEW" id="si9"/>
                     <af:selectItem label="Modificar" value="MOD" id="si104"/>
                 </af:selectOneChoice>
-                <af:selectOneChoice label="Sede" requiredMessageDetail="Seleccionar Sede" autoSubmit="true"
+                    <af:spacer width="10" height="10"/>
+                    <af:panelGridLayout id="pgl1">
+                        <af:gridRow marginTop="1px" height="auto" marginBottom="1px" id="gr1">
+                            <af:gridCell width="25%">
+                                <af:selectOneChoice requiredMessageDetail="Seleccionar Sede" autoSubmit="true"
                                     disabled="#{sessionScope.sessionMigrarExcel.estChoiceSede}"
                                     value="#{sessionScope.sessionMigrarExcel.cidSedeSess}" id="cbSede"
                                     binding="#{bMigrarExcel.cbSede}" valueChangeListener="#{requestScope.bMigrarExcel.vclSede}">
-                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaSedesChoice}" id="si6"/>
-                </af:selectOneChoice>
-                <af:selectOneChoice label="Aula" requiredMessageDetail="Seleccionar Aula"
-                                    value="#{sessionScope.sessionMigrarExcel.cidAulaSess}" id="cbAula"
-                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceAula}"
-                                    binding="#{bMigrarExcel.cbAula}">
-                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaAulasChoice}" id="si7"/>
-                </af:selectOneChoice>
-                <af:selectOneChoice label="Profesor" requiredMessageDetail="Seleccionar Profesor"
-                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceProf}"
-                                    value="#{sessionScope.sessionMigrarExcel.dniProfSess}" id="cbProf"
-                                    binding="#{bMigrarExcel.cbProf}">
-                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaProfesChoice}" id="si8"/>
-                </af:selectOneChoice>
-                <af:selectOneChoice label="Curso" requiredMessageDetail="Seleccionar Curso"
-                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceCurso}"
-                                    value="#{sessionScope.sessionMigrarExcel.cidCursoSess}" id="cbCurso"
-                                    binding="#{bMigrarExcel.cbCurso}">
-                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaCursosChoice}" id="si11"/>
-                </af:selectOneChoice>
-              </af:panelFormLayout>
-                        <af:separator id="s2"/>
+                                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaSedesChoice}" id="si6"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                            <af:gridCell width="25%">
+                                <af:selectOneChoice requiredMessageDetail="Seleccionar Aula"
+                                                    value="#{sessionScope.sessionMigrarExcel.cidAulaSess}" id="cbAula"
+                                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceAula}"
+                                                    binding="#{bMigrarExcel.cbAula}"
+                                                    valueChangeListener="#{bMigrarExcel.vclAula}">
+                                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaAulasChoice}" id="si7"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                            <af:gridCell width="25%">
+                                <af:selectOneChoice requiredMessageDetail="Seleccionar Profesor"
+                                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceProf}"
+                                                    value="#{sessionScope.sessionMigrarExcel.dniProfSess}" id="cbProf"
+                                                    binding="#{bMigrarExcel.cbProf}"
+                                                    valueChangeListener="#{bMigrarExcel.vclProfesor}">
+                                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaProfesChoice}" id="si8"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                            <af:gridCell width="25%">
+                                <af:selectOneChoice requiredMessageDetail="Seleccionar Curso"
+                                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceCurso}"
+                                                    value="#{sessionScope.sessionMigrarExcel.cidCursoSess}" id="cbCurso"
+                                                    binding="#{bMigrarExcel.cbCurso}"
+                                                    valueChangeListener="#{bMigrarExcel.vclCurso}">
+                                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaCursosChoice}" id="si11"/>
+                                </af:selectOneChoice>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                    <af:button text="Agregar" id="btnAddMain" styleClass="FondoRojoLetraBlanca" visible="false"
+                               actionListener="#{bMigrarExcel.btnNuevoMain}" binding="#{bMigrarExcel.btnAddMain}"/>
+                    <af:button text="Modificar" id="btnModMain" styleClass="FondoRojoLetraBlanca"
+                               binding="#{bMigrarExcel.btnModMain}" visible="false"
+                               actionListener="#{bMigrarExcel.btnModMain_Action}"/>
+                    <af:messages id="msjGen" binding="#{bMigrarExcel.msjGen}" inline="true"/>
+                    <af:separator id="s2"/>
                         <af:table value="#{sessionScope.sessionMigrarExcel.lstMain}" var="row" rowBandingInterval="0"
-                                  id="t1">
+                                  id="tbMain" binding="#{bMigrarExcel.tbMain}">
                             <af:column sortable="false" headerText="Id" align="end" id="c1">
                                 <af:outputText value="#{row.nidMain}" id="ot1"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Sede" align="start" id="c2">
+                            <af:column sortable="true" headerText="Sede" align="start" id="c2">
                                 <af:outputText value="#{row.sede}" id="ot2"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Dni" align="start" id="c3">
+                            <af:column sortable="true" headerText="Dni" align="start" id="c3">
                                 <af:outputText value="#{row.dniProfesor}" id="ot3"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Profesor" align="start" id="c4">
+                            <af:column sortable="true" headerText="Profesor" align="start" id="c4" width="190">
                                 <af:outputText value="#{row.profesor}" id="ot4"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Aula" align="start" id="c5">
+                            <af:column sortable="true" headerText="Aula" align="start" id="c5" width="190">
                                 <af:outputText value="#{row.aula}" id="ot5"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Curso" align="start" id="c6">
+                            <af:column sortable="true" headerText="Curso" align="start" id="c6" width="190">
                                 <af:outputText value="#{row.curso}" id="ot6"/>
                             </af:column>
-                            <af:column sortable="false" headerText="Area Acad." align="start" id="c7">
-                                <af:outputText value="#{row.areaAcademica}" id="ot7"/>
-                            </af:column>
-                            <af:column sortable="false" headerText="Grado Nivel" align="start" id="c8">
-                                <af:outputText value="#{row.gradoNivel}" id="ot8"/>
+                            <af:column headerText="" align="start">
+                                <af:button id="btnModi" actionListener="#{bMigrarExcel.btnModificarMain}"
+                                           text="Modificar">
+                                    <f:attribute name="nidMain" value="#{row.nidMain}"/>
+                                    <f:attribute name="dni" value="#{row.dniProfesor}"/>
+                                    <f:attribute name="nidSede" value="#{row.nidSede}"/>
+                                    <f:attribute name="nidAula" value="#{row.nidAula}"/>
+                                    <f:attribute name="nidCurso" value="#{row.nidCurso}"/>
+                                    <f:attribute name="profesor" value="#{row.profesor}"/>
+                                    <f:attribute name="curso" value="#{row.curso}"/>
+                                    <f:attribute name="sede" value="#{row.sede}"/>
+                                    <f:attribute name="aula" value="#{row.aula}"/>
+                                </af:button>
                             </af:column>
                         </af:table>
-                    </af:panelGroupLayout>
             </af:showDetailItem>
         </af:panelTabbed>
         </af:panelGroupLayout>
