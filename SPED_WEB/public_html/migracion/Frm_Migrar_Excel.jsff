@@ -51,7 +51,115 @@
             
             <af:panelTabbed id="pt1">
             <af:showDetailItem text="Aulas" id="sdAula">
-            
+            <af:panelFormLayout id ="pf53">
+            <af:selectOneChoice label="Sede" requiredMessageDetail="Seleccionar Sede" autoSubmit="true"
+                                    disabled="#{sessionScope.sessionMigrarExcel.disableChoiceSede}"
+                                    unselectedLabel="::Seleccionar Sede::"
+                                    value="#{sessionScope.sessionMigrarExcel.cidSedeSess}" id="cbSede2"
+                                    valueChangeListener="#{requestScope.bMigrarExcel.vclSede2}"
+                                binding="#{bMigrarExcel.choiceSedAula}">
+                    <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaSedesChoice}" id="s27"/>
+                </af:selectOneChoice>
+                <af:inputText label="Descripcion" value="#{sessionScope.sessionMigrarExcel.descAula}"
+                              visible="#{sessionScope.sessionMigrarExcel.estadoDescAula}"
+                              binding="#{bMigrarExcel.inputDescAula}" autoSubmit="true"
+                              required="#{sessionScope.sessionMigrarExcel.requeridInput}"/>
+                <af:selectOneChoice label="Estado" id="soc11" binding="#{bMigrarExcel.choiceEstadoAula}"
+                                    unselectedLabel="::Estado::"
+                                    value="#{sessionScope.sessionMigrarExcel.flgActivo}" autoSubmit="true"
+                                    visible="#{sessionScope.sessionMigrarExcel.visibleChoiceEstado}">
+                    <af:selectItem value="1" id="si71"  label="ACTIVO"/>
+                    <af:selectItem value="0" id="si72" label="INACTIVO"/>
+         
+                </af:selectOneChoice>
+                <af:selectOneChoice label="Nivel" id="smc2"
+                                        value="#{sessionScope.sessionMigrarExcel.nidNivel}"
+                                         autoSubmit="true"                                                                
+                                         unselectedLabel="::Seleccionar Nivel::"
+                                      valueChangeListener="#{requestScope.bMigrarExcel.vclNivel}"
+                                        binding="#{bMigrarExcel.choiceNivel}"
+                                    disabled="#{sessionScope.sessionMigrarExcel.disableChoiceNivel}">
+                                                <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaNiveles}"
+                                                               id="si223"/>
+                                            </af:selectOneChoice>
+                                            
+                                            
+                                            <af:selectOneChoice label="Grado" id="smc10"
+                                                                value="#{sessionScope.sessionMigrarExcel.nidGrado}"
+                                                                autoSubmit="true"                                                               
+                                                                unselectedLabel="::Seleccionar Grado::"
+                                                                valueChangeListener="#{requestScope.bMigrarExcel.vclGrado}"
+                                                                binding="#{bMigrarExcel.choiceGrado}"
+                                                                disabled="#{sessionScope.sessionMigrarExcel.disableChoiceGrado}">
+                                                <f:selectItems value="#{sessionScope.sessionMigrarExcel.listGrados}"
+                                                               id="si10"/>
+                                            </af:selectOneChoice>
+                                                <af:button text="Registrar"  
+                                           
+                                           actionListener="#{bMigrarExcel.registrarAula}"
+                                           binding="#{bMigrarExcel.btnRegistrarAula}"
+                                            visible="#{sessionScope.sessionMigrarExcel.visibleRegistrar}"/>
+                            
+                                
+                                            </af:panelFormLayout>
+                    <af:spacer width="10" height="10" id="s2"/>
+                    <af:panelGroupLayout id="pgl4">
+                    <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                        <f:facet name="statusbar"/>
+                        <f:facet name="toolbar">
+                            <af:toolbar>
+                              
+                                <af:button text="Nuevo"  
+                                           disabled="#{sessionScope.sessionMigrarExcel.disableBtnNuevo}"
+                                           actionListener="#{bMigrarExcel.nuevaAula}"
+                                           binding="#{bMigrarExcel.btnNuevaAula}"
+                                           visible="#{sessionScope.sessionMigrarExcel.visibleNuevo}"/>
+                            
+                             
+                                <af:button text="Actualizar" 
+                                           actionListener="#{bMigrarExcel.editarAula}"
+                                           disabled="#{sessionScope.sessionMigrarExcel.disableBtnEditar}"
+                                           binding="#{bMigrarExcel.btnEditarSave}"/>
+                                                                         
+                                <af:button icon="../recursos/img/usuarios/refresh.png" id="b22"
+                                           actionListener="#{bMigrarExcel.limpiarCamposYTabla}"/>
+                                           
+                            </af:toolbar>
+                        </f:facet>
+                                               
+                     <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs"
+                                  inlineStyle="width:inherit; margin:0px 50px 100px 0px;" width="inherit;"                                
+                                  value="#{sessionScope.sessionMigrarExcel.listaAulas}"
+                               binding="#{bMigrarExcel.tbAulas}" selectionListener="#{bMigrarExcel.seleccionarAula}"
+                               rowSelection="#{sessionScope.sessionMigrarExcel.tablaSeleccionable}">
+                            <af:column width="20" frozen="true">
+                                
+                                <af:outputText value="#{vs.index + 1}"/>
+                              
+                            </af:column>
+                            <af:column width="300" frozen="true" sortProperty="descripcionAula" headerText="Nombre"
+                                       align="left">
+                                <af:outputText value="#{row.descripcionAula}"/>
+                            </af:column>
+                            <af:column width="100" frozen="true" sortProperty="descripcionGrado" headerText="Grado"
+                                       align="center">
+                                <af:outputText value="#{row.gradoNivel.grado.descripcionGrado}"/>
+                            </af:column>
+                            <af:column width="100" frozen="true" sortProperty="gradoNivel.nivel.descripcionNivel" headerText="Nivel"
+                                       align="center">
+                                <af:outputText value="#{row.gradoNivel.nivel.descripcionNivel}"/>
+                            </af:column>
+                             <af:column width="100" frozen="true"  headerText="Codigo Aula"
+                                       align="center">
+                                <af:outputText value="#{row.nidAula}"/>
+                            </af:column>
+                            <af:column  headerText="Estado" id="c11" width="100" sortProperty="flgActi"
+                                        inlineStyle="#{row.styleColor}" align="center" sortable="true">
+                                   <af:outputText value="#{row.flgActi == 1 ? 'ACTIVO' : 'INACTIVO'}" />
+                            </af:column>
+                        </af:table>
+                        </af:panelCollection>
+                        </af:panelGroupLayout>
             </af:showDetailItem>
             <af:showDetailItem text="Cursos" id="sdCurso">
                     <af:button text="button 1" id="b2"/>
@@ -64,7 +172,7 @@
                                     valueChangeListener="#{requestScope.bMigrarExcel.vclAccion}"
                                             unselectedLabel=":: Seleccionar Accion::">
                     <af:selectItem label="Nuevo" value="NEW" id="si9"/>
-                    <af:selectItem label="Modificar" value="MOD" id="si10"/>
+                    <af:selectItem label="Modificar" value="MOD" id="si104"/>
                 </af:selectOneChoice>
                 <af:selectOneChoice label="Sede" requiredMessageDetail="Seleccionar Sede" autoSubmit="true"
                                     disabled="#{sessionScope.sessionMigrarExcel.estChoiceSede}"

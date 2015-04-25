@@ -1,6 +1,5 @@
 package sped.vista.beans.migracion;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
-
+import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanMainWS;
 
 public class bSessionMigrarExcel implements Serializable {
@@ -33,6 +32,26 @@ public class bSessionMigrarExcel implements Serializable {
     private List listaAulasChoice;
     private List listaProfesChoice;
     private List listaCursosChoice;
+    private List<BeanAula> listaAulas;
+    private List listaNiveles;
+    private String nidNivel;
+    private List listGrados;
+    private String nidGrado;
+    private String descAula;
+    private boolean estadoDescAula=false;
+    private boolean disableChoiceSede=false;
+    private boolean disableChoiceNivel=false;
+    private boolean disableChoiceGrado=false;
+    private boolean disableBtnEditar=true;
+    private String tablaSeleccionable="none";
+    private boolean disableBtnNuevo=true;
+    private BeanAula beanAula;
+    private int flgActivo;
+    private boolean visibleChoiceEstado=false;
+    private boolean visibleRegistrar=false;
+    private boolean visibleNuevo=true;
+    private int exec=0;
+    private boolean requeridInput=false;
     private List<BeanMainWS> lstMain = new ArrayList<BeanMainWS>();
     
     public bSessionMigrarExcel() {
@@ -205,5 +224,169 @@ public class bSessionMigrarExcel implements Serializable {
 
     public boolean isEstChoiceCurso() {
         return estChoiceCurso;
+    }
+
+    public void setListaAulas(List<BeanAula> listaAulas) {
+        this.listaAulas = listaAulas;
+    }
+
+    public List<BeanAula> getListaAulas() {
+        return listaAulas;
+    }
+
+
+    public void setListaNiveles(List listaNiveles) {
+        this.listaNiveles = listaNiveles;
+    }
+
+    public List getListaNiveles() {
+        return listaNiveles;
+    }
+
+    public void setNidNivel(String nidNivel) {
+        this.nidNivel = nidNivel;
+    }
+
+    public String getNidNivel() {
+        return nidNivel;
+    }
+
+    public void setListGrados(List listGrados) {
+        this.listGrados = listGrados;
+    }
+
+    public List getListGrados() {
+        return listGrados;
+    }
+
+    public void setNidGrado(String nidGrado) {
+        this.nidGrado = nidGrado;
+    }
+
+    public String getNidGrado() {
+        return nidGrado;
+    }
+
+    public void setDescAula(String descAula) {
+        this.descAula = descAula;
+    }
+
+    public String getDescAula() {
+        return descAula;
+    }
+
+    public void setEstadoDescAula(boolean estadoDescAula) {
+        this.estadoDescAula = estadoDescAula;
+    }
+
+    public boolean isEstadoDescAula() {
+        return estadoDescAula;
+    }
+
+    public void setDisableChoiceSede(boolean disableChoiceSede) {
+        this.disableChoiceSede = disableChoiceSede;
+    }
+
+    public boolean isDisableChoiceSede() {
+        return disableChoiceSede;
+    }
+
+
+    public void setDisableChoiceNivel(boolean disableChoiceNivel) {
+        this.disableChoiceNivel = disableChoiceNivel;
+    }
+
+    public boolean isDisableChoiceNivel() {
+        return disableChoiceNivel;
+    }
+
+    public void setDisableChoiceGrado(boolean disableChoiceGrado) {
+        this.disableChoiceGrado = disableChoiceGrado;
+    }
+
+    public boolean isDisableChoiceGrado() {
+        return disableChoiceGrado;
+    }
+
+    public void setDisableBtnEditar(boolean disableBtnEditar) {
+        this.disableBtnEditar = disableBtnEditar;
+    }
+
+    public boolean isDisableBtnEditar() {
+        return disableBtnEditar;
+    }
+
+    public void setTablaSeleccionable(String tablaSeleccionable) {
+        this.tablaSeleccionable = tablaSeleccionable;
+    }
+
+    public String getTablaSeleccionable() {
+        return tablaSeleccionable;
+    }
+
+   
+
+    public void setDisableBtnNuevo(boolean disableBtnNuevo) {
+        this.disableBtnNuevo = disableBtnNuevo;
+    }
+
+    public boolean isDisableBtnNuevo() {
+        return disableBtnNuevo;
+    }
+
+    public void setBeanAula(BeanAula beanAula) {
+        this.beanAula = beanAula;
+    }
+
+    public BeanAula getBeanAula() {
+        return beanAula;
+    }
+
+    public void setFlgActivo(int flgActivo) {
+        this.flgActivo = flgActivo;
+    }
+
+    public int getFlgActivo() {
+        return flgActivo;
+    }
+
+    public void setVisibleChoiceEstado(boolean visibleChoiceEstado) {
+        this.visibleChoiceEstado = visibleChoiceEstado;
+    }
+
+    public boolean isVisibleChoiceEstado() {
+        return visibleChoiceEstado;
+    }
+
+    public void setVisibleRegistrar(boolean visibleRegistrar) {
+        this.visibleRegistrar = visibleRegistrar;
+    }
+
+    public boolean isVisibleRegistrar() {
+        return visibleRegistrar;
+    }
+
+    public void setVisibleNuevo(boolean visibleNuevo) {
+        this.visibleNuevo = visibleNuevo;
+    }
+
+    public boolean isVisibleNuevo() {
+        return visibleNuevo;
+    }
+
+    public void setExec(int exec) {
+        this.exec = exec;
+    }
+
+    public int getExec() {
+        return exec;
+    }
+
+    public void setRequeridInput(boolean requeridInput) {
+        this.requeridInput = requeridInput;
+    }
+
+    public boolean isRequeridInput() {
+        return requeridInput;
     }
 }
