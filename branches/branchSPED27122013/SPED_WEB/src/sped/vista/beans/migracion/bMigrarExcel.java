@@ -295,7 +295,7 @@ public class bMigrarExcel {
         sessionMigrarExcel.setNidMainModif(nidMain);
         sessionMigrarExcel.setCidSedeSess(cidSede);
         sessionMigrarExcel.setDniProfSess(dni);
-        sessionMigrarExcel.setCidAulaSess(cidAula);//cidAula
+        sessionMigrarExcel.setCidAulaSess(cidAula);
         sessionMigrarExcel.setCidCursoSess(cidCurso);
         sessionMigrarExcel.setNombresProf(profesor);
         sessionMigrarExcel.setDescCurso(curso);
