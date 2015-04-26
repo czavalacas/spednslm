@@ -18,9 +18,10 @@ public class bSessionMigrarExcel implements Serializable {
     private boolean estadoBtnSubArchivo=true;
     private int tipoMigracion;
     private boolean estadouploadFile=true;
-    /** Nueva Carga */
+    /** TAB HORARIO */
     private String accionSess;
     private String cidSedeSess;
+    private String cidSedeHorarioSess;
     private String dniProfSess;
     private String cidCursoSess;
     private String cidAulaSess;
@@ -32,6 +33,20 @@ public class bSessionMigrarExcel implements Serializable {
     private List listaAulasChoice;
     private List listaProfesChoice;
     private List listaCursosChoice;
+    private List<BeanMainWS> lstMain = new ArrayList<BeanMainWS>();
+    private String descSede;
+    private String nombresProf;
+    private String descAula;
+    private String descCurso;
+    private Integer nidMainModif;
+    private boolean disabBtnNewMain = true;
+    private boolean disabBtnModMain = true;
+    private boolean disabBtnGrabMain = true;
+    private boolean visibBtnNewMain = false;
+    private boolean visibBtnModMain = false;
+    private boolean visibBtnGrabMain = false;
+    /** FIN TAB HORARIO */
+    /** TAB AULA */
     private List<BeanAula> listaAulas;
     private List listaNiveles;
     private String nidNivel;
@@ -51,14 +66,65 @@ public class bSessionMigrarExcel implements Serializable {
     private boolean visibleNuevo=true;
     private int exec=0;
     private boolean requeridInput=false;
-    private List<BeanMainWS> lstMain = new ArrayList<BeanMainWS>();
-    private String descSede;
-    private String nombresProf;
-    private String descAula;
-    private String descCurso;
-    private Integer nidMainModif;
+    /** FIN TAB AULA */
     
     public bSessionMigrarExcel() {
+    }
+
+    public void setDisabBtnGrabMain(boolean disabBtnGrabMain) {
+        this.disabBtnGrabMain = disabBtnGrabMain;
+    }
+
+    public boolean isDisabBtnGrabMain() {
+        return disabBtnGrabMain;
+    }
+
+    public void setVisibBtnNewMain(boolean visibBtnNewMain) {
+        this.visibBtnNewMain = visibBtnNewMain;
+    }
+
+    public boolean isVisibBtnNewMain() {
+        return visibBtnNewMain;
+    }
+
+    public void setVisibBtnModMain(boolean visibBtnModMain) {
+        this.visibBtnModMain = visibBtnModMain;
+    }
+
+    public boolean isVisibBtnModMain() {
+        return visibBtnModMain;
+    }
+
+    public void setVisibBtnGrabMain(boolean visibBtnGrabMain) {
+        this.visibBtnGrabMain = visibBtnGrabMain;
+    }
+
+    public boolean isVisibBtnGrabMain() {
+        return visibBtnGrabMain;
+    }
+
+    public void setDisabBtnNewMain(boolean disabBtnNewMain) {
+        this.disabBtnNewMain = disabBtnNewMain;
+    }
+
+    public boolean isDisabBtnNewMain() {
+        return disabBtnNewMain;
+    }
+
+    public void setDisabBtnModMain(boolean disabBtnModMain) {
+        this.disabBtnModMain = disabBtnModMain;
+    }
+
+    public boolean isDisabBtnModMain() {
+        return disabBtnModMain;
+    }
+
+    public void setCidSedeHorarioSess(String cidSedeHorarioSess) {
+        this.cidSedeHorarioSess = cidSedeHorarioSess;
+    }
+
+    public String getCidSedeHorarioSess() {
+        return cidSedeHorarioSess;
     }
 
     public void setNidMainModif(Integer nidMainModif) {
