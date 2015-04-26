@@ -89,7 +89,7 @@ public class BDL_C_SFGradoBean implements BDL_C_SFGradoRemote,
                                          " and niv.nidNivel="+nidNivel);               
             }
             
-            ejbQl = ejbQl.concat(" ORDER by grad.descripcionGrado");
+            ejbQl = ejbQl.concat(" ORDER by grad.nidGrado");
             
             List<Grado> lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;

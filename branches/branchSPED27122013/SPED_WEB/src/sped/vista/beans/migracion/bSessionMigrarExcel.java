@@ -67,6 +67,8 @@ public class bSessionMigrarExcel implements Serializable {
     private int exec=0;
     private boolean requeridInput=false;
     /** FIN TAB AULA */
+    private boolean disableDescripcionAula=false;
+    private int numMainActivos;
     
     public bSessionMigrarExcel() {
     }
@@ -490,5 +492,21 @@ public class bSessionMigrarExcel implements Serializable {
 
     public boolean isRequeridInput() {
         return requeridInput;
+    }
+
+    public void setDisableDescripcionAula(boolean disableDescripcionAula) {
+        this.disableDescripcionAula = disableDescripcionAula;
+    }
+
+    public boolean isDisableDescripcionAula() {
+        return disableDescripcionAula;
+    }
+
+    public void setNumMainActivos(int numMainActivos) {
+        this.numMainActivos = numMainActivos;
+    }
+
+    public int getNumMainActivos() {
+        return numMainActivos;
     }
 }

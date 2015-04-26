@@ -63,7 +63,8 @@
                 <af:inputText label="Descripcion" value="#{sessionScope.sessionMigrarExcel.descAula}"
                               visible="#{sessionScope.sessionMigrarExcel.estadoDescAula}"
                               binding="#{bMigrarExcel.inputDescAula}" autoSubmit="true"
-                              required="#{sessionScope.sessionMigrarExcel.requeridInput}"/>
+                              required="#{sessionScope.sessionMigrarExcel.requeridInput}"
+                              disabled="#{sessionScope.sessionMigrarExcel.disableDescripcionAula}"/>
                 <af:selectOneChoice label="Estado" id="soc11" binding="#{bMigrarExcel.choiceEstadoAula}"
                                     unselectedLabel="::Estado::"
                                     value="#{sessionScope.sessionMigrarExcel.flgActivo}" autoSubmit="true"
@@ -104,7 +105,7 @@
                                             </af:panelFormLayout>
                     <af:spacer width="10" height="10" id="s2"/>
                     <af:panelGroupLayout id="pgl4">
-                    <af:panelCollection id="pc1" inlineStyle="width:inherit;">
+                    <af:panelCollection id="pc1" inlineStyle="width:768px;">
                         <f:facet name="statusbar"/>
                         <f:facet name="toolbar">
                             <af:toolbar>
@@ -128,7 +129,7 @@
                         </f:facet>
                                                
                      <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs"
-                                  inlineStyle="width:inherit; margin:0px 50px 100px 0px;" width="inherit;"                                
+                                  inlineStyle="width:inherit; margin:0px 50px 100px 0px;" width="770"                                
                                   value="#{sessionScope.sessionMigrarExcel.listaAulas}"
                                binding="#{bMigrarExcel.tbAulas}" selectionListener="#{bMigrarExcel.seleccionarAula}"
                                rowSelection="#{sessionScope.sessionMigrarExcel.tablaSeleccionable}">
@@ -168,7 +169,7 @@
                 <af:selectOneChoice requiredMessageDetail="Seleccionar la accion" id="soc2"
                                     value="#{sessionScope.sessionMigrarExcel.accionSess}" autoSubmit="true"
                                     valueChangeListener="#{requestScope.bMigrarExcel.vclAccion}"
-                                    unselectedLabel=":: Seleccionar Accion::">
+                                            unselectedLabel=":: Seleccionar Accion::">
                     <af:selectItem label="Nuevo" value="NEW" id="si9"/>
                     <af:selectItem label="Modificar" value="MOD" id="si104"/>
                 </af:selectOneChoice>
@@ -221,11 +222,11 @@
                                    visible="#{sessionScope.sessionMigrarExcel.visibBtnNewMain}"
                                    actionListener="#{bMigrarExcel.btnNuevoMain}" binding="#{bMigrarExcel.btnAddMain}"
                                    disabled="#{sessionScope.sessionMigrarExcel.disabBtnNewMain}"/>
-                        <af:button text="Modificar" id="btnModMain" styleClass="FondoRojoLetraBlanca"
+                    <af:button text="Modificar" id="btnModMain" styleClass="FondoRojoLetraBlanca"
                                    binding="#{bMigrarExcel.btnModMain}"
                                    visible="#{sessionScope.sessionMigrarExcel.visibBtnModMain}"
                                    disabled="#{sessionScope.sessionMigrarExcel.disabBtnModMain}"
-                                   actionListener="#{bMigrarExcel.btnModMain_Action}"/>
+                               actionListener="#{bMigrarExcel.btnModMain_Action}"/>
                         <af:button text="Grabar" id="btnGrabar" styleClass="FondoVerdeLetraRoja"
                                    binding="#{bMigrarExcel.btnGrabar}"
                                    visible="#{sessionScope.sessionMigrarExcel.visibBtnGrabMain}"
@@ -274,6 +275,28 @@
             </af:showDetailItem>
         </af:panelTabbed>
         </af:panelGroupLayout>
-        
+          <af:popup childCreation="deferred" contentDelivery="immediate" id="p44"
+                    binding="#{bMigrarExcel.popupCountMain}">
+            <af:dialog closeIconVisible="false" modal="true" id="pw_delete" styleClass="allertBox" type="none"
+                       title="Desactivar Aula">
+                <af:panelGroupLayout layout="vertical" halign="center" id="pg4l">
+                    <af:spacer width="1" height="10" id="s54"/>
+                    <af:outputLabel value="Existen #{sessionScope.sessionMigrarExcel.numMainActivos} Horarios activos relacionados al Aula, Desea desactivarlo de todos modos? Todos los hoarios relacionados al aula se desactivaran."
+                                    inlineStyle="font-size:medium; color:Red;" id="ol7"/>
+                    <af:spacer width="1" height="10" id="s61"/>
+                </af:panelGroupLayout>
+                <f:facet name="buttonBar">
+                    <af:panelGroupLayout id="pg9" layout="vertical" halign="right">
+                        <af:panelGroupLayout layout="horizontal" id="p66">
+                            <af:commandButton text="Si" actionListener="#{bMigrarExcel.confirmarDesactivacionAula}" id="cb4"/>
+                            <af:commandButton text="Cancelar" id="cb42"
+                                              actionListener="#{bMigrarExcel.cancelarDesactivacionAula}">
+                                <af:resetActionListener/>
+                            </af:commandButton>
+                        </af:panelGroupLayout>
+                    </af:panelGroupLayout>
+                </f:facet>
+            </af:dialog>
+        </af:popup>
     </f:view>
 </ui:composition>

@@ -50,4 +50,16 @@ public class BDL_T_SFUtilsBean implements BDL_T_SFUtilsRemote,
     public Constraint mergeConstraint(Constraint constraint) {
         return em.merge(constraint);
     }
+    
+    public void desactivarMainByAula(String nidAula){
+        try {
+            String sql = "UPDATE addmain m "+
+                         "SET m.estado = '0' " +
+                         "WHERE m.nidAula = "+nidAula+" " +
+                         "AND m.estado = '1' ";
+            em.createNativeQuery(sql).executeUpdate();
+       } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
