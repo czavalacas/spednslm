@@ -2,6 +2,7 @@ package sped.negocio.LNSF.SFBean;
 
 import java.sql.Time;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -20,8 +21,12 @@ import sped.negocio.LNSF.IL.LN_T_SFLoggerLocal;
 import sped.negocio.LNSF.IL.LN_T_SFMainLocal;
 import sped.negocio.LNSF.IR.LN_T_SFMainRemote;
 import sped.negocio.Utils.Utiles;
+import sped.negocio.entidades.admin.Aula;
+import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Main;
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanMain;
+import sped.negocio.entidades.beans.BeanMainWS;
 
 @Stateless(name = "LN_T_SFMain", mappedName = "map-LN_T_SFMain")
 public class LN_T_SFMainBean implements LN_T_SFMainRemote, 
@@ -166,6 +171,40 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
         }
         for(Main main : lst){
             eliminarMain_LN(main.getNidMain());
+        }
+    }
+    
+    public String agregarMainMigracion(List<BeanMainWS> lstMains){
+        String erro = "";
+        try {
+            Iterator it = lstMains.iterator();
+            while (it.hasNext()) {
+                BeanMainWS bMain = (BeanMainWS) it.next();
+                Main main = new Main();
+                Aula aula = new Aula();
+                aula.setNidAula(bMain.getNidAula());
+                main.setAula(aula);
+                Curso curso = new Curso();
+                curso.setNidCurso(bMain.getNidCurso());
+                main.setCurso(curso);
+                Profesor profesor = new Profesor();
+                profesor.setDniProfesor(bMain.getDniProfesor());
+                main.setProfesor(profesor);
+                main.setNDia(0);
+                main.setEstado("1");
+                Integer i = null;
+                main.setNidLeccion(i);
+                bdL_T_SFMainLocal.persistMain(main);
+                erro = "000";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "111";
+        }
+        if("000".equals(erro)){
+            return "000";
+        }else{
+            return "111";
         }
     }
 }

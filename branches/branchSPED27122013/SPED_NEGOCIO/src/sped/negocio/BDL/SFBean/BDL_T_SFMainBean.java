@@ -18,7 +18,7 @@ import sped.negocio.entidades.admin.Main;
 
 @Stateless(name = "BDL_T_SFMain", mappedName = "map-BDL_T_SFMain")
 public class BDL_T_SFMainBean implements BDL_T_SFMainRemoto, 
-                                        BDL_T_SFMainLocal {
+                                         BDL_T_SFMainLocal {
     @Resource
     SessionContext sessionContext;
     @PersistenceContext(unitName = "SPED_NEGOCIO")
