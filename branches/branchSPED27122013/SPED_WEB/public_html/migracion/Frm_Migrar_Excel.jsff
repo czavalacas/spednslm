@@ -129,28 +129,26 @@
                                binding="#{bMigrarExcel.tbAulas}" selectionListener="#{bMigrarExcel.seleccionarAula}"
                                rowSelection="#{sessionScope.sessionMigrarExcel.tablaSeleccionable}">
                             <af:column width="20" frozen="true">
-                                
                                 <af:outputText value="#{vs.index + 1}"/>
-                              
                             </af:column>
-                            <af:column width="300" frozen="true" sortProperty="descripcionAula" headerText="Nombre"
-                                       align="left">
+                            <af:column width="300" sortProperty="descripcionAula" headerText="Nombre"
+                                       align="left" sortable="true">
                                 <af:outputText value="#{row.descripcionAula}"/>
                             </af:column>
-                            <af:column width="100" frozen="true" sortProperty="descripcionGrado" headerText="Grado"
-                                       align="center">
+                            <af:column width="100" sortProperty="gradoNivel.grado.descripcionGrado" headerText="Grado"
+                                       align="center" sortable="true">
                                 <af:outputText value="#{row.gradoNivel.grado.descripcionGrado}"/>
                             </af:column>
-                            <af:column width="100" frozen="true" sortProperty="gradoNivel.nivel.descripcionNivel" headerText="Nivel"
-                                       align="center">
+                            <af:column width="100" sortProperty="gradoNivel.nivel.descripcionNivel" headerText="Nivel"
+                                       align="center" sortable="true">
                                 <af:outputText value="#{row.gradoNivel.nivel.descripcionNivel}"/>
                             </af:column>
-                             <af:column width="100" frozen="true"  headerText="Codigo Aula"
-                                       align="center">
+                             <af:column width="100" headerText="Codigo Aula" sortable="true"
+                                       align="center" sortProperty="nidAula">
                                 <af:outputText value="#{row.nidAula}"/>
                             </af:column>
-                            <af:column  headerText="Estado" id="c11" width="100" sortProperty="flgActi"
-                                        inlineStyle="#{row.styleColor}" align="center" sortable="true">
+                            <af:column headerText="Estado" id="c11" width="100" sortProperty="flgActi"
+                                       inlineStyle="#{row.styleColor}" align="center" sortable="true">
                                    <af:outputText value="#{row.flgActi == 1 ? 'ACTIVO' : 'INACTIVO'}" />
                             </af:column>
                         </af:table>
