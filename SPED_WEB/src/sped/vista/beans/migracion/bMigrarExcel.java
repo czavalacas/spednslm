@@ -215,28 +215,13 @@ public class bMigrarExcel {
         sessionMigrarExcel.setDisableBtnEditar(false);
         sessionMigrarExcel.setDisableBtnNuevo(false);
         sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), cidGrado, sessionMigrarExcel.getNidNivel()));            
-       Utils.addTargetMany(tbAulas,btnEditarSave,btnNuevaAula);
+        Utils.addTargetMany(tbAulas,btnEditarSave,btnNuevaAula);
     }  
     
     public void seleccionarAula(SelectionEvent se) {
         BeanAula aula = (BeanAula) Utils.getRowTable(se);
         if(bdl_C_SFMainRemote.countMainByAulaForEval(aula.getNidAula().toString())==0){//SI NO TIENE EVALUACIONES REALIZADAS
            //PERMITIRA CAMBIAR NOMBRE, GRADO Y NIVEL 
-        sessionMigrarExcel.setBeanAula(aula);
-        sessionMigrarExcel.setDescAula(aula.getDescripcionAula());
-        sessionMigrarExcel.setNidNivel(aula.getGradoNivel().getNivel().getNidNivel().toString());
-        sessionMigrarExcel.setNidGrado(aula.getGradoNivel().getGrado().getNidGrado().toString());
-        sessionMigrarExcel.setFlgActivo(aula.getFlgActi());
-        sessionMigrarExcel.setEstadoDescAula(true);//visible
-        sessionMigrarExcel.setDisableChoiceSede(true);
-            sessionMigrarExcel.setDisableChoiceNivel(false);
-            sessionMigrarExcel.setDisableChoiceGrado(false);      
-            sessionMigrarExcel.setVisibleRegistrar(true); 
-            sessionMigrarExcel.setDisableDescripcionAula(false);
-                                      
-             }else{// SI EL AULA TIENE EVALUACIONES REALIZADAS
-            // NO PERMITIRA CAMBIAR NOMBRE, GRADO NI NIVEL SOLO EL ESTADO
-            
             sessionMigrarExcel.setBeanAula(aula);
             sessionMigrarExcel.setDescAula(aula.getDescripcionAula());
             sessionMigrarExcel.setNidNivel(aula.getGradoNivel().getNivel().getNidNivel().toString());
@@ -244,17 +229,26 @@ public class bMigrarExcel {
             sessionMigrarExcel.setFlgActivo(aula.getFlgActi());
             sessionMigrarExcel.setEstadoDescAula(true);//visible
             sessionMigrarExcel.setDisableChoiceSede(true);
-        sessionMigrarExcel.setDisableChoiceNivel(true);
-        sessionMigrarExcel.setDisableChoiceGrado(true);      
-        sessionMigrarExcel.setVisibleRegistrar(true);
+            sessionMigrarExcel.setDisableChoiceNivel(false);
+            sessionMigrarExcel.setDisableChoiceGrado(false);      
+            sessionMigrarExcel.setVisibleRegistrar(true); 
+            sessionMigrarExcel.setDisableDescripcionAula(false);
+        }else{// SI EL AULA TIENE EVALUACIONES REALIZADAS
+            // NO PERMITIRA CAMBIAR NOMBRE, GRADO NI NIVEL SOLO EL ESTADO
+            sessionMigrarExcel.setBeanAula(aula);
+            sessionMigrarExcel.setDescAula(aula.getDescripcionAula());
+            sessionMigrarExcel.setNidNivel(aula.getGradoNivel().getNivel().getNidNivel().toString());
+            sessionMigrarExcel.setNidGrado(aula.getGradoNivel().getGrado().getNidGrado().toString());
+            sessionMigrarExcel.setFlgActivo(aula.getFlgActi());
+            sessionMigrarExcel.setEstadoDescAula(true);//visible
+            sessionMigrarExcel.setDisableChoiceSede(true);
+            sessionMigrarExcel.setDisableChoiceNivel(true);
+            sessionMigrarExcel.setDisableChoiceGrado(true);      
+            sessionMigrarExcel.setVisibleRegistrar(true);
             sessionMigrarExcel.setDisableDescripcionAula(true);
-            
         }
-        
         sessionMigrarExcel.setVisibleChoiceEstado(true);                
-        Utils.addTargetMany(choiceGrado,choiceNivel,choiceSedAula,inputDescAula,choiceEstadoAula,btnRegistrarAula);        
-         
-        
+        Utils.addTargetMany(choiceGrado,choiceNivel,choiceSedAula,inputDescAula,choiceEstadoAula,btnRegistrarAula);
     }
     
     public void editarAula(ActionEvent actionEvent) {
@@ -284,21 +278,21 @@ public class bMigrarExcel {
         sessionMigrarExcel.setDescAula(Utils.getChoiceLabel(vce));
         if("MOD".equals(sessionMigrarExcel.getAccionSess()) ){
             refreshTablaMain();
-    }
+        }
     }
 
     public void vclProfesor(ValueChangeEvent vce) {
         sessionMigrarExcel.setNombresProf(Utils.getChoiceLabel(vce));
         if("MOD".equals(sessionMigrarExcel.getAccionSess()) ){
             refreshTablaMain();
-    }
+        }
     }
 
     public void vclCurso(ValueChangeEvent vce) {
         sessionMigrarExcel.setDescCurso(Utils.getChoiceLabel(vce));
         if("MOD".equals(sessionMigrarExcel.getAccionSess()) ){
             refreshTablaMain();
-    }
+        }
     }
     
     public void btnNuevoMain(ActionEvent ae) {
