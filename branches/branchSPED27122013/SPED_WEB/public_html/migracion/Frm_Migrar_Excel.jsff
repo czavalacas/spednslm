@@ -109,28 +109,23 @@
                         <f:facet name="statusbar"/>
                         <f:facet name="toolbar">
                             <af:toolbar>
-                              
                                 <af:button text="Nuevo"  
                                            disabled="#{sessionScope.sessionMigrarExcel.disableBtnNuevo}"
                                            actionListener="#{bMigrarExcel.nuevaAula}"
                                            binding="#{bMigrarExcel.btnNuevaAula}"
                                            visible="#{sessionScope.sessionMigrarExcel.visibleNuevo}"/>
-                            
-                             
                                 <af:button text="Actualizar" 
                                            actionListener="#{bMigrarExcel.editarAula}"
                                            disabled="#{sessionScope.sessionMigrarExcel.disableBtnEditar}"
                                            binding="#{bMigrarExcel.btnEditarSave}"/>
-                                                                         
                                 <af:button icon="../recursos/img/usuarios/refresh.png" id="b22"
                                            actionListener="#{bMigrarExcel.limpiarCamposYTabla}"/>
-                                           
                             </af:toolbar>
                         </f:facet>
                                                
                      <af:table var="row" rowBandingInterval="0" id="t1" varStatus="vs"
-                                  inlineStyle="width:inherit; margin:0px 50px 100px 0px;" width="770"                                
-                                  value="#{sessionScope.sessionMigrarExcel.listaAulas}"
+                               inlineStyle="width:inherit; margin:0px 50px 100px 0px;" width="770"                                
+                               value="#{sessionScope.sessionMigrarExcel.listaAulas}"
                                binding="#{bMigrarExcel.tbAulas}" selectionListener="#{bMigrarExcel.seleccionarAula}"
                                rowSelection="#{sessionScope.sessionMigrarExcel.tablaSeleccionable}">
                             <af:column width="20" frozen="true">
@@ -177,10 +172,12 @@
                     <af:panelGridLayout id="pgl1">
                         <af:gridRow marginTop="1px" height="auto" marginBottom="1px" id="gr1">
                             <af:gridCell width="25%">
+                                <af:button icon="../recursos/img/usuarios/refresh.png" id="btnFresh"
+                                           actionListener="#{bMigrarExcel.btnRefreshCombos}"/>
                                 <af:selectOneChoice requiredMessageDetail="Seleccionar Sede" autoSubmit="true"
-                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceSede}"
-                                    value="#{sessionScope.sessionMigrarExcel.cidSedeHorarioSess}" id="cbSede"
-                                    binding="#{bMigrarExcel.cbSede}" valueChangeListener="#{requestScope.bMigrarExcel.vclSede}"
+                                                    disabled="#{sessionScope.sessionMigrarExcel.estChoiceSede}"
+                                                    value="#{sessionScope.sessionMigrarExcel.cidSedeHorarioSess}" id="cbSede"
+                                                    binding="#{bMigrarExcel.cbSede}" valueChangeListener="#{requestScope.bMigrarExcel.vclSede}"
                                                     unselectedLabel=":: Seleccionar Sede ::">
                                     <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaSedesChoice}" id="si6"/>
                                 </af:selectOneChoice>
@@ -222,11 +219,11 @@
                                    visible="#{sessionScope.sessionMigrarExcel.visibBtnNewMain}"
                                    actionListener="#{bMigrarExcel.btnNuevoMain}" binding="#{bMigrarExcel.btnAddMain}"
                                    disabled="#{sessionScope.sessionMigrarExcel.disabBtnNewMain}"/>
-                    <af:button text="Modificar" id="btnModMain" styleClass="FondoRojoLetraBlanca"
+                        <af:button text="Modificar" id="btnModMain" styleClass="FondoRojoLetraBlanca"
                                    binding="#{bMigrarExcel.btnModMain}"
                                    visible="#{sessionScope.sessionMigrarExcel.visibBtnModMain}"
                                    disabled="#{sessionScope.sessionMigrarExcel.disabBtnModMain}"
-                               actionListener="#{bMigrarExcel.btnModMain_Action}"/>
+                                   actionListener="#{bMigrarExcel.btnModMain_Action}"/>
                         <af:button text="Grabar" id="btnGrabar" styleClass="FondoVerdeLetraRoja"
                                    binding="#{bMigrarExcel.btnGrabar}"
                                    visible="#{sessionScope.sessionMigrarExcel.visibBtnGrabMain}"

@@ -29,10 +29,10 @@ public class bSessionMigrarExcel implements Serializable {
     private boolean estChoiceProf = true;
     private boolean estChoiceSede = true;
     private boolean estChoiceCurso = true;
-    private List listaSedesChoice;
-    private List listaAulasChoice;
-    private List listaProfesChoice;
-    private List listaCursosChoice;
+    private List listaSedesChoice = new ArrayList();
+    private List listaAulasChoice = new ArrayList();
+    private List listaProfesChoice = new ArrayList();
+    private List listaCursosChoice = new ArrayList();
     private List<BeanMainWS> lstMain = new ArrayList<BeanMainWS>();
     private String descSede;
     private String nombresProf;

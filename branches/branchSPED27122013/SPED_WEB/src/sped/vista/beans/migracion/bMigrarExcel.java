@@ -1,6 +1,5 @@
 package sped.vista.beans.migracion;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
 import sped.negocio.BDL.IR.BDL_T_SFMainRemoto;
 import sped.negocio.BDL.IR.BDL_T_SFUtilsRemote;
@@ -56,12 +54,10 @@ import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanGrado;
 import sped.negocio.entidades.beans.BeanGradoNivel;
 import sped.negocio.entidades.beans.BeanMainWS;
-import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanNivel;
 import sped.negocio.entidades.beans.BeanProfesor;
 import sped.negocio.entidades.beans.BeanSede;
 import sped.vista.Utils.Utils;
-import utils.system;
 
 public class bMigrarExcel {
     @EJB
@@ -132,7 +128,7 @@ public class bMigrarExcel {
     @PostConstruct
     public void methodInvokeOncedOnPageLoad() {
     //    sessionMigrarExcel.setNidSede("2");
-    sessionMigrarExcel.setListaSedesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getSedesString_LN()));
+        sessionMigrarExcel.setListaSedesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getSedesString_LN()));
     }
 
     public void llenarCombos() {
@@ -159,6 +155,18 @@ public class bMigrarExcel {
                     sessionMigrarExcel.setVisibBtnGrabMain(true);
                     sessionMigrarExcel.setVisibBtnModMain(true);
                     sessionMigrarExcel.setVisibBtnNewMain(true);
+                    sessionMigrarExcel.setNidMainModif(null);
+                    sessionMigrarExcel.setCidSedeHorarioSess(null);
+                    sessionMigrarExcel.setDniProfSess(null);
+                    sessionMigrarExcel.setCidAulaSess(null);
+                    sessionMigrarExcel.setCidCursoSess(null);
+                    sessionMigrarExcel.setNombresProf(null);
+                    sessionMigrarExcel.setDescCurso(null);
+                    sessionMigrarExcel.setDescSede(null);
+                    sessionMigrarExcel.setDescAula(null);
+                    sessionMigrarExcel.setEstChoiceAula(true);
+                    sessionMigrarExcel.getLstMain().clear();
+                    tbMain.setValue(sessionMigrarExcel.getLstMain());
                 }else if("MOD".equals(val)){
                     sessionMigrarExcel.getLstMain().clear();
                     sessionMigrarExcel.setLstMain(ln_C_SFMainRemote.getListaMain_Activos(sessionMigrarExcel.getCidSedeHorarioSess(),
@@ -193,22 +201,22 @@ public class bMigrarExcel {
         }
     }
         
-        public void vclSede2(ValueChangeEvent vcl) {
-            String cidSede = (String) vcl.getNewValue();
-            sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(cidSede, null, null));            
-            sessionMigrarExcel.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(cidSede,null,null)));
-            sessionMigrarExcel.setListGrados(null);
-            sessionMigrarExcel.setNidGrado(null);
-            sessionMigrarExcel.setNidNivel(null);           
-            Utils.addTargetMany(tbAulas, choiceNivel,choiceGrado);
-        }
-     
-        public void vclNivel(ValueChangeEvent vcl) {
-            String cidNivel = (String) vcl.getNewValue();
-            sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), null, cidNivel));            
-            sessionMigrarExcel.setListGrados(Utils.llenarCombo(ln_C_SFGradoRemote.getGradoLN_PorNivelByOrden(cidNivel)));            
-            Utils.addTargetMany(tbAulas, choiceGrado);
-        }
+    public void vclSede2(ValueChangeEvent vcl) {
+        String cidSede = (String) vcl.getNewValue();
+        sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(cidSede, null, null));            
+        sessionMigrarExcel.setListaNiveles(Utils.llenarCombo(ln_C_SFNivelRemote.getNivelLNPorSede_ByOrden(cidSede,null,null)));
+        sessionMigrarExcel.setListGrados(null);
+        sessionMigrarExcel.setNidGrado(null);
+        sessionMigrarExcel.setNidNivel(null);           
+        Utils.addTargetMany(tbAulas, choiceNivel,choiceGrado);
+    }
+ 
+    public void vclNivel(ValueChangeEvent vcl) {
+        String cidNivel = (String) vcl.getNewValue();
+        sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), null, cidNivel));            
+        sessionMigrarExcel.setListGrados(Utils.llenarCombo(ln_C_SFGradoRemote.getGradoLN_PorNivelByOrden(cidNivel)));            
+        Utils.addTargetMany(tbAulas, choiceGrado);
+    }
         
     public void vclGrado(ValueChangeEvent vcl) {
         String cidGrado = (String) vcl.getNewValue();
@@ -437,6 +445,10 @@ public class bMigrarExcel {
         Utils.addTarget(tbMain);
     }
     
+    public void btnRefreshCombos(ActionEvent ae) {
+        llenarCombos();
+    }
+    
     public BeanMainWS getMainByNid(int nidMain){
         Iterator it = sessionMigrarExcel.getLstMain().iterator();
         while(it.hasNext()){
@@ -464,24 +476,23 @@ public class bMigrarExcel {
     }
 
     public void saveAula(){
-                sessionMigrarExcel.getBeanAula().setDescripcionAula(sessionMigrarExcel.getDescAula());
-                sessionMigrarExcel.getBeanAula().setFlgActi(sessionMigrarExcel.getFlgActivo());
-                ln_T_SFAulaRemoto.actualizarAula(sessionMigrarExcel.getBeanAula()); 
-                sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), sessionMigrarExcel.getNidGrado(), sessionMigrarExcel.getNidNivel()));            
-                sessionMigrarExcel.setBeanAula(null);
-                sessionMigrarExcel.setDisableBtnNuevo(false);
-                sessionMigrarExcel.setDisableChoiceSede(false);
-                sessionMigrarExcel.setDisableChoiceNivel(false);
-                sessionMigrarExcel.setDisableChoiceGrado(false);
-                sessionMigrarExcel.setVisibleChoiceEstado(false);
-                sessionMigrarExcel.setEstadoDescAula(false);
-                sessionMigrarExcel.setVisibleRegistrar(false);
-                sessionMigrarExcel.setTablaSeleccionable("none"); 
-                sessionMigrarExcel.setRequeridInput(false);
+        sessionMigrarExcel.getBeanAula().setDescripcionAula(sessionMigrarExcel.getDescAula());
+        sessionMigrarExcel.getBeanAula().setFlgActi(sessionMigrarExcel.getFlgActivo());
+        ln_T_SFAulaRemoto.actualizarAula(sessionMigrarExcel.getBeanAula()); 
+        sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), sessionMigrarExcel.getNidGrado(), sessionMigrarExcel.getNidNivel()));            
+        sessionMigrarExcel.setBeanAula(null);
+        sessionMigrarExcel.setDisableBtnNuevo(false);
+        sessionMigrarExcel.setDisableChoiceSede(false);
+        sessionMigrarExcel.setDisableChoiceNivel(false);
+        sessionMigrarExcel.setDisableChoiceGrado(false);
+        sessionMigrarExcel.setVisibleChoiceEstado(false);
+        sessionMigrarExcel.setEstadoDescAula(false);
+        sessionMigrarExcel.setVisibleRegistrar(false);
+        sessionMigrarExcel.setTablaSeleccionable("none"); 
+        sessionMigrarExcel.setRequeridInput(false);
         sessionMigrarExcel.setDisableBtnEditar(false);
         Utils.addTargetMany(tbAulas,btnNuevaAula,inputDescAula,btnRegistrarAula,choiceEstadoAula,choiceGrado,choiceNivel,choiceSedAula,btnEditarSave);
-        
-            }
+    }
     
     public void confirmarDesactivacionAula(ActionEvent actionEvent) {
         bdl_T_SFUtilsRemote.desactivarMainByAula(sessionMigrarExcel.getBeanAula().getNidAula().toString());  
@@ -494,15 +505,15 @@ public class bMigrarExcel {
     
     public void registrarAula(ActionEvent actionEvent) {
         if(sessionMigrarExcel.getExec() == 1){
-            if(sessionMigrarExcel.getBeanAula()!=null){
+            if(sessionMigrarExcel.getBeanAula() != null){
                 int contMain=bdl_C_SFMainRemote.countMainInactivosByAula(sessionMigrarExcel.getBeanAula().getNidAula().toString());
-                if(contMain>0 && sessionMigrarExcel.getFlgActivo()==0){
-                   sessionMigrarExcel.setNumMainActivos(contMain);
-                   Utils.showPopUpMIDDLE(popupCountMain);
-        }else{
+                if(contMain>0 && sessionMigrarExcel.getFlgActivo() == 0){
+                    sessionMigrarExcel.setNumMainActivos(contMain);
+                    Utils.showPopUpMIDDLE(popupCountMain);
+                }else{
                     saveAula();
-                     }
                 }
+            }
         }else{
             BeanAula aula=new BeanAula();
             aula.setDescripcionAula(sessionMigrarExcel.getDescAula());
@@ -519,18 +530,16 @@ public class bMigrarExcel {
             aula.setSede(sede);
             aula.setFlgActi(sessionMigrarExcel.getFlgActivo());
                 
-                ln_T_SFAulaRemoto.grabarAula(aula);
-             sessionMigrarExcel.setVisibleRegistrar(false);
-             sessionMigrarExcel.setEstadoDescAula(false);
-             sessionMigrarExcel.setVisibleChoiceEstado(false);
+            ln_T_SFAulaRemoto.grabarAula(aula);
+            sessionMigrarExcel.setVisibleRegistrar(false);
+            sessionMigrarExcel.setEstadoDescAula(false);
+            sessionMigrarExcel.setVisibleChoiceEstado(false);
             sessionMigrarExcel.setDisableBtnNuevo(false);
             sessionMigrarExcel.setDisableBtnEditar(false);
             sessionMigrarExcel.setRequeridInput(false);
             sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), sessionMigrarExcel.getNidGrado(), sessionMigrarExcel.getNidNivel()));            
             Utils.addTargetMany(tbAulas,inputDescAula,btnRegistrarAula,choiceEstadoAula,btnNuevaAula,btnEditarSave);
         }
-       
-            
     }     
 
     public String migrarExcel() {
@@ -1095,9 +1104,6 @@ public class bMigrarExcel {
     public RichPopup getPopupCountMain() {
         return popupCountMain;
     }
-
-    
-
 
     public void setBtnGrabar(RichButton btnGrabar) {
         this.btnGrabar = btnGrabar;
