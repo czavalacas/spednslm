@@ -49,4 +49,6 @@ public interface LN_C_SFMainRemote {
                                          Time fin,
                                          int nidMain);
     int countMainByNidsEstado_LN(String nidCurso, String nidAula, String dni);
+    List<BeanMainWS> getListaMain_Activos(String cidSede,String cidAula,
+                                          String dniProf,String cidCurso);
 }

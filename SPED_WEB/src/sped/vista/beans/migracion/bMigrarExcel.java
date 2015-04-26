@@ -152,8 +152,14 @@ public class bMigrarExcel {
                     sessionMigrarExcel.setVisibBtnModMain(true);
                     sessionMigrarExcel.setVisibBtnNewMain(true);
                 }else if("MOD".equals(val)){
+                    sessionMigrarExcel.getLstMain().clear();
+                    sessionMigrarExcel.setLstMain(ln_C_SFMainRemote.getListaMain_Activos(sessionMigrarExcel.getCidSedeHorarioSess(),
+                                                                                         sessionMigrarExcel.getCidAulaSess(),
+                                                                                         sessionMigrarExcel.getDniProfSess(),
+                                                                                         sessionMigrarExcel.getCidCursoSess()));
+                    tbMain.setValue(sessionMigrarExcel.getLstMain());
                 }
-                Utils.addTargetMany(btnAddMain,btnModMain,btnGrabar);
+                Utils.addTargetMany(btnAddMain,btnModMain,btnGrabar,tbMain);
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -162,14 +168,20 @@ public class bMigrarExcel {
     
     public void vclSede(ValueChangeEvent vcl) {
         String cidSede = (String) vcl.getNewValue();
-        sessionMigrarExcel.setListaAulasChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getAulasBySede_Activos_LN(Integer.parseInt(cidSede))));
-        sessionMigrarExcel.setEstChoiceAula(false);
+        if(cidSede != null){
+            sessionMigrarExcel.setListaAulasChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getAulasBySede_Activos_LN(Integer.parseInt(cidSede))));
+            sessionMigrarExcel.setEstChoiceAula(false);
+        }else{
+            sessionMigrarExcel.getListaAulasChoice().clear();
+            sessionMigrarExcel.setEstChoiceAula(true);
+        }
         Utils.addTarget(cbAula);
         sessionMigrarExcel.setDescSede(Utils.getChoiceLabel(vcl));
+        sessionMigrarExcel.setCidSedeHorarioSess(cidSede);
         if("NEW".equals(sessionMigrarExcel.getAccionSess()) ){
             
         }else if("MOD".equals(sessionMigrarExcel.getAccionSess()) ){
-            
+            refreshTablaMain();
         }
     }
         
@@ -239,14 +251,23 @@ public class bMigrarExcel {
 
     public void vclAula(ValueChangeEvent vce) {
         sessionMigrarExcel.setDescAula(Utils.getChoiceLabel(vce));
+        if("MOD".equals(sessionMigrarExcel.getAccionSess()) ){
+            refreshTablaMain();
+        }
     }
 
     public void vclProfesor(ValueChangeEvent vce) {
         sessionMigrarExcel.setNombresProf(Utils.getChoiceLabel(vce));
+        if("MOD".equals(sessionMigrarExcel.getAccionSess()) ){
+            refreshTablaMain();
+        }
     }
 
     public void vclCurso(ValueChangeEvent vce) {
         sessionMigrarExcel.setDescCurso(Utils.getChoiceLabel(vce));
+        if("MOD".equals(sessionMigrarExcel.getAccionSess()) ){
+            refreshTablaMain();
+        }
     }
     
     public void btnNuevoMain(ActionEvent ae) {
@@ -379,6 +400,16 @@ public class bMigrarExcel {
         sessionMigrarExcel.getLstMain().clear();
         tbMain.setValue(sessionMigrarExcel.getLstMain());
         Utils.addTargetMany(tbMain,btnModMain,btnAddMain,cbSede,cbAula,cbProf,cbCurso);
+    }
+    
+    public void refreshTablaMain(){
+        sessionMigrarExcel.getLstMain().clear();
+        sessionMigrarExcel.setLstMain(ln_C_SFMainRemote.getListaMain_Activos(sessionMigrarExcel.getCidSedeHorarioSess(),
+                                                                             sessionMigrarExcel.getCidAulaSess(),
+                                                                             sessionMigrarExcel.getDniProfSess(),
+                                                                             sessionMigrarExcel.getCidCursoSess()));
+        tbMain.setValue(sessionMigrarExcel.getLstMain());
+        Utils.addTarget(tbMain);    
     }
     
     public BeanMainWS getMainByNid(int nidMain){

@@ -26,10 +26,12 @@ import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;
+import sped.negocio.entidades.admin.Sede;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanCombo;
 import sped.negocio.entidades.beans.BeanComboString;
+import sped.negocio.entidades.beans.BeanConsDesem;
 import sped.negocio.entidades.beans.BeanMain;
 import sped.negocio.entidades.beans.BeanMainWS;
 import sped.negocio.entidades.beans.BeanProfesor;
@@ -196,5 +198,30 @@ public class LN_C_SFMainBean implements LN_C_SFMainRemote,
     
     public int countMainByNidsEstado_LN(String nidCurso, String nidAula, String dni){
         return bdl_C_SFMainLocal.countMainByNidsEstado(nidCurso, nidAula, dni);
+    }
+    
+    public List<BeanMainWS> getListaMain_Activos(String cidSede,String cidAula,
+                                                 String dniProf,String cidCurso){
+        List<Object[]> c = bdl_C_SFMainLocal.getMainActivos(cidSede == null ? null : new Integer(cidSede),
+                                                            cidAula == null ? null : new Integer(cidAula),dniProf,
+                                                            cidCurso == null ? null : new Integer(cidCurso));
+        Iterator it = c.iterator();
+        List<BeanMainWS> lstMain = new ArrayList<BeanMainWS>();
+        while(it.hasNext()){
+            Object[] b = (Object[]) it.next();
+            BeanMainWS m = new BeanMainWS();
+            m.setNidMain( (Integer) b[0]);
+            m.setSede( (String) b[1]);
+            m.setDniProfesor( (String) b[2] );
+            m.setNidAula( (Integer) b[3]);
+            m.setNidCurso( (Integer) b[4]);
+            m.setProfesor( (String) b[5]);
+            m.setAula( (String) b[6]);
+            m.setCurso( (String) b[7]);
+            m.setNidSede( (Integer) b[8]);
+            lstMain.add(m);
+        }
+        c = null;
+        return lstMain;
     }
 }

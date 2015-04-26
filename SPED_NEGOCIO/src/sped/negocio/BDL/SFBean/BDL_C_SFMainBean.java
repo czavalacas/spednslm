@@ -383,5 +383,36 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         }
     }
     
-
+    public List<Object[]> getMainActivos(Integer cidSede,Integer cidAula,
+                                         String dniProf ,Integer cidCurso){
+        try{
+            String q = "Select m.nidMain,s.desc_sede,m.dniProfesor,m.nidAula,m.nidCurso,\n" + 
+                       "       Concat(p.apellidos,' ',p.nombres) profesor, \n" + 
+                       "       a.desc_aula,\n" + 
+                       "       Concat(c.desc_curso,' / ',ac.desc_area_academica) curso,\n" +
+                       "       s.nidSede \n " + 
+                       "  From addmain m, \n" + 
+                       "       admaula a, \n" + 
+                       "       admsede s, \n" + 
+                       "       admprof p, \n" + 
+                       "       admcurs c, \n" + 
+                       "       admarac ac \n" + 
+                       "Where m.estado = 1 \n" + 
+                       "  And m.nidAula     = IfNull(?,a.nidAula)\n" + 
+                       "  And m.dniProfesor = IfNull(?,p.dniProfesor)\n" + 
+                       "  And m.nidCurso    = Ifnull(?,c.nidCurso)\n" + 
+                       "  And a.nidSede     = IfNull(?,a.nidSede)\n" + 
+                       "  And c.nidAreaAcademica = ac.nidAreaAcademica\n" + 
+                       "  And a.nidSede          = s.nidSede\n" + 
+                       "  And m.nidMain Not In (Select e.nidMain From evmeval e)\n" + 
+                       "  Order By s.nidSede";
+            return em.createNativeQuery(q).setParameter(1,cidAula)
+                                          .setParameter(2,dniProf)
+                                          .setParameter(3,cidCurso)
+                                          .setParameter(4,cidSede).getResultList();
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ArrayList<Object[]>();
+        }
+    }
 }

@@ -234,24 +234,26 @@
                     </af:panelGroupLayout>
                     <af:messages id="msjGen" binding="#{bMigrarExcel.msjGen}" inline="true"/>
                     <af:separator/>
-                        <af:table value="#{sessionScope.sessionMigrarExcel.lstMain}" var="row" rowBandingInterval="0"
+                        <af:table value="#{sessionScope.sessionMigrarExcel.lstMain}" var="row" 
+                                  rowBandingInterval="0" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" 
+                                  width="inherit;"
                                   id="tbMain" binding="#{bMigrarExcel.tbMain}">
-                            <af:column sortable="false" headerText="Id" align="end" id="c1">
+                            <af:column sortable="true" headerText="Id" align="end" sortProperty="nidMain">
                                 <af:outputText value="#{row.nidMain}" id="ot1"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Sede" align="start" id="c2">
+                            <af:column sortable="true" headerText="Sede" align="start" sortProperty="sede">
                                 <af:outputText value="#{row.sede}" id="ot2"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Dni" align="start" id="c3">
+                            <af:column sortable="true" headerText="Dni" align="start" sortProperty="dniProfesor">
                                 <af:outputText value="#{row.dniProfesor}" id="ot3"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Profesor" align="start" id="c4" width="220">
+                            <af:column sortable="true" headerText="Profesor" align="start" sortProperty="profesor" width="220">
                                 <af:outputText value="#{row.profesor}" id="ot4"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Aula" align="start" id="c5" width="220">
+                            <af:column sortable="true" headerText="Aula" align="start" sortProperty="aula" width="220">
                                 <af:outputText value="#{row.aula}" id="ot5"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Curso" align="start" id="c6" width="200">
+                            <af:column sortable="true" headerText="Curso" align="start" sortProperty="curso" width="200">
                                 <af:outputText value="#{row.curso}" id="ot6"/>
                             </af:column>
                             <af:column headerText="" align="start">
