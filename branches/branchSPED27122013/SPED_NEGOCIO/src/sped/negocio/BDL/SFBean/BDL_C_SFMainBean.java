@@ -420,18 +420,16 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         String quer = "Select Count(1) " +
                       " From Main m "+
                       " Where m.aula.nidAula = :nidAula " +
-                      " and m.estado='1'";                       
-     
+                      " and m.estado='1'";
         Object object = em.createQuery(quer)
                                  .setParameter("nidAula", Integer.parseInt(nidAula))
                                  .getSingleResult();
-        System.out.println("::::::::::::::"+quer);
         int cont = 0;
         if(object != null){
             cont = Integer.parseInt(object.toString());
         }
         return cont;
-        }
+    }
     
     /****Count Main por Aulas en EVMEval***/
     public int countMainByAulaForEval(String nidAula){
@@ -450,6 +448,3 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         return cont;
     }
 }
-  
-   
-
