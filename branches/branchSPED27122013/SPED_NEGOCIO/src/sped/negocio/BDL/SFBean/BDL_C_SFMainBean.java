@@ -413,6 +413,40 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         }catch(Exception e){
             e.printStackTrace();
             return new ArrayList<Object[]>();
+    /*****Count Main en estado 0 By niAula**************************/
+    
+    public int countMainInactivosByAula(String nidAula){
+        String quer = "Select Count(1) " +
+                      " From Main m "+
+                      " Where m.aula.nidAula = :nidAula " +
+                      " and m.estado='1'";                       
+     
+        Object object = em.createQuery(quer)
+                                 .setParameter("nidAula", Integer.parseInt(nidAula))
+                                 .getSingleResult();
+        System.out.println("::::::::::::::"+quer);
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
+    /****Count Main por Aulas en EVMEval***/
+    public int countMainByAulaForEval(String nidAula){
+        String quer = "Select Count(1) " +
+                      "  From Evaluacion e, Main m, Aula a "+
+                      " Where e.main.aula.nidAula = :nidAula " + 
+                      " and e.main.nidMain = m.nidMain "+
+                      " and m.aula.nidAula   = a.nidAula";
+        Object object = em.createQuery(quer)
+                                 .setParameter("nidAula", Integer.parseInt(nidAula))
+                                 .getSingleResult();
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
         }
+        return cont;
+    }
+}
+    }
+}        System.out.println(":::::RES:::::::::  "+cont);
+        return cont;
     }
 }
