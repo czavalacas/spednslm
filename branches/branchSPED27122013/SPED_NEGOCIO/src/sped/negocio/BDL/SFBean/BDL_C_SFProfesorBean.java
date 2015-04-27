@@ -180,8 +180,7 @@ public class BDL_C_SFProfesorBean implements BDL_C_SFProfesorRemote,
                         ejbQl = ejbQl.concat(" And cur.nidAreaNativa =" + nidAreaAcademica);    
                     }
             }  }  
-            ejbQl = ejbQl.concat(" Order By prof.apellidos");  
-            System.out.println("::::::::::QUERY::::::::::::::"+ejbQl);
+            ejbQl = ejbQl.concat(" Order By prof.apellidos");
             lstMain = em.createQuery(ejbQl).getResultList();
             return lstMain;
         } catch (Exception e) {
