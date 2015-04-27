@@ -134,7 +134,7 @@ public class bConfigurarCuenta {
     }
     
     /**
-     * Metodo que modifica el tamaño de la imagen para ocupar menos espacio
+     * Metodo que modifica el tamano de la imagen para ocupar menos espacio
      * @param input
      * @param output
      * @param width
