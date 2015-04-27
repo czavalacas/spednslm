@@ -230,7 +230,7 @@
                                   rowBandingInterval="0" inlineStyle="width:inherit; margin:0px 50px 0px 0px;" 
                                   width="inherit;" varStatus="vs"
                                   id="tbMain" binding="#{bMigrarExcel.tbMain}">
-                            <af:column width="20" frozen="true">
+                            <af:column width="40" frozen="true">
                                 <af:outputText value="#{vs.index + 1}"/>
                             </af:column>
                             <af:column sortable="true" headerText="Id" align="end" sortProperty="nidMain">
