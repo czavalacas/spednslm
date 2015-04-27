@@ -153,4 +153,25 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
             return null;
         }
     }
+    
+    public List<Curso> getCursosbyAreaYNativa(String nidAreaAcademica, String nidAreaNativa) {
+        try {
+            String ejbQl = " SELECT cur FROM Curso cur" + 
+                           " WHERE 1=1 ";
+            if (nidAreaAcademica != null) {
+                ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
+            }
+            
+            if (nidAreaNativa != null) {
+                ejbQl = ejbQl.concat(" and cur.nidAreaNativa=" + nidAreaNativa);
+            }
+            
+            ejbQl = ejbQl.concat(" ORDER by cur.areaAcademica.descripcionAreaAcademica asc, cur.descripcionCurso asc ");
+            System.out.println(ejbQl);
+            return em.createQuery(ejbQl).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

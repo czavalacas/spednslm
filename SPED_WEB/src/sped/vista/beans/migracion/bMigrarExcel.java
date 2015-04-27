@@ -121,6 +121,17 @@ public class bMigrarExcel {
     private RichButton btnRegistrarAula;
     private RichPopup popupCountMain;
     private RichButton btnGrabar;
+    private RichInputText inputDescCurso;
+    private RichSelectOneChoice choiceAreaAca;
+    private RichSelectOneChoice choiceAreaNativa;
+    private RichButton btnRegistrarCurso;
+    private RichButton btnNuevoCurso;
+    private RichButton btnActualizarCuirso;
+    private RichButton btnActualizarCurso;
+    private RichTable tbCursos;
+    private int loadPage=0;
+    
+    
 
     public bMigrarExcel() {
     }
@@ -129,7 +140,12 @@ public class bMigrarExcel {
     public void methodInvokeOncedOnPageLoad() {
     //    sessionMigrarExcel.setNidSede("2");
         sessionMigrarExcel.setListaSedesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getSedesString_LN()));
-    }
+        sessionMigrarExcel.setListaAreaAcaChoice(Utils.llenarCombo(ln_C_SFAreaAcademicaRemote.getAreaAcademicasAll(0)));
+        if(loadPage==0){
+            sessionMigrarExcel.setListaCursos(ln_C_SFCursoRemoto.findCursosByAreaAcademica(null, null));
+            setLoadPage(1);
+        }    
+     }
 
     public void llenarCombos() {
         sessionMigrarExcel.setListaSedesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getSedesString_LN()));
@@ -270,6 +286,7 @@ public class bMigrarExcel {
         sessionMigrarExcel.setRequeridInput(true);
         sessionMigrarExcel.setDisableBtnEditar(true);
         Utils.addTargetMany(tbAulas,btnNuevaAula,btnEditarSave);
+        Utils.unselectFilas(tbAulas);
          
     }
 
@@ -283,6 +300,7 @@ public class bMigrarExcel {
        sessionMigrarExcel.setDisableBtnNuevo(true);
        sessionMigrarExcel.setDisableBtnEditar(true);
        sessionMigrarExcel.setRequeridInput(true);
+       sessionMigrarExcel.setDisableDescripcionAula(false);        
        Utils.addTargetMany(tbAulas,btnNuevaAula,inputDescAula,choiceEstadoAula,btnRegistrarAula,btnEditarSave);
     }
 
@@ -524,6 +542,9 @@ public class bMigrarExcel {
     public void saveAula(){
         sessionMigrarExcel.getBeanAula().setDescripcionAula(sessionMigrarExcel.getDescAula());
         sessionMigrarExcel.getBeanAula().setFlgActi(sessionMigrarExcel.getFlgActivo());
+        sessionMigrarExcel.getBeanAula().getGradoNivel().getGrado().setNidGrado(Integer.parseInt(sessionMigrarExcel.getNidGrado()));
+        sessionMigrarExcel.getBeanAula().getGradoNivel().getNivel().setNidNivel(Integer.parseInt(sessionMigrarExcel.getNidNivel()));
+      
         ln_T_SFAulaRemoto.actualizarAula(sessionMigrarExcel.getBeanAula()); 
         sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), sessionMigrarExcel.getNidGrado(), sessionMigrarExcel.getNidNivel()));            
         sessionMigrarExcel.setBeanAula(null);
@@ -993,6 +1014,46 @@ public class bMigrarExcel {
             e.printStackTrace();
         }
     }
+    
+    public void vcAreaAcademica(ValueChangeEvent vc) {
+        String nidCurso=vc.getNewValue().toString();
+        if(nidCurso.equals("12") || nidCurso.equals("13")){
+            System.out.println(":::::::::::::: ES 12 O 13");
+            sessionMigrarExcel.setListaAreaNatiChoice(Utils.llenarCombo(ln_C_SFAreaAcademicaRemote.getAreaAcademicasAll(1)));
+            sessionMigrarExcel.setVisibleChoiceAreaNat(true);         
+        }else{
+            sessionMigrarExcel.setVisibleChoiceAreaNat(false);     
+        }
+        sessionMigrarExcel.setNidArea(vc.getNewValue().toString());
+        sessionMigrarExcel.setListaCursos(ln_C_SFCursoRemoto.findCursosByAreaAcademica(vc.getNewValue().toString(), null));
+        Utils.addTargetMany(choiceAreaNativa,tbCursos);
+    }
+
+    public void vcAreaNativa(ValueChangeEvent vc) {
+        sessionMigrarExcel.setNidAreaNativa(vc.getNewValue().toString());
+        sessionMigrarExcel.setListaCursos(ln_C_SFCursoRemoto.findCursosByAreaAcademica(sessionMigrarExcel.getNidArea(), vc.getNewValue().toString()));
+        Utils.addTargetMany(tbCursos);
+    }
+
+    public void registrarCurso(ActionEvent actionEvent) {
+        // Add event code here...
+    }
+
+    
+    public void nuevoCurso(ActionEvent actionEvent) {
+        // Add event code here...
+    }
+
+    public void editarCurso(ActionEvent actionEvent) {
+        // Add event code here...
+    }
+
+    public void limpiarCamposYTablaCurso(ActionEvent actionEvent) {
+        // Add event code here...
+    }
+    public void seleccionarCurso(SelectionEvent selectionEvent) {
+        // Add event code here...
+    }
 
     public void setCbSede(RichSelectOneChoice cbSede) {
         this.cbSede = cbSede;
@@ -1147,4 +1208,79 @@ public class bMigrarExcel {
     public RichButton getBtnGrabar() {
         return btnGrabar;
     }
+
+    public void setInputDescCurso(RichInputText inputDescCurso) {
+        this.inputDescCurso = inputDescCurso;
+    }
+
+    public RichInputText getInputDescCurso() {
+        return inputDescCurso;
+    }
+
+    public void setChoiceAreaAca(RichSelectOneChoice choiceAreaAca) {
+        this.choiceAreaAca = choiceAreaAca;
+    }
+
+    public RichSelectOneChoice getChoiceAreaAca() {
+        return choiceAreaAca;
+    }
+
+    public void setChoiceAreaNativa(RichSelectOneChoice choiceAreaNativa) {
+        this.choiceAreaNativa = choiceAreaNativa;
+    }
+
+    public RichSelectOneChoice getChoiceAreaNativa() {
+        return choiceAreaNativa;
+    }
+
+   
+    public void setBtnRegistrarCurso(RichButton btnRegistrarCurso) {
+        this.btnRegistrarCurso = btnRegistrarCurso;
+    }
+
+    public RichButton getBtnRegistrarCurso() {
+        return btnRegistrarCurso;
+    }
+
+    public void setBtnNuevoCurso(RichButton btnNuevoCurso) {
+        this.btnNuevoCurso = btnNuevoCurso;
+    }
+
+    public RichButton getBtnNuevoCurso() {
+        return btnNuevoCurso;
+    }
+
+    public void setBtnActualizarCuirso(RichButton btnActualizarCuirso) {
+        this.btnActualizarCuirso = btnActualizarCuirso;
+    }
+
+    public RichButton getBtnActualizarCuirso() {
+        return btnActualizarCuirso;
+    }
+
+    public void setBtnActualizarCurso(RichButton btnActualizarCurso) {
+        this.btnActualizarCurso = btnActualizarCurso;
+    }
+
+    public RichButton getBtnActualizarCurso() {
+        return btnActualizarCurso;
+    }
+
+    public void setTbCursos(RichTable tbCursos) {
+        this.tbCursos = tbCursos;
+    }
+
+    public RichTable getTbCursos() {
+        return tbCursos;
+    }
+    
+    public void setLoadPage(int loadPage) {
+        this.loadPage = loadPage;
+    }
+
+    public int getLoadPage() {
+        return loadPage;
+    }
+
+   
 }

@@ -11,7 +11,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import net.sf.dozer.util.mapping.DozerBeanMapper;
 import net.sf.dozer.util.mapping.MapperIF;
+
+import sped.negocio.BDL.IL.BDL_C_SFAreaAcademicaLocal;
 import sped.negocio.BDL.IL.BDL_C_SFCursoLocal;
+import sped.negocio.LNSF.IL.LN_C_SFAreaAcademicaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFCursoLocal;
 import sped.negocio.LNSF.IR.LN_C_SFCursoRemoto;
 import sped.negocio.entidades.admin.Curso;
@@ -31,6 +34,8 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
     private EntityManager em;
     @EJB
     BDL_C_SFCursoLocal bdl_C_SFCursoLocal;
+    @EJB
+    BDL_C_SFAreaAcademicaLocal bdl_C_SFAreaAcademicaLocal;
     MapperIF mapper = new DozerBeanMapper();
     
     public LN_C_SFCursoBean() {
@@ -140,4 +145,37 @@ public class LN_C_SFCursoBean implements LN_C_SFCursoRemoto,
             }
             return list;
         }
+    
+    public List<BeanCurso> findCursosByAreaAcademica(String nidArea,String nidNativa){
+        try{
+            List<Curso> listaCursos=bdl_C_SFCursoLocal.getCursosbyAreaYNativa(nidArea, nidNativa);    
+            List<BeanCurso> lstCur=new ArrayList<BeanCurso>();
+            Iterator it=listaCursos.iterator();
+            while(it.hasNext()){
+            Curso cur= (Curso)it.next();
+            BeanCurso bean =new BeanCurso();
+            bean.setNidCurso(cur.getNidCurso());
+            bean.setDescripcionCurso(cur.getDescripcionCurso());
+            bean.setNidAreaNativa(cur.getNidAreaNativa());
+            bean.setDescAreaNativa(bdl_C_SFAreaAcademicaLocal.findEvaluadorById(cur.getNidAreaNativa()).getDescripcionAreaAcademica());
+            BeanAreaAcademica area=new BeanAreaAcademica();
+            area.setNidAreaAcademica(cur.getAreaAcademica().getNidAreaAcademica());
+            area.setDescripcionAreaAcademica(cur.getAreaAcademica().getDescripcionAreaAcademica());
+            bean.setAreaAcademica(area);
+            if(cur.getFlgActi()==0){                         
+                             bean.setStyleColor("color:white; font-weight:bold;text-align:center; background-color:red");
+                             bean.setFlgActi(cur.getFlgActi());
+               }
+            if(cur.getFlgActi()==1){
+                              bean.setStyleColor("color:White; font-weight:bold;text-align:center; background-color:green");
+                              bean.setFlgActi(cur.getFlgActi());
+               }                
+            lstCur.add(bean);   
+            }
+            return lstCur;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }        
+    }
 }

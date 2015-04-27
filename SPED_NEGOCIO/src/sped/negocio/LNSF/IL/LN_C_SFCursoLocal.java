@@ -17,4 +17,5 @@ public interface LN_C_SFCursoLocal {
     int getNidCursoByDescripcion_LN(String descripcion);
     List<BeanCombo> findCursosByArea(String nidAreaAcademica);
     List<BeanCombo> getCursoPorSedeNivelyPofesor(String nidSede, String nidNivel, String dniProfesor, int nidAreaAcademica);
+    List<BeanCurso> findCursosByAreaAcademica(String nidArea,String nidNativa);
 }
