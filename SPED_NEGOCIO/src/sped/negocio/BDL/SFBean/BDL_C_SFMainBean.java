@@ -422,7 +422,9 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         }catch(Exception e){
             e.printStackTrace();
             return new ArrayList<Object[]>();
-        }}
+        }
+    }
+
     /*****Count Main en estado 0 By niAula**************************/
     
     public int countMainInactivosByAula(String nidAula){
