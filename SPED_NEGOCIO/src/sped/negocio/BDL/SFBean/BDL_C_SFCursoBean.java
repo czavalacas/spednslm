@@ -161,13 +161,10 @@ public class BDL_C_SFCursoBean implements BDL_C_SFCursoRemoto,
             if (nidAreaAcademica != null) {
                 ejbQl = ejbQl.concat(" and cur.areaAcademica.nidAreaAcademica=" + nidAreaAcademica);
             }
-            
             if (nidAreaNativa != null) {
                 ejbQl = ejbQl.concat(" and cur.nidAreaNativa=" + nidAreaNativa);
             }
-            
             ejbQl = ejbQl.concat(" ORDER by cur.areaAcademica.descripcionAreaAcademica asc, cur.descripcionCurso asc ");
-            System.out.println(ejbQl);
             return em.createQuery(ejbQl).getResultList();
         } catch (Exception e) {
             e.printStackTrace();
