@@ -9,4 +9,5 @@ public interface BDL_T_SFUtilsRemote {
     void actualizarConstraint(String newValor,String tabla, String campo, String oldValor);
     Constraint mergeConstraint(Constraint constraint);
     void desactivarMainByAula(String nidAula);
+    void desactivarMainByCurso(String nidCurso);
 }

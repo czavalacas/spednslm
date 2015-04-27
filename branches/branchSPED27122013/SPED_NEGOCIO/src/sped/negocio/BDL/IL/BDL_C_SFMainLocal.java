@@ -49,4 +49,6 @@ public interface BDL_C_SFMainLocal {
     int countMainInactivosByAula(String nidAula);
     List<Object[]> getMainActivos(Integer cidSede,Integer cidAula,
                                   String dniProf ,Integer cidCurso);
+    int countMainByCursoForEval(String nidCurso);
+    int countMainInactivosByCurso(String nidCurso);
 }

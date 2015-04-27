@@ -62,4 +62,16 @@ public class BDL_T_SFUtilsBean implements BDL_T_SFUtilsRemote,
             e.printStackTrace();
         }
     }
+    
+    public void desactivarMainByCurso(String nidCurso){
+        try {
+            String sql = "UPDATE addmain m "+
+                         "SET m.estado = '0' " +
+                         "WHERE m.nidCurso = "+nidCurso+" " +
+                         "AND m.estado = '1' ";
+            em.createNativeQuery(sql).executeUpdate();
+       } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
