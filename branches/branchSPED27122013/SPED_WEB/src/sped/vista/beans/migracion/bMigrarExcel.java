@@ -148,6 +148,7 @@ public class bMigrarExcel {
             if(val != null){
                 llenarCombos();
                 sessionMigrarExcel.setAccionSess(val);
+                sessionMigrarExcel.setNidMainModif(null);
                 if("NEW".equals(val)){
                     sessionMigrarExcel.setDisabBtnNewMain(false);
                     sessionMigrarExcel.setDisabBtnModMain(true);
@@ -155,7 +156,7 @@ public class bMigrarExcel {
                     sessionMigrarExcel.setVisibBtnGrabMain(true);
                     sessionMigrarExcel.setVisibBtnModMain(true);
                     sessionMigrarExcel.setVisibBtnNewMain(true);
-                    sessionMigrarExcel.setNidMainModif(null);
+                    
                     sessionMigrarExcel.setCidSedeHorarioSess(null);
                     sessionMigrarExcel.setDniProfSess(null);
                     sessionMigrarExcel.setCidAulaSess(null);
@@ -166,6 +167,7 @@ public class bMigrarExcel {
                     sessionMigrarExcel.setDescAula(null);
                     sessionMigrarExcel.setEstChoiceAula(true);
                     sessionMigrarExcel.getLstMain().clear();
+                    sessionMigrarExcel.getListaAulasChoice().clear();
                     tbMain.setValue(sessionMigrarExcel.getLstMain());
                 }else if("MOD".equals(val)){
                     sessionMigrarExcel.setDisabBtnNewMain(true);
@@ -174,9 +176,10 @@ public class bMigrarExcel {
                     sessionMigrarExcel.setVisibBtnGrabMain(false);
                     sessionMigrarExcel.setVisibBtnModMain(true);
                     sessionMigrarExcel.setVisibBtnNewMain(false);
+                    sessionMigrarExcel.getListaAulasChoice().clear();
                     this.refreshTablaMain();
                 }
-                Utils.addTargetMany(btnAddMain,btnModMain,btnGrabar,tbMain);
+                Utils.addTargetMany(btnAddMain,btnModMain,btnGrabar,tbMain,cbAula);
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -373,24 +376,36 @@ public class bMigrarExcel {
         sessionMigrarExcel.setDescAula(aula);
         sessionMigrarExcel.setDisabBtnModMain(false);
         sessionMigrarExcel.setDisabBtnNewMain(true);
+        sessionMigrarExcel.setEstChoiceAula(false);
         if("NEW".equals(sessionMigrarExcel.getAccionSess())){
             sessionMigrarExcel.setDisabBtnModMain(false);
             sessionMigrarExcel.setDisabBtnNewMain(true);
         }else if("MOD".equals(sessionMigrarExcel.getAccionSess())){
             sessionMigrarExcel.setDisabBtnModMain(false);
-            
         }
         Utils.addTargetMany(cbSede,cbAula,cbProf,cbCurso,btnAddMain,btnModMain);
     }
     
     public void btnModMain_Action(ActionEvent ae) {
         if(sessionMigrarExcel.getCidSedeHorarioSess() != null && sessionMigrarExcel.getCidAulaSess() != null &&
-           sessionMigrarExcel.getDniProfSess() != null && sessionMigrarExcel.getCidCursoSess() != null){
+           sessionMigrarExcel.getDniProfSess() != null && sessionMigrarExcel.getCidCursoSess() != null && 
+           sessionMigrarExcel.getNidMainModif() != null){
             BeanMainWS bMain = this.getMainByNid(sessionMigrarExcel.getNidMainModif().intValue());
+            int nidCurso = Integer.parseInt(sessionMigrarExcel.getCidCursoSess());
+            int nidAula = Integer.parseInt(sessionMigrarExcel.getCidAulaSess());
+            int nidSede = Integer.parseInt(sessionMigrarExcel.getCidSedeHorarioSess());
+            if(bMain.getDniProfesor().equals(sessionMigrarExcel.getDniProfSess()) && 
+               bMain.getNidCurso().intValue() == nidCurso &&  bMain.getNidAula() == nidAula &&
+               bMain.getNidSede().intValue() == nidSede){
+                msjGen.setText("No ha modificado los valores");
+                Utils.addTarget(msjGen);
+                Utils.mostrarMensaje(ctx, "Valores no modificados", "Info", 4);
+                return;
+            }
             bMain.setDniProfesor(sessionMigrarExcel.getDniProfSess());
-            bMain.setNidCurso(Integer.parseInt(sessionMigrarExcel.getCidCursoSess()));
-            bMain.setNidAula(Integer.parseInt(sessionMigrarExcel.getCidAulaSess()));
-            bMain.setNidSede(Integer.parseInt(sessionMigrarExcel.getCidSedeHorarioSess()));
+            bMain.setNidCurso(nidCurso);
+            bMain.setNidAula(nidAula);
+            bMain.setNidSede(nidSede);
             bMain.setSede(sessionMigrarExcel.getDescSede());
             bMain.setAula(sessionMigrarExcel.getDescAula());
             bMain.setCurso(sessionMigrarExcel.getDescCurso());
