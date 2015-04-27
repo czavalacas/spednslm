@@ -389,7 +389,7 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         try{
             String q = "Select m.nidMain,s.desc_sede,m.dniProfesor,m.nidAula,m.nidCurso,\n" + 
                        "       Concat(p.apellidos,' ',p.nombres) profesor, \n" + 
-                       "       a.desc_aula,\n" + 
+                       "       Concat(a.desc_aula,' / ',g.abvr,' ',n.abvr),\n" + 
                        "       Concat(c.desc_curso,' / ',ac.desc_area_academica) curso,\n" +
                        "       s.nidSede \n " + 
                        "  From addmain m, \n" + 
@@ -398,11 +398,15 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                        "       admprof p, \n" + 
                        "       admcurs c, \n" + 
                        "       admarac ac \n" + 
+                       "       admgrad g,\n" + 
+                       "       admnive n \n "+
                        "Where m.estado = 1 \n" + 
                        "  And m.nidAula     = a.nidAula\n" + 
                        "  And m.dniProfesor = p.dniProfesor\n" + 
                        "  And m.nidCurso    = c.nidCurso\n" + 
                        "  And a.nidSede     = a.nidSede \n "+
+                       "  And a.nidGrado    = g.nidGrado \n " + 
+                       "  And a.nidNivel    = n.nidNivel \n "+
                        "  And m.nidAula     = IfNull(?,m.nidAula)\n" + 
                        "  And m.dniProfesor = IfNull(?,m.dniProfesor)\n" + 
                        "  And m.nidCurso    = Ifnull(?,m.nidCurso)\n" + 
