@@ -395,31 +395,27 @@ public class bMigrarExcel {
             bMain.setAula(sessionMigrarExcel.getDescAula());
             bMain.setCurso(sessionMigrarExcel.getDescCurso());
             bMain.setProfesor(sessionMigrarExcel.getNombresProf());
+            sessionMigrarExcel.setDisabBtnModMain(true);
+            sessionMigrarExcel.setDisabBtnNewMain(false);
             if("NEW".equals(sessionMigrarExcel.getAccionSess())){
                 sessionMigrarExcel.getLstMain().remove(bMain.getNidMain() - 1);
                 sessionMigrarExcel.getLstMain().add(bMain.getNidMain()-1,bMain);
+                sessionMigrarExcel.setCidSedeHorarioSess(null);
+                sessionMigrarExcel.setDniProfSess(null);
+                sessionMigrarExcel.setCidAulaSess(null);
+                sessionMigrarExcel.setCidCursoSess(null);
+                sessionMigrarExcel.setNombresProf(null);
+                sessionMigrarExcel.setDescCurso(null);
+                sessionMigrarExcel.setDescSede(null);
+                sessionMigrarExcel.setDescAula(null);
             }else if("MOD".equals(sessionMigrarExcel.getAccionSess())){
                 List<BeanMainWS> lstAdd = new ArrayList<BeanMainWS>();
                 lstAdd.add(bMain);
                 this.grabarAux(lstAdd,sessionMigrarExcel.getAccionSess());
                 lstAdd.clear();
             }
-            //tbMain.setValue(sessionMigrarExcel.getLstMain());
-            sessionMigrarExcel.setDisabBtnModMain(true);
-            sessionMigrarExcel.setDisabBtnNewMain(false);
             sessionMigrarExcel.setNidMainModif(null);
-            sessionMigrarExcel.setCidSedeHorarioSess(null);
-            sessionMigrarExcel.setDniProfSess(null);
-            sessionMigrarExcel.setCidAulaSess(null);
-            sessionMigrarExcel.setCidCursoSess(null);
-            sessionMigrarExcel.setNombresProf(null);
-            sessionMigrarExcel.setDescCurso(null);
-            sessionMigrarExcel.setDescSede(null);
-            sessionMigrarExcel.setDescAula(null);
             Utils.addTargetMany(tbMain,btnModMain,btnAddMain,cbSede,cbAula,cbProf,cbCurso);
-            msjGen.setText("Registro modificado");
-            Utils.addTarget(msjGen);
-            Utils.mostrarMensaje(ctx, "Se modifico el registro", "Operacion realizada", 1);
         }else{
             msjGen.setText("Seleccionar valores");
             Utils.addTarget(msjGen);
@@ -452,21 +448,20 @@ public class bMigrarExcel {
         msjGen.setText(msjError);
         Utils.addTarget(msjGen);
         Utils.mostrarMensaje(ctx, msjError,titulo,tip);
-        sessionMigrarExcel.setDisabBtnModMain(true);
-        sessionMigrarExcel.setDisabBtnNewMain(false);
-        sessionMigrarExcel.setDisabBtnGrabMain(true);
-        sessionMigrarExcel.setNidMainModif(null);
-        sessionMigrarExcel.setCidSedeHorarioSess(null);
-        sessionMigrarExcel.setDniProfSess(null);
-        sessionMigrarExcel.setCidAulaSess(null);
-        sessionMigrarExcel.setCidCursoSess(null);
-        sessionMigrarExcel.setNombresProf(null);
-        sessionMigrarExcel.setDescCurso(null);
-        sessionMigrarExcel.setDescSede(null);
-        sessionMigrarExcel.setDescAula(null);
         if("NEW".equals(modoGrabar)){
+            sessionMigrarExcel.setDisabBtnModMain(true);
+            sessionMigrarExcel.setDisabBtnNewMain(false);
+            sessionMigrarExcel.setDisabBtnGrabMain(true);
+            sessionMigrarExcel.setNidMainModif(null);
+            sessionMigrarExcel.setCidSedeHorarioSess(null);
+            sessionMigrarExcel.setDniProfSess(null);
+            sessionMigrarExcel.setCidAulaSess(null);
+            sessionMigrarExcel.setCidCursoSess(null);
+            sessionMigrarExcel.setNombresProf(null);
+            sessionMigrarExcel.setDescCurso(null);
+            sessionMigrarExcel.setDescSede(null);
+            sessionMigrarExcel.setDescAula(null);
             sessionMigrarExcel.getLstMain().clear();
-            //tbMain.setValue(sessionMigrarExcel.getLstMain());
         }else if("MOD".equals(modoGrabar)){
             this.refreshTablaMain();   
         }
