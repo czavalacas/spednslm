@@ -242,13 +242,13 @@
                             <af:column sortable="true" headerText="Dni" align="start" sortProperty="dniProfesor">
                                 <af:outputText value="#{row.dniProfesor}" id="ot3"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Profesor" align="start" sortProperty="profesor" width="220">
+                            <af:column sortable="true" headerText="Profesor" align="start" sortProperty="profesor" width="230">
                                 <af:outputText value="#{row.profesor}" id="ot4"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Aula" align="start" sortProperty="aula" width="220">
+                            <af:column sortable="true" headerText="Aula" align="start" sortProperty="aula" width="240">
                                 <af:outputText value="#{row.aula}" id="ot5"/>
                             </af:column>
-                            <af:column sortable="true" headerText="Curso" align="start" sortProperty="curso" width="200">
+                            <af:column sortable="true" headerText="Curso" align="start" sortProperty="curso" width="220">
                                 <af:outputText value="#{row.curso}" id="ot6"/>
                             </af:column>
                             <af:column headerText="" align="start">
