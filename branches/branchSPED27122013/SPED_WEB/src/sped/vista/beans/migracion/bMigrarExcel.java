@@ -1422,7 +1422,7 @@ public class bMigrarExcel {
 
     public void confirmardesactivaciondeCurso(ActionEvent actionEvent) {
         bdl_T_SFUtilsRemote.desactivarMainByCurso(sessionMigrarExcel.getNidCursoEditar());
-      saveCurso();
+        saveCurso();
     }
 
     public void cancelarDesactivarCurso(ActionEvent actionEvent) {
