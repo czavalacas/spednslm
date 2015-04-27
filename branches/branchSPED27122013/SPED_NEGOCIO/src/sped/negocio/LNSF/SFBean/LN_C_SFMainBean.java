@@ -23,6 +23,7 @@ import net.sf.dozer.util.mapping.MapperIF;
 import sped.negocio.BDL.IL.BDL_C_SFMainLocal;
 import sped.negocio.LNSF.IL.LN_C_SFMainLocal;
 import sped.negocio.LNSF.IR.LN_C_SFMainRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.AreaAcademica;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;

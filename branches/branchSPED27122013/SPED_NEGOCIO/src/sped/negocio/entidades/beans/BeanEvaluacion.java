@@ -42,7 +42,7 @@ public class BeanEvaluacion implements Serializable {
     private Date fechaMaxPlanificacion;
     private String estadoUsuario;
     private List<BeanResultadoCriterio> resultadoCriterioList;
-    //valores para el desempeño evaluador
+    //valores para el desempeno evaluador
     private Integer cantEjecutado;
     private Integer cantPendiente;
     private Integer cantNoEjecutado;
