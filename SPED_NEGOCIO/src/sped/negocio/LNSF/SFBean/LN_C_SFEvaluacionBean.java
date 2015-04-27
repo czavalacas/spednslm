@@ -523,14 +523,14 @@ public class LN_C_SFEvaluacionBean implements LN_C_SFEvaluacionRemote,
             e.printStackTrace();
             ln_T_SFLoggerLocal.registrarLogErroresSistema(0, "SEL", CLASE, 
                                                           "getDesempenoEvaluacionbyFiltroLN(...)", 
-                                                          "Error al consultar Desempeño Evaluacion. TipoBusqueda :"+tipoBusqueda, 
+                                                          "Error al consultar Desempeno Evaluacion. TipoBusqueda :"+tipoBusqueda, 
                                                           Utiles.getStack(e));
             return new ArrayList();
         }        
     }
     
     /**
-     * Formula del desempeño evaluador
+     * Formula del desempeno evaluador
      * @param eva
      */
     public void desempenoEvaluador(BeanEvaluacionPlani eva){

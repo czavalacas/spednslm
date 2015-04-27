@@ -174,7 +174,7 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
         }
     }
     
-    public String agregarMainMigracion(List<BeanMainWS> lstMains){
+    public String agregarMainMigracion(List<BeanMainWS> lstMains, String modo){
         String erro = "";
         try {
             Iterator it = lstMains.iterator();
@@ -182,19 +182,39 @@ public class LN_T_SFMainBean implements LN_T_SFMainRemote,
                 BeanMainWS bMain = (BeanMainWS) it.next();
                 Main main = new Main();
                 Aula aula = new Aula();
-                aula.setNidAula(bMain.getNidAula());
-                main.setAula(aula);
                 Curso curso = new Curso();
-                curso.setNidCurso(bMain.getNidCurso());
-                main.setCurso(curso);
                 Profesor profesor = new Profesor();
-                profesor.setDniProfesor(bMain.getDniProfesor());
-                main.setProfesor(profesor);
+                if("MOD".equals(modo)){
+                    main = bdL_C_SFMainLocal.findMainById(bMain.getNidMain());
+                    if(main.getAula().getNidAula() != bMain.getNidAula().intValue()){
+                        aula = bdL_C_SFAulaLocal.findAulaById(bMain.getNidAula().intValue());
+                        main.setAula(aula);
+                    }
+                    if(main.getCurso().getNidCurso() != bMain.getNidCurso().intValue()){
+                        curso = bdL_C_SFCursoLocal.findCursoById(bMain.getNidCurso().intValue());
+                        main.setCurso(curso);
+                    }
+                    if(!main.getProfesor().getDniProfesor().equalsIgnoreCase(bMain.getDniProfesor())){
+                        profesor = bdL_C_SFProfesorLocal.getProfesorBydni(bMain.getDniProfesor());
+                        main.setProfesor(profesor);
+                    }
+                }else if("NEW".equals(modo)){
+                    aula.setNidAula(bMain.getNidAula());
+                    main.setAula(aula);
+                    curso.setNidCurso(bMain.getNidCurso());
+                    main.setCurso(curso);
+                    profesor.setDniProfesor(bMain.getDniProfesor());
+                    main.setProfesor(profesor);
+                }
                 main.setNDia(0);
                 main.setEstado("1");
                 Integer i = null;
                 main.setNidLeccion(i);
-                bdL_T_SFMainLocal.persistMain(main);
+                if("NEW".equals(modo)){
+                    bdL_T_SFMainLocal.persistMain(main);
+                }else if("MOD".equals(modo)){
+                    bdL_T_SFMainLocal.mergeMain(main);
+                }
                 erro = "000";
             }
         } catch (Exception e) {

@@ -298,7 +298,7 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     }
     
     /**
-     * Metodo para añadir imagen desde un directoria al correo
+     * Metodo para anadir imagen desde un directoria al correo
      * @author angeles
      * @param cidname
      * @param pathname
