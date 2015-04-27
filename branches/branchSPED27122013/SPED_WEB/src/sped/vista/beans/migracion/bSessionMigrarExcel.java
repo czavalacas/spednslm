@@ -84,6 +84,12 @@ public class bSessionMigrarExcel implements Serializable {
     private boolean disableBtnNuevoCurso=false;
     private boolean disableBtnActualizarCurso=false;
     private String tablaCursoSeleccionable;
+    private int loadPage=0;
+    private int accionCurso=0;
+    private int flgActivoCurso;
+    private boolean visibleEstadoCurso=false;
+    private String nidCursoEditar;
+    private int countMainActivXCursos=0;
     
     public bSessionMigrarExcel() {
     }
@@ -635,5 +641,53 @@ public class bSessionMigrarExcel implements Serializable {
 
     public String getTablaCursoSeleccionable() {
         return tablaCursoSeleccionable;
+    }
+
+    public void setLoadPage(int loadPage) {
+        this.loadPage = loadPage;
+    }
+
+    public int getLoadPage() {
+        return loadPage;
+    }
+
+    public void setAccionCurso(int accionCurso) {
+        this.accionCurso = accionCurso;
+    }
+
+    public int getAccionCurso() {
+        return accionCurso;
+    }
+
+    public void setFlgActivoCurso(int flgActivoCurso) {
+        this.flgActivoCurso = flgActivoCurso;
+    }
+
+    public int getFlgActivoCurso() {
+        return flgActivoCurso;
+    }
+
+    public void setVisibleEstadoCurso(boolean visibleEstadoCurso) {
+        this.visibleEstadoCurso = visibleEstadoCurso;
+    }
+
+    public boolean isVisibleEstadoCurso() {
+        return visibleEstadoCurso;
+    }
+
+    public void setNidCursoEditar(String nidCursoEditar) {
+        this.nidCursoEditar = nidCursoEditar;
+    }
+
+    public String getNidCursoEditar() {
+        return nidCursoEditar;
+    }
+
+    public void setCountMainActivXCursos(int countMainActivXCursos) {
+        this.countMainActivXCursos = countMainActivXCursos;
+    }
+
+    public int getCountMainActivXCursos() {
+        return countMainActivXCursos;
     }
 }

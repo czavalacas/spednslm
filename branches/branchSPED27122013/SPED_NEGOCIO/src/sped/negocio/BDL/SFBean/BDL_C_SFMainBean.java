@@ -458,4 +458,35 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
         }
         return cont;
     }
+    
+    public int countMainByCursoForEval(String nidCurso){
+        String quer = "Select Count(1) " +
+                      "  From Evaluacion e, Main m "+
+                      " Where e.main.curso.nidCurso = :nidCurso " + 
+                      " and e.main.nidMain = m.nidMain ";
+        Object object = em.createQuery(quer)
+                                 .setParameter("nidCurso", Integer.parseInt(nidCurso))
+                                 .getSingleResult();
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
+        }
+        return cont;
+    }
+    
+    public int countMainInactivosByCurso(String nidCurso){
+        String quer = "Select Count(1) " +
+                      " From Main m "+
+                      " Where m.curso.nidCurso = :nidCurso " +
+                      " and m.estado='1'";
+        Object object = em.createQuery(quer)
+                                 .setParameter("nidCurso", Integer.parseInt(nidCurso))
+                                 .getSingleResult();
+        int cont = 0;
+        if(object != null){
+            cont = Integer.parseInt(object.toString());
+        }
+        return cont;
+    }
+    
 }

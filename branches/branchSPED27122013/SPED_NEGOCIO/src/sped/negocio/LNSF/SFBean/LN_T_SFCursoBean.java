@@ -93,4 +93,58 @@ public class LN_T_SFCursoBean implements LN_T_SFCursoRemoto,
         }
     }
     
+    public String addCurso(BeanCurso curso){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {            
+            Curso cur=new Curso();
+            AreaAcademica area=new AreaAcademica();
+                area.setNidAreaAcademica(curso.getAreaAcademica().getNidAreaAcademica());
+                cur.setAreaAcademica(area);
+                cur.setDescripcionCurso(curso.getDescripcionCurso());
+                cur.setNidAreaNativa(curso.getNidAreaNativa());
+                cur.setFlgActi(curso.getFlgActi());
+             // cur.setNidCurso(curso.getNidCurso());      Se comenta se le agrego autogenerado
+                bdl_T_SFCursoLocal.persistCurso(cur);            
+        }catch (Exception e) {            
+        e.printStackTrace();
+        error = "111";
+        beanError = LN_C_SFErrorLocal.getCatalogoErrores(error);
+        error = beanError.getDescripcionError();
+        }
+        return error;
+    }
+    
+    public String modificarCurso(String nidCurso, 
+                                 String flgActivo, 
+                                 String descCurso, 
+                                 String nidAreaAca, 
+                                 String nidAreaNati){
+        BeanError beanError = new BeanError();
+        String error = "000";
+        try {            
+            
+            
+                Curso curso=bdL_C_SFCursoLocal.findCursoById(Integer.parseInt(nidCurso));
+                AreaAcademica area=new AreaAcademica();
+                area.setNidAreaAcademica(Integer.parseInt(nidAreaAca));
+                curso.setAreaAcademica(area);
+                curso.setDescripcionCurso(descCurso);
+            if(nidAreaNati!=null){
+                curso.setNidAreaNativa(Integer.parseInt(nidAreaNati));   
+            }else{
+                curso.setNidAreaNativa(Integer.parseInt(nidAreaAca));  
+            }
+              
+                curso.setFlgActi(Integer.parseInt(flgActivo));
+                bdl_T_SFCursoLocal.mergeCurso(curso);            
+        }catch (Exception e) {            
+        e.printStackTrace();
+        error = "111";
+        beanError = LN_C_SFErrorLocal.getCatalogoErrores(error);
+        error = beanError.getDescripcionError();
+        }
+        return error;          
+    }
+    
 }
