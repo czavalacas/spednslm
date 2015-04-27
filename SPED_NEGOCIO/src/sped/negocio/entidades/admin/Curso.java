@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Curso.findAll", query = "select o from Curso o") })
@@ -24,6 +27,8 @@ public class Curso implements Serializable {
     private String descripcionCurso;
     @Id
     @Column(name = "nidCurso", nullable = false)
+    @TableGenerator( name = "stmcodi_admcurs", table = "stmcodi", pkColumnName = "APP_SEQ_NAME", pkColumnValue = "admcurs.nidCurso", valueColumnName = "APP_SEQ_VALUE", initialValue = 50, allocationSize = 1 )
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = "stmcodi_admcurs" )
     private int nidCurso;
     @OneToMany(mappedBy = "curso", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Main> mainLista;

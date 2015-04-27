@@ -154,6 +154,14 @@
                                       required="#{sessionScope.sessionMigrarExcel.requeridDescCurso}"
                                       disabled="#{sessionScope.sessionMigrarExcel.disableDescCurso}"/>
                                       
+                                      <af:selectOneChoice label="Estado"  binding="#{bMigrarExcel.choiceEstadoCurso}"
+                                            unselectedLabel="::Estado::"
+                                            value="#{sessionScope.sessionMigrarExcel.flgActivoCurso}" autoSubmit="true"
+                                            visible="#{sessionScope.sessionMigrarExcel.visibleEstadoCurso}">
+                            <af:selectItem value="1"   label="ACTIVO"/>
+                            <af:selectItem value="0"  label="INACTIVO"/>
+                 
+                        </af:selectOneChoice>
                         <af:selectOneChoice label="Area Academica" 
                                             value="#{sessionScope.sessionMigrarExcel.nidArea}"
                                             autoSubmit="true"                                                                
@@ -169,7 +177,8 @@
                                             unselectedLabel="::Seleccionar Area Nativa::"
                                             valueChangeListener="#{bMigrarExcel.vcAreaNativa}"
                                             binding="#{bMigrarExcel.choiceAreaNativa}"
-                                            disabled="#{sessionScope.sessionMigrarExcel.disableChoiceAreaNat}">
+                                            disabled="#{sessionScope.sessionMigrarExcel.disableChoiceAreaNat}"
+                                            visible="#{sessionScope.sessionMigrarExcel.visibleChoiceAreaNat}">
                               <f:selectItems value="#{sessionScope.sessionMigrarExcel.listaAreaNatiChoice}" />
                         </af:selectOneChoice>
                   
@@ -365,6 +374,29 @@
                             <af:commandButton text="Si" actionListener="#{bMigrarExcel.confirmarDesactivacionAula}" id="cb4"/>
                             <af:commandButton text="Cancelar" id="cb42"
                                               actionListener="#{bMigrarExcel.cancelarDesactivacionAula}">
+                                <af:resetActionListener/>
+                            </af:commandButton>
+                        </af:panelGroupLayout>
+                    </af:panelGroupLayout>
+                </f:facet>
+            </af:dialog>
+        </af:popup>
+          <af:popup childCreation="deferred" contentDelivery="immediate" 
+                    binding="#{bMigrarExcel.popupCountMainByCurso}">
+            <af:dialog closeIconVisible="false" modal="true"  styleClass="allertBox" type="none"
+                       title="Desactivar Curso">
+                <af:panelGroupLayout layout="vertical" halign="center" >
+                    <af:spacer width="1" height="10" />
+                    <af:outputLabel value="Existen #{sessionScope.sessionMigrarExcel.countMainActivXCursos} Horarios activos relacionados al Curso, Desea desactivarlo de todos modos? Todos los hoarios relacionados al curso se desactivaran."
+                                    inlineStyle="font-size:medium; color:Red;" />
+                    <af:spacer width="1" height="10" />
+                </af:panelGroupLayout>
+                <f:facet name="buttonBar">
+                    <af:panelGroupLayout  layout="vertical" halign="right">
+                        <af:panelGroupLayout layout="horizontal" >
+                            <af:commandButton text="Si" actionListener="#{bMigrarExcel.confirmardesactivaciondeCurso}"/>
+                            <af:commandButton text="Cancelar" 
+                                              actionListener="#{bMigrarExcel.cancelarDesactivarCurso}">
                                 <af:resetActionListener/>
                             </af:commandButton>
                         </af:panelGroupLayout>
