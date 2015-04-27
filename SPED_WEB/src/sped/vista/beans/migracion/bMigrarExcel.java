@@ -199,8 +199,7 @@ public class bMigrarExcel {
         sessionMigrarExcel.setDescSede(Utils.getChoiceLabel(vcl));
         sessionMigrarExcel.setCidSedeHorarioSess(cidSede);
         sessionMigrarExcel.setCidAulaSess(null);
-        if("MOD".equals(sessionMigrarExcel.getAccionSess()) && 
-           sessionMigrarExcel.getNidMainModif() == null){
+        if("MOD".equals(sessionMigrarExcel.getAccionSess()) && sessionMigrarExcel.getNidMainModif() == null){
             refreshTablaMain();
         }
     }
@@ -226,7 +225,8 @@ public class bMigrarExcel {
         String cidGrado = (String) vcl.getNewValue();
         sessionMigrarExcel.setDisableBtnEditar(false);
         sessionMigrarExcel.setDisableBtnNuevo(false);
-        sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), cidGrado, sessionMigrarExcel.getNidNivel()));            
+        sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), 
+                                                                                              cidGrado, sessionMigrarExcel.getNidNivel()));            
         Utils.addTargetMany(tbAulas,btnEditarSave,btnNuevaAula);
     }  
     
@@ -289,8 +289,7 @@ public class bMigrarExcel {
     public void vclAula(ValueChangeEvent vce) {
         sessionMigrarExcel.setCidAulaSess((String) vce.getNewValue());
         sessionMigrarExcel.setDescAula(Utils.getChoiceLabel(vce));
-        if("MOD".equals(sessionMigrarExcel.getAccionSess()) && 
-           sessionMigrarExcel.getNidMainModif() == null){
+        if("MOD".equals(sessionMigrarExcel.getAccionSess()) && sessionMigrarExcel.getNidMainModif() == null){
             refreshTablaMain();
         }
     }
@@ -298,8 +297,7 @@ public class bMigrarExcel {
     public void vclProfesor(ValueChangeEvent vce) {
         sessionMigrarExcel.setDniProfSess((String) vce.getNewValue());
         sessionMigrarExcel.setNombresProf(Utils.getChoiceLabel(vce));
-        if("MOD".equals(sessionMigrarExcel.getAccionSess()) && 
-           sessionMigrarExcel.getNidMainModif() == null){
+        if("MOD".equals(sessionMigrarExcel.getAccionSess()) && sessionMigrarExcel.getNidMainModif() == null){
             refreshTablaMain();
         }
     }
@@ -307,8 +305,7 @@ public class bMigrarExcel {
     public void vclCurso(ValueChangeEvent vce) {
         sessionMigrarExcel.setCidCursoSess((String) vce.getNewValue());
         sessionMigrarExcel.setDescCurso(Utils.getChoiceLabel(vce));
-        if("MOD".equals(sessionMigrarExcel.getAccionSess()) && 
-           sessionMigrarExcel.getNidMainModif() == null){
+        if("MOD".equals(sessionMigrarExcel.getAccionSess()) && sessionMigrarExcel.getNidMainModif() == null){
             refreshTablaMain();
         }
     }
@@ -564,17 +561,17 @@ public class bMigrarExcel {
                 }
             }
         }else{
-            BeanAula aula=new BeanAula();
+            BeanAula aula = new BeanAula();
             aula.setDescripcionAula(sessionMigrarExcel.getDescAula());
-            BeanGradoNivel grani=new BeanGradoNivel();
-            BeanGrado grado=new BeanGrado();       
+            BeanGradoNivel grani = new BeanGradoNivel();
+            BeanGrado grado = new BeanGrado();       
             grado.setNidGrado(Integer.parseInt(sessionMigrarExcel.getNidGrado()));
-            BeanNivel nivel=new BeanNivel();        
+            BeanNivel nivel = new BeanNivel();        
             nivel.setNidNivel(Integer.parseInt(sessionMigrarExcel.getNidNivel()));        
             grani.setGrado(grado);
             grani.setNivel(nivel);
             aula.setGradoNivel(grani);
-            BeanSede sede= new BeanSede();
+            BeanSede sede = new BeanSede();
             sede.setNidSede(Integer.parseInt(sessionMigrarExcel.getCidSedeSess()));
             aula.setSede(sede);
             aula.setFlgActi(sessionMigrarExcel.getFlgActivo());
