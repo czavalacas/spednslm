@@ -386,7 +386,7 @@ public class BDL_C_SFUtilsBean implements BDL_C_SFUtilsRemote,
         try{
             String qlString = "SELECT NEW sped.negocio.entidades.beans.BeanComboString(e.dniProfesor,e.nombres,e.apellidos)"+
                               " From Profesor e "+
-                              " Where e.flgActi = 1 ORDER BY e.nombres ASC";
+                              " Where e.flgActi = 1 ORDER BY e.apellidos ASC";
             List<BeanComboString> lstProf = em.createQuery(qlString).getResultList();        
             return lstProf;
         }catch(Exception e){
