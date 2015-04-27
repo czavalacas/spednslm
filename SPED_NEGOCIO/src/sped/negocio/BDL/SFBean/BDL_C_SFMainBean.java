@@ -397,8 +397,8 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                        "       admsede s, \n" + 
                        "       admprof p, \n" + 
                        "       admcurs c, \n" + 
-                       "       admarac ac \n" + 
-                       "       admgrad g,\n" + 
+                       "       admarac ac, \n" + 
+                       "       admgrad g, \n" + 
                        "       admnive n \n "+
                        "Where m.estado = 1 \n" + 
                        "  And m.nidAula     = a.nidAula\n" + 
