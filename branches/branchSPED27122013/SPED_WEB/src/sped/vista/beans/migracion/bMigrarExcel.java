@@ -199,9 +199,7 @@ public class bMigrarExcel {
         sessionMigrarExcel.setDescSede(Utils.getChoiceLabel(vcl));
         sessionMigrarExcel.setCidSedeHorarioSess(cidSede);
         sessionMigrarExcel.setCidAulaSess(null);
-        if("NEW".equals(sessionMigrarExcel.getAccionSess()) ){
-            
-        }else if("MOD".equals(sessionMigrarExcel.getAccionSess()) && 
+        if("MOD".equals(sessionMigrarExcel.getAccionSess()) && 
            sessionMigrarExcel.getNidMainModif() == null){
             refreshTablaMain();
         }
