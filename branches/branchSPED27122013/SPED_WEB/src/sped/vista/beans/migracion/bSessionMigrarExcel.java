@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.myfaces.trinidad.model.UploadedFile;
 import sped.negocio.entidades.beans.BeanAula;
+import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanMainWS;
 
 public class bSessionMigrarExcel implements Serializable {
@@ -69,6 +70,20 @@ public class bSessionMigrarExcel implements Serializable {
     /** FIN TAB AULA */
     private boolean disableDescripcionAula=false;
     private int numMainActivos;
+    private String nidAreaNativa;
+    private String nidArea;
+    private List listaAreaAcaChoice=new ArrayList<>();
+    private List listaAreaNatiChoice=new ArrayList<>();
+    private boolean disableDescCurso=true;
+    private boolean disableChoiceArea=false;
+    private boolean disableChoiceAreaNat=false;
+    private boolean visibleChoiceAreaNat=false;
+    private boolean requeridDescCurso=false;
+    private boolean visibleBtnRegistrarCurso=false;
+    private List<BeanCurso> listaCursos=new ArrayList<BeanCurso>();
+    private boolean disableBtnNuevoCurso=false;
+    private boolean disableBtnActualizarCurso=false;
+    private String tablaCursoSeleccionable;
     
     public bSessionMigrarExcel() {
     }
@@ -508,5 +523,117 @@ public class bSessionMigrarExcel implements Serializable {
 
     public int getNumMainActivos() {
         return numMainActivos;
+    }
+
+    public void setNidAreaNativa(String nidAreaNativa) {
+        this.nidAreaNativa = nidAreaNativa;
+    }
+
+    public String getNidAreaNativa() {
+        return nidAreaNativa;
+    }
+
+    public void setNidArea(String nidArea) {
+        this.nidArea = nidArea;
+    }
+
+    public String getNidArea() {
+        return nidArea;
+    }
+
+    public void setListaAreaAcaChoice(List listaAreaAcaChoice) {
+        this.listaAreaAcaChoice = listaAreaAcaChoice;
+    }
+
+    public List getListaAreaAcaChoice() {
+        return listaAreaAcaChoice;
+    }
+
+    public void setListaAreaNatiChoice(List listaAreaNatiChoice) {
+        this.listaAreaNatiChoice = listaAreaNatiChoice;
+    }
+
+    public List getListaAreaNatiChoice() {
+        return listaAreaNatiChoice;
+    }
+
+    public void setDisableDescCurso(boolean disableDescCurso) {
+        this.disableDescCurso = disableDescCurso;
+    }
+
+    public boolean isDisableDescCurso() {
+        return disableDescCurso;
+    }
+
+    public void setDisableChoiceArea(boolean disableChoiceArea) {
+        this.disableChoiceArea = disableChoiceArea;
+    }
+
+    public boolean isDisableChoiceArea() {
+        return disableChoiceArea;
+    }
+
+    public void setDisableChoiceAreaNat(boolean disableChoiceAreaNat) {
+        this.disableChoiceAreaNat = disableChoiceAreaNat;
+    }
+
+    public boolean isDisableChoiceAreaNat() {
+        return disableChoiceAreaNat;
+    }
+
+    public void setVisibleChoiceAreaNat(boolean visibleChoiceAreaNat) {
+        this.visibleChoiceAreaNat = visibleChoiceAreaNat;
+    }
+
+    public boolean isVisibleChoiceAreaNat() {
+        return visibleChoiceAreaNat;
+    }
+
+    public void setRequeridDescCurso(boolean requeridDescCurso) {
+        this.requeridDescCurso = requeridDescCurso;
+    }
+
+    public boolean isRequeridDescCurso() {
+        return requeridDescCurso;
+    }
+
+    public void setVisibleBtnRegistrarCurso(boolean visibleBtnRegistrarCurso) {
+        this.visibleBtnRegistrarCurso = visibleBtnRegistrarCurso;
+    }
+
+    public boolean isVisibleBtnRegistrarCurso() {
+        return visibleBtnRegistrarCurso;
+    }
+
+    public void setListaCursos(List<BeanCurso> listaCursos) {
+        this.listaCursos = listaCursos;
+    }
+
+    public List<BeanCurso> getListaCursos() {
+        return listaCursos;
+    }
+
+    public void setDisableBtnNuevoCurso(boolean disableBtnNuevoCurso) {
+        this.disableBtnNuevoCurso = disableBtnNuevoCurso;
+    }
+
+    public boolean isDisableBtnNuevoCurso() {
+        return disableBtnNuevoCurso;
+    }
+
+    public void setDisableBtnActualizarCurso(boolean disableBtnActualizarCurso) {
+        this.disableBtnActualizarCurso = disableBtnActualizarCurso;
+    }
+
+    public boolean isDisableBtnActualizarCurso() {
+        return disableBtnActualizarCurso;
+    }
+
+    public void setTablaCursoSeleccionable(String tablaCursoSeleccionable) {
+        this.tablaCursoSeleccionable = tablaCursoSeleccionable;
+    }
+
+    public String getTablaCursoSeleccionable() {
+        return tablaCursoSeleccionable;
     }
 }

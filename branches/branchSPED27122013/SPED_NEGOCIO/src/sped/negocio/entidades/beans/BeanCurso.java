@@ -17,6 +17,9 @@ public class BeanCurso implements Serializable {
     private BeanAreaAcademica areaAcademica;
     private String tipoFichaCurso;
     private int nidAreaNativa;
+    private String descAreaNativa;
+    private int flgActi;
+    private String styleColor;
     
     public void setDescripcionCurso(String descripcionCurso) {
         this.descripcionCurso = descripcionCurso;
@@ -65,5 +68,29 @@ public class BeanCurso implements Serializable {
 
     public int getNidAreaNativa() {
         return nidAreaNativa;
+    }
+
+    public void setDescAreaNativa(String descAreaNativa) {
+        this.descAreaNativa = descAreaNativa;
+    }
+
+    public String getDescAreaNativa() {
+        return descAreaNativa;
+    }
+
+    public void setFlgActi(int flgActi) {
+        this.flgActi = flgActi;
+    }
+
+    public int getFlgActi() {
+        return flgActi;
+    }
+
+    public void setStyleColor(String styleColor) {
+        this.styleColor = styleColor;
+    }
+
+    public String getStyleColor() {
+        return styleColor;
     }
 }
