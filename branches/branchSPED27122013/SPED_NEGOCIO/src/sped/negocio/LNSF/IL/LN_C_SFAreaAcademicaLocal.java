@@ -12,4 +12,5 @@ public interface LN_C_SFAreaAcademicaLocal {
     List<BeanAreaAcademica> getAreaAcademicaLN();
     BeanAreaAcademica findConstrainByIdLN(int id);
     List<BeanCombo> getAreaAcademicaLNPorSede_byOrden(String nidSede);
+    List<BeanCombo> getAreaAcademicasAll(int opc);
 }

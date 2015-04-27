@@ -21,8 +21,10 @@ import sped.negocio.BDL.IL.BDL_C_SFAreaAcademicaLocal;
 import sped.negocio.LNSF.IL.LN_C_SFAreaAcademicaLocal;
 import sped.negocio.LNSF.IR.LN_C_SFAreaAcademicaRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.Profesor;
 import sped.negocio.entidades.beans.BeanAreaAcademica;
 import sped.negocio.entidades.beans.BeanCombo;
+import sped.negocio.entidades.beans.BeanComboString;
 import sped.negocio.entidades.beans.BeanUsuario;
 
 @Stateless(name = "LN_C_SFAreaAcademica", mappedName = "SPED_APP-SPED_NEGOCIO-LN_C_SFAreaAcademica")
@@ -73,4 +75,18 @@ public class LN_C_SFAreaAcademicaBean implements LN_C_SFAreaAcademicaRemote,
             return null;
         }        
     }
+    
+    public List<BeanCombo> getAreaAcademicasAll(int opc){        
+            List<BeanCombo> lstBean = new ArrayList<BeanCombo>();
+            List<AreaAcademica> listaArea = bdL_C_SFAreaAcademicaLocal.getAreaNativasByArea(opc);
+          Iterator it=listaArea.iterator();
+          while(it.hasNext()){
+            AreaAcademica entida=(AreaAcademica)it.next();
+            BeanCombo bean=new BeanCombo();
+            bean.setId(entida.getNidAreaAcademica());
+            bean.setDescripcion(entida.getDescripcionAreaAcademica());
+            lstBean.add(bean);          
+          }
+            return lstBean;
+        } 
 }

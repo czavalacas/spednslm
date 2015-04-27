@@ -15,4 +15,5 @@ public interface BDL_C_SFCursoLocal {
     int getNidCursoByDescripcion(String descripcion);
     List<Curso> getCursosbyAreas(String nidAreaAcademica);
     List<Curso> getCursoPorSedeNivelProfesorYArea(String nidSede, String nidNivel, String dniProfesor, Integer nidAreaAcademica);
+    List<Curso> getCursosbyAreaYNativa(String nidAreaAcademica, String nidAreaNativa);
 }

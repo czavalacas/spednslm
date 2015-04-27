@@ -11,4 +11,5 @@ public interface BDL_C_SFAreaAcademicaRemote {
     List<AreaAcademica> getAreaAcademicaFindAll();
     AreaAcademica findEvaluadorById(int id);
     List<AreaAcademica> findAreasPorSede_ByOrden(String nidSede);
+    List<AreaAcademica> getAreaNativasByArea(int opc) ;
 }

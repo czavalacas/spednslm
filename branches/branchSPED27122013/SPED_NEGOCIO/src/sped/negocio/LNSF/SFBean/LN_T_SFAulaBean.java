@@ -111,6 +111,14 @@ public class LN_T_SFAulaBean implements LN_T_SFAulaRemoto,
         String error = "000";
         try {
             Aula aula=bdl_C_SFAulaLocal.findAulaById(aulaNueva.getNidAula());
+            Grado grado=new Grado();
+            grado.setNidGrado(aulaNueva.getGradoNivel().getGrado().getNidGrado());
+            Nivel nivel=new Nivel();
+            nivel.setNidNivel(aulaNueva.getGradoNivel().getNivel().getNidNivel());
+            GradoNivel grani= new GradoNivel();
+            grani.setGrado(grado);
+            grani.setNivel(nivel);
+            aula.setGradoNivel(grani);
             aula.setDescripcionAula(aulaNueva.getDescripcionAula());
             aula.setFlgActi(aulaNueva.getFlgActi());
             bdl_T_SFAulaLocal.mergeAula(aula);

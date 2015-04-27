@@ -17,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import sped.negocio.BDL.IL.BDL_C_SFAreaAcademicaLocal;
 import sped.negocio.BDL.IR.BDL_C_SFAreaAcademicaRemote;
 import sped.negocio.entidades.admin.AreaAcademica;
+import sped.negocio.entidades.admin.Aula;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Usuario;
 /** Clase SFBDL SFMainBean.java
@@ -74,6 +75,24 @@ public class BDL_C_SFAreaAcademicaBean implements BDL_C_SFAreaAcademicaRemote,
             return instance;
         } catch (RuntimeException re) {
             throw re;
+        }
+    }
+    
+    
+    /** traer Areas Nativa (Todas menos Excepto Primer Ciclo=12 y Inicial 13)***/
+    public List<AreaAcademica> getAreaNativasByArea(int opc) {
+        /**Si viene opcion=0 Areas General , opcion=1 Areas Excepto 12 y 13*/
+        try {
+            String ejbQl = " SELECT distinct a FROM AreaAcademica a" + 
+                           " WHERE 1=1 ";
+            if (opc != 0) {
+                ejbQl = ejbQl.concat(" and a.nidAreaAcademica!=12 and a.nidAreaAcademica!=13 ");
+            }          
+            ejbQl = ejbQl.concat(" ORDER by a.descripcionAreaAcademica");
+            return em.createQuery(ejbQl).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
