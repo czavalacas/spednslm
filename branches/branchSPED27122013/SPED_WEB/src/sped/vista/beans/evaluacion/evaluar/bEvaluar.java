@@ -344,9 +344,9 @@ public class bEvaluar {
                         double vigecimal = (sumVal * 20) / new Double(maxVal);
                         crit.setNotaVige(vigecimal);
                     }else{
-                        msjGen.setText("Error de cálculo");
+                        msjGen.setText("Error de calculo");
                         Utils.addTarget(msjGen);
-                        Utils.mostrarMensaje(ctx,"Hubo un error en el cálculo, notificar al administrador enviando una imagen de este error. "+maxVal,"Error de cálculo",2);
+                        Utils.mostrarMensaje(ctx,"Hubo un error en el calculo, notificar al administrador enviando una imagen de este error. "+maxVal,"Error de calculo",2);
                         return;
                     }
                 }
