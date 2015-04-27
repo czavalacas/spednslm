@@ -22,5 +22,5 @@ public interface LN_T_SFMainLocal {
     void eliminarMain_LN(int nidMain);
     void eliminarMainByAulaProfesor(String codigo, int nidSede, int nidNivel, boolean vista);
     void eliminarMainByLecc(int nidLeccion, int cantidad);
-    String agregarMainMigracion(List<BeanMainWS> lstMains);
+    String agregarMainMigracion(List<BeanMainWS> lstMains, String modo);
 }

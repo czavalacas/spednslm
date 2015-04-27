@@ -56,7 +56,7 @@ public class Main implements Serializable {
     @Column(name = "nDia")
     private int nDia;    
     @Column(name = "nidLeccion")
-    private int nidLeccion;
+    private Integer nidLeccion;
 
     public Main() {
     }
@@ -168,11 +168,11 @@ public class Main implements Serializable {
         return nDia;
     }
 
-    public void setNidLeccion(int nidLeccion) {
+    public void setNidLeccion(Integer nidLeccion) {
         this.nidLeccion = nidLeccion;
     }
 
-    public int getNidLeccion() {
+    public Integer getNidLeccion() {
         return nidLeccion;
     }
 

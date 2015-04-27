@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 
 import sped.negocio.BDL.IL.BDL_C_SFMainLocal;
 import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
+import sped.negocio.Utils.Utiles;
 import sped.negocio.entidades.admin.Curso;
 import sped.negocio.entidades.admin.Main;
 import sped.negocio.entidades.admin.Profesor;
@@ -398,9 +399,13 @@ public class BDL_C_SFMainBean implements BDL_C_SFMainRemote,
                        "       admcurs c, \n" + 
                        "       admarac ac \n" + 
                        "Where m.estado = 1 \n" + 
-                       "  And m.nidAula     = IfNull(?,a.nidAula)\n" + 
-                       "  And m.dniProfesor = IfNull(?,p.dniProfesor)\n" + 
-                       "  And m.nidCurso    = Ifnull(?,c.nidCurso)\n" + 
+                       "  And m.nidAula     = a.nidAula\n" + 
+                       "  And m.dniProfesor = p.dniProfesor\n" + 
+                       "  And m.nidCurso    = c.nidCurso\n" + 
+                       "  And a.nidSede     = a.nidSede \n "+
+                       "  And m.nidAula     = IfNull(?,m.nidAula)\n" + 
+                       "  And m.dniProfesor = IfNull(?,m.dniProfesor)\n" + 
+                       "  And m.nidCurso    = Ifnull(?,m.nidCurso)\n" + 
                        "  And a.nidSede     = IfNull(?,a.nidSede)\n" + 
                        "  And c.nidAreaAcademica = ac.nidAreaAcademica\n" + 
                        "  And a.nidSede          = s.nidSede\n" + 
