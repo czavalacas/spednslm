@@ -1,8 +1,16 @@
 package sped.vista.beans.migracion;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+
+import java.io.OutputStreamWriter;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -10,6 +18,10 @@ import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
+
+import jxl.write.WriteException;
+
+import oracle.adf.model.binding.DCBindingContainer;
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputFile;
@@ -20,9 +32,12 @@ import oracle.adf.view.rich.component.rich.output.RichMessages;
 import org.apache.myfaces.trinidad.event.SelectionEvent;
 import org.apache.myfaces.trinidad.model.UploadedFile;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -132,7 +147,8 @@ public class bMigrarExcel {
     private RichTable tbCursos;
     private RichSelectOneChoice choiceEstadoCurso;
     private RichPopup popupCountMainByCurso;
-
+    private RichButton btnPlanti;
+    private final static String SEPARADOR_CSV = ";";
 
     public bMigrarExcel() {
     }
@@ -142,11 +158,10 @@ public class bMigrarExcel {
     //    sessionMigrarExcel.setNidSede("2");
         sessionMigrarExcel.setListaSedesChoice(Utils.llenarComboString(ln_C_SFUtilsRemote.getSedesString_LN()));
         sessionMigrarExcel.setListaAreaAcaChoice(Utils.llenarCombo(ln_C_SFAreaAcademicaRemote.getAreaAcademicasAll(0)));
-        if(sessionMigrarExcel.getLoadPage()==0){
-            System.out.println(" POST CONTRUCTORRRR ");
+        if(sessionMigrarExcel.getLoadPage() == 0){
             sessionMigrarExcel.setListaCursos(ln_C_SFCursoRemoto.findCursosByAreaAcademica(null, null));
             sessionMigrarExcel.setLoadPage(1);
-        }    
+        }
      }
 
     public void llenarCombos() {
@@ -608,7 +623,7 @@ public class bMigrarExcel {
             sessionMigrarExcel.setListaAulas(ln_C_SFAulaRemoto.getAulasBySedeGradoYNivelMigracion(sessionMigrarExcel.getCidSedeSess(), sessionMigrarExcel.getNidGrado(), sessionMigrarExcel.getNidNivel()));            
             Utils.addTargetMany(tbAulas,inputDescAula,btnRegistrarAula,choiceEstadoAula,btnNuevaAula,btnEditarSave);
         }
-    }     
+    }
 
     public String migrarExcel() {
         Utils.showPopUpMIDDLE(popupConfirmarMigracion);
@@ -712,21 +727,26 @@ public class bMigrarExcel {
                 file.close();
             }
         }
-        if (sessionMigrarExcel.getTipoMigracion() == 1) {
-            insertarCursos(sheetData);
-        }
-        if (sessionMigrarExcel.getTipoMigracion() == 2) {
-            insertarAreaAcademica(sheetData);
-        }
-        if (sessionMigrarExcel.getTipoMigracion() == 3) {
-            insertarAulas(sheetData);
-        }
-        if (sessionMigrarExcel.getTipoMigracion() == 4) {
-            insertarProfesores(sheetData);
-        }
-        /**Temporal */
-        if (sessionMigrarExcel.getTipoMigracion() == 5) {
-            insertarMain(sheetData);
+        if(sheetData != null){
+            if (sessionMigrarExcel.getTipoMigracion() == 1) {
+                insertarCursos(sheetData);
+            }
+            if (sessionMigrarExcel.getTipoMigracion() == 2) {
+                insertarAreaAcademica(sheetData);
+            }
+            if (sessionMigrarExcel.getTipoMigracion() == 3) {
+                insertarAulas(sheetData);
+            }
+            if (sessionMigrarExcel.getTipoMigracion() == 4) {
+                insertarProfesores(sheetData);
+            }
+            /**Temporal */
+            if (sessionMigrarExcel.getTipoMigracion() == 5) {
+                insertarMain(sheetData);
+            }
+        }else{
+            Utils.sysout("sheetData no tiene data");
+            //@TODO MENS ERROR
         }
     }
 
@@ -921,6 +941,12 @@ public class bMigrarExcel {
             sessionMigrarExcel.setEstadouploadFile(true);
             Utils.addTarget(inputFileExcel);
         }
+        if(choiceSede.getValue() == 4){
+            sessionMigrarExcel.setVisibChoicePlantilla(true);
+        }else{
+            sessionMigrarExcel.setVisibChoicePlantilla(false);
+        }
+        Utils.addTargetMany(btnPlanti);
     }
     
     public void limpiarCamposYTabla(ActionEvent actionEvent) {
@@ -1427,5 +1453,44 @@ public class bMigrarExcel {
 
     public void cancelarDesactivarCurso(ActionEvent actionEvent) {
        popupCountMainByCurso.hide();
+    }
+
+    public void setBtnPlanti(RichButton btnPlanti) {
+        this.btnPlanti = btnPlanti;
+    }
+
+    public RichButton getBtnPlanti() {
+        return btnPlanti;
+    }
+
+    public void exportPlanti(FacesContext facesContext, OutputStream outputStream) {
+        try {
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet worksheet = workbook.createSheet("POI Worksheet");
+
+            // index from 0,0... cell A1 is cell(0,0)
+            HSSFRow row1 = worksheet.createRow((short) 0);
+
+            HSSFCell cellA1 = row1.createCell((short) 0);
+            cellA1.setCellType(Cell.CELL_TYPE_STRING);
+            cellA1.setCellValue("DNI");
+
+            HSSFCell cellB1 = row1.createCell((short) 1);
+            cellB1.setCellType(Cell.CELL_TYPE_STRING);
+            cellB1.setCellValue("NOMBRES");
+
+            HSSFCell cellC1 = row1.createCell((short) 2);
+            cellC1.setCellType(Cell.CELL_TYPE_STRING);
+            cellC1.setCellValue("APELLIDOS");
+
+            HSSFCell cellD1 = row1.createCell((short) 3);
+            cellD1.setCellType(Cell.CELL_TYPE_STRING);
+            cellD1.setCellValue("CORREO");
+
+            workbook.write(outputStream);
+            outputStream.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

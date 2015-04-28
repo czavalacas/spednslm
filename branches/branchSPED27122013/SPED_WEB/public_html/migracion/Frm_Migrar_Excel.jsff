@@ -11,12 +11,18 @@
                 <af:selectOneChoice label="Tipo De Migracion" id="soc1" binding="#{bMigrarExcel.choiceSede}"
                                     unselectedLabel="::Seleccionar Tipo Migracion::"  value="#{sessionScope.sessionMigrarExcel.tipoMigracion}" autoSubmit="true"
                                     valueChangeListener="#{bMigrarExcel.seleccionarTipoMigracion}">
-                    <af:selectItem value="1" id="si1"  label="Curso"/>
+                    <!--af:selectItem value="1" id="si1"  label="Curso"/>
                     <af:selectItem value="2" id="si2" label="Area Academica"/>
-                    <af:selectItem value="3" id="si3" label="Aula"/>
+                    <af:selectItem value="3" id="si3" label="Aula"/-->
                     <af:selectItem value="4" id="si4" label="Profesor"/>
-                     <af:selectItem value="5" id="si5" label="Main"/>
+                     <!--af:selectItem value="5" id="si5" label="Main"/-->
                 </af:selectOneChoice>
+                <af:button text="Descargar plantilla" id="btnExp" immediate="true"
+                           visible="#{sessionScope.sessionMigrarExcel.visibChoicePlantilla}"
+                           binding="#{bMigrarExcel.btnPlanti}">
+                     <af:fileDownloadActionListener filename="plantilla_carga_docentes.xls" contentType="application/xls"
+                                                    method="#{bMigrarExcel.exportPlanti}"/>
+                </af:button>
                 <af:inputFile label="Sellecionar Archivo" id="if1" binding="#{bMigrarExcel.inputFileExcel}"
                              autoSubmit="true"
                               valueChangeListener="#{bMigrarExcel.seleccionaExcel}"
