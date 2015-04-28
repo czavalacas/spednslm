@@ -10,6 +10,7 @@ import org.apache.myfaces.trinidad.model.UploadedFile;
 import sped.negocio.entidades.beans.BeanAula;
 import sped.negocio.entidades.beans.BeanCurso;
 import sped.negocio.entidades.beans.BeanMainWS;
+import sped.negocio.entidades.beans.BeanProfesor;
 
 public class bSessionMigrarExcel implements Serializable {
     private String nidSede;
@@ -19,6 +20,8 @@ public class bSessionMigrarExcel implements Serializable {
     private boolean estadoBtnSubArchivo=true;
     private int tipoMigracion;
     private boolean estadouploadFile=true;
+    private boolean visibChoicePlantilla = false;
+    private List<BeanProfesor> lstProfPlanti = new ArrayList<BeanProfesor>();
     /** TAB HORARIO */
     private String accionSess;
     private String cidSedeSess;
@@ -92,6 +95,22 @@ public class bSessionMigrarExcel implements Serializable {
     private int countMainActivXCursos=0;
     
     public bSessionMigrarExcel() {
+    }
+
+    public void setLstProfPlanti(List<BeanProfesor> lstProfPlanti) {
+        this.lstProfPlanti = lstProfPlanti;
+    }
+
+    public List<BeanProfesor> getLstProfPlanti() {
+        return lstProfPlanti;
+    }
+
+    public void setVisibChoicePlantilla(boolean visibChoicePlantilla) {
+        this.visibChoicePlantilla = visibChoicePlantilla;
+    }
+
+    public boolean isVisibChoicePlantilla() {
+        return visibChoicePlantilla;
     }
 
     public void setDisabBtnGrabMain(boolean disabBtnGrabMain) {
