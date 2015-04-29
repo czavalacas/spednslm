@@ -148,7 +148,7 @@ public class bMigrarExcel {
     private RichSelectOneChoice choiceEstadoCurso;
     private RichPopup popupCountMainByCurso;
     private RichButton btnPlanti;
-    private final static String SEPARADOR_CSV = ";";
+    private RichMessages msjCarga;
 
     public bMigrarExcel() {
     }
@@ -745,8 +745,9 @@ public class bMigrarExcel {
                 insertarMain(sheetData);
             }
         }else{
-            Utils.sysout("sheetData no tiene data");
-            //@TODO MENS ERROR
+            msjCarga.setText("Error en la carga");
+            Utils.addTarget(msjCarga);
+            Utils.mostrarMensaje(ctx,"Hubo un error al subir la informacion","Error en la carga",1);
         }
     }
 
@@ -812,7 +813,6 @@ public class bMigrarExcel {
                     if (listaActual.get(j).getNidAreaAcademica().intValue() ==
                         listAreasAInsertar.get(i).getNidAreaAcademica().intValue()) {
                         listAreasAInsertar.remove(i);
-                        System.out.println("QUITO:");
                     }
                 }
             }
@@ -893,43 +893,69 @@ public class bMigrarExcel {
     }
 
     private void insertarProfesores(List sheetData) {
-        List<BeanProfesor> listProfesoresAInsertar = new ArrayList<BeanProfesor>();
-        for (int i = 0; i < sheetData.size(); i++) {
-            List list = (List) sheetData.get(i);
-            if (!list.isEmpty()) {
-                BeanProfesor profe = new BeanProfesor();
-                Cell cell = (Cell) list.get(0);
-                //dfloresgonz 12.04.2014
-                //EDUSYS tiene que mandar la celda como string sino no vendran ls dni con 8 caracteres
-                if (this.isDNI(cell.getStringCellValue())) {
-                    profe.setDniProfesor(cell.getStringCellValue());
-                    profe.setNombres(list.get(1).toString());
-                    profe.setApellidos(list.get(2).toString());
-                    profe.setCorreo(list.get(3).toString());
-                    Utils.sysout("dni: " + profe.getDniProfesor() + " corr: " + profe.getCorreo() + " nom: " +
-                                 profe.getNombres() + " ape: " + profe.getApellidos());
-                    listProfesoresAInsertar.add(profe);
+        String msjError = null;
+        String titulo = null;
+        int tip = 0;
+        int cantProf = 0;
+        try {
+            List<BeanProfesor> listProfesoresAInsertar = new ArrayList<BeanProfesor>();
+            for (int i = 0; i < sheetData.size(); i++) {
+                List list = (List) sheetData.get(i);
+                if (!list.isEmpty()) {
+                    BeanProfesor profe = new BeanProfesor();
+                    Cell cell = (Cell) list.get(0);
+                    //dfloresgonz 12.04.2014
+                    //EDUSYS tiene que mandar la celda como string sino no vendran ls dni con 8 caracteres
+                    if (this.isDNI(cell.getStringCellValue())) {
+                        profe.setDniProfesor(cell.getStringCellValue());
+                        if(list.get(1) != null && !list.get(1).toString().trim().isEmpty()){
+                            profe.setNombres(list.get(1).toString());
+                            if(list.get(2) != null && !list.get(2).toString().trim().isEmpty()){
+                                profe.setApellidos(list.get(2).toString());
+                                if(list.get(3) != null){
+                                    String correo = list.get(3).toString();
+                                    if(!correo.trim().isEmpty() && correo.indexOf("@") > 0){
+                                        profe.setCorreo(correo);
+                                        Utils.sysout("dni: " + profe.getDniProfesor() + " corr: " + profe.getCorreo() + " nom: " +
+                                                     profe.getNombres() + " ape: " + profe.getApellidos());
+                                        listProfesoresAInsertar.add(profe);
+                                        cantProf++;   
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //FIN dfloresgonz 12.04.2014
                 }
-                //FIN dfloresgonz 12.04.2014
             }
-        }
-        ln_T_SFUsuarioRemote.cambiarEstadoUsuarioProfesores(listProfesoresAInsertar);
-        List<BeanProfesor> listaActual = ln_C_SFProfesorRemote.getProfesoresLN2();
-        if (listaActual != null) {
-            for (int j = 0; j < listaActual.size(); j++) {
-                for (int i = 0; i < listProfesoresAInsertar.size(); i++) {
-                    if (listaActual.get(j).getDniProfesor().equals(listProfesoresAInsertar.get(i).getDniProfesor())) {
-                        listProfesoresAInsertar.remove(i);
+            ln_T_SFUsuarioRemote.cambiarEstadoUsuarioProfesores(listProfesoresAInsertar);
+            List<BeanProfesor> listaActual = ln_C_SFProfesorRemote.getProfesoresLN2();
+            if (listaActual != null) {
+                for (int j = 0; j < listaActual.size(); j++) {
+                    for (int i = 0; i < listProfesoresAInsertar.size(); i++) {
+                        if (listaActual.get(j).getDniProfesor().equals(listProfesoresAInsertar.get(i).getDniProfesor())) {
+                            listProfesoresAInsertar.remove(i);
+                        }
                     }
                 }
-            }
-            if (listProfesoresAInsertar != null && listProfesoresAInsertar.size() > 0) {
+                if (listProfesoresAInsertar != null && listProfesoresAInsertar.size() > 0) {
+                    ln_T_SFProfesorRemoto.grabarProfesoresNuevos(listProfesoresAInsertar);
+                }
+            } else {
                 ln_T_SFProfesorRemoto.grabarProfesoresNuevos(listProfesoresAInsertar);
             }
-
-        } else {
-            ln_T_SFProfesorRemoto.grabarProfesoresNuevos(listProfesoresAInsertar);
+            msjError = cantProf+" docente(s) cargado(s).";
+            titulo = "Carga satisfactoria";
+            tip = 3;
+        } catch (Exception e) {
+            e.printStackTrace();
+            msjError = "Hubo un error al cargar los docentes";
+            titulo = "Carga con errores";
+            tip = 1;
         }
+        msjCarga.setText(titulo);
+        Utils.addTarget(msjCarga);
+        Utils.mostrarMensaje(ctx, msjError,titulo,tip);
     }
 
     public void seleccionarTipoMigracion(ValueChangeEvent valueChangeEvent) {
@@ -1044,19 +1070,22 @@ public class bMigrarExcel {
     }
     
     public void vcAreaAcademica(ValueChangeEvent vc) {
-        String nidArea=vc.getNewValue().toString();
-        if(nidArea.equals("12") || nidArea.equals("13")){
-            sessionMigrarExcel.setListaAreaNatiChoice(Utils.llenarCombo(ln_C_SFAreaAcademicaRemote.getAreaAcademicasAll(1)));
-            sessionMigrarExcel.setVisibleChoiceAreaNat(true); 
-            
-        }else{
-            
-            sessionMigrarExcel.setVisibleChoiceAreaNat(false);     
+        try {
+            String nidArea = vc.getNewValue().toString();
+            if ("12".equals(nidArea) || "13".equals(nidArea)) {
+                sessionMigrarExcel.setListaAreaNatiChoice(Utils.llenarCombo(ln_C_SFAreaAcademicaRemote.getAreaAcademicasAll(1)));
+                sessionMigrarExcel.setVisibleChoiceAreaNat(true);
+            } else {
+                sessionMigrarExcel.setVisibleChoiceAreaNat(false);
+            }
+            sessionMigrarExcel.setNidAreaNativa(null);
+            sessionMigrarExcel.setNidArea(vc.getNewValue().toString());
+            sessionMigrarExcel.setListaCursos(ln_C_SFCursoRemoto.findCursosByAreaAcademica(vc.getNewValue().toString(),
+                                                                                           null));
+            Utils.addTargetMany(choiceAreaNativa, tbCursos);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        sessionMigrarExcel.setNidAreaNativa(null);
-        sessionMigrarExcel.setNidArea(vc.getNewValue().toString());
-        sessionMigrarExcel.setListaCursos(ln_C_SFCursoRemoto.findCursosByAreaAcademica(vc.getNewValue().toString(), null));
-        Utils.addTargetMany(choiceAreaNativa,tbCursos);
     }
 
     public void vcAreaNativa(ValueChangeEvent vc) {
@@ -1065,7 +1094,6 @@ public class bMigrarExcel {
             sessionMigrarExcel.setListaCursos(ln_C_SFCursoRemoto.findCursosByAreaAcademica(sessionMigrarExcel.getNidArea(), vc.getNewValue().toString()));
             Utils.addTargetMany(tbCursos);    
         }
-     
     }
     
     public void saveCurso(){
@@ -1087,78 +1115,69 @@ public class bMigrarExcel {
         sessionMigrarExcel.setTablaCursoSeleccionable("none");
         sessionMigrarExcel.setVisibleEstadoCurso(false);
         Utils.addTargetMany(tbCursos,btnActualizarCurso,btnRegistrarCurso,btnNuevoCurso,choiceAreaNativa,inputDescCurso,choiceEstadoCurso);
-        
-      
     }
 
     public void registrarCurso(ActionEvent actionEvent) {
-        if(sessionMigrarExcel.getAccionCurso()==1){//NUEVO
-        
-        BeanCurso curso=new BeanCurso();
-        BeanAreaAcademica area=new BeanAreaAcademica();
-        area.setNidAreaAcademica(Integer.parseInt(sessionMigrarExcel.getNidArea()));
-        curso.setAreaAcademica(area);
-        if(sessionMigrarExcel.getNidAreaNativa()!=null){
-            curso.setNidAreaNativa(Integer.parseInt(sessionMigrarExcel.getNidAreaNativa()));   
-        }else{
-            curso.setNidAreaNativa(Integer.parseInt(sessionMigrarExcel.getNidArea()));
-        }
-        
-        curso.setDescripcionCurso(sessionMigrarExcel.getDescCurso());
-        curso.setFlgActi(sessionMigrarExcel.getFlgActivoCurso());//ACTIVO
-        ln_T_SFCursoRemoto.addCurso(curso);
-        sessionMigrarExcel.setListaCursos(ln_C_SFCursoRemoto.findCursosByAreaAcademica(sessionMigrarExcel.getNidArea(),sessionMigrarExcel.getNidAreaNativa()));
-        sessionMigrarExcel.setVisibleBtnRegistrarCurso(false);
-        sessionMigrarExcel.setDisableDescCurso(true);
-        sessionMigrarExcel.setRequeridDescCurso(false);
-        sessionMigrarExcel.setVisibleChoiceAreaNat(false);
-        sessionMigrarExcel.setDisableBtnNuevoCurso(false);
-        sessionMigrarExcel.setDisableBtnActualizarCurso(false);
-        sessionMigrarExcel.setDescCurso(null);
-        sessionMigrarExcel.setDisableDescCurso(true);
-        sessionMigrarExcel.setRequeridDescCurso(false);
-        sessionMigrarExcel.setVisibleEstadoCurso(false);
-        Utils.addTargetMany(tbCursos,btnActualizarCurso,btnRegistrarCurso,btnNuevoCurso,choiceAreaNativa,inputDescCurso,choiceEstadoCurso);
-        
-        }
-        if(sessionMigrarExcel.getAccionCurso()==2){//EDITAR
-            
-        if(sessionMigrarExcel.getNidCursoEditar() != null){
-            int contMain=bdl_C_SFMainRemote.countMainInactivosByCurso(sessionMigrarExcel.getNidCursoEditar().toString());
-            if(contMain>0 && sessionMigrarExcel.getFlgActivoCurso() == 0){
-                sessionMigrarExcel.setCountMainActivXCursos(contMain);
-                Utils.showPopUpMIDDLE(popupCountMainByCurso);
+        if(sessionMigrarExcel.getAccionCurso() == 1){//NUEVO
+            BeanCurso curso=new BeanCurso();
+            BeanAreaAcademica area=new BeanAreaAcademica();
+            area.setNidAreaAcademica(Integer.parseInt(sessionMigrarExcel.getNidArea()));
+            curso.setAreaAcademica(area);
+            if(sessionMigrarExcel.getNidAreaNativa()!=null){
+                curso.setNidAreaNativa(Integer.parseInt(sessionMigrarExcel.getNidAreaNativa()));   
             }else{
-                saveCurso();
+                curso.setNidAreaNativa(Integer.parseInt(sessionMigrarExcel.getNidArea()));
+            }
+            curso.setDescripcionCurso(sessionMigrarExcel.getDescCurso());
+            curso.setFlgActi(sessionMigrarExcel.getFlgActivoCurso());//ACTIVO
+            ln_T_SFCursoRemoto.addCurso(curso);
+            sessionMigrarExcel.setListaCursos(ln_C_SFCursoRemoto.findCursosByAreaAcademica(sessionMigrarExcel.getNidArea(),sessionMigrarExcel.getNidAreaNativa()));
+            sessionMigrarExcel.setVisibleBtnRegistrarCurso(false);
+            sessionMigrarExcel.setDisableDescCurso(true);
+            sessionMigrarExcel.setRequeridDescCurso(false);
+            sessionMigrarExcel.setVisibleChoiceAreaNat(false);
+            sessionMigrarExcel.setDisableBtnNuevoCurso(false);
+            sessionMigrarExcel.setDisableBtnActualizarCurso(false);
+            sessionMigrarExcel.setDescCurso(null);
+            sessionMigrarExcel.setDisableDescCurso(true);
+            sessionMigrarExcel.setRequeridDescCurso(false);
+            sessionMigrarExcel.setVisibleEstadoCurso(false);
+            Utils.addTargetMany(tbCursos,btnActualizarCurso,btnRegistrarCurso,btnNuevoCurso,choiceAreaNativa,inputDescCurso,choiceEstadoCurso);
+        }
+        if(sessionMigrarExcel.getAccionCurso() == 2){//EDITAR
+            if(sessionMigrarExcel.getNidCursoEditar() != null){
+                int contMain=bdl_C_SFMainRemote.countMainInactivosByCurso(sessionMigrarExcel.getNidCursoEditar().toString());
+                if(contMain>0 && sessionMigrarExcel.getFlgActivoCurso() == 0){
+                    sessionMigrarExcel.setCountMainActivXCursos(contMain);
+                    Utils.showPopUpMIDDLE(popupCountMainByCurso);
+                }else{
+                    saveCurso();
+                }
             }
         }
-                  }
-        
-        
     }
-
     
     public void nuevoCurso(ActionEvent actionEvent) {
-      sessionMigrarExcel.setDisableDescCurso(false);
-      sessionMigrarExcel.setVisibleBtnRegistrarCurso(true);
-      sessionMigrarExcel.setDisableBtnNuevoCurso(true);
-      sessionMigrarExcel.setDisableBtnActualizarCurso(true);
-      sessionMigrarExcel.setAccionCurso(1);//1=INSERTAR
-      sessionMigrarExcel.setRequeridDescCurso(true);
-      sessionMigrarExcel.setVisibleEstadoCurso(true);
-      sessionMigrarExcel.setFlgActivoCurso(1);
-      Utils.addTargetMany(btnNuevoCurso,btnActualizarCurso,btnRegistrarCurso,inputDescCurso,choiceEstadoCurso);      
+        sessionMigrarExcel.setDisableDescCurso(false);
+        sessionMigrarExcel.setVisibleBtnRegistrarCurso(true);
+        sessionMigrarExcel.setDisableBtnNuevoCurso(true);
+        sessionMigrarExcel.setDisableBtnActualizarCurso(true);
+        sessionMigrarExcel.setAccionCurso(1);//1=INSERTAR
+        sessionMigrarExcel.setRequeridDescCurso(true);
+        sessionMigrarExcel.setVisibleEstadoCurso(true);
+        sessionMigrarExcel.setFlgActivoCurso(1);
+        Utils.addTargetMany(btnNuevoCurso,btnActualizarCurso,btnRegistrarCurso,inputDescCurso,choiceEstadoCurso);      
     }
     
   
     public void editarCurso(ActionEvent actionEvent) {
-     sessionMigrarExcel.setTablaCursoSeleccionable("single");
-     sessionMigrarExcel.setDisableBtnNuevoCurso(true);
-     sessionMigrarExcel.setDisableBtnActualizarCurso(true);
-     sessionMigrarExcel.setAccionCurso(2);//MODIFICAR
-     sessionMigrarExcel.setVisibleBtnRegistrarCurso(true);
-     Utils.addTargetMany(tbCursos,btnNuevoCurso,btnActualizarCurso,btnRegistrarCurso);
-     Utils.unselectFilas(tbAulas);
+        sessionMigrarExcel.setTablaCursoSeleccionable("single");
+        sessionMigrarExcel.setDisableBtnNuevoCurso(true);
+        sessionMigrarExcel.setDisableBtnActualizarCurso(true);
+        sessionMigrarExcel.setAccionCurso(2);//MODIFICAR
+        sessionMigrarExcel.setVisibleBtnRegistrarCurso(true);
+        Utils.addTargetMany(tbCursos,btnNuevoCurso,btnActualizarCurso,btnRegistrarCurso);
+        Utils.unselectFilas(tbAulas);
     }
 
     public void limpiarCamposYTablaCurso(ActionEvent actionEvent) {
@@ -1175,42 +1194,69 @@ public class bMigrarExcel {
         sessionMigrarExcel.setVisibleEstadoCurso(false);
         sessionMigrarExcel.setTablaCursoSeleccionable("none");
         sessionMigrarExcel.setDisableChoiceArea(false);
-        Utils.addTargetMany(tbCursos,btnActualizarCurso,btnRegistrarCurso,btnNuevoCurso,choiceAreaNativa,inputDescCurso,choiceEstadoCurso,choiceAreaAca);
-        
-        
+        Utils.addTargetMany(tbCursos,btnActualizarCurso,btnRegistrarCurso,btnNuevoCurso,choiceAreaNativa,inputDescCurso,choiceEstadoCurso,choiceAreaAca);    
     }
+    
     public void seleccionarCurso(SelectionEvent ve) {
-    BeanCurso curso = (BeanCurso) Utils.getRowTable(ve);
-    
-    if(bdl_C_SFMainRemote.countMainByCursoForEval(curso.getNidCurso().toString())>0){
-        sessionMigrarExcel.setDisableDescCurso(true); 
-        sessionMigrarExcel.setDisableChoiceArea(true);
-        sessionMigrarExcel.setDisableChoiceAreaNat(true);
-    }else{
-        sessionMigrarExcel.setDisableDescCurso(false);
-        sessionMigrarExcel.setDisableChoiceArea(false);
-        sessionMigrarExcel.setDisableChoiceAreaNat(false);
-    }
-    
-       
-    sessionMigrarExcel.setNidCursoEditar(curso.getNidCurso().toString());
-    sessionMigrarExcel.setDescCurso(curso.getDescripcionCurso());
-    sessionMigrarExcel.setNidArea(curso.getAreaAcademica().getNidAreaAcademica().toString());   
-    
-    sessionMigrarExcel.setRequeridDescCurso(true);
-    sessionMigrarExcel.setFlgActivoCurso(curso.getFlgActi());
-    sessionMigrarExcel.setVisibleEstadoCurso(true);   
-       if(curso.getAreaAcademica().getNidAreaAcademica().toString().equals("12") || curso.getAreaAcademica().getNidAreaAcademica().toString().equals("13")){
+        BeanCurso curso = (BeanCurso) Utils.getRowTable(ve);
+        if (bdl_C_SFMainRemote.countMainByCursoForEval(curso.getNidCurso().toString()) > 0) {
+            sessionMigrarExcel.setDisableDescCurso(true);
+            sessionMigrarExcel.setDisableChoiceArea(true);
+            sessionMigrarExcel.setDisableChoiceAreaNat(true);
+        } else {
+            sessionMigrarExcel.setDisableDescCurso(false);
+            sessionMigrarExcel.setDisableChoiceArea(false);
+            sessionMigrarExcel.setDisableChoiceAreaNat(false);
+        }
+        sessionMigrarExcel.setNidCursoEditar(curso.getNidCurso().toString());
+        sessionMigrarExcel.setDescCurso(curso.getDescripcionCurso());
+        sessionMigrarExcel.setNidArea(curso.getAreaAcademica().getNidAreaAcademica().toString());
+
+        sessionMigrarExcel.setRequeridDescCurso(true);
+        sessionMigrarExcel.setFlgActivoCurso(curso.getFlgActi());
+        sessionMigrarExcel.setVisibleEstadoCurso(true);
+        if (curso.getAreaAcademica().getNidAreaAcademica().toString().equals("12") ||
+            curso.getAreaAcademica().getNidAreaAcademica().toString().equals("13")) {
             sessionMigrarExcel.setListaAreaNatiChoice(Utils.llenarCombo(ln_C_SFAreaAcademicaRemote.getAreaAcademicasAll(1)));
-            sessionMigrarExcel.setNidAreaNativa(curso.getNidAreaNativa()+"");
-            sessionMigrarExcel.setVisibleChoiceAreaNat(true);             
-        }else{            
-            sessionMigrarExcel.setVisibleChoiceAreaNat(false);  
+            sessionMigrarExcel.setNidAreaNativa(curso.getNidAreaNativa() + "");
+            sessionMigrarExcel.setVisibleChoiceAreaNat(true);
+        } else {
+            sessionMigrarExcel.setVisibleChoiceAreaNat(false);
             sessionMigrarExcel.setNidAreaNativa(null);
         }
-    Utils.addTargetMany(inputDescCurso,choiceAreaAca,choiceAreaNativa,choiceEstadoCurso);
+        Utils.addTargetMany(inputDescCurso, choiceAreaAca, choiceAreaNativa, choiceEstadoCurso);
     }
 
+    public void exportPlanti(FacesContext facesContext, OutputStream outputStream) {
+        try {
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet worksheet = workbook.createSheet("POI Worksheet");
+
+            HSSFRow row1 = worksheet.createRow((short) 0);
+
+            HSSFCell cellA1 = row1.createCell((short) 0);
+            cellA1.setCellType(Cell.CELL_TYPE_STRING);
+            cellA1.setCellValue("DNI (Agregar una comilla antes del dni para que se haga texto)");
+
+            HSSFCell cellB1 = row1.createCell((short) 1);
+            cellB1.setCellType(Cell.CELL_TYPE_STRING);
+            cellB1.setCellValue("NOMBRES DEL DOCENTE      ");
+
+            HSSFCell cellC1 = row1.createCell((short) 2);
+            cellC1.setCellType(Cell.CELL_TYPE_STRING);
+            cellC1.setCellValue("APELLIDOS DEL DOCENTE     ");
+
+            HSSFCell cellD1 = row1.createCell((short) 3);
+            cellD1.setCellType(Cell.CELL_TYPE_STRING);
+            cellD1.setCellValue("CORREO DEL DOCENTE       ");
+
+            workbook.write(outputStream);
+            outputStream.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void setCbSede(RichSelectOneChoice cbSede) {
         this.cbSede = cbSede;
     }
@@ -1463,34 +1509,11 @@ public class bMigrarExcel {
         return btnPlanti;
     }
 
-    public void exportPlanti(FacesContext facesContext, OutputStream outputStream) {
-        try {
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet worksheet = workbook.createSheet("POI Worksheet");
+    public void setMsjCarga(RichMessages msjCarga) {
+        this.msjCarga = msjCarga;
+    }
 
-            // index from 0,0... cell A1 is cell(0,0)
-            HSSFRow row1 = worksheet.createRow((short) 0);
-
-            HSSFCell cellA1 = row1.createCell((short) 0);
-            cellA1.setCellType(Cell.CELL_TYPE_STRING);
-            cellA1.setCellValue("DNI");
-
-            HSSFCell cellB1 = row1.createCell((short) 1);
-            cellB1.setCellType(Cell.CELL_TYPE_STRING);
-            cellB1.setCellValue("NOMBRES");
-
-            HSSFCell cellC1 = row1.createCell((short) 2);
-            cellC1.setCellType(Cell.CELL_TYPE_STRING);
-            cellC1.setCellValue("APELLIDOS");
-
-            HSSFCell cellD1 = row1.createCell((short) 3);
-            cellD1.setCellType(Cell.CELL_TYPE_STRING);
-            cellD1.setCellValue("CORREO");
-
-            workbook.write(outputStream);
-            outputStream.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public RichMessages getMsjCarga() {
+        return msjCarga;
     }
 }
