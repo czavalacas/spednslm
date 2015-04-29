@@ -21,4 +21,5 @@ public interface LN_C_SFCorreoLocal {
      */
     void enviarCorreoNotificacionProfesorEvaluado(String data[]);
     String recuperarClaveConUsuarioYCorreo(String correo, int evento, String ruta,String usuario);
+    void enviarNotifCreacionUsuarioDocente(String data[]);
 }

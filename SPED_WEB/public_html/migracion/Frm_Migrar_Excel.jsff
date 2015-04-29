@@ -23,13 +23,14 @@
                      <af:fileDownloadActionListener filename="plantilla_carga_docentes.xls" contentType="application/xls"
                                                     method="#{bMigrarExcel.exportPlanti}"/>
                 </af:button>
-                <af:inputFile label="Sellecionar Archivo" id="if1" binding="#{bMigrarExcel.inputFileExcel}"
-                             autoSubmit="true"
+                <af:inputFile label="Selecionar Archivo" id="if1" binding="#{bMigrarExcel.inputFileExcel}"
+                              autoSubmit="true"
                               valueChangeListener="#{bMigrarExcel.seleccionaExcel}"
                               disabled="#{sessionScope.sessionMigrarExcel.estadouploadFile}"/>
                 <af:button text="Subir Archivo" id="b1" action="#{bMigrarExcel.migrarExcel}"
                            disabled="#{sessionScope.sessionMigrarExcel.estadoBtnSubArchivo}"
                            binding="#{bMigrarExcel.btnSubirArchivo}"/>
+                <af:messages id="msjCarga" binding="#{bMigrarExcel.msjCarga}"/>
             </af:panelGroupLayout>
                <af:popup  id="p4" binding="#{bMigrarExcel.popupConfirmarMigracion}" childCreation="deferred" contentDelivery="immediate">
             <af:dialog closeIconVisible="false" modal="true" id="pw_deleteAction" styleClass="allertBox" type="none"

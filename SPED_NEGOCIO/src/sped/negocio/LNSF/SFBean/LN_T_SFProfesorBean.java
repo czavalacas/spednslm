@@ -19,6 +19,7 @@ import sped.negocio.BDL.IL.BDL_T_SFProfesorLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioLocal;
 import sped.negocio.BDL.IL.BDL_T_SFUsuarioPermisoLocal;
 import sped.negocio.BDL.IR.BDL_C_SFMainRemote;
+import sped.negocio.LNSF.IL.LN_C_SFCorreoLocal;
 import sped.negocio.LNSF.IL.LN_C_SFErrorLocal;
 import sped.negocio.LNSF.IL.LN_T_SFProfesorLocal;
 import sped.negocio.LNSF.IR.LN_T_SFProfesorRemoto;
@@ -54,6 +55,8 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
     private BDL_T_SFUsuarioPermisoLocal bdl_T_SFUsuarioPermisoLocal;    
     @EJB
     private BDL_C_SFProfesorLocal bdl_C_SFProfesorLocal;
+    @EJB
+    private LN_C_SFCorreoLocal ln_C_SFCorreoLocal;
 
     public LN_T_SFProfesorBean() {
     }
@@ -77,14 +80,16 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
                 usua.setRol(role);
                 usua.setNombres(listaProfesores.get(i).getNombres()+" "+listaProfesores.get(i).getApellidos());
                 usua.setDni(listaProfesores.get(i).getDniProfesor());
-                usua.setUsuario(listaProfesores.get(i).getDniProfesor());
+                String usuario = listaProfesores.get(i).getCorreo().substring(0, listaProfesores.get(i).getCorreo().indexOf("@") );
+                usua.setUsuario(usuario);
                 usua.setEstadoUsuario("1");
-                usua.setClave(listaProfesores.get(i).getDniProfesor());
+                usua.setClave(usuario);
                 usua.setIsNuevo("1");
                 usua.setIsSupervisor("0");
                 usua.setCorreo(listaProfesores.get(i).getCorreo());
                 bdl_T_SFUsuarioLocal.persistUsuario(usua);
-               
+                String data[] = new String[]{usua.getNombres(),usuario,usua.getCorreo()};
+                ln_C_SFCorreoLocal.enviarNotifCreacionUsuarioDocente(data);
                 /** Agrega los permisos correspondientes de rol profesor*/
                 Rol rol = new Rol();
                 rol.setNidRol(3);

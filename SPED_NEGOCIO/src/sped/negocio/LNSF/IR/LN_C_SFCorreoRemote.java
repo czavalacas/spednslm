@@ -21,4 +21,5 @@ public interface LN_C_SFCorreoRemote {
      */
     void enviarCorreoNotificacionProfesorEvaluado(String data[]);
     String recuperarClaveConUsuarioYCorreo(String correo, int evento, String ruta,String usuario);
+    void enviarNotifCreacionUsuarioDocente(String data[]);
 }
