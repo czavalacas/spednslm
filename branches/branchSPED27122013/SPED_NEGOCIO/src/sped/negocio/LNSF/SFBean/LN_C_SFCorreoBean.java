@@ -268,19 +268,21 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
      * @param data[] 0= profesor, 1=fecha, 2=rol+evaluador, 3=curso, 4=aula, 5=sede, 6=grado, 7=Correo
      * @return String con el HTML a adjuntar en el correo
      */
-    public String contenidoHTML_NotificacionProfesorEvaluacion(String data[]){        
-      String contenido = "<p>Profesor@: <strong>"+data[0]+"</strong>:</p>"
-        .concat("<p>Ud. fue evaluad@ el dia "+data[1]+" por el <u>"+data[2]+",</u></p>")
-        .concat("<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">")
-        .concat("<tbody><tr><td style=\"text-align: center;\">")
-        .concat("<strong>Curso</strong></td><td style=\"text-align: center;\">")
-        .concat("<strong>Aula</strong></td><td style=\"text-align: center;\">")
-        .concat("<strong>Sede</strong></td><td style=\"text-align: center;\">")
-        .concat("<strong>Grado</strong></td></tr><tr><td>"+data[3]+"</td><td>"+data[4]+"</td>")
-        .concat("<td>"+data[5]+"</td><td>"+data[6]+"</td></tr></tbody></table><p>")
-                         .concat("Puede consultar sus resultados en la opcion de Consultar Evaluaciones en el sistema SPED. ID: "+data[9]+"</p>")
-        .concat("<p>Para entrar al sistema entre a <a href=\"http://181.224.241.219:7101/sped/faces/Frm_login\">SPED</a>. Su usuario y clave es su DNI.</p>");
-      return contenido;
+    public String contenidoHTML_NotificacionProfesorEvaluacion(String data[]){
+        String usuario = data[7].substring(0, data[7].indexOf("@"));
+        String contenido = "<p>Profesor@: <strong>"+data[0]+"</strong>:</p>"
+            .concat("<p>Ud. fue evaluad@ el dia "+data[1]+" por el <u>"+data[2]+",</u></p>")
+            .concat("<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">")
+            .concat("<tbody><tr><td style=\"text-align: center;\">")
+            .concat("<strong>Curso</strong></td><td style=\"text-align: center;\">")
+            .concat("<strong>Aula</strong></td><td style=\"text-align: center;\">")
+            .concat("<strong>Sede</strong></td><td style=\"text-align: center;\">")
+            .concat("<strong>Grado</strong></td></tr><tr><td>"+data[3]+"</td><td>"+data[4]+"</td>")
+            .concat("<td>"+data[5]+"</td><td>"+data[6]+"</td></tr></tbody></table><p>")
+            .concat("Puede consultar sus resultados en la opcion de Consultar Evaluaciones en el sistema SPED. ID: "+data[9]+"</p>")
+            .concat("<p>Ingresa a <a href=\"http://181.224.241.219:7101/sped/faces/Frm_login\">SPED</a>, con su usuario: "+usuario+" y su respectiva clave. </p>")
+            .concat("<p>Si no tiene su usuario/clave, Solicite su clave en el link de \"Has olvidado tu clave\". </p>");
+        return contenido;
     }
     
     public String contenidoHTMLPrueba(String data[]){        
@@ -414,5 +416,58 @@ public class LN_C_SFCorreoBean implements LN_C_SFCorreoRemote,
     public BeanMail getMail(){
         return (BeanMail) mapper.map(bd_C_SFEmailRemote.getEmail(), BeanMail.class);
     }
-        
+    
+    public void enviarNotifCreacionUsuarioDocente(String data[]) {
+        try {
+            Email email = bd_C_SFEmailRemote.getEmail();
+            String PUERTO = email.getPuerto();
+            String HOST = email.getHost();
+            String CLAVE = email.getClave();
+            String EMAIL_QUE_ENVIA = email.getCorreo();
+            BodyPart messageBodyPart = new MimeBodyPart();
+            Properties props = new Properties();
+            props.setProperty("mail.smtp.host", HOST);
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            props.setProperty("mail.smtp.starttls.required", "true");
+            props.setProperty("mail.smtp.user", EMAIL_QUE_ENVIA);
+            props.setProperty("mail.smtp.auth", "true");
+            props.setProperty("mail.smtp.port", PUERTO);
+            Session session = Session.getDefaultInstance(props);
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(EMAIL_QUE_ENVIA));
+            String correoProfesor = data[2];
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(correoProfesor));
+            message.setSubject("Se creo tu usuario para acceder al SPED.");
+            String contenido = this.crearCuerpoCorreoNotifDocente(data);
+            messageBodyPart.setContent(contenido, "text/html");
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);                 
+            message.setContent(multipart);
+            Transport t = session.getTransport("smtp");
+            t.connect(HOST, EMAIL_QUE_ENVIA, CLAVE);
+            t.sendMessage(message, message.getAllRecipients());
+            t.close();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Se genera el contenido html del correo de notificacion de creacion de usuarios docentes.
+     * data[0] = nombres, 1 = usuario, 2 = correo
+     * @param data
+     * @return
+     */
+    public String crearCuerpoCorreoNotifDocente(String data[]){
+        String html = "<p>Hola "+data[0].toUpperCase()+"</p>"
+            .concat("<p>Su usuario en el sistema <a href=\"http://181.224.241.219:7101/sped/faces/Frm_login\">SPED</a>, </p>")
+            .concat("<p> ha sido creado.</p>")
+            .concat("<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 300px;\">")
+            .concat("<tbody><tr><td style=\"text-align: center;\">")
+            .concat("<strong>Usuario</strong></td><td style=\"text-align: center;\">")
+            .concat("<strong>Clave</strong></td></tr><tr><td>"+data[1]+"</td><td>"+data[1]+"</td>")
+            .concat("</tr></tbody></table>")
+            .concat("<p>Use el sistema seguido y con responsabilidad. Cualquier duda contestar a este correo.</p>");
+        return html;
+    }
 }
