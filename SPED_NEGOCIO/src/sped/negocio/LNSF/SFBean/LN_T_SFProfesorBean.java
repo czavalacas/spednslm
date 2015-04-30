@@ -88,8 +88,8 @@ public class LN_T_SFProfesorBean implements LN_T_SFProfesorRemoto,
                 usua.setIsSupervisor("0");
                 usua.setCorreo(listaProfesores.get(i).getCorreo());
                 bdl_T_SFUsuarioLocal.persistUsuario(usua);
-                /*String data[] = new String[]{usua.getNombres(),usuario,usua.getCorreo()};
-                ln_C_SFCorreoLocal.enviarNotifCreacionUsuarioDocente(data);*/
+                String data[] = new String[]{usua.getNombres(),usuario,usua.getCorreo()};
+                ln_C_SFCorreoLocal.enviarNotifCreacionUsuarioDocente(data);
                 /** Agrega los permisos correspondientes de rol profesor*/
                 Rol rol = new Rol();
                 rol.setNidRol(3);

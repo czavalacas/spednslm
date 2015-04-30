@@ -914,17 +914,17 @@ public class bMigrarExcel {
                                         profe.setIdFila(i);
                                         listProfesoresAInsertar.add(profe);
                                     }else{
-                                        return "Hay correos con formato erroneo";
+                                        return "Hay correos con formato erroneo. (Fila "+(i+1)+" )";
                                     }
                                 }else{
-                                    return "Hay correos vacios.";
+                                    return "Hay correos vacios. (Fila "+(i+1)+" )";
                                 }
                             }
                         }else{
-                            return "Hay nombres vacios.";
+                            return "Hay nombres vacios. (Fila "+(i+1)+" )";
                         }
                     }else{
-                        return "Hay DNI(s) erroneos.";
+                        return "Hay DNI(s) erroneos. (Fila "+(i+1)+" )";
                     }
                 }
             }
@@ -941,10 +941,10 @@ public class bMigrarExcel {
                 while(it2.hasNext()){
                     BeanProfesor p2 = (BeanProfesor) it2.next();
                     if(p.getDniProfesor().equals(p2.getDniProfesor()) && p.getIdFila().intValue() != p2.getIdFila().intValue() ){
-                        return "Hay DNIs repetidos";
+                        return "Hay DNIs repetidos. (Fila: "+(p.getIdFila().intValue() + 1)+" con Fila: "+(p2.getIdFila().intValue() + 1)+" )";
                     }else{
                         if(p.getCorreo().equals(p2.getCorreo()) && p.getIdFila().intValue() != p2.getIdFila().intValue() ){
-                            return "Hay correos repetidos";
+                            return "Hay correos repetidos. (Fila: "+(p.getIdFila().intValue() + 1)+" con Fila: "+(p2.getIdFila().intValue() + 1)+" ) ";
                         }
                     }
                 }
