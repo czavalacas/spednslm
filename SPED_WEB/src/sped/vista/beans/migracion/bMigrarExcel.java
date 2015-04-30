@@ -905,7 +905,7 @@ public class bMigrarExcel {
                     BeanProfesor profe = new BeanProfesor();
                     Cell cell = (Cell) list.get(0);
                     //dfloresgonz 12.04.2014
-                    //EDUSYS tiene que mandar la celda como string sino no vendran ls dni con 8 caracteres
+                    //EDUSYS tiene que mandar la celda como string sino no vendran los dni con 8 caracteres
                     if (this.isDNI(cell.getStringCellValue())) {
                         profe.setDniProfesor(cell.getStringCellValue());
                         if(list.get(1) != null && !list.get(1).toString().trim().isEmpty()){
