@@ -915,7 +915,7 @@ public class bMigrarExcel {
                                 if(list.get(3) != null){
                                     String correo = list.get(3).toString();
                                     if(!correo.trim().isEmpty() && correo.indexOf("@") > 0){
-                                        profe.setCorreo(correo);
+                                        profe.setCorreo(correo.trim().toLowerCase());
                                         Utils.sysout("dni: " + profe.getDniProfesor() + " corr: " + profe.getCorreo() + " nom: " +
                                                      profe.getNombres() + " ape: " + profe.getApellidos());
                                         listProfesoresAInsertar.add(profe);
