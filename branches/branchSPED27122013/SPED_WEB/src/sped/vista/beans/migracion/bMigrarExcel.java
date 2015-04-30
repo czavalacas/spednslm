@@ -892,19 +892,14 @@ public class bMigrarExcel {
         return false;
     }
 
-    private void insertarProfesores(List sheetData) {
-        String msjError = null;
-        String titulo = null;
-        int tip = 0;
-        int cantProf = 0;
+    public String validarSheetData(List sheetData){
         try {
             List<BeanProfesor> listProfesoresAInsertar = new ArrayList<BeanProfesor>();
-            for (int i = 0; i < sheetData.size(); i++) {
+            for (int i = 1; i < sheetData.size(); i++) {//i = 0 La cabecera del excel
                 List list = (List) sheetData.get(i);
                 if (!list.isEmpty()) {
                     BeanProfesor profe = new BeanProfesor();
                     Cell cell = (Cell) list.get(0);
-                    //dfloresgonz 12.04.2014
                     //EDUSYS tiene que mandar la celda como string sino no vendran los dni con 8 caracteres
                     if (this.isDNI(cell.getStringCellValue())) {
                         profe.setDniProfesor(cell.getStringCellValue());
@@ -916,17 +911,83 @@ public class bMigrarExcel {
                                     String correo = list.get(3).toString();
                                     if(!correo.trim().isEmpty() && correo.indexOf("@") > 0){
                                         profe.setCorreo(correo.trim().toLowerCase());
-                                        Utils.sysout("dni: " + profe.getDniProfesor() + " corr: " + profe.getCorreo() + " nom: " +
-                                                     profe.getNombres() + " ape: " + profe.getApellidos());
+                                        profe.setIdFila(i);
                                         listProfesoresAInsertar.add(profe);
-                                        cantProf++;   
+                                    }else{
+                                        return "Hay correos con formato erroneo";
                                     }
+                                }else{
+                                    return "Hay correos vacios.";
                                 }
                             }
+                        }else{
+                            return "Hay nombres vacios.";
+                        }
+                    }else{
+                        return "Hay DNI(s) erroneos.";
+                    }
+                }
+            }
+            if(listProfesoresAInsertar == null){
+                return "No hay docentes que agregar.";
+            }
+            if(listProfesoresAInsertar.size() <= 0){
+                return "No hay docentes que agregar.";
+            }
+            Iterator it = listProfesoresAInsertar.iterator();
+            while(it.hasNext()){
+                BeanProfesor p = (BeanProfesor) it.next();
+                Iterator it2 = listProfesoresAInsertar.iterator();
+                while(it2.hasNext()){
+                    BeanProfesor p2 = (BeanProfesor) it2.next();
+                    if(p.getDniProfesor().equals(p2.getDniProfesor()) && p.getIdFila().intValue() != p2.getIdFila().intValue() ){
+                        return "Hay DNIs repetidos";
+                    }else{
+                        if(p.getCorreo().equals(p2.getCorreo()) && p.getIdFila().intValue() != p2.getIdFila().intValue() ){
+                            return "Hay correos repetidos";
                         }
                     }
-                    //FIN dfloresgonz 12.04.2014
                 }
+            }
+       } catch (Exception e) {
+            e.printStackTrace();
+            return "Hubo un error al cargar la informacion.";
+        }
+        return null;
+    }
+    
+    private void insertarProfesores(List sheetData) {
+        String msjError = null;
+        String titulo = null;
+        int tip = 0;
+        int cantProf = 0;
+        try {
+            String err = this.validarSheetData(sheetData);
+            if(err != null){
+                msjCarga.setText("Error en la carga");
+                Utils.addTarget(msjCarga);
+                Utils.mostrarMensaje(ctx,err,"Error en la carga",1);
+                return;
+            }
+            List<BeanProfesor> listProfesoresAInsertar = new ArrayList<BeanProfesor>();
+            for (int i = 1; i < sheetData.size(); i++) {
+                List list = (List) sheetData.get(i);
+                BeanProfesor profe = new BeanProfesor();
+                Cell cell = (Cell) list.get(0);
+                profe.setDniProfesor(cell.getStringCellValue());
+                profe.setNombres(list.get(1).toString());
+                profe.setApellidos(list.get(2).toString());
+                profe.setCorreo(list.get(3).toString().trim().toLowerCase());
+                Utils.sysout("dni: " + profe.getDniProfesor() + " corr: " + profe.getCorreo() + " nom: " +
+                             profe.getNombres() + " ape: " + profe.getApellidos());
+                listProfesoresAInsertar.add(profe);
+                cantProf++;
+            }
+            if(cantProf == 0){
+                msjCarga.setText("No hay datos");
+                Utils.addTarget(msjCarga);
+                Utils.mostrarMensaje(ctx,"No hay docentes que agregar","No hay datos",4);
+                return;
             }
             ln_T_SFUsuarioRemote.cambiarEstadoUsuarioProfesores(listProfesoresAInsertar);
             List<BeanProfesor> listaActual = ln_C_SFProfesorRemote.getProfesoresLN2();

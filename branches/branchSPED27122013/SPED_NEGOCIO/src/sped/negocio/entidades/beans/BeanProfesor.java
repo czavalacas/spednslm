@@ -14,6 +14,15 @@ public class BeanProfesor implements Serializable {
     private String nombreCompleto;
     private List<BeanMain> mainLista;
     private String correo; 
+    private Integer idFila;//usado en bMigrarExcel para poder validar
+
+    public void setIdFila(Integer idFila) {
+        this.idFila = idFila;
+    }
+
+    public Integer getIdFila() {
+        return idFila;
+    }
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
