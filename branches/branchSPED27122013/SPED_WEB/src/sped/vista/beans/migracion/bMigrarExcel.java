@@ -497,7 +497,7 @@ public class bMigrarExcel {
         if("NEW".equals(modoGrabar)){
             sessionMigrarExcel.setDisabBtnModMain(true);
             sessionMigrarExcel.setDisabBtnNewMain(false);
-            sessionMigrarExcel.setDisabBtnGrabMain(true);
+            sessionMigrarExcel.setDisabBtnGrabMain(false);
             sessionMigrarExcel.setNidMainModif(null);
             sessionMigrarExcel.setCidSedeHorarioSess(null);
             sessionMigrarExcel.setDniProfSess(null);
