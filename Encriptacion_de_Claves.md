@@ -1,0 +1,47 @@
+# Encriptar #
+
+Agregar 2 triggers a ADMUSUA, uno es antes de INSERT y el otro antes del UPDATE, la mejor manera de encriptar en mySQL es usando el metodo AES\_ENCRYPT que toma 2 parametros, el primero es el string a encriptar y el segundo una llave con la que encriptara, si esta llave no se conoce es imposible desencriptar, para hacerlo mas imposible aun, la clave con la que se encripta la contrasena es la misma contrasena, es decir solo el que conoce la clave puede desencriptarla, nisiquiera el DBA puede hacerlo, solo puede modificarla.
+
+Si un usuario olvida su clave, la unica manera es solicitando una nueva que se hace con la funcionalidad de recuperar clave, modifique alli unas cosas, Java genera una clave aleatoria alfanumerica de 8 caracteres y actualiza la clave del usuario y se la envia al correo, a la vez cambia el atributo isNuevo a 1 para que cuando entre el sistema le obligue a modificarla.
+
+Los triggers:
+```
+
+USE mmsi_sped;
+DELIMITER $$
+DROP TRIGGER IF EXISTS mmsi_sped.TR_ADMUSUA_01_UPDATE_CLAVE$$
+USE mmsi_sped$$
+CREATE TRIGGER TR_ADMUSUA_01_UPDATE_CLAVE BEFORE INSERT ON admusua
+FOR EACH ROW
+BEGIN
+SET NEW.CLAVE = AES_ENCRYPT(NEW.CLAVE,NEW.CLAVE);
+END$$
+DELIMITER;
+
+```
+```
+
+USE mmsi_sped;
+DELIMITER $$
+DROP TRIGGER IF EXISTS mmsi_sped.admusua_BUPD$$
+USE mmsi_sped$$
+CREATE TRIGGER admusua_BUPD BEFORE UPDATE ON admusua
+FOR EACH ROW
+BEGIN
+SET NEW.CLAVE = AES_ENCRYPT(NEW.CLAVE,NEW.CLAVE);
+END$$
+DELIMITER;
+```
+
+```
+
+UPDATE mmsi_sped.admusua u set u.clave = u.clave;
+ALTER TABLE mmsi_sped.stdlogg
+CHANGE COLUMN ip_privada ip_privada VARCHAR(100) NULL DEFAULT NULL ,
+CHANGE COLUMN ip_publica ip_publica VARCHAR(100) NULL DEFAULT NULL ,
+CHANGE COLUMN sistema_operativo sistema_operativo VARCHAR(100) NULL DEFAULT NULL ,
+CHANGE COLUMN navegador_web navegador_web VARCHAR(100) NULL DEFAULT NULL ;
+
+```
+
+Si se olvidan una clave y quieren modificarla para que no les este llegando al correo del usuario, solo modifiquen en la BD de frente los triggers se encargaran de encriptarlos.

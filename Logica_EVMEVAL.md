@@ -1,0 +1,163 @@
+```
+
+
+INSERT INTO mmsi_sped.admcons (descripcion, campo, tabla, valor)
+VALUES ('Por justificar', 'estado_evaluacion', 'evmeval', '5');
+INSERT INTO mmsi_sped.admcons (descripcion, campo, tabla, valor)
+VALUES ('Injustificado', 'estado_evaluacion', 'evmeval', '6');
+
+UPDATE mmsi_sped.admcons SET descripcion = 'Justificado'
+WHERE campo = 'estado_evaluacion'
+AND tabla = 'evmeval'
+AND valor = '4';
+
+ALTER TABLE mmsi_sped.evmeval
+ADD COLUMN flg_estado VARCHAR(3) NULL
+COMMENT 'Indicador que va de la mano con el estado_evaluacion, para implementar la logica del demonio que cambia los estados'
+AFTER modo_evaluacion;
+
+ALTER TABLE mmsi_sped.evmeval
+ADD COLUMN flg_evaluar VARCHAR(1) NULL
+COMMENT 'Si esta en 1 quiere decir que se puede Evaluar, de lo contrario no se podra.'
+AFTER flg_estado,
+
+ADD COLUMN flg_anular VARCHAR(1) NULL
+COMMENT 'Si esta en 1 quiere decir que se puede anular, de lo contrario no se podra. Si esta en 1 no se puede anular'
+AFTER flg_evaluar,
+
+ADD COLUMN flg_justificar VARCHAR(1) NULL
+COMMENT 'Si esta en 1 quiere decir que se puede justificar, aqui no se puede evaluar ni anular. Si esta en 0 ya no se podra justificar es decir estara en estado INJUSTIFICADO'
+AFTER flg_anular;
+
+ALTER TABLE mmsi_sped.evmeval
+DROP COLUMN flg_estado;
+
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Author czavalacas
+-- Author Modificador dfloresgonz
+-- DATE_ADD(end_Date,INTERVAL 59 MINUTE)
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+CREATE DEFINER=`mmsi_sped`@`%` PROCEDURE `procedureDemonioEvmeval`()
+BEGIN
+DECLARE idLogC   	  VARCHAR(50);
+DECLARE numPEN_NE         INT; -- Nro de pendientes que pasaran a NO_EJECUTADOS
+DECLARE descripC 	  VARCHAR(250);
+
+SELECT count(1)
+INTO numPEN_NE
+FROM evmeval
+WHERE estado_evaluacion = 'PENDIENTE'
+AND end_Date < now();
+
+SELECT uuid()
+INTO idlogC;
+
+IF(numPEN_NE > 0) THEN
+SELECT CONCAT('Se actualizaron ',numPEN_NE , ' planificaciones de PENDIENTE a NO EJECUTADO el di­a ', now())
+INTO descripC;
+
+INSERT INTO stdlogd VALUES (idlogC , 2, descripC, now(),'1');
+SET SQL_SAFE_UPDATES = 0;
+UPDATE evmeval
+SET estado_evaluacion = 'NO EJECUTADO',
+cidLogd = idlogC,
+flg_justificar = '0', -- No puede justificar
+flg_evaluar = '1',-- Aun puede EVALUAR
+flg_anular = '0' -- YA NO PUEDE ANULAR
+WHERE estado_evaluacion = 'PENDIENTE'
+AND end_Date < now();
+END IF;
+
+SET numPEN_NE = 0;
+SET idlogC = NULL;
+
+SELECT count(1)
+INTO numPEN_NE
+FROM evmeval
+WHERE estado_evaluacion = 'NO EJECUTADO'
+AND DATE_ADD(end_Date,INTERVAL 24 HOUR) < now();
+
+SELECT uuid()
+INTO idlogC;
+
+IF(numPEN_NE > 0) THEN
+SELECT CONCAT('Se actualizaron ',numPEN_NE , ' planificaciones de NO EJECUTADO a POR JUSTIFICAR el di­a ', now())
+INTO descripC;
+
+INSERT INTO stdlogd VALUES (idlogC , 2, descripC, now(),'1');
+SET SQL_SAFE_UPDATES = 0;
+UPDATE evmeval
+SET estado_evaluacion = 'POR JUSTIFICAR',
+cidLogd = idlogC,
+flg_justificar = '1', -- Recien podra justificar, tiene 1 dia
+flg_evaluar = '0',-- Ya no puede EVALUAR
+flg_anular = '0' -- YA NO PUEDE ANULAR
+WHERE estado_evaluacion = 'NO EJECUTADO'
+AND DATE_ADD(end_Date,INTERVAL 24 HOUR) < now();
+END IF;
+
+SET numPEN_NE = 0;
+SET idlogC = NULL;
+
+SELECT count(1)
+INTO numPEN_NE
+FROM evmeval
+WHERE estado_evaluacion = 'POR JUSTIFICAR'
+AND DATE_ADD(end_Date,INTERVAL 48 HOUR) < now(); -- Se cambiara a INJUSTIFICADO si pasan 2 dias
+
+SELECT uuid()
+INTO idlogC;
+
+IF(numPEN_NE > 0) THEN
+SELECT CONCAT('Se actualizaron ',numPEN_NE , ' planificaciones de POR JUSTIFICAR a INJUSTIFICADO el di­a ', now())
+INTO descripC;
+
+INSERT INTO stdlogd VALUES (idlogC , 2, descripC, now(),'1');
+SET SQL_SAFE_UPDATES = 0;
+UPDATE evmeval
+SET estado_evaluacion = 'INJUSTIFICADO',
+cidLogd = idlogC,
+flg_justificar = '0', -- Recien podra justificar, tiene 1 dia
+flg_evaluar = '0',-- Ya no puede EVALUAR
+flg_anular = '0' -- YA NO PUEDE ANULAR
+WHERE estado_evaluacion = 'POR JUSTIFICAR'
+AND DATE_ADD(end_Date,INTERVAL 48 HOUR) < now();
+END IF;
+
+INSERT INTO stdlogd VALUES (idlogC , 2, 'Se ejecuto el Demonio', now(),'0');
+
+END
+```
+
+**Carlos:**
+Al momento de registrar una planificación considerar:
+  * flg\_evaluar = '1'
+  * flg\_anular = '1'
+  * flg\_justificar = '0'
+
+**Diego:**
+Al evaluar:
+  * flg\_evaluar = '0'
+  * flg\_anular = '0'
+  * flg\_justificar = '0'
+
+Ese flg\_anular servirá para ver si puedes anularlo o no, también considera si se lo planifico otro.
+
+Ahora hay 6 estados para evmeval:
+
+**David:**
+Considerar estos colores en tu dash.
+
+  * PENDIENTE      : azul
+  * NO EJECUTADO   : naranja
+  * EJECUTADO      : verde
+  * POR JUSTIFICAR : morado
+  * JUSTIFICADO    : negro
+  * INJUSTIFICADO  : rojo
+
+Este es como se implementa la logica para cambiar los estados:
+![http://oi60.tinypic.com/2zemag3.jpg](http://oi60.tinypic.com/2zemag3.jpg)

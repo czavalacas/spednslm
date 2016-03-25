@@ -1,0 +1,103 @@
+# Que es esto? #
+
+El log de errores es utilizado para registrar en la BDatos los eventos desafortunados ocurridos en nuestro codigo ya sea por las sgtes razones:
+  * Mala programacion.
+  * Logica inesperada.
+  * TimeOut - no hay conexion
+  * Logica condicional, que se desea conocer
+
+## Mala programacion ##
+
+La mala programacion es cuando no hemos tomado en cuenta bien nuestro algoritmos y pueda fallar por equiz motivos, quizas una operacion matematica ilegal,etc.
+
+## Logica inesperada ##
+
+Una condicional que no tuvimos en cuenta a la hora de programar y salto cuando no lo pensabamos, aqui podremos darnos cuenta de lo sucedido.
+
+## TimeOut - no hay conexion ##
+Quizas un metodo toma mucho tiempo o se cae la conexion al servidor por algun motivo, aqui se registrara ese evento y podremos darnos cuenta
+
+## Logica condicional, que se desea conocer ##
+
+Una logica de negocio que queremos registrar para conocer los errores controlados, como por ejemplo, si una poliza excede el monto dicho por SUNAT, se puede conocer que se excedio pero el sistema lo controlo.
+
+Basicamente este patron nos registra eventos anomalos en nuestro sistema.
+Se registran en la tabla stmlogger
+```
+
+INSERT INTO mmsi_sped.stmcodi (APP_SEQ_NAME, APP_SEQ_VALUE)
+VALUES ('stmlogger.nid_log', '0');
+
+CREATE TABLE mmsi_sped.stmlogger (
+nid_error BIGINT NOT NULL
+COMMENT 'Generado en la tabla stmcodi',
+nid_log INT NOT NULL,
+tipo_error VARCHAR(3) NOT NULL COMMENT 'revisar en el ADMCONS, es el
+tipo de error SEL=SELECT, TRA=TRANSACCIONAL, LOG=LOGICA,BAC=BACKING
+BEAN',
+clase_java VARCHAR(300) NULL,
+metodo_java VARCHAR(300)
+NULL,
+fecha_error DATETIME NOT NULL,
+comentario VARCHAR(500) NULL,
+stacktrace TEXT NULL,
+PRIMARY KEY (nid_error))
+COMMENT = 'Tabla
+maestra donde se registran todos los errores del sistema, capturados en
+los CATCH o errores de logica controlados';
+ALTER TABLE mmsi_sped.stmlogger
+CHANGE COLUMN nid_log nid_log
+INT(11) NULL ;
+ALTER TABLE mmsi_sped.stmlogger
+CHANGE COLUMN clase_java
+clase_java VARCHAR(300) NULL DEFAULT NULL COMMENT 'Poner la ruta de
+paquete + el nombre de la clase' ,
+CHANGE COLUMN metodo_java
+metodo_java VARCHAR(300) NULL DEFAULT NULL COMMENT 'Poner los
+parametro que toma, si no toma poner los parentesis solos (), esto es
+para poder buscar con CTRL+F facilmente, asi que poner exactamente como
+esta' ;
+
+ALTER TABLE mmsi_sped.stmlogger
+CHANGE COLUMN comentario comentario TEXT NULL DEFAULT NULL ;
+
+```
+
+## Ejemplo ##
+
+Para el tipo de errores NO CONTROLADOS se pondran en el catch
+
+```
+
+@EJB
+private LN_T_SFLoggerLocal ln_T_SFLoggerLocal;
+private static final String CLASE = "sped.vista.beans.seguridad.bLogin";
+
+try {
+int a = 4 / 0;
+} catch (Exception e) {
+ln_T_SFLoggerLocal.registrarLogErroresSistema(beanUsuario.getNidLog(),
+"OTR",
+CLASE,
+"autenticarUsuario(ActionEvent actionEvent)",
+"Error al realizar division",Utils.getStack(e));//en el proyecto NEGOCIO usar Utiles.getStack(e)
+}
+
+```
+
+## Tipos ##
+  * SEL = SELECT (ocurren al hacer una consulta BDL\_C\_SF)
+  * TRA = TRANSACCIONAL (ocurren al ejecutar persist,merge o remove)
+  * LOG = LOGICA (errores controlados en logica de negocio)
+  * BAC = BACKING BEAN (errores que ocurren en la capa WEB)
+  * OTR = OTROS ERRORES (otros errores)
+
+## Columnas ##
+  * nid\_error autogenerado por stmcodi
+  * nid\_log el nid generado al logearse en el sistema se puede capturar con el beanUsuario.getNidLog, si no se pudiera obtener mandar un 0 (cero).
+  * Tipo : los ya mencionados
+  * Clase : la clase Java donde ocurre el error, preseguida de su ruta de paquete.
+  * Metodo : el metodo donde ocurre, agregar los parametros del metodo, si no tiene agregar los parentesis ()
+  * Fecha : La fecha de hoy: new Timestamp(new Date().getTime())
+  * Comentario : Descripcion util y relevante
+  * stackTrace : el error generado por Java
